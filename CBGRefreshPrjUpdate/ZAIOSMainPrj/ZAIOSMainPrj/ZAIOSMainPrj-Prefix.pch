@@ -1,0 +1,41 @@
+//
+//  Photography-Prefix.pch
+//  Photography
+//
+//  Created by jialifei on 15/3/18.
+//  Copyright (c) 2015年 jialifei. All rights reserved.
+//
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "Samurai_Color.h"
+#import "BlockUI.h"
+#import "DZUtils.h"
+#import "Adapter.h"
+#import "Constant.h"
+#import "Models.h"
+//#import "AccountManager.h"
+#import "BPush.h"
+#import "KMStatis.h"
+#import "DPTableViewCell.h"
+#import "ZAHTTPApi.h"
+//#import "TokenRefreshManager.h"
+
+#import "ZALocation.h"
+#import "LocationTimeRefreshManager.h"
+#import "BlockAlertView.h"
+#import "NSString+EmojiString.h"
+#import "ZATextField.h"
+#import "ZATfdLocalCheck.h"
+
+#import "ZALocalStateTotalModel.h"
+
+#import "UIButton+ZASelected.h"
+#import "ZAIAddDynamicProperty.h"
+#import "ZAConfigModel.h"
+
+#import "LeanCloudFeedback.h"
+
+
+#endif

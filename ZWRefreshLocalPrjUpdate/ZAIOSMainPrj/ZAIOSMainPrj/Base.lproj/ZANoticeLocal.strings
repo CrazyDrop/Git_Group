@@ -1,0 +1,68 @@
+/* 
+  ZANoticeLocal.strings
+  ZAIOSMainPrj
+
+  Created by 超群 张 on 15/6/1.
+  Copyright (c) 2015年 ZhongAn Insurance. All rights reserved.
+*/
+
+
+/* 登录  本地提示信息 */
+/* 载入中 */
+"ZAViewLocal_MBProgress_Loading" = "载入中...";
+
+/* 当前为最新版本 */
+"ZAViewLocal_Update_MBProgress_Loading" = "当前为最新版本";
+
+/* 当前为最新版本 */
+"ZAViewLocal_Login_MBProgress_LoginSuccess" = "登录成功";
+
+//关键词测试
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_1" = "夜路";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_2" = "手电筒";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_3" = "重大疾病保险";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_4" = "保险师";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_5" = "儿童保险";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_6" = "汽车保险";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_7" = "人身意外保险";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_8" = "监控软件";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_9" = "监控眼";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_10" = "夜路";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_11" = "手机监控软件";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_12" = "家庭监控";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_13" = "远程监控";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_14" = "监控系统";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_15" = "监控安装";
+
+/* 当前为最新版本 */
+"ZAViewLocal_KeyWord_Testing_16" = "掌上看家";
+

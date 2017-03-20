@@ -1,0 +1,16 @@
+{
+	"application" :
+	{
+		"routes" :
+		{
+			"/"			: "MainTestActivity",
+			"/index"	: "IndexActivity",
+            "/test"     : "IndexActivity"
+		},
+
+		"main" : [ "/" ]
+	},
+	"permissions" :
+	{
+	}
+}
