@@ -1,0 +1,933 @@
+//
+//  EquipExtraModel.m
+//
+//  http://www.cnblogs.com/YouXianMing/
+//  https://github.com/YouXianMing
+//
+//  Copyright (c) YouXianMing All rights reserved.
+//
+
+
+#import "EquipExtraModel.h"
+#import "ExtraModel.h"
+@implementation EquipExtraModel
+
+#define  YouxibiRateForMoney  1500.0*100
+
+//点一个师门技能 150-180  1.74亿钱   1000块钱
+-(NSString *)createExtraPrice
+{
+    CGFloat totalMoney = 0;
+    //修炼
+    CGFloat xiulian = [self price_xiulian];
+    CGFloat chongxiu = [self price_chongxiu];
+    CGFloat qianyuandan = [self price_qianyuandan];
+    CGFloat jingyan = [self price_jingyan];
+    CGFloat jineng = [self price_jineng];
+    CGFloat youxibi = [self price_youxibi];
+    CGFloat zhaohuanshou = [self price_zhaohuanshou];
+
+    self.xiulianPrice = xiulian;
+    self.chongxiuPrice = chongxiu;
+    self.qianyuandanPrice = qianyuandan;
+    self.jingyanPrice = jingyan;
+    self.jinengPrice = jineng;
+    self.youxibiPrice = youxibi;
+    self.zhaohuanPrice = zhaohuanshou;
+    self.zhuangbeiPrice = 0;
+    
+    totalMoney = (int)xiulian + (int)chongxiu + (int)qianyuandan + (int)jineng + (int)jingyan + (int)youxibi + (int)zhaohuanshou;
+    if(totalMoney == 0)
+    {
+        totalMoney = -1;
+    }
+    
+    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,totalMoney];
+    self.detailPrePrice = detaiMoney;
+    self.zhaohuanPrice = zhaohuanshou;
+    self.totalPrice = totalMoney;
+    
+    return [NSString stringWithFormat:@"%.0f",totalMoney];
+}
+-(CGFloat)price_zhaohuanshou
+{
+    CGFloat price = 0;
+    
+    NSArray * arr = self.AllSummon;
+    for (AllSummonModel * eveSummon in arr)
+    {
+        NSInteger skillNum = 0;
+        if([eveSummon.all_skills isKindOfClass:[All_skillsModel class]])
+        {
+            skillNum = [eveSummon.all_skills.skillsArray count];
+        }
+
+        //技能大于5技能以上，或者4技能宝宝，计算价格
+        if(skillNum >= 4  && eveSummon.iBaobao )
+        {
+            CGFloat evePrice = [self detailSummonPriceForEveSummon:eveSummon];
+            price += evePrice;
+        }
+    }
+    
+    return price;
+}
+-(CGFloat)detailSummonPriceForEveSummon:(AllSummonModel *)model
+{
+    CGFloat price = 0;
+    NSInteger skillNum = [model.all_skills.skillsArray count];
+    NSInteger dengji = [model.iGrade integerValue];
+    NSInteger chengzhang = [model.grow integerValue];
+    JinjieModel * jinjie = model.jinjie;//
+    NSInteger life = [model.life integerValue];
+    if(life == 65432)
+    {//神兽
+        price = 1000;
+        if(chengzhang == 1300)
+        {
+            price += 300;
+        }
+        if(skillNum >= 5)
+        {
+            price += 300;
+        }
+        
+        return price;
+    }
+    
+    //等级
+    if(dengji <= 160 )
+    {//成品  200块
+        return 0;
+    }
+    NSMutableArray * skillsNumArr = [NSMutableArray array];
+    for (NSInteger index = 0;index < [self.all_skills.skillsArray count] ;index ++ )
+    {
+        ExtraModel * eveExtra = [self.all_skills.skillsArray objectAtIndex:index];
+        [skillsNumArr addObject:eveExtra.extraValue];
+    }
+
+    
+    NSInteger gongji = [model.iAtt_all intValue];
+    NSInteger fangyu = [model.iDef_All intValue];
+    NSInteger sudu = [model.iDex_All intValue];
+    NSInteger lingli = [model.iMagDef_all intValue];
+    
+    NSInteger liliang = [model.iStr_all intValue];
+    NSInteger fali = [model.iMag_all intValue];
+    NSInteger tili = [model.iCor_all intValue];
+    NSInteger naili = [model.iRes_all intValue];
+    NSInteger minjie = [model.iSpe_all intValue];
+    NSArray * addNumArr = [NSArray arrayWithObjects:model.iStr_all,model.iMag_all,model.iCor_all,model.iRes_all,model.iSpe_all, nil];
+    NSInteger maxAddNum = [self maxAddNumberFromCurrentArray:addNumArr];
+    if(maxAddNum == liliang || gongji > 2000){
+        //攻宠，区分红书  蓝书
+        //是否包含力劈
+        if([skillsNumArr containsObject:@"571"] || [skillsNumArr containsObject:@"554"])
+        {
+            price += 300;
+           
+            NSInteger addNum = 0;
+            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",nil];
+            for(NSString * eve in addArr)
+            {
+                if([skillsNumArr containsObject:eve])
+                {
+                    addNum += 1;
+                }
+            }
+            if(addNum >= 3)
+            {
+                price += (addNum * 400);
+            }else if(addNum > 0){
+                price += (addNum * 200);
+            }
+            
+            if(![skillsNumArr containsObject:@"416"])
+            {
+                price -= (addNum * 200);
+            }
+            
+            //蓝书 须弥 力劈
+            if(addNum == 0)
+            {
+                if(skillNum > 4)
+                {
+                    price += 100;
+                }
+            }
+            if([skillsNumArr containsObject:@"554"]){
+                price *= 0.5;
+            }
+        }else if([skillsNumArr containsObject:@"405"] || [skillsNumArr containsObject:@"595"])
+        {//壁垒或高连
+            NSInteger addNum = 0;
+            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",nil];
+            for(NSString * eve in addArr)
+            {
+                if([skillsNumArr containsObject:eve])
+                {
+                    addNum += 1;
+                }
+            }
+            if(addNum >= 3)
+            {
+                price += (addNum * 200);
+            }else if(addNum > 0){
+                price += (addNum * 50);
+            }
+            
+            //蓝书 壁垒 高连
+            if(addNum == 0)
+            {
+                if(skillNum > 4)
+                {
+                    price += 20;
+                }
+            }
+        }else if([skillsNumArr count] >= 5)
+        {
+            NSInteger addNum = 0;
+            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",nil];
+            for(NSString * eve in addArr)
+            {
+                if([skillsNumArr containsObject:eve])
+                {
+                    addNum += 1;
+                }
+            }
+            if(addNum >= 3)
+            {
+                price += (addNum * 100);
+            }else if(addNum > 0){
+                price += (addNum * 50);
+            }
+            //多技能 蓝书
+            if(addNum == 0)
+            {
+                price = 100;
+            }
+
+        }else{
+            NSInteger addNum = 0;
+            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"401",nil];
+            for(NSString * eve in addArr)
+            {
+                if([skillsNumArr containsObject:eve])
+                {
+                    addNum += 1;
+                }
+            }
+            if(addNum >= 2)
+            {
+                price += (addNum * 50);
+            }else{
+                price = 10;
+            }
+        }
+
+    }
+    if(maxAddNum == fali || lingli > 1000){
+        //法宠，红宠
+
+        //是否包含须弥
+        if([skillsNumArr containsObject:@"661"])
+        {
+            price += 300;
+            NSInteger addNum = 0;
+            NSArray * addArr = [NSArray arrayWithObjects:@"424",@"573",@"577",@"578",@"411",@"422",nil];
+            for(NSString * eve in addArr)
+            {
+                if([skillsNumArr containsObject:eve])
+                {
+                    addNum += 1;
+                }
+            }
+            if(addNum >= 3)
+            {
+                price += (addNum * 500);
+            }else{
+                price += (200) * addNum;
+            }
+        }else if([skillsNumArr containsObject:@"424"] && [skillsNumArr containsObject:@"573"] && ([skillsNumArr containsObject:@"578"] || [skillsNumArr containsObject:@"577"]))
+        {
+            price = 150;
+            if([skillsNumArr count] >4)
+            {//5技能法宠
+                price = 200;
+            }
+        }else if([skillsNumArr count] > 8){
+            price = 100;
+        }else if([skillsNumArr count] > 6){
+            price = 50;
+        }
+        
+    }
+    if(maxAddNum == minjie || sudu > 1000){
+        //敏宠
+        if(skillNum >= 5){
+            price = 150;
+        }else{
+            price = 0;
+        }
+        //法防，高神  100
+        if([skillsNumArr containsObject:@"579"]){
+            price += 100;
+            if([skillsNumArr containsObject:@"411"]){
+                price += 50;
+            }
+        }
+        
+    }
+    if(maxAddNum == tili || maxAddNum == naili){
+        //血宠、耐宠
+        if(skillNum >= 5){
+            price = 150;
+        }else{
+            price = 0;
+        }
+        //法防，高神  100
+        if([skillsNumArr containsObject:@"579"]){
+            price += 50;
+            if([skillsNumArr containsObject:@"552"]){
+                price += 100;
+            }
+        }
+    }
+    
+    if([jinjie.cnt intValue] >0)
+    {
+        price += 50;
+    }
+    NSInteger bbZhuang = 0;
+    
+    return price;
+}
+-(NSInteger)maxAddNumberFromCurrentArray:(NSArray *)array
+{
+    NSInteger max = 0;
+    for (NSInteger index = 0; index <[array count];index ++ ) {
+        NSInteger  num = [[array objectAtIndex:index] intValue];
+        if(max < num){
+            max = num;
+        }
+    }
+    return max;
+}
+-(void)checkDetailZhaohuanSkill
+{
+//        高反震 高招架 高雷吸  高土吸
+//    "403":1,"430":1,"432":1,"420":1,
+    
+
+//      高法爆 高法波
+//    "578":1,"577":1,
+    
+//     552死亡  554善恶 661须弥  579法防 571力劈 639灵灯 573高法连 595壁垒
+//     413高驱 424高魔心 414高毒 426奔雷咒 429地狱烈火  422高敏  412高鬼魂 415高冥想
+//     416高必 404高吸血 405高连 425高偷 401高夜  408高感知 411高神 434高强力
+//     435高防御 403高反震 421高永恒  409高再生 417高幸运  402高反击 407高隐
+//     308感知 301夜战 316必杀 303反震 304吸血 325偷袭   510法连 575法爆  305连击  319神迹
+//     322敏捷 309再生 328水攻 306飞行 327落岩 307隐身 311小神
+    
+
+}
+
+
+-(CGFloat)price_youxibi
+{
+    CGFloat price = 0;
+    
+    CGFloat youxibi = [self.iCash floatValue] + [self.iLearnCash floatValue] + [self.iSaving floatValue];
+    youxibi = youxibi / 10000.0;
+    if(youxibi > 1000){
+        price = youxibi / YouxibiRateForMoney;
+    }
+    
+    return price;
+}
+
+-(CGFloat)price_xiulian
+{
+    //iExptSki 人物修炼(攻击 物抗 法术 法抗 猎术)   iMaxExpt人物修炼上线(攻击 物抗 法术 法抗)     CGFloat money = 0;
+    CGFloat money = 0;
+    
+    NSInteger wuliNum = [self.iExptSki1 integerValue];
+    if([self.iMaxExpt1 integerValue]< 25)
+    {
+        wuliNum -= (25 - [self.iMaxExpt1 integerValue]);
+    }
+    
+    NSInteger wukangNum = [self.iExptSki2 integerValue];
+    if([self.iMaxExpt2 integerValue]< 25)
+    {
+        wukangNum -= (25 - [self.iMaxExpt2 integerValue]);
+    }
+    
+    NSInteger fashuNum = [self.iExptSki3 integerValue];
+    if([self.iMaxExpt3 integerValue]< 25)
+    {
+        fashuNum -= (25 - [self.iMaxExpt3 integerValue]);
+    }
+    
+    NSInteger fakangNum = [self.iExptSki4 integerValue];
+    if([self.iMaxExpt4 integerValue]< 25)
+    {
+        fakangNum -= (25 - [self.iMaxExpt4 integerValue]);
+    }
+    
+    
+    CGFloat wuli = [self xiulian_price_countForEveNum:wuliNum withAdd:YES];
+    if(wuli == 0)
+    {
+        wuli = [self xiulian_price_countForEveNum:[self.iMaxExpt1 integerValue] withAdd:YES];
+    }
+    CGFloat wukang = [self xiulian_price_countForEveNum:wukangNum withAdd:NO];
+    if(wukang == 0)
+    {
+        wukang = [self xiulian_price_countForEveNum:[self.iMaxExpt2 integerValue] withAdd:NO];
+    }
+    CGFloat fashu = [self xiulian_price_countForEveNum:fashuNum withAdd:YES];
+    if(fashu == 0)
+    {
+        fashu = [self xiulian_price_countForEveNum:[self.iMaxExpt3 integerValue] withAdd:YES];
+    }
+    CGFloat fakang = [self xiulian_price_countForEveNum:fakangNum withAdd:NO];
+    if(fakang == 0)
+    {
+        fakang = [self xiulian_price_countForEveNum:[self.iMaxExpt4 integerValue] withAdd:NO];
+    }
+    
+    money = wuli + wukang + fashu + fakang;
+    
+    return money;
+}
+-(CGFloat)xiulian_price_countForEveNum:(NSInteger)number withAdd:(BOOL)more
+{
+    NSInteger countNum = 15;
+    if(number <= countNum)
+    {
+        return 0;
+    }
+    NSInteger addNum = number - countNum;
+    
+    CGFloat price = 0;
+    //562,630,702,778,858,942,1030,1122,1218,1318,1422
+    //15到25级修炼所需要的消耗
+    NSString * detailStr = @"562,630,702,778,858,942,1030,1122,1218,1318,1422";
+    NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
+    
+    CGFloat xiulian = 0;
+    for (NSInteger index = 0;index <= addNum;index ++ )
+    {
+        NSString * eve = [eveArr objectAtIndex:index];
+        CGFloat eveMoney = [eve floatValue];
+        if(more)
+        {
+            eveMoney *= 1.5;
+        }
+        xiulian += eveMoney;
+    }
+    
+    price = xiulian/YouxibiRateForMoney;
+    
+    return price;
+}
+
+-(CGFloat)price_chongxiu
+{
+//    13级以上计算价格
+// iBeastSki宝宝修(攻击 物抗 法术 法抗)  "221":20育兽术 all_skills 内
+    CGFloat money = 0;
+//    宠修20-25  204个修炼果
+//@"150,210,290,390,510,650,810,990,1190,1410,1650,1910,2190,2490,2810,3150,3510,3890,4290,4710,5150,5610,6090,6590,7110"
+    NSArray * baobaoArr = @[
+                            self.iBeastSki1,
+                            self.iBeastSki2,
+                            self.iBeastSki3,
+                            self.iBeastSki4,
+                            ];
+    
+    for (NSInteger index = 0; index < [baobaoArr count]; index++)
+    {
+        NSInteger number = [[baobaoArr objectAtIndex:index] integerValue];
+        CGFloat eveMoney = [self chongxiu_price_countForEveNum:number];
+        money += eveMoney;
+    }
+    
+    return money;
+}
+//25级各级需要修炼点 13级以上计算价格
+-(CGFloat)chongxiu_price_countForEveNum:(NSInteger)number
+{
+    NSInteger countNum = 13;
+    if(number <= countNum)
+    {
+        return 0;
+    }
+    CGFloat price = 0;
+    NSString * detailStr = @"150,210,290,390,510,650,810,990,1190,1410,1650,1910,2190,2490,2810,3150,3510,3890,4290,4710,5150,5610,6090,6590,7110";
+    
+    NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
+    CGFloat baobao = 0;
+    for (NSInteger index = countNum;index < number;index ++ )
+    {
+        NSString * eve = [eveArr objectAtIndex:index];
+        baobao += [eve floatValue];
+    }
+    
+    NSString * chongxiu_max = @"413,509,769,1276,2111";
+    NSArray * maxArr = [chongxiu_max componentsSeparatedByString:@","];
+    CGFloat max_price = 0;
+    if(number > 20)
+    {
+        NSInteger addMax = number - 20;
+        for (NSInteger index = 0; index < addMax; index ++ )
+        {
+            NSString * eve = [maxArr objectAtIndex:index];
+            max_price += ([eve floatValue]);
+        }
+        
+    }
+
+    CGFloat youxibi = baobao /100.0 * 65 + max_price;
+    youxibi *= 0.7;
+    price = youxibi/YouxibiRateForMoney;
+    
+    return price;
+}
+
+-(CGFloat)price_qianyuandan
+{
+//    TA_iAllNewPoint新版乾元丹 5个以上算钱
+    NSInteger number = [self.TA_iAllNewPoint integerValue];
+    
+    NSInteger countNum = 2;
+    if(number <= countNum)
+    {
+        return 0;
+    }
+    
+    CGFloat price = 0;
+    NSString * detailStr = @"450,550,690,850,1000,1250,1500,1520,1450";
+    
+    NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
+    if(number > [eveArr count])
+    {
+        number = [eveArr count] - 1;
+    }
+    
+    CGFloat qianyuandan = 0;
+    for (NSInteger index = countNum;index < number;index ++ )
+    {
+        NSString * eve = [eveArr objectAtIndex:index];
+        qianyuandan += [eve floatValue];
+    }
+    
+    CGFloat youxibi = qianyuandan;
+    price = youxibi/YouxibiRateForMoney;
+    
+    return price;
+}
+-(CGFloat)price_jingyan
+{
+    CGFloat price = 0;
+//    sum_exp总经验
+    if([self.sum_exp integerValue] < 200)
+    {
+        price = - 500.0;
+    }
+    NSInteger qiannengguo = [self.iNutsNum integerValue];
+    if(qiannengguo < 120)
+    {
+        price -= 500;
+    }else if(qiannengguo > 170){
+        price += 500;
+    }else if(qiannengguo > 150){
+        price += 300;
+    }
+    
+    //所有后续门派 等级满级 + 200
+    //门派加钱,DT  HS ST减500
+// 龙宫  MW  神木  可以抓持国  法系持国 + 500  (LG + 700 )
+//      FC PS 挂机 200
+//    PT  五开  500
+
+    //等级加钱
+    NSInteger levelNum = 0;
+    if([self.iGrade intValue] == 175)
+    {
+        levelNum = 300;
+    }
+    price += levelNum;
+    
+    NSInteger school = [self.iSchool intValue];
+    NSInteger schoolNum = 0;
+    switch (school) {
+            //FC PS
+        case 12:
+        {
+            schoolNum = 200;
+        }
+            break;
+        case 10:
+        case 13:
+        {
+            schoolNum = 350;
+        }
+            break;
+        case 7:
+        {
+            schoolNum = 700;
+        }
+            break;
+        case 6:
+        {
+            schoolNum = 500;
+        }
+            break;
+        case 1:
+        case 2:
+        case 9:
+        {
+            schoolNum = -500;
+        }
+            break;
+
+        default:
+            break;
+    }
+    price += schoolNum;
+    
+
+    
+    
+    return price;
+}
+-(CGFloat)price_jineng
+{
+    //217熔炼  231淬灵   209追捕技巧  216巧匠之术   204打造技巧  205裁缝技巧  207炼金之术  212健身  206中药医理
+    //211养生之道  210逃离技巧  230强壮 237神速 203暗器技巧  202冥想 208烹饪技巧  218灵石技巧 201强身
+    //154变化之术  153丹元济会   160仙灵店铺  158奇门遁甲 161宝石工艺  （155 220 164)火眼金睛  154打坐 170妙手空空
+    
+    CGFloat money = 0;
+    NSMutableArray * shimenArr = [NSMutableArray array];
+    NSMutableArray * othersArr = [NSMutableArray array];
+    
+    
+    for (NSInteger index = 0 ;index < [self.all_skills.skillsArray count] ;index ++ )
+    {
+        ExtraModel * model = [self.all_skills.skillsArray objectAtIndex:index];
+        if([model isKindOfClass:[ExtraModel class]]){
+            NSString * number = model.extraTag;
+            if([number integerValue] < 150)
+            {
+                [shimenArr addObject:model];
+            }else{
+                [othersArr addObject:model];
+            }
+        }
+    }
+    
+    NSArray * removeArr = [self.AllEquip equipAddedSkillsNumberArrayFromEquipModel];
+    removeArr = [removeArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    
+    //1 头盔  2衣服  3鞋子 4链子 5腰带 6武器
+    NSMutableArray * levelArray = [NSMutableArray array];
+    for (NSInteger index = 0;index <7;index ++)
+    {
+        NSInteger skillLevel = 0;
+        if([shimenArr count] > index)
+        {
+            ExtraModel * model  = [shimenArr objectAtIndex:index];
+            skillLevel = [model.extraValue integerValue];
+        }
+        [levelArray addObject:[NSNumber numberWithInteger:skillLevel]];
+    }
+    
+    NSArray * skillLevelArr = [levelArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [obj1 compare:obj2];
+    }];
+    
+    CGFloat mainSkill = 0;
+
+    for (NSInteger index = 0;index <[skillLevelArr count];index ++)
+    {
+        NSNumber * preLevel = [skillLevelArr objectAtIndex:index];
+        NSNumber * removeLevel = [removeArr objectAtIndex:index];
+        NSInteger skillLevel = [preLevel intValue] - [removeLevel intValue];
+        CGFloat eveMoney = [self jineng_price_countForEveShiMenNum:skillLevel];
+        mainSkill += eveMoney;
+    }
+    money += mainSkill;
+    
+    
+    CGFloat othersPrice = 0;
+    for (ExtraModel * model in othersArr)
+    {
+        CGFloat eveMoney = [self jineng_price_countForEveShenghuoKeyNum:model.extraTag andskillNum:[model.extraValue integerValue]];
+        othersPrice += eveMoney;
+    }
+    money += othersPrice;
+    
+    return money;
+}
+//25级各级需要修炼点 13级以上计算价格
+-(CGFloat)jineng_price_countForEveShiMenNum:(NSInteger)number
+{
+    if(number > 155)
+    {
+        NSInteger countNum = 155;
+        if(number <= countNum)
+        {
+            return 0;
+        }
+        
+        NSInteger addNum = number - countNum;
+        CGFloat price = 0;
+        NSString * detailStr = @"4239607,4344845,4452027,4561177,4672319,450041,4594563,4680138,4766769,4854465,4943226,5033064,5123985,5215995,5309100,7204407,7331490,7460064,7590129,7721700,9818475,9986727,10156893,10328979,12252600";
+        NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
+        CGFloat shiMenJN = 0;
+        for (NSInteger index = 0;index < addNum;index ++ )
+        {
+            if([eveArr count]>index)
+            {
+                NSString * eve = [eveArr objectAtIndex:index];
+                shiMenJN += ([eve floatValue]/10000);
+            }
+        }
+        
+        CGFloat youxibi = shiMenJN * 0.9;
+        price = youxibi/YouxibiRateForMoney;
+        
+        return price;
+
+    }else
+    {
+        CGFloat price = 0;
+        if(number < 148)
+        {
+            price = - 300.0;
+        }
+        return price;
+    }
+}
+-(CGFloat)jineng_price_countForEveShenghuoKeyNum:(NSString *)key andskillNum:(NSInteger)skillNum
+{
+    CGFloat money = 0;
+//    230强壮 237神速
+//    11-20 2500W 21-30 5000W 31-40 8500W
+    if([key isEqualToString:@"237"]||[key isEqualToString:@"230"])
+    {
+        // 20以上计算价格
+        if(skillNum >= 40)
+        {
+            skillNum = 700;
+        }else if(skillNum >= 35)
+        {
+            skillNum = 600;
+        }else if(skillNum >= 30){
+            skillNum = 400;
+        }else if(skillNum >= 20){
+            skillNum = 100;
+        }
+        
+    }else
+    {
+        if(skillNum > 130)
+        {
+            money = 100;
+        }else if(skillNum > 110)
+        {
+            money = 20;
+        }
+    }
+    
+    return money;
+}
+
+
+
+-(NSString *)extraDes
+{
+    NSMutableString * extra = [NSMutableString string];
+    
+    if(self.buyPrice)
+    {
+        [extra appendFormat:@"%@",self.buyPrice];
+    }
+    
+    [extra appendFormat:@"门派%lu",(unsigned long)[self.changesch count]];
+    [extra appendFormat:@"召唤%lu",(unsigned long)[self.AllSummon count]];
+    [extra appendFormat:@"装备%lu",(unsigned long)[self.AllEquip.modelsArray count]];
+    [extra appendFormat:@"技能%lu",(unsigned long)[self.all_skills.skillsArray count]];
+    [extra appendFormat:@"法宝%lu",(unsigned long)[self.fabao.fabaoModelsArray count]];
+
+
+    return extra;
+}
+
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    
+    /*  [Example] change property id to productID
+     *
+     *  if([key isEqualToString:@"id"]) {
+     *
+     *      self.productID = value;
+     *      return;
+     *  }
+     */
+    
+    // show undefined key
+//    NSLog(@"%@.h have undefined key '%@', the key's type is '%@'.", NSStringFromClass([self class]), key, [value class]);
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key {
+    
+    // ignore null value
+    if ([value isKindOfClass:[NSNull class]]) {
+        
+        return;
+    }
+    // fabao
+    if ([key isEqualToString:@"fabao"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[FabaoModel alloc] initWithDictionary:value];
+    }
+
+    // AllEquip
+    if ([key isEqualToString:@"AllEquip"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[AllEquipModel alloc] initWithDictionary:value];
+    }
+
+    // ExAvt
+    if ([key isEqualToString:@"ExAvt"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[ExAvtModel alloc] initWithDictionary:value];
+    }
+
+    // HugeHorse
+    if ([key isEqualToString:@"HugeHorse"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[HugeHorseModel alloc] initWithDictionary:value];
+    }
+
+    // more_attr
+    if ([key isEqualToString:@"more_attr"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[More_attrModel alloc] initWithDictionary:value];
+    }
+
+    // AllRider
+    if ([key isEqualToString:@"AllRider"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[AllRiderModel alloc] initWithDictionary:value];
+    }
+
+    // all_skills
+    if ([key isEqualToString:@"all_skills"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[All_skillsModel alloc] initWithDictionary:value];
+    }
+
+    // child
+    if ([key isEqualToString:@"child"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[ChildModel alloc] initWithDictionary:value];
+    }
+
+    // child2
+    if ([key isEqualToString:@"child2"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[ChildModel alloc] initWithDictionary:value];
+    }
+    
+    // propKept
+    if ([key isEqualToString:@"propKept"] && [value isKindOfClass:[NSDictionary class]]) {
+        
+        value = [[PropKeptModel alloc] initWithDictionary:value];
+    }
+
+    // changesch
+    if ([key isEqualToString:@"changesch"] && [value isKindOfClass:[NSArray class]]) {
+        
+        NSArray        *array     = value;
+        NSMutableArray *dataArray = [NSMutableArray array];
+        
+        for (NSDictionary *dictionary in array) {
+            
+            ChangeschModel *model = [[ChangeschModel alloc] initWithDictionary:dictionary];
+            [dataArray addObject:model];
+        }
+        
+        value = dataArray;
+    }
+
+    // pet
+    if ([key isEqualToString:@"pet"] && [value isKindOfClass:[NSArray class]]) {
+        
+        NSArray        *array     = value;
+        NSMutableArray *dataArray = [NSMutableArray array];
+        
+        for (NSDictionary *dictionary in array) {
+            
+            PetModel *model = [[PetModel alloc] initWithDictionary:dictionary];
+            [dataArray addObject:model];
+        }
+        
+        value = dataArray;
+    }
+
+    // AllSummon
+    if ([key isEqualToString:@"AllSummon"] && [value isKindOfClass:[NSArray class]]) {
+        
+        NSArray        *array     = value;
+        NSMutableArray *dataArray = [NSMutableArray array];
+        
+        for (NSDictionary *dictionary in array) {
+            
+            AllSummonModel *model = [[AllSummonModel alloc] initWithDictionary:dictionary];
+            [dataArray addObject:model];
+        }
+        
+        value = dataArray;
+    }
+
+    // idbid_desc
+    if ([key isEqualToString:@"idbid_desc"] && [value isKindOfClass:[NSArray class]]) {
+        
+        NSArray        *array     = value;
+        NSMutableArray *dataArray = [NSMutableArray array];
+        
+        for (NSDictionary *dictionary in array) {
+            
+            Idbid_descModel *model = [[Idbid_descModel alloc] initWithDictionary:dictionary];
+            
+            [dataArray addObject:model];
+        }
+        
+        value = dataArray;
+    }
+
+
+    [super setValue:value forKey:key];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    
+    if ([dictionary isKindOfClass:[NSDictionary class]]) {
+        
+        if (self = [super init]) {
+            
+            [self setValuesForKeysWithDictionary:dictionary];
+        }
+    }
+    
+    return self;
+}
+
+@end
+
