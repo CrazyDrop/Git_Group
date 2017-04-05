@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B013476F694E68EF88D2A2B1A4B928549904F0D9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "DB449FD28687F5C8EBB53EAF910A4F1937FA9584" : 9223372036854775807,
+    "B013476F694E68EF88D2A2B1A4B928549904F0D9" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7F320997-96C1-42B1-9A29-3997E54E0A5D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "DB449FD28687F5C8EBB53EAF910A4F1937FA9584" : "OLTableView\/",
+    "B013476F694E68EF88D2A2B1A4B928549904F0D9" : "Git_Group\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "WebConnectPrj",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "WebConnectPrj\/WebConnectPrj.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CrazyDrop\/Git_Group.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B013476F694E68EF88D2A2B1A4B928549904F0D9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CrazyDrop\/OLTableView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DB449FD28687F5C8EBB53EAF910A4F1937FA9584"
+    }
+  ]
+}

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseDataModel.h"
-
+//update AppDelegate
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
