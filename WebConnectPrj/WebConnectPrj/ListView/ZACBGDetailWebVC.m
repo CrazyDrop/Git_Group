@@ -22,6 +22,7 @@
 @property (nonatomic,strong) UIWebView * showWeb;
 @property (nonatomic,strong) UITextView * txtView;
 @property (nonatomic,strong) UIButton * payBtn;
+@property (nonatomic,strong) UIButton * saveBtn;
 @property (nonatomic,strong) UIButton * refreshBtn;
 @property (nonatomic,strong) NSString * orderId;
 @property (nonatomic,assign) CBGDetailWebFunction latestFunc;
@@ -46,6 +47,7 @@
 {
     NSString *roleId = self.cbgList.owner_roleid;
     self.selectedRoleId = [roleId intValue];
+    self.selectedOrderSN = self.cbgList.game_ordersn;
     
     baseList.serverid = [NSNumber numberWithInteger:self.cbgList.server_id];
     baseList.game_ordersn = self.cbgList.game_ordersn;
@@ -68,24 +70,50 @@
     if(!_refreshBtn)
     {
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setTitle:@"刷新" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [btn setBackgroundColor:[UIColor blueColor]];
+        CGFloat btnWidth = 80;
+        btn.frame = CGRectMake(SCREEN_WIDTH - btnWidth * 2- 1, 0, btnWidth, btnWidth);
+        [btn addTarget:self
+                action:@selector(tapedOnRefreshWebViewBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.refreshBtn = btn;
+    }
+    return _refreshBtn;
+}
+-(UIButton *)saveBtn
+{
+    if(!_saveBtn)
+    {
+        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setTitle:@"保存" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [btn setBackgroundColor:[UIColor blueColor]];
         CGFloat btnWidth = 80;
         btn.frame = CGRectMake(SCREEN_WIDTH - btnWidth * 2- 1, 0, btnWidth, btnWidth);
         [btn addTarget:self
-                action:@selector(tapedOnRefreshDBBtn:) forControlEvents:UIControlEventTouchUpInside];
-        self.refreshBtn = btn;
+                action:@selector(tapedOnLocalDBSaveBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.saveBtn = btn;
     }
-    return _refreshBtn;
+    return _saveBtn;
 }
--(void)tapedOnRefreshDBBtn:(id)sender
+-(void)tapedOnRefreshWebViewBtn:(id)sender
+{
+    NSString * urlString = self.cbgList.detailWebUrl;
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request =[NSURLRequest requestWithURL:url];
+    [self.showWeb loadRequest:request];
+}
+
+-(void)tapedOnLocalDBSaveBtn:(id)sender
 {
     //进行数据刷新
     if(!self.detailModel){
         [DZUtils noticeCustomerWithShowText:@"详情不存在"];
         return;
     }
+    baseList.equipModel = self.detailModel;
+    
     //强制刷新
     [baseList refrehLocalBaseListModelWithDetail:self.detailModel];
     
@@ -129,7 +157,8 @@
     
     [self refreshLatestSelectedRoleId];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    UIView * bgView = self.view;
+    bgView.backgroundColor = [UIColor whiteColor];
     
     NSString * urlString = self.cbgList.detailWebUrl;
     CBGDetailWebView * detail = [CBGDetailWebView sharedInstance];
@@ -144,7 +173,7 @@
         NSURLRequest *request =[NSURLRequest requestWithURL:url];
         [webView loadRequest:request];
     }
-    [self.view addSubview:webView];
+    [bgView addSubview:webView];
     webView.delegate = self;
     self.showWeb = webView;
 
@@ -181,11 +210,26 @@
 //    NSString * orderSN = self.listData.game_ordersn;
     NSString * txtValue = self.cbgList.detailWebUrl;
     UITextView * txt = [[UITextView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80)];
-    [self.view addSubview:txt];
+    [bgView addSubview:txt];
     txt.text = txtValue;
     self.txtView = txt;
-    [txt addSubview:self.payBtn];
-    [txt addSubview:self.refreshBtn];
+    
+    CGFloat boundHeight = self.payBtn.bounds.size.height;
+    [bgView addSubview:self.payBtn];
+    
+    CGPoint pt = txt.center;
+    pt.x = SCREEN_WIDTH - self.payBtn.bounds.size.width/2.0;
+    self.payBtn.center = pt;
+    
+    pt.y -= boundHeight;
+    [bgView addSubview:self.saveBtn];
+    self.saveBtn.center = pt;
+    
+    if([urlString isEqualToString:detail.detaiUrl]){
+        pt.y -= boundHeight;
+        [bgView addSubview:self.refreshBtn];
+        self.refreshBtn.center = pt;
+    }
     
     //有详情的展示，没详情的请求
     if(self.detailModel)
@@ -322,6 +366,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     {
         EquipModel * detailEve = [detailModels lastObject];
         self.detailModel = detailEve;
+        baseList.equipModel = detailEve;
         NSString * urlString = self.cbgList.detailWebUrl;
 
         NSString * prePrice = detailEve.equipExtra.detailPrePrice;

@@ -11,6 +11,7 @@
 @interface ZACBGListDetailShowVC : DPWhiteTopController
 
 @property (nonatomic,assign) NSInteger selectedRoleId;
+@property (nonatomic,strong) NSString * selectedOrderSN;
 @property (nonatomic,copy) NSArray * dataArr;
 @property (nonatomic,strong,readonly) UITableView * listTable;
 

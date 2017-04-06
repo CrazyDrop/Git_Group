@@ -10,6 +10,7 @@
 #import "ZACBGDetailWebVC.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "ZALocationLocalModel.h"
+#define BlueSettingDebugAddNum 100
 @interface CBGCopyUrlDetailCehckVC ()
 {
     Equip_listModel * baseList;
@@ -28,8 +29,8 @@
         baseList = [[Equip_listModel alloc] init];
         self.viewTtle = @"查询";
         
-        self.showRightBtn = YES;
-        self.rightTitle = @"保存";
+//        self.showRightBtn = YES;
+//        self.rightTitle = @"保存";
     }
     return self;
 }
@@ -42,28 +43,37 @@
     
     //copy信息抓去，解析，展示
     
+    NSArray * titles = [NSArray arrayWithObjects:
+                        @"查看详情",
+                        @"WEB信息",
+                        
+                        @"保存",
+                        @"删除",
+                        
+//                        @"全部历史",
+//                        @"更新历史",
+//                        
+//                        @"页面验证码",
+//                        @"混合刷新",
+//                        
+//                        @"链接估价",
+//                        @"URL设置",
+//                        
+//                        @"当日历史",//今天的历史
+//                        @"细分历史",//通过时间选择
+//                        
+//                        @"mobile最新",
+//                        @"发送消息",
+                        nil];
+    
     UIView * bgView = self.view;
-    UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 200, 100, 100);
-    [btn addTarget:self action:@selector(tapedOnCheckDetailRequestTxtBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundColor:[UIColor redColor]];
-    [btn setTitle:@"查看详情" forState:UIControlStateNormal];
-    [bgView addSubview:btn];
-    
-    btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(SCREEN_WIDTH - 100, 200, 100, 100);
-    [btn addTarget:self action:@selector(tapedOnCheckDetailTxtBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [btn setTitle:@"WEB信息" forState:UIControlStateNormal];
-    [btn setBackgroundColor:[UIColor redColor]];
-    [bgView addSubview:btn];
-
-    
-    btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 300, 100, 100);
-    [btn addTarget:self action:@selector(tapedOnRemoveLatestSelectedModelBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [btn setTitle:@"移除" forState:UIControlStateNormal];
-    [btn setBackgroundColor:[UIColor redColor]];
-    [bgView addSubview:btn];
+    for(NSInteger index = 0 ;index < [titles count]; index ++)
+    {
+        NSString * title = [titles objectAtIndex:index];
+        UIButton * btn = [self customTestButtonForIndex: index];
+        [btn setTitle:title forState:UIControlStateNormal];
+        [bgView addSubview:btn];
+    }
 
     
     UITextView * txt = [[UITextView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80)];
@@ -72,6 +82,59 @@
     
     
 }
+-(UIButton * )customTestButtonForIndex:(NSInteger)indexNum
+{
+    NSInteger lineNum = indexNum/2;
+    NSInteger rowNum = indexNum%2;
+    
+    UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.tag = indexNum + BlueSettingDebugAddNum;
+    btn.frame = CGRectMake(0, 0,FLoatChange(120) ,FLoatChange(50));
+    btn.backgroundColor = [UIColor grayColor];
+    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(tapedOnTestButtonWithSender:) forControlEvents:UIControlEventTouchUpInside];
+    
+    CGFloat startY = CGRectGetMaxY(self.titleBar.frame) + FLoatChange(20) + btn.bounds.size.height/2.0;
+    CGFloat sepHeight = FLoatChange(10);
+    CGFloat startX = SCREEN_WIDTH / 2.0 /2.0;
+    btn.center = CGPointMake( startX + rowNum * SCREEN_WIDTH / 2.0 ,startY + (sepHeight + btn.bounds.size.height) * lineNum);
+    
+    return btn;
+}
+
+-(void)tapedOnTestButtonWithSender:(id)sender
+{
+    UIButton * btn = (UIButton *)sender;
+    NSInteger indexNum = btn.tag - BlueSettingDebugAddNum;
+    
+    [self debugDetailTestWithIndexNum:indexNum andTitle:btn.titleLabel.text];
+}
+-(void)debugDetailTestWithIndexNum:(NSInteger)indexNum andTitle:(NSString *)title
+{
+    NSLog(@"%s %@",__FUNCTION__,title);
+    switch (indexNum) {
+        case 0:
+        {
+            [self tapedOnCheckDetailRequestTxtBtn:nil];
+        }
+            break;
+        case 1:
+        {
+            [self tapedOnCheckDetailTxtBtn:nil];
+        }
+            break;
+
+        case 2:{
+            [self tapedOnLocalSaveDetailModelBtn:nil];
+        }
+            break;
+        case 3:{
+            [self tapedOnRemoveLatestSelectedModelBtn:nil];
+        }
+            break;
+    }
+}
+
 -(void)tapedOnRemoveLatestSelectedModelBtn:(id)sender
 {
     CBGListModel * cbgList = baseList.listSaveModel;
@@ -86,7 +149,7 @@
     [self readCopyDetailOrderSNAndServerId];
 }
 
--(void)submit
+-(void)tapedOnLocalSaveDetailModelBtn:(id)sender
 {
     if(!self.detailModel){
         [DZUtils noticeCustomerWithShowText:@"详情不存在"];
@@ -132,6 +195,7 @@
                 if([detailEve hasPrefix:eve])
                 {
                     NSString * serverId = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
+                    serverId = [self realStringFromSubStringText:serverId];
                     baseList.serverid = [NSNumber numberWithInt:[serverId intValue]];
                 }
             }
@@ -142,6 +206,7 @@
                 if([detailEve hasPrefix:eve])
                 {
                     NSString * orderSN = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
+                    orderSN = [self realStringFromSubStringText:orderSN];
                     baseList.game_ordersn = orderSN;
                 }
             }
@@ -174,6 +239,13 @@
         self.textView.text = showTxt;
     }
 }
+-(NSString *)realStringFromSubStringText:(NSString *)serverId
+{
+    serverId = [serverId stringByReplacingOccurrencesOfString:@" " withString:@""];
+    serverId = [serverId stringByReplacingOccurrencesOfString:@"%20" withString:@""];
+    return serverId;
+}
+
 
 -(void)viewWillDisappear:(BOOL)animated
 {

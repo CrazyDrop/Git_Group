@@ -9,7 +9,7 @@
 
 
 #import "EquipModel.h"
-
+#import "NSData+Extension.h"
 @implementation EquipModel
 
 -(CGFloat)createEquipExtraEarnRate
@@ -152,10 +152,19 @@
         }
     }
     if(!soldTime) return nil;
-//         03-30 13:24 //补全时间数据
+//         03-30 13:24 //补全时间数据，售出时间没有年份，
 //    2017-03-31 17:32:08
-    NSDate * nowDate = [NSDate date];
-    NSString * soldDateStr = [NSString stringWithFormat:@"%ld-%@:00",nowDate.year,soldTime];
+//    self.fair_show_end_time
+    NSDate * showDate = [NSDate fromString:self.selling_time];
+    showDate = [showDate dateByAddingTimeInterval:-1 * DAY];
+    NSString * soldDateStr = [NSString stringWithFormat:@"%ld-%@:00",showDate.year,soldTime];
+    NSDate * soldDate = [NSDate fromString:soldDateStr];//当售出时间早于展示时间，
+    //公示期结束的时间
+    if([soldDate timeIntervalSinceDate:showDate] < 0)
+    {
+        soldDateStr = [NSString stringWithFormat:@"%ld-%@:00",showDate.year + 1,soldTime];
+    }
+
     return soldDateStr;
 }
 -(NSString *)equipCancelBackResultTime

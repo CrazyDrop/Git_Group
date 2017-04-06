@@ -38,7 +38,7 @@
     self.desc_sumup = detail.desc_sumup;
     self.price = detail.price;
     self.equip_name = detail.equip_name;
-    
+    self.listSaveModel = nil;
     
 }
 

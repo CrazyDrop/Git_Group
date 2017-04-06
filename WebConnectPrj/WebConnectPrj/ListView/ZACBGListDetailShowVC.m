@@ -245,9 +245,10 @@
     CBGListModel * contact = [self.dataArr objectAtIndex:secNum];
     CBGEquipRoleState state = contact.latestEquipListStatus;
 
-    //跳转条件  1详情页面时，非自己id   2非详情页面、仅历史库表取出数据
-    BOOL detailSelect = (self.selectedRoleId > 0 && self.selectedRoleId != [contact.owner_roleid integerValue]);
-    BOOL nearSelect = (self.selectedRoleId == 0 && state == CBGEquipRoleState_PayFinish);
+    //跳转条件  1详情页面时，非自己OrderSN   2非详情页面、仅历史库表取出数据
+    BOOL detailSelect = (self.selectedOrderSN && ![self.selectedOrderSN isEqualToString:contact.game_ordersn]);
+    BOOL nearSelect = NO;
+//    (self.selectedRoleId == 0 && state == CBGEquipRoleState_PayFinish);
     
     if(detailSelect || nearSelect)
     {

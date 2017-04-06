@@ -77,8 +77,8 @@ typedef enum : NSUInteger
 //时间信息
 @property (nonatomic, strong) NSString * sell_create_time;  //起售时间  详情里有
 @property (nonatomic, strong) NSString * sell_start_time;   //上架时间
-@property (nonatomic, strong) NSString * sell_sold_time;    //售出时间
-@property (nonatomic, strong) NSString * sell_back_time;    //取回时间
+@property (nonatomic, copy) NSString * sell_sold_time;    //售出时间
+@property (nonatomic, copy) NSString * sell_back_time;    //取回时间
 
 @property (nonatomic, strong) NSString * sell_order_time;       //下单时间    本地时间
 @property (nonatomic, strong) NSString * sell_cancel_time;      //取消时间    本地时间

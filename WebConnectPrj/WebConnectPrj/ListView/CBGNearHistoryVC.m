@@ -76,6 +76,7 @@
     self.schoolId = school_id;
     
     self.selectedRoleId = [role_id intValue];
+    self.selectedOrderSN = order_sn;
 }
 
 -(void)startLocalListWithSchool:(NSString *)school andServer:(NSString *)server

@@ -11,7 +11,7 @@
 #import "Equip_listModel.h"
 @interface CBGNearHistoryVC : ZACBGListDetailShowVC
 
-@property (nonatomic, copy) EquipModel * detailModel; //详情信息
-@property (nonatomic, copy) CBGListModel * cbgList;   //列表信息，基础字段
+@property (nonatomic, strong) EquipModel * detailModel; //详情信息
+@property (nonatomic, strong) CBGListModel * cbgList;   //列表信息，基础字段
 
 @end

@@ -15,14 +15,14 @@
 #define DetailFinishStatusNumber  1000000  //100万等级
 @interface ZWDetailCheckManager()<NSCacheDelegate>
 {
-#if  !TARGET_IPHONE_SIMULATOR
-    //真机
-    YYCache * statusCache;  //缓存历史status
-    YYCache * priceCache;   //缓存历史price
-#else
+//#if  !TARGET_IPHONE_SIMULATOR
+//    //真机
+//    YYCache * statusCache;  //缓存历史status
+//    YYCache * priceCache;   //缓存历史price
+//#else
     NSCache * statusCache;
     NSCache * priceCache;
-#endif
+//#endif
     
     NSMutableArray * statusArray;
     CBGListModel * stateModel;
@@ -52,16 +52,16 @@
         statusArray = [NSMutableArray array];
         //缓存当前已经存储的数据
         
-#if  !TARGET_IPHONE_SIMULATOR
-        //真机
-        statusCache = [YYCache cacheWithName:@"list_ordersn_status_cache"];
-        priceCache = [YYCache cacheWithName:@"list_ordersn_money_cache"];
-#else
+//#if  !TARGET_IPHONE_SIMULATOR
+//        //真机
+//        statusCache = [YYCache cacheWithName:@"list_ordersn_status_cache"];
+//        priceCache = [YYCache cacheWithName:@"list_ordersn_money_cache"];
+//#else
         statusCache = [[NSCache alloc] init];
         statusCache.countLimit = 10000;
         priceCache = [[NSCache alloc] init];
         priceCache.countLimit = 10000;
-#endif
+//#endif
         
         stateModel = [[CBGListModel alloc] init];
         
