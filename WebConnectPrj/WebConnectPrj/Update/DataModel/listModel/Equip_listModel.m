@@ -91,6 +91,10 @@
 //计算公式，判定账号是否值得购买
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip
 {
+//    if([self isFirstInSelling]){
+//        return YES;
+//    }
+    
     if([self.equipModel.appointed_roleid length] > 0)
     {
         return NO;

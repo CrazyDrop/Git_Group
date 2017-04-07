@@ -29,6 +29,8 @@
 #import "EquipListRequestModel.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "CBGNearHistoryVC.h"
+#import "CBGDetailWebView.h"
+#import "CBGPlanDetailPreShowWebVC.h"
 #define MonthTimeIntervalConstant 60*60*24*(30)
 @interface ZWRefreshListController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -42,13 +44,14 @@
 @property (nonatomic,copy) NSArray * dataArr;
 @property (nonatomic,copy) NSArray * dataArr2;
 @property (nonatomic,assign) BOOL latestContain;
-@property (nonatomic,copy) id latest;
+@property (nonatomic,strong) id latest;
 @property (nonatomic,strong) UIView * tipsView;
 @property (nonatomic,strong) NSArray * detailsArr;
 @property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * grayArray;
 
 @property (nonatomic,assign) BOOL inWebRequesting;
+@property (nonatomic,strong) CBGDetailWebView * planWeb;
 @end
 
 @implementation ZWRefreshListController
@@ -90,6 +93,12 @@
 
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
 {
+    ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!model.isAlarm){
+        return;
+    }
+    Equip_listModel * maxModel = nil;
+    CGFloat maxRate = 0;
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         Equip_listModel * list = [array objectAtIndex:index];
@@ -97,25 +106,34 @@
         BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];
         if(equipBuy)
         {
-            NSLog(@"%s %@",__FUNCTION__,list.game_ordersn);
             CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);
-            if(unSold)
-            {
-                NSString * webUrl = list.detailWebUrl;
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
-                                                                    object:webUrl];
-                
-                [self startUserNotice];
+            CGFloat rate = list.earnRate;
+            if(unSold && rate >= maxRate){
+                maxRate = rate;
+                maxModel = list;
             }
-            
-            self.latest = list;
-            self.latestContain = unSold;
         }
-
+    }
+    
+    
+    if(maxModel)
+    {
+               NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
+        NSString * webUrl = maxModel.detailWebUrl;
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
+//                                                            object:webUrl];
+        self.planWeb = [[CBGDetailWebView alloc] initDetailWebViewWithDetailString:webUrl];
+        
+        
+        [self startUserNotice];
+        
+        self.latest = maxModel;
+        self.latestContain = YES;
     }
     
 }
+
 //列表刷新，按照最新的返回数据,新增，还是替换
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace
 {
@@ -179,6 +197,7 @@
 }
 
 - (void)viewDidLoad {
+    
     NSDate * date = [NSDate date];
 //    NSDate * date = [NSDate fromString:@"2016-02-05 17:54"];
     date = [date dateByAddingTimeInterval:MonthTimeIntervalConstant];
@@ -225,6 +244,14 @@
         [self.listTable reloadData];
     }
 
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        NSString * webUrl = @"http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=421&ordersn=584_1491530578_585243883&equip_refer=1";
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
+//                                                            object:webUrl];
+//    });
+
+
+    
 }
 -(UIView *)tipsView{
     if(!_tipsView)
@@ -395,6 +422,7 @@
 
 -(void)startOpenTimesRefreshTimer
 {
+    
     PWDTimeManager * manager = [PWDTimeManager sharedInstance];
     __weak typeof(self) weakSelf = self;
 //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -982,11 +1010,25 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     if(contact)
     {
-        ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
-        detail.cbgList = [contact listSaveModel];
-        detail.detailModel = contact.equipModel;
-        [[self rootNavigationController] pushViewController:detail animated:YES];
+        NSString * planUrl = self.planWeb.detailUrl;
+        if([planUrl isEqualToString:contact.detailWebUrl])
+        {
+            CBGPlanDetailPreShowWebVC * detail = [[CBGPlanDetailPreShowWebVC alloc] init];
+            detail.planWebView = self.planWeb;
+            detail.cbgList = [contact listSaveModel];
+            detail.detailModel = contact.equipModel;
+            [[self rootNavigationController] pushViewController:detail animated:YES];
+        }else
+        {
+            
+            ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
+            detail.cbgList = [contact listSaveModel];
+            detail.detailModel = contact.equipModel;
+            [[self rootNavigationController] pushViewController:detail animated:YES];
+        }
+
     }
+    
     
     
 }

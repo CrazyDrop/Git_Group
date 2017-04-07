@@ -58,8 +58,8 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     //增加监听
-    CBGDetailWebView * detail = [CBGDetailWebView sharedInstance];
-    
+//    CBGDetailWebView * detail = [[CBGDetailWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    [self.view addSubview:detail];
     
     NSArray * titles = [NSArray arrayWithObjects:
                         @"响铃(开)",

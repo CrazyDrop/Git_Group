@@ -19,7 +19,7 @@
 {
     Equip_listModel * baseList;
 }
-@property (nonatomic,strong) UIWebView * showWeb;
+//@property (nonatomic,strong) UIWebView * showWeb;
 @property (nonatomic,strong) UITextView * txtView;
 @property (nonatomic,strong) UIButton * payBtn;
 @property (nonatomic,strong) UIButton * saveBtn;
@@ -161,18 +161,13 @@
     bgView.backgroundColor = [UIColor whiteColor];
     
     NSString * urlString = self.cbgList.detailWebUrl;
-    CBGDetailWebView * detail = [CBGDetailWebView sharedInstance];
+//    CBGDetailWebView * detail = [CBGDetailWebView sharedInstance];
     
     UIWebView *webView = nil;
-    if([urlString isEqualToString:detail.detaiUrl])
-    {
-        webView = detail;
-    }else{
-        webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, FLoatChange(65), SCREEN_WIDTH, SCREEN_HEIGHT -FLoatChange(65))];
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSURLRequest *request =[NSURLRequest requestWithURL:url];
-        [webView loadRequest:request];
-    }
+    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, FLoatChange(65), SCREEN_WIDTH, SCREEN_HEIGHT -FLoatChange(65))];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request =[NSURLRequest requestWithURL:url];
+    [webView loadRequest:request];
     [bgView addSubview:webView];
     webView.delegate = self;
     self.showWeb = webView;
@@ -225,7 +220,8 @@
     [bgView addSubview:self.saveBtn];
     self.saveBtn.center = pt;
     
-    if([urlString isEqualToString:detail.detaiUrl]){
+    if(YES)
+    {
         pt.y -= boundHeight;
         [bgView addSubview:self.refreshBtn];
         self.refreshBtn.center = pt;

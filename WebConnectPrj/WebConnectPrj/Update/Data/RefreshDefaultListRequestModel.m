@@ -205,8 +205,10 @@
                     }
                 }
             }
-            NSLog(@"%s %@ ",__FUNCTION__,resultStr);
             dic = [resultStr objectFromJSONString];
+            if(!dic){
+                NSLog(@"%s %@ ",__FUNCTION__,resultStr);
+            }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf doneWithRequestBackDic:dic andUrl:urlStr andError:error];

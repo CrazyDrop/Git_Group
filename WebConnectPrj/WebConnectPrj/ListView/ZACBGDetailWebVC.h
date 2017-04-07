@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
     CBGDetailWebFunction_PayInScan,
 } CBGDetailWebFunction;
 @interface ZACBGDetailWebVC : CBGNearHistoryVC
-
+@property (nonatomic,strong) UIWebView * showWeb;
 
 
 @end

@@ -18,7 +18,7 @@
 #import "WebEquip_listModel.h"
 #import "CBGListModel.h"
 #import "CBGWebListErrorCheckVC.h"
-
+#import "CBGDetailWebView.h"
 @interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource>{
     BaseRequestModel * _detailModel;
 }
@@ -36,6 +36,8 @@
 @property (nonatomic,assign) NSInteger pageNum;
 
 @property (nonatomic,assign) BOOL webError;
+@property (nonatomic,strong) CBGDetailWebView * planWeb;
+
 @end
 
 @implementation CBGWebListRefreshVC
@@ -560,6 +562,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 }
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
 {
+    
+    WebEquip_listModel * maxModel = nil;
+    CGFloat maxRate = 0;
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         WebEquip_listModel * list = [array objectAtIndex:index];
@@ -569,19 +574,27 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);
-            if(unSold)
-            {
-                NSString * webUrl = list.detailWebUrl;
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
-                                                                    object:webUrl];
-                
-                [self startUserNotice];
+            CGFloat rate = list.earnRate;
+            if(unSold && rate >= maxRate){
+                maxRate = rate;
+                maxModel = list;
             }
-            
-            self.latest = list;
-            self.latestContain = unSold;
         }
+    }
+    
+    if(maxModel)
+    {
+        NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
+        NSString * webUrl = maxModel.detailWebUrl;
+        //        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
+        //                                                            object:webUrl];
+        self.planWeb = [[CBGDetailWebView alloc] initDetailWebViewWithDetailString:webUrl];
         
+        
+        [self startUserNotice];
+        
+        self.latest = maxModel;
+        self.latestContain = YES;
     }
     
 }

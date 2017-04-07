@@ -531,6 +531,7 @@
 		18A976711E8145DF00B48E3C /* CBGNearHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976701E8145DF00B48E3C /* CBGNearHistoryVC.m */; };
 		18A976741E8148CB00B48E3C /* ZACBGListDetailShowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */; };
 		18A976761E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */; };
+		18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */; };
 		18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */; };
 		18CFB76D1E8A6BB400F18440 /* CBGSettingURLEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */; };
 		18CFB7761E8BB53F00F18440 /* CBGMixedListCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */; };
@@ -1553,6 +1554,8 @@
 		18A976721E8148CB00B48E3C /* ZACBGListDetailShowVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZACBGListDetailShowVC.h; sourceTree = "<group>"; };
 		18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZACBGListDetailShowVC.m; sourceTree = "<group>"; };
 		18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = "2015-12-09_17-41-23_1.m4r"; sourceTree = "<group>"; };
+		18A9EC671E974D4100B92192 /* CBGPlanDetailPreShowWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanDetailPreShowWebVC.h; sourceTree = "<group>"; };
+		18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanDetailPreShowWebVC.m; sourceTree = "<group>"; };
 		18CFB7641E8904E300F18440 /* CBGCopyUrlDetailCehckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCopyUrlDetailCehckVC.h; sourceTree = "<group>"; };
 		18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCopyUrlDetailCehckVC.m; sourceTree = "<group>"; };
 		18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSettingURLEditVC.h; sourceTree = "<group>"; };
@@ -3460,6 +3463,8 @@
 				18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */,
 				18CFB7811E8E372600F18440 /* CBGDetailWebView.h */,
 				18CFB7821E8E372600F18440 /* CBGDetailWebView.m */,
+				18A9EC671E974D4100B92192 /* CBGPlanDetailPreShowWebVC.h */,
+				18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */,
 			);
 			path = MixedListRefresh;
 			sourceTree = "<group>";
@@ -3518,7 +3523,7 @@
 				TargetAttributes = {
 					180D589619E622680045A720 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 3SHBLHHSMD;
+						DevelopmentTeam = X9YQDM8Q42;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3813,6 +3818,7 @@
 				18A96D881E7FC24700B48E3C /* ZWDetailBuyVC.m in Sources */,
 				185BB0341E825C4700306695 /* ZWDetailCheckManager.m in Sources */,
 				18A9752C1E7FDDD400B48E3C /* Samurai_Predefine.m in Sources */,
+				18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */,
 				18A975181E7FDDD400B48E3C /* NTConnectClient.m in Sources */,
 				18A975451E7FDDD400B48E3C /* Samurai_Validator.m in Sources */,
 				18A975F71E7FDDD500B48E3C /* foundation.c in Sources */,
@@ -4169,15 +4175,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 3SHBLHHSMD;
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4ae56bf7-1bae-491d-ad74-72ad22549c66";
-				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
+				PROVISIONING_PROFILE = "d45cd942-2dca-440f-9482-8c713096026f";
+				PROVISIONING_PROFILE_SPECIFIER = "it developer common";
 			};
 			name = Debug;
 		};
