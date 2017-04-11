@@ -37,6 +37,7 @@ typedef enum : NSUInteger
     CBGLocalDataBaseListUpdateStyle_RefreshPlan,//刷新估价  详情
     CBGLocalDataBaseListUpdateStyle_RefreshEval, //增加系统估价
     CBGLocalDataBaseListUpdateStyle_TimeAndPlan, //刷新时间和估价
+    CBGLocalDataBaseListUpdateStyle_CopyRefresh, //写入刷新，强制刷新
 } CBGLocalDataBaseListUpdateStyle;
 
 
@@ -73,6 +74,7 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) NSInteger  plan_jingyan_price;
 @property (nonatomic, assign) NSInteger  plan_zhuangbei_price;
 @property (nonatomic, strong) NSString * plan_des;
+@property (nonatomic, assign) NSInteger  plan_rate;
 
 //时间信息
 @property (nonatomic, strong) NSString * sell_create_time;  //起售时间  详情里有
@@ -82,11 +84,13 @@ typedef enum : NSUInteger
 
 @property (nonatomic, strong) NSString * sell_order_time;       //下单时间    本地时间
 @property (nonatomic, strong) NSString * sell_cancel_time;      //取消时间    本地时间
+@property (nonatomic, assign) NSInteger  sell_space;//售出间隔时间
 
 @property (nonatomic, assign) CBGLocalDataBaseListUpdateStyle dbStyle;
 @property (nonatomic, assign) CBGEquipPlanStyle style;
 @property (nonatomic, assign) BOOL detailRefresh;
 
+@property (nonatomic, assign) NSInteger fav_or_ingore;
 -(void)refreshCBGListDataModelWithDetaiEquipModel:(id)model;
 -(CBGEquipRoleState)latestEquipListStatus;
 -(NSString * )equip_school_name;

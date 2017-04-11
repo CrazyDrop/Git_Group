@@ -69,6 +69,14 @@
     {
         self.sell_back_time = @"";
     }
+    
+    if([self.sell_sold_time length] > 0)
+    {
+        NSDate * createDate = [NSDate fromString:self.sell_create_time];
+        NSDate * soldDate = [NSDate fromString:self.sell_sold_time];
+        NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
+        self.sell_space = timeNum;
+    }
 
 }
 

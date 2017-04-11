@@ -137,6 +137,7 @@
         list.plan_jingyan_price = extra.jingyanPrice;
         list.plan_zhuangbei_price = extra.zhuangbeiPrice;
         list.plan_des = extra.detailPrePrice;
+        list.plan_rate = (int)detail.extraEarnRate;
         if(!list.plan_des)
         {
             list.plan_des = @"";
@@ -163,6 +164,13 @@
         }
         if(!list.sell_create_time){
             list.sell_create_time = @"";
+        }
+        if([list.sell_sold_time length] > 0)
+        {
+            NSDate * createDate = [NSDate fromString:list.sell_create_time];
+            NSDate * soldDate = [NSDate fromString:list.sell_sold_time];
+            NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
+            list.sell_space = timeNum;
         }
         
         //结束时间的获取

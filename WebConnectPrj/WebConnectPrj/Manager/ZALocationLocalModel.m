@@ -46,6 +46,7 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN     @"ORDER_SN"
 #define ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID      @"ROLE_ID"
 #define ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID     @"SERVE_ID"
+#define ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID     @"SERVER_ID"
 
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL     @"EQUIP_SCHOOL"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL      @"EQUIP_LEVEL"
@@ -59,6 +60,7 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE     @"EVAL_PRICE"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL    @"MORE_DETAIL"
 
+#define ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE       @"FAV_OR_INGORE"
 
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL       @"PLAN_TOTAL"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN     @"PLAN_XIULIAN"
@@ -69,6 +71,7 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN     @"PLAN_JINGYAN"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI   @"PLAN_ZHUANGBEI"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES         @"PLAN_DES"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE        @"PLAN_RATE"
 
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE      @"SELL_CREATE"
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_START       @"SELL_START"
@@ -76,6 +79,7 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK        @"SELL_BACK"
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_ORDER       @"SELL_ORDER"
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_CANCEL      @"SELL_CANCEL"
+#define ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE       @"SELL_SPACE"
 
 
 
@@ -204,9 +208,16 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 //    
     
     NSArray *   soldout = [self localSaveEquipArrayForSoldOut_database];
+    NSMutableDictionary * remoteDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0;index < [soldout count] ;index ++ )
+    {
+        CBGListModel * eve = [soldout objectAtIndex:index];
+        [remoteDic setObject:eve forKey:eve.game_ordersn];
+    }
+    
     
     //不能使用外部方法，那会填充数据
-    NSArray * objArray = [NSArray arrayWithArray:soldout];
+    NSArray * objArray = [NSArray arrayWithArray:[remoteDic allValues]];
     [databaseQueue inTransaction:^(FMDatabase *db, BOOL *rollback)
      {
          if (!db.open)
@@ -221,6 +232,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              if(!dataObj.sell_create_time){
                  dataObj.sell_create_time = @"";
              }
+             dataObj.dbStyle = CBGLocalDataBaseListUpdateStyle_CopyRefresh;
              result = [self privateLocalSaveEquipHistoryDetailCBGModel:dataObj withDataBase:db];
              if (!result)
              {
@@ -304,10 +316,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //缓存列表 22个
         if(![fmdatabase tableExists:ZADATABASE_TABLE_EQUIP_TOTAL])
         {//主表  sell_time 应该改为 create_time
-            NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text,%@ int,%@ text,%@ int,%@ int,%@ int,%@ int,%@ text,%@ text,%@ text,%@ text,%@ text,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ text);",ZADATABASE_TABLE_EQUIP_TOTAL,
+            NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text,%@ int,%@ text,%@ int,%@ int,%@ int,%@ int,%@ text,%@ text,%@ text,%@ text,%@ text,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ text,%@ int,%@ int,%@ int);",ZADATABASE_TABLE_EQUIP_TOTAL,
                                  ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,
                                  ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
-                                 ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,
+                                 ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_DES,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
@@ -328,7 +340,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE,
-                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL];
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
+                                 ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE,
+                                 ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE];
             [fmdatabase executeUpdate:createSql];
             NSString *databasePath=[fmdatabase databasePath];
             NSFileManager *defaultFileManager=[NSFileManager defaultManager];
@@ -349,7 +364,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                                   ZADATABASE_TABLE_EQUIP_KEY_SELL_START,
                                   ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
                                   ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
-                                  ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,
+                                  ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                                   ZADATABASE_TABLE_EQUIP_KEY_SELL_ORDER,
                                   ZADATABASE_TABLE_EQUIP_KEY_SELL_CANCEL,
                                   ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT];
@@ -374,7 +389,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                                   ZADATABASE_TABLE_EQUIP_KEY_SELL_START,
                                   ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
                                   ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
-                                  ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,
+                                  ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                                   ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT];
              [fmdatabase executeUpdate:createSql];
              //建完文章表，顺便处理下文件不备份到icloud
@@ -887,7 +902,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 -(NSArray *)localSaveEquipArrayForSoldOut_database
 {
     NSMutableArray *totalArray=[NSMutableArray array];
-    [databaseQueue_read inDatabase:^(FMDatabase *fmdatabase){
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase){
         if (!fmdatabase.open) {
             [fmdatabase open];
         }
@@ -897,6 +912,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         
         [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
         
+        //临时由change表获取数据
+//        [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_CHANGE,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN];
+        
+//        [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_CHANGE where ORDER_SN in (select ORDER_SN from ZADATABASE_TABLE_EQUIP_CHANGE group by ORDER_SN having count(ORDER_SN) > 0)"];
         
         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
         while ([resultSet next]) {
@@ -1683,6 +1702,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.plan_jingyan_price = model.plan_jingyan_price;
                     preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
                     preModel.plan_des = model.plan_des;
+                    preModel.plan_rate = model.plan_rate;
+                    preModel.sell_space = model.sell_space;
 
                 }else{
                     success = YES;
@@ -1707,6 +1728,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.plan_jingyan_price = model.plan_jingyan_price;
                     preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
                     preModel.plan_des = model.plan_des;
+                    preModel.plan_rate = model.plan_rate;
+                    preModel.sell_space = model.sell_space;
+
                     
                 }
                 
@@ -1735,6 +1759,11 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 }
             }
                 break;
+            case CBGLocalDataBaseListUpdateStyle_CopyRefresh:
+            {
+                preModel.server_id = model.server_id;
+            }
+                break;
             default:
                 break;
         }
@@ -1757,7 +1786,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     NSString * changeKey = model.game_ordersn;
     NSString * sqlString = nil;
     //更新  时间信息(有历史用历史的)  追加信息 价格 估值 估值详情
-    sqlString=[NSString stringWithFormat:@"update %@ set %@=? , %@=?, %@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
+    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? , %@=?, %@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
+               ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
@@ -1776,6 +1806,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                nil];
     
     NSArray *sqlarray=[NSArray arrayWithObjects:
+                       [NSNumber numberWithInteger:model.server_id],
                        model.sell_sold_time,
                        model.sell_back_time,
                        [NSNumber numberWithInteger:model.equip_price],
@@ -1804,7 +1835,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     BOOL success = NO;
     NSString * changeKey = model.game_ordersn;
     NSString * sqlString = nil;
-    sqlString=[NSString stringWithFormat:@"insert into %@ values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",ZADATABASE_TABLE_EQUIP_TOTAL];
+    sqlString=[NSString stringWithFormat:@"insert into %@ values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",ZADATABASE_TABLE_EQUIP_TOTAL];
     NSArray *sqlarray=[NSArray arrayWithObjects:
                        changeKey,
                        model.owner_roleid,
@@ -1830,6 +1861,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        [NSNumber numberWithInteger:model.equip_accept],
                        [NSNumber numberWithInteger:model.equip_eval_price],
                        model.equip_more_append,
+                       [NSNumber numberWithInteger:model.plan_rate],
+                       [NSNumber numberWithInteger:model.sell_space],
+                       [NSNumber numberWithInteger:model.fav_or_ingore],
                        nil];
     success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
     if(!success){
@@ -1851,6 +1885,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //*-begin-- 创建相关的表
          //******************************
          NSString *deleteSql = [NSString stringWithFormat:@"delete from %@ where %@ = '%@'",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,ordersn];
+         
+//         NSString * deleteSql = @"delete from ZADATABASE_TABLE_EQUIP_TOTAL where SERVER_ID = 0;";
+         
          BOOL isSuccessed = [fmdatabase executeUpdate:deleteSql];
          if (isSuccessed == NO) {
              //更新语句执行失败
@@ -2151,14 +2188,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //两者均存在
          if(server && school)
          {
-              [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ = %@ AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+              [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ = %@ AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
          }else if(!server)
          {
              [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
 
          }else
          {
-             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@  AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,server,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@  AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
          }
          
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
@@ -2173,14 +2210,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          sqlMutableString=[NSMutableString string];
          if(server && school)
          {
-             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ = %@ ORDER BY %@ limit 3;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ = %@ ORDER BY %@ limit 3;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
          }else if(!server)
          {
              [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ ORDER BY %@ limit 3;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
              
          }else
          {
-             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ ORDER BY %@ limit 3;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ ORDER BY %@ limit 3;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
          }
          
          resultSet=[fmdatabase executeQuery:sqlMutableString];
@@ -2240,7 +2277,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-          ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,
+          ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
@@ -2276,7 +2313,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
               school,
               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-              ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID,
+              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
               ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
               ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,
               ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,
@@ -2307,7 +2344,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     
     list.game_ordersn = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN];
     list.owner_roleid = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID];
-    list.server_id = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID];
+    list.server_id = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID];
+    if(list.server_id == 0){
+        list.server_id = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID];
+    }
     
     list.equip_status = 0;
     list.equip_school =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL];
@@ -2331,13 +2371,17 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.plan_jingyan_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN];
     list.plan_zhuangbei_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI];
     list.plan_des = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES];
-    
+    list.plan_rate = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE];
+
     list.sell_create_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
     list.sell_start_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_START];
     list.sell_sold_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD];
     list.sell_back_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK];
     list.sell_order_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_ORDER];
     list.sell_cancel_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_CANCEL];
+    list.sell_space = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE];
+
+    list.fav_or_ingore = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE];
     if(!list.equip_more_append || [list.equip_more_append length] == 0)
     {
         list.equip_more_append = @"";
