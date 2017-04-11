@@ -211,17 +211,9 @@
 }
 -(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
 {
-//    NSMutableArray * errorArr = [NSMutableArray array];
-//    for (NSInteger index = 0;index < [array count] ;index ++ )
-//    {
-//        CBGListModel * eveModel = [array objectAtIndex:index];
-//        if(!eveModel.detailRefresh)
-//        {
-//            [errorArr addObject:eveModel];
-//        }
-//    }
-//    
-//    self.retryArr = errorArr;
+
+    
+    
 }
 
 -(void)finishDetailListRequestWithErrorCBGListArray:(NSArray *)array

@@ -38,14 +38,18 @@
 #define ZADATABASE_TABLE_EQUIP_TOTAL @"ZADATABASE_TABLE_EQUIP_TOTAL" //主表
 #define ZADATABASE_TABLE_EQUIP_ORDER @"ZADATABASE_TABLE_EQUIP_ORDER"    //下单表
 #define ZADATABASE_TABLE_EQUIP_CHANGE @"ZADATABASE_TABLE_EQUIP_CHANGE"  //变动表
+#define ZADATABASE_TABLE_EQUIP_SERVER @"ZADATABASE_TABLE_EQUIP_SERVER"  //服务名称表
 
+#define ZADATABASE_TABLE_SERVER_KEY_TIME    @"SERVER_TIME"  //服务器时间
+#define ZADATABASE_TABLE_SERVER_KEY_NAME    @"SERVER_NAME"  //服务名称
+#define ZADATABASE_TABLE_SERVER_KEY_ID      @"SERVER_ID"     //服务器id
+#define ZADATABASE_TABLE_SERVER_KEY_TEST    @"SERVER_TEST"   //测试标识
 
 #define ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN_SELL_TIME     @"ORDER_SN_SELL_TIME"
 #define ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN_ORDER_TIME    @"ORDER_SN_ORDER_TIME"
 
 #define ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN     @"ORDER_SN"
 #define ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID      @"ROLE_ID"
-#define ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID     @"SERVE_ID"
 #define ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID     @"SERVER_ID"
 
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL     @"EQUIP_SCHOOL"
@@ -403,6 +407,29 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              }
              
          }
+         
+         //服务器名称列表 4个
+         if(![fmdatabase tableExists:ZADATABASE_TABLE_EQUIP_SERVER])
+         {
+             NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text,%@ int,%@ int);",ZADATABASE_TABLE_EQUIP_SERVER,
+                                  ZADATABASE_TABLE_SERVER_KEY_TIME,//change表用selltime
+                                  ZADATABASE_TABLE_SERVER_KEY_NAME,
+                                  ZADATABASE_TABLE_SERVER_KEY_ID,
+                                  ZADATABASE_TABLE_SERVER_KEY_TEST
+                                ];
+             [fmdatabase executeUpdate:createSql];
+             //建完文章表，顺便处理下文件不备份到icloud
+             NSString *databasePath=[fmdatabase databasePath];
+             NSFileManager *defaultFileManager=[NSFileManager defaultManager];
+             BOOL isExit=[defaultFileManager fileExistsAtPath:databasePath];
+             
+             if (!isExit)
+             {
+                 [defaultFileManager createFileAtPath:databasePath contents:nil attributes:nil];
+             }
+             
+         }
+
      }];
     });
 }
@@ -1578,6 +1605,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 
 -(void)localSaveEquipHistoryArrayListWithDetailCBGModelArray:(NSArray *)objArray
 {
+
     [databaseQueue inTransaction:^(FMDatabase *db, BOOL *rollback)
      {
          if (!db.open)
@@ -1588,7 +1616,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          BOOL result = YES;
          for (int i = 0; i < [objArray count]; i++)
          {
-             id dataObj = [objArray objectAtIndex:i];
+             id  dataObj = [objArray objectAtIndex:i];
              result = [self privateCheckAndUpdateEquipHistoryDetailCBGModel:dataObj withDataBase:db];
              if (!result)
              {
@@ -1598,8 +1626,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              }
          }
          
+         
+         
          [db close];
      }];
+    
+    
+    
 }
 //存储数据  主表
 -(void)localSaveEquipHistoryDetailCBGModel:(id)historyModel
@@ -1690,7 +1723,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 break;
             case CBGLocalDataBaseListUpdateStyle_RefreshPlan:
             {
-                if(preModel.plan_total_price != model.plan_total_price)
+                if(preModel.plan_total_price != model.plan_total_price || preModel.plan_rate != model.plan_rate)
                 {
                     //估价相关，
                     preModel.plan_total_price = model.plan_total_price;
@@ -1715,7 +1748,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 BOOL ingoreRefresh = YES;
                 
                 //估价变化
-                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des])
+                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des] ||  preModel.plan_rate != model.plan_rate)
                 {
                     ingoreRefresh = NO;
                     //估价相关，
@@ -2345,10 +2378,6 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.game_ordersn = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN];
     list.owner_roleid = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID];
     list.server_id = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID];
-    if(list.server_id == 0){
-        list.server_id = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SERVE_ID];
-    }
-    
     list.equip_status = 0;
     list.equip_school =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL];
     list.equip_level =      [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL];
@@ -2389,5 +2418,131 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     
     return list;
 }
+-(NSArray *)localServerNameAndIDTotalDictionaryArray
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         
+         [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_SERVER,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             NSString * name  = [resultSet stringForColumn:ZADATABASE_TABLE_SERVER_KEY_NAME];
+             NSNumber * idNum  = [NSNumber numberWithInt:[resultSet intForColumn:ZADATABASE_TABLE_SERVER_KEY_ID]];
+             NSNumber * tagNum = [NSNumber numberWithInt:[resultSet intForColumn:ZADATABASE_TABLE_SERVER_KEY_TEST]];
+             
+             NSDictionary * serverDic = @{ZADATABASE_TABLE_SERVER_KEY_NAME:name,
+                                          ZADATABASE_TABLE_SERVER_KEY_ID:idNum,
+                                          ZADATABASE_TABLE_SERVER_KEY_TEST:tagNum};
+             [totalArray addObject:serverDic];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+    
+}
+-(void)localSaveServerNameAndIDDictionaryArray:(NSArray *)objArray
+{
+    [databaseQueue inTransaction:^(FMDatabase *db, BOOL *rollback)
+     {
+         if (!db.open)
+         {
+             [db open];
+         }
+         //NSLog(@"%s %ld",__FUNCTION__,[objArray count]);
+         BOOL result = YES;
+         for (int i = 0; i < [objArray count]; i++)
+         {
+             NSDictionary *  dataObj = [objArray objectAtIndex:i];
+             NSString * name = [dataObj objectForKey:ZADATABASE_TABLE_SERVER_KEY_NAME];
+             NSNumber * idNum = [dataObj objectForKey:ZADATABASE_TABLE_SERVER_KEY_ID];
+             NSNumber * tag = [dataObj objectForKey:ZADATABASE_TABLE_SERVER_KEY_TEST];
+             
+             result = [self privateLocalSaveAndCheckWithServerName:name
+                                                       andServerID:[idNum integerValue]
+                                                           TestTag:[tag integerValue]
+                                                    withFmDataBase:db];
+             if (!result)
+             {
+                 NSLog(@"%s break",__FUNCTION__);
+                 *rollback = YES;
+                 break;
+             }
+         }
+         
+         [db close];
+     }];
+
+}
+-(BOOL)privateLocalSaveAndCheckWithServerName:(NSString *)name andServerID:(NSInteger)serverId TestTag:(NSInteger)tag withFmDataBase:(FMDatabase *)fmdatabase
+{
+    BOOL success = NO;
+    BOOL isAlreadyIn = NO;
+    NSString *sqlGetArticle=[NSString stringWithFormat:@"select * from %@ where %@ = '%ld';",ZADATABASE_TABLE_EQUIP_SERVER,ZADATABASE_TABLE_SERVER_KEY_ID,serverId];
+    FMResultSet *resultSet=[fmdatabase executeQuery:sqlGetArticle];
+    if(([resultSet next]))
+    {
+        isAlreadyIn = YES;
+    }
+
+    NSString * sqlString = nil;
+    if(!isAlreadyIn)
+    {
+        NSString * timeKey = [NSString stringWithFormat:@"%@%@",[NSDate unixDate],name];
+        sqlString=[NSString stringWithFormat:@"insert into %@ values(?,?,?,?);",ZADATABASE_TABLE_EQUIP_SERVER];
+
+        NSArray *sqlarray=[NSArray arrayWithObjects:
+                           timeKey,
+                           name,
+                           [NSNumber numberWithInteger:serverId],
+                           [NSNumber numberWithInteger:tag],
+                            nil];
+        success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
+    }else
+    {
+        NSString * timeKey = [NSString stringWithFormat:@"%@%@",[NSDate unixDate],name];
+        sqlString=[NSString stringWithFormat:@"update %@ set %@=? , %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_SERVER,ZADATABASE_TABLE_SERVER_KEY_NAME,ZADATABASE_TABLE_SERVER_KEY_TIME,ZADATABASE_TABLE_SERVER_KEY_TEST,ZADATABASE_TABLE_SERVER_KEY_ID,nil];
+        
+        NSArray *sqlarray=[NSArray arrayWithObjects:name,timeKey,[NSNumber numberWithInteger:tag],[NSNumber numberWithInteger:serverId],nil];
+        success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
+    }
+    
+    return success;
+}
+
+-(void)localSaveServerName:(NSString *)name withServerID:(NSInteger)serverId{
+    //库表存储，库表存储前先进行判定
+    __block BOOL success = NO;
+    __block BOOL firstSave = YES;
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase) {
+        if (!fmdatabase.open) {
+            [fmdatabase open];
+        }
+        
+        BOOL isAlreadyIn = NO;
+        
+        NSString *sqlGetArticle=[NSString stringWithFormat:@"select * from %@ where %@ = %ld;",ZADATABASE_TABLE_EQUIP_SERVER,ZADATABASE_TABLE_SERVER_KEY_ID,serverId];
+        FMResultSet *resultSet=[fmdatabase executeQuery:sqlGetArticle];
+        if([resultSet next])
+        {
+            isAlreadyIn = YES;
+        }
+        
+    }];
+    
+    
+}
+
+
+
 
 @end

@@ -213,6 +213,12 @@
         list.sell_order_time = [NSDate unixDate];
         list.sell_cancel_time = list.sell_order_time;
         
+        if(detail){
+            list.serverName = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
+        }else{
+            list.serverName = @"";
+        }
+        
 //        list.sell_order_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_ORDER];
 //        list.sell_cancel_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_CANCEL];
         

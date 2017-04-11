@@ -170,6 +170,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * serverArr = [manager localServerNameAndIDTotalDictionaryArray];
+    NSMutableArray * idNumArr = [NSMutableArray array];
+    for (NSDictionary * eveDic in serverArr )
+    {
+        [idNumArr addObject:[eveDic objectForKey:@"SERVER_ID"]];
+    }
+    
+    //有改变的dic
+    NSMutableDictionary * serverAddDic = [NSMutableDictionary dictionary];
     
     NSMutableArray * updateModels = [NSMutableArray array];
     NSMutableArray * errorModels = [NSMutableArray array];
@@ -190,12 +200,28 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }else{
             [errorModels addObject:obj];
         }
+        
+        if(detailEve)
+        {
+            NSNumber * idKeyNum = detailEve.serverid;
+            if(![idNumArr containsObject:idKeyNum] && ![serverAddDic objectForKey:idKeyNum])
+            {
+                NSString * serverName = [NSString stringWithFormat:@"%@-%@",detailEve.area_name,detailEve.server_name];
+                NSNumber * tagNum = [NSNumber numberWithInt:0];
+                
+                NSDictionary * serverDic = @{@"SERVER_NAME":serverName,
+                                             @"SERVER_ID":idKeyNum,
+                                             @"SERVER_TEST":tagNum};
+                [serverAddDic setObject:serverDic forKey:idKeyNum];
+            }
+        }
     }
     
     NSLog(@"历史列表刷新 %lu error%ld",(unsigned long)[updateModels count],[errorModels count]);
     
-    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     [manager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateModels];
+    [manager localSaveServerNameAndIDDictionaryArray:[serverAddDic allValues]];
+
     
     [self finishDetailListRequestWithFinishedCBGListArray:updateModels];
     [self finishDetailListRequestWithErrorCBGListArray:errorModels];

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
-            timestampString = "513570506.800757"
+            timestampString = "513577948.675534"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1868"
-            endingLineNumber = "1868"
+            startingLineNumber = "1901"
+            endingLineNumber = "1901"
             landmarkName = "-privateLocalSaveEquipHistoryWithInsertModel:withDataBase:"
             landmarkType = "7">
          </BreakpointContent>
@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
-            timestampString = "513570506.800757"
+            timestampString = "513577948.675534"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1763"
-            endingLineNumber = "1763"
+            startingLineNumber = "1796"
+            endingLineNumber = "1796"
             landmarkName = "-privateLocalSaveEquipHistoryDetailCBGModel:withDataBase:"
             landmarkType = "7">
          </BreakpointContent>
@@ -52,28 +52,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
-            timestampString = "513570506.800757"
+            timestampString = "513576323.128339"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1656"
-            endingLineNumber = "1656"
-            landmarkName = "-privateLocalSaveEquipHistoryDetailCBGModel:withDataBase:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
-            timestampString = "513568614.649634"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "-localCopySoldOutDataToPartDataBase"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/SortHistory/CBGSortHistoryBaseDetailVC.m"
+            timestampString = "513578328.07199"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "handleSignal()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
+            timestampString = "513578713.731073"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2499"
+            endingLineNumber = "2499"
+            landmarkName = "-privateLocalSaveAndCheckWithServerName:andServerID:TestTag:withFmDataBase:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
+            timestampString = "513578719.661502"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2509"
+            endingLineNumber = "2509"
+            landmarkName = "-privateLocalSaveAndCheckWithServerName:andServerID:TestTag:withFmDataBase:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
+            timestampString = "513578722.286494"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2518"
+            endingLineNumber = "2518"
+            landmarkName = "-privateLocalSaveAndCheckWithServerName:andServerID:TestTag:withFmDataBase:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

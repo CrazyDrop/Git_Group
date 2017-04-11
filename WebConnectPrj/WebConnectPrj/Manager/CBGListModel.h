@@ -91,6 +91,9 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) BOOL detailRefresh;
 
 @property (nonatomic, assign) NSInteger fav_or_ingore;
+@property (nonatomic, strong) NSString * serverName;
+
+
 -(void)refreshCBGListDataModelWithDetaiEquipModel:(id)model;
 -(CBGEquipRoleState)latestEquipListStatus;
 -(NSString * )equip_school_name;

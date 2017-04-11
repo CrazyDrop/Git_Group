@@ -82,5 +82,10 @@
 -(NSArray *)localSaveEquipHistoryModelListForServerId:(NSString *)server andSchool:(NSString *)school;
 -(NSArray *)localSaveEquipHistoryModelListForCompareCBGModel:(id)model;
 
+//服务器名称存储操作
+-(NSArray *)localServerNameAndIDTotalDictionaryArray;
+-(void)localSaveServerNameAndIDDictionaryArray:(NSArray *)array;
+-(void)localSaveServerName:(NSString *)name withServerID:(NSInteger)serverId;
+
 @end
 

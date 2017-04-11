@@ -77,7 +77,13 @@
         NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
         self.sell_space = timeNum;
     }
-
+    
+    if(aDetaiModel){
+        self.serverName = [NSString stringWithFormat:@"%@-%@",aDetaiModel.area_name,aDetaiModel.server_name];
+    }else{
+        self.serverName = @"";
+    }
+    
 }
 
 
