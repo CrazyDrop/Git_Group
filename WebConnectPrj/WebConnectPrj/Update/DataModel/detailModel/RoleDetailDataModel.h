@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) NSNumber *status;
 @property (nonatomic, strong) EquipModel *equip;
-
+@property (nonatomic, strong) NSString * msg;
 /**
  *  Init the model with dictionary
  *

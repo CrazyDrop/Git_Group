@@ -14,6 +14,7 @@
 
 #define  YouxibiRateForMoney  1500.0*100
 
+//增加潜能果、历史门派价格矫正
 //点一个师门技能 150-180  1.74亿钱   1000块钱
 -(NSString *)createExtraPrice
 {
@@ -41,6 +42,7 @@
     {
         totalMoney = -1;
     }
+    
     
     NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,totalMoney];
     self.detailPrePrice = detaiMoney;
@@ -535,17 +537,19 @@
 //    sum_exp总经验
     if([self.sum_exp integerValue] < 200)
     {
-        price = - 500.0;
+        price -= 500.0;
     }
     NSInteger qiannengguo = [self.iNutsNum integerValue];
     if(qiannengguo < 120)
     {
         price -= 500;
-    }else if(qiannengguo > 170){
+    }else if(qiannengguo > 190){
         price += 500;
-    }else if(qiannengguo > 150){
+    }else if(qiannengguo > 170){
         price += 300;
     }
+    
+    
     
     //所有后续门派 等级满级 + 200
     //门派加钱,DT  HS ST减500
@@ -561,7 +565,34 @@
     }
     price += levelNum;
     
+    
     NSInteger school = [self.iSchool intValue];
+    NSInteger schoolNum = [self countSchoolPriceForSchoolNum:school];
+    //判定历史门派
+    NSArray * history = self.changesch;
+    
+    NSInteger maxHistory = 0;
+    for (NSInteger index = 0; index < [history count]; index ++) {
+        ChangeschModel * eve = [history objectAtIndex:index];
+        NSInteger eveNum = [self countSchoolPriceForSchoolNum:[eve.intNum integerValue]];
+        if(maxHistory < eveNum){
+            maxHistory = eveNum;
+        }
+    }
+    if( [history count] > 0 && maxHistory > schoolNum){
+        schoolNum = MAX(maxHistory - 200, schoolNum);
+    }
+    
+    if(price < 0){
+        price = 0;
+    }
+    
+    price += schoolNum;
+
+    return price;
+}
+-(NSInteger)countSchoolPriceForSchoolNum:(NSInteger)school
+{
     NSInteger schoolNum = 0;
     switch (school) {
             //FC PS
@@ -593,17 +624,13 @@
             schoolNum = -500;
         }
             break;
-
+            
         default:
             break;
     }
-    price += schoolNum;
-    
-
-    
-    
-    return price;
+    return schoolNum;
 }
+
 -(CGFloat)price_jineng
 {
     //217熔炼  231淬灵   209追捕技巧  216巧匠之术   204打造技巧  205裁缝技巧  207炼金之术  212健身  206中药医理

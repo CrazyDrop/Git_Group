@@ -375,6 +375,9 @@
             cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
             [updateArr addObject:cbgList];
             
+            NSLog(@"extraEarnRate %.2f %ld",list.equipModel.extraEarnRate,cbgList.plan_rate);
+
+            
             NSDate * startDate = [NSDate fromString:list.equipModel.selling_time];
             NSTimeInterval count = [latestDate timeIntervalSinceDate:startDate];
             if(!latestDate || count < 0)

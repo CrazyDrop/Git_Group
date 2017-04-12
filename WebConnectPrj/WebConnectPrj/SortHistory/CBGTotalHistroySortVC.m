@@ -16,6 +16,33 @@
 
 @implementation CBGTotalHistroySortVC
 
+-(void)refreshLatestDatabaseListDataForQuickSold
+{
+    
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithSoldOut];
+    
+    NSMutableArray * showArr = [NSMutableArray array];
+    for (NSInteger index = 0; index < [sortArr count]; index ++)
+    {
+        CBGListModel * eveModel = [sortArr objectAtIndex:index];
+        NSInteger space = eveModel.sell_space;
+        
+        if(space > 0 && space < 10 * MINUTE){
+            [showArr addObject:eveModel];
+        }
+    }
+    
+    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[showArr count]];
+    [DZUtils noticeCustomerWithShowText:noticeStr];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.dataArr = showArr;
+        [self.listTable reloadData];
+    });;
+}
+
+
 -(void)refreshLatestDatabaseListDataForUnFinished
 {
     
@@ -84,14 +111,19 @@
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"抢购列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLatestDatabaseListDataForQuickSold];
+              }];
+    
+    [alertController addAction:action];
+    
     action = [MSAlertAction actionWithTitle:@"估价历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showTotalHistorySortListWithPlayStyle:YES];
               }];
     
     [alertController addAction:action];
-    
-    
     
     action = [MSAlertAction actionWithTitle:@"统计历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {

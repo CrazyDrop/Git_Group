@@ -50,6 +50,7 @@
         self.plan_jingyan_price = aDetaiModel.equipExtra.jingyanPrice;
         self.plan_zhuangbei_price = aDetaiModel.equipExtra.zhuangbeiPrice;
         self.plan_des = aDetaiModel.equipExtra.detailPrePrice;
+        self.plan_rate = (int)aDetaiModel.extraEarnRate;
         if(!self.plan_des)
         {
             self.plan_des = @"";
@@ -75,6 +76,9 @@
         NSDate * createDate = [NSDate fromString:self.sell_create_time];
         NSDate * soldDate = [NSDate fromString:self.sell_sold_time];
         NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
+        if(timeNum <= 0){
+            timeNum = 1;
+        }
         self.sell_space = timeNum;
     }
     

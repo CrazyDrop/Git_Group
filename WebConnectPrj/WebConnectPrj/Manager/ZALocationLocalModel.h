@@ -70,6 +70,7 @@
 //存储数据  主表，更新状态，更新估价，新增记录，均可以
 -(void)localSaveEquipHistoryArrayListWithDetailCBGModelArray:(NSArray *)array;
 -(void)deleteLocalSaveEquipHistoryObjectWithCBGModelOrderSN:(NSString *)ordersn;
+-(NSArray *)localSaveEquipHistoryModelListWithIngoreNumber:(NSInteger)number;
 -(NSArray *)localSaveEquipHistoryModelListTotal;
 -(NSArray *)localSaveEquipHistoryModelListEquipPriceError;
 -(NSArray *)localSaveEquipHistoryModelListTotalWithSoldOut;
@@ -81,6 +82,7 @@
 -(NSArray *)localSaveEquipHistoryModelListForRoleId:(NSString *)roleId;
 -(NSArray *)localSaveEquipHistoryModelListForServerId:(NSString *)server andSchool:(NSString *)school;
 -(NSArray *)localSaveEquipHistoryModelListForCompareCBGModel:(id)model;
+
 
 //服务器名称存储操作
 -(NSArray *)localServerNameAndIDTotalDictionaryArray;

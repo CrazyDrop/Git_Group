@@ -3523,7 +3523,7 @@
 				TargetAttributes = {
 					180D589619E622680045A720 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = X9YQDM8Q42;
+						DevelopmentTeam = 3SHBLHHSMD;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -4175,15 +4175,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = X9YQDM8Q42;
+				DEVELOPMENT_TEAM = 3SHBLHHSMD;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d45cd942-2dca-440f-9482-8c713096026f";
-				PROVISIONING_PROFILE_SPECIFIER = "it developer common";
+				PROVISIONING_PROFILE = "4ae56bf7-1bae-491d-ad74-72ad22549c66";
+				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
 			};
 			name = Debug;
 		};

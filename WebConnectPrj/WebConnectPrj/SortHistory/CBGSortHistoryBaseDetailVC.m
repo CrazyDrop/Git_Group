@@ -201,9 +201,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             [errorModels addObject:obj];
         }
         
-        if(detailEve)
+        if([detailEve isKindOfClass:[EquipModel class]])
         {
             NSNumber * idKeyNum = detailEve.serverid;
+            if(!idKeyNum)
+            {
+                continue;
+            }
             if(![idNumArr containsObject:idKeyNum] && ![serverAddDic objectForKey:idKeyNum])
             {
                 NSString * serverName = [NSString stringWithFormat:@"%@-%@",detailEve.area_name,detailEve.server_name];
@@ -220,8 +224,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSLog(@"历史列表刷新 %lu error%ld",(unsigned long)[updateModels count],[errorModels count]);
     
     [manager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateModels];
-    [manager localSaveServerNameAndIDDictionaryArray:[serverAddDic allValues]];
-
+    if([serverAddDic count] > 0 ){
+        NSArray * servers = [serverAddDic allValues];
+        [manager localSaveServerNameAndIDDictionaryArray:servers];
+    }
     
     [self finishDetailListRequestWithFinishedCBGListArray:updateModels];
     [self finishDetailListRequestWithErrorCBGListArray:errorModels];

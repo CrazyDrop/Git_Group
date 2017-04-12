@@ -392,7 +392,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 {
     //检查出orderid
     NSString * absStr = [webView request].URL.absoluteString;
-    if([absStr containsString:@"cross_server_buy_order_info"] && self.orderId)
+    if([absStr containsString:@"cross_server_buy_order_info"] && [self.orderId length] > 0)
     {//下单成功
         if(self.latestFunc == CBGDetailWebFunction_PayInScan || self.latestFunc == CBGDetailWebFunction_PayOrder)
         {

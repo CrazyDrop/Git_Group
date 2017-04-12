@@ -37,6 +37,7 @@ typedef enum : NSUInteger
     CBGLocalDataBaseListUpdateStyle_RefreshPlan,//刷新估价  详情
     CBGLocalDataBaseListUpdateStyle_RefreshEval, //增加系统估价
     CBGLocalDataBaseListUpdateStyle_TimeAndPlan, //刷新时间和估价
+    CBGLocalDataBaseListUpdateStyle_StatusRefresh,//状态刷新
     CBGLocalDataBaseListUpdateStyle_CopyRefresh, //写入刷新，强制刷新
 } CBGLocalDataBaseListUpdateStyle;
 
@@ -90,7 +91,7 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) CBGEquipPlanStyle style;
 @property (nonatomic, assign) BOOL detailRefresh;
 
-@property (nonatomic, assign) NSInteger fav_or_ingore;
+@property (nonatomic, assign) NSInteger fav_or_ingore;//0默认值  1关注  2屏蔽
 @property (nonatomic, strong) NSString * serverName;
 
 

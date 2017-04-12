@@ -198,6 +198,9 @@
             NSDate * createDate = [NSDate fromString:list.sell_create_time];
             NSDate * soldDate = [NSDate fromString:list.sell_sold_time];
             NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
+            if(timeNum <= 0){
+                timeNum = 1;
+            }
             list.sell_space = timeNum;
         }
         //结束时间的获取

@@ -929,7 +929,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 -(NSArray *)localSaveEquipArrayForSoldOut_database
 {
     NSMutableArray *totalArray=[NSMutableArray array];
-    [databaseQueue inDatabase:^(FMDatabase *fmdatabase){
+    [databaseQueue_read inDatabase:^(FMDatabase *fmdatabase){
         if (!fmdatabase.open) {
             [fmdatabase open];
         }
@@ -1748,7 +1748,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 BOOL ingoreRefresh = YES;
                 
                 //估价变化
-                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des] ||  preModel.plan_rate != model.plan_rate)
+                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des] ||  preModel.plan_rate != model.plan_rate )
                 {
                     ingoreRefresh = NO;
                     //估价相关，
@@ -1762,9 +1762,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
                     preModel.plan_des = model.plan_des;
                     preModel.plan_rate = model.plan_rate;
+                }
+                
+                if(preModel.sell_space != model.sell_space)
+                {
+                    ingoreRefresh = NO;
                     preModel.sell_space = model.sell_space;
-
-                    
                 }
                 
                 //附带变化时间  或有历史值
@@ -1797,6 +1800,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 preModel.server_id = model.server_id;
             }
                 break;
+            case CBGLocalDataBaseListUpdateStyle_StatusRefresh:
+            {
+                preModel.fav_or_ingore = model.fav_or_ingore;
+            }
+                break;
+
             default:
                 break;
         }
@@ -1819,11 +1828,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     NSString * changeKey = model.game_ordersn;
     NSString * sqlString = nil;
     //更新  时间信息(有历史用历史的)  追加信息 价格 估值 估值详情
-    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? , %@=?, %@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
+    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? , %@=?,%@=?, %@=? , %@=?,%@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
                ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
@@ -1835,6 +1845,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL,
+               ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE,
+               ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
                ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,
                nil];
     
@@ -1843,6 +1855,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        model.sell_sold_time,
                        model.sell_back_time,
                        [NSNumber numberWithInteger:model.equip_price],
+                       [NSNumber numberWithInteger:model.plan_rate],
                        model.plan_des,
                        [NSNumber numberWithInteger:model.plan_total_price],
                        [NSNumber numberWithInteger:model.plan_xiulian_price],
@@ -1854,6 +1867,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        [NSNumber numberWithInteger:model.plan_zhuangbei_price],
                        [NSNumber numberWithInteger:model.equip_eval_price],
                        model.equip_more_append,
+                       [NSNumber numberWithInteger:model.sell_space],
+                       [NSNumber numberWithInteger:model.fav_or_ingore],
                        changeKey,
                        nil];
     success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
@@ -1931,7 +1946,34 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
 
 }
-
+-(NSArray *)localSaveEquipHistoryModelListWithIngoreNumber:(NSInteger)number
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         
+         [sqlMutableString appendFormat:@"select * from %@ where %@ =%ld ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,number,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             location.equip_status = 4;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+}
 -(NSArray *)localSaveEquipHistoryModelListTotal
 {
     NSMutableArray *totalArray=[NSMutableArray array];
