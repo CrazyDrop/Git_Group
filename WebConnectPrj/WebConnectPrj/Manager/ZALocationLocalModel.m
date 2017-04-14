@@ -1801,7 +1801,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
             }
                 break;
             case CBGLocalDataBaseListUpdateStyle_StatusRefresh:
-            {
+            {//只有这一种模式可以修改
                 preModel.fav_or_ingore = model.fav_or_ingore;
             }
                 break;
@@ -2344,19 +2344,18 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 //         NSInteger rolePrice = model.plan_jineng_price + model.plan_jingyan_price + model.plan_xiulian_price + model.plan_xiulian_price + model.plan_chongxiu_price;
          
          //判定是否存在，估价更好，价格更低的账号
-         //估价大于比较model  同门派  已售出  最低价  账号价格不能太低，起售价格价格，账号价格要
+         //估价大于比较model  同门派  已售出  最低价  plan_rate  0-100
          
          
-         [sqlMutableString appendFormat:@"select * from %@ where %@ != '' AND %@ = %ld  AND %@ != 0 AND %@ != 45 AND %@ > %@ AND %@ / 100 * 10 > %@ AND %@ + %@ + %@ + %@ + %@ >= %ld ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ != '' AND %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
+          ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
           ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE,
-          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE,
+          ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
+          ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,

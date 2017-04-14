@@ -9,38 +9,70 @@
 #import "CBGCombinedHistoryHandleVC.h"
 #import "CBGStatisticsDetailHistoryVC.h"
 #import "CBGPlanSortHistoryVC.h"
+#import "CBGDepthStudyVC.h"
 #import "ZALocationLocalModel.h"
 @interface CBGCombinedHistoryHandleVC ()<CBGHistoryExchangeDelegate>
 @property (nonatomic, strong) CBGStatisticsDetailHistoryVC * staticHistory;
 @property (nonatomic, strong) CBGPlanSortHistoryVC * planHistory;
+@property (nonatomic, strong) CBGDepthStudyVC * deepStudy;
 @end
 
 @implementation CBGCombinedHistoryHandleVC
 
--(void)setSelectedDate:(NSString *)selectedDate
+-(void)refreshCombinedHistoryListWithShowStyle:(CBGCombinedHandleVCStyle)style
 {
-    _selectedDate = selectedDate;
+    style = self.showStyle;
     
-    //后续刷新使用
-//    [self refreshCombinedHistoryList];
-}
--(void)refreshCombinedHistoryListWithTips:(BOOL)showTip
-{
-    [self refreshCombineHistoryWithPlanShow:self.showPlan];
+    //隐藏其他全部
+    _planHistory.view.hidden = YES;
+    _staticHistory.view.hidden = YES;
+    _deepStudy.view.hidden = YES;
     
+    //选出当前对应vc，不存在则创建
     NSString * dateStr = self.selectedDate;
     NSArray * dbArray = [self localDBHistoryArrayFromSelectedDate:dateStr];
     
-    self.staticHistory.selectedDate = dateStr;
-    self.staticHistory.dbHistoryArr = dbArray;
-    
-    self.planHistory.selectedDate = dateStr;
-    self.planHistory.dbHistoryArr = dbArray;
-    
-    if(self.showPlan){
-        [self.planHistory refreshLatestShowedDBArrayWithNotice:showTip];
-    }else{
-        [self.staticHistory refreshLatestShowedDBArrayWithNotice:showTip];
+    switch (style) {
+        case CBGCombinedHandleVCStyle_Plan:
+        {
+            CBGPlanSortHistoryVC * plan = self.planHistory;
+            plan.dbHistoryArr = dbArray;
+            plan.selectedDate = dateStr;
+            [plan refreshLatestShowedDBArrayWithNotice:NO];
+            plan.view.hidden = NO;
+        }
+            break;
+        case CBGCombinedHandleVCStyle_Statist:
+        {
+            CBGStatisticsDetailHistoryVC * plan = self.staticHistory;
+            plan.dbHistoryArr = dbArray;
+            plan.selectedDate = dateStr;
+            [plan refreshLatestShowedDBArrayWithNotice:NO];
+            plan.view.hidden = NO;
+        }
+            break;
+        case CBGCombinedHandleVCStyle_Study:
+        {
+            //进行数组筛选，筛选起始时间对应的数据
+            NSMutableArray * startArr = [NSMutableArray array];
+            for (NSInteger index = 0; index < [dbArray count]; index ++) {
+                CBGListModel * eve = [dbArray objectAtIndex:index];
+                if([eve.sell_create_time hasPrefix:dateStr])
+                {
+                    [startArr addObject:eve];
+                }
+            }
+            
+            CBGDepthStudyVC * plan = self.deepStudy;
+            plan.dbHistoryArr = startArr;
+            plan.selectedDate = dateStr;
+            [plan refreshLatestShowedDBArrayWithNotice:NO];
+            plan.view.hidden = NO;
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 
@@ -49,32 +81,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIView * bgView = self.view;
-    [bgView addSubview:self.staticHistory.view];
-    [bgView addSubview:self.planHistory.view];
-    
-    [self refreshCombineHistoryWithPlanShow:self.showPlan];
-    
-}
--(void)refreshCombineHistoryWithPlanShow:(BOOL)show
-{
-    self.staticHistory.view.hidden = show;
-    self.planHistory.view.hidden = !show;
+//    UIView * bgView = self.view;
+//    [self refreshCombinedHistoryListWithShowStyle:self.showStyle];
     
 }
 
--(void)historyHandelExchangeHistoryShowWithPlanShow:(BOOL)show
+
+-(void)historyHandelExchangeHistoryShowWithPlanShow:(CBGCombinedHandleVCStyle)style
 {
-    [self refreshCombineHistoryWithPlanShow:show];
-    
-    if(show){
-        [self.planHistory refreshLatestShowedDBArrayWithNotice:YES];
-    }else{
-        [self.staticHistory refreshLatestShowedDBArrayWithNotice:YES];
-    }
+    self.showStyle = style;
+    [self refreshCombinedHistoryListWithShowStyle:style];
 }
 -(NSArray *)localDBHistoryArrayFromSelectedDate:(NSString *)dateStr
 {
+    if(self.dbHistoryArr)
+    {
+        return self.dbHistoryArr;
+    }
+    
     if(!dateStr) return nil;
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     NSArray * sortArr = [manager localSaveEquipHistoryModelListForTime:dateStr];
@@ -90,6 +114,7 @@
         his.selectedDate = self.selectedDate;
         his.exchangeDelegate = self;
         [self addChildViewController:his];
+        [self.view addSubview:his.view];
         _staticHistory = his;
     }
     return _staticHistory;
@@ -103,9 +128,24 @@
         his.exchangeDelegate = self;
         his.selectedDate = self.selectedDate;
         [self addChildViewController:his];
+        [self.view addSubview:his.view];
         _planHistory = his;
     }
     return _planHistory;
+}
+
+-(CBGDepthStudyVC *)deepStudy
+{
+    if(!_deepStudy){
+        CBGDepthStudyVC * his = [[CBGDepthStudyVC alloc] init];
+        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
+        his.exchangeDelegate = self;
+        his.selectedDate = self.selectedDate;
+        [self addChildViewController:his];
+        [self.view addSubview:his.view];
+        _deepStudy = his;
+    }
+    return _deepStudy;
 }
 
 

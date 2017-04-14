@@ -34,6 +34,7 @@
     if(aDetaiModel.appointed_roleid && [aDetaiModel.appointed_roleid length] > 0)
     {
         self.appointed = YES;
+        self.fav_or_ingore = 2;
     }
     
     self.equip_status = [aDetaiModel.status intValue];
@@ -73,7 +74,7 @@
     
     if([self.sell_sold_time length] > 0)
     {
-        NSDate * createDate = [NSDate fromString:self.sell_create_time];
+        NSDate * createDate = [NSDate fromString:aDetaiModel.selling_time];
         NSDate * soldDate = [NSDate fromString:self.sell_sold_time];
         NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
         if(timeNum <= 0){
@@ -270,6 +271,7 @@
         {
             aStyle = CBGEquipPlanStyle_Ingore;
         }else{
+            
             CGFloat earnRate = self.price_rate_latest_plan;
             if(earnRate > 8)
             {

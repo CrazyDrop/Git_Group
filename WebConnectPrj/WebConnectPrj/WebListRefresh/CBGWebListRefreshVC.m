@@ -19,6 +19,7 @@
 #import "CBGListModel.h"
 #import "CBGWebListErrorCheckVC.h"
 #import "CBGDetailWebView.h"
+#import "ZWDetailCheckManager.h"
 @interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource>{
     BaseRequestModel * _detailModel;
 }
@@ -72,6 +73,8 @@
 -(void)refreshWebRequestWithWebRequestNeedRefreshError:(NSNotification *)noti
 {
     self.webError = [noti.object boolValue];
+    ZWDetailCheckManager * detail = [ZWDetailCheckManager sharedInstance];
+    detail.ingoreDB = !self.webError;
 }
 
 -(void)checkLatestVCAndStartTimer
@@ -129,6 +132,7 @@
         [self.listTable reloadData];
     }
 }
+
 -(UIView *)tipsView{
     if(!_tipsView)
     {
@@ -216,8 +220,7 @@
                   }
               }];
     [alertController addAction:action];
-    
-    
+
     
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {

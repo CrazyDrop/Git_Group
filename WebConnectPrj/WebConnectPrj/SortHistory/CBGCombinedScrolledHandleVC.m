@@ -37,8 +37,9 @@
     NSArray * arr = [self createControllsVCAndLoadView];
     self.controllerArr = arr;
     
-    [self refreshLatestScrolledHandledCombineVC];
+    //首次创建时，列表无刷新
     [self refreshControllersShowedIndexAndScrollCenter];
+    [self refreshLatestScrolledHandledCombineVC];
 
 }
 -(void)refreshLatestScrolledHandledCombineVC
@@ -49,7 +50,7 @@
     for (NSInteger index = 0;index < [vcArr count] ;index ++ )
     {
         CBGCombinedHistoryHandleVC * handle = [vcArr objectAtIndex:index];
-        handle.showPlan = self.showPlan;
+        handle.showStyle = self.showStyle;
         NSString * showDate = self.selectedDate;
         if(index == 0){
             showDate = [self refreshLatestHandleSelectedDateWithNext:NO];
@@ -59,7 +60,7 @@
         NSArray * dbArray = [manager localSaveEquipHistoryModelListForTime:showDate];
         handle.dbHistoryArr = dbArray;
         handle.selectedDate = showDate;
-        [handle refreshCombinedHistoryListWithTips:NO];
+        [handle refreshCombinedHistoryListWithShowStyle:self.showStyle];
     }
 
 }
@@ -173,12 +174,12 @@
         NSArray * dbArray = [manager localSaveEquipHistoryModelListForTime:showDate];
         disHandle.dbHistoryArr = dbArray;
         disHandle.selectedDate = showDate;
-        disHandle.showPlan = self.showPlan;
-        [disHandle refreshCombinedHistoryListWithTips:NO];
+        disHandle.showStyle = self.showStyle;
+        [disHandle refreshCombinedHistoryListWithShowStyle:self.showStyle];
 
         //调整视图位置
         [self refreshControllersShowedIndexAndScrollCenter];
-        [nextCenter refreshCombinedHistoryListWithTips:YES];
+        [nextCenter refreshCombinedHistoryListWithShowStyle:self.showStyle];
     }
 }
 

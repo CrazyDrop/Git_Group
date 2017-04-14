@@ -22,6 +22,8 @@
 
 //屏蔽状态变更的网络请求//屏蔽强制刷新  屏蔽数据展示，库表操作继续
 @property (nonatomic,assign) BOOL ingoreUpdate;
+@property (nonatomic,assign) BOOL ingoreDB;
+
 
 //返回需要详情刷新的列表
 -(NSArray *)checkLatestBackListDataModelsWithBackModelArray:(NSArray *)array;

@@ -19,13 +19,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SortHistory/CBGSortHistoryBaseDetailVC.m"
-            timestampString = "513662471.091539"
+            filePath = "WebConnectPrj/SortHistory/CBGCombinedHistoryHandleVC.m"
+            timestampString = "513836189.15104"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
-            landmarkName = "-finishDetailListRequestWithErrorCBGListArray:"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-refreshCombinedHistoryListWithShowStyle:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/SortHistory/CBGCombinedHistoryHandleVC.m"
+            timestampString = "513836212.154287"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "-refreshCombinedHistoryListWithShowStyle:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -9,6 +9,8 @@
 #ifdef __OBJC__
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "AAGlobalMacro.h"
+
 #import "BaseDataModel.h"
 
 #import "DZUtils.h"

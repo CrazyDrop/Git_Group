@@ -9,6 +9,7 @@
 #import "CBGStatisticsDetailHistoryVC.h"
 #import "RefreshListCell.h"
 #import "ZACBGDetailWebVC.h"
+#import "CBGDepthStudyVC.h"
 #define  CBGStatisticsHistoryAddTAG  100
 
 @interface CBGStatisticsDetailHistoryVC ()
@@ -68,8 +69,21 @@
 }
 -(void)startShowedLatestHistoryDBList
 {
+    if(!self.dbHistoryArr) return;
+    
     NSArray * sortArr = [self selectDBHistoryListWithDataSelectedStyleStarted:YES];
-    sortArr = [self sortSelectedHistoryListWithFinishStyle:YES andArray:sortArr];
+    
+    //启动时的数据，屏蔽寄售取回的情况
+    NSMutableArray * soldArr = [NSMutableArray array];
+    for (NSInteger index = 0; index < [sortArr count]; index ++) {
+        CBGListModel * eveModel = [sortArr objectAtIndex:index];
+        if([eveModel.sell_sold_time length] > 0)
+        {
+            [soldArr addObject:eveModel];
+        }
+    }
+    
+    sortArr = [self sortSelectedHistoryListWithFinishStyle:YES andArray:soldArr];
     [self showLatestDBHistoryListArrayWithLatestSortStyleAndArray:sortArr];
 }
 
@@ -260,7 +274,25 @@
     
     [self showLatestDBHistoryListArrayWithLatestSortStyleAndArray:sortArr];
 }
+-(void)showDetailChartViewForLatestShowData
+{
+    NSArray * dbArray = [self latestTotalShowedHistoryList];
+    
+    NSString * todayDate = self.selectedDate;
+    NSMutableArray * startArr = [NSMutableArray array];
+    for (NSInteger index = 0; index < [dbArray count]; index ++) {
+        CBGListModel * eve = [dbArray objectAtIndex:index];
+        if([eve.sell_create_time hasPrefix:todayDate])
+        {
+            [startArr addObject:eve];
+        }
+    }
 
+    CBGDepthStudyVC * study = [[CBGDepthStudyVC alloc] init];
+    study.selectedDate = self.selectedDate;
+    study.dbHistoryArr = startArr;
+    [[self rootNavigationController] pushViewController:study animated:YES];
+}
 
 -(void)showDetailChooseForHistory
 {//纵横两个维度看
@@ -279,11 +311,21 @@
         action =[MSAlertAction actionWithTitle:@"切换估价历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                  {
                      if(weakSelf.exchangeDelegate && [weakSelf.exchangeDelegate respondsToSelector:@selector(historyHandelExchangeHistoryShowWithPlanShow:)]){
-                         [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:YES];
+                         [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:CBGCombinedHandleVCStyle_Plan];
                      }
                  }];
         [alertController addAction:action];
+        
+        action = [MSAlertAction actionWithTitle:@"图表统计" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+                  {
+                      if(weakSelf.exchangeDelegate && [weakSelf.exchangeDelegate respondsToSelector:@selector(historyHandelExchangeHistoryShowWithPlanShow:)]){
+                          [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:CBGCombinedHandleVCStyle_Study];
+                      }
+                  }];
+        [alertController addAction:action];
     }
+    
+
     
     action = [MSAlertAction actionWithTitle:@"时差排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
@@ -361,6 +403,9 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
+    NSArray * arr = self.tagArr;
+    NSInteger secIndex = [arr indexOfObject:title];
+    return secIndex;
     return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
 }
 
@@ -414,13 +459,19 @@
     
     //用来标识是否最新一波数据
     
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * serNameDic = total.serverNameDic;
+    
+    
     NSString * centerDetailTxt = contact.plan_des;
     UIColor * numcolor = [UIColor lightGrayColor];
     UIColor * color = [UIColor lightGrayColor];
     NSString * leftRateTxt = nil;
     //[NSString stringWithFormat:@"%@-%@",contact.area_name,contact.server_name];
-    NSString * equipName = [NSString stringWithFormat:@"%ld%@ %ld",contact.server_id,contact.equip_school_name,contact.equip_level];
+    NSString * equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
     NSString * leftPriceTxt = [NSString stringWithFormat:@"%.2f",contact.equip_price/100.0];
+    NSNumber * serId = [NSNumber numberWithInteger:contact.server_id];
+    NSString * serverName = [serNameDic objectForKey:serId];
     
     if(!contact)
     {
@@ -486,14 +537,28 @@
                 count = 0;
             }
             
+            BOOL showSpace = NO;
+            NSInteger space = contact.sell_space;
+            if(space > 0 && space < 10*MINUTE)
+            {
+                showSpace = YES;
+                earnColor = [UIColor blueColor];
+            }
+
             //时差秒数
             NSTimeInterval minuteNum = count/60;
             int minute = ((int)minuteNum)%60;
             NSTimeInterval hour = minuteNum/60;
             if(hour > 1){
                 rightStatusTxt =  [NSString stringWithFormat:@"隔%02d:%02d",(int)hour,minute];
+                if(showSpace){
+                    rightStatusTxt =  [NSString stringWithFormat:@"%02d:%02d(%ld)",(int)hour,minute,space/60];
+                }
             }else{
                 rightStatusTxt =  [NSString stringWithFormat:@"隔%02d分",minute];
+                if(showSpace){
+                    rightStatusTxt =  [NSString stringWithFormat:@"%02d分(%ld)",minute,space/60];
+                }
             }
             
         }else{
@@ -504,14 +569,17 @@
         
         //计算时间差
         
-        
-        
         {
             centerDetailTxt = [NSString stringWithFormat:@"%ld%@",contact.plan_total_price,contact.plan_des];
         }
         
         
-        leftRateTxt = contact.equip_name;
+        if(serverName){
+            leftRateTxt = serverName;
+        }else{
+            leftRateTxt = [NSString stringWithFormat:@"%@:%ld",contact.equip_name,contact.server_id];
+        }
+        
         NSInteger priceChange = contact.equip_start_price - contact.equip_price/100;
         if(priceChange != 0)
         {
@@ -531,17 +599,6 @@
         }
         //leftPriceTxt = [NSString stringWithFormat:@"%@",leftPriceTxt];
     }
-    
-    /**
-     NSTimeInterval interval = [self timeIntervalWithCreateTime:detail.create_time andSellTime:detail.selling_time];
-     if(interval < 60 * 60 * 24 )
-     {
-     earnColor = [UIColor orangeColor];
-     }
-     if(interval < 60){
-     earnColor = [UIColor redColor];
-     }
-     **/
     
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;

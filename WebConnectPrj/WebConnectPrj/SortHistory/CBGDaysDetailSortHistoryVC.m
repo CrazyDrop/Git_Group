@@ -75,7 +75,7 @@
     
     CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];
     combine.selectedDate = todayDate;
-    combine.showPlan = plan;
+    combine.showStyle = plan?CBGCombinedHandleVCStyle_Plan:CBGCombinedHandleVCStyle_Statist;
     
     [[self rootNavigationController] pushViewController:combine animated:YES];
 }
@@ -91,11 +91,29 @@
     
     CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];
     combine.selectedDate = todayDate;
-    combine.showPlan = plan;
+    combine.showStyle = plan?CBGCombinedHandleVCStyle_Plan:CBGCombinedHandleVCStyle_Statist;
     
     [[self rootNavigationController] pushViewController:combine animated:YES];
 
 }
+-(void)showWithDeepStudyStyleWithDateLength:(NSInteger)length
+{
+    NSDate * date = self.pickView.date;
+    
+    NSString * todayDate = [[NSDate format] stringFromDate:date];
+    todayDate = [todayDate substringToIndex:length];
+    
+    //    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    //    NSArray * dbArray = [manager localSaveEquipHistoryModelListForTime:todayDate];
+    
+    CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];
+    combine.selectedDate = todayDate;
+    combine.showStyle = CBGCombinedHandleVCStyle_Study;
+    
+    [[self rootNavigationController] pushViewController:combine animated:YES];
+    
+}
+
 -(void)showDetailChooseForHistory
 {//纵横两个维度看
     //    1、通过进入数据，控制数据的相关程度
@@ -106,36 +124,20 @@
     
     __weak typeof(self) weakSelf = self;
     
-    MSAlertAction *action = [MSAlertAction actionWithTitle:@"估价历史-每天" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    MSAlertAction *action = [MSAlertAction actionWithTitle:@"估价历史(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                              {
                                  [weakSelf showDetailSortHistoryWithDataInDays:YES inPlanStyle:YES];
                              }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"分析历史-每天" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf showDetailSortHistoryWithDataInDays:YES inPlanStyle:NO];
-
-              }];
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"估价历史-月度" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"估价历史(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showDetailSortHistoryWithDataInDays:NO inPlanStyle:YES];
-
+                  
               }];
-    
     [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"分析历史-月度" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf showDetailSortHistoryWithDataInDays:NO inPlanStyle:NO];
 
-              }];
-    
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"估价历史-年度" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"估价历史(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showYearSortHistoryWithPlanStyle:YES];
                   
@@ -143,9 +145,47 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"分析历史-年度" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"分析历史(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showDetailSortHistoryWithDataInDays:YES inPlanStyle:NO];
+
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"分析历史(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showDetailSortHistoryWithDataInDays:NO inPlanStyle:NO];
+
+              }];
+    
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"分析历史(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showYearSortHistoryWithPlanStyle:NO];
+                  
+              }];
+    
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"图表统计(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showWithDeepStudyStyleWithDateLength:[@"2017-03-29" length]];
+                  
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"图表统计(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showWithDeepStudyStyleWithDateLength:[@"2017-03" length]];
+                  
+              }];
+    
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"图表统计(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showWithDeepStudyStyleWithDateLength:[@"2017" length]];
                   
               }];
     

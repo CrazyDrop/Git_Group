@@ -31,7 +31,7 @@
 #import "CBGCombinedHistoryHandleVC.h"
 #import "CBGDetailWebView.h"
 #import "CBGMaxHistoryListRefreshVC.h"
-
+#import "CBGDepthStudyVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -66,22 +66,22 @@
                         @"read数据导入",
                         
                         @"mobile刷新",
+                        @"mobile最新",
+
                         @"Web刷新",
+                        @"混合刷新",
                         
                         @"全部历史",
                         @"更新历史",
                         
-                        @"页面验证码",
-                        @"混合刷新",
-                        
+                        @"细分历史",//通过时间选择
+                        @"当日历史",//今天的历史
+
                         @"链接估价",
                         @"URL设置",
-                        
-                        @"当日历史",//今天的历史
-                        @"细分历史",//通过时间选择
-                        
-                        @"mobile最新",
-                        @"发送消息",
+
+                        @"页面验证码",
+                        @"本月走势",
                         nil];
     
     UIView * bgView = self.view;
@@ -143,6 +143,8 @@
 -(void)debugDetailTestWithIndexNum:(NSInteger)indexNum andTitle:(NSString *)title
 {
     NSLog(@"%s %@",__FUNCTION__,title);
+    [self refreshLastestServerNameDictionary];
+    
     switch (indexNum) {
         case 0:
         {
@@ -176,18 +178,34 @@
             break;
         case 3:
         {
+            ZWRefreshListController * list = [[ZWRefreshListController alloc] init];
+            list.onlyList = YES;
+            [self.navigationController pushViewController:list animated:YES];
+        }
+            break;
+        case 4:
+        {
             
             CBGWebListRefreshVC * list = [[CBGWebListRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
-        case 4:
+        case 5:
+        {
+            
+            CBGMixedListCheckVC * copy = [[CBGMixedListCheckVC alloc] init];
+            [[self rootNavigationController] pushViewController:copy animated:YES];
+            
+        }
+            break;
+            
+        case 6:
         {
             CBGTotalHistroySortVC * history = [[CBGTotalHistroySortVC alloc] init];
             [[self rootNavigationController] pushViewController:history animated:YES];
         }
             break;
-        case 5:{
+        case 7:{
             ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
             NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
             
@@ -197,42 +215,13 @@
             
         }
             break;
-        case 6:{
-            CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
-            [[self rootNavigationController] pushViewController:list animated:YES];
-
-        }
-            break;
-        case 7:
-        {
-            
-            CBGMixedListCheckVC * copy = [[CBGMixedListCheckVC alloc] init];
-            [[self rootNavigationController] pushViewController:copy animated:YES];
-            
-//            @"页面验证码",
-//            @"混合刷新",
-//            
-//            @"链接估价",
-//            @"URL设置",
-        }
-            break;
         case 8:
         {
-            CBGCopyUrlDetailCehckVC * copy = [[CBGCopyUrlDetailCehckVC alloc] init];
-            [[self rootNavigationController] pushViewController:copy animated:YES];
-            
-            
+            CBGDaysDetailSortHistoryVC * plan = [[CBGDaysDetailSortHistoryVC alloc] init];
+            [[self rootNavigationController] pushViewController:plan animated:YES];
         }
             break;
         case 9:
-        {
-            CBGSettingURLEditVC * copy = [[CBGSettingURLEditVC alloc] init];
-            [[self rootNavigationController] pushViewController:copy animated:YES];
-            
-        
-        }
-            break;
-        case 10:
         {
             NSString * todayDate = [NSDate unixDate];
             
@@ -247,32 +236,85 @@
             CBGCombinedHistoryHandleVC * combine = [[CBGCombinedHistoryHandleVC alloc] init];
             combine.selectedDate = todayDate;
             combine.dbHistoryArr = dbArray;
-            combine.showPlan = YES;
+            combine.showStyle = CBGCombinedHandleVCStyle_Plan;
             
             [[self rootNavigationController] pushViewController:combine animated:YES];
         }
             break;
-        case 11:
+
+        case 10:
         {
-            CBGDaysDetailSortHistoryVC * plan = [[CBGDaysDetailSortHistoryVC alloc] init];
-            [[self rootNavigationController] pushViewController:plan animated:YES];
+            CBGCopyUrlDetailCehckVC * copy = [[CBGCopyUrlDetailCehckVC alloc] init];
+            [[self rootNavigationController] pushViewController:copy animated:YES];
+            
+            
         }
             break;
-        case 12:
+        case 11:
         {
-            ZWRefreshListController * list = [[ZWRefreshListController alloc] init];
-            list.onlyList = YES;
-            [self.navigationController pushViewController:list animated:YES];
+            CBGSettingURLEditVC * copy = [[CBGSettingURLEditVC alloc] init];
+            [[self rootNavigationController] pushViewController:copy animated:YES];
+            
+        
+        }
+            break;
+        case 12:{
+            CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+            
         }
             break;
         case 13:{
-            [DZUtils localSoundTimeNotificationWithAfterSecond];
+            NSString * todayDate = [NSDate unixDate];
+            
+            if(todayDate)
+            {
+                todayDate = [todayDate substringToIndex:[@"2017-03" length]];
+            }
+            
+            //针对数据进行筛选
+            ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+            NSArray * dbArray = [manager localSaveEquipHistoryModelListForTime:todayDate];
+            NSMutableArray * startArr = [NSMutableArray array];
+            for (NSInteger index = 0; index < [dbArray count]; index ++) {
+                CBGListModel * eve = [dbArray objectAtIndex:index];
+                if([eve.sell_create_time hasPrefix:todayDate])
+                {
+                    [startArr addObject:eve];
+                }
+            }
+            
+            CBGCombinedHistoryHandleVC * combine = [[CBGCombinedHistoryHandleVC alloc] init];
+            combine.selectedDate = todayDate;
+            combine.dbHistoryArr = startArr;
+            combine.showStyle = CBGCombinedHandleVCStyle_Study;
+            
+            [[self rootNavigationController] pushViewController:combine animated:YES];
+            
         }
             break;
-            
 
     }
 }
+-(void)refreshLastestServerNameDictionary
+{
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * dbArray = [manager localServerNameAndIDTotalDictionaryArray];
+    
+    NSMutableDictionary  * nameDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0;index < [dbArray count] ;index ++ ) {
+        NSDictionary * eveDic = [dbArray objectAtIndex:index];
+        NSNumber * keyNum = [eveDic objectForKey:@"SERVER_ID"];
+        NSString * name = [eveDic objectForKey:@"SERVER_NAME"];
+        
+        [nameDic setObject:name forKey:keyNum];
+    }
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    total.serverNameDic = nameDic;
+    [total localSave];
+}
+
 +(void)showLogStart:(int)number
 {
     for (int i=0;i<10000 ;i++ )

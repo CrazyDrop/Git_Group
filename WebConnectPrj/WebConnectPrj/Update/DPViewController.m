@@ -33,10 +33,6 @@
     }
     return self;
 }
--(BOOL)prefersStatusBarHidden
-{
-    return NO;
-}
 
 - (void)showLoading
 {
@@ -101,15 +97,15 @@
     [super dealloc];
 #endif
 }
-//
-//- (BOOL)prefersStatusBarHidden
-//{
-//    return NO;
-//}
-//-(UIStatusBarStyle)preferredStatusBarStyle
-//{
-//    return UIStatusBarStyleDefault;
-//}
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+-(BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
 -(NSString *)classNameForKMRecord
 {
     NSString * str  = NSStringFromClass([self class]);

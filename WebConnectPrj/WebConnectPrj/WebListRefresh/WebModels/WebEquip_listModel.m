@@ -118,6 +118,7 @@
         }
         if(detail.appointed_roleid && [detail.appointed_roleid length] > 0)
         {
+            list.fav_or_ingore = 2;
             list.appointed = YES;
         }
         
@@ -167,7 +168,7 @@
         }
         if([list.sell_sold_time length] > 0)
         {
-            NSDate * createDate = [NSDate fromString:list.sell_create_time];
+            NSDate * createDate = [NSDate fromString:detail.selling_time];
             NSDate * soldDate = [NSDate fromString:list.sell_sold_time];
             NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
             if(timeNum <= 0){

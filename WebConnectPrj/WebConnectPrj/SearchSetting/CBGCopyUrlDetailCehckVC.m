@@ -47,23 +47,13 @@
                         @"查看详情",
                         @"WEB信息",
                         
-                        @"保存",
-                        @"删除",
+                        @"保存",//进行数据存储
+                        @"删除",//删除
                         
-//                        @"全部历史",
-//                        @"更新历史",
-//                        
-//                        @"页面验证码",
-//                        @"混合刷新",
-//                        
-//                        @"链接估价",
-//                        @"URL设置",
-//                        
-//                        @"当日历史",//今天的历史
-//                        @"细分历史",//通过时间选择
-//                        
-//                        @"mobile最新",
-//                        @"发送消息",
+                        @"状态-收藏",//进行状态
+                        @"状态-忽略",
+                        @"状态-正常",
+                        
                         nil];
     
     UIView * bgView = self.view;
@@ -128,10 +118,29 @@
             [self tapedOnLocalSaveDetailModelBtn:nil];
         }
             break;
-        case 3:{
+        case 3:
+        {
             [self tapedOnRemoveLatestSelectedModelBtn:nil];
         }
             break;
+        case 4:
+        {
+            [self refreshLocalSaveIngoreStatusWithLatest:1];
+        }
+            break;
+
+        case 5:
+        {
+            [self refreshLocalSaveIngoreStatusWithLatest:2];
+        }
+            break;
+
+        case 6:
+        {
+            [self refreshLocalSaveIngoreStatusWithLatest:0];
+        }
+            break;
+
     }
 }
 
@@ -147,6 +156,26 @@
 {
     [super viewWillAppear:animated];
     [self readCopyDetailOrderSNAndServerId];
+}
+-(void)refreshLocalSaveIngoreStatusWithLatest:(NSInteger)index
+{
+    if(!self.detailModel){
+        [DZUtils noticeCustomerWithShowText:@"详情不存在"];
+        return;
+    }
+    //纠正估价
+    [self.detailModel.equipExtra createExtraPrice];
+    
+    //    return;
+    //强制刷新
+    [baseList refrehLocalBaseListModelWithDetail:self.detailModel];
+    
+    CBGListModel * cbgList = baseList.listSaveModel;
+    cbgList.fav_or_ingore = index;
+    cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_StatusRefresh;
+    NSArray * arr = @[cbgList];
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];
 }
 
 -(void)tapedOnLocalSaveDetailModelBtn:(id)sender

@@ -28,6 +28,11 @@
     CGFloat youxibi = [self price_youxibi];
     CGFloat zhaohuanshou = [self price_zhaohuanshou];
 
+    //法系赚钱账号，不计算经验扣减
+    if(jingyan < 0 && xiulian > 1500 && ([self.iSchool integerValue] == 7)){
+        jingyan = 0;//仅高修炼LG，不计算经验
+    }
+    
     self.xiulianPrice = xiulian;
     self.chongxiuPrice = chongxiu;
     self.qianyuandanPrice = qianyuandan;
@@ -378,26 +383,27 @@
         fakangNum -= (25 - [self.iMaxExpt4 integerValue]);
     }
     
-    
+    //存在可能，20/22  价格没有  18/22高
     CGFloat wuli = [self xiulian_price_countForEveNum:wuliNum withAdd:YES];
     if(wuli == 0)
     {
-        wuli = [self xiulian_price_countForEveNum:[self.iMaxExpt1 integerValue] withAdd:YES];
+        //仅上线没实质的，
+        wuli = [self xiulian_price_countForEveNum:[self.iMaxExpt1 integerValue] -5 withAdd:YES];
     }
     CGFloat wukang = [self xiulian_price_countForEveNum:wukangNum withAdd:NO];
     if(wukang == 0)
     {
-        wukang = [self xiulian_price_countForEveNum:[self.iMaxExpt2 integerValue] withAdd:NO];
+        wukang = [self xiulian_price_countForEveNum:[self.iMaxExpt2 integerValue]-5 withAdd:NO];
     }
     CGFloat fashu = [self xiulian_price_countForEveNum:fashuNum withAdd:YES];
     if(fashu == 0)
     {
-        fashu = [self xiulian_price_countForEveNum:[self.iMaxExpt3 integerValue] withAdd:YES];
+        fashu = [self xiulian_price_countForEveNum:[self.iMaxExpt3 integerValue]-5 withAdd:YES];
     }
     CGFloat fakang = [self xiulian_price_countForEveNum:fakangNum withAdd:NO];
     if(fakang == 0)
     {
-        fakang = [self xiulian_price_countForEveNum:[self.iMaxExpt4 integerValue] withAdd:NO];
+        fakang = [self xiulian_price_countForEveNum:[self.iMaxExpt4 integerValue]-5 withAdd:NO];
     }
     
     money = wuli + wukang + fashu + fakang;
@@ -572,24 +578,52 @@
     NSArray * history = self.changesch;
     
     NSInteger maxHistory = 0;
-    for (NSInteger index = 0; index < [history count]; index ++) {
+    for (NSInteger index = 0; index < [history count]; index ++)
+    {
         ChangeschModel * eve = [history objectAtIndex:index];
         NSInteger eveNum = [self countSchoolPriceForSchoolNum:[eve.intNum integerValue]];
-        if(maxHistory < eveNum){
-            maxHistory = eveNum;
+        
+        //判定历史门派是否有效
+        BOOL effective = [self checkHistorySchoolEffectiveWithPreSchool:[eve.intNum integerValue]];
+        if(effective)
+        {
+            if(maxHistory < eveNum){
+                maxHistory = eveNum;
+            }
         }
+
     }
     if( [history count] > 0 && maxHistory > schoolNum){
         schoolNum = MAX(maxHistory - 200, schoolNum);
     }
     
-    if(price < 0){
-        price = 0;
-    }
     
     price += schoolNum;
 
     return price;
+}
+-(BOOL)checkHistorySchoolEffectiveWithPreSchool:(NSInteger)number
+{
+    BOOL effective = NO;
+    NSArray * school1Arr = @[@1,@2,@3,@4,@13];
+    NSArray * school2Arr = @[@5,@6,@7,@8,@14];
+    NSArray * school3Arr = @[@9,@10,@11,@12,@15];
+    NSNumber * latestNum = self.iSchool;
+    NSNumber * preSchool = [NSNumber numberWithInteger:number];
+    
+    if([school1Arr containsObject:latestNum] && [school1Arr containsObject:preSchool]){
+        effective = YES;
+    }
+
+    if([school2Arr containsObject:latestNum] && [school2Arr containsObject:preSchool]){
+        effective = YES;
+    }
+
+    if([school3Arr containsObject:latestNum] && [school3Arr containsObject:preSchool]){
+        effective = YES;
+    }
+    
+    return effective;
 }
 -(NSInteger)countSchoolPriceForSchoolNum:(NSInteger)school
 {

@@ -91,7 +91,7 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) CBGEquipPlanStyle style;
 @property (nonatomic, assign) BOOL detailRefresh;
 
-@property (nonatomic, assign) NSInteger fav_or_ingore;//0默认值  1关注  2屏蔽
+@property (nonatomic, assign) NSInteger fav_or_ingore;//0默认值  1收藏  2屏蔽
 @property (nonatomic, strong) NSString * serverName;
 
 

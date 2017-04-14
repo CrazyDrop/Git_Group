@@ -137,18 +137,21 @@
     if(!preStatus)
     {//没有之前的状态，表明请求失败，或者没有请求过
         //进行库表检查，库表不存在缓存，库表价格变化大的继续
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
-        {
-            CBGListModel * list = [dbArr lastObject];
-            if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
-                //之前已经结束，不在进行
-                preState = CBGEquipRoleState_PayFinish;
-            }else{
-                preState = CBGEquipRoleState_InSelling;
+        if(!self.ingoreDB){
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+            if([dbArr count] > 0)
+            {
+                CBGListModel * list = [dbArr lastObject];
+                if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
+                    //之前已经结束，不在进行
+                    preState = CBGEquipRoleState_PayFinish;
+                }else{
+                    preState = CBGEquipRoleState_InSelling;
+                }
+                prePrice = [NSNumber numberWithInteger:list.equip_price];
             }
-            prePrice = [NSNumber numberWithInteger:list.equip_price];
+
         }
     }
     
@@ -415,7 +418,7 @@
     self.filterArray = editArr;
     
     //根据updateArr  更新主表
-    if([updateArr count] > 0)
+    if([updateArr count] > 0 && !self.ingoreDB)
     {
         [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
         [dbManager localSaveUserChangeArrayListWithDetailCBGModelArray:updateArr];

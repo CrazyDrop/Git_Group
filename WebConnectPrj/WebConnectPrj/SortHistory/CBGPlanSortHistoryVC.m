@@ -17,7 +17,7 @@
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice
 {
     self.titleV.text = [NSString stringWithFormat:@"估价(%@)",self.selectedDate];
-    [self selectHistoryForStartLoad];
+    [self selectHistoryForPlanStartedLoad];
 }
 
 - (void)viewDidLoad {
@@ -53,7 +53,7 @@
     }
     
     //展示售出  有利
-    [self selectHistoryForStartLoad];
+    [self selectHistoryForPlanStartedLoad];
 }
 
 
@@ -111,8 +111,10 @@
     [self.listTable reloadData];
     
 }
--(void)selectHistoryForStartLoad
+-(void)selectHistoryForPlanStartedLoad
 {
+    if(!self.dbHistoryArr) return;
+    
     NSArray * sortArr = [NSArray arrayWithArray:self.dbHistoryArr];
     
     NSMutableArray * resultArr = [NSMutableArray array];
@@ -125,6 +127,12 @@
             [resultArr addObject:eveModel];
         }
     }
+    
+     [resultArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        CBGListModel * eve1 = (CBGListModel *)obj1;
+        CBGListModel * eve2 = (CBGListModel *)obj2;
+        return [[NSNumber numberWithInteger:eve2.plan_rate] compare:[NSNumber numberWithInteger:eve1.plan_rate]];
+    }];
     
     //    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[resultArr count]];
     //    [DZUtils noticeCustomerWithShowText:noticeStr];
@@ -245,10 +253,19 @@
         action =[MSAlertAction actionWithTitle:@"切换统计历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                  {
                      if(weakSelf.exchangeDelegate && [weakSelf.exchangeDelegate respondsToSelector:@selector(historyHandelExchangeHistoryShowWithPlanShow:)]){
-                         [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:NO];
+                         [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:CBGCombinedHandleVCStyle_Statist];
                      }
                  }];
         [alertController addAction:action];
+        
+        action = [MSAlertAction actionWithTitle:@"图表统计" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+                  {
+                      if(weakSelf.exchangeDelegate && [weakSelf.exchangeDelegate respondsToSelector:@selector(historyHandelExchangeHistoryShowWithPlanShow:)]){
+                          [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:CBGCombinedHandleVCStyle_Study];
+                      }
+                  }];
+        [alertController addAction:action];
+
     }
     
     action = [MSAlertAction actionWithTitle:@"全部" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)

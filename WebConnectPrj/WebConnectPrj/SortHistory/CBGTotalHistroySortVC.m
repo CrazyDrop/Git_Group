@@ -27,11 +27,24 @@
     {
         CBGListModel * eveModel = [sortArr objectAtIndex:index];
         NSInteger space = eveModel.sell_space;
-        
-        if(space > 0 && space < 10 * MINUTE){
+        //30分钟内售出
+        if(space > 0 && space < 30 * MINUTE){
             [showArr addObject:eveModel];
         }
     }
+    
+    
+    [showArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        CBGListModel * eve1 = (CBGListModel *)obj1;
+        CBGListModel * eve2 = (CBGListModel *)obj2;
+        
+        NSComparisonResult result = NSOrderedSame;
+        //结束时间
+        result = [[NSNumber numberWithInteger:eve1.sell_space] compare:[NSNumber numberWithInteger:eve2.sell_space]];
+        
+        return result;
+    }];
+
     
     NSString * noticeStr = [NSString stringWithFormat:@"%lu",[showArr count]];
     [DZUtils noticeCustomerWithShowText:noticeStr];

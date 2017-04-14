@@ -237,21 +237,13 @@
     self.tipsView.hidden = YES;
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
+    check.ingoreDB = NO;
     if(check.latestHistory)
     {
         self.showArray = check.latestHistory;
         self.dataArr2 = check.latestHistory;
         [self.listTable reloadData];
     }
-
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        NSString * webUrl = @"http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=421&ordersn=584_1491530578_585243883&equip_refer=1";
-//        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
-//                                                            object:webUrl];
-//    });
-
-
-    
 }
 -(UIView *)tipsView{
     if(!_tipsView)
@@ -315,7 +307,12 @@
               }];
     [alertController addAction:action];
     
-    
+    action = [MSAlertAction actionWithTitle:@"屏蔽库表操作" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshCheckManagerDBIngore:YES];
+                }];
+    [alertController addAction:action];
+
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
     }];
@@ -325,6 +322,12 @@
                        animated:YES
                      completion:nil];
 }
+-(void)refreshCheckManagerDBIngore:(BOOL)ingore
+{
+    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
+    check.ingoreDB = ingore;
+}
+
 -(void)refreshLocalShowListForLatestSelling
 {//3页列表内的新增
     //展示上架

@@ -10,19 +10,25 @@
 //整合后的分类处理vc，控制展示  CBGStatisticsDetailHistoryVC  CBGPlanSortHistoryVC
 //进行库表查询，数据复制对应子控制器
 //增加左右滑动数据
+typedef enum : NSUInteger {
+    CBGCombinedHandleVCStyle_Plan = 0,
+    CBGCombinedHandleVCStyle_Statist,
+    CBGCombinedHandleVCStyle_Study,
+} CBGCombinedHandleVCStyle;
 
 @class CBGCombinedHistoryHandleVC;
 @protocol CBGHistoryExchangeDelegate <NSObject>
 
--(void)historyHandelExchangeHistoryShowWithPlanShow:(BOOL)show;
+-(void)historyHandelExchangeHistoryShowWithPlanShow:(CBGCombinedHandleVCStyle)style;
 
 @end
 
 @interface CBGCombinedHistoryHandleVC : CBGSortHistoryBaseDetailVC
 
-@property (nonatomic, assign) BOOL showPlan;//是否展示plan界面
+@property (nonatomic, assign) CBGCombinedHandleVCStyle showStyle;
 @property (nonatomic, strong) NSString * selectedDate;
-//@property (nonatomic, strong) NSString * selectedDate;
--(void)refreshCombinedHistoryListWithTips:(BOOL)showTip;
+
+//传入内涵参数无效，使用showStyle为准
+-(void)refreshCombinedHistoryListWithShowStyle:(CBGCombinedHandleVCStyle)style;
 
 @end

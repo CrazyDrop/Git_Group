@@ -7,10 +7,10 @@
 //
 
 #import "DPWhiteTopController.h"
-
+#import "CBGCombinedHistoryHandleVC.h"
 @interface CBGCombinedScrolledHandleVC : DPWhiteTopController
 
-@property (nonatomic, assign) BOOL showPlan;//是否展示plan界面
+@property (nonatomic, assign) CBGCombinedHandleVCStyle showStyle;
 @property (nonatomic, strong) NSString * selectedDate;
 
 

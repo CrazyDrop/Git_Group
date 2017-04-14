@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UITableView * listTable;
 @property (nonatomic, strong) NSArray * requestModels;
 @property (nonatomic, strong) UILabel * numLbl;
+
 @end
 
 @implementation CBGSortHistoryBaseDetailVC
@@ -286,13 +287,19 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     //用来标识是否最新一波数据
     
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * serNameDic = total.serverNameDic;
+    
+    
     NSString * centerDetailTxt = contact.plan_des;
     UIColor * numcolor = [UIColor lightGrayColor];
     UIColor * color = [UIColor lightGrayColor];
     NSString * leftRateTxt = nil;
     //[NSString stringWithFormat:@"%@-%@",contact.area_name,contact.server_name];
-    NSString * equipName = [NSString stringWithFormat:@"%ld%@ %ld",contact.server_id,contact.equip_school_name,contact.equip_level];
+    NSString * equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
     NSString * leftPriceTxt = [NSString stringWithFormat:@"%.2f",contact.equip_price/100.0];
+    NSNumber * serId = [NSNumber numberWithInteger:contact.server_id];
+    NSString * serverName = [serNameDic objectForKey:serId];
     
     if(!contact)
     {
@@ -358,6 +365,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 count = 0;
             }
             
+            NSInteger space = contact.sell_space;
+            if(space > 0 && space < 10*MINUTE)
+            {
+                //蓝色，标识的起售后很快售出
+                earnColor = [UIColor blueColor];
+            }
+            
             //时差秒数
             NSTimeInterval minuteNum = count/60;
             int minute = ((int)minuteNum)%60;
@@ -367,6 +381,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             }else{
                 rightStatusTxt =  [NSString stringWithFormat:@"隔%02d分",minute];
             }
+            
+
 
         }else{
             startDate = [NSDate fromString:finishTime];
@@ -375,15 +391,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
         
         //计算时间差
-        
-        
-        
         {
             centerDetailTxt = [NSString stringWithFormat:@"%ld%@",contact.plan_total_price,contact.plan_des];
         }
         
         
-        leftRateTxt = contact.equip_name;
+        if(serverName){
+            leftRateTxt = serverName;
+        }else{
+            leftRateTxt = [NSString stringWithFormat:@"%@:%ld",contact.equip_name,contact.server_id];
+        }
         NSInteger priceChange = contact.equip_start_price - contact.equip_price/100;
         if(priceChange != 0)
         {
