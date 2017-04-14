@@ -27,11 +27,23 @@
 
 @property (nonatomic, strong) NSArray * priceSortArr;
 @property (nonatomic, strong) UIScrollView * chartScroll;
+
+@property (nonatomic, strong) NSString * preDate;
 @end
 
 @implementation CBGDepthStudyVC
+-(void)setSelectedDate:(NSString *)selectedDate
+{
+    self.preDate = [_selectedDate copy];
+    _selectedDate = selectedDate;
+}
+
+
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice
 {
+    if(self.preDate && [self.preDate isEqualToString:self.selectedDate]){
+        return;
+    }
     self.priceModel = nil;
     self.schoolModel = nil;
     self.soldModel = nil;
@@ -807,6 +819,9 @@
                      .nameSet(@"抢购")
                      .dataSet(spaceArr),
                      
+                     AAObject(AASeriesElement)
+                     .nameSet(@"估价")
+                     .dataSet(planArr),
                      ]
                    )
         ;

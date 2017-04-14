@@ -54,6 +54,8 @@
                         @"状态-忽略",
                         @"状态-正常",
                         
+                        @"忽略特殊",
+                        
                         nil];
     
     UIView * bgView = self.view;
@@ -138,6 +140,12 @@
         case 6:
         {
             [self refreshLocalSaveIngoreStatusWithLatest:0];
+        }
+            break;
+        case 7:
+        {
+            ZALocationLocalModelManager * dbManager =[ZALocationLocalModelManager sharedInstance];
+            [dbManager updateFavAndIngoreStateForMaxedPlanRateList];
         }
             break;
 

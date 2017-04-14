@@ -15,6 +15,7 @@
     NSInteger startIndex;
     NSInteger eveSubCount;
     NSInteger tryNumber;
+    NSLock * requestLock;
 }
 @property (nonatomic, copy) NSArray * subArr;
 @property (nonatomic, strong) NSArray * retryArr;
@@ -31,6 +32,7 @@
         startIndex = 0;
         eveSubCount = 300;
         tryNumber = 0;
+        requestLock = [[NSLock alloc] init];
     }
     return self;
 }
@@ -127,12 +129,19 @@
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
-        [weakSelf startRefreshDataModelRequest];
+//        [weakSelf startRefreshDataModelRequest];
+        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                                   withObject:nil
+                                waitUntilDone:YES];
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
 -(void)startRefreshDataModelRequest
 {
+    
+    NSLog(@"%s",__FUNCTION__);
+
+    
     if(![DZUtils deviceWebConnectEnableCheck])
     {
         return;
@@ -164,6 +173,7 @@
     tryNumber ++;
     
     NSString * startLog = [NSString stringWithFormat:@"启动:%ld 次 上次失败 %ld 开始%ld 新增 %ld 总计:%ld 已结束%ld",tryNumber,errNum,range.location,range.length,[subTotal count],range.location];
+    [requestLock lock];
 
     [self writeToViewLogWithLatestString:startLog];
     [self startSubDetailRequestWithSubArray:subTotal];
@@ -225,16 +235,23 @@
     for (NSInteger index = 0;index < [array count] ;index ++ )
     {
         CBGListModel * eveModel = [array objectAtIndex:index];
+        if([self.retryArr containsObject:eveModel])
+        {
+            NSLog(@"max Detail error %@",eveModel.detailDataUrl);
+        }
         if(!eveModel.detailRefresh && ![self.retryArr containsObject:eveModel])
         {
             [errorArr addObject:eveModel];
         }
+        
     }
     
     self.retryArr = errorArr;
     
     NSString * startLog = [NSString stringWithFormat:@"本次结束 失败 %ld",[errorArr count]];
     [self writeToViewLogWithLatestString:startLog];
+    
+    [requestLock unlock];
 }
 
 

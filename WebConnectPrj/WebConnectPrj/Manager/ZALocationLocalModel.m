@@ -2411,7 +2411,27 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
 }
-
+-(void)updateFavAndIngoreStateForMaxedPlanRateList
+{
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         
+         [sqlMutableString appendFormat:@"update %@ set %@ = 1 WHERE %@ > 30",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+}
 -(CBGListModel *)listModelFromDatabaseResult:(FMResultSet *)resultSet
 {
     CBGListModel * list = [[CBGListModel alloc] init];

@@ -82,7 +82,7 @@
     // Do any additional setup after loading the view.
     
 //    UIView * bgView = self.view;
-//    [self refreshCombinedHistoryListWithShowStyle:self.showStyle];
+    [self refreshCombinedHistoryListWithShowStyle:self.showStyle];
     
 }
 
@@ -110,8 +110,8 @@
 {
     if(!_staticHistory){
         CBGStatisticsDetailHistoryVC * his = [[CBGStatisticsDetailHistoryVC alloc] init];
-        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
-        his.selectedDate = self.selectedDate;
+//        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
+//        his.selectedDate = self.selectedDate;
         his.exchangeDelegate = self;
         [self addChildViewController:his];
         [self.view addSubview:his.view];
@@ -124,9 +124,9 @@
 {
     if(!_planHistory){
         CBGPlanSortHistoryVC * his = [[CBGPlanSortHistoryVC alloc] init];
-        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
         his.exchangeDelegate = self;
-        his.selectedDate = self.selectedDate;
+//        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
+//        his.selectedDate = self.selectedDate;
         [self addChildViewController:his];
         [self.view addSubview:his.view];
         _planHistory = his;
@@ -138,9 +138,9 @@
 {
     if(!_deepStudy){
         CBGDepthStudyVC * his = [[CBGDepthStudyVC alloc] init];
-        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
         his.exchangeDelegate = self;
-        his.selectedDate = self.selectedDate;
+//        his.dbHistoryArr = [self localDBHistoryArrayFromSelectedDate:self.selectedDate];
+//        his.selectedDate = self.selectedDate;
         [self addChildViewController:his];
         [self.view addSubview:his.view];
         _deepStudy = his;
