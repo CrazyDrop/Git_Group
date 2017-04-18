@@ -53,6 +53,7 @@
                         @"状态-收藏",//进行状态
                         @"状态-忽略",
                         @"状态-正常",
+                        @"状态-购买",
                         
                         @"忽略特殊",
                         
@@ -143,6 +144,11 @@
         }
             break;
         case 7:
+        {
+            [self refreshLocalSaveIngoreStatusWithLatest:3];
+        }
+            break;
+        case 8:
         {
             ZALocationLocalModelManager * dbManager =[ZALocationLocalModelManager sharedInstance];
             [dbManager updateFavAndIngoreStateForMaxedPlanRateList];

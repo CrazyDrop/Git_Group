@@ -32,6 +32,7 @@
 #import "CBGDetailWebView.h"
 #import "CBGMaxHistoryListRefreshVC.h"
 #import "CBGDepthStudyVC.h"
+#import "CBGPlanListDetailCheckVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -82,6 +83,8 @@
 
                         @"页面验证码",
                         @"本月走势",
+                        
+                        @"倒手分析",
                         nil];
     
     UIView * bgView = self.view;
@@ -289,6 +292,13 @@
             combine.dbHistoryArr = startArr;
             combine.showStyle = CBGCombinedHandleVCStyle_Study;
             
+            [[self rootNavigationController] pushViewController:combine animated:YES];
+            
+        }
+            break;
+        case 14:{
+            
+            CBGPlanListDetailCheckVC * combine = [[CBGPlanListDetailCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
             
         }

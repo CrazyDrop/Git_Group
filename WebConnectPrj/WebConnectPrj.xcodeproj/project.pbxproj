@@ -80,6 +80,11 @@
 		182091231E9F555D0015E393 /* AAXAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090FF1E9F555D0015E393 /* AAXAxis.m */; };
 		182091241E9F555D0015E393 /* AAYAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091011E9F555D0015E393 /* AAYAxis.m */; };
 		182091261E9F65550015E393 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182091251E9F65550015E393 /* WebKit.framework */; };
+		1820912A1EA4739F0015E393 /* CBGPlanListDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091291EA4739F0015E393 /* CBGPlanListDetailCheckVC.m */; };
+		1820912D1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820912C1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m */; };
+		182091301EA4BEE20015E393 /* CBGOwnerRepeatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */; };
+		182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */; };
+		182091361EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */; };
 		185BB0341E825C4700306695 /* ZWDetailCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BB0331E825C4700306695 /* ZWDetailCheckManager.m */; };
 		187767C31A416805003F31B6 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187767C21A416805003F31B6 /* SWTableViewCell.m */; };
 		18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */; };
@@ -724,6 +729,16 @@
 		182091001E9F555D0015E393 /* AAYAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAYAxis.h; sourceTree = "<group>"; };
 		182091011E9F555D0015E393 /* AAYAxis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAYAxis.m; sourceTree = "<group>"; };
 		182091251E9F65550015E393 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		182091281EA4739F0015E393 /* CBGPlanListDetailCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanListDetailCheckVC.h; sourceTree = "<group>"; };
+		182091291EA4739F0015E393 /* CBGPlanListDetailCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanListDetailCheckVC.m; sourceTree = "<group>"; };
+		1820912B1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGOthersBuyRepeatListVC.h; sourceTree = "<group>"; };
+		1820912C1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGOthersBuyRepeatListVC.m; sourceTree = "<group>"; };
+		1820912E1EA4BEE20015E393 /* CBGOwnerRepeatListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGOwnerRepeatListVC.h; sourceTree = "<group>"; };
+		1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGOwnerRepeatListVC.m; sourceTree = "<group>"; };
+		182091311EA4BF460015E393 /* CBGPlanCommonCheckListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCommonCheckListVC.h; sourceTree = "<group>"; };
+		182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCommonCheckListVC.m; sourceTree = "<group>"; };
+		182091341EA4C49E0015E393 /* CBGPlanCompareBaseListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCompareBaseListVC.h; sourceTree = "<group>"; };
+		182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCompareBaseListVC.m; sourceTree = "<group>"; };
 		185BB0321E825C4700306695 /* ZWDetailCheckManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWDetailCheckManager.h; sourceTree = "<group>"; };
 		185BB0331E825C4700306695 /* ZWDetailCheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWDetailCheckManager.m; sourceTree = "<group>"; };
 		187767C11A416805003F31B6 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
@@ -1743,6 +1758,7 @@
 		180D589919E622680045A720 /* WebConnectPrj */ = {
 			isa = PBXGroup;
 			children = (
+				182091271EA473820015E393 /* PlanCheck */,
 				182090B91E9F4F790015E393 /* HistoryStudy */,
 				18CFB7851E8F343300F18440 /* SortHistory */,
 				18CFB7731E8BB53300F18440 /* MixedListRefresh */,
@@ -1994,6 +2010,23 @@
 				182091011E9F555D0015E393 /* AAYAxis.m */,
 			);
 			path = AAOptionsModel;
+			sourceTree = "<group>";
+		};
+		182091271EA473820015E393 /* PlanCheck */ = {
+			isa = PBXGroup;
+			children = (
+				182091281EA4739F0015E393 /* CBGPlanListDetailCheckVC.h */,
+				182091291EA4739F0015E393 /* CBGPlanListDetailCheckVC.m */,
+				1820912B1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.h */,
+				1820912C1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m */,
+				1820912E1EA4BEE20015E393 /* CBGOwnerRepeatListVC.h */,
+				1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */,
+				182091311EA4BF460015E393 /* CBGPlanCommonCheckListVC.h */,
+				182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */,
+				182091341EA4C49E0015E393 /* CBGPlanCompareBaseListVC.h */,
+				182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */,
+			);
+			path = PlanCheck;
 			sourceTree = "<group>";
 		};
 		187767C01A416805003F31B6 /* SWTableViewCell */ = {
@@ -3913,6 +3946,7 @@
 				18A96D8E1E7FC24700B48E3C /* ZWSystemTotalRequestModel.m in Sources */,
 				18A975461E7FDDD400B48E3C /* Samurai_Core.m in Sources */,
 				18A976191E7FDDD500B48E3C /* ServiceTapspotHook.m in Sources */,
+				182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */,
 				18A9761F1E7FDDD500B48E3C /* OLEGORefreshView.m in Sources */,
 				18A975F31E7FDDD500B48E3C /* tokenizer.c in Sources */,
 				18A96E271E7FC2C500B48E3C /* ExtraModel.m in Sources */,
@@ -3938,6 +3972,7 @@
 				18A975321E7FDDD400B48E3C /* NSMutableArray+Extension.m in Sources */,
 				18A975711E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */,
 				18A975D41E7FDDD500B48E3C /* Samurai_Font.m in Sources */,
+				1820912A1EA4739F0015E393 /* CBGPlanListDetailCheckVC.m in Sources */,
 				18809DF91A0B5B0200B66A59 /* UIImageView+WebCache.m in Sources */,
 				18A975BC1E7FDDD400B48E3C /* Samurai_UISwitch.m in Sources */,
 				18A975E81E7FDDD500B48E3C /* Samurai_ClassLoader.m in Sources */,
@@ -3946,6 +3981,7 @@
 				18A975EA1E7FDDD500B48E3C /* Samurai_Watcher.m in Sources */,
 				18A975B41E7FDDD400B48E3C /* Samurai_UICollectionView.m in Sources */,
 				18A975471E7FDDD400B48E3C /* Samurai_CoreConfig.m in Sources */,
+				1820912D1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m in Sources */,
 				18A96E2C1E7FC2C500B48E3C /* More_attrModel.m in Sources */,
 				18A975C51E7FDDD400B48E3C /* Samurai_ActivityRouter.m in Sources */,
 				18A96E301E7FC2C500B48E3C /* Summon_equip1Model.m in Sources */,
@@ -3956,6 +3992,7 @@
 				18A976371E7FDDD500B48E3C /* OLBasicListTableView.m in Sources */,
 				18A96E1E1E7FC2C500B48E3C /* AllEquipModel.m in Sources */,
 				18A975B31E7FDDD400B48E3C /* Samurai_UIButton.m in Sources */,
+				182091301EA4BEE20015E393 /* CBGOwnerRepeatListVC.m in Sources */,
 				18A976101E7FDDD500B48E3C /* JBChartView.m in Sources */,
 				18A9760D1E7FDDD500B48E3C /* ServiceInspector.m in Sources */,
 				18A976071E7FDDD500B48E3C /* ServiceGestureViewPinch.m in Sources */,
@@ -4066,6 +4103,7 @@
 				18A975AA1E7FDDD400B48E3C /* UISwitch+Html.m in Sources */,
 				18A976711E8145DF00B48E3C /* CBGNearHistoryVC.m in Sources */,
 				18A975511E7FDDD400B48E3C /* Samurai_ModelInstance.m in Sources */,
+				182091361EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m in Sources */,
 				18809DF61A0B5B0200B66A59 /* UIImage+MultiFormat.m in Sources */,
 				18A96E291E7FC2C500B48E3C /* HugeHorseModel.m in Sources */,
 				18A975D91E7FDDD500B48E3C /* Samurai_RenderStoreNode.m in Sources */,

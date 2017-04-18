@@ -19,13 +19,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/HistoryStudy/CBGDepthStudyVC.m"
-            timestampString = "513853412.673853"
+            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
+            timestampString = "514179386.521892"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "-refreshLatestShowedDBArrayWithNotice:"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-detailSummonPriceForEveSummon:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
+            timestampString = "514181023.139067"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
+            landmarkName = "-chongxiu_price_countForEveNum:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

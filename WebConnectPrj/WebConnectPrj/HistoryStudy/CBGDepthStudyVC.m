@@ -16,6 +16,7 @@
 
 //走势图model，以时间为区分
 @property (nonatomic, strong) AAChartModel * soldTimeModel;
+@property (nonatomic, strong) AAChartModel * soldWeekModel;
 @property (nonatomic, strong) AAChartModel * priceTimeModel;
 
 @property (nonatomic, strong) AAChartView * priceChartView;
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) AAChartView * soldChartView;
 
 @property (nonatomic, strong) AAChartView * soldTimeChartView;
+@property (nonatomic, strong) AAChartView * soldWeekChartView;
 @property (nonatomic, strong) AAChartView * priceTimeChartView;
 
 @property (nonatomic, strong) NSArray * priceSortArr;
@@ -48,6 +50,7 @@
     self.schoolModel = nil;
     self.soldModel = nil;
     self.soldTimeModel = nil;
+    self.soldWeekModel = nil;
     self.priceTimeModel = nil;
     [self refreshChartModelWithLatestListAndStyle];
 }
@@ -72,7 +75,7 @@
     UIScrollView * bgView = [[UIScrollView alloc] initWithFrame:rect];
     [self.view addSubview:bgView];
     bgView.scrollEnabled = YES;
-    bgView.contentSize = CGSizeMake(SCREEN_WIDTH, chartSize.height * 5);
+    bgView.contentSize = CGSizeMake(SCREEN_WIDTH, chartSize.height * 6);
     self.chartScroll = bgView;
     
     AAChartView * aChart = nil;
@@ -107,7 +110,6 @@
     aChart.scrollView.scrollsToTop = NO;
     self.soldChartView = aChart;
 
-    
     rect.origin.y = CGRectGetMaxY(aChart.frame);
     aChart = [[AAChartView alloc] initWithFrame:rect];
     [bgView addSubview:aChart];
@@ -118,7 +120,15 @@
     aChart.scrollView.scrollsToTop = NO;
     self.soldTimeChartView = aChart;
 
-    
+    rect.origin.y = CGRectGetMaxY(aChart.frame);
+    aChart = [[AAChartView alloc] initWithFrame:rect];
+    [bgView addSubview:aChart];
+    //    aChart.center = CGPointMake(SCREEN_WIDTH/2.0, chartSize.height/2.0);
+    aChart.contentWidth = chartSize.width;
+    aChart.contentHeight = chartSize.height;
+    aChart.scrollView.scrollEnabled = NO;
+    aChart.scrollView.scrollsToTop = NO;
+    self.soldWeekChartView = aChart;
     
     rect.origin.y = CGRectGetMaxY(aChart.frame);
     aChart = [[AAChartView alloc] initWithFrame:rect];
@@ -161,6 +171,9 @@
             break;
         }
         selectedNum = lineNum;
+    }
+    if([selectedNum integerValue] < 100){
+        
     }
     
     return  selectedNum;
@@ -264,11 +277,13 @@
         NSMutableArray * spaceArr = [NSMutableArray array];
         NSMutableArray * keyNameArr = [NSMutableArray array];
         
-        NSInteger startNum = 0;
         for (NSInteger index = 0;index < [keyArr count] ;index ++) {
             NSNumber * keyNum = [keyArr objectAtIndex:index];
-            NSString * keyName = [NSString stringWithFormat:@"%ldK-%ldK",startNum/1000,keyNum.integerValue/1000];
-            startNum = keyNum.integerValue;
+            NSNumber * nexKeyNum = keyNum;
+            if([keyArr count] > index + 1){
+                nexKeyNum = [keyArr objectAtIndex:index + 1];
+            }
+            NSString * keyName = [NSString stringWithFormat:@"%ldK-%ldK",keyNum.integerValue/1000,nexKeyNum.integerValue/1000];
             
             NSNumber * spaceNum = [spaceDic objectForKey:keyNum]?:@0;
             [spaceArr addObject:spaceNum];
@@ -662,6 +677,20 @@
     
     return cutLength;
 }
+-(NSString *)sepWeekTimeForSoldTime:(NSString *)soldTime
+{
+    NSString * weekStr = nil;
+    if(soldTime && [soldTime length] > 0)
+    {
+        NSDate * date = [NSDate fromString:soldTime];
+        WeekdayType week =  date.weekday;
+        NSInteger index = week - 1;
+//        NSArray * weekNames = @[@"周日",@"周一",@"周二",@"周三",@"周四",@"周五",@"周六"];
+//        weekStr = [weekNames objectAtIndex:index];
+        weekStr = [[NSNumber numberWithInteger:index] stringValue];
+    }
+    return weekStr;
+}
 
 -(AAChartModel *)soldTimeModel
 {
@@ -831,6 +860,129 @@
     }
     return _soldTimeModel;
 }
+-(AAChartModel *)soldWeekModel
+{
+    if(!_soldWeekModel)
+    {
+        NSArray * dbArr = self.dbHistoryArr;
+        NSMutableDictionary * soldDic = [NSMutableDictionary dictionary];
+        NSMutableDictionary * planDic = [NSMutableDictionary dictionary];
+        NSMutableDictionary * spaceDic = [NSMutableDictionary dictionary];
+        
+        
+        for (NSInteger index = 0; index < [dbArr count]; index ++)
+        {
+            CBGListModel * list = [dbArr objectAtIndex:index];
+            
+            if([list.sell_sold_time length] == 0)
+            {
+                continue;
+            }
+            NSString * week = [self sepWeekTimeForSoldTime:list.sell_sold_time];
+            NSString * numKey = week;
+            
+            NSNumber * preNum = nil;
+            
+            //            if([list.sell_back_time length] == 0 && [list.sell_sold_time length] == 0)
+            if([list.sell_sold_time length] > 0)
+            {
+                preNum = [soldDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [soldDic setObject:preNum forKey:numKey];
+            }
+            
+            if(list.sell_space > 0 && list.sell_space < 10 * MINUTE)
+            {
+                preNum = [spaceDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [spaceDic setObject:preNum forKey:numKey];
+            }
+            
+           
+            if(list.style == CBGEquipPlanStyle_Worth || list.style == CBGEquipPlanStyle_PlanBuy)
+            {
+                preNum = [planDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [planDic setObject:preNum forKey:numKey];
+                
+            }
+        }
+        
+        NSArray * keyArr = [soldDic allKeys];
+        keyArr = [keyArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            return [obj1 compare:obj2];
+        }];
+        
+        //数据统计
+        NSMutableArray * soldArr = [NSMutableArray array];
+        NSMutableArray * planArr = [NSMutableArray array];
+        NSMutableArray * spaceArr = [NSMutableArray array];
+        NSMutableArray * keyNameArr = [NSMutableArray array];
+        NSArray * weekNames = @[@"周日",@"周一",@"周二",@"周三",@"周四",@"周五",@"周六"];
+        NSInteger totalNum = 0;
+        
+        for (NSInteger index = 0;index < [keyArr count] ;index ++) {
+            NSString * keyNum = [keyArr objectAtIndex:index];
+            
+            NSNumber * soldNum = [soldDic objectForKey:keyNum]?:@0;
+            [soldArr addObject:soldNum];
+            NSNumber * planNum = [planDic objectForKey:keyNum]?:@0;
+            [planArr addObject:planNum];
+            NSNumber * spaceNum = [spaceDic objectForKey:keyNum]?:@0;
+            [spaceArr addObject:spaceNum];
+            totalNum += [soldNum integerValue];
+            
+            NSString * keyName = [weekNames objectAtIndex:[keyNum integerValue]];
+            [keyNameArr addObject:keyName];
+        }
+        
+        
+        NSString * titleName = [NSString stringWithFormat:@"售出星期趋势表(%ld)",totalNum];
+        NSString * chartType = AAChartTypeLine;
+        AAChartModel * model= AAObject(AAChartModel)
+        .chartTypeSet(chartType)
+        .titleSet(titleName)
+        .yAxisTitleSet(@"数量")
+        .subtitleSet([NSString stringWithFormat:@"%@ (%ld)",self.selectedDate,[self.dbHistoryArr count]])
+        .categoriesSet(keyNameArr)
+        .seriesSet(@[
+                     
+                     AAObject(AASeriesElement)
+                     .nameSet(@"售出")
+                     .dataSet(soldArr),
+                     
+                     AAObject(AASeriesElement)
+                     .nameSet(@"抢购")
+                     .dataSet(spaceArr),
+                     
+                     AAObject(AASeriesElement)
+                     .nameSet(@"估价")
+                     .dataSet(planArr),
+                     ]
+                   )
+        ;
+        model.symbol = AAChartSymbolTypeCircle;
+        
+        _soldWeekModel = model;
+    }
+    return _soldWeekModel;
+}
+
 
 -(AAChartModel *)priceTimeModel
 {
@@ -876,11 +1028,13 @@
             [schoolTotalArr addObject:subArr];
         }
         
-        NSInteger startNum = 0;
         for (NSInteger index = 0;index < [keyArr count] ;index ++) {
             NSNumber * keyNum = [keyArr objectAtIndex:index];
-            NSString * keyName = [NSString stringWithFormat:@"%ldK-%ldK",startNum/1000,keyNum.integerValue/1000];
-            startNum = keyNum.integerValue;
+            NSNumber * nexKeyNum = keyNum;
+            if([keyArr count] > index + 1){
+                nexKeyNum = [keyArr objectAtIndex:index + 1];
+            }
+            NSString * keyName = [NSString stringWithFormat:@"%ldK-%ldK",keyNum.integerValue/1000,nexKeyNum.integerValue/1000];
             
             for (NSInteger index = 0 ;index < schoolCount ;index ++)
             {
@@ -954,6 +1108,9 @@
     
     //价格走势图 AAChartSymbolTypeCircle
     [self.priceTimeChartView aa_drawChartWithChartModel:self.priceTimeModel];
+
+    //时间走势图 AAChartSymbolTypeCircle
+    [self.soldWeekChartView aa_drawChartWithChartModel:self.soldWeekModel];
 
     
 }

@@ -70,10 +70,20 @@
         }
 
         //技能大于5技能以上，或者4技能宝宝，计算价格
-        if(skillNum >= 4  && eveSummon.iBaobao )
+        if(skillNum >=4)
         {
-            CGFloat evePrice = [self detailSummonPriceForEveSummon:eveSummon];
-            price += evePrice;
+            if([eveSummon.iBaobao boolValue]){
+                CGFloat evePrice = [self detailSummonPriceForEveSummon:eveSummon];
+                price += evePrice;
+            }else{
+                
+                if(skillNum > 5 && [eveSummon.iGrade integerValue] > 160)
+                {
+                    CGFloat evePrice = 20;
+                    price += evePrice;
+                }
+
+            }
         }
     }
     
@@ -102,16 +112,13 @@
         return price;
     }
     
-    //等级
-    if(dengji <= 160 )
-    {//成品  200块
-        return 0;
-    }
+
+    
     NSMutableArray * skillsNumArr = [NSMutableArray array];
-    for (NSInteger index = 0;index < [self.all_skills.skillsArray count] ;index ++ )
+    for (NSInteger index = 0;index < [model.all_skills.skillsArray count] ;index ++ )
     {
-        ExtraModel * eveExtra = [self.all_skills.skillsArray objectAtIndex:index];
-        [skillsNumArr addObject:eveExtra.extraValue];
+        ExtraModel * eveExtra = [model.all_skills.skillsArray objectAtIndex:index];
+        [skillsNumArr addObject:eveExtra.extraTag];
     }
 
     
@@ -127,180 +134,318 @@
     NSInteger minjie = [model.iSpe_all intValue];
     NSArray * addNumArr = [NSArray arrayWithObjects:model.iStr_all,model.iMag_all,model.iCor_all,model.iRes_all,model.iSpe_all, nil];
     NSInteger maxAddNum = [self maxAddNumberFromCurrentArray:addNumArr];
-    if(maxAddNum == liliang || gongji > 2000){
-        //攻宠，区分红书  蓝书
-        //是否包含力劈
-        if([skillsNumArr containsObject:@"571"] || [skillsNumArr containsObject:@"554"])
+    
+    //判定是否为
+    
+    
+    //攻击红书
+    NSArray * moreAddNum  = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",@"408",nil];
+    //高比  高吸  高偷 高神 高强 高夜 高感知   前面3个  一个 150 后面一个80  有力劈 * 1.3  高连+300
+    NSInteger gongjiMoreNum = 0;
+    for(NSString * eve in moreAddNum)
+    {
+        if([skillsNumArr containsObject:eve])
         {
-            price += 300;
-           
-            NSInteger addNum = 0;
-            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",nil];
-            for(NSString * eve in addArr)
-            {
-                if([skillsNumArr containsObject:eve])
-                {
-                    addNum += 1;
-                }
-            }
-            if(addNum >= 3)
-            {
-                price += (addNum * 400);
-            }else if(addNum > 0){
-                price += (addNum * 200);
-            }
-            
-            if(![skillsNumArr containsObject:@"416"])
-            {
-                price -= (addNum * 200);
-            }
-            
-            //蓝书 须弥 力劈
-            if(addNum == 0)
-            {
-                if(skillNum > 4)
-                {
-                    price += 100;
-                }
-            }
-            if([skillsNumArr containsObject:@"554"]){
-                price *= 0.5;
-            }
-        }else if([skillsNumArr containsObject:@"405"] || [skillsNumArr containsObject:@"595"])
-        {//壁垒或高连
-            NSInteger addNum = 0;
-            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",nil];
-            for(NSString * eve in addArr)
-            {
-                if([skillsNumArr containsObject:eve])
-                {
-                    addNum += 1;
-                }
-            }
-            if(addNum >= 3)
-            {
-                price += (addNum * 200);
-            }else if(addNum > 0){
-                price += (addNum * 50);
-            }
-            
-            //蓝书 壁垒 高连
-            if(addNum == 0)
-            {
-                if(skillNum > 4)
-                {
-                    price += 20;
-                }
-            }
-        }else if([skillsNumArr count] >= 5)
+            gongjiMoreNum += 1;
+        }
+    }
+    
+    //法宠辅助
+    moreAddNum  = [NSArray arrayWithObjects:@"424",@"573",@"577",@"578",@"411",@"422",@"408",nil];
+    //    高魔心 高法连 高法波 高法爆  高神  高敏  前面4个  一个100 后面一个  50  没须弥  50  20
+    NSInteger fashuMore = 0;
+    for(NSString * eve in moreAddNum)
+    {
+        if([skillsNumArr containsObject:eve])
         {
-            NSInteger addNum = 0;
-            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"434",@"401",nil];
-            for(NSString * eve in addArr)
-            {
-                if([skillsNumArr containsObject:eve])
-                {
-                    addNum += 1;
-                }
-            }
-            if(addNum >= 3)
-            {
-                price += (addNum * 100);
-            }else if(addNum > 0){
-                price += (addNum * 50);
-            }
-            //多技能 蓝书
-            if(addNum == 0)
-            {
-                price = 100;
-            }
-
-        }else{
-            NSInteger addNum = 0;
-            NSArray * addArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",@"401",nil];
-            for(NSString * eve in addArr)
-            {
-                if([skillsNumArr containsObject:eve])
-                {
-                    addNum += 1;
-                }
-            }
-            if(addNum >= 2)
-            {
-                price += (addNum * 50);
-            }else{
-                price = 10;
-            }
+            fashuMore += 1;
+        }
+    }
+    
+    //血宠辅助
+    
+//    @"579",@"552" 法防  死亡
+    moreAddNum  = [NSArray arrayWithObjects:@"414",@"422",@"417",@"403",nil];
+    //     高毒  高敏捷  高幸运 高反震  前面两个 一个100 两个300  后面一个100 或 50
+    NSInteger xuedunMore = 0;
+    for(NSString * eve in moreAddNum)
+    {
+        if([skillsNumArr containsObject:eve])
+        {
+            xuedunMore += 1;
+        }
+    }
+    NSInteger skillPrice = 0;
+    
+    //善恶、力劈
+    if([skillsNumArr containsObject:@"571"] || [skillsNumArr containsObject:@"554"])
+    {
+    
+        if(gongjiMoreNum >= 3)
+        {
+            skillPrice += (gongjiMoreNum * 150);
+        }else if(gongjiMoreNum > 1){
+            skillPrice += (gongjiMoreNum * 80);
         }
 
-    }
-    if(maxAddNum == fali || lingli > 1000){
-        //法宠，红宠
-
-        //是否包含须弥
+        NSArray * heighSkillArr = [NSArray arrayWithObjects:@"416",@"404",@"425",nil];
+        for (NSString * eve in heighSkillArr )
+        {
+            //高级技能，一个加50
+            if([skillsNumArr containsObject:eve])
+            {
+                skillPrice += 50;
+            }
+        }
+        
+        
+        //蓝书 力劈
+        if(gongjiMoreNum == 0)
+        {
+            if(skillNum > 4)
+            {
+                skillPrice += 200;
+            }else{
+                skillPrice += 100;
+            }
+        }else {
+            
+        }
+        
+        if(skillNum > 6){
+            skillPrice += 500;
+        }
+        
+        if([skillsNumArr containsObject:@"571"]){
+            skillPrice *= 1.3;
+        }
+        
+    }else if([skillsNumArr containsObject:@"405"] || [skillsNumArr containsObject:@"595"])
+    {//高连、壁垒
+        
+        if(gongjiMoreNum >= 4)
+        {
+            skillPrice += (gongjiMoreNum * 180);
+        }else if(gongjiMoreNum > 1){
+            skillPrice += (gongjiMoreNum * 80);
+        }
+        
+        NSArray * heighSkillArr = [NSArray arrayWithObjects:@"416",@"404",@"425",nil];
+        for (NSString * eve in heighSkillArr )
+        {
+            //高级技能，一个加50
+            if([skillsNumArr containsObject:eve])
+            {
+                skillPrice += 50;
+            }
+        }
+        
+        
+        //蓝书 力劈
+        if(gongjiMoreNum == 0)
+        {
+            if(skillNum > 4)
+            {
+                skillPrice += 200;
+            }else{
+                skillPrice += 100;
+            }
+        }else {
+            
+        }
+        
+        if(skillNum > 6){
+            skillPrice += 500;
+        }
+        
+        if([skillsNumArr containsObject:@"595"]){
+            skillPrice *= 1.1;
+        }
+    }else if([skillsNumArr containsObject:@"661"] || [skillsNumArr containsObject:@"426"] || [skillsNumArr containsObject:@"427"] || [skillsNumArr containsObject:@"428"] || [skillsNumArr containsObject:@"429"])
+    {//须弥  大法
+        
+        //有须弥
         if([skillsNumArr containsObject:@"661"])
         {
-            price += 300;
-            NSInteger addNum = 0;
-            NSArray * addArr = [NSArray arrayWithObjects:@"424",@"573",@"577",@"578",@"411",@"422",nil];
-            for(NSString * eve in addArr)
+            
+            if(fashuMore >= 4)
             {
+                skillPrice += (fashuMore * 300);
+            }else if(gongjiMoreNum > 1){
+                skillPrice += (fashuMore * 150);
+            }
+            
+            //大法书
+            NSArray * bigSkillArr = [NSArray arrayWithObjects:@"426",@"427",@"428",@"429",nil];
+            for (NSString * eve in bigSkillArr )
+            {
+                //高级技能，一个加50
                 if([skillsNumArr containsObject:eve])
                 {
-                    addNum += 1;
+                    skillPrice += 100;
+                    break;
                 }
             }
-            if(addNum >= 3)
+            
+            //大红法书
+            NSArray * heighSkillArr = [NSArray arrayWithObjects:@"424",@"573",@"577",@"578",nil];
+            for (NSString * eve in heighSkillArr )
             {
-                price += (addNum * 500);
-            }else{
-                price += (200) * addNum;
+                //高级技能，一个加50
+                if([skillsNumArr containsObject:eve])
+                {
+                    skillPrice += 50;
+                }
             }
-        }else if([skillsNumArr containsObject:@"424"] && [skillsNumArr containsObject:@"573"] && ([skillsNumArr containsObject:@"578"] || [skillsNumArr containsObject:@"577"]))
+            
+            //蓝书 力劈
+            if(fashuMore == 0)
+            {
+                if(skillNum > 4)
+                {
+                    skillPrice += 200;
+                }else{
+                    skillPrice += 100;
+                }
+            }else {
+                
+            }
+
+            
+            
+            if(skillNum > 5)
+            {
+                skillPrice += 500;
+            }
+            
+        }else
         {
-            price = 150;
-            if([skillsNumArr count] >4)
-            {//5技能法宠
-                price = 200;
+            
+            //大红法书
+            NSArray * heighSkillArr = [NSArray arrayWithObjects:@"424",@"573",@"577",@"578",nil];
+            for (NSString * eve in heighSkillArr )
+            {
+                //高级技能，一个加50
+                if([skillsNumArr containsObject:eve])
+                {
+                    skillPrice += 50;
+                }
             }
-        }else if([skillsNumArr count] > 8){
-            price = 100;
-        }else if([skillsNumArr count] > 6){
-            price = 50;
+            
+            if(fashuMore <= 2)
+            {
+                skillPrice = 20 * fashuMore;
+            }
+            
+        }
+
+    }else if([skillsNumArr containsObject:@"579"] || [skillsNumArr containsObject:@"552"]){
+        //法防  死亡
+        
+        //同时有，
+        if([skillsNumArr containsObject:@"579"] && [skillsNumArr containsObject:@"552"])
+        {
+            skillPrice += 100;
+            if(xuedunMore >= 2){
+                skillPrice += (xuedunMore * 50);
+            }else{
+                skillPrice += ((skillNum -2) * 10);
+            }
+            
+        }else if([skillsNumArr containsObject:@"579"])
+        {
+            //只有法防
+            skillPrice += 30;
+            if(xuedunMore >= 2){
+                skillPrice += (xuedunMore * 30);
+            }else if([skillsNumArr containsObject:@"411"])
+            {
+                //高神法防  50块  4技能
+                skillPrice = 50 + xuedunMore * 20;
+            }else
+            {
+                //垃圾法防
+                skillPrice = 10;
+            }
+            
+        }else{
+            //只有死亡
+            //死亡攻宠
+            if(maxAddNum == liliang || gongji > 1500)
+            {
+                skillPrice =  gongjiMoreNum * 50 + 100;
+
+            }else{
+                skillPrice = 20;
+            }
+            
+        }
+        
+        
+    }else if(gongjiMoreNum + fashuMore + xuedunMore > 0)
+    {
+        //有红书
+        if(gongjiMoreNum > 0)
+        {
+            if(gongjiMoreNum >= 2)
+            {
+                skillPrice = gongjiMoreNum * 30;
+            }else
+            {
+                //未打书 胚子
+                skillPrice = 10;
+            }
+            
+        }else if(fashuMore > 0)
+        {
+            if(fashuMore >= 2)
+            {
+                BOOL bigSkill = NO;
+                //大法书
+                NSArray * bigSkillArr = [NSArray arrayWithObjects:@"426",@"427",@"428",@"429",nil];
+                for (NSString * eve in bigSkillArr )
+                {
+                    //高级技能，一个加50
+                    if([skillsNumArr containsObject:eve])
+                    {
+                        bigSkill = YES;
+                    }
+                }
+                if(bigSkill && fashuMore >= 2){
+                    skillPrice = 50;
+                }
+                
+            }else
+            {
+                if(xuedunMore > 2)
+                {
+                    skillPrice = 50;
+                }else
+                {
+                    //未打书 胚子
+                    skillPrice = 10;
+                }
+            }
+
+
+        }else{
+            skillPrice = 20;
+
+        }
+        
+    }else{
+        //无特殊技能
+        if(dengji > 160){
+            skillPrice = 20;
+        }else{
+            skillPrice = 5;
         }
         
     }
-    if(maxAddNum == minjie || sudu > 1000){
-        //敏宠
-        if(skillNum >= 5){
-            price = 150;
-        }else{
-            price = 0;
-        }
-        //法防，高神  100
-        if([skillsNumArr containsObject:@"579"]){
-            price += 100;
-            if([skillsNumArr containsObject:@"411"]){
-                price += 50;
-            }
-        }
-        
-    }
-    if(maxAddNum == tili || maxAddNum == naili){
-        //血宠、耐宠
-        if(skillNum >= 5){
-            price = 150;
-        }else{
-            price = 0;
-        }
-        //法防，高神  100
-        if([skillsNumArr containsObject:@"579"]){
-            price += 50;
-            if([skillsNumArr containsObject:@"552"]){
-                price += 100;
-            }
-        }
-    }
+    
+    price += skillPrice;
+    
+    
     
     if([jinjie.cnt intValue] >0)
     {
@@ -336,6 +481,7 @@
 //     435高防御 403高反震 421高永恒  409高再生 417高幸运  402高反击 407高隐
 //     308感知 301夜战 316必杀 303反震 304吸血 325偷袭   510法连 575法爆  305连击  319神迹
 //     322敏捷 309再生 328水攻 306飞行 327落岩 307隐身 311小神
+
     
 
 }
@@ -348,7 +494,7 @@
     CGFloat youxibi = [self.iCash floatValue] + [self.iLearnCash floatValue] + [self.iSaving floatValue];
     youxibi = youxibi / 10000.0;
     if(youxibi > 1000){
-        price = youxibi / YouxibiRateForMoney;
+        price = youxibi / YouxibiRateForMoney ;
     }
     
     return price;
@@ -438,6 +584,7 @@
     }
     
     price = xiulian/YouxibiRateForMoney;
+    price *= 1.1;//修炼上限提升 需要5000W  3修3000块
     
     return price;
 }
@@ -499,7 +646,11 @@
     }
 
     CGFloat youxibi = baobao /100.0 * 65 + max_price;
-    youxibi *= 0.7;
+    if(number > 22){
+        youxibi *= 0.75;
+    }else{
+        youxibi *= 0.8;
+    }
     price = youxibi/YouxibiRateForMoney;
     
     return price;
@@ -532,7 +683,7 @@
         qianyuandan += [eve floatValue];
     }
     
-    CGFloat youxibi = qianyuandan;
+    CGFloat youxibi = qianyuandan ;
     price = youxibi/YouxibiRateForMoney;
     
     return price;
@@ -541,20 +692,31 @@
 {
     CGFloat price = 0;
 //    sum_exp总经验
-    if([self.sum_exp integerValue] < 200)
+    NSInteger sup_total = [self.sum_exp integerValue];
+    if(sup_total < 200)
     {
         price -= 500.0;
-    }
-    NSInteger qiannengguo = [self.iNutsNum integerValue];
-    if(qiannengguo < 120)
-    {
-        price -= 500;
-    }else if(qiannengguo > 190){
-        price += 500;
-    }else if(qiannengguo > 170){
-        price += 300;
+    }else if(sup_total> 300){
+        price += 200;
+    }else if(sup_total > 350){
+        NSInteger sub = (sup_total - 350) * 5 + 200;
+        sub = MIN(600, sub);
+        price += sub;
     }
     
+    
+    if(sup_total > 200)
+    {
+        NSInteger qiannengguo = [self.iNutsNum integerValue];
+        if(qiannengguo < 120)
+        {
+            price -= 500;
+        }else if(qiannengguo < 160){
+            price -= 200;
+        }else if(qiannengguo < 190){
+            price -= 100;
+        }
+    }
     
     
     //所有后续门派 等级满级 + 200
@@ -635,20 +797,20 @@
             schoolNum = 200;
         }
             break;
+        case 6:
+        {
+            schoolNum = 500;
+        }
+            break;
         case 10:
         case 13:
         {
-            schoolNum = 350;
+            schoolNum = 150;
         }
             break;
         case 7:
         {
             schoolNum = 700;
-        }
-            break;
-        case 6:
-        {
-            schoolNum = 500;
         }
             break;
         case 1:
@@ -768,7 +930,7 @@
     }else
     {
         CGFloat price = 0;
-        if(number < 148)
+        if(number < 150)
         {
             price = - 300.0;
         }
@@ -785,10 +947,10 @@
         // 20以上计算价格
         if(skillNum >= 40)
         {
-            skillNum = 700;
+            skillNum = 1000;
         }else if(skillNum >= 35)
         {
-            skillNum = 600;
+            skillNum = 700;
         }else if(skillNum >= 30){
             skillNum = 400;
         }else if(skillNum >= 20){
@@ -797,12 +959,14 @@
         
     }else
     {
-        if(skillNum > 130)
+        if(skillNum >= 155)
         {
             money = 100;
-        }else if(skillNum > 110)
+        }else if(skillNum > 140)
         {
-            money = 20;
+            money = 40;
+        }else if(skillNum > 110){
+            money = 10;
         }
     }
     

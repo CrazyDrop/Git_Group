@@ -70,7 +70,7 @@
          NSDictionary * dic = [resultStr objectFromJSONString];
          [self doneWebRequestWithWebDic:dic];
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+     } failure:^(AFHTTPRequestOperation *opeation, NSError *error) {
          //                                         NSLog(@"%s %@",__FUNCTION__,error);
          
          [self doneWebRequestWithWebDic:nil];

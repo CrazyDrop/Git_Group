@@ -83,6 +83,8 @@
 -(NSArray *)localSaveEquipHistoryModelListForServerId:(NSString *)server andSchool:(NSString *)school;
 -(NSArray *)localSaveEquipHistoryModelListForCompareCBGModel:(id)model;
 -(void)updateFavAndIngoreStateForMaxedPlanRateList;
+-(NSArray *)localSaveEquipHistoryModelListRepeatSold;
+-(NSArray *)localSaveEquipHistoryModelListOwnerList;
 
 //服务器名称存储操作
 -(NSArray *)localServerNameAndIDTotalDictionaryArray;

@@ -2432,6 +2432,68 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
      }];
 }
+-(NSArray *)localSaveEquipHistoryModelListRepeatSold
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         //         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 100000"];
+         [sqlMutableString appendFormat:@"select * from %@ where %@ in (select %@ from %@ group by %@ having count(%@) > 1) order by  %@ , %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+          ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+          ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+          ZADATABASE_TABLE_EQUIP_TOTAL,
+          ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+          ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+          ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+          ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             location.equip_status = 4;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+}
+-(NSArray *)localSaveEquipHistoryModelListOwnerList
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where FAV_OR_INGORE = 3"];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             location.equip_status = 4;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+}
 -(CBGListModel *)listModelFromDatabaseResult:(FMResultSet *)resultSet
 {
     CBGListModel * list = [[CBGListModel alloc] init];
@@ -2511,6 +2573,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     return totalArray;
     
 }
+
+
 -(void)localSaveServerNameAndIDDictionaryArray:(NSArray *)objArray
 {
     [databaseQueue inTransaction:^(FMDatabase *db, BOOL *rollback)

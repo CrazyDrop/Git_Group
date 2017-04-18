@@ -99,7 +99,10 @@
 }
 -(void)tapedOnRefreshWebViewBtn:(id)sender
 {
+    [self startRefreshDataModelRequest];
+    
     NSString * urlString = self.cbgList.detailWebUrl;
+    if(!urlString) return;
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.showWeb loadRequest:request];
@@ -165,9 +168,12 @@
     
     UIWebView *webView = nil;
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, FLoatChange(65), SCREEN_WIDTH, SCREEN_HEIGHT -FLoatChange(65))];
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *request =[NSURLRequest requestWithURL:url];
-    [webView loadRequest:request];
+    if(urlString)
+    {
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSURLRequest *request =[NSURLRequest requestWithURL:url];
+        [webView loadRequest:request];
+    }
     [bgView addSubview:webView];
     webView.delegate = self;
     self.showWeb = webView;
@@ -281,6 +287,7 @@
 
 -(void)copyToLocalForPasteWithString:(NSString *)url
 {
+    if(!url) return;
     UIPasteboard * board = [UIPasteboard generalPasteboard];
     board.string = url;
 }
@@ -361,13 +368,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     if([detailModels count] > 0)
     {
         EquipModel * detailEve = [detailModels lastObject];
-        self.detailModel = detailEve;
-        baseList.equipModel = detailEve;
-        NSString * urlString = self.cbgList.detailWebUrl;
-
-        NSString * prePrice = detailEve.equipExtra.detailPrePrice;
-        prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",urlString];
-        self.txtView.text = prePrice;
+        if([detailEve isKindOfClass:[EquipModel class]])
+        {
+            self.detailModel = detailEve;
+            baseList.equipModel = detailEve;
+            NSString * urlString = self.cbgList.detailWebUrl;
+            
+            NSString * prePrice = detailEve.equipExtra.detailPrePrice;
+            prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",urlString];
+            self.txtView.text = prePrice;
+        }
     }
     
 }
