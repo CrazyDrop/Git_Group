@@ -10,7 +10,7 @@
 #import "CBGOwnerRepeatListVC.h"
 #import "CBGOthersBuyRepeatListVC.h"
 #import "CBGPlanCommonCheckListVC.h"
-
+#import "EquipExtraModel.h"
 #define PlanCheckDetailListAddNum 100
 @interface CBGPlanListDetailCheckVC ()
 @property (nonatomic,strong) UITextView * textView;
@@ -31,6 +31,8 @@
                         @"购买列表",//标识
                                                
                         @"校验列表",//特殊数据
+                        @"分项检查",//特殊数据
+                        
                         
                         nil];
     
@@ -98,6 +100,11 @@
         {
             CBGPlanCommonCheckListVC * others = [[CBGPlanCommonCheckListVC alloc] init];
             [[self rootNavigationController] pushViewController:others animated:YES];
+        }
+            break;
+        case 3:{
+            EquipExtraModel * extra = [[EquipExtraModel alloc] init];
+            [extra detailSubCheck];
         }
             break;
 

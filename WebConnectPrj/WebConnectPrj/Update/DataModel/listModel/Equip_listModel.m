@@ -10,6 +10,7 @@
 
 #import "Equip_listModel.h"
 #import "EquipExtraModel.h"
+#import "NSDate+Extension.h"
 @implementation Equip_listModel
 -(BOOL)isFirstInSelling
 {

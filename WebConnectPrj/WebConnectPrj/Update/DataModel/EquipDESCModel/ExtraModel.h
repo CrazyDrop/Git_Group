@@ -9,7 +9,7 @@
 
 
 #import <Foundation/Foundation.h>
-
+#import "BaseDataModel.h"
 @interface ExtraModel : BaseDataModel
 
 @property (nonatomic, strong) NSString * extraTag;

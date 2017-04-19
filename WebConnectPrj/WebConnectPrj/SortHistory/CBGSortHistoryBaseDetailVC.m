@@ -412,7 +412,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
         
         NSInteger rate = contact.price_rate_latest_plan;
-        if(rate > 0)
+        if(rate > 0 && contact.server_id != 45)
         {
             equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
             equipName = [NSString stringWithFormat:@"%ld%% %@",rate,equipName];

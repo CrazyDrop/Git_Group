@@ -10,14 +10,50 @@
 
 #import "EquipExtraModel.h"
 #import "ExtraModel.h"
+#import "JSONKit.h"
 @implementation EquipExtraModel
 
-#define  YouxibiRateForMoney  1500.0*100
+#define  YouxibiRateForMoney  1300.0*100
+
+-(void)detailSubCheck
+{
+    //修炼  抗1000  修1500
+    NSInteger number = 25;
+    NSInteger xiulian = [self xiulian_price_countForEveNum:number withAdd:YES];
+    NSInteger kangxing = [self xiulian_price_countForEveNum:number withAdd:NO];
+    NSLog(@"修炼单项:");
+    NSLog(@"攻击%ld 价格:%ld 抗性%ld %ld  3修%ld %ld ",(long)number,xiulian,number,kangxing,(long)number,xiulian+kangxing*2);
+//    25的  1000  1500
+    
+    number = 20;
+    xiulian = [self xiulian_price_countForEveNum:number withAdd:YES];
+    kangxing = [self xiulian_price_countForEveNum:number withAdd:NO];
+    NSLog(@"攻击%ld 价格:%ld 抗性%ld %ld  3修%ld %ld ",(long)number,xiulian,number,kangxing,(long)number,xiulian+kangxing*2);
+//    20的  400  600
+    
+    //宠修估价
+    number = 20;
+    xiulian = [self chongxiu_price_countForEveNum:number];
+    NSLog(@"宠修单项:");
+    NSLog(@"宠修%ld 价格:%ld ",(long)number,xiulian);
+//    25的  1800
+    
+    number = 25;
+    xiulian = [self chongxiu_price_countForEveNum:number];
+    NSLog(@"宠修%ld 价格:%ld ",(long)number,xiulian);
+//    20的  800
+    
+    number = 180;
+    xiulian = [self jineng_price_countForEveShiMenNum:number];
+    NSLog(@"师门技能%ld 价格:%ld ",(long)number,xiulian);
+    
+}
 
 //增加潜能果、历史门派价格矫正
 //点一个师门技能 150-180  1.74亿钱   1000块钱
 -(NSString *)createExtraPrice
 {
+    
     CGFloat totalMoney = 0;
     //修炼
     CGFloat xiulian = [self price_xiulian];
@@ -496,6 +532,7 @@
     if(youxibi > 1000){
         price = youxibi / YouxibiRateForMoney ;
     }
+    price *= 0.8;
     
     return price;
 }
@@ -559,7 +596,7 @@
 -(CGFloat)xiulian_price_countForEveNum:(NSInteger)number withAdd:(BOOL)more
 {
     NSInteger countNum = 15;
-    if(number <= countNum)
+    if(number <= countNum || number > 25)
     {
         return 0;
     }
@@ -584,7 +621,11 @@
     }
     
     price = xiulian/YouxibiRateForMoney;
-    price *= 1.1;//修炼上限提升 需要5000W  3修3000块
+//    if(addNum > 3)
+    {//修炼上限提升 需要5000W  3修3000块，上限为本区域扣减
+//        price *= 1.2;
+    }
+    price *= 1.2;
     
     return price;
 }
@@ -607,6 +648,26 @@
     {
         NSInteger number = [[baobaoArr objectAtIndex:index] integerValue];
         CGFloat eveMoney = [self chongxiu_price_countForEveNum:number];
+        money += eveMoney;
+    }
+    
+    NSInteger yushouNum = 0;
+    for (ExtraModel * model in self.all_skills.skillsArray)
+    {
+        NSString * keyNum = model.extraTag;
+        if([keyNum integerValue] == 221)
+        {
+            NSNumber * num = model.extraValue;
+            yushouNum = [num integerValue];
+            break;
+        }
+    }
+    
+    if(yushouNum > 20)
+    {
+        //35级花费6000W  约400块
+        yushouNum *= (19.0/35.0);//视为低级抗
+        CGFloat eveMoney = [self xiulian_price_countForEveNum:yushouNum withAdd:NO];
         money += eveMoney;
     }
     
@@ -646,12 +707,12 @@
     }
 
     CGFloat youxibi = baobao /100.0 * 65 + max_price;
-    if(number > 22){
-        youxibi *= 0.75;
-    }else{
-        youxibi *= 0.8;
-    }
     price = youxibi/YouxibiRateForMoney;
+    if(number > 20){
+        price *= 0.58;
+    }else{
+        price *= 0.65;
+    }
     
     return price;
 }
@@ -757,6 +818,11 @@
     }
     if( [history count] > 0 && maxHistory > schoolNum){
         schoolNum = MAX(maxHistory - 200, schoolNum);
+    }
+    
+    if(schoolNum < 0 && [self.iNutsNum intValue] > 170)
+    {
+        schoolNum = 0;
     }
     
     
@@ -922,8 +988,9 @@
             }
         }
         
-        CGFloat youxibi = shiMenJN * 0.9;
+        CGFloat youxibi = shiMenJN ;
         price = youxibi/YouxibiRateForMoney;
+        price *= 0.8;
         
         return price;
 
@@ -1142,6 +1209,7 @@
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    
     
     if ([dictionary isKindOfClass:[NSDictionary class]]) {
         

@@ -33,6 +33,7 @@
 #import "CBGMaxHistoryListRefreshVC.h"
 #import "CBGDepthStudyVC.h"
 #import "CBGPlanListDetailCheckVC.h"
+#import "CBGCombinedScrolledHandleVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -66,8 +67,8 @@
                         @"响铃(开)",
                         @"read数据导入",
                         
-                        @"mobile刷新",
-                        @"mobile最新",
+                        @"mobile批量",
+                        @"mobile3页",
 
                         @"Web刷新",
                         @"混合刷新",
@@ -75,14 +76,14 @@
                         @"全部历史",
                         @"更新历史",
                         
-                        @"细分历史",//通过时间选择
+                        @"分段历史",//通过时间选择
                         @"当日历史",//今天的历史
 
                         @"链接估价",
                         @"URL设置",
 
                         @"页面验证码",
-                        @"本月走势",
+                        @"当月走势",
                         
                         @"倒手分析",
                         nil];
@@ -233,12 +234,8 @@
                 todayDate = [todayDate substringToIndex:[@"2017-03-29" length]];
             }
             
-            ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-            NSArray * dbArray = [manager localSaveEquipHistoryModelListForTime:todayDate];
-            
-            CBGCombinedHistoryHandleVC * combine = [[CBGCombinedHistoryHandleVC alloc] init];
+            CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];
             combine.selectedDate = todayDate;
-            combine.dbHistoryArr = dbArray;
             combine.showStyle = CBGCombinedHandleVCStyle_Plan;
             
             [[self rootNavigationController] pushViewController:combine animated:YES];
@@ -275,21 +272,8 @@
                 todayDate = [todayDate substringToIndex:[@"2017-03" length]];
             }
             
-            //针对数据进行筛选
-            ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-            NSArray * dbArray = [manager localSaveEquipHistoryModelListForTime:todayDate];
-            NSMutableArray * startArr = [NSMutableArray array];
-            for (NSInteger index = 0; index < [dbArray count]; index ++) {
-                CBGListModel * eve = [dbArray objectAtIndex:index];
-                if([eve.sell_create_time hasPrefix:todayDate])
-                {
-                    [startArr addObject:eve];
-                }
-            }
-            
-            CBGCombinedHistoryHandleVC * combine = [[CBGCombinedHistoryHandleVC alloc] init];
+            CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];
             combine.selectedDate = todayDate;
-            combine.dbHistoryArr = startArr;
             combine.showStyle = CBGCombinedHandleVCStyle_Study;
             
             [[self rootNavigationController] pushViewController:combine animated:YES];
@@ -323,14 +307,6 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     total.serverNameDic = nameDic;
     [total localSave];
-}
-
-+(void)showLogStart:(int)number
-{
-    for (int i=0;i<10000 ;i++ )
-    {
-        NSLog(@"showLogStart %d",i+number);
-    }
 }
 
 -(void)tapedOnTestBtn:(id)sender

@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "180D58AF19E622680045A720"
+               BlueprintIdentifier = "1820913A1EA6F0460015E393"
                BuildableName = "WebConnectPrjTests.xctest"
                BlueprintName = "WebConnectPrjTests"
                ReferencedContainer = "container:WebConnectPrj.xcodeproj">
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "180D58AF19E622680045A720"
+               BlueprintIdentifier = "1820913A1EA6F0460015E393"
                BuildableName = "WebConnectPrjTests.xctest"
                BlueprintName = "WebConnectPrjTests"
                ReferencedContainer = "container:WebConnectPrj.xcodeproj">

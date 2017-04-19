@@ -10,6 +10,7 @@
 
 #import "EquipModel.h"
 #import "NSData+Extension.h"
+#import "NSDate+Extension.h"
 @implementation EquipModel
 
 -(CGFloat)createEquipExtraEarnRate

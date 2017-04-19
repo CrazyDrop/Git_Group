@@ -9,6 +9,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "FabaoModel.h"
 #import "AllEquipModel.h"
 #import "ExAvtModel.h"
@@ -156,6 +157,8 @@
  *  @return model
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+-(void)detailSubCheck;
+
 
 @end
 

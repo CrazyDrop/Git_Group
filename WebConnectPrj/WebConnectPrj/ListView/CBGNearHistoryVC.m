@@ -108,6 +108,10 @@
     if(!showTotal && [compareArr count] > 0)
     {
         [roleArr addObject:[compareArr firstObject]];
+        if([compareArr count] > 1)
+        {
+//            [roleArr addObject:[compareArr objectAtIndex:1]];
+        }
     }else{
         [roleArr addObjectsFromArray:compareArr];
     }

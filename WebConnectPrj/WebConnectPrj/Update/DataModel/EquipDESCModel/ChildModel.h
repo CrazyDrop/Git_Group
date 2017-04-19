@@ -9,6 +9,8 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "BaseDataModel.h"
 #import "Summon_equip2Model.h"
 #import "Summon_equip1Model.h"
 #import "All_skillsModel.h"

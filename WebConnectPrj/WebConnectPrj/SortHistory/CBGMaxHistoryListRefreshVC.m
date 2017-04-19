@@ -55,6 +55,7 @@
     
     UITextView * pickerView = [[UITextView alloc] initWithFrame:rect];
     [bgView addSubview:pickerView];
+    pickerView.userInteractionEnabled = NO;
     pickerView.layoutManager.allowsNonContiguousLayout = NO;
     self.logTxt = pickerView;
     
@@ -248,7 +249,7 @@
     
     self.retryArr = errorArr;
     
-    NSString * startLog = [NSString stringWithFormat:@"本次结束 失败 %ld",[errorArr count]];
+    NSString * startLog = [NSString stringWithFormat:@"本次结束 失败 %ld",[array count]];
     [self writeToViewLogWithLatestString:startLog];
     
     [requestLock unlock];

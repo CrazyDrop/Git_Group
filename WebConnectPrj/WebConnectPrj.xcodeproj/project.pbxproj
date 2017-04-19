@@ -85,6 +85,104 @@
 		182091301EA4BEE20015E393 /* CBGOwnerRepeatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */; };
 		182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */; };
 		182091361EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */; };
+		1820913E1EA6F0470015E393 /* WebConnectPrjTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820913D1EA6F0470015E393 /* WebConnectPrjTests.m */; };
+		182097BE1EA6F3140015E393 /* Bargain_infoModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB01E7FC2C500B48E3C /* Bargain_infoModel.h */; };
+		182097BF1EA6F3140015E393 /* Bargain_infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB11E7FC2C500B48E3C /* Bargain_infoModel.m */; };
+		182097C01EA6F3140015E393 /* Cross_buy_serveridsModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB21E7FC2C500B48E3C /* Cross_buy_serveridsModel.h */; };
+		182097C11EA6F3140015E393 /* Cross_buy_serveridsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB31E7FC2C500B48E3C /* Cross_buy_serveridsModel.m */; };
+		182097C21EA6F3140015E393 /* EquipModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB41E7FC2C500B48E3C /* EquipModel.h */; };
+		182097C31EA6F3140015E393 /* EquipModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB51E7FC2C500B48E3C /* EquipModel.m */; };
+		182097C41EA6F3140015E393 /* HighlightModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB61E7FC2C500B48E3C /* HighlightModel.h */; };
+		182097C51EA6F3140015E393 /* HighlightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB71E7FC2C500B48E3C /* HighlightModel.m */; };
+		182097C61EA6F3140015E393 /* Poundage_listModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB81E7FC2C500B48E3C /* Poundage_listModel.h */; };
+		182097C71EA6F3140015E393 /* Poundage_listModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB91E7FC2C500B48E3C /* Poundage_listModel.m */; };
+		182097C81EA6F3140015E393 /* RoleDetailDataModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBA1E7FC2C500B48E3C /* RoleDetailDataModel.h */; };
+		182097C91EA6F3140015E393 /* RoleDetailDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBB1E7FC2C500B48E3C /* RoleDetailDataModel.m */; };
+		182097CA1EA6F3140015E393 /* Selling_infoModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBC1E7FC2C500B48E3C /* Selling_infoModel.h */; };
+		182097CB1EA6F3140015E393 /* Selling_infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBD1E7FC2C500B48E3C /* Selling_infoModel.m */; };
+		182097CC1EA6F3140015E393 /* All_skillsModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBF1E7FC2C500B48E3C /* All_skillsModel.h */; };
+		182097CD1EA6F3140015E393 /* All_skillsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC01E7FC2C500B48E3C /* All_skillsModel.m */; };
+		182097CE1EA6F3140015E393 /* AllEquipModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC11E7FC2C500B48E3C /* AllEquipModel.h */; };
+		182097CF1EA6F3140015E393 /* AllEquipModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC21E7FC2C500B48E3C /* AllEquipModel.m */; };
+		182097D01EA6F3140015E393 /* AllRiderModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC31E7FC2C500B48E3C /* AllRiderModel.h */; };
+		182097D11EA6F3140015E393 /* AllRiderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC41E7FC2C500B48E3C /* AllRiderModel.m */; };
+		182097D21EA6F3140015E393 /* AllSummonModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC51E7FC2C500B48E3C /* AllSummonModel.h */; };
+		182097D31EA6F3140015E393 /* AllSummonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC61E7FC2C500B48E3C /* AllSummonModel.m */; };
+		182097D41EA6F3140015E393 /* AttrsModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC71E7FC2C500B48E3C /* AttrsModel.h */; };
+		182097D51EA6F3140015E393 /* AttrsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC81E7FC2C500B48E3C /* AttrsModel.m */; };
+		182097D61EA6F3140015E393 /* ChangeschModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC91E7FC2C500B48E3C /* ChangeschModel.h */; };
+		182097D71EA6F3140015E393 /* ChangeschModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCA1E7FC2C500B48E3C /* ChangeschModel.m */; };
+		182097D81EA6F3140015E393 /* ChildModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCB1E7FC2C500B48E3C /* ChildModel.h */; };
+		182097D91EA6F3140015E393 /* ChildModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCC1E7FC2C500B48E3C /* ChildModel.m */; };
+		182097DA1EA6F3140015E393 /* CoreModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCD1E7FC2C500B48E3C /* CoreModel.h */; };
+		182097DB1EA6F3140015E393 /* CoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCE1E7FC2C500B48E3C /* CoreModel.m */; };
+		182097DC1EA6F3140015E393 /* EquipExtraModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCF1E7FC2C500B48E3C /* EquipExtraModel.h */; };
+		182097DD1EA6F3140015E393 /* EquipExtraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD01E7FC2C500B48E3C /* EquipExtraModel.m */; };
+		182097DE1EA6F3140015E393 /* ExAvtModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD11E7FC2C500B48E3C /* ExAvtModel.h */; };
+		182097DF1EA6F3140015E393 /* ExAvtModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD21E7FC2C500B48E3C /* ExAvtModel.m */; };
+		182097E01EA6F3140015E393 /* ExtraModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD31E7FC2C500B48E3C /* ExtraModel.h */; };
+		182097E11EA6F3140015E393 /* ExtraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD41E7FC2C500B48E3C /* ExtraModel.m */; };
+		182097E21EA6F3140015E393 /* FabaoModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD51E7FC2C500B48E3C /* FabaoModel.h */; };
+		182097E31EA6F3140015E393 /* FabaoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD61E7FC2C500B48E3C /* FabaoModel.m */; };
+		182097E41EA6F3140015E393 /* HugeHorseModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD71E7FC2C500B48E3C /* HugeHorseModel.h */; };
+		182097E51EA6F3140015E393 /* HugeHorseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD81E7FC2C500B48E3C /* HugeHorseModel.m */; };
+		182097E61EA6F3140015E393 /* Idbid_descModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD91E7FC2C500B48E3C /* Idbid_descModel.h */; };
+		182097E71EA6F3140015E393 /* Idbid_descModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDA1E7FC2C500B48E3C /* Idbid_descModel.m */; };
+		182097E81EA6F3140015E393 /* JinjieModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDB1E7FC2C500B48E3C /* JinjieModel.h */; };
+		182097E91EA6F3140015E393 /* JinjieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDC1E7FC2C500B48E3C /* JinjieModel.m */; };
+		182097EA1EA6F3140015E393 /* More_attrModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDD1E7FC2C500B48E3C /* More_attrModel.h */; };
+		182097EB1EA6F3140015E393 /* More_attrModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDE1E7FC2C500B48E3C /* More_attrModel.m */; };
+		182097EC1EA6F3140015E393 /* PetModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDF1E7FC2C500B48E3C /* PetModel.h */; };
+		182097ED1EA6F3140015E393 /* PetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE01E7FC2C500B48E3C /* PetModel.m */; };
+		182097EE1EA6F3140015E393 /* PropKeptModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE11E7FC2C500B48E3C /* PropKeptModel.h */; };
+		182097EF1EA6F3140015E393 /* PropKeptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE21E7FC2C500B48E3C /* PropKeptModel.m */; };
+		182097F01EA6F3140015E393 /* Summon_coreModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE31E7FC2C500B48E3C /* Summon_coreModel.h */; };
+		182097F11EA6F3140015E393 /* Summon_coreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE41E7FC2C500B48E3C /* Summon_coreModel.m */; };
+		182097F21EA6F3140015E393 /* Summon_equip1Model.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE51E7FC2C500B48E3C /* Summon_equip1Model.h */; };
+		182097F31EA6F3140015E393 /* Summon_equip1Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE61E7FC2C500B48E3C /* Summon_equip1Model.m */; };
+		182097F41EA6F3140015E393 /* Summon_equip2Model.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE71E7FC2C500B48E3C /* Summon_equip2Model.h */; };
+		182097F51EA6F3140015E393 /* Summon_equip2Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE81E7FC2C500B48E3C /* Summon_equip2Model.m */; };
+		182097F61EA6F3140015E393 /* Summon_equip3Model.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE91E7FC2C500B48E3C /* Summon_equip3Model.h */; };
+		182097F71EA6F3140015E393 /* Summon_equip3Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEA1E7FC2C500B48E3C /* Summon_equip3Model.m */; };
+		182097F81EA6F3140015E393 /* DirectionModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEC1E7FC2C500B48E3C /* DirectionModel.h */; };
+		182097F91EA6F3150015E393 /* DirectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DED1E7FC2C500B48E3C /* DirectionModel.m */; };
+		182097FA1EA6F3150015E393 /* Equip_listModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEE1E7FC2C500B48E3C /* Equip_listModel.h */; };
+		182097FB1EA6F3150015E393 /* Equip_listModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEF1E7FC2C500B48E3C /* Equip_listModel.m */; };
+		182097FC1EA6F3150015E393 /* Keyword_argModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF01E7FC2C500B48E3C /* Keyword_argModel.h */; };
+		182097FD1EA6F3150015E393 /* Keyword_argModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF11E7FC2C500B48E3C /* Keyword_argModel.m */; };
+		182097FE1EA6F3150015E393 /* Order_headersModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF21E7FC2C500B48E3C /* Order_headersModel.h */; };
+		182097FF1EA6F3150015E393 /* Order_headersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF31E7FC2C500B48E3C /* Order_headersModel.m */; };
+		182098001EA6F3150015E393 /* RoleDataModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF41E7FC2C500B48E3C /* RoleDataModel.h */; };
+		182098011EA6F3150015E393 /* RoleDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF51E7FC2C500B48E3C /* RoleDataModel.m */; };
+		182098021EA6F3450015E393 /* BaseDataModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DA91E7FC2C500B48E3C /* BaseDataModel.h */; };
+		182098031EA6F3450015E393 /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DAA1E7FC2C500B48E3C /* BaseDataModel.m */; };
+		182098041EA6F3820015E393 /* MJExtension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972201E7FCA5C00B48E3C /* MJExtension.h */; };
+		182098051EA6F3820015E393 /* MJExtensionConfig.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972211E7FCA5C00B48E3C /* MJExtensionConfig.h */; };
+		182098061EA6F3820015E393 /* MJExtensionConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972221E7FCA5C00B48E3C /* MJExtensionConfig.m */; };
+		182098071EA6F3820015E393 /* MJExtensionConst.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972231E7FCA5C00B48E3C /* MJExtensionConst.h */; };
+		182098081EA6F3820015E393 /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972241E7FCA5C00B48E3C /* MJExtensionConst.m */; };
+		182098091EA6F3820015E393 /* MJFoundation.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972251E7FCA5C00B48E3C /* MJFoundation.h */; };
+		1820980A1EA6F3820015E393 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972261E7FCA5C00B48E3C /* MJFoundation.m */; };
+		1820980B1EA6F3820015E393 /* MJProperty.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972271E7FCA5C00B48E3C /* MJProperty.h */; };
+		1820980C1EA6F3820015E393 /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972281E7FCA5C00B48E3C /* MJProperty.m */; };
+		1820980D1EA6F3820015E393 /* MJPropertyKey.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972291E7FCA5C00B48E3C /* MJPropertyKey.h */; };
+		1820980E1EA6F3820015E393 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722A1E7FCA5C00B48E3C /* MJPropertyKey.m */; };
+		1820980F1EA6F3820015E393 /* MJPropertyType.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722B1E7FCA5C00B48E3C /* MJPropertyType.h */; };
+		182098101EA6F3820015E393 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722C1E7FCA5C00B48E3C /* MJPropertyType.m */; };
+		182098111EA6F3820015E393 /* NSObject+MJClass.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722D1E7FCA5C00B48E3C /* NSObject+MJClass.h */; };
+		182098121EA6F3820015E393 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722E1E7FCA5C00B48E3C /* NSObject+MJClass.m */; };
+		182098131EA6F3820015E393 /* NSObject+MJCoding.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722F1E7FCA5C00B48E3C /* NSObject+MJCoding.h */; };
+		182098141EA6F3820015E393 /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972301E7FCA5C00B48E3C /* NSObject+MJCoding.m */; };
+		182098151EA6F3820015E393 /* NSObject+MJKeyValue.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972311E7FCA5C00B48E3C /* NSObject+MJKeyValue.h */; };
+		182098161EA6F3820015E393 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972321E7FCA5C00B48E3C /* NSObject+MJKeyValue.m */; };
+		182098171EA6F3820015E393 /* NSObject+MJProperty.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972331E7FCA5C00B48E3C /* NSObject+MJProperty.h */; };
+		182098181EA6F3820015E393 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972341E7FCA5C00B48E3C /* NSObject+MJProperty.m */; };
+		182098191EA6F3820015E393 /* NSString+MJExtension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972351E7FCA5C00B48E3C /* NSString+MJExtension.h */; };
+		1820981A1EA6F3820015E393 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972361E7FCA5C00B48E3C /* NSString+MJExtension.m */; };
+		1820981B1EA6F4C40015E393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725A1E7FD05F00B48E3C /* UIKit.framework */; };
+		1820981C1EA6F4D00015E393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725B1E7FD05F00B48E3C /* Foundation.framework */; };
+		1820981D1EA6F50A0015E393 /* NSDate+Extension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D11E7FDDD400B48E3C /* NSDate+Extension.h */; };
+		1820981E1EA6F50A0015E393 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D21E7FDDD400B48E3C /* NSDate+Extension.m */; };
 		185BB0341E825C4700306695 /* ZWDetailCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BB0331E825C4700306695 /* ZWDetailCheckManager.m */; };
 		187767C31A416805003F31B6 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187767C21A416805003F31B6 /* SWTableViewCell.m */; };
 		18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */; };
@@ -586,6 +684,16 @@
 		18CFB79C1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		182091401EA6F0470015E393 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 180D588F19E622680045A720 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 180D589619E622680045A720;
+			remoteInfo = WebConnectPrj;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		180D589719E622680045A720 /* WebConnectPrj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebConnectPrj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		180D589B19E622680045A720 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -739,6 +847,9 @@
 		182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCommonCheckListVC.m; sourceTree = "<group>"; };
 		182091341EA4C49E0015E393 /* CBGPlanCompareBaseListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCompareBaseListVC.h; sourceTree = "<group>"; };
 		182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCompareBaseListVC.m; sourceTree = "<group>"; };
+		1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebConnectPrjTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1820913D1EA6F0470015E393 /* WebConnectPrjTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebConnectPrjTests.m; sourceTree = "<group>"; };
+		1820913F1EA6F0470015E393 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		185BB0321E825C4700306695 /* ZWDetailCheckManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWDetailCheckManager.h; sourceTree = "<group>"; };
 		185BB0331E825C4700306695 /* ZWDetailCheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWDetailCheckManager.m; sourceTree = "<group>"; };
 		187767C11A416805003F31B6 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
@@ -813,7 +924,6 @@
 		18A1EE821E8631C2009312A7 /* CBGWebListCheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebListCheckManager.m; sourceTree = "<group>"; };
 		18A1EE851E864F27009312A7 /* CBGWebListErrorCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGWebListErrorCheckVC.h; sourceTree = "<group>"; };
 		18A1EE861E864F27009312A7 /* CBGWebListErrorCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebListErrorCheckVC.m; sourceTree = "<group>"; };
-		18A5D6061E851407009CF594 /* WebConnectPrj copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "WebConnectPrj copy-Info.plist"; path = "/Users/apple/Documents/GitHub/OLTableView/WebConnectPrj/WebConnectPrj copy-Info.plist"; sourceTree = "<absolute>"; };
 		18A96D5F1E7FC24700B48E3C /* ZWDetailBuyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWDetailBuyVC.h; sourceTree = "<group>"; };
 		18A96D601E7FC24700B48E3C /* ZWDetailBuyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWDetailBuyVC.m; sourceTree = "<group>"; };
 		18A96D611E7FC24700B48E3C /* ZWDetailOthersClearListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWDetailOthersClearListVC.h; sourceTree = "<group>"; };
@@ -1733,6 +1843,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		182091381EA6F0460015E393 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1820981C1EA6F4D00015E393 /* Foundation.framework in Frameworks */,
+				1820981B1EA6F4C40015E393 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1741,9 +1860,9 @@
 			children = (
 				180D58C019E622910045A720 /* readme.txt */,
 				180D589919E622680045A720 /* WebConnectPrj */,
+				1820913C1EA6F0470015E393 /* WebConnectPrjTests */,
 				180D589819E622680045A720 /* Products */,
 				18A971FE1E7FC8A500B48E3C /* Frameworks */,
-				18A5D6061E851407009CF594 /* WebConnectPrj copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1751,6 +1870,7 @@
 			isa = PBXGroup;
 			children = (
 				180D589719E622680045A720 /* WebConnectPrj.app */,
+				1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2027,6 +2147,15 @@
 				182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */,
 			);
 			path = PlanCheck;
+			sourceTree = "<group>";
+		};
+		1820913C1EA6F0470015E393 /* WebConnectPrjTests */ = {
+			isa = PBXGroup;
+			children = (
+				1820913D1EA6F0470015E393 /* WebConnectPrjTests.m */,
+				1820913F1EA6F0470015E393 /* Info.plist */,
+			);
+			path = WebConnectPrjTests;
 			sourceTree = "<group>";
 		};
 		187767C01A416805003F31B6 /* SWTableViewCell */ = {
@@ -3759,6 +3888,24 @@
 			productReference = 180D589719E622680045A720 /* WebConnectPrj.app */;
 			productType = "com.apple.product-type.application";
 		};
+		1820913A1EA6F0460015E393 /* WebConnectPrjTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 182091421EA6F0470015E393 /* Build configuration list for PBXNativeTarget "WebConnectPrjTests" */;
+			buildPhases = (
+				182091371EA6F0460015E393 /* Sources */,
+				182091381EA6F0460015E393 /* Frameworks */,
+				182091391EA6F0460015E393 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				182091411EA6F0470015E393 /* PBXTargetDependency */,
+			);
+			name = WebConnectPrjTests;
+			productName = WebConnectPrjTests;
+			productReference = 1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3770,13 +3917,18 @@
 				TargetAttributes = {
 					180D589619E622680045A720 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = X9YQDM8Q42;
+						DevelopmentTeam = 3SHBLHHSMD;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 						};
+					};
+					1820913A1EA6F0460015E393 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 180D589619E622680045A720;
 					};
 				};
 			};
@@ -3794,6 +3946,7 @@
 			projectRoot = "";
 			targets = (
 				180D589619E622680045A720 /* WebConnectPrj */,
+				1820913A1EA6F0460015E393 /* WebConnectPrjTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3842,6 +3995,13 @@
 				18A976361E7FDDD500B48E3C /* 刷新4@2x.png in Resources */,
 				18A96D901E7FC24700B48E3C /* RefreshListCell.xib in Resources */,
 				18A96D971E7FC24700B48E3C /* ZWRateEditController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		182091391EA6F0460015E393 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4366,7 +4526,118 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		182091371EA6F0460015E393 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1820981D1EA6F50A0015E393 /* NSDate+Extension.h in Sources */,
+				1820981E1EA6F50A0015E393 /* NSDate+Extension.m in Sources */,
+				182098041EA6F3820015E393 /* MJExtension.h in Sources */,
+				182098051EA6F3820015E393 /* MJExtensionConfig.h in Sources */,
+				182098061EA6F3820015E393 /* MJExtensionConfig.m in Sources */,
+				182098071EA6F3820015E393 /* MJExtensionConst.h in Sources */,
+				182098081EA6F3820015E393 /* MJExtensionConst.m in Sources */,
+				182098091EA6F3820015E393 /* MJFoundation.h in Sources */,
+				1820980A1EA6F3820015E393 /* MJFoundation.m in Sources */,
+				1820980B1EA6F3820015E393 /* MJProperty.h in Sources */,
+				1820980C1EA6F3820015E393 /* MJProperty.m in Sources */,
+				1820980D1EA6F3820015E393 /* MJPropertyKey.h in Sources */,
+				1820980E1EA6F3820015E393 /* MJPropertyKey.m in Sources */,
+				1820980F1EA6F3820015E393 /* MJPropertyType.h in Sources */,
+				182098101EA6F3820015E393 /* MJPropertyType.m in Sources */,
+				182098111EA6F3820015E393 /* NSObject+MJClass.h in Sources */,
+				182098121EA6F3820015E393 /* NSObject+MJClass.m in Sources */,
+				182098131EA6F3820015E393 /* NSObject+MJCoding.h in Sources */,
+				182098141EA6F3820015E393 /* NSObject+MJCoding.m in Sources */,
+				182098151EA6F3820015E393 /* NSObject+MJKeyValue.h in Sources */,
+				182098161EA6F3820015E393 /* NSObject+MJKeyValue.m in Sources */,
+				182098171EA6F3820015E393 /* NSObject+MJProperty.h in Sources */,
+				182098181EA6F3820015E393 /* NSObject+MJProperty.m in Sources */,
+				182098191EA6F3820015E393 /* NSString+MJExtension.h in Sources */,
+				1820981A1EA6F3820015E393 /* NSString+MJExtension.m in Sources */,
+				182098021EA6F3450015E393 /* BaseDataModel.h in Sources */,
+				182098031EA6F3450015E393 /* BaseDataModel.m in Sources */,
+				182097BE1EA6F3140015E393 /* Bargain_infoModel.h in Sources */,
+				182097BF1EA6F3140015E393 /* Bargain_infoModel.m in Sources */,
+				182097C01EA6F3140015E393 /* Cross_buy_serveridsModel.h in Sources */,
+				182097C11EA6F3140015E393 /* Cross_buy_serveridsModel.m in Sources */,
+				182097C21EA6F3140015E393 /* EquipModel.h in Sources */,
+				182097C31EA6F3140015E393 /* EquipModel.m in Sources */,
+				182097C41EA6F3140015E393 /* HighlightModel.h in Sources */,
+				182097C51EA6F3140015E393 /* HighlightModel.m in Sources */,
+				182097C61EA6F3140015E393 /* Poundage_listModel.h in Sources */,
+				182097C71EA6F3140015E393 /* Poundage_listModel.m in Sources */,
+				182097C81EA6F3140015E393 /* RoleDetailDataModel.h in Sources */,
+				182097C91EA6F3140015E393 /* RoleDetailDataModel.m in Sources */,
+				182097CA1EA6F3140015E393 /* Selling_infoModel.h in Sources */,
+				182097CB1EA6F3140015E393 /* Selling_infoModel.m in Sources */,
+				182097CC1EA6F3140015E393 /* All_skillsModel.h in Sources */,
+				182097CD1EA6F3140015E393 /* All_skillsModel.m in Sources */,
+				182097CE1EA6F3140015E393 /* AllEquipModel.h in Sources */,
+				182097CF1EA6F3140015E393 /* AllEquipModel.m in Sources */,
+				182097D01EA6F3140015E393 /* AllRiderModel.h in Sources */,
+				182097D11EA6F3140015E393 /* AllRiderModel.m in Sources */,
+				182097D21EA6F3140015E393 /* AllSummonModel.h in Sources */,
+				182097D31EA6F3140015E393 /* AllSummonModel.m in Sources */,
+				182097D41EA6F3140015E393 /* AttrsModel.h in Sources */,
+				182097D51EA6F3140015E393 /* AttrsModel.m in Sources */,
+				182097D61EA6F3140015E393 /* ChangeschModel.h in Sources */,
+				182097D71EA6F3140015E393 /* ChangeschModel.m in Sources */,
+				182097D81EA6F3140015E393 /* ChildModel.h in Sources */,
+				182097D91EA6F3140015E393 /* ChildModel.m in Sources */,
+				182097DA1EA6F3140015E393 /* CoreModel.h in Sources */,
+				182097DB1EA6F3140015E393 /* CoreModel.m in Sources */,
+				182097DC1EA6F3140015E393 /* EquipExtraModel.h in Sources */,
+				182097DD1EA6F3140015E393 /* EquipExtraModel.m in Sources */,
+				182097DE1EA6F3140015E393 /* ExAvtModel.h in Sources */,
+				182097DF1EA6F3140015E393 /* ExAvtModel.m in Sources */,
+				182097E01EA6F3140015E393 /* ExtraModel.h in Sources */,
+				182097E11EA6F3140015E393 /* ExtraModel.m in Sources */,
+				182097E21EA6F3140015E393 /* FabaoModel.h in Sources */,
+				182097E31EA6F3140015E393 /* FabaoModel.m in Sources */,
+				182097E41EA6F3140015E393 /* HugeHorseModel.h in Sources */,
+				182097E51EA6F3140015E393 /* HugeHorseModel.m in Sources */,
+				182097E61EA6F3140015E393 /* Idbid_descModel.h in Sources */,
+				182097E71EA6F3140015E393 /* Idbid_descModel.m in Sources */,
+				182097E81EA6F3140015E393 /* JinjieModel.h in Sources */,
+				182097E91EA6F3140015E393 /* JinjieModel.m in Sources */,
+				182097EA1EA6F3140015E393 /* More_attrModel.h in Sources */,
+				182097EB1EA6F3140015E393 /* More_attrModel.m in Sources */,
+				182097EC1EA6F3140015E393 /* PetModel.h in Sources */,
+				182097ED1EA6F3140015E393 /* PetModel.m in Sources */,
+				182097EE1EA6F3140015E393 /* PropKeptModel.h in Sources */,
+				182097EF1EA6F3140015E393 /* PropKeptModel.m in Sources */,
+				182097F01EA6F3140015E393 /* Summon_coreModel.h in Sources */,
+				182097F11EA6F3140015E393 /* Summon_coreModel.m in Sources */,
+				182097F21EA6F3140015E393 /* Summon_equip1Model.h in Sources */,
+				182097F31EA6F3140015E393 /* Summon_equip1Model.m in Sources */,
+				182097F41EA6F3140015E393 /* Summon_equip2Model.h in Sources */,
+				182097F51EA6F3140015E393 /* Summon_equip2Model.m in Sources */,
+				182097F61EA6F3140015E393 /* Summon_equip3Model.h in Sources */,
+				182097F71EA6F3140015E393 /* Summon_equip3Model.m in Sources */,
+				182097F81EA6F3140015E393 /* DirectionModel.h in Sources */,
+				182097F91EA6F3150015E393 /* DirectionModel.m in Sources */,
+				182097FA1EA6F3150015E393 /* Equip_listModel.h in Sources */,
+				182097FB1EA6F3150015E393 /* Equip_listModel.m in Sources */,
+				182097FC1EA6F3150015E393 /* Keyword_argModel.h in Sources */,
+				182097FD1EA6F3150015E393 /* Keyword_argModel.m in Sources */,
+				182097FE1EA6F3150015E393 /* Order_headersModel.h in Sources */,
+				182097FF1EA6F3150015E393 /* Order_headersModel.m in Sources */,
+				182098001EA6F3150015E393 /* RoleDataModel.h in Sources */,
+				182098011EA6F3150015E393 /* RoleDataModel.m in Sources */,
+				1820913E1EA6F0470015E393 /* WebConnectPrjTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		182091411EA6F0470015E393 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 180D589619E622680045A720 /* WebConnectPrj */;
+			targetProxy = 182091401EA6F0470015E393 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		180D58A919E622680045A720 /* LaunchScreen.xib */ = {
@@ -4462,16 +4733,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = X9YQDM8Q42;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				DEVELOPMENT_TEAM = 3SHBLHHSMD;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d45cd942-2dca-440f-9482-8c713096026f";
-				PROVISIONING_PROFILE_SPECIFIER = "it developer common";
+				PROVISIONING_PROFILE = "3c0f46df-0373-4f7c-9730-3aae018fbf6c";
+				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
 			};
 			name = Debug;
 		};
@@ -4486,6 +4758,46 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		182091431EA6F0470015E393 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WebConnectPrjTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongan.WebConnectPrjTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WebConnectPrj.app/WebConnectPrj";
+			};
+			name = Debug;
+		};
+		182091441EA6F0470015E393 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WebConnectPrjTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongan.WebConnectPrjTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WebConnectPrj.app/WebConnectPrj";
 			};
 			name = Release;
 		};
@@ -4506,6 +4818,15 @@
 			buildConfigurations = (
 				180D58BB19E622680045A720 /* Debug */,
 				180D58BC19E622680045A720 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		182091421EA6F0470015E393 /* Build configuration list for PBXNativeTarget "WebConnectPrjTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				182091431EA6F0470015E393 /* Debug */,
+				182091441EA6F0470015E393 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

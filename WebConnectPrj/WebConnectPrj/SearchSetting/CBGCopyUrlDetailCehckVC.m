@@ -10,6 +10,8 @@
 #import "ZACBGDetailWebVC.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "ZALocationLocalModel.h"
+#import "ZWHistoryListController.h"
+#import "CBGNearHistoryVC.h"
 #define BlueSettingDebugAddNum 100
 @interface CBGCopyUrlDetailCehckVC ()
 {
@@ -56,7 +58,8 @@
                         @"状态-购买",
                         
                         @"忽略特殊",
-                        
+                        @"全部历史(旧)",
+                        @"相关历史",
                         nil];
     
     UIView * bgView = self.view;
@@ -152,6 +155,34 @@
         {
             ZALocationLocalModelManager * dbManager =[ZALocationLocalModelManager sharedInstance];
             [dbManager updateFavAndIngoreStateForMaxedPlanRateList];
+        }
+            break;
+        case 9:
+        {
+            if(!self.detailModel)
+            {
+                [DZUtils noticeCustomerWithShowText:@"详情不存在"];
+                return;
+            }
+            ZWHistoryListController * list =[[ZWHistoryListController alloc] init];
+            list.selectedOrderSN = self.detailModel.game_ordersn;
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
+        case 10:
+        {
+            if(!self.detailModel)
+            {
+                [DZUtils noticeCustomerWithShowText:@"详情不存在"];
+                return;
+            }
+            CBGListModel * cbgList = baseList.listSaveModel;
+
+            CBGNearHistoryVC  * list = [[CBGNearHistoryVC alloc] init];
+            list.cbgList = cbgList;
+            list.detailModel = self.detailModel;
+            [[self rootNavigationController] pushViewController:list animated:YES];
+
         }
             break;
 

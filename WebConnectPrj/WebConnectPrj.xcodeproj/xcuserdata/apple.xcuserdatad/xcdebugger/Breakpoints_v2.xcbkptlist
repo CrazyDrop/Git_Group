@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
-            timestampString = "514179386.521892"
+            timestampString = "514266347.416774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "-detailSummonPriceForEveSummon:"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "-detailSubCheck"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -36,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
-            timestampString = "514181023.139067"
+            timestampString = "514268879.111133"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "655"
-            endingLineNumber = "655"
-            landmarkName = "-chongxiu_price_countForEveNum:"
+            startingLineNumber = "659"
+            endingLineNumber = "659"
+            landmarkName = "-price_chongxiu"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
