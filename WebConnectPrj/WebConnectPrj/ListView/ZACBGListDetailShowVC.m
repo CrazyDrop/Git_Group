@@ -133,6 +133,7 @@
         equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
         centerDetailTxt = [contact.game_ordersn substringToIndex:15];
         
+        
     }else if(state == CBGEquipRoleState_InOrdering)
     {//主要展示  下单信息  取消,金额
         NSDate * date = [NSDate fromString:contact.sell_order_time];
@@ -195,6 +196,11 @@
             equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
             equipName = [NSString stringWithFormat:@"%ld%% %@",rate,equipName];
             equipBuyColor = [UIColor greenColor];
+        }
+        
+        if(contact.plan_zhuangbei_price > 0)
+        {
+            equipName = [NSString stringWithFormat:@"%ld %@",contact.plan_zhuangbei_price,equipName];
         }
         //leftPriceTxt = [NSString stringWithFormat:@"%@",leftPriceTxt];
     }

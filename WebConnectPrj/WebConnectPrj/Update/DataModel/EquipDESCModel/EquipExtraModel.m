@@ -63,6 +63,7 @@
     CGFloat jineng = [self price_jineng];
     CGFloat youxibi = [self price_youxibi];
     CGFloat zhaohuanshou = [self price_zhaohuanshou];
+    CGFloat zhuangbei = [self price_zhuangbei];
 
     //法系赚钱账号，不计算经验扣减
     if(jingyan < 0 && xiulian > 1500 && ([self.iSchool integerValue] == 7)){
@@ -76,21 +77,49 @@
     self.jinengPrice = jineng;
     self.youxibiPrice = youxibi;
     self.zhaohuanPrice = zhaohuanshou;
-    self.zhuangbeiPrice = 0;
+    self.zhuangbeiPrice = zhuangbei;
     
-    totalMoney = (int)xiulian + (int)chongxiu + (int)qianyuandan + (int)jineng + (int)jingyan + (int)youxibi + (int)zhaohuanshou;
+    totalMoney = (int)xiulian + (int)chongxiu + (int)qianyuandan + (int)jineng + (int)jingyan + (int)youxibi + (int)zhaohuanshou + (int)zhuangbei;
     if(totalMoney == 0)
     {
         totalMoney = -1;
     }
     
     
-    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,totalMoney];
+    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f 装备:%.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,zhuangbei,totalMoney];
     self.detailPrePrice = detaiMoney;
     self.zhaohuanPrice = zhaohuanshou;
     self.totalPrice = totalMoney;
     
     return [NSString stringWithFormat:@"%.0f",totalMoney];
+}
+-(CGFloat)price_zhuangbei
+{
+    CGFloat price = 0;
+    //装备价格，当前仅进行判定  8段以上估价  统一10块
+    NSArray * detailEquipArr = [self.AllEquip modelsArray];
+    for (ExtraModel * eve in detailEquipArr)
+    {
+        CGFloat evemoney = [self detailCheckEquipSummonPriceWithSubSummon:eve];
+        price += evemoney;
+    }
+    
+    
+    return price;
+}
+-(CGFloat)detailCheckEquipSummonPriceWithSubSummon:(ExtraModel *)extra
+{
+    //取出对应数字
+    CGFloat price = 0;
+    
+//    锻炼等级 3  镶嵌宝石
+    NSInteger baoshi = [extra equipLatestAddLevel];
+    if(baoshi >= 8)
+    {
+        price = 100;
+    }
+    
+    return price;
 }
 -(CGFloat)price_zhaohuanshou
 {
@@ -482,15 +511,87 @@
     price += skillPrice;
     
     
-    
-    if([jinjie.cnt intValue] >0)
+    NSInteger lingxing = [jinjie.lx integerValue];
+    NSInteger lingxingPrice = 0;
+    if(lingxing == 110)
     {
-        price += 50;
+        lingxingPrice += 500;
+    }else if(lingxing > 10)
+    {
+        if(skillPrice < 50)
+        {
+            lingxingPrice += 20;
+        }else{
+            lingxingPrice += 50;
+        }
+    }else{
+        
     }
-    NSInteger bbZhuang = 0;
+    
+    price += lingxingPrice;
+    
+    NSInteger zhuangPrice = 0;
+    if(model.summon_equip1 && model.summon_equip2 && model.summon_equip3)
+    {
+        //套装
+        NSString * compareStr = [self subBaobaoZhuangSkillFromDesc:model.summon_equip1.cDesc];
+        NSString * compare2 = [self subBaobaoZhuangSkillFromDesc:model.summon_equip2.cDesc];
+        NSString * compare3 = [self subBaobaoZhuangSkillFromDesc:model.summon_equip3.cDesc];
+        if(compareStr && [compare2 isEqualToString:compareStr] && [compare3 isEqualToString:compareStr])
+        {
+            if([compareStr containsString:@"高级"] && ([compareStr containsString:@"必杀"] || [compareStr containsString:@"偷袭"] || [compareStr containsString:@"法术"] || [compareStr containsString:@"魔之心"] || [compareStr containsString:@"吸血"]|| [compareStr containsString:@"隐身"]))
+            {
+                zhuangPrice += 500;
+            }else if([compareStr containsString:@"死亡"] || [compareStr containsString:@"力劈"]||[compareStr containsString:@"善恶"] )
+            {
+                zhuangPrice += 800;
+            }else if([compareStr containsString:@"高级"] && ![compareStr containsString:@"吸收"])
+            {
+                zhuangPrice += 100;
+            }
+            else{
+                zhuangPrice += 30;
+            }
+        }
+    }
+    price += zhuangPrice;
+    
+    
+    
+    //是否有锁判定
+    if([model.iLock integerValue] > 0){
+        if(price > 1000){
+            price += 300;//有锁的高级宝宝加钱
+        }else if(price > 300){
+            price *= 0.7;
+        }else if(price > 100){
+            //有锁的垃圾宝宝扣钱
+            price *= 0.5;
+        }else{
+            //有锁的垃圾宝宝扣钱
+            price = 0;
+        }
+    }
+    
     
     return price;
 }
+-(NSString *)subBaobaoZhuangSkillFromDesc:(NSString *)desc
+{
+    NSString * result = nil;
+    NSString * startTxt = @"套装效果：附加状态";
+    NSString * finishTxt = @"制造者";
+    NSRange startRange = [desc rangeOfString:startTxt];
+    NSRange endRange = [desc rangeOfString:finishTxt];
+    if(startRange.length > 0 && endRange.length > 0){
+        NSInteger startIndex = startRange.location + startRange.length;
+        NSInteger endIndex = endRange.location - startIndex;
+        result = [desc substringWithRange:NSMakeRange(startIndex,endIndex)];
+    }
+    
+    return  result;
+}
+
 -(NSInteger)maxAddNumberFromCurrentArray:(NSArray *)array
 {
     NSInteger max = 0;
@@ -746,21 +847,28 @@
     
     CGFloat youxibi = qianyuandan ;
     price = youxibi/YouxibiRateForMoney;
+    price *= 0.65;
     
     return price;
 }
 -(CGFloat)price_jingyan
 {
-    CGFloat price = 0;
+    CGFloat price = 100;
 //    sum_exp总经验
     NSInteger sup_total = [self.sum_exp integerValue];
-    if(sup_total < 200)
+    if(sup_total < 100)
     {
         price -= 500.0;
-    }else if(sup_total> 300){
+    }else if(sup_total < 160){
+        price -= 200;
+    }else if(sup_total < 200){
+        price += 100;
+    }else if(sup_total < 300){
         price += 200;
-    }else if(sup_total > 350){
-        NSInteger sub = (sup_total - 350) * 5 + 200;
+    }else{
+        
+        NSInteger countNum = MIN(330, sup_total);
+        NSInteger sub = (countNum - 330) * 5 + 200;
         sub = MIN(600, sub);
         price += sub;
     }
@@ -776,6 +884,8 @@
             price -= 200;
         }else if(qiannengguo < 190){
             price -= 100;
+        }else{
+            price += 200;
         }
     }
     
@@ -817,7 +927,7 @@
 
     }
     if( [history count] > 0 && maxHistory > schoolNum){
-        schoolNum = MAX(maxHistory - 200, schoolNum);
+        schoolNum = MAX(maxHistory - 300, schoolNum);
     }
     
     if(schoolNum < 0 && [self.iNutsNum intValue] > 170)
@@ -871,7 +981,7 @@
         case 10:
         case 13:
         {
-            schoolNum = 150;
+            schoolNum = 50;
         }
             break;
         case 7:

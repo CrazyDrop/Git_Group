@@ -1770,16 +1770,15 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.sell_space = model.sell_space;
                 }
                 
-                //附带变化时间  或有历史值
-                if([preModel.sell_sold_time length] == 0 && [preModel.sell_back_time length] == 0)
-                {//历史值为空
-                    if([model.sell_sold_time length] > 0 || [model.sell_back_time length] > 0)
-                    {//新值不为空
-                        ingoreRefresh = NO;
-                        preModel.sell_sold_time = model.sell_sold_time;
-                        preModel.sell_back_time = model.sell_back_time;
-                    }
+                //附带变化时间  当前结束时间>0且和之前不同，或者历史取回时间不存在，当前存在
+                if(([model.sell_sold_time length] > 0 && ![model.sell_sold_time isEqualToString:preModel.sell_sold_time])
+                   || ([preModel.sell_back_time length] == 0 && [model.sell_back_time length] > 0))
+                {
+                    ingoreRefresh = NO;
+                    preModel.sell_sold_time = model.sell_sold_time;
+                    preModel.sell_back_time = model.sell_back_time;
                 }
+                
                 
                 //价格变化
                 if(preModel.equip_price != model.equip_price)
@@ -2326,6 +2325,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                                 model.plan_qianyuandan_price;
     NSInteger school = model.equip_school;
     NSInteger equipPrice = model.equip_price ;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger minServerId = total.minServerId;
     
     NSMutableArray *totalArray=[NSMutableArray array];
     [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
@@ -2386,7 +2387,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
          //总值较大
          sqlMutableString  = [NSMutableString string];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ != '' AND %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ != '' AND %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@ limit 1",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
@@ -2403,6 +2404,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           comparePrice,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
           equipPrice,
+          ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+          minServerId,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];
 
          resultSet=[fmdatabase executeQuery:sqlMutableString];
@@ -2418,14 +2421,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          }
          
          //无相关更低价售出数据，取未售出数据
-         if([totalArray count] == 0)
+//         if([totalArray count] == 0)
          {
              //比当前号便宜售价便宜，但价格高的是否有卖出
              //未售出的数据,未售出 未取回，价格不为0 估价大于当前估价，认为低价的号全都会售出状态，不判定
              sqlMutableString  = [NSMutableString string];
-             [sqlMutableString appendFormat:@"select * from %@ where %@ == '' AND  %@ == '' AND %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
-              ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
-              ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
+             [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
               school,
               ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
@@ -2441,6 +2442,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
               comparePrice,
               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
               equipPrice,
+              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+              minServerId,
               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];;
              
              resultSet=[fmdatabase executeQuery:sqlMutableString];
@@ -2458,20 +2461,30 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
 }
--(void)updateFavAndIngoreStateForMaxedPlanRateList
+-(void)updateFavAndIngoreStateForMaxedPlanRateListAndClearChange
 {
     [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
      {
          if (!fmdatabase.open) {
              [fmdatabase open];
          }
+         
+         FMResultSet *resultSet = nil;
          NSMutableString *sqlMutableString=[NSMutableString string];
          
          [sqlMutableString appendFormat:@"update %@ set %@ = 1 WHERE %@ > 30",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE];
          
-         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])
          {
+         }
+         
+         sqlMutableString=[NSMutableString string];
+         [sqlMutableString appendFormat:@"delete from %@",ZADATABASE_TABLE_EQUIP_CHANGE];
+         resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             
          }
          
          [resultSet close];

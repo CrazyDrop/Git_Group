@@ -57,7 +57,7 @@
                         @"状态-正常",
                         @"状态-购买",
                         
-                        @"忽略特殊",
+                        @"库表清理",
                         @"全部历史(旧)",
                         @"相关历史",
                         nil];
@@ -154,7 +154,11 @@
         case 8:
         {
             ZALocationLocalModelManager * dbManager =[ZALocationLocalModelManager sharedInstance];
-            [dbManager updateFavAndIngoreStateForMaxedPlanRateList];
+            [dbManager updateFavAndIngoreStateForMaxedPlanRateListAndClearChange];
+            
+            NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
+            [DZUtils noticeCustomerWithShowText:@"库表操作结束"];
+
         }
             break;
         case 9:

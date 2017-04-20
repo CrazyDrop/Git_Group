@@ -49,6 +49,8 @@
 //@property (nonatomic, strong) NSString *cDesc;
 //@property (nonatomic, strong) NSNumber *iType;
 
+-(NSInteger)equipLatestAddLevel;//宝石等级
+-(NSString *)equipAppendSkill;//特技
 
 /**
  *  Init the model with dictionary

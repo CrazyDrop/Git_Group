@@ -159,6 +159,7 @@
     [super viewDidLoad];
     
     [self refreshLatestSelectedRoleId];
+    [self refreshCurrentTitleVLableWithServerId];
     
     UIView * bgView = self.view;
     bgView.backgroundColor = [UIColor whiteColor];
@@ -249,7 +250,15 @@
 
 }
 
-
+-(void)refreshCurrentTitleVLableWithServerId
+{
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger compareId = total.minServerId;
+    if(compareId <= self.cbgList.server_id)
+    {
+        self.titleV.text = @"三年内!";
+    }
+}
 
 -(void)submit
 {

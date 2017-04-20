@@ -84,6 +84,7 @@
 
 //区分是否要闹铃提示
 @property (nonatomic,assign) BOOL  isAlarm;
+@property (nonatomic,assign) NSInteger minServerId;//最小的服务器号
 
 //区别用数据
 @property (nonatomic,strong) NSString * randomAgent;

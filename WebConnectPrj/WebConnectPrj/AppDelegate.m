@@ -52,6 +52,11 @@
         total.localURL1 = WebRefresh_ListRequest_Default_URLString;
         [total localSave];
     }
+    if(total.minServerId == 0){
+        total.minServerId = 735;//当前最接近三年外的服务器，风筝之都
+        [total localSave];
+    }
+    
 //    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];

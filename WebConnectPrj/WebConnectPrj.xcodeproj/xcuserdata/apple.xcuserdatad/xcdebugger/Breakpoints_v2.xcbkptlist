@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
-            timestampString = "514266347.416774"
+            filePath = "WebConnectPrj/HistoryStudy/CBGDepthStudyVC.m"
+            timestampString = "514367905.242354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-detailSubCheck"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "-planTotalCountEquipPriceForEquipModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
-            timestampString = "514268879.111133"
+            filePath = "WebConnectPrj/HistoryStudy/CBGDepthStudyVC.m"
+            timestampString = "514367929.284924"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "659"
-            endingLineNumber = "659"
-            landmarkName = "-price_chongxiu"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "-planTotalCountEquipPriceForEquipModel:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/HistoryStudy/CBGDepthStudyVC.m"
+            timestampString = "514367993.902021"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
+            landmarkName = "-planTotalCountEquipPriceForEquipModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

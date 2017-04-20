@@ -183,6 +183,7 @@
 		1820981C1EA6F4D00015E393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725B1E7FD05F00B48E3C /* Foundation.framework */; };
 		1820981D1EA6F50A0015E393 /* NSDate+Extension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D11E7FDDD400B48E3C /* NSDate+Extension.h */; };
 		1820981E1EA6F50A0015E393 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D21E7FDDD400B48E3C /* NSDate+Extension.m */; };
+		1855227A1EA849580052AD16 /* CBGLocalServerListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185522791EA849580052AD16 /* CBGLocalServerListVC.m */; };
 		185BB0341E825C4700306695 /* ZWDetailCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BB0331E825C4700306695 /* ZWDetailCheckManager.m */; };
 		187767C31A416805003F31B6 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187767C21A416805003F31B6 /* SWTableViewCell.m */; };
 		18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */; };
@@ -850,6 +851,8 @@
 		1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebConnectPrjTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1820913D1EA6F0470015E393 /* WebConnectPrjTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebConnectPrjTests.m; sourceTree = "<group>"; };
 		1820913F1EA6F0470015E393 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		185522781EA849580052AD16 /* CBGLocalServerListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLocalServerListVC.h; sourceTree = "<group>"; };
+		185522791EA849580052AD16 /* CBGLocalServerListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLocalServerListVC.m; sourceTree = "<group>"; };
 		185BB0321E825C4700306695 /* ZWDetailCheckManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWDetailCheckManager.h; sourceTree = "<group>"; };
 		185BB0331E825C4700306695 /* ZWDetailCheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWDetailCheckManager.m; sourceTree = "<group>"; };
 		187767C11A416805003F31B6 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
@@ -2145,6 +2148,8 @@
 				182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */,
 				182091341EA4C49E0015E393 /* CBGPlanCompareBaseListVC.h */,
 				182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */,
+				185522781EA849580052AD16 /* CBGLocalServerListVC.h */,
+				185522791EA849580052AD16 /* CBGLocalServerListVC.m */,
 			);
 			path = PlanCheck;
 			sourceTree = "<group>";
@@ -4288,6 +4293,7 @@
 				18A975C11E7FDDD400B48E3C /* Samurai_UIView.m in Sources */,
 				18CFB7901E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.m in Sources */,
 				182091041E9F555D0015E393 /* AAJsonConverter.m in Sources */,
+				1855227A1EA849580052AD16 /* CBGLocalServerListVC.m in Sources */,
 				180D590319E65EF30045A720 /* AFSecurityPolicy.m in Sources */,
 				1820910F1E9F555D0015E393 /* AAChart.m in Sources */,
 				18A96E3A1E7FC2C500B48E3C /* UserInfo.m in Sources */,
@@ -4733,8 +4739,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jing Lai (329E42UFHH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jing Lai (329E42UFHH)";
 				DEVELOPMENT_TEAM = 3SHBLHHSMD;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
@@ -4742,7 +4748,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3c0f46df-0373-4f7c-9730-3aae018fbf6c";
+				PROVISIONING_PROFILE = "4ae56bf7-1bae-491d-ad74-72ad22549c66";
 				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
 			};
 			name = Debug;

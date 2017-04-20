@@ -82,7 +82,7 @@
 -(NSArray *)localSaveEquipHistoryModelListForRoleId:(NSString *)roleId;
 -(NSArray *)localSaveEquipHistoryModelListForServerId:(NSString *)server andSchool:(NSString *)school;
 -(NSArray *)localSaveEquipHistoryModelListForCompareCBGModel:(id)model;
--(void)updateFavAndIngoreStateForMaxedPlanRateList;
+-(void)updateFavAndIngoreStateForMaxedPlanRateListAndClearChange;
 -(NSArray *)localSaveEquipHistoryModelListRepeatSold;
 -(NSArray *)localSaveEquipHistoryModelListOwnerList;
 

@@ -10,15 +10,17 @@
 #import "AAChartView.h"
 #import "CBGListModel.h"
 @interface CBGDepthStudyVC ()
-@property (nonatomic, strong) AAChartModel * priceModel;
-@property (nonatomic, strong) AAChartModel * schoolModel;
-@property (nonatomic, strong) AAChartModel * soldModel;
+@property (nonatomic, strong) AAChartModel * planModel;//估价概况表
+@property (nonatomic, strong) AAChartModel * priceModel;//展示价格分布
+@property (nonatomic, strong) AAChartModel * schoolModel;//展示门派区分
+@property (nonatomic, strong) AAChartModel * soldModel;//展示售出数据
 
 //走势图model，以时间为区分
-@property (nonatomic, strong) AAChartModel * soldTimeModel;
-@property (nonatomic, strong) AAChartModel * soldWeekModel;
-@property (nonatomic, strong) AAChartModel * priceTimeModel;
+@property (nonatomic, strong) AAChartModel * soldTimeModel;//售出明细时间走势
+@property (nonatomic, strong) AAChartModel * soldWeekModel;//售出星期划分
+@property (nonatomic, strong) AAChartModel * priceTimeModel;//售出价格划分
 
+@property (nonatomic, strong) AAChartView * planChartView;
 @property (nonatomic, strong) AAChartView * priceChartView;
 @property (nonatomic, strong) AAChartView * schoolChartView;
 @property (nonatomic, strong) AAChartView * soldChartView;
@@ -28,6 +30,7 @@
 @property (nonatomic, strong) AAChartView * priceTimeChartView;
 
 @property (nonatomic, strong) NSArray * priceSortArr;
+@property (nonatomic, strong) NSArray * countRateArray;
 @property (nonatomic, strong) UIScrollView * chartScroll;
 
 @property (nonatomic, strong) NSString * preDate;
@@ -46,6 +49,7 @@
     if(self.preDate && [self.preDate isEqualToString:self.selectedDate]){
         return;
     }
+    self.planModel = nil;
     self.priceModel = nil;
     self.schoolModel = nil;
     self.soldModel = nil;
@@ -75,12 +79,24 @@
     UIScrollView * bgView = [[UIScrollView alloc] initWithFrame:rect];
     [self.view addSubview:bgView];
     bgView.scrollEnabled = YES;
-    bgView.contentSize = CGSizeMake(SCREEN_WIDTH, chartSize.height * 6);
+    bgView.contentSize = CGSizeMake(SCREEN_WIDTH, chartSize.height * 7);
     self.chartScroll = bgView;
     
     AAChartView * aChart = nil;
     rect.origin = CGPointZero;
     rect.size = chartSize;
+    
+//    rect.origin.y = CGRectGetMaxY(aChart.frame);
+    aChart = [[AAChartView alloc] initWithFrame:rect];
+    [bgView addSubview:aChart];
+    //    aChart.center = CGPointMake(SCREEN_WIDTH/2.0, chartSize.height/2.0);
+    aChart.contentWidth = chartSize.width;
+    aChart.contentHeight = chartSize.height;
+    aChart.scrollView.scrollEnabled = NO;
+    aChart.scrollView.scrollsToTop = NO;
+    self.planChartView = aChart;
+
+    rect.origin.y = CGRectGetMaxY(aChart.frame);
     aChart = [[AAChartView alloc] initWithFrame:rect];
     [bgView addSubview:aChart];
 //    aChart.center = CGPointMake(SCREEN_WIDTH/2.0, chartSize.height/2.0);
@@ -172,10 +188,7 @@
         }
         selectedNum = lineNum;
     }
-    if([selectedNum integerValue] < 100){
-        
-    }
-    
+
     return  selectedNum;
 }
 -(NSInteger)totalCountNumberForSubDic:(NSDictionary *)dic
@@ -187,6 +200,197 @@
         sumNum += [eveNum integerValue];
     }
     return sumNum;
+}
+-(NSArray *)countRateArray
+{
+    if(!_countRateArray)
+    {
+        NSArray * keyArray = @[@0.6,@0.7,@0.8,@0.9,@1.0,@1.1,@1.15,@1.2,@1.3];
+        
+        _countRateArray = keyArray;
+    }
+    return _countRateArray;
+}
+-(NSNumber *)planTotalCountEquipPriceForEquipModel:(CBGListModel *)model;
+{//4、0  0.8范围内数据总数 0.9范围内数据总数  1.1范围内数据总数  1.2范围内数据总数 2
+    NSNumber* selectRate = nil;
+    
+    //分段  数据分段标识
+    CGFloat planPrice = model.plan_total_price;
+    CGFloat equipPrice = model.equip_price/100;
+    
+    CGFloat realRate = planPrice/(0.0 + equipPrice);
+    NSArray * rateArr = self.countRateArray;
+    
+    for (NSInteger index = 0;index < [rateArr count] ; index ++ )
+    {
+        NSNumber * num = [rateArr objectAtIndex:index];
+        if(realRate < [num floatValue])
+        {
+            selectRate = num;
+            break;
+        }
+    }
+    
+    if(!selectRate)
+    {
+        selectRate = [rateArr lastObject];
+    }
+    
+    return selectRate;
+}
+-(AAChartModel *)planModel
+{
+    if(!_planModel)
+    {
+        //1、数据筛选   选取无装备的数据
+        //需要数据
+        //1、所有无装备数据总数
+        //2、无装备中售出总数
+        //3、无装备中在售总数
+        NSArray * dbArr = self.dbHistoryArr;
+        NSMutableArray * totalArr = [NSMutableArray array];
+        for (CBGListModel * eveModel in dbArr) {
+            if(eveModel.plan_rate < 30 && eveModel.plan_zhuangbei_price == 0 && eveModel.plan_total_price > 4000 )
+            {
+                [totalArr addObject:eveModel];
+            }
+        }
+        
+        NSMutableDictionary * countDic = [NSMutableDictionary dictionary];
+        NSMutableDictionary * sellingDic = [NSMutableDictionary dictionary];
+        NSMutableDictionary * soldDic = [NSMutableDictionary dictionary];
+        NSMutableDictionary * backDic = [NSMutableDictionary dictionary];
+       
+        for (NSInteger index = 0; index < [totalArr count]; index ++)
+        {
+            CBGListModel * list = [totalArr objectAtIndex:index];
+            NSNumber * numKey = [self planTotalCountEquipPriceForEquipModel:list];
+            
+            NSNumber * preNum = nil;
+            
+//            if([list.sell_sold_time length] > 0)
+            {
+                preNum = [countDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [countDic setObject:preNum forKey:numKey];
+            }
+            
+            if([list.sell_back_time length] == 0 && [list.sell_sold_time length] == 0)
+            {
+                preNum =[sellingDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [sellingDic setObject:preNum forKey:numKey];
+                
+            }
+            
+            if([list.sell_sold_time length] > 0)
+            {
+                preNum = [soldDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [soldDic setObject:preNum forKey:numKey];
+            }
+            
+            if([list.sell_back_time length] > 0)
+            {
+                preNum = [backDic objectForKey:numKey];
+                if(!preNum){
+                    preNum  = [NSNumber numberWithInt:1];
+                }else{
+                    int number = preNum.intValue + 1;
+                    preNum = [NSNumber numberWithInt:number];
+                }
+                [backDic setObject:preNum forKey:numKey];
+            }
+            
+        }
+        
+        NSArray * keyArr = self.countRateArray;
+        //数据统计
+        NSMutableArray * countArr = [NSMutableArray array];
+        NSMutableArray * sellingArr = [NSMutableArray array];
+        NSMutableArray * soldArr = [NSMutableArray array];
+        NSMutableArray * backArr = [NSMutableArray array];
+        NSMutableArray * keyNameArr = [NSMutableArray array];
+        
+        CGFloat startNum = 0;
+        for (NSInteger index = 0;index < [keyArr count] ;index ++) {
+            NSNumber * keyNum = [keyArr objectAtIndex:index];
+            NSString * keyName = [NSString stringWithFormat:@"%.0f%%",startNum*100];
+            startNum = keyNum.floatValue;
+            
+            NSNumber * countNum = [countDic objectForKey:keyNum]?:@0;
+            [countArr addObject:countNum];
+            NSNumber * sellingNum = [sellingDic objectForKey:keyNum]?:@0;
+            [sellingArr addObject:sellingNum];
+            NSNumber * soldNum = [soldDic objectForKey:keyNum]?:@0;
+            [soldArr addObject:soldNum];
+            NSNumber * backNum = [backDic objectForKey:keyNum]?:@0;
+            [backArr addObject:backNum];
+        
+            
+            if(index == 0){
+                keyName = @"更低";
+            }else if(index == [keyArr count] - 1){
+                keyName = @"更高";
+            }
+            [keyNameArr addObject:keyName];
+        }
+        
+        //底部比率，数量是，每个比率对应的数量
+        
+        NSString * subTitle = [NSString stringWithFormat:@"%@ (%ld)",self.selectedDate,[totalArr count]];
+        subTitle = [subTitle stringByAppendingFormat:@" 统计 (%ld)",[self totalCountNumberForSubDic:countDic]];
+        subTitle = [subTitle stringByAppendingFormat:@" 售出 (%ld)",[self totalCountNumberForSubDic:soldDic]];
+        subTitle = [subTitle stringByAppendingFormat:@" 在售 (%ld)",[self totalCountNumberForSubDic:sellingDic]];
+        subTitle = [subTitle stringByAppendingFormat:@" 取回 (%ld)",[self totalCountNumberForSubDic:backDic]];
+
+        
+        NSString * chartType = AAChartTypeColumn;
+        AAChartModel * model= AAObject(AAChartModel)
+        .chartTypeSet(chartType)
+        .titleSet(@"估价准确分布(4K+无装备)")
+        .subtitleSet(subTitle)
+        .yAxisTitleSet(@"数量")
+        .categoriesSet(keyNameArr)
+        .seriesSet(@[
+                     AAObject(AASeriesElement)
+                     .nameSet(@"统计")
+                     .dataSet(countArr),
+                     
+                     AAObject(AASeriesElement)
+                     .nameSet(@"售出")
+                     .dataSet(soldArr),
+                     
+                     AAObject(AASeriesElement)
+                     .nameSet(@"在售")
+                     .dataSet(sellingArr),
+                     
+                     AAObject(AASeriesElement)
+                     .nameSet(@"取回")
+                     .dataSet(backArr),
+                     
+                     ]
+                   )
+        ;
+        _planModel = model;
+    }
+    return _planModel;
 }
 
 -(AAChartModel *)priceModel
@@ -1092,6 +1296,9 @@
 -(void)refreshChartModelWithLatestListAndStyle
 {
     //重新创建model
+    
+    //估值概况表
+    [self.planChartView aa_drawChartWithChartModel:self.planModel];
     
     //价格分段
     [self.priceChartView aa_drawChartWithChartModel:self.priceModel];
