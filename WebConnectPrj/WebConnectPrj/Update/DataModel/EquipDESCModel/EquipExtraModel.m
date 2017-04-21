@@ -277,11 +277,11 @@
             
         }
         
-        if(skillNum > 6){
+        if(skillNum > 6 && gongjiMoreNum > 3){
             skillPrice += 500;
         }
         
-        if([skillsNumArr containsObject:@"571"]){
+        if([skillsNumArr containsObject:@"571"] && skillPrice > 300){
             skillPrice *= 1.3;
         }
         
@@ -313,17 +313,33 @@
             {
                 skillPrice += 200;
             }else{
-                skillPrice += 100;
+                if([skillsNumArr containsObject:@"405"])
+                {
+                    skillPrice += 100;
+                }else{
+                    skillPrice += 10;
+                }
             }
         }else {
+            //高连、壁垒，没高比
+            if(![skillsNumArr containsObject:@"416"])
+            {
+                //壁垒，没高比  -200；
+                skillPrice -= 300;
+                if(skillPrice < 0)
+                {
+                    skillPrice = 10;
+                }
+            }
             
         }
         
-        if(skillNum > 6){
+        if(skillNum > 6 && gongjiMoreNum > 3 )
+        {
             skillPrice += 500;
         }
         
-        if([skillsNumArr containsObject:@"595"]){
+        if([skillsNumArr containsObject:@"595"] && skillPrice > 300){
             skillPrice *= 1.1;
         }
     }else if([skillsNumArr containsObject:@"661"] || [skillsNumArr containsObject:@"426"] || [skillsNumArr containsObject:@"427"] || [skillsNumArr containsObject:@"428"] || [skillsNumArr containsObject:@"429"])
@@ -378,7 +394,7 @@
 
             
             
-            if(skillNum > 5)
+            if(skillNum > 5 && fashuMore > 2)
             {
                 skillPrice += 500;
             }
@@ -541,18 +557,38 @@
         {
             if([compareStr containsString:@"高级"] && ([compareStr containsString:@"必杀"] || [compareStr containsString:@"偷袭"] || [compareStr containsString:@"法术"] || [compareStr containsString:@"魔之心"] || [compareStr containsString:@"吸血"]|| [compareStr containsString:@"隐身"]))
             {
-                zhuangPrice += 500;
+                zhuangPrice += 200;
+                
             }else if([compareStr containsString:@"死亡"] || [compareStr containsString:@"力劈"]||[compareStr containsString:@"善恶"] )
             {
                 zhuangPrice += 800;
             }else if([compareStr containsString:@"高级"] && ![compareStr containsString:@"吸收"])
             {
-                zhuangPrice += 100;
+                zhuangPrice += 50;
             }
             else{
-                zhuangPrice += 30;
+                zhuangPrice += 20;
             }
+            
+            NSInteger level1 = [self subBaobaoZhuangDengJiFromDesc:model.summon_equip1.cDesc];
+            NSInteger level2 = [self subBaobaoZhuangDengJiFromDesc:model.summon_equip2.cDesc];
+            NSInteger level3 = [self subBaobaoZhuangDengJiFromDesc:model.summon_equip3.cDesc];
+            NSInteger totalLevel = level1 + level2 + level3;
+            if(totalLevel >= 19)
+            {//全部7段以上
+                zhuangPrice += 800;
+            }else if(totalLevel >= 15){
+                //5段
+                zhuangPrice += 500;
+            }else if(totalLevel >= 10){
+                //3段
+                zhuangPrice += 10;
+            }
+            
         }
+        
+        
+        
     }
     price += zhuangPrice;
     
@@ -575,6 +611,23 @@
     
     
     return price;
+}
+-(NSInteger)subBaobaoZhuangDengJiFromDesc:(NSString *)desc
+{
+    NSInteger level = 0;
+    NSString * result = nil;
+    NSString * startTxt = @"套装效果：附加状态";
+    NSString * finishTxt = @"制造者";
+    NSRange startRange = [desc rangeOfString:startTxt];
+    NSRange endRange = [desc rangeOfString:finishTxt];
+    if(startRange.length > 0 && endRange.length > 0){
+        NSInteger startIndex = startRange.location + startRange.length;
+        NSInteger endIndex = endRange.location - startIndex;
+        result = [desc substringWithRange:NSMakeRange(startIndex,endIndex)];
+        level = [result integerValue];
+    }
+
+    return level;
 }
 -(NSString *)subBaobaoZhuangSkillFromDesc:(NSString *)desc
 {
@@ -634,6 +687,19 @@
         price = youxibi / YouxibiRateForMoney ;
     }
     price *= 0.8;
+    
+    
+    //房子，无房子扣钱
+    CGFloat fangziPrice = 0;
+    if(!self.rent||[self.rent integerValue] == 0)
+    {
+        fangziPrice -= 300;
+    }else if([self.rent integerValue] < 3){
+        fangziPrice -= 100;
+    }
+    
+    
+    price += fangziPrice;
     
     return price;
 }
@@ -916,7 +982,7 @@
         ChangeschModel * eve = [history objectAtIndex:index];
         NSInteger eveNum = [self countSchoolPriceForSchoolNum:[eve.intNum integerValue]];
         
-        //判定历史门派是否有效
+        //判定历史门派是否有效，主要验证龙宫是否有魔属性
         BOOL effective = [self checkHistorySchoolEffectiveWithPreSchool:[eve.intNum integerValue]];
         if(effective)
         {
@@ -948,7 +1014,7 @@
     NSArray * school3Arr = @[@9,@10,@11,@12,@15];
     NSNumber * latestNum = self.iSchool;
     NSNumber * preSchool = [NSNumber numberWithInteger:number];
-    
+ //种族校验
     if([school1Arr containsObject:latestNum] && [school1Arr containsObject:preSchool]){
         effective = YES;
     }
@@ -960,6 +1026,35 @@
     if([school3Arr containsObject:latestNum] && [school3Arr containsObject:preSchool]){
         effective = YES;
     }
+    
+    
+    //历史属性校验，仅校验法系魔力属性
+    NSArray * faxiArr = @[@7,@13,@10];
+    if(effective && [faxiArr containsObject:preSchool])
+    {
+        BOOL contain = NO;
+        NSArray * containArr = self.propKept.proKeptModelsArray;
+        for (ExtraModel * model in containArr)
+        {
+            //魔力最大
+//            NSInteger liliang = [model.iStr intValue];
+//            NSInteger tili = [model.iCor intValue];
+//            NSInteger naili = [model.iRes intValue];
+//            NSInteger minjie = [model.iSpe intValue];
+            NSInteger fali = [model.iMag intValue];
+
+            NSArray * addNumArr = [NSArray arrayWithObjects:model.iStr,model.iMag,model.iCor,model.iRes,model.iSpe, nil];
+            NSInteger maxAddNum = [self maxAddNumberFromCurrentArray:addNumArr];
+            
+            if(maxAddNum == fali && fali > 1000)
+            {
+                contain = YES;
+                break;
+            }
+        }
+        effective = contain;
+    }
+
     
     return effective;
 }

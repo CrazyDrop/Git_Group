@@ -9,6 +9,8 @@
 #import "CBGPlanCompareBaseListVC.h"
 #import "RefreshListCell.h"
 #import "ZACBGDetailWebVC.h"
+#import "CBGCompareSameRoleVC.h"
+#import "ZALocalStateTotalModel.h"
 #define  CBGPlanCompareHistoryAddTAG  100
 
 @interface CBGPlanCompareBaseListVC ()
@@ -20,17 +22,20 @@
 @implementation CBGPlanCompareBaseListVC
 
 - (void)viewDidLoad {
+    
+    self.showRightBtn = YES;
+    self.rightTitle = @"筛选";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.sortStyle = CBGStaticSortShowStyle_None;
+    self.sortStyle = CBGStaticSortShowStyle_School;
     //分组  门派  rate
     //排序  rate  价格
     UIView * bgView = self.view;
     CGFloat btnWidth = SCREEN_WIDTH/3.0;
     CGFloat btnHeight = 40;
     UIButton * btn = nil;
-    NSArray * namesArr = @[@"起售",@"结束",@"全部"];//按钮点击时，从全部库表选取
+    NSArray * namesArr = @[@"未结束",@"结束",@"全部"];//按钮点击时，从全部库表选取
     
     CGFloat btnStartY = SCREEN_HEIGHT - btnHeight;
     for (NSInteger index = 0; index < [namesArr count]; index ++)
@@ -69,7 +74,6 @@
         }
     }
     
-//    sortArr = [self sortSelectedHistoryListWithFinishStyle:YES andArray:soldArr];
     [self showLatestDBHistoryListArrayWithLatestSortStyleAndArray:sortArr];
 }
 
@@ -77,24 +81,70 @@
 {
     UIButton * btn = (UIButton *)sender;
     NSInteger tagIndex = btn.tag - CBGPlanCompareHistoryAddTAG;
-    NSArray * sortArr = nil;
+    
+    NSMutableArray * sortArr = [NSMutableArray array];
+    NSArray * latestArr = [NSArray arrayWithArray:self.dbHistoryArr];
+    
+    NSMutableDictionary * objDic = [NSMutableDictionary dictionary];
+    
     switch (tagIndex) {
         case 0:
         {
-            sortArr = [self selectDBHistoryListWithDataSelectedStyleStarted:YES];
-            
+            for (NSInteger index = 0; index < [latestArr count]; index ++)
+            {
+                CBGListModel * eveModel  =[latestArr objectAtIndex:index];
+                NSString * keySn = eveModel.owner_roleid;
+                NSString * finish = eveModel.sell_sold_time;
+                
+                CBGListModel * preModel = [objDic objectForKey:keySn];
+                if(preModel)
+                {//之前有过存储
+                    
+                    if([finish length] == 0)
+                    {
+                        if(![sortArr containsObject:preModel]){
+                            [sortArr addObject:preModel];
+                        }
+                        [sortArr addObject:eveModel];
+                    }
+                }else
+                {
+                    [objDic setObject:eveModel forKey:keySn];
+                }
+            }
         }
             break;
         case 1:
         {
-            sortArr = [self selectDBHistoryListWithDataSelectedStyleStarted:NO];
+            for (NSInteger index = 0; index < [latestArr count]; index ++)
+            {
+                CBGListModel * eveModel  =[latestArr objectAtIndex:index];
+                NSString * keySn = eveModel.owner_roleid;
+                NSString * finish = eveModel.sell_sold_time;
+                
+                CBGListModel * preModel = [objDic objectForKey:keySn];
+                if(preModel)
+                {//之前有过存储
+                    
+                    if([finish length] > 0)
+                    {
+                        if(![sortArr containsObject:preModel]){
+                            [sortArr addObject:preModel];
+                        }
+                        [sortArr addObject:eveModel];
+                    }
+                }else
+                {
+                    [objDic setObject:eveModel forKey:keySn];
+                }
+            }
             
         }
             break;
             
         case 2:
         {
-            sortArr = [NSArray arrayWithArray:self.dbHistoryArr];
+            [sortArr addObjectsFromArray:latestArr];
             
         }
             break;
@@ -102,9 +152,9 @@
         default:
             break;
     }
+    [self refreshNumberLblWithLatestNum:[sortArr count]];
     
     [self showLatestDBHistoryListArrayWithLatestSortStyleAndArray:sortArr];
-    
 }
 -(NSArray *)latestTotalShowedHistoryList
 {
@@ -124,34 +174,23 @@
     CBGStaticSortShowStyle style = self.sortStyle;
     switch (style) {
         case CBGStaticSortShowStyle_None:
-        {
-            
-        }
-            break;
         case CBGStaticSortShowStyle_School:
-        case CBGStaticSortShowStyle_Rate:
-        {
+        {//以学校分组，以服务器排序
             resultArr = [resultArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                 CBGListModel * eve1 = (CBGListModel *)obj1;
                 CBGListModel * eve2 = (CBGListModel *)obj2;
-                return [[NSNumber numberWithInteger:eve1.equip_price] compare:[NSNumber numberWithInteger:eve2.equip_price]];
+                return [[NSNumber numberWithInteger:eve1.server_id] compare:[NSNumber numberWithInteger:eve2.server_id]];
             }];
-            
         }
             break;
-            
-        case CBGStaticSortShowStyle_Space:
-        {
+        case CBGStaticSortShowStyle_Server:
+        {//以服务器分组，以门派排序
             resultArr = [resultArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                 CBGListModel * eve1 = (CBGListModel *)obj1;
                 CBGListModel * eve2 = (CBGListModel *)obj2;
-                
-                NSComparisonResult result = NSOrderedSame;
-                //结束时间
-                result = [[NSNumber numberWithInteger:eve1.sell_space] compare:[NSNumber numberWithInteger:eve2.sell_space]];
-                
-                return result;
+                return [[NSNumber numberWithInteger:eve1.equip_school] compare:[NSNumber numberWithInteger:eve2.equip_school]];
             }];
+            
         }
             break;
             
@@ -161,53 +200,178 @@
     
     
     //分组方式
-    BOOL sortSchool = self.sortStyle != CBGStaticSortShowStyle_Rate;
-    NSMutableDictionary * totalDic = [NSMutableDictionary dictionary];
-    for (NSInteger index = 0;index < [resultArr count] ;index ++ )
-    {
-        CBGListModel * eve = [resultArr objectAtIndex:index];
-        NSString * keyStr = nil;
-        if(sortSchool){
-            keyStr = [[NSNumber numberWithInteger:eve.equip_school] stringValue];
-        }else{
-            keyStr = [[NSNumber numberWithInteger:eve.plan_rate] stringValue];
-        }
-        
-        NSMutableArray * subArr = nil;
-        if(![totalDic objectForKey:keyStr]){
-            subArr = [NSMutableArray array];
-            [totalDic setObject:subArr forKey:keyStr];
-        }else{
-            subArr = [totalDic objectForKey:keyStr];
-        }
-        
-        [subArr addObject:eve];
-    }
+    BOOL sortSchool = self.sortStyle != CBGStaticSortShowStyle_Server;
     
-    NSArray * keys = [totalDic allKeys];
-    keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSNumber * num1 = [NSNumber numberWithInteger:[obj1 integerValue]];
-        NSNumber * num2 = [NSNumber numberWithInteger:[obj2 integerValue]];
-        return [num1 compare:num2];
-    }];
     
     NSMutableArray * total = [NSMutableArray array];
-    NSMutableArray * schoolNames = [NSMutableArray array];
-    for (NSInteger index = 0;index < [keys count] ;index ++ )
-    {
-        NSNumber * num = [keys objectAtIndex:index];
-        
-        NSArray * subArr = [totalDic objectForKey:num];
-        [total addObject:subArr];
-        
-        NSString *eveName = [CBGListModel schoolNameFromSchoolNumber:[num integerValue]];
-        eveName = [eveName substringWithRange:NSMakeRange(0,2)];
-        eveName = [eveName stringByAppendingFormat:@"(%ld)",[subArr count]];
-        [schoolNames addObject:eveName];
-    }
-    
+    NSMutableDictionary * totalDic = [NSMutableDictionary dictionary];
+    NSArray * keys = nil;
     if(sortSchool)
     {
+        for (NSInteger index = 0;index < [resultArr count] ;index ++ )
+        {
+            CBGListModel * eve = [resultArr objectAtIndex:index];
+            NSString * keyStr = nil;
+            keyStr = [[NSNumber numberWithInteger:eve.equip_school] stringValue];
+            
+            NSMutableArray * subArr = nil;
+            if(![totalDic objectForKey:keyStr]){
+                subArr = [NSMutableArray array];
+                [totalDic setObject:subArr forKey:keyStr];
+            }else{
+                subArr = [totalDic objectForKey:keyStr];
+            }
+            
+            [subArr addObject:eve];
+        }
+        
+        keys = [totalDic allKeys];
+        if(sortSchool)
+        {
+            keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                NSNumber * num1 = [NSNumber numberWithInteger:[obj1 integerValue]];
+                NSNumber * num2 = [NSNumber numberWithInteger:[obj2 integerValue]];
+                return [num1 compare:num2];
+            }];
+        }
+        
+        NSMutableArray * schoolNames = [NSMutableArray array];
+        for (NSInteger index = 0;index < [keys count] ;index ++ )
+        {
+            NSNumber * num = [keys objectAtIndex:index];
+            
+            NSArray * subArr = [totalDic objectForKey:num];
+            [total addObject:subArr];
+            
+            NSString *eveName = [CBGListModel schoolNameFromSchoolNumber:[num integerValue]];
+            eveName = [eveName substringWithRange:NSMakeRange(0,2)];
+            eveName = [eveName stringByAppendingFormat:@"(%ld)",[subArr count]];
+            [schoolNames addObject:eveName];
+        }
+        
+        keys = schoolNames;
+        
+    }else
+    {
+        NSMutableDictionary * countDic = [NSMutableDictionary dictionary];
+        for (NSInteger index = 0;index < [resultArr count] ;index ++ )
+        {
+            CBGListModel * eve = [resultArr objectAtIndex:index];
+            NSString * keyStr = nil;
+            keyStr = [[NSNumber numberWithInteger:eve.server_id] stringValue];
+
+            
+            NSMutableArray * subArr = nil;
+            if(![totalDic objectForKey:keyStr]){
+                subArr = [NSMutableArray array];
+                [totalDic setObject:subArr forKey:keyStr];
+            }else{
+                subArr = [totalDic objectForKey:keyStr];
+            }
+            
+            [subArr addObject:eve];
+            [countDic setObject:[NSNumber numberWithInteger:[subArr count]] forKey:keyStr];
+        }
+        
+        //颠倒数量和服务器的字典
+        NSMutableDictionary * numKeyDic = [NSMutableDictionary dictionary];
+        for (NSString * key in countDic )
+        {
+            NSNumber * eveVal = [countDic objectForKey:key];
+            NSString * preKey = [numKeyDic objectForKey:eveVal];
+            
+            if(!preKey)
+            {
+                [numKeyDic setObject:key forKey:eveVal];
+            }else
+            {
+                preKey = [preKey stringByAppendingFormat:@"|%@",key];
+                [numKeyDic setObject:preKey forKey:eveVal];
+            }
+        }
+        
+        NSArray * allNums = [numKeyDic allKeys];
+        
+        //以数量顺序进行排序
+        allNums = [allNums sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSNumber * num1 = [NSNumber numberWithInteger:[obj1 integerValue]];
+            NSNumber * num2 = [NSNumber numberWithInteger:[obj2 integerValue]];
+            return [num2 compare:num1];
+        }];
+        
+        
+        //倒序排列
+        NSMutableArray * serverArr = [NSMutableArray array];
+        for (NSInteger index = 0;index < 10 ; index ++)
+        {
+            NSNumber * num = nil;
+            if([allNums count] > index)
+            {
+                num = [allNums objectAtIndex:index];
+            }
+            
+            if(num)
+            {
+                NSString * serverStr = [numKeyDic objectForKey:num];
+                NSArray * subArr = [serverStr componentsSeparatedByString:@"|"];
+                if([subArr count] > 0){
+                    [serverArr addObjectsFromArray:subArr];
+                }
+            }
+        }
+        
+        keys = serverArr;
+        
+        
+        NSMutableArray * schoolNames = [NSMutableArray array];
+        
+        ZALocalStateTotalModel * local = [ZALocalStateTotalModel currentLocalStateModel];
+        NSDictionary * serDic = local.serverNameDic;
+        
+        for (NSInteger index = 0;index < [keys count] ;index ++ )
+        {
+            NSString * num = [keys objectAtIndex:index];
+            NSNumber * numNum = [NSNumber numberWithInt:[num intValue]];
+            
+            NSArray * subArr = [totalDic objectForKey:num];
+            [total addObject:subArr];
+            
+            NSString *eveName = [serDic objectForKey:numNum];
+            if(!eveName)
+            {
+                eveName = @"未知";
+            }
+            NSRange range = [eveName rangeOfString:@"-"];
+            if(range.length > 0)
+            {
+                NSInteger startIndex = range.length + range.location;
+                NSInteger length = 4;
+                if(startIndex + length > [eveName length])
+                {
+                    length = [eveName length] - startIndex;
+                }
+                eveName = [eveName substringWithRange:NSMakeRange(startIndex,length)];
+            }
+            [schoolNames addObject:eveName];
+        }
+        
+        NSMutableArray * others = [NSMutableArray array];
+        //其他
+        for (NSString * key in totalDic)
+        {
+            if(![serverArr containsObject:key])
+            {
+                NSArray * eveArr = [totalDic objectForKey:key];
+                [others addObjectsFromArray:eveArr];
+            }
+        }
+        
+        if([others count] > 0)
+        {
+            [schoolNames addObject:@"其他"];
+            [total addObject:others];
+        }
+        
         keys = schoolNames;
     }
     
@@ -300,16 +464,9 @@
     MSAlertAction *action = nil;
     
     
-    action = [MSAlertAction actionWithTitle:@"时差排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"服务器排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  weakSelf.sortStyle = CBGStaticSortShowStyle_Space;
-                  [weakSelf showLatestDBHistoryListArrayWithLatestSortStyleAndArray:[weakSelf latestTotalShowedHistoryList]];
-              }];
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"利差分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.sortStyle = CBGStaticSortShowStyle_Rate;
+                  weakSelf.sortStyle = CBGStaticSortShowStyle_Server;
                   [weakSelf showLatestDBHistoryListArrayWithLatestSortStyleAndArray:[weakSelf latestTotalShowedHistoryList]];
               }];
     [alertController addAction:action];
@@ -318,26 +475,6 @@
               {
                   weakSelf.sortStyle = CBGStaticSortShowStyle_School;
                   [weakSelf showLatestDBHistoryListArrayWithLatestSortStyleAndArray:[weakSelf latestTotalShowedHistoryList]];
-              }];
-    
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"筛选已结束" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf detailSortSelectedForLatestShowHistoryListWithFinish:YES];
-              }];
-    
-    [alertController addAction:action];
-    action = [MSAlertAction actionWithTitle:@"筛选未结束" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf detailSortSelectedForLatestShowHistoryListWithFinish:NO];
-              }];
-    
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
               }];
     [alertController addAction:action];
     
@@ -399,8 +536,8 @@
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString * eve = [self.tagArr objectAtIndex:section];
-    //    NSArray * subArr = [self.sortArr objectAtIndex:section];
-    //    eve = [eve stringByAppendingFormat:@"(%ld)",[subArr count]];
+    NSArray * subArr = [self.sortArr objectAtIndex:section];
+    eve = [eve stringByAppendingFormat:@"(%ld)",[subArr count]];
     return eve;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -602,17 +739,39 @@
     NSInteger secNum = indexPath.section;
     NSArray * subArr = [self.sortArr objectAtIndex:secNum];
     CBGListModel * contact = [subArr objectAtIndex:rowNum];
+    NSString * selectId = contact.owner_roleid;
+    
+    
     CBGEquipRoleState state = contact.latestEquipListStatus;
+    NSMutableArray * showArr = [NSMutableArray array];
+    
+    for (NSInteger index = -2;index <= 2; index ++)
+    {
+        NSInteger eveIndex = rowNum + index;
+        if(eveIndex >= 0 && [subArr count] > eveIndex)
+        {
+            CBGListModel * eveModel = [subArr objectAtIndex:eveIndex];
+            if([selectId isEqualToString:eveModel.owner_roleid])
+            {
+                [showArr addObject:eveModel];
+            }
+        }
+    }
+    
     
     //跳转条件  1详情页面时，非自己id   2非详情页面、仅历史库表取出数据
     //    BOOL detailSelect = (self.selectedRoleId > 0 && self.selectedRoleId != [contact.owner_roleid integerValue]);
     //    BOOL nearSelect = (self.selectedRoleId == 0 && state == CBGEquipRoleState_PayFinish);
+    CBGCompareSameRoleVC * compare = [[CBGCompareSameRoleVC alloc] init];
+    compare.compareArr = showArr;
+    [[self rootNavigationController] pushViewController:compare animated:YES];
+    
     
     //    if(detailSelect || nearSelect)
     {
-        ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
-        detail.cbgList = contact;
-        [[self rootNavigationController] pushViewController:detail animated:YES];
+//        ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
+//        detail.cbgList = contact;
+//        [[self rootNavigationController] pushViewController:detail animated:YES];
     }
     
     

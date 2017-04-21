@@ -236,7 +236,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              if(!dataObj.sell_create_time){
                  dataObj.sell_create_time = @"";
              }
-             dataObj.dbStyle = CBGLocalDataBaseListUpdateStyle_CopyRefresh;
+             dataObj.dbStyle = CBGLocalDataBaseListUpdateStyle_CopyRefresh;//矫正serverid或者新增
              result = [self privateLocalSaveEquipHistoryDetailCBGModel:dataObj withDataBase:db];
              if (!result)
              {
@@ -2494,20 +2494,27 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 }
 -(NSArray *)localSaveEquipHistoryModelListRepeatSold
 {
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger minServerId = total.minServerId;
     NSMutableArray *totalArray=[NSMutableArray array];
     [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
      {
          if (!fmdatabase.open) {
              [fmdatabase open];
          }
+         
+         
          NSMutableString *sqlMutableString=[NSMutableString string];
          //是某分类的
          //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
          //         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 100000"];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ in (select %@ from %@ group by %@ having count(%@) > 1) order by  %@ , %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ in (select %@ from %@ where %@ == '' and %@ < %ld group by %@ having count(%@) > 1) order by  %@ , %@",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_TOTAL,
+          ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
+          ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+          minServerId,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,

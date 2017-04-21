@@ -215,6 +215,7 @@
     [bgView addSubview:txt];
     txt.text = txtValue;
     self.txtView = txt;
+    txt.userInteractionEnabled = NO;
     
     CGFloat boundHeight = self.payBtn.bounds.size.height;
     [bgView addSubview:self.payBtn];
@@ -238,7 +239,8 @@
     if(self.detailModel)
     {
         EquipModel * detail = self.detailModel;
-        
+        EquipExtraModel * detailExtra = detail.equipExtra;
+    
         NSString * prePrice = detail.equipExtra.detailPrePrice;
         prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",txtValue];
         txt.text = prePrice;

@@ -216,10 +216,19 @@
     NSNumber* selectRate = nil;
     
     //分段  数据分段标识
-    CGFloat planPrice = model.plan_total_price;
-    CGFloat equipPrice = model.equip_price/100;
+    CGFloat planPrice = model.plan_total_price + 0.0;
+    CGFloat finishPrice = planPrice * 0.95;
+    CGFloat equipPrice = model.equip_price/100.0;
     
-    CGFloat realRate = planPrice/(0.0 + equipPrice);
+    CGFloat realRate = 0;
+    if(finishPrice > equipPrice)
+    {
+        realRate = (finishPrice - equipPrice)/planPrice + 1.0;
+    }else if(planPrice > equipPrice){
+        realRate = 0.95;//放到1.1挡内，展示为100%
+    }else{
+        realRate = planPrice/equipPrice;
+    }
     NSArray * rateArr = self.countRateArray;
     
     for (NSInteger index = 0;index < [rateArr count] ; index ++ )
@@ -231,12 +240,12 @@
             break;
         }
     }
-    
+    //数据存放在最接近的，稍大一点的分段数值内
     if(!selectRate)
     {
         selectRate = [rateArr lastObject];
     }
-    
+//    NSLog(@"selectRate %@ %.2f",selectRate,realRate);
     return selectRate;
 }
 -(AAChartModel *)planModel
@@ -248,13 +257,20 @@
         //1、所有无装备数据总数
         //2、无装备中售出总数
         //3、无装备中在售总数
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        NSInteger minServerId = total.minServerId;
         NSArray * dbArr = self.dbHistoryArr;
         NSMutableArray * totalArr = [NSMutableArray array];
         for (CBGListModel * eveModel in dbArr) {
-            if(eveModel.plan_rate < 30 && eveModel.plan_zhuangbei_price == 0 && eveModel.plan_total_price > 4000 )
+            if(eveModel.plan_rate < 30 && eveModel.plan_zhuangbei_price == 0 && eveModel.plan_total_price > 4000 && eveModel.server_id != 45 && eveModel.server_id < minServerId)
             {
                 [totalArr addObject:eveModel];
             }
+        }
+        
+        if(totalArr > 0){
+//            totalArr = [totalArr subarrayWithRange:NSMakeRange(0, 3)];
         }
         
         NSMutableDictionary * countDic = [NSMutableDictionary dictionary];
@@ -328,11 +344,11 @@
         NSMutableArray * backArr = [NSMutableArray array];
         NSMutableArray * keyNameArr = [NSMutableArray array];
         
+        NSInteger planEffective = 0;
         CGFloat startNum = 0;
         for (NSInteger index = 0;index < [keyArr count] ;index ++) {
             NSNumber * keyNum = [keyArr objectAtIndex:index];
             NSString * keyName = [NSString stringWithFormat:@"%.0f%%",startNum*100];
-            startNum = keyNum.floatValue;
             
             NSNumber * countNum = [countDic objectForKey:keyNum]?:@0;
             [countArr addObject:countNum];
@@ -348,14 +364,24 @@
                 keyName = @"更低";
             }else if(index == [keyArr count] - 1){
                 keyName = @"更高";
+            }else
+            {
+                //大范围估值区间
+                if(startNum >= 0.8 && startNum <= 1.2)
+                {
+                    planEffective += [countNum integerValue];
+                }
             }
+            
             [keyNameArr addObject:keyName];
+            startNum = keyNum.floatValue;//为下一阶段提供初始值
         }
         
         //底部比率，数量是，每个比率对应的数量
         
+        NSInteger totalCountNum = [self totalCountNumberForSubDic:countDic];
         NSString * subTitle = [NSString stringWithFormat:@"%@ (%ld)",self.selectedDate,[totalArr count]];
-        subTitle = [subTitle stringByAppendingFormat:@" 统计 (%ld)",[self totalCountNumberForSubDic:countDic]];
+        subTitle = [subTitle stringByAppendingFormat:@" 统计 (%ld %ld %.0f%%)",totalCountNum,planEffective,planEffective/(totalCountNum + 0.0)* 100];
         subTitle = [subTitle stringByAppendingFormat:@" 售出 (%ld)",[self totalCountNumberForSubDic:soldDic]];
         subTitle = [subTitle stringByAppendingFormat:@" 在售 (%ld)",[self totalCountNumberForSubDic:sellingDic]];
         subTitle = [subTitle stringByAppendingFormat:@" 取回 (%ld)",[self totalCountNumberForSubDic:backDic]];
@@ -1296,6 +1322,9 @@
 -(void)refreshChartModelWithLatestListAndStyle
 {
     //重新创建model
+    if(!self.dbHistoryArr || [self.dbHistoryArr count] == 0){
+        return;
+    }
     
     //估值概况表
     [self.planChartView aa_drawChartWithChartModel:self.planModel];

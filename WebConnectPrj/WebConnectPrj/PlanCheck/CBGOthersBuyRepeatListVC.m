@@ -16,6 +16,8 @@
 
 - (void)viewDidLoad {
     self.viewTtle = @"倒卖记录";
+    self.showRightBtn = YES;
+    self.rightTitle = @"筛选";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     

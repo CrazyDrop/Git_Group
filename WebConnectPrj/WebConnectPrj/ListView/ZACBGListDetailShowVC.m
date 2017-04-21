@@ -196,12 +196,22 @@
             equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
             equipName = [NSString stringWithFormat:@"%ld%% %@",rate,equipName];
             equipBuyColor = [UIColor greenColor];
+            
+            if(contact.plan_zhuangbei_price > 0)
+            {
+                equipName = [NSString stringWithFormat:@"%ld %@",contact.plan_zhuangbei_price,equipName];
+            }
+
+        }else
+        {
+            if(contact.plan_zhuangbei_price > 0)
+            {
+                equipBuyColor = [UIColor redColor];
+                equipName = [NSString stringWithFormat:@"%ld %@",contact.plan_zhuangbei_price,equipName];
+            }
+
         }
         
-        if(contact.plan_zhuangbei_price > 0)
-        {
-            equipName = [NSString stringWithFormat:@"%ld %@",contact.plan_zhuangbei_price,equipName];
-        }
         //leftPriceTxt = [NSString stringWithFormat:@"%@",leftPriceTxt];
     }
     if([contact.owner_roleid intValue] == self.selectedRoleId)
