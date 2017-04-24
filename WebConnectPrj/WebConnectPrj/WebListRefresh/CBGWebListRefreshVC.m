@@ -36,7 +36,7 @@
 @property (nonatomic,assign) BOOL cookieAutoRefresh;
 @property (nonatomic,assign) NSInteger pageNum;
 
-@property (nonatomic,assign) BOOL webError;
+@property (nonatomic,assign) BOOL webCheckError;
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 
 @end
@@ -72,9 +72,7 @@
 }
 -(void)refreshWebRequestWithWebRequestNeedRefreshError:(NSNotification *)noti
 {
-    self.webError = [noti.object boolValue];
-    ZWDetailCheckManager * detail = [ZWDetailCheckManager sharedInstance];
-    detail.ingoreDB = !self.webError;
+    self.webCheckError = [noti.object boolValue];//屏蔽自身网络请求
 }
 
 -(void)checkLatestVCAndStartTimer
@@ -323,7 +321,7 @@
         return;
     }
 
-    if(self.webError){
+    if(self.webCheckError){
         return;
     }
     
@@ -593,7 +591,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         //                                                            object:webUrl];
         self.planWeb = [[CBGDetailWebView alloc] initDetailWebViewWithDetailString:webUrl];
         
-        
         [self startUserNotice];
         
         self.latest = maxModel;
@@ -694,7 +691,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //用来标识是否最新一波数据
     UIColor * numcolor = [self.grayArray containsObject:contact]?[UIColor blackColor]:[UIColor lightGrayColor];
     
-    cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     NSString * centerDetailTxt = nil;
     
     UIColor * color = [UIColor lightGrayColor];
@@ -764,6 +760,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             rightStatusColor = [UIColor redColor];
         }
         
+        if(cbgList.planMore_zhaohuan || cbgList.planMore_Equip)
+        {
+            numcolor = [UIColor redColor];
+        }
+        
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
             if(contact.earnPrice > 0)
@@ -776,7 +777,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }
     
     cell.latestMoneyLbl.textColor = color;
-
+    
+    cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据,是否包含更多
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
     cell.sellTimeLbl.text = rightStatusTxt;

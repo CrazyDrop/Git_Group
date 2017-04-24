@@ -241,6 +241,16 @@
     
     return empty;
 }
+-(BOOL)planMore_zhaohuan
+{
+    BOOL more = self.plan_zhaohuanshou_price > 1000;
+    return more;
+}
+-(BOOL)planMore_Equip
+{
+    BOOL more = self.plan_zhaohuanshou_price > 500;
+    return more;
+}
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip
 {
     if(self.appointed)

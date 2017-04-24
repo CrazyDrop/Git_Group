@@ -931,12 +931,17 @@
         price += 100;
     }else if(sup_total < 300){
         price += 200;
-    }else{
-        
+    }else if(sup_total < 400){
         NSInteger countNum = MIN(330, sup_total);
         NSInteger sub = (countNum - 330) * 5 + 200;
         sub = MIN(600, sub);
         price += sub;
+
+    }else if(sup_total < 500)
+    {
+        price += 1000;
+    }else{
+        price += 2000;
     }
     
     
@@ -1060,6 +1065,7 @@
 }
 -(NSInteger)countSchoolPriceForSchoolNum:(NSInteger)school
 {
+//    @"1",@"大唐官府",@"2",@"化生寺",@"3",@"女儿村",@"4",@"方寸山",@"5",@"天宫",@"6",@"普陀山",@"7",@"龙宫",@"8",@"五庄观",@"9",@"狮驼岭",@"10",@"魔王寨",@"11",@"阴曹地府",@"12",@"盘丝洞",@"13",@"神木林",@"14",@"凌波城",@"15",@"无底洞"
     NSInteger schoolNum = 0;
     switch (school) {
             //FC PS
@@ -1069,14 +1075,15 @@
         }
             break;
         case 6:
+        case 15:
         {
-            schoolNum = 500;
+            schoolNum = 400;
         }
             break;
         case 10:
         case 13:
         {
-            schoolNum = 50;
+            schoolNum = 0;
         }
             break;
         case 7:

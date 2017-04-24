@@ -125,8 +125,11 @@
 //                                                            object:webUrl];
         self.planWeb = [[CBGDetailWebView alloc] initDetailWebViewWithDetailString:webUrl];
         
-        
-        [self startUserNotice];
+        //数据有效时，进行提醒
+        if(!self.ingoreDB)
+        {
+            [self startUserNotice];
+        }
         
         self.latest = maxModel;
         self.latestContain = YES;
@@ -218,8 +221,6 @@
     self.showRightBtn = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-
     
     CGRect rect = [[UIScreen mainScreen] bounds];
 
@@ -237,13 +238,14 @@
     self.tipsView.hidden = YES;
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
-    check.ingoreDB = NO;
+    check.ingoreDB = self.ingoreDB;
     if(check.latestHistory)
     {
         self.showArray = check.latestHistory;
         self.dataArr2 = check.latestHistory;
         [self.listTable reloadData];
     }
+    
 }
 -(UIView *)tipsView{
     if(!_tipsView)
@@ -936,6 +938,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 leftRateColor = [UIColor orangeColor];
             }
         }
+        
     }else
     {
         if(listModel.plan_total_price > 0){
@@ -959,6 +962,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 break;
         }
         
+    }
+    
+    if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
+    {
+        numcolor = [UIColor redColor];
     }
     
     cell.totalNumLbl.text = centerDetailTxt;

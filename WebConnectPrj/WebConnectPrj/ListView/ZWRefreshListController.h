@@ -15,5 +15,8 @@
 //不进行字符串详细解析，和后台时长无关
 @property (nonatomic,assign) BOOL onlyList;
 
+//屏蔽提醒
+@property (nonatomic,assign) BOOL ingoreDB;
+
 
 @end

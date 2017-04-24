@@ -95,6 +95,9 @@ typedef enum : NSUInteger
 @property (nonatomic, strong) NSString * serverName;
 
 
+-(BOOL)planMore_zhaohuan;
+-(BOOL)planMore_Equip;
+
 -(void)refreshCBGListDataModelWithDetaiEquipModel:(id)model;
 -(CBGEquipRoleState)latestEquipListStatus;
 -(NSString * )equip_school_name;

@@ -2387,8 +2387,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
          //总值较大
          sqlMutableString  = [NSMutableString string];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ != '' AND %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@ limit 1",ZADATABASE_TABLE_EQUIP_TOTAL,
-          ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@ limit 1",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
           ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
@@ -2422,39 +2421,39 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
          //无相关更低价售出数据，取未售出数据
 //         if([totalArray count] == 0)
-         {
-             //比当前号便宜售价便宜，但价格高的是否有卖出
-             //未售出的数据,未售出 未取回，价格不为0 估价大于当前估价，认为低价的号全都会售出状态，不判定
-             sqlMutableString  = [NSMutableString string];
-             [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
-              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
-              school,
-              ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
-              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
-              ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
-              comparePrice,
-              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-              equipPrice,
-              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-              minServerId,
-              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];;
-             
-             resultSet=[fmdatabase executeQuery:sqlMutableString];
-             while ([resultSet next])
-             {
-                 CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-                 location.equip_status = 4;
-                 [totalArray addObject:location];
-             }
-
-         }
+//         {
+//             //比当前号便宜售价便宜，但价格高的是否有卖出
+//             //未售出的数据,未售出 未取回，价格不为0 估价大于当前估价，认为低价的号全都会售出状态，不判定
+//             sqlMutableString  = [NSMutableString string];
+//             [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+//              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
+//              school,
+//              ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
+//              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
+//              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
+//              ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
+//              comparePrice,
+//              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
+//              equipPrice,
+//              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+//              minServerId,
+//              ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];;
+//             
+//             resultSet=[fmdatabase executeQuery:sqlMutableString];
+//             while ([resultSet next])
+//             {
+//                 CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+//                 location.equip_status = 4;
+//                 [totalArray addObject:location];
+//             }
+//
+//         }
          
          [resultSet close];
          [fmdatabase close];

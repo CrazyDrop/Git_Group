@@ -11,7 +11,7 @@
 //同时开启两种数据刷新
 @interface CBGMixedListCheckVC : DPWhiteTopController
 
-
+//混合刷新，混合刷新时，WEB刷新提示，mobile刷新无提示
 
 
 

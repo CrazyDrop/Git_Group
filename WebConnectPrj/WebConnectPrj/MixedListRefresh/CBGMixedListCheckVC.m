@@ -36,10 +36,6 @@
     [scrollView addSubview:mobileView];
     self.mobileVC.leftBtn.hidden = YES;
     
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_REFRESH_WEB_ERROR_STATE object:[NSNumber numberWithBool:NO]];
-    });
 }
 
 -(CBGWebListRefreshVC *)webVC
@@ -55,6 +51,7 @@
 {
     if(!_mobileVC){
         ZWRefreshListController * aWeb = [[ZWRefreshListController alloc] init];
+        aWeb.ingoreDB = YES;
         [self addChildViewController:aWeb];
         _mobileVC = aWeb;
     }
