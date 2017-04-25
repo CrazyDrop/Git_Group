@@ -2189,16 +2189,23 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         NSMutableString *sqlMutableString=[NSMutableString string];
         //是某分类的
         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
-        
-        //今日上架 或售出 取回
-        [sqlMutableString appendFormat:@"select * from %@ where %@ like'%@%%' or %@ like '%@%%' or %@ like '%@%%' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,
+
+        //仅上架
+        [sqlMutableString appendFormat:@"select * from %@ where %@ like'%@%%' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,
          ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE,
          time,
-         ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
-         time,
-         ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
-         time,
          ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+
+        
+        //今日上架 或售出 取回
+//        [sqlMutableString appendFormat:@"select * from %@ where %@ like'%@%%' or %@ like '%@%%' or %@ like '%@%%' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,
+//         ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE,
+//         time,
+//         ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
+//         time,
+//         ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
+//         time,
+//         ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
         
         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
         while ([resultSet next])
@@ -2258,18 +2265,18 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          NSMutableString *sqlMutableString=[NSMutableString string];
          //是某分类的
          
-         //近期已售出
+         //全部相关记录，不再区分是否售出
          //两者均存在
          if(server && school)
          {
-              [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ = %@ AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+              [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ = %@ ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
          }else if(!server)
          {
-             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
 
          }else
          {
-             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@  AND %@ != '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
+             [sqlMutableString appendFormat:@"select * from %@ where %@ = %@  ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,server,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
          }
          
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
@@ -2387,7 +2394,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
          //总值较大
          sqlMutableString  = [NSMutableString string];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld And %@ < %ld ORDER BY %@ limit 1",ZADATABASE_TABLE_EQUIP_TOTAL,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@ DESC",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
           ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
@@ -2401,11 +2408,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
           comparePrice,
-          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
-          equipPrice,
           ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
           minServerId,
-          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];
+          ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE];
 
          resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])

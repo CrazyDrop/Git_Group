@@ -837,7 +837,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //用来标识是否最新一波数据
     UIColor * numcolor = [self.grayArray containsObject:contact]?[UIColor blackColor]:[UIColor lightGrayColor];
     
-    cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     NSString * centerDetailTxt = contact.desc_sumup;
     
     UIColor * color = [UIColor lightGrayColor];
@@ -969,6 +968,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         numcolor = [UIColor redColor];
     }
     
+    cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
     cell.sellTimeLbl.text = rightStatusTxt;

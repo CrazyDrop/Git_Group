@@ -10,18 +10,16 @@
 #import "MSAlertController.h"
 #import "CBGListModel.h"
 #import "EquipDetailArrayRequestModel.h"
+#import "CBGSortHistoryBaseTableVC.h"
 //完成网络请求，列表详情请求
-
-@interface CBGSortHistoryBaseDetailVC : DPWhiteTopController
+//数据展示，统一基类,进行统一数据请求
+@interface CBGSortHistoryBaseDetailVC : CBGSortHistoryBaseTableVC
 {
     EquipDetailArrayRequestModel * _detailModel;
 }
-//基础数据传递
-@property (nonatomic,strong) NSArray * dbHistoryArr;
 
+//基础数据传递
 //创建基础table，不进行数据填充
-@property (nonatomic,strong) NSArray * dataArr;
-@property (nonatomic,strong,readonly) UITableView * listTable;
 
 -(void)refreshNumberLblWithLatestNum:(NSInteger)number;
 

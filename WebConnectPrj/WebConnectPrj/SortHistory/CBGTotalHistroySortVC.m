@@ -21,38 +21,8 @@
     
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithSoldOut];
-    
-    NSMutableArray * showArr = [NSMutableArray array];
-    for (NSInteger index = 0; index < [sortArr count]; index ++)
-    {
-        CBGListModel * eveModel = [sortArr objectAtIndex:index];
-        NSInteger space = eveModel.sell_space;
-        //30分钟内售出
-        if(space > 0 && space < 30 * MINUTE){
-            [showArr addObject:eveModel];
-        }
-    }
-    
-    
-    [showArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        CBGListModel * eve1 = (CBGListModel *)obj1;
-        CBGListModel * eve2 = (CBGListModel *)obj2;
-        
-        NSComparisonResult result = NSOrderedSame;
-        //结束时间
-        result = [[NSNumber numberWithInteger:eve1.sell_space] compare:[NSNumber numberWithInteger:eve2.sell_space]];
-        
-        return result;
-    }];
-
-    
-    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[showArr count]];
-    [DZUtils noticeCustomerWithShowText:noticeStr];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = showArr;
-        [self.listTable reloadData];
-    });;
+    self.dbHistoryArr = sortArr;
+    [self refreshLatestShowTableView];
 }
 
 
@@ -62,40 +32,26 @@
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithUnFinished];
     
-    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[sortArr count]];
-    [DZUtils noticeCustomerWithShowText:noticeStr];
+    self.dbHistoryArr = sortArr;
+    [self refreshLatestShowTableView];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = sortArr;
-        [self.listTable reloadData];
-    });;
 }
 -(void)refreshLatestDatabaseListDataForPriceError
 {
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     NSArray * sortArr = [manager localSaveEquipHistoryModelListEquipPriceError];
     
-    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[sortArr count]];
-    [DZUtils noticeCustomerWithShowText:noticeStr];
+    self.dbHistoryArr = sortArr;
+    [self refreshLatestShowTableView];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = sortArr;
-        [self.listTable reloadData];
-    });
 }
 -(void)refreshLatestDatabaseListDataForEarnPriceIsNull
 {
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithPlanFail];
     
-    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[sortArr count]];
-    [DZUtils noticeCustomerWithShowText:noticeStr];
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = sortArr;
-        [self.listTable reloadData];
-    });;
+    self.dbHistoryArr = sortArr;
+    [self refreshLatestShowTableView];
 }
 
 -(void)showDetailChooseForHistory
@@ -148,7 +104,7 @@
     
     action = [MSAlertAction actionWithTitle:@"WEB分段刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:weakSelf.dataArr];
+                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
               }];
     [alertController addAction:action];
     
@@ -165,8 +121,9 @@
 }
 -(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
 {
-    self.dataArr = array;
-    [self.listTable reloadData];
+    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
+    //    [self refreshLatestShowTableView];
+    [[self rootNavigationController] popViewControllerAnimated:YES];
 }
 
 -(void)showTotalHistorySortListWithPlayStyle:(BOOL)plan
@@ -208,6 +165,10 @@
 
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.orderStyle = CBGStaticOrderShowStyle_Rate;
+    self.sortStyle = CBGStaticSortShowStyle_School;
+    self.finishStyle = CBGSortShowFinishStyle_Total;
     
     [self refreshLatestDatabaseListDataForUnFinished];
 }

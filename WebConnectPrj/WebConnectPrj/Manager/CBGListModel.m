@@ -132,7 +132,8 @@
             break;
         case 5:
         {
-            status = CBGEquipRoleState_None;
+            //交易完成，认为和购买一致
+            status = CBGEquipRoleState_BuyFinish;
         }
             break;
         case 6:

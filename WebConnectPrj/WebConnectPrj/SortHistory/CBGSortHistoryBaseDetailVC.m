@@ -14,11 +14,10 @@
 #import "ZACBGDetailWebVC.h"
 #import "RefreshListCell.h"
 #import "CBGMaxHistoryListRefreshVC.h"
-@interface CBGSortHistoryBaseDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface CBGSortHistoryBaseDetailVC ()
 {
     
 }
-@property (nonatomic, strong) UITableView * listTable;
 @property (nonatomic, strong) NSArray * requestModels;
 @property (nonatomic, strong) UILabel * numLbl;
 
@@ -42,18 +41,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    CGRect rect = [[UIScreen mainScreen] bounds];
-    
+//    CGRect rect = [[UIScreen mainScreen] bounds];
     CGFloat aHeight = CGRectGetMaxY(self.titleBar.frame);
-    rect.origin.y = aHeight;
-    rect.size.height -= aHeight;
-    
-    UITableView * table = [[UITableView alloc] initWithFrame:rect];
-    table.delegate = self;
-    table.dataSource =self;
-    self.listTable = table;
-    [self.view addSubview:table];
-    
+
     
     UIView * bgView = self.view;
     CGFloat btnWidth = SCREEN_WIDTH/3.0;
@@ -75,7 +65,7 @@
 -(void)refreshNumberLblWithLatestNum:(NSInteger)number
 {
     self.numLbl.hidden = NO;
-    self.numLbl.text = [NSString stringWithFormat:@"数量:%ld",number];
+    self.numLbl.text = [NSString stringWithFormat:@"数量:%ld",(long)number];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -244,251 +234,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 }
 #pragma mark -
 #pragma mark HistoryTableDelegate
-#pragma mark - UITableViewDataSource
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.dataArr count];
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60;
-}
-
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    //    NSInteger rowNum = indexPath.row;
-    NSInteger secNum = indexPath.section;
-    CBGListModel * contact = [self.dataArr objectAtIndex:secNum];
-    CBGEquipRoleState state = contact.latestEquipListStatus;
-    
-    static NSString *cellIdentifier = @"RefreshListCellIdentifier_CBG";
-    RefreshListCell *cell = (RefreshListCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil)
-    {
-        //            cell = [[ZAContactListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier andTableView:tableView];
-        //            cell.delegate = self;
-        
-        
-        RefreshListCell * swipeCell = [[[NSBundle mainBundle] loadNibNamed:@"RefreshListCell"
-                                                                     owner:nil
-                                                                   options:nil] lastObject];
-        
-        //        [[RefreshListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        [swipeCell setValue:cellIdentifier forKey:@"reuseIdentifier"];
-        
-        cell = swipeCell;
-    }
-    
-    //用来标识是否最新一波数据
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    NSDictionary * serNameDic = total.serverNameDic;
-    
-    
-    NSString * centerDetailTxt = contact.plan_des;
-    UIColor * numcolor = [UIColor lightGrayColor];
-    UIColor * color = [UIColor lightGrayColor];
-    NSString * leftRateTxt = nil;
-    //[NSString stringWithFormat:@"%@-%@",contact.area_name,contact.server_name];
-    NSString * equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
-    NSString * leftPriceTxt = [NSString stringWithFormat:@"%.2f",contact.equip_price/100.0];
-    NSNumber * serId = [NSNumber numberWithInteger:contact.server_id];
-    NSString * serverName = [serNameDic objectForKey:serId];
-    
-    if(!contact)
-    {
-        leftRateTxt = nil;
-        equipName = nil;
-        centerDetailTxt = nil;
-    }
-    
-    cell.latestMoneyLbl.textColor = color;
-    
-    //列表剩余时间
-    //    @"dd天HH小时mm分钟"
-    NSString * rightTimeTxt =  nil;
-    NSString * rightStatusTxt = nil;
-    UIColor * rightStatusColor = [UIColor lightGrayColor];
-    UIColor * earnColor = [UIColor lightGrayColor];
-    UIColor * equipBuyColor = [UIColor lightGrayColor];
-    UIColor * leftRateColor = [UIColor lightGrayColor];
-    //区分状态，
-    if( state == CBGEquipRoleState_InSelling)
-    {//主要展示上下架时间
-        NSDate * date = [NSDate fromString:contact.sell_start_time];
-        rightTimeTxt =  [date toString:@"(MM-dd)HH:mm"];
-        leftRateTxt  = @"上架";
-        leftRateColor = [UIColor orangeColor];
-        equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
-        centerDetailTxt = [contact.game_ordersn substringToIndex:15];
-        
-    }else if(state == CBGEquipRoleState_InOrdering)
-    {//主要展示  下单信息  取消,金额
-        NSDate * date = [NSDate fromString:contact.sell_order_time];
-        rightTimeTxt =  [date toString:@"MM-dd HH点"];
-        
-        date = [NSDate fromString:contact.sell_cancel_time];
-        rightStatusTxt =  [date toString:@"MM-dd HH点"];
-        
-        leftRateTxt =  @"下单";
-        leftRateColor = [UIColor orangeColor];
-        equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
-        centerDetailTxt = [contact.game_ordersn substringToIndex:15];
-        
-    }
-    else if(state == CBGEquipRoleState_PayFinish)
-    {//主要展示  账号基础信息
-        NSDate * startDate = [NSDate fromString:contact.sell_create_time];
-        rightTimeTxt =  [startDate toString:@"MM-dd HH点"];
-        
-        rightStatusColor = [UIColor redColor];
-        NSString * finishTime = contact.sell_sold_time;
-        if([finishTime length] == 0)
-        {//取消时间
-            finishTime = contact.sell_back_time;
-            rightStatusColor = [UIColor grayColor];
-        }
-        
-        if([finishTime length] > 0)
-        {
-            NSDate *  finishDate = [NSDate fromString:finishTime];
-            NSTimeInterval count = [finishDate timeIntervalSinceDate:startDate];
-            
-            if(count < 0)
-            {
-                count = 0;
-            }
-            
-            NSInteger space = contact.sell_space;
-            if(space > 0 && space < 10*MINUTE)
-            {
-                //蓝色，标识的起售后很快售出
-                earnColor = [UIColor blueColor];
-            }
-            
-            //时差秒数
-            NSTimeInterval minuteNum = count/60;
-            int minute = ((int)minuteNum)%60;
-            NSTimeInterval hour = minuteNum/60;
-            if(hour > 1){
-                rightStatusTxt =  [NSString stringWithFormat:@"隔%02d:%02d",(int)hour,minute];
-            }else{
-                rightStatusTxt =  [NSString stringWithFormat:@"隔%02d分",minute];
-            }
-            
-
-
-        }else{
-            startDate = [NSDate fromString:finishTime];
-            rightStatusTxt =  [startDate toString:@"dd HH:mm"];
-
-        }
-        
-        //计算时间差
-        {
-            centerDetailTxt = [NSString stringWithFormat:@"%ld%@",contact.plan_total_price,contact.plan_des];
-        }
-        
-        
-        if(serverName){
-            leftRateTxt = serverName;
-        }else{
-            leftRateTxt = [NSString stringWithFormat:@"%@:%ld",contact.equip_name,contact.server_id];
-        }
-        NSInteger priceChange = contact.equip_start_price - contact.equip_price/100;
-        if(priceChange != 0)
-        {
-            if(priceChange >0)
-            {
-                leftRateColor = [UIColor orangeColor];
-            }
-            leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
-        }
-        
-        NSInteger rate = contact.price_rate_latest_plan;
-        if(rate > 0 && contact.server_id != 45)
-        {
-            equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
-            equipName = [NSString stringWithFormat:@"%ld%% %@",rate,equipName];
-            equipBuyColor = [UIColor greenColor];
-        }
-        //leftPriceTxt = [NSString stringWithFormat:@"%@",leftPriceTxt];
-    }
-    
-    /**
-     NSTimeInterval interval = [self timeIntervalWithCreateTime:detail.create_time andSellTime:detail.selling_time];
-     if(interval < 60 * 60 * 24 )
-     {
-     earnColor = [UIColor orangeColor];
-     }
-     if(interval < 60){
-     earnColor = [UIColor redColor];
-     }
-     **/
-    
-    cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
-    cell.totalNumLbl.text = centerDetailTxt;
-    cell.rateLbl.text = leftPriceTxt;
-    
-    cell.sellTimeLbl.text = rightStatusTxt;
-    cell.sellTimeLbl.textColor = rightStatusColor;
-    
-    cell.timeLbl.text = rightTimeTxt;
-    cell.timeLbl.textColor = earnColor;
-    
-    UIFont * font = cell.totalNumLbl.font;
-    cell.latestMoneyLbl.text = leftRateTxt;
-    cell.latestMoneyLbl.textColor = leftRateColor;
-    cell.latestMoneyLbl.font = font;
-    
-    cell.sellRateLbl.font = font;
-    cell.sellRateLbl.text = equipName;
-    cell.sellRateLbl.textColor = equipBuyColor;
-    cell.sellDateLbl.hidden = YES;
-    
-    return cell;
-}
-#pragma mark -
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger rowNum = indexPath.row;
-    NSInteger secNum = indexPath.section;
-    CBGListModel * contact = [self.dataArr objectAtIndex:secNum];
-    CBGEquipRoleState state = contact.latestEquipListStatus;
-    
-    //跳转条件  1详情页面时，非自己id   2非详情页面、仅历史库表取出数据
-//    BOOL detailSelect = (self.selectedRoleId > 0 && self.selectedRoleId != [contact.owner_roleid integerValue]);
-//    BOOL nearSelect = (self.selectedRoleId == 0 && state == CBGEquipRoleState_PayFinish);
-    
-//    if(detailSelect || nearSelect)
-    {
-        ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
-        detail.cbgList = contact;
-        [[self rootNavigationController] pushViewController:detail animated:YES];
-    }
-    
-    
-}
--(NSTimeInterval)timeIntervalWithCreateTime:(NSString *)create andSellTime:(NSString *)selltime
-{
-    NSDate * createDate = [NSDate fromString:create];
-    NSDate * sellDate = [NSDate fromString:selltime];
-    
-    NSTimeInterval interval = [sellDate timeIntervalSinceDate:createDate];
-    //    NSLog(@"interval %f",interval);
-    return interval;
-    
-}
-
-#pragma mark -
-
-
 
 
 - (void)didReceiveMemoryWarning {

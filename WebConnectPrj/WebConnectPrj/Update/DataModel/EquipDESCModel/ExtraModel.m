@@ -40,7 +40,6 @@
 -(NSInteger)equipLatestAddLevel
 {
     //    锻炼等级 3  镶嵌
-
     NSInteger level = 0;
     NSString * des = self.cDesc;
     NSString * startStr = @"锻炼等级 ";
@@ -51,7 +50,24 @@
         NSInteger startIndex = startRange.length + startRange.location;
         NSString * subStr = [des substringWithRange:NSMakeRange(startIndex,finishRange.location - startIndex)];
         level = [subStr integerValue];
-
+    }
+    
+    return level;
+}
+//修理失败次数
+-(NSInteger)equipErrorTimes
+{
+    NSInteger level = 0;
+    NSString * des = self.cDesc;
+//    修理失败 3次
+    NSString * startStr = @"修理失败 ";
+    NSString * finishStr = @"次";
+    NSRange startRange = [des rangeOfString:startStr];
+    NSRange finishRange = [des rangeOfString:finishStr];
+    if(startRange.length > 0 && finishRange.length > 0){
+        NSInteger startIndex = startRange.length + startRange.location;
+        NSString * subStr = [des substringWithRange:NSMakeRange(startIndex,finishRange.location - startIndex)];
+        level = [subStr integerValue];
     }
     
     return level;

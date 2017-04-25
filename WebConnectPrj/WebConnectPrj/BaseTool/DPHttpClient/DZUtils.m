@@ -28,6 +28,29 @@
 
 @implementation DZUtils
 
++(NSString *)detailNumberStringFromCombineStr:(NSString *)detailCopy
+{
+//循环遍历出数字部分
+    NSMutableString * checkStr = [NSMutableString string];//数字字符
+    //由后向前，取到非数字字符截止
+    NSString * shortString = detailCopy;
+    NSString * replace = detailCopy;
+    for (NSInteger index = 0; index < [shortString length]; index ++ )
+    {
+        NSInteger number = [shortString length] - index - 1;
+        NSString * eve = [replace substringWithRange:NSMakeRange(number, 1)];
+        BOOL realNumber = [DZUtils checkSubCharacterIsNumberString:eve];
+        if(realNumber)
+        {
+            [checkStr insertString:eve atIndex:0];
+        }else{
+            break;
+        }
+    }
+//    NSRange  range = NSMakeRange([shortString length] - [checkStr length] , [checkStr length]);
+    return checkStr;
+}
+
 +(BOOL)checkSubCharacterIsNumberString:(NSString *)last
 {
     NSScanner* scan = [NSScanner scannerWithString:last];

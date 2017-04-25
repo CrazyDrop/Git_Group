@@ -48,7 +48,7 @@
 @property (nonatomic, strong) NSNumber *iLock;
 //@property (nonatomic, strong) NSString *cDesc;
 //@property (nonatomic, strong) NSNumber *iType;
-
+-(NSInteger)equipErrorTimes;
 -(NSInteger)equipLatestAddLevel;//宝石等级
 -(NSString *)equipAppendSkill;//特技
 

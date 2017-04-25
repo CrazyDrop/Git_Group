@@ -113,9 +113,12 @@
     CGFloat price = 0;
     
 //    锻炼等级 3  镶嵌宝石
-    NSInteger baoshi = [extra equipLatestAddLevel];
-    if(baoshi >= 8)
+    NSInteger baoshi = [extra equipLatestAddLevel] ;
+    NSInteger error = [extra equipErrorTimes];
+    if(baoshi == 8 && error < 2)
     {
+        price = 100;
+    }else if(baoshi > 8 && error != 3){
         price = 100;
     }
     
@@ -818,6 +821,7 @@
         money += eveMoney;
     }
     
+    
     NSInteger yushouNum = 0;
     for (ExtraModel * model in self.all_skills.skillsArray)
     {
@@ -837,6 +841,14 @@
         CGFloat eveMoney = [self xiulian_price_countForEveNum:yushouNum withAdd:NO];
         money += eveMoney;
     }
+    
+    //宠修高  经验过低时，宠修估价0.7即宠修
+    if(money > 4000 && [self.sum_exp integerValue] < 300)
+    {
+        money *= 0.8;
+    }
+
+        
     
     return money;
 }
@@ -1102,6 +1114,7 @@
         default:
             break;
     }
+    
     return schoolNum;
 }
 
@@ -1162,6 +1175,12 @@
         CGFloat eveMoney = [self jineng_price_countForEveShiMenNum:skillLevel];
         mainSkill += eveMoney;
     }
+    
+    if(mainSkill > 4000 && [self.sum_exp integerValue] < 300)
+    {
+        mainSkill *= 0.8;
+    }
+    
     money += mainSkill;
     
     

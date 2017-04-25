@@ -34,6 +34,7 @@
 #import "CBGDepthStudyVC.h"
 #import "CBGPlanListDetailCheckVC.h"
 #import "CBGCombinedScrolledHandleVC.h"
+#import "CBGLatestPlanBuyVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -76,9 +77,10 @@
                         @"全部历史",
                         @"更新历史",
                         
-                        @"分段历史",//通过时间选择
+                        @"本月历史",//今天的历史
                         @"当日历史",//今天的历史
-
+                        @"分段历史",//通过时间选择
+                        
                         @"链接估价",
                         @"URL设置",
 
@@ -86,6 +88,7 @@
                         @"当月走势",
                         
                         @"倒手分析",
+                        @"近期估价",
                         nil];
     
     UIView * bgView = self.view;
@@ -221,8 +224,19 @@
             break;
         case 8:
         {
-            CBGDaysDetailSortHistoryVC * plan = [[CBGDaysDetailSortHistoryVC alloc] init];
-            [[self rootNavigationController] pushViewController:plan animated:YES];
+            NSString * todayDate = [NSDate unixDate];
+            
+            if(todayDate)
+            {
+                todayDate = [todayDate substringToIndex:[@"2017-03" length]];
+            }
+            
+            CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];
+            combine.selectedDate = todayDate;
+            combine.showStyle = CBGCombinedHandleVCStyle_Plan;
+            
+            [[self rootNavigationController] pushViewController:combine animated:YES];
+
         }
             break;
         case 9:
@@ -242,7 +256,12 @@
         }
             break;
 
-        case 10:
+        case 10:{
+            CBGDaysDetailSortHistoryVC * plan = [[CBGDaysDetailSortHistoryVC alloc] init];
+            [[self rootNavigationController] pushViewController:plan animated:YES];
+        }
+            break;
+        case 11:
         {
             CBGCopyUrlDetailCehckVC * copy = [[CBGCopyUrlDetailCehckVC alloc] init];
             [[self rootNavigationController] pushViewController:copy animated:YES];
@@ -250,7 +269,7 @@
             
         }
             break;
-        case 11:
+        case 12:
         {
             CBGSettingURLEditVC * copy = [[CBGSettingURLEditVC alloc] init];
             [[self rootNavigationController] pushViewController:copy animated:YES];
@@ -258,13 +277,13 @@
         
         }
             break;
-        case 12:{
+        case 13:{
             CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
             
         }
             break;
-        case 13:{
+        case 14:{
             NSString * todayDate = [NSDate unixDate];
             
             if(todayDate)
@@ -280,9 +299,17 @@
             
         }
             break;
-        case 14:{
+        case 15:{
             
             CBGPlanListDetailCheckVC * combine = [[CBGPlanListDetailCheckVC alloc] init];
+            [[self rootNavigationController] pushViewController:combine animated:YES];
+            
+        }
+            break;
+
+        case 16:{
+            
+            CBGLatestPlanBuyVC * combine = [[CBGLatestPlanBuyVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
             
         }

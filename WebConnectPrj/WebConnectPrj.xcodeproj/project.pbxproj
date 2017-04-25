@@ -203,6 +203,7 @@
 		18809DF81A0B5B0200B66A59 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE61A0B5B0200B66A59 /* UIImageView+HighlightedWebCache.m */; };
 		18809DF91A0B5B0200B66A59 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE81A0B5B0200B66A59 /* UIImageView+WebCache.m */; };
 		18809DFA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DEA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m */; };
+		1883193A1EADE14500467F34 /* CBGLatestPlanBuyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */; };
 		18936F8E1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */; };
 		18936F921E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F911E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m */; };
 		18A1EE551E862866009312A7 /* CreateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE421E862866009312A7 /* CreateModel.m */; };
@@ -684,6 +685,8 @@
 		18CFB7941E8F364A00F18440 /* CBGTotalHistroySortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7931E8F364A00F18440 /* CBGTotalHistroySortVC.m */; };
 		18CFB7981E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */; };
 		18CFB79C1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */; };
+		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
+		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -893,6 +896,8 @@
 		18809DE81A0B5B0200B66A59 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		18809DE91A0B5B0200B66A59 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		18809DEA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		188319381EADE14500467F34 /* CBGLatestPlanBuyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestPlanBuyVC.h; sourceTree = "<group>"; };
+		188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLatestPlanBuyVC.m; sourceTree = "<group>"; };
 		18936F8C1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCombinedScrolledHandleVC.h; sourceTree = "<group>"; };
 		18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCombinedScrolledHandleVC.m; sourceTree = "<group>"; };
 		18936F901E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMaxHistoryListRefreshVC.h; sourceTree = "<group>"; };
@@ -1812,6 +1817,10 @@
 		18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGDaysDetailSortHistoryVC.m; sourceTree = "<group>"; };
 		18CFB79A1E8F376200F18440 /* CBGCombinedHistoryHandleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCombinedHistoryHandleVC.h; sourceTree = "<group>"; };
 		18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCombinedHistoryHandleVC.m; sourceTree = "<group>"; };
+		18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseTableVC.h; sourceTree = "<group>"; };
+		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
+		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
+		18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseSortVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3866,6 +3875,10 @@
 				18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */,
 				18CFB7861E8F348800F18440 /* CBGSortHistoryBaseDetailVC.h */,
 				18CFB7871E8F348800F18440 /* CBGSortHistoryBaseDetailVC.m */,
+				18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */,
+				18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */,
+				18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */,
+				18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */,
 				18936F8C1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.h */,
 				18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */,
 				18CFB79A1E8F376200F18440 /* CBGCombinedHistoryHandleVC.h */,
@@ -3874,6 +3887,8 @@
 				18CFB78F1E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.m */,
 				18CFB78A1E8F350900F18440 /* CBGPlanSortHistoryVC.h */,
 				18CFB78B1E8F350900F18440 /* CBGPlanSortHistoryVC.m */,
+				188319381EADE14500467F34 /* CBGLatestPlanBuyVC.h */,
+				188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */,
 			);
 			path = SortHistory;
 			sourceTree = "<group>";
@@ -3927,7 +3942,7 @@
 				TargetAttributes = {
 					180D589619E622680045A720 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = X9YQDM8Q42;
+						DevelopmentTeam = 3SHBLHHSMD;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -4128,6 +4143,7 @@
 				18A96E311E7FC2C500B48E3C /* Summon_equip2Model.m in Sources */,
 				18A9753E1E7FDDD400B48E3C /* Samurai_Runtime.m in Sources */,
 				18A975901E7FDDD400B48E3C /* Samurai_HtmlColor.m in Sources */,
+				18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */,
 				18A9757D1E7FDDD400B48E3C /* HtmlElement_P.m in Sources */,
 				1820911B1E9F555D0015E393 /* AAPlotOptions.m in Sources */,
 				18A975CB1E7FDDD500B48E3C /* Samurai_Color.m in Sources */,
@@ -4258,6 +4274,7 @@
 				18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */,
 				18A975181E7FDDD400B48E3C /* NTConnectClient.m in Sources */,
 				182091021E9F555D0015E393 /* AAChartModel.m in Sources */,
+				18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */,
 				18A975451E7FDDD400B48E3C /* Samurai_Validator.m in Sources */,
 				18A975F71E7FDDD500B48E3C /* foundation.c in Sources */,
 				18A975631E7FDDD400B48E3C /* ViewController+Binding.m in Sources */,
@@ -4388,6 +4405,7 @@
 				18A96E3C1E7FC2C500B48E3C /* ZAConfigModel.m in Sources */,
 				18A96E2A1E7FC2C500B48E3C /* Idbid_descModel.m in Sources */,
 				18A96D931E7FC24700B48E3C /* ZWDaysListController.m in Sources */,
+				1883193A1EADE14500467F34 /* CBGLatestPlanBuyVC.m in Sources */,
 				18A96E421E7FC2C500B48E3C /* ZWDataDetailModelManager.m in Sources */,
 				18A975D71E7FDDD500B48E3C /* Samurai_RenderObject.m in Sources */,
 				18A975DD1E7FDDD500B48E3C /* Samurai_ResourceFetcher.m in Sources */,
@@ -4745,17 +4763,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wang Dong (E4MX46Z5D4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wang Dong (E4MX46Z5D4)";
-				DEVELOPMENT_TEAM = X9YQDM8Q42;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				DEVELOPMENT_TEAM = 3SHBLHHSMD;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bcb06e81-6f8c-42d6-a237-2e021a67f25c";
-				PROVISIONING_PROFILE_SPECIFIER = "it developer common";
+				PROVISIONING_PROFILE = "4ae56bf7-1bae-491d-ad74-72ad22549c66";
+				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
 			};
 			name = Debug;
 		};

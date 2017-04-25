@@ -13,6 +13,8 @@
 
 @interface DZUtils : NSObject
 
++(NSString *)detailNumberStringFromCombineStr:(NSString *)str;
+
 +(BOOL)checkSubCharacterIsNumberString:(NSString *)last;
 
 +(NSString *)DESEncryptAndURLEncodeWithWarningID:(NSString *)warnid;

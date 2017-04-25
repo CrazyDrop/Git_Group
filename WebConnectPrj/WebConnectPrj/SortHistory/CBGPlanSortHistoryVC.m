@@ -10,14 +10,18 @@
 #import "ZALocationLocalModel.h"
 #define  CBGPlanSortHistoryAddTAG  100
 @interface CBGPlanSortHistoryVC ()
+@property (nonatomic, copy) NSArray * preTotalArr;
 @end
 
 @implementation CBGPlanSortHistoryVC
 
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice
 {
+    self.preTotalArr = self.dbHistoryArr;
+
     self.titleV.text = [NSString stringWithFormat:@"估价(%@)",self.selectedDate];
     [self selectHistoryForPlanStartedLoad];
+    
 }
 
 - (void)viewDidLoad {
@@ -29,7 +33,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
+    self.orderStyle = CBGStaticOrderShowStyle_Rate;
+    self.sortStyle = CBGStaticSortShowStyle_School;
+
 //    列表选择时，从当前列表选取
     
     UIView * bgView = self.view;
@@ -60,94 +66,62 @@
 
 -(void)pricePlanBuySelectedTapedOnBtn:(id)sender
 {
+    self.sortStyle = CBGStaticSortShowStyle_None;
+    //从全部中选取
+    self.dbHistoryArr = [NSArray arrayWithArray:self.preTotalArr];
     UIButton * btn = (UIButton *)sender;
     NSInteger tagIndex = btn.tag - CBGPlanSortHistoryAddTAG;
-    
-    NSMutableArray * sortArr = [NSMutableArray array];
-    NSArray * latestArr = [NSArray arrayWithArray:self.dbHistoryArr];
     
     switch (tagIndex) {
         case 0:
         {
-            for (NSInteger index = 0; index < [latestArr count]; index ++)
-            {
-                CBGListModel * eveModel  =[latestArr objectAtIndex:index];
-                BOOL unFinished = ([eveModel.sell_sold_time length] == 0 && [eveModel.sell_back_time length] == 0);
-                if(unFinished)
-                {
-                    [sortArr addObject:eveModel];
-                }
-            }
+            self.finishStyle = CBGSortShowFinishStyle_UnFinish;
         }
             break;
         case 1:
         {
-            for (NSInteger index = 0; index < [latestArr count]; index ++)
-            {
-                CBGListModel * eveModel  =[latestArr objectAtIndex:index];
-                BOOL finish = ([eveModel.sell_sold_time length] != 0 || [eveModel.sell_back_time length] != 0);
-                if(finish)
-                {
-                    [sortArr addObject:eveModel];
-                }
-            }
+            self.finishStyle = CBGSortShowFinishStyle_Finished;
 
         }
             break;
 
         case 2:
         {
-            [sortArr addObjectsFromArray:latestArr];
-
+            self.finishStyle = CBGSortShowFinishStyle_Total;
         }
             break;
 
         default:
             break;
     }
-    [self refreshNumberLblWithLatestNum:[sortArr count]];
-    
-    self.dataArr = sortArr;
-    [self.listTable reloadData];
+
+    [self refreshLatestShowTableView];
     
 }
 -(void)selectHistoryForPlanStartedLoad
 {
-    if(!self.dbHistoryArr) return;
-    
-    NSArray * sortArr = [NSArray arrayWithArray:self.dbHistoryArr];
-    
+    if(!self.preTotalArr) return;
+
+    NSArray * sortArr = [NSArray arrayWithArray:self.preTotalArr];
     NSMutableArray * resultArr = [NSMutableArray array];
     for (NSInteger index = 0; index < [sortArr count]; index ++)
     {
         //视已取回和售出一样
         CBGListModel * eveModel = [sortArr objectAtIndex:index];
-        if(eveModel.style  == CBGEquipPlanStyle_PlanBuy || eveModel.style == CBGEquipPlanStyle_Worth)
-        {
+        if(CBGEquipPlanStyle_Worth == eveModel.style ||  CBGEquipPlanStyle_PlanBuy == eveModel.style){
             [resultArr addObject:eveModel];
         }
     }
     
-     [resultArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        CBGListModel * eve1 = (CBGListModel *)obj1;
-        CBGListModel * eve2 = (CBGListModel *)obj2;
-        return [[NSNumber numberWithInteger:eve2.plan_rate] compare:[NSNumber numberWithInteger:eve1.plan_rate]];
-    }];
+    self.dbHistoryArr = resultArr;
     
-    //    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[resultArr count]];
-    //    [DZUtils noticeCustomerWithShowText:noticeStr];
-    
-    [self refreshNumberLblWithLatestNum:[resultArr count]];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = resultArr;
-        [self.listTable reloadData];
-    });
+    self.finishStyle = CBGSortShowFinishStyle_Total;
+    [self refreshLatestShowTableView];
 }
 
 -(void)selectHistoryForLatestEquipPlanStyle:(CBGEquipPlanStyle)style
 {
-    NSArray * sortArr = [NSArray arrayWithArray:self.dataArr];
+    NSArray * sortArr = [NSArray arrayWithArray:[self latestTotalShowedHistoryList]];
     
     NSMutableArray * resultArr = [NSMutableArray array];
     for (NSInteger index = 0; index < [sortArr count]; index ++)
@@ -159,20 +133,13 @@
         }
     }
     
-//    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[resultArr count]];
-//    [DZUtils noticeCustomerWithShowText:noticeStr];
-    
-    [self refreshNumberLblWithLatestNum:[resultArr count]];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = resultArr;
-        [self.listTable reloadData];
-    });
-
+    self.dbHistoryArr = resultArr;
+    [self refreshLatestShowTableView];
 }
 -(void)selectHistoryForSoldOutQuickly
 {
-    NSArray * sortArr = [NSArray arrayWithArray:self.dataArr];
+    self.sortStyle = CBGStaticSortShowStyle_School;
+    NSArray * sortArr = [NSArray arrayWithArray:[self latestTotalShowedHistoryList]];
     
     NSMutableArray * resultArr = [NSMutableArray array];
     for (NSInteger index = 0; index < [sortArr count]; index ++)
@@ -191,16 +158,8 @@
         }
     }
     
-    //    NSString * noticeStr = [NSString stringWithFormat:@"%lu",[resultArr count]];
-    //    [DZUtils noticeCustomerWithShowText:noticeStr];
-    
-    [self refreshNumberLblWithLatestNum:[resultArr count]];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = resultArr;
-        [self.listTable reloadData];
-    });
-    
+    self.dbHistoryArr = resultArr;
+    [self refreshLatestShowTableView];
 }
 
 -(void)selectHistoryForWithHighPlanBuyAndUnSoldOutWithNotice:(BOOL)notice
@@ -218,17 +177,6 @@
         }
     }
     
-//    if(notice){
-//        NSString * noticeStr = [NSString stringWithFormat:@"%lu",[resultArr count]];
-//        [DZUtils noticeCustomerWithShowText:noticeStr];
-//    }
-    
-    [self refreshNumberLblWithLatestNum:[resultArr count]];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = resultArr;
-        [self.listTable reloadData];
-    });
 }
 //经有dbHistoryArr数据进行筛选  展示
 -(void)selectHistoryForWithHighPlanBuyAndUnSoldOut
@@ -270,14 +218,7 @@
     
     action = [MSAlertAction actionWithTitle:@"全部" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  NSArray * arr = [NSArray arrayWithArray:weakSelf.dataArr];
-                  
-//                  NSString * noticeStr = [NSString stringWithFormat:@"%lu",[arr count]];
-//                  [DZUtils noticeCustomerWithShowText:noticeStr];
-                  [weakSelf refreshNumberLblWithLatestNum:[arr count]];
-
-                  weakSelf.dataArr = arr;
-                  [weakSelf.listTable reloadData];
+                  [weakSelf selectHistoryForPlanStartedLoad];
               }];
     
     [alertController addAction:action];
@@ -316,7 +257,7 @@
     
     action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:weakSelf.dataArr];
+                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
               }];
     [alertController addAction:action];
     
@@ -333,8 +274,10 @@
 
 -(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
 {
-    self.dataArr = array;
-    [self.listTable reloadData];
+    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
+    //    [self refreshLatestShowTableView];
+    [[self rootNavigationController] popViewControllerAnimated:YES];
+
 }
 
 

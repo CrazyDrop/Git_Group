@@ -274,6 +274,8 @@
                 {
                     NSString * serverId = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
                     serverId = [self realStringFromSubStringText:serverId];
+                    serverId = [DZUtils detailNumberStringFromCombineStr:serverId];
+
                     baseList.serverid = [NSNumber numberWithInt:[serverId intValue]];
                 }
             }
@@ -285,7 +287,11 @@
                 {
                     NSString * orderSN = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
                     orderSN = [self realStringFromSubStringText:orderSN];
-                    baseList.game_ordersn = orderSN;
+                    NSString * sub = [DZUtils detailNumberStringFromCombineStr:orderSN];
+                    NSRange subRange = [orderSN rangeOfString:sub];
+                    NSRange range = NSMakeRange(0,subRange.location + subRange.length);
+                    NSString * realSN = [orderSN substringWithRange:range];
+                    baseList.game_ordersn = realSN;
                 }
             }
         }
@@ -296,31 +302,38 @@
         }
         self.textView.text = showTxt;
         
-    }else if([detailCopy integerValue] > 0)
+    }else if([detailCopy length] > 0)
     {
-        //识别roleid
-        NSString * roleId = [NSString stringWithFormat:@"%ld",[detailCopy integerValue]];
-        NSString * showTxt = [NSString stringWithFormat:@"复制文本 %@ roleid %@ ",detailCopy,roleId];
-
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:roleId];
-        if([roleArr count] > 0)
-        {
-            showTxt = [showTxt stringByAppendingString:@" 读取成功"];
-            CBGListModel * list = [roleArr firstObject];
-            showTxt = [showTxt stringByAppendingFormat:@"\n serverId %ld orderSN %@ \n %@",list.server_id,list.game_ordersn,list.plan_des];
-            
-            baseList.serverid = [NSNumber numberWithInteger:list.server_id];
-            baseList.game_ordersn = list.game_ordersn;
-        }
         
-        self.textView.text = showTxt;
+        NSString * subStr = [DZUtils detailNumberStringFromCombineStr:detailCopy];
+        if(subStr && [subStr integerValue] > 0)
+        {
+            //识别roleid
+            NSString * roleId = [NSString stringWithFormat:@"%ld",[subStr integerValue]];
+            NSString * showTxt = [NSString stringWithFormat:@"复制文本 %@ roleid %@ ",subStr,roleId];
+            
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:roleId];
+            if([roleArr count] > 0)
+            {
+                showTxt = [showTxt stringByAppendingString:@" 读取成功"];
+                CBGListModel * list = [roleArr firstObject];
+                showTxt = [showTxt stringByAppendingFormat:@"\n serverId %ld orderSN %@ \n %@",list.server_id,list.game_ordersn,list.plan_des];
+                
+                baseList.serverid = [NSNumber numberWithInteger:list.server_id];
+                baseList.game_ordersn = list.game_ordersn;
+            }
+            
+            self.textView.text = showTxt;
+        }
     }
 }
 -(NSString *)realStringFromSubStringText:(NSString *)serverId
 {
     serverId = [serverId stringByReplacingOccurrencesOfString:@" " withString:@""];
     serverId = [serverId stringByReplacingOccurrencesOfString:@"%20" withString:@""];
+    //后续数字
+
     return serverId;
 }
 
@@ -409,21 +422,28 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     if([detailModels count] > 0)
     {
         EquipModel * detailEve = [detailModels lastObject];
-        self.detailModel = detailEve;
-        //刷新baseList 由
-        [baseList refrehLocalBaseListModelWithDetail:detailEve];
-        
-        
-        NSString * urlString = baseList.detailWebUrl;
-        
-        NSString * prePrice = detailEve.equipExtra.detailPrePrice;
-        if(!prePrice){
-            prePrice = [NSString stringWithFormat:@"估价失败 %@",detailEve.desc_sumup];
+        if([detailEve isKindOfClass:[EquipModel class]])
+        {
+            self.detailModel = detailEve;
+            //刷新baseList 由
+            [baseList refrehLocalBaseListModelWithDetail:detailEve];
+            
+            
+            NSString * urlString = baseList.detailWebUrl;
+            
+            NSString * prePrice = detailEve.equipExtra.detailPrePrice;
+            if(!prePrice){
+                prePrice = [NSString stringWithFormat:@"估价失败 %@",detailEve.desc_sumup];
+            }
+            prePrice = [prePrice stringByAppendingFormat:@"\n  url:%@",urlString];
+            self.textView.text = prePrice;
+            
+            [self copyToLocalForPasteWithString:urlString];
+
+        }else
+        {
+            self.textView.text = @"请求错误";
         }
-        prePrice = [prePrice stringByAppendingFormat:@"\n  url:%@",urlString];
-        self.textView.text = prePrice;
-        
-        [self copyToLocalForPasteWithString:urlString];
     }
 }
 

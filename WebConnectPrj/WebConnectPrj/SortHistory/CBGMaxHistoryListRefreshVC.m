@@ -225,7 +225,10 @@
 -(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
 {
 
-    
+    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
+    //    [self refreshLatestShowTableView];
+    [[self rootNavigationController] popViewControllerAnimated:YES];
+
     
 }
 
