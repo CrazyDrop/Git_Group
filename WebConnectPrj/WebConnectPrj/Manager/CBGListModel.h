@@ -92,6 +92,7 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) BOOL detailRefresh;
 
 @property (nonatomic, assign) NSInteger fav_or_ingore;//0默认值  1收藏  2屏蔽 3购买，标识特殊购买数据
+//4为服务器失效  服务器合并，serverID无效
 @property (nonatomic, strong) NSString * serverName;
 
 

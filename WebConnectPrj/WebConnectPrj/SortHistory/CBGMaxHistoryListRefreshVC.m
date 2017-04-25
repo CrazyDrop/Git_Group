@@ -16,7 +16,9 @@
     NSInteger eveSubCount;
     NSInteger tryNumber;
     NSLock * requestLock;
+    NSMutableArray * errorListArr;
 }
+@property (nonatomic, assign) NSInteger errorNum;
 @property (nonatomic, copy) NSArray * subArr;
 @property (nonatomic, strong) NSArray * retryArr;
 @property (nonatomic, strong) UITextView * logTxt;
@@ -33,6 +35,8 @@
         eveSubCount = 300;
         tryNumber = 0;
         requestLock = [[NSLock alloc] init];
+        self.errorNum = 0;
+        errorListArr = [NSMutableArray array];
     }
     return self;
 }
@@ -184,7 +188,7 @@
     if([arr count] == 0)
     {
         NSInteger total = [self.startArr count];
-        NSString * startLog = [NSString stringWithFormat:@"请求结束 剩余%ld 全部%ld",total - startIndex,total];
+        NSString * startLog = [NSString stringWithFormat:@"请求结束 剩余%ld 全部%ld 总失败%ld",total - startIndex,total,self.errorNum];
         [self writeToViewLogWithLatestString:startLog];
         [DZUtils noticeCustomerWithShowText:@"更新结束"];
         
@@ -225,10 +229,9 @@
 -(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
 {
 
-    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
-    //    [self refreshLatestShowTableView];
-    [[self rootNavigationController] popViewControllerAnimated:YES];
-
+//    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
+//    //    [self refreshLatestShowTableView];
+//    [[self rootNavigationController] popViewControllerAnimated:YES];
     
 }
 
@@ -242,6 +245,8 @@
         if([self.retryArr containsObject:eveModel])
         {
             NSLog(@"max Detail error %@",eveModel.detailDataUrl);
+            self.errorNum ++;
+            [errorListArr addObject:eveModel];
         }
         if(!eveModel.detailRefresh && ![self.retryArr containsObject:eveModel])
         {

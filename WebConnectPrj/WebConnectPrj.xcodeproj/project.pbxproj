@@ -4781,6 +4781,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ZhongAn Online P&C Insurance Co., Ltd.";
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
@@ -4788,6 +4789,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3d44d14b-8a43-4be5-ae0e-50d0465bb87f";
+				PROVISIONING_PROFILE_SPECIFIER = YI_Distribution;
 			};
 			name = Release;
 		};

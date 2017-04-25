@@ -10,14 +10,14 @@
 #import "ZALocationLocalModel.h"
 #define  CBGPlanSortHistoryAddTAG  100
 @interface CBGPlanSortHistoryVC ()
-@property (nonatomic, copy) NSArray * preTotalArr;
+@property (nonatomic, strong) NSArray * preTotalArr;
 @end
 
 @implementation CBGPlanSortHistoryVC
 
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice
 {
-    self.preTotalArr = self.dbHistoryArr;
+    self.preTotalArr = [NSArray arrayWithArray:self.dbHistoryArr];
 
     self.titleV.text = [NSString stringWithFormat:@"估价(%@)",self.selectedDate];
     [self selectHistoryForPlanStartedLoad];

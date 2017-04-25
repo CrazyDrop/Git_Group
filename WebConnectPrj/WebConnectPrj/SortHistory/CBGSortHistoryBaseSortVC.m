@@ -218,10 +218,10 @@
         {
             NSNumber * eveVal = [countDic objectForKey:key];
             NSString * preKey = [numKeyDic objectForKey:eveVal];
-            
             if(!preKey)
             {
-                [numKeyDic setObject:key forKey:eveVal];
+                preKey = [NSString stringWithFormat:@"%@",key];
+                [numKeyDic setObject:preKey forKey:eveVal];
             }else
             {
                 preKey = [preKey stringByAppendingFormat:@"|%@",key];
@@ -252,8 +252,13 @@
             {
                 NSString * serverStr = [numKeyDic objectForKey:num];
                 NSArray * subArr = [serverStr componentsSeparatedByString:@"|"];
-                if([subArr count] > 0){
-                    [serverArr addObjectsFromArray:subArr];
+                if([subArr count] > 0)
+                {
+                    for (NSInteger eveIndex = 0;eveIndex < [subArr count] ;eveIndex ++ )
+                    {
+                        NSString * eveSubStr = [subArr objectAtIndex:eveIndex];
+                        [serverArr addObject:[NSNumber numberWithInteger:[eveSubStr integerValue]]];
+                    }
                 }
             }
         }
@@ -289,7 +294,8 @@
         [total addObject:subArr];
         
         NSString *eveName = nil;
-        switch (sort) {
+        switch (sort)
+        {
             case CBGStaticSortShowStyle_Rate:
             {
                 eveName = [self rateSeperateTagNameFromSellPlanRate:num];
@@ -298,21 +304,21 @@
 
             case CBGStaticSortShowStyle_Server:
             {
-                NSString *eveName = [serDic objectForKey:num];
-                if(!eveName)
+                NSString *subEveName = [serDic objectForKey:num];
+                if(!subEveName)
                 {
                     eveName = @"未知";
                 }
-                NSRange range = [eveName rangeOfString:@"-"];
+                NSRange range = [subEveName rangeOfString:@"-"];
                 if(range.length > 0)
                 {
                     NSInteger startIndex = range.length + range.location;
                     NSInteger length = 4;
-                    if(startIndex + length > [eveName length])
+                    if(startIndex + length > [subEveName length])
                     {
-                        length = [eveName length] - startIndex;
+                        length = [subEveName length] - startIndex;
                     }
-                    eveName = [eveName substringWithRange:NSMakeRange(startIndex,length)];
+                    eveName = [subEveName substringWithRange:NSMakeRange(startIndex,length)];
                 }
             }
                 break;

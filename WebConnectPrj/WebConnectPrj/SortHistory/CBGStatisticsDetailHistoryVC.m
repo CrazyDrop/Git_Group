@@ -154,6 +154,14 @@
     
     [alertController addAction:action];
 
+    action = [MSAlertAction actionWithTitle:@"服务器分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.sortStyle = CBGStaticSortShowStyle_Server;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    
+    [alertController addAction:action];
+
     action = [MSAlertAction actionWithTitle:@"价格排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   weakSelf.orderStyle = CBGStaticOrderShowStyle_Price;

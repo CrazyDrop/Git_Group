@@ -17,8 +17,8 @@
 - (void)viewDidLoad {
     
     self.viewTtle = @"近期估价";
-//    self.rightTitle = @"筛选";
-//    self.showRightBtn = YES;
+    self.rightTitle = @"刷新";
+    self.showRightBtn = YES;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -42,6 +42,34 @@
     //展示售出  有利
     [self selectHistoryForPlanStartedLoad];
 }
+
+-(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+       [self selectHistoryForPlanStartedLoad];
+    });
+}
+
+-(void)finishDetailListRequestWithErrorCBGListArray:(NSArray *)array
+{
+    for(NSInteger index = 0 ;index < [array count]; index ++)
+    {
+        CBGListModel * list = [array objectAtIndex:index];
+        NSLog(@"%ld %@",list.server_id,list.detailWebUrl);
+    }
+//    [self selectHistoryForPlanStartedLoad];
+}
+
+
+
+-(void)submit
+{
+    NSArray * list = [self latestTotalShowedHistoryList];
+    [self startLatestDetailListRequestForShowedCBGListArr:list];
+}
+
+
+
 -(void)selectHistoryForPlanStartedLoad
 {
     NSArray * sortArr = [NSArray arrayWithArray:self.dbHistoryArr];

@@ -285,10 +285,13 @@
             break;
         case 14:{
             NSString * todayDate = [NSDate unixDate];
-            
-            if(todayDate)
+            NSDate * now = [NSDate date];
+            if(now.day > 15)
             {
                 todayDate = [todayDate substringToIndex:[@"2017-03" length]];
+            }else
+            {//年度
+                todayDate = [todayDate substringToIndex:[@"2017" length]];
             }
             
             CBGCombinedScrolledHandleVC * combine = [[CBGCombinedScrolledHandleVC alloc] init];

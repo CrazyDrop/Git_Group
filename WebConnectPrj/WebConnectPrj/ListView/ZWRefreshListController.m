@@ -838,7 +838,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     UIColor * numcolor = [self.grayArray containsObject:contact]?[UIColor blackColor]:[UIColor lightGrayColor];
     
     NSString * centerDetailTxt = contact.desc_sumup;
-    
+
     UIColor * color = [UIColor lightGrayColor];
     NSString * sellTxt = [NSString stringWithFormat:@"%@-%@",contact.area_name,contact.server_name];
     NSString * equipName = [NSString stringWithFormat:@"%@  -  %@",contact.equip_name,contact.subtitle];
@@ -868,6 +868,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     UIColor * earnColor = [UIColor lightGrayColor];
     CBGListModel * listModel = [contact listSaveModel];
     //仅无详情时有效，此时数据为库表数据补全
+    
+    if(listModel.plan_total_price > 0)
+    {
+        centerDetailTxt = [NSString stringWithFormat:@"%ld (%ld) %d",listModel.plan_total_price,listModel.plan_zhaohuanshou_price + listModel.plan_zhuangbei_price,(int)listModel.price_base_equip];
+    }
     
     //用来标识账号是否最新一次请求数据
     if(detail)
@@ -922,12 +927,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     {
         //进行数据追加
 //        修炼、宝宝、法宝、祥瑞
-        centerDetailTxt = [extra extraDes];
+//        centerDetailTxt = [extra extraDes];
 //        NSLog(@"price_rate_latest_plan %ld",listModel.price_rate_latest_plan);
         if(listModel.price_rate_latest_plan > 0)
         {
             rightStatusColor = [UIColor redColor];
         }
+        
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
@@ -940,9 +946,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         
     }else
     {
-        if(listModel.plan_total_price > 0){
-            centerDetailTxt = [NSString stringWithFormat:@"%ld %@",listModel.plan_total_price,listModel.plan_des];
-        }
+
         switch (listModel.style) {
             case CBGEquipPlanStyle_Worth:
             {
