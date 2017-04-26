@@ -265,6 +265,8 @@
     if(compareId <= self.cbgList.server_id)
     {
         self.titleV.text = @"三年内!";
+    }else if(compareId == 45){
+        self.titleV.text = @"限时区！";
     }
 }
 

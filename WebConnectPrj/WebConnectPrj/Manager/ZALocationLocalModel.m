@@ -2417,15 +2417,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
          //总值较大，且未售出
          sqlMutableString  = [NSMutableString string];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ == '' AND %@ == '' AND  %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
-          ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
-          ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
           ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
           ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-          ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,

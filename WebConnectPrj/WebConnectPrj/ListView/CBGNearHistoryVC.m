@@ -104,15 +104,33 @@
     NSArray * historyArr = [dbManager localSaveEquipHistoryModelListForRoleId:_roleId];
     NSArray * sellArr = [dbManager localSaveUserChangeHistoryListForOrderSN:_orderSN];
     
+
     NSMutableArray * roleArr = [NSMutableArray array];
-    if(!showTotal && [compareArr count] > 0)
+    if([historyArr count] > 1)
+    {//有交易历史
+        
+        [roleArr addObjectsFromArray:historyArr];
+        if(!showTotal && [compareArr count] > 0)
+        {
+            [roleArr addObject:[compareArr firstObject]];
+        }else{
+            [roleArr addObjectsFromArray:compareArr];
+        }
+        [roleArr addObjectsFromArray:sellArr];
+
+    }else
     {
-        [roleArr addObject:[compareArr firstObject]];
-    }else{
-        [roleArr addObjectsFromArray:compareArr];
+        if(!showTotal && [compareArr count] > 0)
+        {
+            [roleArr addObject:[compareArr firstObject]];
+        }else{
+            [roleArr addObjectsFromArray:compareArr];
+        }
+        [roleArr addObjectsFromArray:historyArr];
+        [roleArr addObjectsFromArray:sellArr];
+
     }
-    [roleArr addObjectsFromArray:historyArr];
-    [roleArr addObjectsFromArray:sellArr];
+
     
     dispatch_async(dispatch_get_main_queue(), ^
                    {
