@@ -936,9 +936,9 @@
     NSInteger sup_total = [self.sum_exp integerValue];
     if(sup_total < 100)
     {
-        price -= 500.0;
+        price -= 1000.0;
     }else if(sup_total < 160){
-        price -= 200;
+        price -= 500;
     }else if(sup_total < 200){
         price += 100;
     }else if(sup_total < 300){
@@ -957,10 +957,13 @@
     }
     
     
-    if(sup_total > 200)
+    if(sup_total > 160)
     {
         NSInteger qiannengguo = [self.iNutsNum integerValue];
-        if(qiannengguo < 120)
+        if(qiannengguo < 80){
+            price -= 1000;
+        }
+        else if(qiannengguo < 120)
         {
             price -= 500;
         }else if(qiannengguo < 160){

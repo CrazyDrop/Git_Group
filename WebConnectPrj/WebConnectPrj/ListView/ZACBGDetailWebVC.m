@@ -145,8 +145,14 @@
 }
 -(void)tapedOnPayBtn:(id)sender
 {
-    if(!self.orderId){
-        [self runDetailJSWithFunctionType:CBGDetailWebFunction_PayInScan];
+    if(!self.orderId)
+    {
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        if(total.isScan){
+            [self runDetailJSWithFunctionType:CBGDetailWebFunction_PayInScan];
+        }else{
+            [self runDetailJSWithFunctionType:CBGDetailWebFunction_PayOrder];
+        }
     }else{
         [self runDetailJSWithFunctionType:CBGDetailWebFunction_Cancel];
     }

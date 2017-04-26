@@ -2410,7 +2410,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           comparePrice,
           ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
           minServerId,
-          ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE];
+          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];
 
          resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])
@@ -2518,7 +2518,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
           ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-          minServerId,
+          (long)minServerId,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
@@ -2565,6 +2565,37 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
 }
+-(void)refreshLocalSaveEquipHistoryModelServerId:(NSString *)preId withLatest:(NSString *)latestId
+{
+    if([preId integerValue] > 0 && [latestId integerValue] > 0)
+    {
+        [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+         {
+             if (!fmdatabase.open) {
+                 [fmdatabase open];
+             }
+             
+             FMResultSet *resultSet = nil;
+             NSMutableString *sqlMutableString=[NSMutableString string];
+             
+             [sqlMutableString appendFormat:@"update %@ set %@ = %@ WHERE %@ = %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+              latestId,
+              ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
+              preId];
+             
+             resultSet=[fmdatabase executeQuery:sqlMutableString];
+             while ([resultSet next])
+             {
+             }
+             
+             [resultSet close];
+             [fmdatabase close];
+             
+         }];
+    }
+}
+
 -(CBGListModel *)listModelFromDatabaseResult:(FMResultSet *)resultSet
 {
     CBGListModel * list = [[CBGListModel alloc] init];

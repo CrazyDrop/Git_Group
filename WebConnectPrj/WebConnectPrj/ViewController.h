@@ -8,6 +8,31 @@
 
 #import <UIKit/UIKit.h>
 #import "DPWhiteTopController.h"
+
+//功能分组 对应名称和功能编号，方便后续调整顺序
+typedef enum : NSUInteger
+{
+    CBGDetailTestFunctionStyle_None = 0, 
+    CBGDetailTestFunctionStyle_Notice,   
+    CBGDetailTestFunctionStyle_CopyData,
+    CBGDetailTestFunctionStyle_MobileMax,
+    CBGDetailTestFunctionStyle_MobileMin,
+    CBGDetailTestFunctionStyle_WebRefresh,
+    CBGDetailTestFunctionStyle_MixedRefresh,
+    CBGDetailTestFunctionStyle_HistoryTotal,
+    CBGDetailTestFunctionStyle_HistoryUpdate,
+    CBGDetailTestFunctionStyle_HistoryMonth,
+    CBGDetailTestFunctionStyle_HistoryToday,
+    CBGDetailTestFunctionStyle_HistoryPart,
+    CBGDetailTestFunctionStyle_URLCheck,
+    CBGDetailTestFunctionStyle_WEBCheck,
+    CBGDetailTestFunctionStyle_StudyMonth,
+    CBGDetailTestFunctionStyle_RepeatList,
+    CBGDetailTestFunctionStyle_LatestPlan,
+    CBGDetailTestFunctionStyle_PayStyle,
+} CBGDetailTestFunctionStyle;
+
+
 @interface ViewController : DPWhiteTopController
 
 

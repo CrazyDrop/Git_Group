@@ -121,6 +121,12 @@
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
+              }];
+    [alertController addAction:action];
+    
     
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
@@ -131,6 +137,16 @@
                        animated:YES
                      completion:nil];
 }
+
+-(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
+{
+    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
+    //    [self refreshLatestShowTableView];
+    [[self rootNavigationController] popViewControllerAnimated:YES];
+    
+}
+
+
 
 -(void)submit
 {

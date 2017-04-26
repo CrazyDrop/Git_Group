@@ -53,6 +53,115 @@
 @synthesize foo;
 @synthesize bar;
 
+-(NSString *)functionNamesForDetailFunctionStyle:(CBGDetailTestFunctionStyle)style
+{
+    NSString * name = @"未知";
+    switch (style)
+    {
+        case CBGDetailTestFunctionStyle_Notice:
+        {
+            name = @"响铃(开)";
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_CopyData:
+        {
+            name = @"read数据导入";
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_MobileMax:
+        {
+            name = @"mobile批量";
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_MobileMin:
+        {
+            name = @"mobile3页";
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_WebRefresh:
+        {
+            name = @"Web刷新";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_MixedRefresh:
+        {
+            name = @"混合刷新";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_HistoryTotal:
+        {
+            name = @"全部历史";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_HistoryPart:
+        {
+            name = @"分段历史";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_HistoryMonth:
+        {
+            name = @"本月历史";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_HistoryToday:
+        {
+            name = @"当日历史";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_HistoryUpdate:
+        {
+            name = @"更新历史";
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_URLCheck:
+        {
+            name = @"链接估价";
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_WEBCheck:
+        {
+            name = @"页面验证码";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_StudyMonth:
+        {
+            name = @"当月走势";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_RepeatList:
+        {
+            name = @"倒手分析";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_PayStyle:
+        {
+            name = @"支付(短信)";
+        }
+            break;
+            
+        case CBGDetailTestFunctionStyle_LatestPlan:
+        {
+            name = @"近期估价";
+        }
+            break;
+        default:
+            break;
+    }
+    return name;
+}
+
 - (void)viewDidLoad
 {
     self.showLeftBtn = NO;
@@ -64,54 +173,66 @@
 //    CBGDetailWebView * detail = [[CBGDetailWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    [self.view addSubview:detail];
     
-    NSArray * titles = [NSArray arrayWithObjects:
-                        @"响铃(开)",
-                        @"read数据导入",
-                        
-                        @"mobile批量",
-                        @"mobile3页",
+    NSArray * testFuncArr = [NSArray arrayWithObjects:
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_Notice],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
 
-                        @"Web刷新",
-                        @"混合刷新",
-                        
-                        @"全部历史",
-                        @"更新历史",
-                        
-                        @"本月历史",//今天的历史
-                        @"当日历史",//今天的历史
-                        @"分段历史",//通过时间选择
-                        
-                        @"链接估价",
-                        @"URL设置",
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMax],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryTotal],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_LatestPlan],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryPart],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryUpdate],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonth],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WEBCheck],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
 
-                        @"页面验证码",
-                        @"当月走势",
-                        
-                        @"倒手分析",
-                        @"近期估价",
-                        nil];
+                             nil];
     
     UIView * bgView = self.view;
-    for(NSInteger index = 0 ;index < [titles count]; index ++)
+    for(NSInteger index = 0 ;index < [testFuncArr count]; index ++)
     {
-        NSString * title = [titles objectAtIndex:index];
-        UIButton * btn = [self customTestButtonForIndex: index];
+        NSNumber * num = [testFuncArr objectAtIndex:index];
+        NSString * title = [self functionNamesForDetailFunctionStyle:[num integerValue]];
+        UIButton * btn = [self customTestButtonForIndex: index andMoreTag:[num integerValue]];
         [btn setTitle:title forState:UIControlStateNormal];
         [bgView addSubview:btn];
     }
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-//    total.isAlarm = YES;
-//    [total localSave];
+    
     [self refreshNoticeBtnStateWithNoticeState:total.isAlarm];
+    [self refreshPayStyleBtnStateWithStyle:!total.isScan];
+    
 }
 -(void)refreshNoticeBtnStateWithNoticeState:(BOOL)notice
 {
-    NSInteger noticeTag = 0;
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_Notice;
     UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
     NSString * showState = notice?@"响铃(开)":@"响铃(关)";
     [btn setTitle:showState forState:UIControlStateNormal];
 }
+-(void)refreshPayStyleBtnStateWithStyle:(BOOL)message
+{
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_PayStyle;
+    UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
+    NSString * showState = message?@"支付(短信)":@"支付(扫码)";
+    [btn setTitle:showState forState:UIControlStateNormal];
+}
+
 -(void)exchangeNoticeForNoticeBtnTaped
 {
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -120,13 +241,13 @@
     [self refreshNoticeBtnStateWithNoticeState:total.isAlarm];
 }
 
--(UIButton * )customTestButtonForIndex:(NSInteger)indexNum
+-(UIButton * )customTestButtonForIndex:(NSInteger)indexNum andMoreTag:(NSInteger)tag
 {
     NSInteger lineNum = indexNum/2;
     NSInteger rowNum = indexNum%2;
     
     UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.tag = indexNum + BlueDebugAddNum;
+    btn.tag = tag + BlueDebugAddNum;
     btn.frame = CGRectMake(0, 0,FLoatChange(120) ,FLoatChange(50));
     btn.backgroundColor = [UIColor grayColor];
     [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -152,14 +273,15 @@
     NSLog(@"%s %@",__FUNCTION__,title);
     [self refreshLastestServerNameDictionary];
     
-    switch (indexNum) {
-        case 0:
+    switch (indexNum)
+    {
+        case CBGDetailTestFunctionStyle_Notice:
         {
             [self exchangeNoticeForNoticeBtnTaped];
             
         }
             break;
-        case 1:
+        case CBGDetailTestFunctionStyle_CopyData:
         {
             NSString * dbExchange = @"写入结束";
             NSInteger preNum = 0;
@@ -177,27 +299,27 @@
             }
         }
             break;
-        case 2:
+        case CBGDetailTestFunctionStyle_MobileMax:
         {
             ZWRefreshListController * list = [[ZWRefreshListController alloc] init];
             [self.navigationController pushViewController:list animated:YES];
         }
             break;
-        case 3:
+        case CBGDetailTestFunctionStyle_MobileMin:
         {
             ZWRefreshListController * list = [[ZWRefreshListController alloc] init];
             list.onlyList = YES;
             [self.navigationController pushViewController:list animated:YES];
         }
             break;
-        case 4:
+        case CBGDetailTestFunctionStyle_WebRefresh:
         {
             
             CBGWebListRefreshVC * list = [[CBGWebListRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
-        case 5:
+        case CBGDetailTestFunctionStyle_MixedRefresh:
         {
             
             CBGMixedListCheckVC * copy = [[CBGMixedListCheckVC alloc] init];
@@ -206,13 +328,13 @@
         }
             break;
             
-        case 6:
+        case CBGDetailTestFunctionStyle_HistoryTotal:
         {
             CBGTotalHistroySortVC * history = [[CBGTotalHistroySortVC alloc] init];
             [[self rootNavigationController] pushViewController:history animated:YES];
         }
             break;
-        case 7:{
+        case CBGDetailTestFunctionStyle_HistoryUpdate:{
             ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
             NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
             
@@ -222,7 +344,7 @@
             
         }
             break;
-        case 8:
+        case CBGDetailTestFunctionStyle_HistoryMonth:
         {
             NSString * todayDate = [NSDate unixDate];
             
@@ -239,7 +361,7 @@
 
         }
             break;
-        case 9:
+        case CBGDetailTestFunctionStyle_HistoryToday:
         {
             NSString * todayDate = [NSDate unixDate];
             
@@ -256,12 +378,12 @@
         }
             break;
 
-        case 10:{
+        case CBGDetailTestFunctionStyle_HistoryPart:{
             CBGDaysDetailSortHistoryVC * plan = [[CBGDaysDetailSortHistoryVC alloc] init];
             [[self rootNavigationController] pushViewController:plan animated:YES];
         }
             break;
-        case 11:
+        case CBGDetailTestFunctionStyle_URLCheck:
         {
             CBGCopyUrlDetailCehckVC * copy = [[CBGCopyUrlDetailCehckVC alloc] init];
             [[self rootNavigationController] pushViewController:copy animated:YES];
@@ -269,21 +391,21 @@
             
         }
             break;
-        case 12:
-        {
-            CBGSettingURLEditVC * copy = [[CBGSettingURLEditVC alloc] init];
-            [[self rootNavigationController] pushViewController:copy animated:YES];
-            
-        
-        }
-            break;
-        case 13:{
+//        case CBGDetailTestFunctionStyle_:
+//        {
+//            CBGSettingURLEditVC * copy = [[CBGSettingURLEditVC alloc] init];
+//            [[self rootNavigationController] pushViewController:copy animated:YES];
+//            
+//        
+//        }
+//            break;
+        case CBGDetailTestFunctionStyle_WEBCheck:{
             CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
             
         }
             break;
-        case 14:{
+        case CBGDetailTestFunctionStyle_StudyMonth:{
             NSString * todayDate = [NSDate unixDate];
             NSDate * now = [NSDate date];
             if(now.day > 15)
@@ -302,7 +424,7 @@
             
         }
             break;
-        case 15:{
+        case CBGDetailTestFunctionStyle_RepeatList:{
             
             CBGPlanListDetailCheckVC * combine = [[CBGPlanListDetailCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
@@ -310,10 +432,19 @@
         }
             break;
 
-        case 16:{
+        case CBGDetailTestFunctionStyle_LatestPlan:{
             
             CBGLatestPlanBuyVC * combine = [[CBGLatestPlanBuyVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
+            
+        }
+            break;
+        case CBGDetailTestFunctionStyle_PayStyle:{
+            
+            ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+            total.isScan = !total.isScan;
+            [total localSave];
+            [self refreshPayStyleBtnStateWithStyle:!total.isScan];
             
         }
             break;

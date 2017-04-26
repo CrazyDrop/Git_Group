@@ -58,9 +58,14 @@
 //        priceCache = [YYCache cacheWithName:@"list_ordersn_money_cache"];
 //#else
         statusCache = [[NSCache alloc] init];
-        statusCache.countLimit = 10000;
         priceCache = [[NSCache alloc] init];
         priceCache.countLimit = 10000;
+        statusCache.countLimit = 10000;
+#if  !TARGET_IPHONE_SIMULATOR
+        priceCache.countLimit = 3000;
+        statusCache.countLimit = 3000;
+#endif
+
 //#endif
         
         stateModel = [[CBGListModel alloc] init];

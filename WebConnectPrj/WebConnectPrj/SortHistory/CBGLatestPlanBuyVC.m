@@ -57,7 +57,6 @@
         CBGListModel * list = [array objectAtIndex:index];
         NSLog(@"%ld %@",list.server_id,list.detailWebUrl);
     }
-//    [self selectHistoryForPlanStartedLoad];
 }
 
 
