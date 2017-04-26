@@ -203,6 +203,7 @@
 		18809DF81A0B5B0200B66A59 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE61A0B5B0200B66A59 /* UIImageView+HighlightedWebCache.m */; };
 		18809DF91A0B5B0200B66A59 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE81A0B5B0200B66A59 /* UIImageView+WebCache.m */; };
 		18809DFA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DEA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m */; };
+		188186F01EB0861B00C4689C /* zadatabase_update_read.db in Resources */ = {isa = PBXBuildFile; fileRef = 188186EF1EB0861B00C4689C /* zadatabase_update_read.db */; };
 		1883193A1EADE14500467F34 /* CBGLatestPlanBuyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */; };
 		18936F8E1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */; };
 		18936F921E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F911E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m */; };
@@ -896,6 +897,7 @@
 		18809DE81A0B5B0200B66A59 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		18809DE91A0B5B0200B66A59 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		18809DEA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		188186EF1EB0861B00C4689C /* zadatabase_update_read.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = zadatabase_update_read.db; sourceTree = "<group>"; };
 		188319381EADE14500467F34 /* CBGLatestPlanBuyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestPlanBuyVC.h; sourceTree = "<group>"; };
 		188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLatestPlanBuyVC.m; sourceTree = "<group>"; };
 		18936F8C1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCombinedScrolledHandleVC.h; sourceTree = "<group>"; };
@@ -1922,6 +1924,7 @@
 		180D589A19E622680045A720 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				188186EF1EB0861B00C4689C /* zadatabase_update_read.db */,
 				18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */,
 				180F7F421A1DCACC0039E222 /* LocalJS */,
 				180D589B19E622680045A720 /* Info.plist */,
@@ -3942,7 +3945,7 @@
 				TargetAttributes = {
 					180D589619E622680045A720 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = X9YQDM8Q42;
+						DevelopmentTeam = 3SHBLHHSMD;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3983,6 +3986,7 @@
 			files = (
 				180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */,
 				18A976331E7FDDD500B48E3C /* 刷新1@2x.png in Resources */,
+				188186F01EB0861B00C4689C /* zadatabase_update_read.db in Resources */,
 				18A971E91E7FC6B300B48E3C /* MSAlertController.xib in Resources */,
 				180D58AB19E622680045A720 /* LaunchScreen.xib in Resources */,
 				18A972371E7FCA5C00B48E3C /* Info.plist in Resources */,
@@ -4763,17 +4767,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wang Dong (E4MX46Z5D4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wang Dong (E4MX46Z5D4)";
-				DEVELOPMENT_TEAM = X9YQDM8Q42;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				DEVELOPMENT_TEAM = 3SHBLHHSMD;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ent.zhongan.yi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bcb06e81-6f8c-42d6-a237-2e021a67f25c";
-				PROVISIONING_PROFILE_SPECIFIER = "it developer common";
+				PROVISIONING_PROFILE = "4ae56bf7-1bae-491d-ad74-72ad22549c66";
+				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
 			};
 			name = Debug;
 		};
@@ -4787,7 +4791,7 @@
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ent.zhongan.yi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3d44d14b-8a43-4be5-ae0e-50d0465bb87f";
 				PROVISIONING_PROFILE_SPECIFIER = YI_Distribution;

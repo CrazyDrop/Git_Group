@@ -232,6 +232,14 @@
     NSString * showState = message?@"支付(短信)":@"支付(扫码)";
     [btn setTitle:showState forState:UIControlStateNormal];
 }
+-(void)refreshWriteInBtnForWriteFinish
+{
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_CopyData;
+    UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
+    NSString * showState = @"写入结束";
+    [btn setTitle:showState forState:UIControlStateNormal];
+}
+
 
 -(void)exchangeNoticeForNoticeBtnTaped
 {
@@ -296,6 +304,7 @@
             {
                 NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
                 [DZUtils noticeCustomerWithShowText:dbExchange];
+                [self refreshWriteInBtnForWriteFinish];
             }
         }
             break;

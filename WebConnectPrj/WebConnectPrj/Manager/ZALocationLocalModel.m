@@ -289,7 +289,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         if(TARGET_IPHONE_SIMULATOR)
         {
             path = @"/Users/apple/desktop/Database";
+        }else{
+            [self checkReadSorceCopyOrIngore];
         }
+        
         NSString *databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME];
         databaseQueue= [[FMDatabaseQueue alloc]initWithPath:databasePath];
         
@@ -303,6 +306,26 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     }
     return self;
 }
+-(void)checkReadSorceCopyOrIngore
+{
+    BOOL needCopy = NO;
+    
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME];
+
+    NSFileManager * fm = [NSFileManager defaultManager];
+    if(![fm fileExistsAtPath:databasePath])
+    {
+        needCopy = YES;
+    }
+    
+    if(needCopy)
+    {
+        NSString * sorcePath = [[NSBundle mainBundle] pathForResource:ZADATABASE_NAME_READ ofType:nil];
+        [self exchangeLocalDBWithCurrentDBPath:sorcePath];
+    }
+}
+
 -(void)checkLocalTables
 {
     fcm_onMainThread(^{
@@ -2392,9 +2415,11 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 //         }
 
          
-         //总值较大
+         //总值较大，且未售出
          sqlMutableString  = [NSMutableString string];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@ DESC",ZADATABASE_TABLE_EQUIP_TOTAL,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ == '' AND %@ == '' AND  %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ > 0 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+          ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
+          ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
           ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
