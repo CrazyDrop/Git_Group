@@ -228,7 +228,7 @@
         //计算时间差
         
         {
-            centerDetailTxt = [NSString stringWithFormat:@"%ld%@",contact.plan_total_price,contact.plan_des];
+            centerDetailTxt = [NSString stringWithFormat:@"%ld(%ld)号:%d",contact.plan_total_price,contact.plan_zhuangbei_price + contact.plan_zhaohuanshou_price,(int)contact.price_base_equip];
         }
         
         
@@ -256,6 +256,11 @@
             equipBuyColor = [UIColor greenColor];
         }
         //leftPriceTxt = [NSString stringWithFormat:@"%@",leftPriceTxt];
+        
+        if(contact.planMore_zhaohuan || contact.planMore_Equip)
+        {
+            numcolor = [UIColor redColor];
+        }
     }
     
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据

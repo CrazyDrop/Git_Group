@@ -11,4 +11,6 @@
 @interface CBGPlanCompareBaseListVC : CBGSortHistoryBaseSortVC
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice;
 
+-(NSArray *)moreFunctionsForDetailSubVC;
+
 @end

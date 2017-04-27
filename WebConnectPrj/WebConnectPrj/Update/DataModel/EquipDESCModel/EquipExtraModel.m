@@ -143,6 +143,7 @@
             if([eveSummon.iBaobao boolValue]){
                 CGFloat evePrice = [self detailSummonPriceForEveSummon:eveSummon];
                 price += evePrice;
+//                NSLog(@"%ld %.0f ",skillNum,evePrice);
             }else{
                 
                 if(skillNum > 5 && [eveSummon.iGrade integerValue] > 160)
@@ -179,8 +180,6 @@
         
         return price;
     }
-    
-
     
     NSMutableArray * skillsNumArr = [NSMutableArray array];
     for (NSInteger index = 0;index < [model.all_skills.skillsArray count] ;index ++ )
@@ -245,10 +244,13 @@
     }
     NSInteger skillPrice = 0;
     
+    
+    BOOL containSpecial = NO;
     //善恶、力劈
     if([skillsNumArr containsObject:@"571"] || [skillsNumArr containsObject:@"554"])
     {
     
+        containSpecial = YES;
         if(gongjiMoreNum >= 3)
         {
             skillPrice += (gongjiMoreNum * 150);
@@ -280,9 +282,9 @@
             
         }
         
-        if(skillNum > 6 && gongjiMoreNum > 3){
-            skillPrice += 500;
-        }
+//        if(skillNum > 6 && gongjiMoreNum > 3){
+//            skillPrice += 500;
+//        }
         
         if([skillsNumArr containsObject:@"571"] && skillPrice > 300){
             skillPrice *= 1.3;
@@ -293,12 +295,12 @@
         
         if(gongjiMoreNum >= 4)
         {
-            skillPrice += (gongjiMoreNum * 180);
+            skillPrice += (gongjiMoreNum * 200);
         }else if(gongjiMoreNum > 1){
             skillPrice += (gongjiMoreNum * 80);
         }
         
-        NSArray * heighSkillArr = [NSArray arrayWithObjects:@"416",@"404",@"425",nil];
+        NSArray * heighSkillArr = [NSArray arrayWithObjects:@"416",@"404",@"425",@"411",nil];
         for (NSString * eve in heighSkillArr )
         {
             //高级技能，一个加50
@@ -337,10 +339,10 @@
             
         }
         
-        if(skillNum > 6 && gongjiMoreNum > 3 )
-        {
-            skillPrice += 500;
-        }
+//        if(skillNum >= 6 && gongjiMoreNum > 3)
+//        {
+//            skillPrice += 500;
+//        }
         
         if([skillsNumArr containsObject:@"595"] && skillPrice > 300){
             skillPrice *= 1.1;
@@ -351,7 +353,7 @@
         //有须弥
         if([skillsNumArr containsObject:@"661"])
         {
-            
+            containSpecial = YES;
             if(fashuMore >= 4)
             {
                 skillPrice += (fashuMore * 300);
@@ -360,13 +362,14 @@
             }
             
             //大法书
+            BOOL containMax = NO;
             NSArray * bigSkillArr = [NSArray arrayWithObjects:@"426",@"427",@"428",@"429",nil];
             for (NSString * eve in bigSkillArr )
             {
                 //高级技能，一个加50
                 if([skillsNumArr containsObject:eve])
                 {
-                    skillPrice += 100;
+                    containMax = YES;
                     break;
                 }
             }
@@ -385,21 +388,27 @@
             //蓝书 力劈
             if(fashuMore == 0)
             {
-                if(skillNum > 4)
+                //大法
+                if(containMax)
                 {
-                    skillPrice += 200;
-                }else{
-                    skillPrice += 100;
+                    if(skillNum > 4)
+                    {
+                        skillPrice += 400;
+                    }else{
+                        skillPrice += 100;
+                    }
+
+                }else
+                {
+                    if(skillNum > 4)
+                    {
+                        skillPrice += 200;
+                    }else{
+                        skillPrice += 50;
+                    }
                 }
             }else {
                 
-            }
-
-            
-            
-            if(skillNum > 5 && fashuMore > 2)
-            {
-                skillPrice += 500;
             }
             
         }else
@@ -412,7 +421,7 @@
                 //高级技能，一个加50
                 if([skillsNumArr containsObject:eve])
                 {
-                    skillPrice += 50;
+                    skillPrice += 30;
                 }
             }
             
@@ -425,7 +434,7 @@
 
     }else if([skillsNumArr containsObject:@"579"] || [skillsNumArr containsObject:@"552"]){
         //法防  死亡
-        
+        containSpecial = YES;
         //同时有，
         if([skillsNumArr containsObject:@"579"] && [skillsNumArr containsObject:@"552"])
         {
@@ -469,15 +478,32 @@
     }else if(gongjiMoreNum + fashuMore + xuedunMore > 0)
     {
         //有红书
-        if(gongjiMoreNum > 0)
+        if(gongjiMoreNum > 1)
         {
-            if(gongjiMoreNum >= 2)
+            if(gongjiMoreNum >= 4)
+            {
+                skillPrice = gongjiMoreNum * 50;
+                NSArray * heighSkillArr = [NSArray arrayWithObjects:@"416",@"404",@"425",nil];
+                for (NSString * eve in heighSkillArr )
+                {
+                    if([skillsNumArr containsObject:eve])
+                    {
+                        skillPrice += 50;
+                    }
+                }
+                
+                if(![skillsNumArr containsObject:@"416"])
+                {
+                    skillPrice -= 200;
+                }
+            }else if(gongjiMoreNum >= 2)
             {
                 skillPrice = gongjiMoreNum * 30;
-            }else
+            }
+            else
             {
-                //未打书 胚子
-                skillPrice = 10;
+                //未打书 胚子，或者蓝书
+                skillPrice = 20;
             }
             
         }else if(fashuMore > 0)
@@ -519,17 +545,44 @@
         
     }else{
         //无特殊技能
-        if(dengji > 160){
+        if(dengji > 160)
+        {
             skillPrice = 20;
         }else{
-            skillPrice = 5;
+            skillPrice = 10;
         }
         
     }
     
+    //    Tag   cdes
+    //内丹价格，仅看内丹数量
+    NSInteger coreNum =  [model.summon_core.sumonModelsArray count];
+    switch (coreNum) {
+        case 4:
+        {//4内丹  非特殊技能宠，打折
+            skillPrice *= 0.8;
+        }
+            break;
+        case 5:
+        {//5内丹  非特殊技能宠，打折
+            skillPrice *= 0.9;
+        }
+            break;
+        case 6:
+        {
+            skillPrice *= 1.1;
+        }
+            break;
+        default:
+        {
+            skillPrice *= 0.6;
+        }
+            break;
+    }
     price += skillPrice;
     
     
+    //灵性价格
     NSInteger lingxing = [jinjie.lx integerValue];
     NSInteger lingxingPrice = 0;
     if(lingxing == 110)
@@ -546,6 +599,13 @@
     }else{
         
     }
+    
+    if(jinjie.core.name)
+    {
+        lingxing += 100;
+    }
+
+    
     
     price += lingxingPrice;
     
@@ -564,7 +624,11 @@
                 
             }else if([compareStr containsString:@"死亡"] || [compareStr containsString:@"力劈"]||[compareStr containsString:@"善恶"] )
             {
-                zhuangPrice += 800;
+                zhuangPrice += 200;
+                if(price > 1000)
+                {
+                    zhuangPrice += 100;
+                }
             }else if([compareStr containsString:@"高级"] && ![compareStr containsString:@"吸收"])
             {
                 zhuangPrice += 50;
@@ -577,40 +641,81 @@
             NSInteger level2 = [self subBaobaoZhuangDengJiFromDesc:model.summon_equip2.cDesc];
             NSInteger level3 = [self subBaobaoZhuangDengJiFromDesc:model.summon_equip3.cDesc];
             NSInteger totalLevel = level1 + level2 + level3;
-            if(totalLevel >= 19)
+            if(totalLevel >= 21)
             {//全部7段以上
-                zhuangPrice += 800;
+                zhuangPrice += 500;
             }else if(totalLevel >= 15){
                 //5段
-                zhuangPrice += 500;
+                zhuangPrice += 100;
             }else if(totalLevel >= 10){
                 //3段
-                zhuangPrice += 10;
+                zhuangPrice += 20;
             }
             
         }
-        
-        
-        
     }
     price += zhuangPrice;
     
-    
-    
-    //是否有锁判定
-    if([model.iLock integerValue] > 0){
-        if(price > 1000){
-            price += 300;//有锁的高级宝宝加钱
-        }else if(price > 300){
-            price *= 0.7;
-        }else if(price > 100){
-            //有锁的垃圾宝宝扣钱
-            price *= 0.5;
-        }else{
-            //有锁的垃圾宝宝扣钱
-            price = 0;
+
+    // 1476|1411|1200|1131|4903|1942
+    //防御 攻击 速度  躲闪  体力  法力
+    NSArray * detailArr = [model.csavezz componentsSeparatedByString:@"|"];
+    NSInteger zizhiPrice = 0;
+    //仅针对高书较多的宝宝
+    if((gongjiMoreNum > 3 && [skillsNumArr containsObject:@"416"]) || containSpecial )
+    {
+        if(gongjiMoreNum > 3)
+        {
+            NSInteger gongji = [[detailArr objectAtIndex:1] integerValue];
+            if(gongji > 1600)
+            {
+                zizhiPrice += 400;
+            }else if(gongji > 1550){
+                zizhiPrice += 200;
+            }else if(gongji > 1480){
+                zizhiPrice += 100;
+            }
+            
+            if(containSpecial){
+                zizhiPrice *= 1.2;
+            }
+        }
+        
+        if(fashuMore > 3)
+        {
+            NSInteger fashu = [[detailArr objectAtIndex:5] integerValue];
+            if(fashu > 3000)
+            {
+                zizhiPrice += 200;
+            }else if(fashu > 2500){
+                zizhiPrice += 100;
+            }else if(fashu > 2000)
+            {
+                zizhiPrice += 500;
+            }
+            if(containSpecial){
+                zizhiPrice *= 2;
+            }
         }
     }
+    
+    price += zizhiPrice;
+    
+//    //是否有锁判定
+//    if([model.iLock integerValue] > 0)
+//    {
+//        if(price > 1000){
+////            price += 300;//有锁的高级宝宝加钱
+//        }else if(price > 300){
+//            price *= 0.7;
+//        }else if(price > 100){
+//            //有锁的垃圾宝宝扣钱
+//            price *= 0.5;
+//        }else{
+//            //有锁的垃圾宝宝扣钱
+//            price = 0;
+//        }
+//    }
     
     
     return price;
@@ -619,14 +724,15 @@
 {
     NSInteger level = 0;
     NSString * result = nil;
-    NSString * startTxt = @"套装效果：附加状态";
-    NSString * finishTxt = @"制造者";
+    NSString * startTxt = @"镶嵌等级：";
     NSRange startRange = [desc rangeOfString:startTxt];
-    NSRange endRange = [desc rangeOfString:finishTxt];
-    if(startRange.length > 0 && endRange.length > 0){
+    if(startRange.length > 0)
+    {
         NSInteger startIndex = startRange.location + startRange.length;
-        NSInteger endIndex = endRange.location - startIndex;
-        result = [desc substringWithRange:NSMakeRange(startIndex,endIndex)];
+        NSInteger length = 2;
+        NSInteger maxLength = [desc length];
+        length = MIN(length, maxLength - startIndex);
+        result = [desc substringWithRange:NSMakeRange(startIndex,length)];
         level = [result integerValue];
     }
 

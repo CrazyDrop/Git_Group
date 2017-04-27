@@ -28,28 +28,53 @@
 
 @implementation DZUtils
 
-+(NSString *)detailNumberStringFromCombineStr:(NSString *)detailCopy
++(NSString *)detailNumberStringSubFromBottomCombineStr:(NSString *)detailCopy
 {
 //循环遍历出数字部分
     NSMutableString * checkStr = [NSMutableString string];//数字字符
     //由后向前，取到非数字字符截止
     NSString * shortString = detailCopy;
     NSString * replace = detailCopy;
+    NSString * sepTag = @"_";
+    
     for (NSInteger index = 0; index < [shortString length]; index ++ )
     {
         NSInteger number = [shortString length] - index - 1;
         NSString * eve = [replace substringWithRange:NSMakeRange(number, 1)];
         BOOL realNumber = [DZUtils checkSubCharacterIsNumberString:eve];
-        if(realNumber)
+        if(realNumber || [eve isEqualToString:sepTag])
         {
             [checkStr insertString:eve atIndex:0];
         }else{
             break;
         }
     }
-//    NSRange  range = NSMakeRange([shortString length] - [checkStr length] , [checkStr length]);
     return checkStr;
 }
++(NSString *)detailNumberStringSubFromHeaderCombineStr:(NSString *)detailCopy
+{
+    //循环遍历出数字部分
+    NSMutableString * checkStr = [NSMutableString string];//数字字符
+    //由后向前，取到非数字字符截止
+    NSString * shortString = detailCopy;
+    NSString * replace = detailCopy;
+    NSString * sepTag = @"_";
+    
+    for (NSInteger index = 0; index < [shortString length]; index ++ )
+    {
+        NSInteger number = index;
+        NSString * eve = [replace substringWithRange:NSMakeRange(number, 1)];
+        BOOL realNumber = [DZUtils checkSubCharacterIsNumberString:eve];
+        if(realNumber || [eve isEqualToString:sepTag])
+        {
+            [checkStr appendString:eve];
+        }else{
+            break;
+        }
+    }
+    return checkStr;
+}
+
 
 +(BOOL)checkSubCharacterIsNumberString:(NSString *)last
 {

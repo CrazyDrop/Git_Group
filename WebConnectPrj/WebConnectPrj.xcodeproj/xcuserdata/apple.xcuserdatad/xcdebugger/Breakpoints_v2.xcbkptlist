@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PlanCheck/CBGOwnerRepeatListVC.m"
-            timestampString = "514881588.238177"
+            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
+            timestampString = "514969107.641715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-localSaveListArrayFromOrderSNArray:"
+            startingLineNumber = "719"
+            endingLineNumber = "719"
+            landmarkName = "-detailSummonPriceForEveSummon:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SearchSetting/CBGCopyUrlDetailCehckVC.m"
-            timestampString = "514881833.472823"
+            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
+            timestampString = "514966227.19799"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
-            landmarkName = "-ingoreUpdateListWithPreIdArr:andLastestArr:"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "-detailSummonPriceForEveSummon:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SearchSetting/CBGCopyUrlDetailCehckVC.m"
-            timestampString = "514881853.30141"
+            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
+            timestampString = "514968035.995065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "-ingoreUpdateListWithPreIdArr:andLastestArr:"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "-detailSummonPriceForEveSummon:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,77 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SearchSetting/CBGCopyUrlDetailCehckVC.m"
-            timestampString = "514881860.716484"
+            filePath = "WebConnectPrj/PlanCheck/CBGOthersBuyRepeatListVC.m"
+            timestampString = "514977084.803944"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "350"
-            endingLineNumber = "350"
-            landmarkName = "-ingoreUpdateListWithPreIdArr:andLastestArr:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
-            timestampString = "514885511.532608"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "-exchangeLocalDBWithCurrentDBPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Manager/ZALocationLocalModel.m"
-            timestampString = "514891159.720063"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2448"
-            endingLineNumber = "2448"
-            landmarkName = "-localSaveEquipHistoryModelListForCompareCBGModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SortHistory/CBGLatestPlanBuyVC.m"
-            timestampString = "514891786.94672"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "-selectHistoryForPlanStartedLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SortHistory/CBGSortHistoryBaseSortVC.m"
-            timestampString = "514891854.680058"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "-refreshLatestShowTableView"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "-refreshLocalDbWithMoreRepeat"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

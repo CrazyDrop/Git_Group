@@ -127,7 +127,11 @@
               }];
     [alertController addAction:action];
     
-    
+    NSArray * funcArr =  [self moreFunctionsForDetailSubVC];
+    for (MSAlertAction * eveAlert in funcArr )
+    {
+        [alertController addAction:eveAlert];
+    }
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
     }];
@@ -136,6 +140,10 @@
     [self presentViewController:alertController
                        animated:YES
                      completion:nil];
+}
+-(NSArray *)moreFunctionsForDetailSubVC
+{
+    return nil;
 }
 
 -(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array

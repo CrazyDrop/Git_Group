@@ -2256,7 +2256,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          }
          NSMutableString *sqlMutableString=[NSMutableString string];
          
-         [sqlMutableString appendFormat:@"select * from %@ where %@ = '%@' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,roleId,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = '%@' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,roleId,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
          
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])
@@ -2518,7 +2518,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
      }];
 }
--(NSArray *)localSaveEquipHistoryModelListRepeatSold
+-(NSArray *)localSaveEquipHistoryModelListRepeatSoldTimesMore:(BOOL)more
 {
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSInteger minServerId = total.minServerId;
@@ -2534,7 +2534,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //是某分类的
          //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
          //         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 100000"];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ in (select %@ from %@ where %@ == '' and %@ < %ld group by %@ having count(%@) > 1) order by  %@ , %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+         
+         NSString * minNum = @"1";
+         if(more)
+         {
+             minNum = @"2";
+         }
+         
+         [sqlMutableString appendFormat:@"select * from %@ where %@ in (select %@ from %@ where %@ == '' and %@ < %ld group by %@ having count(%@) > %@) order by  %@ , %@",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_TOTAL,
@@ -2543,6 +2550,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           (long)minServerId,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+          minNum,
           ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
           ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
          

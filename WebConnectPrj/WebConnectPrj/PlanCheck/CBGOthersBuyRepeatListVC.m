@@ -22,11 +22,44 @@
     // Do any additional setup after loading the view.
     
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-    self.dbHistoryArr = [dbManager localSaveEquipHistoryModelListRepeatSold];
+    self.dbHistoryArr = [dbManager localSaveEquipHistoryModelListRepeatSoldTimesMore:NO];
 //    self.selectedDate = @"2017";
     [self refreshLatestShowedDBArrayWithNotice:YES];
 
 }
+
+-(void)refreshLocalDbWithMoreRepeat
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    self.dbHistoryArr = [dbManager localSaveEquipHistoryModelListRepeatSoldTimesMore:YES];
+    [self refreshLatestShowTableView];
+}
+
+
+-(NSArray *)moreFunctionsForDetailSubVC
+{
+    NSMutableArray * arr = [NSMutableArray array];
+    MSAlertAction * action = nil;
+    __weak typeof(self) weakSelf = self;
+    
+    //刷新数据
+    action = [MSAlertAction actionWithTitle:@"重复3次" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLocalDbWithMoreRepeat];
+              }];
+    [arr addObject:action];
+    
+//    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
+//              }];
+//    [arr addObject:action];
+
+    return arr;
+    return nil;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -13,7 +13,8 @@
 
 @interface DZUtils : NSObject
 
-+(NSString *)detailNumberStringFromCombineStr:(NSString *)str;
++(NSString *)detailNumberStringSubFromBottomCombineStr:(NSString *)str;
++(NSString *)detailNumberStringSubFromHeaderCombineStr:(NSString *)detailCopy;
 
 +(BOOL)checkSubCharacterIsNumberString:(NSString *)last;
 

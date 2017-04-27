@@ -456,7 +456,7 @@
                 {
                     NSString * serverId = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
                     serverId = [self realStringFromSubStringText:serverId];
-                    serverId = [DZUtils detailNumberStringFromCombineStr:serverId];
+                    serverId = [DZUtils detailNumberStringSubFromBottomCombineStr:serverId];
 
                     baseList.serverid = [NSNumber numberWithInt:[serverId intValue]];
                 }
@@ -469,7 +469,14 @@
                 {
                     NSString * orderSN = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
                     orderSN = [self realStringFromSubStringText:orderSN];
-                    NSString * sub = [DZUtils detailNumberStringFromCombineStr:orderSN];
+                    //排除杂乱数字
+                    if([orderSN containsString:@" "])
+                    {
+                        NSArray * orderArr = [orderSN componentsSeparatedByString:@" "];
+                        orderSN = [orderArr firstObject];
+                    }
+                    
+                    NSString * sub = [DZUtils detailNumberStringSubFromHeaderCombineStr:orderSN];
                     NSRange subRange = [orderSN rangeOfString:sub];
                     NSRange range = NSMakeRange(0,subRange.location + subRange.length);
                     NSString * realSN = [orderSN substringWithRange:range];
@@ -487,7 +494,7 @@
     }else if([detailCopy length] > 0)
     {
         
-        NSString * subStr = [DZUtils detailNumberStringFromCombineStr:detailCopy];
+        NSString * subStr = [DZUtils detailNumberStringSubFromBottomCombineStr:detailCopy];
         if(subStr && [subStr integerValue] > 0)
         {
             //识别roleid
