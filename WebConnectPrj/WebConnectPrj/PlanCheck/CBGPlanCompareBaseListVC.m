@@ -11,6 +11,7 @@
 #import "ZACBGDetailWebVC.h"
 #import "CBGCompareSameRoleVC.h"
 #import "ZALocalStateTotalModel.h"
+#import "CBGFutureStatusSortVC.h"
 #define  CBGPlanCompareHistoryAddTAG  100
 
 @interface CBGPlanCompareBaseListVC ()
@@ -92,6 +93,12 @@
     }
     [self refreshLatestShowTableView];
 }
+-(void)showDetailFutureStatusSortVC
+{
+    CBGFutureStatusSortVC * future = [[CBGFutureStatusSortVC alloc] init];
+    future.dbHistoryArr = [NSArray arrayWithArray:[self latestTotalShowedHistoryList]];
+    [[self rootNavigationController] pushViewController:future animated:YES];
+}
 
 
 -(void)showDetailChooseForHistory
@@ -118,6 +125,12 @@
               {
                   weakSelf.sortStyle = CBGStaticSortShowStyle_School;
                   [weakSelf refreshLatestShowTableView];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"化圣相关" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showDetailFutureStatusSortVC];
               }];
     [alertController addAction:action];
     

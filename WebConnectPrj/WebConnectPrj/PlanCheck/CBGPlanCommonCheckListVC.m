@@ -39,7 +39,7 @@
 }
 
 - (void)viewDidLoad {
-    self.viewTtle = @"错误列表";
+    self.viewTtle = @"合服异常";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     

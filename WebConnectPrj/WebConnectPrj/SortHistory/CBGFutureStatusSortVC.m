@@ -114,7 +114,10 @@
                 
             case 2:
             {
-                [selectedArr addObject:list];
+                if(status != 0)
+                {
+                    [selectedArr addObject:list];
+                }
             }
                 break;
                 

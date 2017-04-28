@@ -42,18 +42,21 @@
     MSAlertAction * action = nil;
     __weak typeof(self) weakSelf = self;
     
+    
+    action = [MSAlertAction actionWithTitle:@"时差排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticSortShowStyle_Space;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    [arr addObject:action];
+    
     //刷新数据
     action = [MSAlertAction actionWithTitle:@"重复3次" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf refreshLocalDbWithMoreRepeat];
               }];
     [arr addObject:action];
-    
-//    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
-//              }];
-//    [arr addObject:action];
+
 
     return arr;
     return nil;

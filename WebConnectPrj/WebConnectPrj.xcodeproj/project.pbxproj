@@ -676,6 +676,7 @@
 		18A976741E8148CB00B48E3C /* ZACBGListDetailShowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */; };
 		18A976761E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */; };
 		18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */; };
+		18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
 		18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */; };
 		18CFB76D1E8A6BB400F18440 /* CBGSettingURLEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */; };
 		18CFB7761E8BB53F00F18440 /* CBGMixedListCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */; };
@@ -1800,6 +1801,8 @@
 		18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = "2015-12-09_17-41-23_1.m4r"; sourceTree = "<group>"; };
 		18A9EC671E974D4100B92192 /* CBGPlanDetailPreShowWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanDetailPreShowWebVC.h; sourceTree = "<group>"; };
 		18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanDetailPreShowWebVC.m; sourceTree = "<group>"; };
+		18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCheckSpecialListVC.h; sourceTree = "<group>"; };
+		18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCheckSpecialListVC.m; sourceTree = "<group>"; };
 		18CFB7641E8904E300F18440 /* CBGCopyUrlDetailCehckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCopyUrlDetailCehckVC.h; sourceTree = "<group>"; };
 		18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCopyUrlDetailCehckVC.m; sourceTree = "<group>"; };
 		18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSettingURLEditVC.h; sourceTree = "<group>"; };
@@ -2159,6 +2162,8 @@
 				1820912C1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m */,
 				1820912E1EA4BEE20015E393 /* CBGOwnerRepeatListVC.h */,
 				1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */,
+				18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */,
+				18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */,
 				182091311EA4BF460015E393 /* CBGPlanCommonCheckListVC.h */,
 				182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */,
 				182091341EA4C49E0015E393 /* CBGPlanCompareBaseListVC.h */,
@@ -3947,8 +3952,8 @@
 				TargetAttributes = {
 					180D589619E622680045A720 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 3SHBLHHSMD;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = X9YQDM8Q42;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3957,6 +3962,7 @@
 					};
 					1820913A1EA6F0460015E393 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = X9YQDM8Q42;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 180D589619E622680045A720;
 					};
@@ -4519,6 +4525,7 @@
 				1820910E1E9F555D0015E393 /* AABar.m in Sources */,
 				18A9721B1E7FCA2B00B48E3C /* FMDatabasePool.m in Sources */,
 				18A9756A1E7FDDD400B48E3C /* Samurai_CSSRuleCollector.m in Sources */,
+				18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */,
 				18A9723F1E7FCA5C00B48E3C /* NSObject+MJCoding.m in Sources */,
 				18A975981E7FDDD400B48E3C /* Samurai_HtmlNumberPx.m in Sources */,
 				18A96E2F1E7FC2C500B48E3C /* Summon_coreModel.m in Sources */,
@@ -4769,17 +4776,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 超群 张 (45J8GK4F5C)";
-				DEVELOPMENT_TEAM = 3SHBLHHSMD;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jing Lai (329E42UFHH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4ae56bf7-1bae-491d-ad74-72ad22549c66";
-				PROVISIONING_PROFILE_SPECIFIER = dev_ent_common;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -4788,14 +4795,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ZhongAn Online P&C Insurance Co., Ltd.";
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = YI_Distribution;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -4807,7 +4815,9 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = WebConnectPrjTests/Info.plist;
@@ -4815,6 +4825,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhongan.WebConnectPrjTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WebConnectPrj.app/WebConnectPrj";
 			};
 			name = Debug;
@@ -4827,14 +4838,17 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = WebConnectPrjTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhongan.WebConnectPrjTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WebConnectPrj.app/WebConnectPrj";
 			};
 			name = Release;

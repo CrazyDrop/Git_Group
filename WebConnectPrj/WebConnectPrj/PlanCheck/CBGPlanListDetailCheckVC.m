@@ -10,6 +10,7 @@
 #import "CBGOwnerRepeatListVC.h"
 #import "CBGOthersBuyRepeatListVC.h"
 #import "CBGPlanCommonCheckListVC.h"
+#import "CBGPlanCheckSpecialListVC.h"
 #import "EquipExtraModel.h"
 #define PlanCheckDetailListAddNum 100
 @interface CBGPlanListDetailCheckVC ()
@@ -30,9 +31,10 @@
                         @"倒卖列表",
                         @"购买列表",//标识
                                                
-                        @"校验列表",//特殊数据
+                        @"合服异常",//特殊数据
                         @"分项检查",//特殊数据
                         
+                        @"售出检查",//特征数据
                         
                         nil];
     
@@ -105,6 +107,12 @@
         case 3:{
             EquipExtraModel * extra = [[EquipExtraModel alloc] init];
             [extra detailSubCheck];
+        }
+            break;
+        case 4:
+        {
+            CBGPlanCheckSpecialListVC * plan = [[CBGPlanCheckSpecialListVC alloc] init];
+            [[self rootNavigationController] pushViewController:plan animated:YES];
         }
             break;
 
