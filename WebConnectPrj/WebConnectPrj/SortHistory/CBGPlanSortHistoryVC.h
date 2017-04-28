@@ -17,6 +17,7 @@
 @property (nonatomic, assign) id<CBGHistoryExchangeDelegate> exchangeDelegate;
 @property (nonatomic, strong) NSString * selectedDate;
 
+-(void)selectHistoryForPlanStartedLoad;
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice;
 
 @end

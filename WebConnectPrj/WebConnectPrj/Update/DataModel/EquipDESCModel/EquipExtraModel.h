@@ -148,6 +148,9 @@
 
 -(NSString *)createExtraPrice;
 -(NSString *)extraDes;
+//化圣标识，通过修炼、等级、技能、宠修  综合判定
+-(NSInteger)furtureMaxStatus;
+
 
 /**
  *  Init the model with dictionary

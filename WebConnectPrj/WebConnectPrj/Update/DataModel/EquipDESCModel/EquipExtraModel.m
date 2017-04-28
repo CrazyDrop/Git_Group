@@ -951,7 +951,7 @@
     //宠修高  经验过低时，宠修估价0.7即宠修
     if(money > 4000 && [self.sum_exp integerValue] < 300)
     {
-        money *= 0.8;
+        money *= 0.9;
     }
 
         
@@ -1285,9 +1285,18 @@
         mainSkill += eveMoney;
     }
     
-    if(mainSkill > 4000 && [self.sum_exp integerValue] < 300)
+    if([self.sum_exp integerValue] < 200)
     {
-        mainSkill *= 0.8;
+        if( mainSkill > 4000 && mainSkill < 6000)
+        {
+            mainSkill *= 0.7;
+        }
+    }else if([self.sum_exp integerValue] < 300){
+        
+        if( mainSkill > 4000 && mainSkill < 6000)
+        {
+            mainSkill *= 0.8;
+        }
     }
     
     money += mainSkill;
@@ -1400,6 +1409,46 @@
 
     return extra;
 }
+-(NSInteger)furtureMaxStatus
+{
+    //修炼、等级、技能、宠修，
+    NSInteger status = 0;
+    //满足95%，则为1   满足100%   则为2
+    
+    NSInteger renLevel = [self.iGrade intValue];
+    
+    
+    NSInteger renxiuLevel = self.iExptSki1.integerValue + self.iExptSki2.integerValue + self.iExptSki3.integerValue + self.iExptSki4.integerValue;
+
+    
+    NSInteger chongxiuLevel = self.iBeastSki1.integerValue + self.iBeastSki2.integerValue + self.iBeastSki3.integerValue + self.iBeastSki4.integerValue;
+    
+
+    NSInteger jinengLevel = 0;
+    for (NSInteger index = 0 ;index < [self.all_skills.skillsArray count] ;index ++ )
+    {
+        ExtraModel * model = [self.all_skills.skillsArray objectAtIndex:index];
+        if([model isKindOfClass:[ExtraModel class]]){
+            NSString * number = model.extraTag;
+            if([number integerValue] < 150)
+            {
+                NSInteger skillLevel = [model.extraValue integerValue];
+                jinengLevel += skillLevel;
+            }
+        }
+    }
+    
+    if(renLevel == 175 && renxiuLevel >= 75 && chongxiuLevel >= 80 && jinengLevel >= 180*7)
+    {
+        status = 2;
+    }else if(renLevel >= 174 && renxiuLevel >= 73 && chongxiuLevel >= 77 && jinengLevel >= (180*5 + 150*2))
+    {
+        status = 1;
+    }
+    
+    return status;
+}
+
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     

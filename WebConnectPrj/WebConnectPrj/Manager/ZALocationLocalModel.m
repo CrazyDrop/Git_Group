@@ -1809,7 +1809,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                     preModel.equip_price = model.equip_price;
                 }
-                
+
+                //价格变化
+                if(preModel.equip_accept != model.equip_accept)
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_accept = model.equip_accept;
+                }
+
                 
                 if(ingoreRefresh)
                 {
@@ -1850,12 +1857,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     NSString * changeKey = model.game_ordersn;
     NSString * sqlString = nil;
     //更新  时间信息(有历史用历史的)  追加信息 价格 估值 估值详情
-    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? , %@=?,%@=?, %@=? , %@=?,%@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
+    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? , %@=?,%@=?, %@=? , %@=? , %@=?,%@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
                ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
@@ -1878,6 +1886,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        model.sell_back_time,
                        [NSNumber numberWithInteger:model.equip_price],
                        [NSNumber numberWithInteger:model.plan_rate],
+                       [NSNumber numberWithInteger:model.equip_accept],
                        model.plan_des,
                        [NSNumber numberWithInteger:model.plan_total_price],
                        [NSNumber numberWithInteger:model.plan_xiulian_price],

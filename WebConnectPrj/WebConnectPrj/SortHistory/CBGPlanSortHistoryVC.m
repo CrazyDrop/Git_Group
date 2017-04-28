@@ -8,6 +8,7 @@
 
 #import "CBGPlanSortHistoryVC.h"
 #import "ZALocationLocalModel.h"
+#import "CBGFutureStatusSortVC.h"
 #define  CBGPlanSortHistoryAddTAG  100
 @interface CBGPlanSortHistoryVC ()
 @property (nonatomic, strong) NSArray * preTotalArr;
@@ -178,6 +179,13 @@
     }
     
 }
+-(void)showDetailFutureStatusSortVC
+{
+    CBGFutureStatusSortVC * future = [[CBGFutureStatusSortVC alloc] init];
+    future.dbHistoryArr = [NSArray arrayWithArray:[self latestTotalShowedHistoryList]];
+    [[self rootNavigationController] pushViewController:future animated:YES];
+}
+
 //经有dbHistoryArr数据进行筛选  展示
 -(void)selectHistoryForWithHighPlanBuyAndUnSoldOut
 {
@@ -215,6 +223,12 @@
         [alertController addAction:action];
 
     }
+    action = [MSAlertAction actionWithTitle:@"化圣相关" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showDetailFutureStatusSortVC];
+              }];
+    
+    [alertController addAction:action];
     
     action = [MSAlertAction actionWithTitle:@"全部" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {

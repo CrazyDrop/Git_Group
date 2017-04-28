@@ -134,7 +134,7 @@
         list.equip_des =        self.desc_sumup;
         list.equip_price =      [self.price intValue];
         list.equip_eval_price = 0;
-        list.equip_accept =     [detail.allow_bargain intValue];
+        
         list.equip_start_price = [detail.last_price_desc intValue];
         if(list.equip_start_price == 0)
         {
@@ -171,7 +171,7 @@
         {
             list.plan_des = @"";
         }
-        
+        list.equip_accept =    [extra furtureMaxStatus];
         
 //        NSArray * array = [detail.selling_info lastObject].infoArray;
 //        ExtraModel * extraModel = [array lastObject];

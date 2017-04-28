@@ -103,7 +103,6 @@
         //有*100
         list.equip_eval_price = [self.eval_price intValue];
         list.equip_price =      [self.price intValue]  * 100;
-        list.equip_accept =     [detail.allow_bargain intValue];
         list.equip_more_append = @"";
         
         //无*100
@@ -143,7 +142,7 @@
         {
             list.plan_des = @"";
         }
-        
+        list.equip_accept =    [extra furtureMaxStatus];
         
         //        NSArray * array = [detail.selling_info lastObject].infoArray;
         //        ExtraModel * extraModel = [array lastObject];

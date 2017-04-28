@@ -56,7 +56,10 @@
         {
             self.plan_des = @"";
         }
+        //已经化圣，或者准化圣 1准化圣 2化圣
+        self.equip_accept = [aDetaiModel.equipExtra furtureMaxStatus];
     }
+    
     self.sell_order_time = [NSDate unixDate];
     self.sell_cancel_time = self.sell_order_time;
     
@@ -88,7 +91,6 @@
     }else{
         self.serverName = @"";
     }
-    
 }
 
 
