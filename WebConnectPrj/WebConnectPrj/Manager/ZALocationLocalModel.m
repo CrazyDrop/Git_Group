@@ -960,7 +960,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         //是某分类的
         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
         
-        [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+        //全部数据
+//        [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+        
+        
+        //5月份数据
+        NSString * time = @"2017-05";
+        [sqlMutableString appendFormat:@"select * from %@ where %@ like'%@%%' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE,time,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+
         
         //临时由change表获取数据
 //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_CHANGE,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN];

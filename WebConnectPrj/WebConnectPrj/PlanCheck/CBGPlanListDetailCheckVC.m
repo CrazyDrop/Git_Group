@@ -35,7 +35,6 @@
                         @"分项检查",//特殊数据
                         
                         @"售出检查",//特征数据
-                        
                         nil];
     
     UIView * bgView = self.view;

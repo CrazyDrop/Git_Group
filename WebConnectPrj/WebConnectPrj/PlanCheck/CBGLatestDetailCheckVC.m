@@ -1,21 +1,21 @@
 //
-//  CBGOwnerRepeatListVC.m
+//  CBGLatestDetailCheckVC.m
 //  WebConnectPrj
 //
-//  Created by Apple on 17/4/17.
+//  Created by Apple on 2017/5/2.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "CBGOwnerRepeatListVC.h"
+#import "CBGLatestDetailCheckVC.h"
 #import "ZALocationLocalModel.h"
-@interface CBGOwnerRepeatListVC ()
+@interface CBGLatestDetailCheckVC ()
 
 @end
 
-@implementation CBGOwnerRepeatListVC
+@implementation CBGLatestDetailCheckVC
 
 - (void)viewDidLoad {
-    self.viewTtle = @"自有记录";
+    self.viewTtle = @"当前检查";
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -24,25 +24,12 @@
     self.orderStyle = CBGStaticOrderShowStyle_Create;
     
     NSArray * orderSnArr = @[
-                          @"360_1487831304_361866251",
-                          @"569_1491211672_570965016",
-                          @"29_1491747748_30739765",
-                          @"397_1491209246_398905319",
-                          @"120_1491579089_121385506",
-                          @"427_1491832600_428256893",
-                          @"1249_1492038151_1249534037",
-                          @"1112_1492225701_1114365136",
-                          @"427_1492253794_428263268",
-                          @"330_1492327843_331514508",
-                          @"1235_1492744669_1236925322",
-                          @"438_1492921083_439120347",
-                          @"95_1492076146_95858756",
-                          @"29_1493220900_30769142",
-                          @"525_1493541841_527584826",
-                          @"30_1493561105_32006283",
-                          @"569_1493459248_571011490",
-                          @"466_1493617902_466887482",
-                          @""];
+                             @"1154_1489910891_1156558427",
+                             @"466_1493617902_466887482",
+                             @"127_1490595127_128505053",
+                             @"50_1488193982_51609202",
+                             @"29_1487560861_30654989",
+                             @""];
     
     
     
@@ -59,17 +46,16 @@
     {
         NSString * eveSn = [arr objectAtIndex:index];
         NSArray * subArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
-        if([subArr count] > 0 )
-        {
-            CBGListModel * eveList = [subArr firstObject];
-            NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:eveList.owner_roleid];
-            [result addObjectsFromArray:roleArr];
-        }
+//        if([subArr count] > 0 )
+//        {
+//            CBGListModel * eveList = [subArr firstObject];
+//            NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:eveList.owner_roleid];
+//            [result addObjectsFromArray:roleArr];
+//        }
+        [result addObjectsFromArray:subArr];
     }
     return result;
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

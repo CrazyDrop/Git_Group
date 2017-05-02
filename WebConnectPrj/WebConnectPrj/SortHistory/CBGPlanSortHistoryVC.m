@@ -230,12 +230,12 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"全部" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf selectHistoryForPlanStartedLoad];
-              }];
-    
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"全部" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf selectHistoryForPlanStartedLoad];
+//              }];
+//    
+//    [alertController addAction:action];
 
     action = [MSAlertAction actionWithTitle:@"估价有利" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
@@ -252,12 +252,26 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"估价不值" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"价格排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  
-                  [weakSelf selectHistoryForLatestEquipPlanStyle:CBGEquipPlanStyle_NotWorth];
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Price;
+                  [weakSelf refreshLatestShowTableView];
               }];
+    [alertController addAction:action];
     
+    
+    action = [MSAlertAction actionWithTitle:@"比例排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Rate;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"附加排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_MorePrice;
+                  [weakSelf refreshLatestShowTableView];
+              }];
     [alertController addAction:action];
 
     action = [MSAlertAction actionWithTitle:@"10分售出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)

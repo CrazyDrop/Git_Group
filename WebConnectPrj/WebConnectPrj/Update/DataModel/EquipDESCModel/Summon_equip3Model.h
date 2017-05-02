@@ -12,6 +12,7 @@
 
 @interface Summon_equip3Model : NSObject
 
+@property (nonatomic, strong) NSNumber *iLockNew;//为9时有时间锁
 @property (nonatomic, strong) NSNumber *iLock;
 @property (nonatomic, strong) NSString *cDesc;
 @property (nonatomic, strong) NSNumber *iType;

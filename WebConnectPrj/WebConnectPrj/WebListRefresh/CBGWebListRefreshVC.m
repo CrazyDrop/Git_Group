@@ -20,7 +20,8 @@
 #import "CBGWebListErrorCheckVC.h"
 #import "CBGDetailWebView.h"
 #import "ZWDetailCheckManager.h"
-@interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource>{
+@interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource,
+RefreshCellCopyDelgate>{
     BaseRequestModel * _detailModel;
 }
 @property (nonatomic,strong) UITableView * listTable;
@@ -654,6 +655,29 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     return 60;
 }
 
+-(void)tapedOnRefreshCellCopyDelegateWithIndex:(NSIndexPath *)indexPath
+{
+    NSInteger rowNum = indexPath.row;
+    NSInteger secNum = indexPath.section;
+    Equip_listModel * contact = nil;
+    if(secNum == 1){
+        contact = [self.dataArr objectAtIndex:rowNum];
+    }else if (secNum == 2){
+        contact = [self.dataArr2 objectAtIndex:rowNum];
+    }else{
+        contact = self.latest;
+    }
+    
+    if(contact)
+    {
+        NSString * planUrl = contact.detailWebUrl;
+        if(planUrl)
+        {
+            UIPasteboard * board = [UIPasteboard generalPasteboard];
+            board.string = planUrl;
+        }
+    }
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -685,7 +709,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         [swipeCell setValue:cellIdentifier forKey:@"reuseIdentifier"];
         
         cell = swipeCell;
+        cell.cellDelegate = self;
     }
+    cell.coverBtn.hidden = NO;
+    cell.indexPath = indexPath;
     
     
     //用来标识是否最新一波数据

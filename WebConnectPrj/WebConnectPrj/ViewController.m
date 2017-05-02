@@ -35,6 +35,7 @@
 #import "CBGPlanListDetailCheckVC.h"
 #import "CBGCombinedScrolledHandleVC.h"
 #import "CBGLatestPlanBuyVC.h"
+#import "CBGLatestDetailCheckVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -156,6 +157,12 @@
             name = @"近期估价";
         }
             break;
+        case CBGDetailTestFunctionStyle_EditCheck:
+        {
+            name = @"开发校验";
+        }
+            break;
+
         default:
             break;
     }
@@ -199,6 +206,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
 
                              nil];
     
@@ -457,6 +465,12 @@
             
         }
             break;
+        case CBGDetailTestFunctionStyle_EditCheck:
+        {
+            CBGLatestDetailCheckVC * latest = [[CBGLatestDetailCheckVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+        }
+            
 
     }
 }

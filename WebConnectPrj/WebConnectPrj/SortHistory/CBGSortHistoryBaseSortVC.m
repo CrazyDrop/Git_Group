@@ -387,10 +387,15 @@
             break;
         case CBGStaticOrderShowStyle_Rate:
         {
-            result = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            result = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2)
+            {
                 CBGListModel * eve1 = (CBGListModel *)obj1;
                 CBGListModel * eve2 = (CBGListModel *)obj2;
-                return [[NSNumber numberWithInteger:eve2.plan_rate] compare:[NSNumber numberWithInteger:eve1.plan_rate]];
+                
+                CGFloat totalRate1 = eve1.plan_total_price/(eve1.equip_price + 0.0);
+                CGFloat totalRate2 = eve2.plan_total_price/(eve2.equip_price + 0.0);
+                
+                return [[NSNumber numberWithFloat:totalRate2] compare:[NSNumber numberWithFloat:totalRate1]];
             }];
         }
             break;
@@ -437,7 +442,21 @@
             
         }
             break;
-
+        case CBGStaticOrderShowStyle_MorePrice:
+        {
+            result = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                CBGListModel * eve1 = (CBGListModel *)obj1;
+                CBGListModel * eve2 = (CBGListModel *)obj2;
+                
+                CGFloat totalMore1 = eve1.plan_zhuangbei_price + eve1.plan_zhaohuanshou_price;
+                CGFloat totalMore2 = eve2.plan_zhuangbei_price + eve2.plan_zhaohuanshou_price;
+                
+                return [[NSNumber numberWithFloat:totalMore2] compare:[NSNumber numberWithFloat:totalMore1]];
+            }];
+            
+        }
+            break;
+        
 
         default:
             break;

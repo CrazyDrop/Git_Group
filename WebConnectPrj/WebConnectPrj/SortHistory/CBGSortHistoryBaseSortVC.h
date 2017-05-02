@@ -24,11 +24,14 @@ typedef enum : NSUInteger
 {
     CBGStaticOrderShowStyle_None = 0,   //无排序
     CBGStaticOrderShowStyle_School,     //根据门派排序
-    CBGStaticOrderShowStyle_Rate,       //根据利差排序
+    CBGStaticOrderShowStyle_Rate,       //根据利差排序，无数据时根据比值排序
     CBGStaticOrderShowStyle_Price,      //根据价格排序
     CBGStaticOrderShowStyle_Space,      //根据间隔排序
     CBGStaticOrderShowStyle_Create,     //根据上架时间排序
+    CBGStaticOrderShowStyle_MorePrice,     //根据宝宝和装备附加值排序
 } CBGStaticOrderShowStyle;//账号排序方式
+
+
 
 typedef enum : NSUInteger
 {

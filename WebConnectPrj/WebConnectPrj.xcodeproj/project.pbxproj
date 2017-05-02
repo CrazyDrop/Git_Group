@@ -677,6 +677,7 @@
 		18A976761E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */; };
 		18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */; };
 		18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
+		18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
 		18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */; };
 		18CFB76D1E8A6BB400F18440 /* CBGSettingURLEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */; };
 		18CFB7761E8BB53F00F18440 /* CBGMixedListCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */; };
@@ -1803,6 +1804,8 @@
 		18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanDetailPreShowWebVC.m; sourceTree = "<group>"; };
 		18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCheckSpecialListVC.h; sourceTree = "<group>"; };
 		18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCheckSpecialListVC.m; sourceTree = "<group>"; };
+		18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestDetailCheckVC.h; sourceTree = "<group>"; };
+		18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLatestDetailCheckVC.m; sourceTree = "<group>"; };
 		18CFB7641E8904E300F18440 /* CBGCopyUrlDetailCehckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCopyUrlDetailCehckVC.h; sourceTree = "<group>"; };
 		18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCopyUrlDetailCehckVC.m; sourceTree = "<group>"; };
 		18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSettingURLEditVC.h; sourceTree = "<group>"; };
@@ -2164,6 +2167,8 @@
 				1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */,
 				18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */,
 				18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */,
+				18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */,
+				18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */,
 				182091311EA4BF460015E393 /* CBGPlanCommonCheckListVC.h */,
 				182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */,
 				182091341EA4C49E0015E393 /* CBGPlanCompareBaseListVC.h */,
@@ -4490,6 +4495,7 @@
 				18A975961E7FDDD400B48E3C /* Samurai_HtmlNumberEm.m in Sources */,
 				18A96E2B1E7FC2C500B48E3C /* JinjieModel.m in Sources */,
 				18A975DA1E7FDDD500B48E3C /* Samurai_RenderStoreScope.m in Sources */,
+				18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */,
 				18A96E4B1E7FC34100B48E3C /* BaseBlockController.m in Sources */,
 				18A96D8B1E7FC24700B48E3C /* ZWSysSellModel.m in Sources */,
 				18A975FB1E7FDDD500B48E3C /* selector.c in Sources */,

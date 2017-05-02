@@ -30,6 +30,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_RepeatList,
     CBGDetailTestFunctionStyle_LatestPlan,
     CBGDetailTestFunctionStyle_PayStyle,
+    CBGDetailTestFunctionStyle_EditCheck,
 } CBGDetailTestFunctionStyle;
 
 

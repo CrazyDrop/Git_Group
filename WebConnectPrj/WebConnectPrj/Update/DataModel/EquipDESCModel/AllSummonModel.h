@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSNumber *lianshou;
 @property (nonatomic, strong) NSNumber *iHp_max;
 @property (nonatomic, strong) NSNumber *iSpe_all;
-@property (nonatomic, strong) NSNumber *iGenius;
+@property (nonatomic, strong) NSNumber *iGenius;//是否神兽？
 @property (nonatomic, strong) NSNumber *iDef_All;
 @property (nonatomic, strong) NSNumber *att;
 @property (nonatomic, strong) NSNumber *iRes_all;
@@ -40,8 +40,9 @@
 @property (nonatomic, strong) NSNumber *iPoint;
 @property (nonatomic, strong) NSNumber *summon_color;
 @property (nonatomic, strong) NSNumber *iLock;
+@property (nonatomic, strong) NSNumber *iLockNew;//为9时有时间锁
 @property (nonatomic, strong) NSNumber *qianjinlu;
-@property (nonatomic, strong) NSNumber *dod;
+@property (nonatomic, strong) NSNumber *dod;//躲闪
 @property (nonatomic, strong) NSNumber *carrygradezz;
 @property (nonatomic, strong) NSNumber *ruyidan;
 @property (nonatomic, strong) NSNumber *summon_equip4_type;
@@ -67,6 +68,10 @@
 @property (nonatomic, strong) Summon_equip2Model *summon_equip2;
 @property (nonatomic, strong) JinjieModel *jinjie;
 @property (nonatomic, strong) Summon_equip3Model *summon_equip3;
+
+//召唤兽价格
+-(CGFloat)summonPlanPriceForTotal;
+
 
 /**
  *  Init the model with dictionary

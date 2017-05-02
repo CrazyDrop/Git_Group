@@ -11,8 +11,22 @@
 @implementation RefreshListCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
+    self.coverBtn.hidden = YES;
+    [self.coverBtn addTarget:self
+                      action:@selector(tapedONCopyBtn:)
+            forControlEvents:UIControlEventTouchUpInside];
+    
 }
+-(void)tapedONCopyBtn:(id)sender
+{
+    if(self.cellDelegate && [self.cellDelegate respondsToSelector:@selector(tapedOnRefreshCellCopyDelegateWithIndex:)])
+    {
+        [self.cellDelegate tapedOnRefreshCellCopyDelegateWithIndex:self.indexPath];
+    }
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RefreshCellCopyDelgate <NSObject>
+
+-(void)tapedOnRefreshCellCopyDelegateWithIndex:(NSIndexPath *)indexPath;
+
+@end
+
 @interface RefreshListCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *rateLbl;
@@ -19,4 +25,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *sellTimeLbl;
 
 @property (weak, nonatomic) IBOutlet UILabel *sellDateLbl;
+@property (weak, nonatomic) IBOutlet UIButton *coverBtn;
+
+@property (weak, nonatomic) NSIndexPath * indexPath;
+@property (weak, nonatomic) id<RefreshCellCopyDelgate> cellDelegate;
+
 @end
