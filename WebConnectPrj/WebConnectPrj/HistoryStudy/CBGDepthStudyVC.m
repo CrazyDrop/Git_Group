@@ -367,7 +367,7 @@
             }else
             {
                 //大范围估值区间
-                if(startNum >= 0.8 && startNum <= 1.2)
+                if(startNum >= 0.7 && startNum <= 1.2)
                 {
                     planEffective += [countNum integerValue];
                 }

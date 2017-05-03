@@ -240,11 +240,11 @@
     NSString * showState = message?@"支付(短信)":@"支付(扫码)";
     [btn setTitle:showState forState:UIControlStateNormal];
 }
--(void)refreshWriteInBtnForWriteFinish
+-(void)refreshWriteInBtnForWriteFinish:(BOOL)finish
 {
     NSInteger noticeTag = CBGDetailTestFunctionStyle_CopyData;
     UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
-    NSString * showState = @"写入结束";
+    NSString * showState = finish?@"写入结束":@"read数据导入";
     [btn setTitle:showState forState:UIControlStateNormal];
 }
 
@@ -299,6 +299,7 @@
             break;
         case CBGDetailTestFunctionStyle_CopyData:
         {
+            [self refreshWriteInBtnForWriteFinish:NO];
             NSString * dbExchange = @"写入结束";
             NSInteger preNum = 0;
             ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
@@ -312,7 +313,7 @@
             {
                 NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
                 [DZUtils noticeCustomerWithShowText:dbExchange];
-                [self refreshWriteInBtnForWriteFinish];
+                [self refreshWriteInBtnForWriteFinish:YES];
             }
         }
             break;

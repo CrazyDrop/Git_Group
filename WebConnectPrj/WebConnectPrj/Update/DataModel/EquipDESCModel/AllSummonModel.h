@@ -17,7 +17,7 @@
 #import "Summon_equip2Model.h"
 #import "JinjieModel.h"
 #import "Summon_equip3Model.h"
-
+@class ExtraModel;
 @interface AllSummonModel : BaseDataModel
 
 @property (nonatomic, strong) NSNumber *def;

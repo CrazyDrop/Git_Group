@@ -268,6 +268,11 @@
     }else if(compareId == 45){
         self.titleV.text = @"限时区！";
     }
+    if(self.cbgList.appointed)
+    {
+        self.titleV.text = @"指定ID";
+    }
+    
 }
 
 -(void)submit

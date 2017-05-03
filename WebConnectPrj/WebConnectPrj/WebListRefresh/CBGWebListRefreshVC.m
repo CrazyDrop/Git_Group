@@ -84,7 +84,7 @@ RefreshCellCopyDelgate>{
         
         if([vc isKindOfClass:[self class]])
         {
-            [self startLocationDataRequest];
+//            [self startLocationDataRequest];
         }
     }
 }

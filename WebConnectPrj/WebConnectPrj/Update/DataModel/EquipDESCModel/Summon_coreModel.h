@@ -12,7 +12,9 @@
 //#import "902Model.h"
 //#import "901Model.h"
 //#import "907Model.h"
-@class ExtraModel;
+//@class ExtraModel;
+#import "ExtraModel.h"
+
 @interface Summon_coreModel : NSObject
 
 //@property (nonatomic, strong) NSMutableArray <902Model *> *902;
