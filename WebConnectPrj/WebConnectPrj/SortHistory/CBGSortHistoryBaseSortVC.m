@@ -456,6 +456,20 @@
             
         }
             break;
+        case CBGStaticOrderShowStyle_EquipPrice:
+        {
+            result = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                CBGListModel * eve1 = (CBGListModel *)obj1;
+                CBGListModel * eve2 = (CBGListModel *)obj2;
+                
+                CGFloat baseEquip1 = eve1.price_base_equip;
+                CGFloat baseEquip2 = eve2.price_base_equip;
+                
+                return [[NSNumber numberWithFloat:baseEquip2] compare:[NSNumber numberWithFloat:baseEquip1]];
+            }];
+
+        }
+            break;
         
 
         default:

@@ -35,7 +35,7 @@
 @interface ZWRefreshListController ()<UITableViewDataSource,UITableViewDelegate,
 RefreshCellCopyDelgate>
 {
-    BaseRequestModel * _detailModel;
+    BaseRequestModel * _detailListReqModel;
     BOOL showTotal;
     NSLock * requestLock;
 }
@@ -386,7 +386,7 @@ RefreshCellCopyDelgate>
 {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].idleTimerDisabled=YES;
-    _detailModel = nil;
+    _detailListReqModel = nil;
     _dpModel = nil;
     [self startLocationDataRequest];
     
@@ -404,10 +404,10 @@ RefreshCellCopyDelgate>
     check.latestHistory = self.showArray;
     [check refreshDiskCacheWithDetailRequestFinishedArray:check.modelsArray];
     
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
-//    _detailModel = nil;
+//    _detailListReqModel = nil;
     
     EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
     [refresh cancel];
@@ -483,7 +483,7 @@ RefreshCellCopyDelgate>
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     
-    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
     EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
@@ -573,7 +573,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     self.tipsView.hidden = [backArray count] != 0;
     
-    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
     //服务器数据排列顺序，最新出现的在最前面
@@ -611,11 +611,11 @@ handleSignal( EquipListRequestModel, requestLoaded )
 {
     NSLog(@"%s",__FUNCTION__);
 
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(!model){
         model = [[EquipDetailArrayRequestModel alloc] init];
         [model addSignalResponder:self];
-        _detailModel = model;
+        _detailListReqModel = model;
     }
     
     if(model.executing) return;
@@ -647,7 +647,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSLog(@"%s",__FUNCTION__);
 
     //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];

@@ -130,15 +130,16 @@
     self.finished = NO;
     self.cancelled = NO;
     self.runFinish = NO;
+
+    [operationQueue cancelAllOperations];
+    [jsonQueue cancelAllOperations];
+    
     @synchronized (resultDic)
     {
         [resultDic removeAllObjects];
         self.taskArray = nil;
     }
     
-    [operationQueue cancelAllOperations];
-    [jsonQueue cancelAllOperations];
-
     if(self.oneRequest)
     {
         NSArray * urls = self.requestArr;
@@ -353,11 +354,18 @@
     if(self.cancelled) return;
     
 //    NSArray * orderArr = self.requestArr;
+    
     NSArray * orderArr = self.requestArr;
-    if([resultDic count] != [orderArr count])
+    NSDictionary * finishDic = nil;
+    @synchronized (resultDic)
     {
-        return;
+        if([resultDic count] != [orderArr count])
+        {
+            return;
+        }
+        finishDic = [resultDic copy];
     }
+    
     
     NSMutableArray * sortArr = [NSMutableArray array];
     for (NSInteger index = 0 ; index < [orderArr count] ; index ++ )
@@ -365,7 +373,7 @@
         NSInteger backIndex = [orderArr count] - index - 1;
         backIndex = index;
         NSString * url = [orderArr objectAtIndex:backIndex];
-        id eve = [resultDic objectForKey:url];
+        id eve = [finishDic objectForKey:url];
         
         if(!eve)
         {

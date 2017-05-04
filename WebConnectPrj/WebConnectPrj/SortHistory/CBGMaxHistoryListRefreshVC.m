@@ -80,7 +80,7 @@
 {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].idleTimerDisabled=YES;
-    _detailModel = nil;
+    _detailListReqModel = nil;
     _dpModel = nil;
     
 }
@@ -90,10 +90,10 @@
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    EquipDetailArrayRequestModel * detailRefresh = _detailModel;
+    EquipDetailArrayRequestModel * detailRefresh = _detailListReqModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
-    //    _detailModel = nil;
+    //    _detailListReqModel = nil;
     
     [UIApplication sharedApplication].idleTimerDisabled=NO;
     RecorderTimeRefreshManager * manager = [RecorderTimeRefreshManager sharedInstance];
@@ -137,7 +137,7 @@
 //        [weakSelf startRefreshDataModelRequest];
         [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
                                    withObject:nil
-                                waitUntilDone:YES];
+                                waitUntilDone:NO];
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
@@ -151,7 +151,7 @@
     {
         return;
     }
-    EquipDetailArrayRequestModel * detailRefresh = _detailModel;
+    EquipDetailArrayRequestModel * detailRefresh = _detailListReqModel;
     if(detailRefresh.executing)
     {
         return;

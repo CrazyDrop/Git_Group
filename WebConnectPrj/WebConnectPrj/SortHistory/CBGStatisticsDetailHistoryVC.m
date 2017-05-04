@@ -49,9 +49,12 @@
     CGFloat btnStartY = SCREEN_HEIGHT - btnHeight;
     for (NSInteger index = 0; index < [namesArr count]; index ++)
     {
+        CGFloat startY = btnStartY - (index) * (btnHeight + 2);
+
         NSString * name = [namesArr objectAtIndex:index];
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(index * btnWidth  , btnStartY, btnWidth - 1, btnHeight);
+        
+        btn.frame = CGRectMake(0  , startY, btnWidth - 1, btnHeight);
         btn.backgroundColor = [UIColor greenColor];
         [btn setTitle:name forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -65,7 +68,7 @@
 }
 -(void)startShowedLatestHistoryDBList
 {
-    self.finishStyle = CBGSortShowFinishStyle_Sold;
+    self.finishStyle = CBGSortShowFinishStyle_Total;
     [self refreshLatestShowTableView];
 }
 
@@ -113,7 +116,7 @@
     
     if(self.exchangeDelegate)
     {
-        action =[MSAlertAction actionWithTitle:@"切换估价历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+        action =[MSAlertAction actionWithTitle:@"估价历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                  {
                      if(weakSelf.exchangeDelegate && [weakSelf.exchangeDelegate respondsToSelector:@selector(historyHandelExchangeHistoryShowWithPlanShow:)]){
                          [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:CBGCombinedHandleVCStyle_Plan];
@@ -130,30 +133,6 @@
         [alertController addAction:action];
     }
     
-
-    
-    action = [MSAlertAction actionWithTitle:@"时差分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.sortStyle = CBGStaticSortShowStyle_Space;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    [alertController addAction:action];
-
-    action = [MSAlertAction actionWithTitle:@"利差分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.sortStyle = CBGStaticSortShowStyle_Rate;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    [alertController addAction:action];
-
-    action = [MSAlertAction actionWithTitle:@"门派分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.sortStyle = CBGStaticSortShowStyle_School;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    
-    [alertController addAction:action];
-
     action = [MSAlertAction actionWithTitle:@"服务器分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   weakSelf.sortStyle = CBGStaticSortShowStyle_Server;
@@ -177,12 +156,35 @@
               }];
     
     [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+
+
+    action = [MSAlertAction actionWithTitle:@"比例排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Rate;
+                  [weakSelf refreshLatestShowTableView];
               }];
     [alertController addAction:action];
+
+    action = [MSAlertAction actionWithTitle:@"附加排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_MorePrice;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    [alertController addAction:action];
+
+    action = [MSAlertAction actionWithTitle:@"空号排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_EquipPrice;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    [alertController addAction:action];
+
+    
+//    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
+//              }];
+//    [alertController addAction:action];
     
     
     NSString * rightTxt = @"取消";

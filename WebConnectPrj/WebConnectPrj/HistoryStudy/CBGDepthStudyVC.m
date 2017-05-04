@@ -1382,6 +1382,11 @@
         [alertController addAction:action];
         
     }
+    
+    NSString * rightTxt = @"取消";
+    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
+    }];
+    [alertController addAction:action2];
 
     
     [self presentViewController:alertController

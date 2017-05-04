@@ -204,7 +204,11 @@
     if(self.equip_price == 0) return 0;
     NSInteger price = self.price_add_total_plan;
     NSInteger realPrice = self.equip_price/100;
-    CGFloat earnPrice = price * 0.95  - realPrice;
+    NSInteger coustPrice = (NSInteger)price * 0.05;
+    coustPrice = MIN(coustPrice, 1000);
+    
+    CGFloat earnPrice = price - realPrice - coustPrice;
+
     if(earnPrice > 0)
     {
         NSString * rate = [NSString stringWithFormat:@"%.f",earnPrice/(realPrice + 0.0) * 100];

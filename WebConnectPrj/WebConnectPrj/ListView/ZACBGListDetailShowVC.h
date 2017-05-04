@@ -7,8 +7,9 @@
 //
 
 #import "DPWhiteTopController.h"
+#import "CBGSortHistoryBaseStyleVC.h"
 
-@interface ZACBGListDetailShowVC : DPWhiteTopController
+@interface ZACBGListDetailShowVC : CBGSortHistoryBaseStyleVC
 
 @property (nonatomic,assign) NSInteger selectedRoleId;
 @property (nonatomic,strong) NSString * selectedOrderSN;

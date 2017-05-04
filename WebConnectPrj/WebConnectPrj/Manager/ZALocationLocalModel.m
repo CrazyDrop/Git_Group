@@ -2136,7 +2136,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //是某分类的
          //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
          
-         [sqlMutableString appendFormat:@"select * from %@ where %@ * 100 * 0.95 > %@ And %@ > 0  ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         [sqlMutableString appendFormat:@"select * from %@ where %@ * 100 > %@ And %@ > 0  ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
          
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])

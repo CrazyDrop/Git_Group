@@ -6,10 +6,10 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "CBGPlanSortHistoryVC.h"
+#import "CBGSortHistoryBaseStyleVC.h"
 //化圣相关的数据展示，分组
 //
-@interface CBGFutureStatusSortVC : CBGPlanSortHistoryVC
+@interface CBGFutureStatusSortVC : CBGSortHistoryBaseStyleVC
 
 
 

@@ -262,12 +262,27 @@
 {
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSInteger compareId = total.minServerId;
+    
+    NSString * create = self.cbgList.sell_create_time;
     if(compareId <= self.cbgList.server_id)
     {
         self.titleV.text = @"三年内!";
     }else if(compareId == 45){
         self.titleV.text = @"限时区！";
+    }else if([create length] > 0)
+    {
+        NSString * todayDate = [NSDate unixDate];
+        if(todayDate)
+        {
+            todayDate = [todayDate substringToIndex:[@"2017" length]];
+        }
+        if(![create hasPrefix:todayDate])
+        {
+            self.titleV.text = [create substringToIndex:[@"2017-03-29" length]];
+        }
     }
+    
+    
     if(self.cbgList.appointed)
     {
         self.titleV.text = @"指定ID";

@@ -22,7 +22,7 @@
 #import "ZWDetailCheckManager.h"
 @interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource,
 RefreshCellCopyDelgate>{
-    BaseRequestModel * _detailModel;
+    BaseRequestModel * _detailListReqModel;
 }
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,copy) NSArray * dataArr;
@@ -159,10 +159,10 @@ RefreshCellCopyDelgate>{
 }
 -(void)clearLatestRequestModel
 {
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
-    _detailModel = nil;
+    _detailListReqModel = nil;
     
     EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
     [refresh cancel];
@@ -259,7 +259,7 @@ RefreshCellCopyDelgate>{
 {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].idleTimerDisabled=YES;
-    _detailModel = nil;
+    _detailListReqModel = nil;
     _dpModel = nil;
     [self startLocationDataRequest];
     
@@ -326,7 +326,7 @@ RefreshCellCopyDelgate>{
         return;
     }
     
-    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
     CBGWebListRequestModel * model = (CBGWebListRequestModel *)_dpModel;
@@ -393,7 +393,7 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
     
     [self refreshCurrentTitleVLableWithFinishModel:_dpModel];
     
-    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
     //服务器数据排列顺序，最新出现的在最前面
@@ -422,11 +422,11 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
 }
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
 {
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(!model){
         model = [[EquipDetailArrayRequestModel alloc] init];
         [model addSignalResponder:self];
-        _detailModel = model;
+        _detailListReqModel = model;
     }
     if(model.executing) return;
     
@@ -455,7 +455,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoading )
 handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 {
     //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];

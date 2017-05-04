@@ -39,9 +39,10 @@
     CGFloat btnStartY = SCREEN_HEIGHT - btnHeight;
     for (NSInteger index = 0; index < [namesArr count]; index ++)
     {
+        CGFloat startY = btnStartY - (index) * (btnHeight + 2);
         NSString * name = [namesArr objectAtIndex:index];
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(index * btnWidth  , btnStartY, btnWidth - 1, btnHeight);
+        btn.frame = CGRectMake(0  , startY, btnWidth - 1, btnHeight);
         btn.backgroundColor = [UIColor greenColor];
         [btn setTitle:name forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -121,14 +122,7 @@
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"门派分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.sortStyle = CBGStaticSortShowStyle_School;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    [alertController addAction:action];
-
-
+   
     action = [MSAlertAction actionWithTitle:@"价格排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   weakSelf.orderStyle = CBGStaticOrderShowStyle_Price;

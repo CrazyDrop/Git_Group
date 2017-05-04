@@ -96,7 +96,7 @@
             
         case CBGDetailTestFunctionStyle_HistoryTotal:
         {
-            name = @"全部历史";
+            name = @"全部在售";
         }
             break;
             
@@ -106,9 +106,9 @@
         }
             break;
             
-        case CBGDetailTestFunctionStyle_HistoryMonth:
+        case CBGDetailTestFunctionStyle_HistoryMonthPlan:
         {
-            name = @"本月历史";
+            name = @"本月估价";
         }
             break;
             
@@ -196,7 +196,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryPart],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryUpdate],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonth],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
@@ -362,7 +362,7 @@
             
         }
             break;
-        case CBGDetailTestFunctionStyle_HistoryMonth:
+        case CBGDetailTestFunctionStyle_HistoryMonthPlan:
         {
             NSString * todayDate = [NSDate unixDate];
             
@@ -409,14 +409,7 @@
             
         }
             break;
-//        case CBGDetailTestFunctionStyle_:
-//        {
-//            CBGSettingURLEditVC * copy = [[CBGSettingURLEditVC alloc] init];
-//            [[self rootNavigationController] pushViewController:copy animated:YES];
-//            
-//        
-//        }
-//            break;
+
         case CBGDetailTestFunctionStyle_WEBCheck:{
             CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];

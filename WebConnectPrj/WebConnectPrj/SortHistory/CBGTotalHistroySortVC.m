@@ -129,12 +129,14 @@
 -(void)showTotalHistorySortListWithPlayStyle:(BOOL)plan
 {
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-    NSArray * dbArr = [dbManager localSaveEquipHistoryModelListTotal];
+    NSArray * dbArr = [dbManager localSaveEquipHistoryModelListTotalWithUnFinished];
     if(plan)
     {
         CBGPlanSortHistoryVC * plan = [[CBGPlanSortHistoryVC alloc] init];
         plan.dbHistoryArr = dbArr;
+        [plan refreshLatestShowedDBArrayWithNotice:NO];
         [[self rootNavigationController] pushViewController:plan animated:YES];
+        
     }else{
         
 
@@ -146,9 +148,9 @@
         CBGStatisticsDetailHistoryVC * plan = [[CBGStatisticsDetailHistoryVC alloc] init];
         plan.dbHistoryArr = dbArr;
         plan.selectedDate = todayDate;//按年区分
-        
-        [[self rootNavigationController] pushViewController:plan animated:YES];
+        [plan refreshLatestShowedDBArrayWithNotice:NO];
 
+        [[self rootNavigationController] pushViewController:plan animated:YES];
     }
 }
 
@@ -159,7 +161,7 @@
 }
 
 - (void)viewDidLoad {
-    self.viewTtle = @"全部历史";
+    self.viewTtle = @"全部在售";
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
 

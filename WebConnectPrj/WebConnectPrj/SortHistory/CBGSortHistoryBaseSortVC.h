@@ -29,6 +29,7 @@ typedef enum : NSUInteger
     CBGStaticOrderShowStyle_Space,      //根据间隔排序
     CBGStaticOrderShowStyle_Create,     //根据上架时间排序
     CBGStaticOrderShowStyle_MorePrice,     //根据宝宝和装备附加值排序
+    CBGStaticOrderShowStyle_EquipPrice,    //空号排序
 } CBGStaticOrderShowStyle;//账号排序方式
 
 

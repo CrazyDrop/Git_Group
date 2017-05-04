@@ -184,6 +184,7 @@
 		1820981D1EA6F50A0015E393 /* NSDate+Extension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D11E7FDDD400B48E3C /* NSDate+Extension.h */; };
 		1820981E1EA6F50A0015E393 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D21E7FDDD400B48E3C /* NSDate+Extension.m */; };
 		1832EDF31EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */; };
+		183C56BC1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */; };
 		184616551EB2DA2800505B7C /* CBGFutureStatusSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */; };
 		1855227A1EA849580052AD16 /* CBGLocalServerListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185522791EA849580052AD16 /* CBGLocalServerListVC.m */; };
 		185BB0341E825C4700306695 /* ZWDetailCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BB0331E825C4700306695 /* ZWDetailCheckManager.m */; };
@@ -860,6 +861,8 @@
 		1820913F1EA6F0470015E393 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1832EDF11EA8B0E30001A2E4 /* CBGCompareSameRoleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCompareSameRoleVC.h; sourceTree = "<group>"; };
 		1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCompareSameRoleVC.m; sourceTree = "<group>"; };
+		183C56BA1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseStyleVC.h; sourceTree = "<group>"; };
+		183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseStyleVC.m; sourceTree = "<group>"; };
 		184616531EB2DA2800505B7C /* CBGFutureStatusSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGFutureStatusSortVC.h; sourceTree = "<group>"; };
 		184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGFutureStatusSortVC.m; sourceTree = "<group>"; };
 		185522781EA849580052AD16 /* CBGLocalServerListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLocalServerListVC.h; sourceTree = "<group>"; };
@@ -3892,6 +3895,8 @@
 				18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */,
 				18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */,
 				18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */,
+				183C56BA1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.h */,
+				183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */,
 				18936F8C1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.h */,
 				18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */,
 				18CFB79A1E8F376200F18440 /* CBGCombinedHistoryHandleVC.h */,
@@ -4502,6 +4507,7 @@
 				18CFB78C1E8F350900F18440 /* CBGPlanSortHistoryVC.m in Sources */,
 				18A971DA1E7FC67400B48E3C /* RefreshEquipListDataManager.m in Sources */,
 				18A975C01E7FDDD400B48E3C /* Samurai_UITextView.m in Sources */,
+				183C56BC1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m in Sources */,
 				18A976741E8148CB00B48E3C /* ZACBGListDetailShowVC.m in Sources */,
 				18A96E501E7FC36200B48E3C /* BaseRequestModel.m in Sources */,
 				180D590219E65EF30045A720 /* AFNetworkReachabilityManager.m in Sources */,

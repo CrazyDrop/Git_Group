@@ -71,10 +71,10 @@
 {
     [super viewWillDisappear:animated];
     
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [model cancel];
     [model removeSignalResponder:self];
-    _detailModel = nil;
+    _detailListReqModel = nil;
 }
 #pragma mark - DetailArrayRequest
 //刷新最新的数据，补全是否售出   更新主表
@@ -90,7 +90,7 @@
         return;
     }
     
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(model.executing)
     {
         return;
@@ -108,11 +108,11 @@
 }
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
 {
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(!model){
         model = [[EquipDetailArrayRequestModel alloc] init];
         [model addSignalResponder:self];
-        _detailModel = model;
+        _detailListReqModel = model;
     }
     
     [model refreshWebRequestWithArray:array];
@@ -144,7 +144,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];

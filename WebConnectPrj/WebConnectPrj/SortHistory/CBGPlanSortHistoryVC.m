@@ -35,7 +35,7 @@
     // Do any additional setup after loading the view.
     
     self.orderStyle = CBGStaticOrderShowStyle_Rate;
-    self.sortStyle = CBGStaticSortShowStyle_School;
+    self.sortStyle = CBGStaticSortShowStyle_Rate;
 
 //    列表选择时，从当前列表选取
     
@@ -50,7 +50,9 @@
     {
         NSString * name = [namesArr objectAtIndex:index];
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(index * btnWidth  , btnStartY, btnWidth - 1, btnHeight);
+
+        CGFloat startY = btnStartY - (index) * (btnHeight + 2);
+        btn.frame = CGRectMake(0  , startY, btnWidth, btnHeight);
         btn.backgroundColor = [UIColor greenColor];
         [btn setTitle:name forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -67,7 +69,7 @@
 
 -(void)pricePlanBuySelectedTapedOnBtn:(id)sender
 {
-    self.sortStyle = CBGStaticSortShowStyle_None;
+    self.sortStyle = CBGStaticSortShowStyle_School;
     //从全部中选取
     self.dbHistoryArr = [NSArray arrayWithArray:self.preTotalArr];
     UIButton * btn = (UIButton *)sender;
@@ -206,7 +208,7 @@
     
     if(self.exchangeDelegate)
     {
-        action =[MSAlertAction actionWithTitle:@"切换统计历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+        action =[MSAlertAction actionWithTitle:@"统计历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                  {
                      if(weakSelf.exchangeDelegate && [weakSelf.exchangeDelegate respondsToSelector:@selector(historyHandelExchangeHistoryShowWithPlanShow:)]){
                          [weakSelf.exchangeDelegate historyHandelExchangeHistoryShowWithPlanShow:CBGCombinedHandleVCStyle_Statist];
@@ -251,35 +253,14 @@
               }];
     
     [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"价格排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Price;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    [alertController addAction:action];
-    
-    
-    action = [MSAlertAction actionWithTitle:@"比例排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Rate;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"附加排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.orderStyle = CBGStaticOrderShowStyle_MorePrice;
-                  [weakSelf refreshLatestShowTableView];
-              }];
-    [alertController addAction:action];
+
+
 
     action = [MSAlertAction actionWithTitle:@"10分售出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   
                   [weakSelf selectHistoryForSoldOutQuickly];
               }];
-    
     [alertController addAction:action];
 
     

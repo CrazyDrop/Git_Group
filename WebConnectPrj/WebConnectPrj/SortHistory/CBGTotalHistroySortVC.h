@@ -6,11 +6,12 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "CBGSortHistoryBaseSortVC.h"
+#import "CBGSortHistoryBaseStyleVC.h"
 
-//全部历史，当前为一年历史
-//批量进行1W条数据请求
-@interface CBGTotalHistroySortVC : CBGSortHistoryBaseSortVC
+//全部历史，//当前为全部未结束历史
+//需要功能，查看异常数据、无算法更新时的刷新
+
+@interface CBGTotalHistroySortVC : CBGSortHistoryBaseStyleVC
 
 
 

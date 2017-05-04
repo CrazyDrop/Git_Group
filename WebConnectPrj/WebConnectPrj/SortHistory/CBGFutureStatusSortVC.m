@@ -39,9 +39,11 @@
     CGFloat btnStartY = SCREEN_HEIGHT - btnHeight;
     for (NSInteger index = 0; index < [namesArr count]; index ++)
     {
+        CGFloat startY = btnStartY - (index) * (btnHeight + 2);
+
         NSString * name = [namesArr objectAtIndex:index];
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(index * btnWidth  , btnStartY, btnWidth - 1, btnHeight);
+        btn.frame = CGRectMake(0  , startY, btnWidth - 1, btnHeight);
         btn.backgroundColor = [UIColor greenColor];
         [btn setTitle:name forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];

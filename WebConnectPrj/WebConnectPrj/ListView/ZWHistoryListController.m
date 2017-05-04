@@ -14,7 +14,7 @@
 #import "Equip_listModel.h"
 #import "EquipDetailArrayRequestModel.h"
 @interface ZWHistoryListController (){
-    BaseRequestModel * _detailModel;
+    BaseRequestModel * _detailListReqModel;
 }
 @property (nonatomic,strong) UIAlertView * contactAlert;
 @property (nonatomic,assign) NSInteger countNumber;
@@ -44,10 +44,10 @@
 {
     [super viewWillDisappear:animated];
     
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [model cancel];
     [model removeSignalResponder:self];
-    _detailModel = nil;
+    _detailListReqModel = nil;
 }
 
 //加载数据
@@ -220,7 +220,7 @@
     //缓存当前数据，触发对应请求
     
     
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(model.executing)
     {
         return;
@@ -237,11 +237,11 @@
 }
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
 {
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(!model){
         model = [[EquipDetailArrayRequestModel alloc] init];
         [model addSignalResponder:self];
-        _detailModel = model;
+        _detailListReqModel = model;
     }
     
     [model refreshWebRequestWithArray:array];
@@ -273,7 +273,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];

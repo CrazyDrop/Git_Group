@@ -15,7 +15,7 @@
 //数据展示，统一基类,进行统一数据请求
 @interface CBGSortHistoryBaseDetailVC : CBGSortHistoryBaseTableVC
 {
-    EquipDetailArrayRequestModel * _detailModel;
+    EquipDetailArrayRequestModel * _detailListReqModel;
 }
 
 //基础数据传递

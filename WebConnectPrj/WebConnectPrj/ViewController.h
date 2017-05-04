@@ -21,7 +21,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_MixedRefresh,
     CBGDetailTestFunctionStyle_HistoryTotal,
     CBGDetailTestFunctionStyle_HistoryUpdate,
-    CBGDetailTestFunctionStyle_HistoryMonth,
+    CBGDetailTestFunctionStyle_HistoryMonthPlan,
     CBGDetailTestFunctionStyle_HistoryToday,
     CBGDetailTestFunctionStyle_HistoryPart,
     CBGDetailTestFunctionStyle_URLCheck,

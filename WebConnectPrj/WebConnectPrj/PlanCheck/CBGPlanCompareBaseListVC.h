@@ -7,8 +7,8 @@
 //
 
 #import "DPWhiteTopController.h"
-#import "CBGSortHistoryBaseSortVC.h"
-@interface CBGPlanCompareBaseListVC : CBGSortHistoryBaseSortVC
+#import "CBGSortHistoryBaseStyleVC.h"
+@interface CBGPlanCompareBaseListVC : CBGSortHistoryBaseStyleVC
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice;
 
 -(NSArray *)moreFunctionsForDetailSubVC;
