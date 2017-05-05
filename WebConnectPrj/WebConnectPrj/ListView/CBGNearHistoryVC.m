@@ -89,7 +89,7 @@
     dispatch_async(dispatch_get_main_queue(), ^
                    {
                        self.dataArr = roleArr;
-                       [self.listTable reloadData];
+                       [self refreshLatestShowTableView];
                    });
 }
 
@@ -135,7 +135,7 @@
     dispatch_async(dispatch_get_main_queue(), ^
                    {
                        self.dataArr = roleArr;
-                       [self.listTable reloadData];
+                       [self refreshLatestShowTableView];
                    });
 }
 
@@ -156,7 +156,7 @@
     dispatch_async(dispatch_get_main_queue(), ^
                    {
                        self.dataArr = roleArr;
-                       [self.listTable reloadData];
+                       [self refreshLatestShowTableView];
                    });;
 }
 
@@ -176,7 +176,7 @@
     dispatch_async(dispatch_get_main_queue(), ^
                    {
                        self.dataArr = roleArr;
-                       [self.listTable reloadData];
+                       [self refreshLatestShowTableView];
                    });;
 }
 

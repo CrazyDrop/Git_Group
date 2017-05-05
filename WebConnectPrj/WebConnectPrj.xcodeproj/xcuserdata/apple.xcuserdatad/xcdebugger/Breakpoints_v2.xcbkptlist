@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SortHistory/CBGSortHistoryBaseTableVC.m"
-            timestampString = "515573209.592182"
+            filePath = "WebConnectPrj/WebListRefresh/CBGWebListRefreshVC.m"
+            timestampString = "515661168.428536"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "-viewWillDisappear:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,29 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
-            timestampString = "515573649.696965"
+            filePath = "WebConnectPrj/WebListRefresh/CBGWebListRefreshVC.m"
+            timestampString = "515661169.663002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "-createExtraPrice"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/SortHistory/CBGTotalHistroySortVC.m"
-            timestampString = "515575452.973381"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "-showTotalHistorySortListWithPlayStyle:"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "-viewWillAppear:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

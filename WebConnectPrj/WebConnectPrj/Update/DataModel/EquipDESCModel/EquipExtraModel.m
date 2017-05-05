@@ -694,13 +694,13 @@
     {
         if( mainSkill > 4000 && mainSkill < 6000)
         {
-            mainSkill *= 0.8;
+            mainSkill = 0.7 * (mainSkill - 4000) + 4000;
         }
     }else if([self.sum_exp integerValue] < 300){
         
         if( mainSkill > 4000 && mainSkill < 6000)
         {
-            mainSkill *= 0.9;
+            mainSkill = 0.8 * (mainSkill - 4000) + 4000;
         }
     }
     

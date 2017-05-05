@@ -10,8 +10,10 @@
 #import "CBGListModel.h"
 #import "RefreshListCell.h"
 #import "ZACBGDetailWebVC.h"
+#define  CBGPlanSortHistoryShowDetailAddTAG  100
+
 @interface ZACBGListDetailShowVC ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic,strong) UITableView * listTable;
+//@property (nonatomic,strong) UITableView * listTable;
 
 @end
 
@@ -27,25 +29,78 @@
     }
     return self;
 }
+-(void)setDataArr:(NSArray *)dataArr
+{
+    _dataArr = [dataArr copy];
+    self.dbHistoryArr = dataArr;
+}
 
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+ 
+    self.sortStyle = CBGStaticSortShowStyle_None;
+    self.orderStyle = CBGStaticOrderShowStyle_Create;
+
     
-    CGRect rect = [[UIScreen mainScreen] bounds];
+    UIView * bgView = self.view;
+    CGFloat btnWidth = SCREEN_WIDTH/3.0;
+    CGFloat btnHeight = 40;
+    UIButton * btn = nil;
+    NSArray * namesArr = @[@"未结束",@"已结束",@"全部"];//按钮点击时，从全部库表选取
     
-    CGFloat aHeight = CGRectGetMaxY(self.titleBar.frame);
-    rect.origin.y = aHeight;
-    rect.size.height -= aHeight;
+    CGFloat btnStartY = SCREEN_HEIGHT - btnHeight;
+    for (NSInteger index = 0; index < [namesArr count]; index ++)
+    {
+        NSString * name = [namesArr objectAtIndex:index];
+        btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        CGFloat startY = btnStartY - (index) * (btnHeight + 2);
+        btn.frame = CGRectMake(0  , startY, btnWidth, btnHeight);
+        btn.backgroundColor = [UIColor greenColor];
+        [btn setTitle:name forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [bgView addSubview:btn];
+        btn.tag = CBGPlanSortHistoryShowDetailAddTAG + index;
+        [btn addTarget:self action:@selector(pricePlanBuySelectedTapedOnBtn:) forControlEvents:UIControlEventTouchUpInside];
+    }
+
     
-    UITableView * table = [[UITableView alloc] initWithFrame:rect];
-    table.delegate = self;
-    table.dataSource =self;
-    self.listTable = table;
-    [self.view addSubview:table];
+}
+-(void)pricePlanBuySelectedTapedOnBtn:(id)sender
+{
+    self.sortStyle = CBGStaticSortShowStyle_Rate;
+    //从全部中选取
+    self.dbHistoryArr = [NSArray arrayWithArray:self.dataArr];
+    UIButton * btn = (UIButton *)sender;
+    NSInteger tagIndex = btn.tag - CBGPlanSortHistoryShowDetailAddTAG;
     
+    switch (tagIndex) {
+        case 0:
+        {
+            self.finishStyle = CBGSortShowFinishStyle_UnFinish;
+        }
+            break;
+        case 1:
+        {
+            self.finishStyle = CBGSortShowFinishStyle_Finished;
+            
+        }
+            break;
+            
+        case 2:
+        {
+            self.finishStyle = CBGSortShowFinishStyle_Total;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self refreshLatestShowTableView];
 }
 
 
@@ -56,26 +111,16 @@
 }
 
 #pragma mark - UITableViewDataSource
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.dataArr count];
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60;
-}
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     //    NSInteger rowNum = indexPath.row;
     NSInteger secNum = indexPath.section;
-    CBGListModel * contact = [self.dataArr objectAtIndex:secNum];
+    NSInteger rowNum = indexPath.row;
+    NSArray * subArr = [self.showSortArr objectAtIndex:secNum];
+    CBGListModel * contact = [subArr objectAtIndex:rowNum];
+    
     CBGEquipRoleState state = contact.latestEquipListStatus;
     
     static NSString *cellIdentifier = @"RefreshListCellIdentifier_CBG";
@@ -155,10 +200,10 @@
         
         rightStatusColor = [UIColor redColor];
         NSString * finishTime = contact.sell_sold_time;
-        if(!finishTime)
-        {
-            finishTime = contact.sell_cancel_time;
-            //取消时间
+    
+        if([finishTime length] == 0)
+        {//取消时间
+            finishTime = contact.sell_back_time;
             rightStatusColor = [UIColor grayColor];
         }
         
@@ -256,11 +301,12 @@
 #pragma mark -
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger rowNum = indexPath.row;
     NSInteger secNum = indexPath.section;
-    CBGListModel * contact = [self.dataArr objectAtIndex:secNum];
+    NSInteger rowNum = indexPath.row;
+    NSArray * subArr = [self.showSortArr objectAtIndex:secNum];
+    CBGListModel * contact = [subArr objectAtIndex:rowNum];
     CBGEquipRoleState state = contact.latestEquipListStatus;
-
+    
     //跳转条件  1详情页面时，非自己OrderSN   2非详情页面、仅历史库表取出数据
     BOOL detailSelect = (self.selectedOrderSN && ![self.selectedOrderSN isEqualToString:contact.game_ordersn]);
     BOOL nearSelect = NO;
@@ -275,6 +321,58 @@
     
     
 }
+#pragma mark - TotalshowSortArray
+-(NSArray *)latestTotalShowedHistoryList
+{
+    NSMutableArray * total = [NSMutableArray array];
+    NSArray * arr = self.showSortArr;
+    for (NSInteger index = 0; index < [arr count];index ++ ) {
+        NSArray * subArr = [arr objectAtIndex:index];
+        [total addObjectsFromArray:subArr];
+    }
+    return total;
+}
+
+#pragma mark - UITableViewDelegate
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    NSArray * arr = self.showTagArr;
+    return arr;
+}
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    NSArray * arr = self.showTagArr;
+    NSInteger secIndex = [arr indexOfObject:title];
+    return secIndex;
+    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
+}
+
+#pragma mark - UITableViewDataSource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [self.showSortArr count];
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSArray * subArr = [self.showSortArr objectAtIndex:section];
+    return [subArr count];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString * eve = [self.showTagArr objectAtIndex:section];
+    NSArray * subArr = [self.showSortArr objectAtIndex:section];
+    NSString * endStr = [NSString stringWithFormat:@"(%ld)",[subArr count]];
+    if(eve && ![eve hasSuffix:endStr])
+    {
+        eve = [eve stringByAppendingFormat:@"(%ld)",[subArr count]];
+    }
+    return eve;
+}
+#pragma mark -
 -(NSTimeInterval)timeIntervalWithCreateTime:(NSString *)create andSellTime:(NSString *)selltime
 {
     NSDate * createDate = [NSDate fromString:create];

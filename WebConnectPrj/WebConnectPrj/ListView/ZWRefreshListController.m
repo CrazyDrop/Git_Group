@@ -292,21 +292,28 @@ RefreshCellCopyDelgate>
     [alertController addAction:action];
     
     
-    action = [MSAlertAction actionWithTitle:@"刷新最新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf refreshLocalShowListForLatestSelling];
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"刷新最近变化" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"常规刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf refreshLocalShowListForLactestUpdating];
               }];
     [alertController addAction:action];
+
+    action = [MSAlertAction actionWithTitle:@"刷新10页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+              }];
+    [alertController addAction:action];
+
     
     action = [MSAlertAction actionWithTitle:@"预加载数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf refreshLocalShowListForLactestUpdating];
+                  [weakSelf refreshLocalShowListForLargeRequest];
               }];
     [alertController addAction:action];
     
@@ -351,6 +358,15 @@ RefreshCellCopyDelgate>
     [self refreshLatestListRequestModelWithSmallList:NO];
 
 }
+-(void)refreshLocalShowLatestCountPagesRequest
+{//3页列表数据内的变更
+    //展示变更
+    self.refreshIndex = 30;
+    EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
+    model.pageNum = 10;
+
+}
+
 
 -(void)showForDetailHistory
 {
@@ -440,9 +456,16 @@ RefreshCellCopyDelgate>
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
+#if TARGET_IPHONE_SIMULATOR
         [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
                                    withObject:nil
                                 waitUntilDone:YES];
+#else
+        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                                   withObject:nil
+                                waitUntilDone:NO];
+#endif
+
     };
     [manager saveCurrentAndStartAutoRefresh];
 }

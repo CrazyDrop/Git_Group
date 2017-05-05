@@ -157,12 +157,12 @@
     
     [alertController addAction:action];
 
-
-    action = [MSAlertAction actionWithTitle:@"比例排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"时间排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Rate;
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Create;
                   [weakSelf refreshLatestShowTableView];
               }];
+    
     [alertController addAction:action];
 
     action = [MSAlertAction actionWithTitle:@"附加排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)

@@ -8,6 +8,7 @@
 
 #import "CBGOwnerRepeatListVC.h"
 #import "ZALocationLocalModel.h"
+#import "ZACBGDetailWebVC.h"
 @interface CBGOwnerRepeatListVC ()
 
 @end
@@ -21,56 +22,96 @@
     // Do any additional setup after loading the view.
     
     self.sortStyle = CBGStaticSortShowStyle_None;
-    self.orderStyle = CBGStaticOrderShowStyle_Create;
+    self.orderStyle = CBGStaticOrderShowStyle_None;
     
-    NSArray * orderSnArr = @[
-                          @"360_1487831304_361866251",
-                          @"569_1491211672_570965016",
-                          @"29_1491747748_30739765",
-                          @"397_1491209246_398905319",
-                          @"120_1491579089_121385506",
-                          @"427_1491832600_428256893",
-                          @"1249_1492038151_1249534037",
-                          @"1112_1492225701_1114365136",
-                          @"427_1492253794_428263268",
-                          @"330_1492327843_331514508",
-                          @"1235_1492744669_1236925322",
-                          @"438_1492921083_439120347",
-                          @"95_1492076146_95858756",
-                          @"29_1493220900_30769142",
-                          @"525_1493541841_527584826",
-                          @"30_1493561105_32006283",
-                          @"569_1493459248_571011490",
-                          @"466_1493617902_466887482",
-                          @"569_1493731731_571017177",
-                          @""];
+
+    NSArray * roleIdArr = @[
+                             @"-10715981-20170321",
+                             @"919656",
+                             @"40869698",
+                             @"25797283",
+                             @"3322808",
+                             @"27929001",
+                             @"45403837",
+                             @"16842315",
+                             @"28189246",
+                             @"46966316",
+                             @"40826025",
+                             @"964804",
+                             @"31474637",
+                             @"33748096",
+                             @"31201989",
+                             @"16837053",
+                             @"36124790",
+                             @"24860963",
+                             @"32939703",
+                             
+                             
+                             @""];
     
     
     
-    NSArray * listArr = [self localSaveListArrayFromOrderSNArray:orderSnArr];
+    NSArray * listArr = [self localSaveListArrayFromRoleIdArray:roleIdArr];
     self.dbHistoryArr = listArr;
     [self refreshLatestShowedDBArrayWithNotice:YES];
 }
--(NSArray *)localSaveListArrayFromOrderSNArray:(NSArray *)arr
+-(NSArray *)localSaveListArrayFromRoleIdArray:(NSArray *)roleIdArr
 {
-    
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     NSMutableArray * result = [NSMutableArray  array];
-    for (NSInteger index = 0; index < [arr count]; index++)
+    for (NSInteger index = 0; index < [roleIdArr count]; index++)
     {
-        NSString * eveSn = [arr objectAtIndex:index];
-        NSArray * subArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
-        if([subArr count] > 0 )
+        NSInteger backIndex = [roleIdArr count] - index - 1;
+        NSString * eveRoleId = [roleIdArr objectAtIndex:backIndex];
+        NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:eveRoleId];
+        for (NSInteger eveIndex = 0;eveIndex < [roleArr count] ;eveIndex ++ )
         {
-            CBGListModel * eveList = [subArr firstObject];
-            NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:eveList.owner_roleid];
-            [result addObjectsFromArray:roleArr];
+            id eveObj = [roleArr objectAtIndex:[roleArr count] - 1 - eveIndex];
+            [result addObject:eveObj];
         }
     }
     return result;
 }
 
+//-(NSArray *)localSaveListArrayFromOrderSNArray:(NSArray *)arr
+//{
+//    
+//    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+//    NSMutableArray * result = [NSMutableArray  array];
+//    for (NSInteger index = 0; index < [arr count]; index++)
+//    {
+//        NSString * eveSn = [arr objectAtIndex:index];
+//        NSArray * subArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
+//        if([subArr count] > 0 )
+//        {
+//            CBGListModel * eveList = [subArr firstObject];
+//            [roleIdArr addObject:eveList.owner_roleid];
+//            NSArray * roleArr = [dbManager localSaveEquipHistoryModelListForRoleId:eveList.owner_roleid];
+//            [result addObjectsFromArray:roleArr];
+//            
+//        }
+//    }
+//    return result;
+//}
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger rowNum = indexPath.row;
+    NSInteger secNum = indexPath.section;
+    NSArray * subArr = [self.showSortArr objectAtIndex:secNum];
+    CBGListModel * contact = [subArr objectAtIndex:rowNum];
+    NSString * selectId = contact.owner_roleid;
+    
+    
+    //    CBGEquipRoleState state = contact.latestEquipListStatus;
+    //    NSMutableArray * showArr = [NSMutableArray array];
+    
+    ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
+    detail.cbgList = contact;
+    [[self rootNavigationController] pushViewController:detail animated:YES];
+    
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

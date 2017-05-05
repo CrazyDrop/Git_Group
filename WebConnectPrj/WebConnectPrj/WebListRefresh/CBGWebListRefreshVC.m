@@ -295,7 +295,15 @@ RefreshCellCopyDelgate>{
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
-        [weakSelf startRefreshDataModelRequest];
+#if TARGET_IPHONE_SIMULATOR
+        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                                   withObject:nil
+                                waitUntilDone:NO];
+#else
+        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                                   withObject:nil
+                                waitUntilDone:NO];
+#endif
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
