@@ -33,6 +33,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
         baseList = [[Equip_listModel alloc] init];
+        self.orderStyle = CBGStaticOrderShowStyle_None;
     }
     return self;
 }
@@ -163,6 +164,7 @@
     self.viewTtle = @"详情";
     self.rightTitle = @"相关";
     [super viewDidLoad];
+    
     
     [self refreshLatestSelectedRoleId];
     [self refreshCurrentTitleVLableWithServerId];

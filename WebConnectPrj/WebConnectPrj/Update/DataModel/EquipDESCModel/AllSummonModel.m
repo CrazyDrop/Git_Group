@@ -65,7 +65,7 @@
     {
         price *= 0.8;
     }
-    NSLog(@"价格 %.0f %@  %@",price,[self.skillNumArr componentsJoinedByString:@"|"],self.grow);
+//    NSLog(@"价格 %.0f %@  %@",price,[self.skillNumArr componentsJoinedByString:@"|"],self.grow);
     
     return price;
 

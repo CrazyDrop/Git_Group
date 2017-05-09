@@ -145,14 +145,14 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"分析历史(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"统计历史(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showDetailSortHistoryWithDataInDays:YES inPlanStyle:NO];
 
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"分析历史(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"统计历史(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showDetailSortHistoryWithDataInDays:NO inPlanStyle:NO];
 
@@ -160,7 +160,7 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"分析历史(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"统计历史(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showYearSortHistoryWithPlanStyle:NO];
                   
@@ -168,14 +168,14 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"图表统计(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"历史图表(天)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showWithDeepStudyStyleWithDateLength:[@"2017-03-29" length]];
                   
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"图表统计(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"历史图表(月)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showWithDeepStudyStyleWithDateLength:[@"2017-03" length]];
                   
@@ -183,7 +183,7 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"图表统计(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"历史图表(年)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showWithDeepStudyStyleWithDateLength:[@"2017" length]];
                   

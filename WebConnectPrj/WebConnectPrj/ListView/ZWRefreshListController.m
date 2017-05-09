@@ -53,6 +53,7 @@ RefreshCellCopyDelgate>
 
 @property (nonatomic,assign) BOOL inWebRequesting;
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
+@property (nonatomic,assign) BOOL forceRefresh;
 @end
 
 @implementation ZWRefreshListController
@@ -362,9 +363,7 @@ RefreshCellCopyDelgate>
 {//3页列表数据内的变更
     //展示变更
     self.refreshIndex = 30;
-    EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
-    model.pageNum = 10;
-
+    self.forceRefresh = YES;
 }
 
 
@@ -486,15 +485,12 @@ RefreshCellCopyDelgate>
     }
     //变更请求model，实现小范围请求
     EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
-    
-//    if(!model)
-//    {
-//        model = [[EquipListRequestModel alloc] init];
-//        [model addSignalResponder:self];
-//        _dpModel = model;
-//    }
-    
     model.pageNum = small?RefreshListMinPageNum:RefreshListMaxPageNum;
+    
+    if(self.forceRefresh)
+    {
+        model.pageNum = 10;
+    }
 }
 
 -(void)startRefreshDataModelRequest
@@ -535,6 +531,7 @@ RefreshCellCopyDelgate>
         {
             [self refreshLatestListRequestModelWithSmallList:YES];
         }
+
     }
 
     

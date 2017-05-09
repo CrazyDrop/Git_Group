@@ -27,6 +27,8 @@
         self.showRightBtn = YES;
         self.rightTitle = @"筛选";
         self.viewTtle = @"相关历史";
+        self.orderStyle = CBGStaticOrderShowStyle_Create;
+
     }
     return self;
 }

@@ -42,7 +42,7 @@
     // Do any additional setup after loading the view.
  
     self.sortStyle = CBGStaticSortShowStyle_None;
-    self.orderStyle = CBGStaticOrderShowStyle_Create;
+    self.orderStyle = CBGStaticOrderShowStyle_None;
 
     
     UIView * bgView = self.view;

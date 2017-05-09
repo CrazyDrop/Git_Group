@@ -603,13 +603,13 @@
         case 6:
         case 15:
         {
-            schoolNum = 400;
+            schoolNum = 700;
         }
             break;
         case 10:
         case 13:
         {
-            schoolNum = 0;
+            schoolNum = 100;
         }
             break;
         case 7:
@@ -618,13 +618,28 @@
         }
             break;
         case 1:
+        {
+            schoolNum = -800;
+        }
+            break;
+        case 3:
+        case 5:
+        case 8:
+        {
+            schoolNum = 200;
+        }
+            break;
         case 2:
         case 9:
         {
             schoolNum = -500;
         }
             break;
-            
+//        case 14:
+//        {
+//            schoolNum = -100;
+//        }
+//            break;
         default:
             break;
     }
