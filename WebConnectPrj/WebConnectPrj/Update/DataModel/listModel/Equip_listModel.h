@@ -57,6 +57,8 @@
 -(BOOL)isFirstInSelling;
 -(NSString *)listLatestShowPrice;
 
+-(CBGEquipRoleState)equipState;
+
 /**
  *  Init the model with dictionary
  *

@@ -233,8 +233,13 @@ RefreshCellCopyDelgate>
     UITableView * table = [[UITableView alloc] initWithFrame:rect];
     table.delegate = self;
     table.dataSource =self;
+    table.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.listTable = table;
     [self.view addSubview:table];
+    
+    if(self.ingoreDB){
+        table.scrollsToTop = NO;
+    }
 
     [self.view addSubview:self.tipsView];
     self.tipsView.hidden = YES;

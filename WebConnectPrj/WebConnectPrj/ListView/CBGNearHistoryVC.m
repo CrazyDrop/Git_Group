@@ -9,6 +9,7 @@
 #import "CBGNearHistoryVC.h"
 #import "MSAlertController.h"
 #import "ZALocationLocalModel.h"
+#import "CBGStatisticsDetailHistoryVC.h"
 @interface CBGNearHistoryVC ()
 @property (nonatomic, strong) NSString * roleId;
 @property (nonatomic, strong) NSString * orderSN;
@@ -182,6 +183,19 @@
                    });;
 }
 
+-(void)showNearHistoryShowDetailStaticsListVC
+{
+    NSString * dateStr = @"门派";
+    NSArray * dbArray = [self latestTotalShowedHistoryList];
+    
+    CBGStatisticsDetailHistoryVC * history = [[CBGStatisticsDetailHistoryVC alloc] init];
+    history.dbHistoryArr = dbArray;
+    history.selectedDate = dateStr;
+    [history refreshLatestShowedDBArrayWithNotice:NO];
+    [[self rootNavigationController] pushViewController:history animated:YES];
+}
+
+
 -(void)submit
 {
     //提供选择
@@ -223,6 +237,12 @@
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"统计历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showNearHistoryShowDetailStaticsListVC];
+              }];
+    [alertController addAction:action];
+
     
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {

@@ -100,8 +100,7 @@
 {
 //    @"大唐官府:1-阴曹地府:11-方寸山:4-化生寺:2-魔王寨:10-龙宫:7-神木林:13-凌波城:14-狮驼岭:9-无底洞:15-普陀山:6-天宫:5-五庄观:8-女儿村:3-盘丝洞:12"
     
-    
-    
+
     CBGEquipRoleState status = CBGEquipRoleState_None;
     NSInteger number = self.equip_status;
     switch (number)
