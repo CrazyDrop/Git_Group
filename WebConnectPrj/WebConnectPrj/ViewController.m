@@ -36,6 +36,7 @@
 #import "CBGCombinedScrolledHandleVC.h"
 #import "CBGLatestPlanBuyVC.h"
 #import "CBGLatestDetailCheckVC.h"
+#import "ZWPanicRefreshController.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -162,6 +163,11 @@
             name = @"开发校验";
         }
             break;
+        case CBGDetailTestFunctionStyle_PanicRefresh:
+        {
+            name = @"改价刷新";
+        }
+            break;
 
         default:
             break;
@@ -207,6 +213,8 @@
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
+
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicRefresh],
 
                              nil];
     
@@ -464,8 +472,15 @@
             CBGLatestDetailCheckVC * latest = [[CBGLatestDetailCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
+            break;
+        case CBGDetailTestFunctionStyle_PanicRefresh:
+        {
+            ZWPanicRefreshController * latest = [[ZWPanicRefreshController alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+        }
+            break;
             
-
+            
     }
 }
 -(void)refreshLastestServerNameDictionary

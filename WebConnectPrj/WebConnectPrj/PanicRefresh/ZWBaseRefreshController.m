@@ -335,7 +335,7 @@
     CBGListModel * listModel = [contact listSaveModel];
     //仅无详情时有效，此时数据为库表数据补全
     
-    if(listModel.plan_total_price > 0)
+    if(listModel.plan_total_price != 0)
     {
         centerDetailTxt = [NSString stringWithFormat:@"%ld (%ld) %d",listModel.plan_total_price,listModel.plan_zhaohuanshou_price + listModel.plan_zhuangbei_price,(int)listModel.price_base_equip];
     }
@@ -343,7 +343,7 @@
     //用来标识账号是否最新一次请求数据
     if(detail)
     {
-        if(!rightStatusTxt)
+        if(detail.status_desc)
         {
             rightStatusTxt = detail.status_desc;
         }
@@ -400,6 +400,10 @@
             rightStatusColor = [UIColor redColor];
         }
         
+        CBGListModel * hisCBG = contact.appendHistory;
+        NSInteger priceChange = hisCBG.equip_start_price - hisCBG.equip_price/100;
+
+        
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
@@ -408,7 +412,15 @@
                 equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
                 leftRateColor = [UIColor orangeColor];
             }
+        }else if(priceChange != 0)
+        {
+            if(priceChange >0)
+            {
+                leftRateColor = [UIColor orangeColor];
+            }
+            equipName = [NSString stringWithFormat:@"%ld%@",hisCBG.equip_start_price,equipName];
         }
+
         
     }else
     {

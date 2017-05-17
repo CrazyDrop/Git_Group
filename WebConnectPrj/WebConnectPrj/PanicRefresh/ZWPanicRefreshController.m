@@ -19,11 +19,18 @@
     NSMutableDictionary * cacheDic;//以时间为key  model为value
     //以时间排序，筛选需要进行刷新的
     
+    
+    NSMutableDictionary * prepareDic;
+    //准备字典
+    
     NSMutableDictionary * appendDic;
     //新增的字典，以create时间排序  认为create时间不存在完全相同的
+    
+    NSCache * orderCache;
+    NSCache * showCache;
 }
 
-
+@property (nonatomic, strong) NSArray * listReqArr;
 @end
 
 @implementation ZWPanicRefreshController
@@ -33,6 +40,12 @@
     if(self){
         cacheDic = [[NSMutableDictionary alloc] init];
         appendDic = [[NSMutableDictionary alloc] init];
+        
+        orderCache = [[NSCache alloc] init];
+        orderCache.countLimit = 1000;
+        
+        showCache = [[NSCache alloc] init];
+        showCache.countLimit = 1000;
     }
     return self;
 }
@@ -53,6 +66,7 @@
     @synchronized (appendDic)
     {
         [addDic addEntriesFromDictionary:appendDic];
+        [appendDic removeAllObjects];
     }
     
     @synchronized (cacheDic)
@@ -67,17 +81,17 @@
             return [obj2 compare:obj1];
         }];
         
-        if([keys count] > 20)
+        NSInteger maxRefresh = 50;
+        if([keys count] > maxRefresh)
         {
-            keys = [keys subarrayWithRange:NSMakeRange(0, 20)];
+            keys = [keys subarrayWithRange:NSMakeRange(0, maxRefresh)];
         }
         
         for (NSInteger index = 0;index < [keys count] ;index ++ )
         {
             NSString * modelKey = [keys objectAtIndex:index];
             Equip_listModel * eveObj = [cacheDic objectForKey:modelKey];
-            NSString * url = eveObj.detailDataUrl;
-            [urls addObject:url];
+            [urls addObject:eveObj];
         }
     }
     return urls;
@@ -166,10 +180,25 @@
     EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(listRequest.executing) return;
     
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
 
+    
     NSArray * details = [self latestRefreshRequestDetailUrls];
-    [self startEquipDetailAllRequestWithUrls:details];
+    if(!details || [details count] == 0)
+    {
+        return;
+    }
+    self.listReqArr = details;
+    
+    NSMutableArray * urls = [NSMutableArray array];
+    for (NSInteger index = 0; index < [details count] ;index ++ )
+    {
+        Equip_listModel * list = [details objectAtIndex:index];
+        NSString * url = list.detailDataUrl;
+        [urls addObject:url];
+    }
+    
+    [self startEquipDetailAllRequestWithUrls:urls];
 }
 
 
@@ -251,27 +280,41 @@ handleSignal( EquipListRequestModel, requestLoaded )
     {
         NSInteger backIndex = [array count] - index - 1;
         Equip_listModel * eveModel = [array objectAtIndex:backIndex];
+        NSString * orderSN = eveModel.game_ordersn;
         if(eveModel.equipState == CBGEquipRoleState_unSelling)
         {
-            [modelsDic setObject:eveModel forKey:eveModel.game_ordersn];
+            [modelsDic setObject:eveModel forKey:orderSN];
+        }else if(![self cacheOrDBContainOrderSN:orderSN])
+        {
+            //首次上架的数据，或库表不存在的数据
+            [modelsDic setObject:eveModel forKey:orderSN];
+            [orderCache setObject:[NSNumber numberWithInt:0] forKey:orderSN];
         }
     }
+    
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     NSArray * backRefreshArr = [modelsDic allValues];
     if([backRefreshArr count] > 0)
     {
         //进行库表查询，取出创建时间
         NSMutableDictionary * currentDic = [NSMutableDictionary dictionary];
         NSArray * orderArr = [modelsDic allKeys];
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         for (NSInteger index = 0 ;index < [orderArr count]; index ++ )
         {
             NSString * eveSn = [orderArr objectAtIndex:index];
             NSArray * modelsArr = [dbManager localSaveMakeOrderHistoryListForOrderSN:eveSn];
             if([modelsArr count] > 0)
             {
+                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
                 CBGListModel * eveCBG = [modelsArr firstObject];
                 NSString * time = eveCBG.sell_create_time;
-                [currentDic setObject:eveCBG forKey:time];
+                
+                listObj.appendHistory = eveCBG;
+                [currentDic setObject:listObj forKey:time];
+            }else
+            {
+                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
+                [currentDic setObject:listObj forKey:eveSn];
             }
         }
         
@@ -283,7 +326,21 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     [requestLock unlock];
 }
-
+-(BOOL)cacheOrDBContainOrderSN:(NSString *)orderSn
+{
+    BOOL contain = YES;
+    id obj = [orderCache objectForKey:orderSn];
+    if(!obj)
+    {//进行库表检查
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        NSArray * dbArr = [dbManager localSaveUserChangeHistoryListForOrderSN:orderSn];
+        if([dbArr count] == 0)
+        {
+            contain = NO;
+        }
+    }
+    return contain;
+}
 
 
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
@@ -296,7 +353,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
         [model addSignalResponder:self];
         _detailListReqModel = model;
     }
-    
     
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
@@ -344,8 +400,112 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     NSLog(@"EquipDetailArrayRequestModel %lu",(unsigned long)[detailModels count]);
     
+    NSMutableArray * removeArr = [NSMutableArray array];
+    NSMutableArray * showArr  = [NSMutableArray array];
+    
+    NSArray * models = self.listReqArr;
+    for (NSInteger index = 0; index < [models count]; index ++)
+    {
+        EquipModel * detailEve = nil;
+        if([detailModels count] > index)
+        {
+            detailEve = [detailModels objectAtIndex:index];
+        }
+        Equip_listModel * obj = [models objectAtIndex:index];
+        if(![detailEve isKindOfClass:[NSNull class]])
+        {
+            obj.equipModel = detailEve;
+            obj.earnRate = detailEve.extraEarnRate;
+            if(obj.earnRate > 0)
+            {
+                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
+            }
+            if(!detailEve.equipExtra.buyPrice)
+            {
+                NSLog(@"失败 %@",obj.detailDataUrl);
+            }
+            
+            if(detailEve.equipState != CBGEquipRoleState_unSelling)
+            {
+                [removeArr addObject:obj];
+            }
+            
+            //当前处于未上架、或者首次上架，进行展示
+            if([obj isFirstInSelling])
+            {
+                NSString * orderSN = obj.game_ordersn;
+                if(![showCache objectForKey:orderSN])
+                {
+                    [showArr addObject:obj];
+                    [showCache setObject:[NSNumber numberWithInt:0] forKey:obj.game_ordersn];
+                }
+            }else if(detailEve.equipState == CBGEquipRoleState_unSelling)
+            {
+                NSString * orderSN = obj.game_ordersn;
+                if(![showCache objectForKey:orderSN])
+                {
+                    [showArr insertObject:obj atIndex:0];
+                    [showCache setObject:[NSNumber numberWithInt:0] forKey:obj.game_ordersn];
+                }
+            }else if(obj.equipState == CBGEquipRoleState_unSelling)
+            {//列表数据是未上架，进行展示
+                [showArr insertObject:obj atIndex:0];
+            }
+        }
+    }
+    
+    //全部数据进行库表存储
+    NSMutableArray * updateArr = [NSMutableArray array];
+    for (NSInteger index = 0;index < [models count] ;index ++ )
+    {
+        Equip_listModel * list = [models objectAtIndex:index];
+        if(list.equipModel)
+        {
+            CBGListModel * cbgList = [list listSaveModel];
+            cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
+            [updateArr addObject:cbgList];
+        }
+    }
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
 
 
+    
+    @synchronized (cacheDic)
+    {
+        for (NSInteger index = 0 ;index < [removeArr count] ;index ++ )
+        {
+            Equip_listModel * eveObj = [removeArr objectAtIndex:index];
+            //当前以时间发起的请求，而展示数组  进行展示
+            
+            NSString * eveKey = eveObj.equipModel.create_time;
+            [cacheDic removeObjectForKey:eveKey];
+            
+            eveKey = eveObj.game_ordersn;
+            [cacheDic removeObjectForKey:eveKey];
+        }
+    }
+    
+    @synchronized (appendDic)
+    {
+        for (NSInteger index = 0 ;index < [removeArr count] ;index ++ )
+        {
+            Equip_listModel * eveObj = [removeArr objectAtIndex:index];
+            //当前以时间发起的请求，而展示数组  进行展示
+            
+            NSString * eveKey = eveObj.equipModel.create_time;
+            [appendDic removeObjectForKey:eveKey];
+            
+            eveKey = eveObj.game_ordersn;
+            [cacheDic removeObjectForKey:eveKey];
+        }
+    }
+    
+    
+    NSLog(@"Refresh ShowArr %lu",(unsigned long)[showArr count]);
+
+    [self refreshTableViewWithInputLatestListArray:showArr replace:NO];
+    
 }
 
 

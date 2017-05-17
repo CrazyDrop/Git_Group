@@ -44,6 +44,58 @@
              };
 }
 
+-(CBGEquipRoleState)equipState
+{
+    CBGEquipRoleState status = CBGEquipRoleState_None;
+    NSInteger number = [self.status integerValue];
+    switch (number)
+    {
+        case 0:
+        {
+            status = CBGEquipRoleState_Backing;
+        }
+            break;
+        case 1:
+        {
+            status = CBGEquipRoleState_unSelling;
+        }
+            break;
+        case 2:
+        {
+            status = CBGEquipRoleState_InSelling;
+        }
+            break;
+            
+        case 3:
+        {
+            status = CBGEquipRoleState_InOrdering;
+        }
+            break;
+        case 4:
+        {
+            status = CBGEquipRoleState_PayFinish;
+        }
+            break;
+        case 5:
+        {
+            //交易完成，认为和购买一致
+            status = CBGEquipRoleState_BuyFinish;
+        }
+            break;
+        case 6:
+        {
+            status = CBGEquipRoleState_BuyFinish;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return status;
+}
+
+
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     
     /*  [Example] change property id to productID

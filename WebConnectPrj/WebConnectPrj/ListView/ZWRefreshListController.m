@@ -919,7 +919,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     CBGListModel * listModel = [contact listSaveModel];
     //仅无详情时有效，此时数据为库表数据补全
     
-    if(listModel.plan_total_price > 0)
+    if(listModel.plan_total_price != 0)
     {
         centerDetailTxt = [NSString stringWithFormat:@"%ld (%ld) %d",listModel.plan_total_price,listModel.plan_zhaohuanshou_price + listModel.plan_zhuangbei_price,(int)listModel.price_base_equip];
     }

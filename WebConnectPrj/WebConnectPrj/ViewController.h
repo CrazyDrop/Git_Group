@@ -31,6 +31,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_LatestPlan,
     CBGDetailTestFunctionStyle_PayStyle,
     CBGDetailTestFunctionStyle_EditCheck,
+    CBGDetailTestFunctionStyle_PanicRefresh,
 } CBGDetailTestFunctionStyle;
 
 

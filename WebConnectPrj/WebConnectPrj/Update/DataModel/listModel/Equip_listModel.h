@@ -41,6 +41,7 @@
 @property (nonatomic, strong) EquipModel * equipModel;//详情数据
 //@property (nonatomic, strong) id ;//详情数据
 @property (nonatomic, strong) CBGListModel * listSaveModel;//详情数据
+@property (nonatomic, strong) CBGListModel * appendHistory;//详情数据
 
 @property (nonatomic, strong) NSString * favTag;//喜欢标识
 @property (nonatomic, strong) NSString * createTime;

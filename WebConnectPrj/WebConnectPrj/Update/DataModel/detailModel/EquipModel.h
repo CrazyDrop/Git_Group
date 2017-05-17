@@ -15,6 +15,7 @@
 #import "Selling_infoModel.h"
 #import "Poundage_listModel.h"
 #import "EquipExtraModel.h"
+#import "CBGListModel.h"
 
 @interface EquipModel : BaseDataModel
 
@@ -94,6 +95,8 @@
 
 @property (nonatomic, assign) CGFloat earnPrice;
 @property (nonatomic, strong) NSString * finishDate;//详情刷新时间
+
+-(CBGEquipRoleState)equipState;
 
 -(NSString *)equipSoldOutResultTime;
 -(NSString *)equipCancelBackResultTime;
