@@ -692,6 +692,8 @@
 		18CFB7941E8F364A00F18440 /* CBGTotalHistroySortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7931E8F364A00F18440 /* CBGTotalHistroySortVC.m */; };
 		18CFB7981E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */; };
 		18CFB79C1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */; };
+		18DAF5E71ECC325700873D19 /* ZAAutoBuyWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */; };
+		18DAF5EA1ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */; };
 		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 /* End PBXBuildFile section */
@@ -1838,6 +1840,10 @@
 		18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGDaysDetailSortHistoryVC.m; sourceTree = "<group>"; };
 		18CFB79A1E8F376200F18440 /* CBGCombinedHistoryHandleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCombinedHistoryHandleVC.h; sourceTree = "<group>"; };
 		18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCombinedHistoryHandleVC.m; sourceTree = "<group>"; };
+		18DAF5E51ECC325700873D19 /* ZAAutoBuyWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAAutoBuyWebView.h; sourceTree = "<group>"; };
+		18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAAutoBuyWebView.m; sourceTree = "<group>"; };
+		18DAF5E81ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPanicMaxedListRefreshVC.h; sourceTree = "<group>"; };
+		18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPanicMaxedListRefreshVC.m; sourceTree = "<group>"; };
 		18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseTableVC.h; sourceTree = "<group>"; };
 		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
 		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
@@ -2262,6 +2268,8 @@
 				1892CA451EC9AAC7006AA762 /* ZWPanicRefreshController.m */,
 				1892CA471EC9B125006AA762 /* ZWBaseRefreshController.h */,
 				1892CA481EC9B125006AA762 /* ZWBaseRefreshController.m */,
+				18DAF5E81ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.h */,
+				18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */,
 			);
 			path = PanicRefresh;
 			sourceTree = "<group>";
@@ -2269,6 +2277,8 @@
 		1892CA401EC9A7E1006AA762 /* AutoBuy */ = {
 			isa = PBXGroup;
 			children = (
+				18DAF5E51ECC325700873D19 /* ZAAutoBuyWebView.h */,
+				18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */,
 			);
 			path = AutoBuy;
 			sourceTree = "<group>";
@@ -4175,6 +4185,7 @@
 				180D590A19E65EF30045A720 /* UIAlertView+AFNetworking.m in Sources */,
 				18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */,
 				18A975A41E7FDDD400B48E3C /* UIImageView+Html.m in Sources */,
+				18DAF5E71ECC325700873D19 /* ZAAutoBuyWebView.m in Sources */,
 				18A975621E7FDDD400B48E3C /* View+Template.m in Sources */,
 				18A9756B1E7FDDD400B48E3C /* Samurai_CSSRuleSet.m in Sources */,
 				18A975AB1E7FDDD400B48E3C /* UITableView+Html.m in Sources */,
@@ -4441,6 +4452,7 @@
 				18A9756F1E7FDDD400B48E3C /* Samurai_HtmlDocumentWorkflow.m in Sources */,
 				18A975731E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m in Sources */,
 				18A9758D1E7FDDD400B48E3C /* Samurai_HtmlStyleObject.m in Sources */,
+				18DAF5EA1ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m in Sources */,
 				18A96E3E1E7FC2C500B48E3C /* ZALocalStateTotalModel.m in Sources */,
 				18A9759A1E7FDDD400B48E3C /* Samurai_HtmlString.m in Sources */,
 				18A976391E7FDDD500B48E3C /* OLEGOLoadTypeListTableView.m in Sources */,

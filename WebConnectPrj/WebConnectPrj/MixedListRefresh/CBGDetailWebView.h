@@ -14,11 +14,11 @@
 //
 @interface CBGDetailWebView : UIWebView
 
--(id)initDetailWebViewWithDetailString:(NSString *)url;
 
-//详情数据
-@property (nonatomic, readonly) NSString * detailUrl;
-//-(void)refreshCBGDetailWebViewDetailUrlString:(NSString *)url;
+//加载url
+-(void)prepareWebViewWithUrl:(NSString *)url;
+
+@property (nonatomic, strong ,readonly) NSString * showUrl;
 
 
 

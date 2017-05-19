@@ -37,6 +37,7 @@
 #import "CBGLatestPlanBuyVC.h"
 #import "CBGLatestDetailCheckVC.h"
 #import "ZWPanicRefreshController.h"
+#import "CBGPanicMaxedListRefreshVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -168,7 +169,18 @@
             name = @"改价刷新";
         }
             break;
+        case CBGDetailTestFunctionStyle_ClearCache:
+        {
+            name = @"清空缓存";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_PanicMixed:
+        {
+            name = @"混合改价";
+        }
+            break;
 
+            
         default:
             break;
     }
@@ -215,6 +227,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicMixed],
 
                              nil];
     
@@ -308,21 +321,25 @@
         case CBGDetailTestFunctionStyle_CopyData:
         {
             [self refreshWriteInBtnForWriteFinish:NO];
-            NSString * dbExchange = @"写入结束";
-            NSInteger preNum = 0;
-            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-            NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
-            preNum = [soldout count];
-            dbExchange = [dbExchange stringByAppendingFormat:@"pre %ld",preNum];
-            
-            [dbManager localCopySoldOutDataToPartDataBase];
-            soldout = [dbManager localSaveEquipHistoryModelListTotal];
-            dbExchange = [dbExchange stringByAppendingFormat:@"append %ld finished %ld ",[soldout count] - preNum,[soldout count]];
+            dispatch_async(dispatch_get_main_queue(), ^
             {
-                NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
-                [DZUtils noticeCustomerWithShowText:dbExchange];
-                [self refreshWriteInBtnForWriteFinish:YES];
-            }
+                NSString * dbExchange = @"写入结束";
+                NSInteger preNum = 0;
+                ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+                NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
+                preNum = [soldout count];
+                dbExchange = [dbExchange stringByAppendingFormat:@"pre %ld",preNum];
+                
+                [dbManager localCopySoldOutDataToPartDataBase];
+                soldout = [dbManager localSaveEquipHistoryModelListTotal];
+                dbExchange = [dbExchange stringByAppendingFormat:@"append %ld finished %ld ",[soldout count] - preNum,[soldout count]];
+                {
+                    NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
+                    [DZUtils noticeCustomerWithShowText:dbExchange];
+                    [self refreshWriteInBtnForWriteFinish:YES];
+                }
+            });
+            
         }
             break;
         case CBGDetailTestFunctionStyle_MobileMax:
@@ -479,6 +496,23 @@
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;
+        case CBGDetailTestFunctionStyle_ClearCache:
+        {
+//            ZWPanicRefreshController * latest = [[ZWPanicRefreshController alloc] init];
+//            [[self rootNavigationController] pushViewController:latest animated:YES];
+            
+            [DZUtils noticeCustomerWithShowText:@"清空缓存"];
+        }
+            break;
+
+        case CBGDetailTestFunctionStyle_PanicMixed:
+        {
+            CBGPanicMaxedListRefreshVC * latest = [[CBGPanicMaxedListRefreshVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+            
+        }
+            break;
+
             
             
     }

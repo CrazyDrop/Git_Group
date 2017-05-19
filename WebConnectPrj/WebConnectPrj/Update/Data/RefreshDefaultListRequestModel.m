@@ -162,7 +162,7 @@
 }
 -(void)startOnReqeustOperationForUrlString:(NSString *)urlStr
 {
-    NSLog(@"%s %@",__FUNCTION__,urlStr);
+//    NSLog(@"%s %@",__FUNCTION__,urlStr);
     //所有返回均在主线程操作
     __weak typeof(self) weakSelf = self;
     NSURLSession *session = weakSelf.listSession;

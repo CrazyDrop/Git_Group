@@ -599,7 +599,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         NSString * webUrl = maxModel.detailWebUrl;
         //        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
         //                                                            object:webUrl];
-        self.planWeb = [[CBGDetailWebView alloc] initDetailWebViewWithDetailString:webUrl];
+        self.planWeb = [[CBGDetailWebView alloc] init];
+        [self.planWeb prepareWebViewWithUrl:webUrl];
         
         [self startUserNotice];
         

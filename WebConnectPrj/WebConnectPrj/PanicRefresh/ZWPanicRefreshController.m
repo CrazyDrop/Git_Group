@@ -19,16 +19,13 @@
     NSMutableDictionary * cacheDic;//以时间为key  model为value
     //以时间排序，筛选需要进行刷新的
     
-    
-    NSMutableDictionary * prepareDic;
-    //准备字典
-    
     NSMutableDictionary * appendDic;
     //新增的字典，以create时间排序  认为create时间不存在完全相同的
     
-    NSCache * orderCache;
-    NSCache * showCache;
+    NSInteger maxLength;
 }
+@property (nonatomic, strong) NSString * requestOrderList;
+@property (nonatomic, strong) NSString * showOrderList;
 
 @property (nonatomic, strong) NSArray * listReqArr;
 @end
@@ -40,12 +37,8 @@
     if(self){
         cacheDic = [[NSMutableDictionary alloc] init];
         appendDic = [[NSMutableDictionary alloc] init];
-        
-        orderCache = [[NSCache alloc] init];
-        orderCache.countLimit = 1000;
-        
-        showCache = [[NSCache alloc] init];
-        showCache.countLimit = 1000;
+        maxLength = 3000 * 100;
+//        maxLength = 3000;
     }
     return self;
 }
@@ -170,6 +163,11 @@
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
+-(void)refreshCurrentTitleVLableWithFinishWithStartListNumber:(NSInteger)number
+{
+    self.titleV.text = [NSString stringWithFormat:@"近期改价 (%ld)",(long)number];
+}
+
 -(void)startRefreshLatestDetailModelRequest
 {
     if(![DZUtils deviceWebConnectEnableCheck])
@@ -184,6 +182,8 @@
 
     
     NSArray * details = [self latestRefreshRequestDetailUrls];
+    [self refreshCurrentTitleVLableWithFinishWithStartListNumber:[details count]];
+    
     if(!details || [details count] == 0)
     {
         return;
@@ -285,10 +285,10 @@ handleSignal( EquipListRequestModel, requestLoaded )
         {
             [modelsDic setObject:eveModel forKey:orderSN];
         }else if(![self cacheOrDBContainOrderSN:orderSN])
-        {
+        {//库表和缓存都不存在
             //首次上架的数据，或库表不存在的数据
             [modelsDic setObject:eveModel forKey:orderSN];
-            [orderCache setObject:[NSNumber numberWithInt:0] forKey:orderSN];
+            [self checkRequestOrderListAndAddMoreOrderSn:orderSN];
         }
     }
     
@@ -326,21 +326,57 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     [requestLock unlock];
 }
+#pragma mark - CacheOrderSN
+//检查长度，追加新ordersn，当做缓存使用
+-(void)checkRequestOrderListAndAddMoreOrderSn:(NSString *)orderSN
+{
+    NSString * preList = self.requestOrderList;
+    if(!preList){
+        preList = @"";
+    }
+    preList = [preList stringByAppendingFormat:@"%@|",orderSN];
+    
+    if([preList length] > maxLength)
+    {
+        NSRange range = [preList rangeOfString:@"|"];
+        preList = [preList substringFromIndex:range.location + range.length];
+    }
+    self.requestOrderList = preList;
+}
+
+-(void)checkShowOrderListAndAddMoreOrderSn:(NSString *)orderSN
+{
+    NSString * preList = self.showOrderList;
+    if(!preList){
+        preList = @"";
+    }
+    preList = [preList stringByAppendingFormat:@"%@|",orderSN];
+    
+    if([preList length] > maxLength)
+    {
+        NSRange range = [preList rangeOfString:@"|"];
+        preList = [preList substringFromIndex:range.location + range.length];
+    }
+    self.showOrderList = preList;
+}
 -(BOOL)cacheOrDBContainOrderSN:(NSString *)orderSn
 {
     BOOL contain = YES;
-    id obj = [orderCache objectForKey:orderSn];
-    if(!obj)
+    
+    NSRange range = [self.requestOrderList rangeOfString:orderSn];
+    if(range.length == 0 && !self.ingoreFirst)
     {//进行库表检查
         ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         NSArray * dbArr = [dbManager localSaveUserChangeHistoryListForOrderSN:orderSn];
-        if([dbArr count] == 0)
+        if([dbArr count] == 0 || !dbArr)
         {
             contain = NO;
         }
     }
     return contain;
 }
+
+#pragma mark -
 
 
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
@@ -398,7 +434,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
-    NSLog(@"EquipDetailArrayRequestModel %lu",(unsigned long)[detailModels count]);
+    NSLog(@"EquipDetailArrayRequestModel  Success %lu",(unsigned long)[detailModels count]);
     
     NSMutableArray * removeArr = [NSMutableArray array];
     NSMutableArray * showArr  = [NSMutableArray array];
@@ -431,21 +467,23 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             }
             
             //当前处于未上架、或者首次上架，进行展示
-            if([obj isFirstInSelling])
+            if([obj isFirstInSelling]&&!self.ingoreFirst)
             {
                 NSString * orderSN = obj.game_ordersn;
-                if(![showCache objectForKey:orderSN])
+                NSRange range = [self.showOrderList rangeOfString:orderSN];
+                if(range.length == 0)
                 {
                     [showArr addObject:obj];
-                    [showCache setObject:[NSNumber numberWithInt:0] forKey:obj.game_ordersn];
+                    [self checkShowOrderListAndAddMoreOrderSn:orderSN];
                 }
             }else if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {
                 NSString * orderSN = obj.game_ordersn;
-                if(![showCache objectForKey:orderSN])
+                NSRange range = [self.showOrderList rangeOfString:orderSN];
+                if(range.length == 0)
                 {
                     [showArr insertObject:obj atIndex:0];
-                    [showCache setObject:[NSNumber numberWithInt:0] forKey:obj.game_ordersn];
+                    [self checkShowOrderListAndAddMoreOrderSn:orderSN];
                 }
             }else if(obj.equipState == CBGEquipRoleState_unSelling)
             {//列表数据是未上架，进行展示
@@ -466,10 +504,12 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             [updateArr addObject:cbgList];
         }
     }
-    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
-
-
+    
+    if(!self.ingoreFirst)
+    {
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
+    }
     
     @synchronized (cacheDic)
     {

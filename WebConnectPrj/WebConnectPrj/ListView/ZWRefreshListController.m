@@ -125,7 +125,8 @@ RefreshCellCopyDelgate>
         NSString * webUrl = maxModel.detailWebUrl;
 //        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
 //                                                            object:webUrl];
-        self.planWeb = [[CBGDetailWebView alloc] initDetailWebViewWithDetailString:webUrl];
+        self.planWeb = [[CBGDetailWebView alloc] init];
+        [self.planWeb prepareWebViewWithUrl:webUrl];
         
         //数据有效时，进行提醒
         if(!self.ingoreDB)
@@ -1075,7 +1076,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     if(contact)
     {
-        NSString * planUrl = self.planWeb.detailUrl;
+        NSString * planUrl = self.planWeb.showUrl;
         if([planUrl isEqualToString:contact.detailWebUrl])
         {
             CBGPlanDetailPreShowWebVC * detail = [[CBGPlanDetailPreShowWebVC alloc] init];

@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWBaseRefreshController.m"
-            timestampString = "516697290.437593"
+            timestampString = "516703615.546294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "-tapedOnRefreshCellCopyDelegateWithIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWBaseRefreshController.m"
-            timestampString = "516686342.327609"
+            filePath = "WebConnectPrj/PanicRefresh/ZWPanicRefreshController.m"
+            timestampString = "516877458.212153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
-            landmarkName = "-tapedOnRefreshCellCopyDelegateWithIndex:"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "-startRefreshLatestDetailModelRequest"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

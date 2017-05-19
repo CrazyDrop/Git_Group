@@ -13,5 +13,6 @@
 //定位，只刷新首次上架和改价
 @interface ZWPanicRefreshController : ZWBaseRefreshController
 
+@property (nonatomic, assign) BOOL ingoreFirst;//屏蔽库表操作
 
 @end
