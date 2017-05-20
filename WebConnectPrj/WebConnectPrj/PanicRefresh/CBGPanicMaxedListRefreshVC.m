@@ -58,7 +58,7 @@
 {
     if(!_mobileVC){
         ZWPanicRefreshController * aWeb = [[ZWPanicRefreshController alloc] init];
-//        aWeb.ingoreDB = YES;
+        aWeb.ingoreFirst = YES;
         [self addChildViewController:aWeb];
         _mobileVC = aWeb;
     }

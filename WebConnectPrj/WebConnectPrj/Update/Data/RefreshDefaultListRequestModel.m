@@ -183,7 +183,7 @@
         NSDictionary * dic = nil;
         if(!error)
         {
-            NSLog(@"%s %@ %@ %ld",__FUNCTION__,urlStr,error,[responseObject length]);
+//            NSLog(@"%s %@ %@ %ld",__FUNCTION__,urlStr,error,[responseObject length]);
             NSString * resultStr = nil;
             if(responseObject && [responseObject length]>0)
             {

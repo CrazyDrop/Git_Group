@@ -694,6 +694,7 @@
 		18CFB79C1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */; };
 		18DAF5E71ECC325700873D19 /* ZAAutoBuyWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */; };
 		18DAF5EA1ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */; };
+		18DAF5ED1ECFF4AC00873D19 /* ZWPanicRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */; };
 		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 /* End PBXBuildFile section */
@@ -1844,6 +1845,8 @@
 		18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAAutoBuyWebView.m; sourceTree = "<group>"; };
 		18DAF5E81ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPanicMaxedListRefreshVC.h; sourceTree = "<group>"; };
 		18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPanicMaxedListRefreshVC.m; sourceTree = "<group>"; };
+		18DAF5EB1ECFF4AC00873D19 /* ZWPanicRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicRefreshManager.h; sourceTree = "<group>"; };
+		18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicRefreshManager.m; sourceTree = "<group>"; };
 		18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseTableVC.h; sourceTree = "<group>"; };
 		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
 		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
@@ -2270,6 +2273,8 @@
 				1892CA481EC9B125006AA762 /* ZWBaseRefreshController.m */,
 				18DAF5E81ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.h */,
 				18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */,
+				18DAF5EB1ECFF4AC00873D19 /* ZWPanicRefreshManager.h */,
+				18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */,
 			);
 			path = PanicRefresh;
 			sourceTree = "<group>";
@@ -4127,6 +4132,7 @@
 				18A976161E7FDDD500B48E3C /* ServiceMonitorNetworkModel.m in Sources */,
 				18A975DB1E7FDDD500B48E3C /* Samurai_RenderStyle.m in Sources */,
 				18A9753D1E7FDDD400B48E3C /* Samurai_Property.m in Sources */,
+				18DAF5ED1ECFF4AC00873D19 /* ZWPanicRefreshManager.m in Sources */,
 				18A975AC1E7FDDD400B48E3C /* UITableViewCell+Html.m in Sources */,
 				182091201E9F555D0015E393 /* AASubtitle.m in Sources */,
 				18A9760F1E7FDDD500B48E3C /* JBBarChartView.m in Sources */,

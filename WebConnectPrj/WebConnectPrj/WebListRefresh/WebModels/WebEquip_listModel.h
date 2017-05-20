@@ -173,6 +173,7 @@
 @property (nonatomic, strong) NSNumber *score;
 @property (nonatomic, strong) NSNumber *sum_exp;
 @property (nonatomic, strong) NSNumber *skill_shensu;
+@property (nonatomic, strong) NSArray *limit_clothes;
 
 @property (nonatomic, assign) CGFloat earnPrice;
 @property (nonatomic, assign) CGFloat planPrice;

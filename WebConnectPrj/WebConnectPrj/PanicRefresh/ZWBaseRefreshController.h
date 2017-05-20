@@ -13,6 +13,7 @@
     NSLock * requestLock;
     BaseRequestModel * _detailListReqModel;
 }
+@property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong,readonly) UIView * tipsView;
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace;
 

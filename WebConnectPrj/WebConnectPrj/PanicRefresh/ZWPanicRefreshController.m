@@ -13,7 +13,7 @@
 #import "CBGDetailWebView.h"
 #import "PanicRefreshManager.h"
 #import "ZALocationLocalModel.h"
-
+#import "ZWPanicRefreshManager.h"
 @interface ZWPanicRefreshController ()
 {
     NSMutableDictionary * cacheDic;//以时间为key  model为value
@@ -49,6 +49,14 @@
     self.showRightBtn = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    ZWPanicRefreshManager * manager = [ZWPanicRefreshManager sharedInstance];
+    self.requestOrderList = manager.cacheReqeustStr;
+    self.showOrderList =  manager.cacheShowStr;
+    if(manager.showArr)
+    {
+        [self refreshTableViewWithInputLatestListArray:manager.showArr replace:NO];
+    }
     
 }
 -(NSArray *)latestRefreshRequestDetailUrls
@@ -119,6 +127,12 @@
     [manager endAutoRefreshAndClearTime];
     
     [[ZALocation sharedInstance] stopUpdateLocation];
+    
+    
+    ZWPanicRefreshManager * cache = [ZWPanicRefreshManager sharedInstance];
+    cache.cacheShowStr = self.showOrderList;
+    cache.cacheReqeustStr = self.requestOrderList;
+    cache.showArr = self.showArray;
     
 }
 -(void)startLocationDataRequest
@@ -212,7 +226,7 @@
     EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
     if(listRequest.executing) return;
     
-    [requestLock lock];
+//    [requestLock lock];
     
     NSLog(@"%s",__FUNCTION__);
     
@@ -223,7 +237,7 @@
         model = [[EquipListRequestModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
-        model.pageNum = 20;//刷新页数
+        model.pageNum = 50;//刷新页数
     }
     
     [model sendRequest];
@@ -324,7 +338,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
         }
     }
     
-    [requestLock unlock];
+//    [requestLock unlock];
 }
 #pragma mark - CacheOrderSN
 //检查长度，追加新ordersn，当做缓存使用
@@ -448,46 +462,47 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             detailEve = [detailModels objectAtIndex:index];
         }
         Equip_listModel * obj = [models objectAtIndex:index];
+        Equip_listModel * objCopy = [obj copy];
         if(![detailEve isKindOfClass:[NSNull class]])
         {
-            obj.equipModel = detailEve;
-            obj.earnRate = detailEve.extraEarnRate;
-            if(obj.earnRate > 0)
+            objCopy.equipModel = detailEve;
+            objCopy.earnRate = detailEve.extraEarnRate;
+            if(objCopy.earnRate > 0)
             {
-                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
+                objCopy.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
             }
             if(!detailEve.equipExtra.buyPrice)
             {
-                NSLog(@"失败 %@",obj.detailDataUrl);
+                NSLog(@"失败 %@",objCopy.detailDataUrl);
             }
             
             if(detailEve.equipState != CBGEquipRoleState_unSelling)
             {
-                [removeArr addObject:obj];
+                [removeArr addObject:objCopy];
             }
             
             //当前处于未上架、或者首次上架，进行展示
-            if([obj isFirstInSelling]&&!self.ingoreFirst)
+            if([objCopy isFirstInSelling]&&!self.ingoreFirst)
             {
-                NSString * orderSN = obj.game_ordersn;
+                NSString * orderSN = objCopy.game_ordersn;
                 NSRange range = [self.showOrderList rangeOfString:orderSN];
                 if(range.length == 0)
                 {
-                    [showArr addObject:obj];
+                    [showArr addObject:objCopy];
                     [self checkShowOrderListAndAddMoreOrderSn:orderSN];
                 }
             }else if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {
-                NSString * orderSN = obj.game_ordersn;
+                NSString * orderSN = objCopy.game_ordersn;
                 NSRange range = [self.showOrderList rangeOfString:orderSN];
                 if(range.length == 0)
                 {
-                    [showArr insertObject:obj atIndex:0];
+                    [showArr insertObject:objCopy atIndex:0];
                     [self checkShowOrderListAndAddMoreOrderSn:orderSN];
                 }
-            }else if(obj.equipState == CBGEquipRoleState_unSelling)
+            }else if(objCopy.equipState == CBGEquipRoleState_unSelling)
             {//列表数据是未上架，进行展示
-                [showArr insertObject:obj atIndex:0];
+                [showArr insertObject:objCopy atIndex:0];
             }
         }
     }

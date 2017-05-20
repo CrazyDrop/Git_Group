@@ -21,7 +21,6 @@
 }
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,strong) UIView * tipsView;
-@property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * grayArray;
 @property (nonatomic,copy) NSArray * dataArr;
 @property (nonatomic,copy) NSArray * dataArr2;
