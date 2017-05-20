@@ -14,5 +14,6 @@
 @interface ZWPanicRefreshController : ZWBaseRefreshController
 
 @property (nonatomic, assign) BOOL ingoreFirst;//屏蔽库表操作
+@property (nonatomic, assign) NSInteger requestNum;
 
 @end

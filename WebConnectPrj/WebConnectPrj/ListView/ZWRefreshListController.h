@@ -18,5 +18,7 @@
 //屏蔽提醒
 @property (nonatomic,assign) BOOL ingoreDB;
 
+@property (nonatomic,assign) BOOL maxRefresh;
+
 
 @end

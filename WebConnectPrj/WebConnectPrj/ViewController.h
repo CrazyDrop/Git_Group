@@ -34,6 +34,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_PanicRefresh,
     CBGDetailTestFunctionStyle_ClearCache,
     CBGDetailTestFunctionStyle_PanicMixed,
+    CBGDetailTestFunctionStyle_NightMixed,
 } CBGDetailTestFunctionStyle;
 
 

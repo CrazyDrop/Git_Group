@@ -38,6 +38,7 @@
 #import "CBGLatestDetailCheckVC.h"
 #import "ZWPanicRefreshController.h"
 #import "CBGPanicMaxedListRefreshVC.h"
+#import "CBGPanicMixedNightListVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -75,7 +76,7 @@
 
         case CBGDetailTestFunctionStyle_MobileMax:
         {
-            name = @"mobile批量";
+            name = @"夜间模式";//适用于新数据上架频次较低，无人工查看的情况
         }
             break;
 
@@ -176,7 +177,12 @@
             break;
         case CBGDetailTestFunctionStyle_PanicMixed:
         {
-            name = @"混合改价";
+            name = @"改价混合";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_NightMixed:
+        {
+            name = @"夜间混合";
         }
             break;
 
@@ -203,7 +209,10 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicMixed],
+
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicRefresh],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMax],
@@ -217,17 +226,16 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
+                             
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WEBCheck],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
-                             
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
 
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicRefresh],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicMixed],
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_NightMixed],
 
                              nil];
     
@@ -345,6 +353,7 @@
         case CBGDetailTestFunctionStyle_MobileMax:
         {
             ZWRefreshListController * list = [[ZWRefreshListController alloc] init];
+            list.maxRefresh = YES;
             [self.navigationController pushViewController:list animated:YES];
         }
             break;
@@ -512,7 +521,13 @@
             
         }
             break;
-
+        case CBGDetailTestFunctionStyle_NightMixed:
+        {
+            CBGPanicMixedNightListVC * latest = [[CBGPanicMixedNightListVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+            
+        }
+            break;
             
             
     }

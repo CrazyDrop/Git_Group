@@ -477,12 +477,14 @@
         else if(qiannengguo < 120)
         {
             price -= 500;
-        }else if(qiannengguo < 160){
-            price -= 200;
+        }else if(qiannengguo < 150){
+            price -= 300;
         }else if(qiannengguo < 190){
-            price -= 100;
+            price -= 150;
+        }else if(qiannengguo < 195){
+            price += 50;
         }else{
-            price += 200;
+            price += 100;
         }
     }
     
@@ -494,12 +496,12 @@
 //    PT  五开  500
 
     //等级加钱
-    NSInteger levelNum = 0;
+    NSInteger levelPrice = 0;
     if([self.iGrade intValue] == 175)
     {
-        levelNum = 300;
+        levelPrice = 300;
     }
-    price += levelNum;
+    price += levelPrice;
     
     
     NSInteger school = [self.iSchool intValue];
@@ -527,13 +529,14 @@
         schoolNum = MAX(maxHistory - 300, schoolNum);
     }
     
-    if(schoolNum < 0 && [self.iNutsNum intValue] > 170)
+    price += schoolNum;
+
+    if(price < 0 && [self.iNutsNum intValue] > 170)
     {
-        schoolNum = 0;
+        price = 0;
     }
     
     
-    price += schoolNum;
 
     return price;
 }

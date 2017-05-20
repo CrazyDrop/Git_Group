@@ -1,20 +1,20 @@
 //
-//  CBGMixedListCheckVC.m
+//  CBGPanicMixedNightListVC.m
 //  WebConnectPrj
 //
-//  Created by Apple on 17/3/29.
+//  Created by Apple on 2017/5/20.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "CBGMixedListCheckVC.h"
-#import "CBGWebListRefreshVC.h"
+#import "CBGPanicMixedNightListVC.h"
 #import "ZWRefreshListController.h"
-@interface CBGMixedListCheckVC ()
-@property (nonatomic, strong) CBGWebListRefreshVC * webVC;
-@property (nonatomic, strong) ZWRefreshListController * mobileVC;
+#import "ZWPanicRefreshController.h"
+@interface CBGPanicMixedNightListVC ()
+@property (nonatomic, strong) ZWRefreshListController * webVC;
+@property (nonatomic, strong) ZWPanicRefreshController * mobileVC;
 @end
 
-@implementation CBGMixedListCheckVC
+@implementation CBGPanicMixedNightListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,7 +26,7 @@
     CGFloat partHeight = SCREEN_HEIGHT/2.0;
     UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:rect];
     [bgView addSubview:scrollView];
-//    scrollView.contentSize = CGSizeMake(rect.size.width * 2, rect.size.height);
+    //    scrollView.contentSize = CGSizeMake(rect.size.width * 2, rect.size.height);
     scrollView.pagingEnabled = YES;
     [scrollView addSubview:self.webVC.view];
     scrollView.bounces = NO;
@@ -45,21 +45,22 @@
     
 }
 
--(CBGWebListRefreshVC *)webVC
+-(ZWRefreshListController *)webVC
 {
     if(!_webVC){
-        CBGWebListRefreshVC * aWeb = [[CBGWebListRefreshVC alloc] init];
+        ZWRefreshListController * aWeb = [[ZWRefreshListController alloc] init];
+        aWeb.maxRefresh = YES;
         [self addChildViewController:aWeb];
         _webVC = aWeb;
     }
     return _webVC;
 }
--(ZWRefreshListController *)mobileVC
+-(ZWPanicRefreshController *)mobileVC
 {
     if(!_mobileVC){
-        ZWRefreshListController * aWeb = [[ZWRefreshListController alloc] init];
-        aWeb.ingoreDB = YES;
-        aWeb.maxRefresh = YES;
+        ZWPanicRefreshController * aWeb = [[ZWPanicRefreshController alloc] init];
+        aWeb.ingoreFirst = YES;
+        aWeb.requestNum = 20;
         [self addChildViewController:aWeb];
         _mobileVC = aWeb;
     }
@@ -67,19 +68,5 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

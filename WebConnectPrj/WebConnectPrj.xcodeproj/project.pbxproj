@@ -695,6 +695,7 @@
 		18DAF5E71ECC325700873D19 /* ZAAutoBuyWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */; };
 		18DAF5EA1ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */; };
 		18DAF5ED1ECFF4AC00873D19 /* ZWPanicRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */; };
+		18DAF5F01ED0406200873D19 /* CBGPanicMixedNightListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */; };
 		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 /* End PBXBuildFile section */
@@ -1847,6 +1848,8 @@
 		18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPanicMaxedListRefreshVC.m; sourceTree = "<group>"; };
 		18DAF5EB1ECFF4AC00873D19 /* ZWPanicRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicRefreshManager.h; sourceTree = "<group>"; };
 		18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicRefreshManager.m; sourceTree = "<group>"; };
+		18DAF5EE1ED0406200873D19 /* CBGPanicMixedNightListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPanicMixedNightListVC.h; sourceTree = "<group>"; };
+		18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPanicMixedNightListVC.m; sourceTree = "<group>"; };
 		18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseTableVC.h; sourceTree = "<group>"; };
 		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
 		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
@@ -2273,6 +2276,8 @@
 				1892CA481EC9B125006AA762 /* ZWBaseRefreshController.m */,
 				18DAF5E81ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.h */,
 				18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */,
+				18DAF5EE1ED0406200873D19 /* CBGPanicMixedNightListVC.h */,
+				18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */,
 				18DAF5EB1ECFF4AC00873D19 /* ZWPanicRefreshManager.h */,
 				18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */,
 			);
@@ -4104,6 +4109,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18DAF5F01ED0406200873D19 /* CBGPanicMixedNightListVC.m in Sources */,
 				18A975E41E7FDDD500B48E3C /* Samurai_UI.m in Sources */,
 				180D590E19E65EF30045A720 /* UIRefreshControl+AFNetworking.m in Sources */,
 				18CFB7981E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import "DPWhiteTopController.h"
-
+//高速，及时刷新
 @interface CBGPanicMaxedListRefreshVC : DPWhiteTopController
 
 @end

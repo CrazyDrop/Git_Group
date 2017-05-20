@@ -14,6 +14,7 @@
 #import "PanicRefreshManager.h"
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshManager.h"
+#import "MSAlertController.h"
 @interface ZWPanicRefreshController ()
 {
     NSMutableDictionary * cacheDic;//以时间为key  model为value
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) NSString * showOrderList;
 
 @property (nonatomic, strong) NSArray * listReqArr;
+//@property (nonatomic, assign) NSInteger requestNum;
 @end
 
 @implementation ZWPanicRefreshController
@@ -39,14 +41,15 @@
         appendDic = [[NSMutableDictionary alloc] init];
         maxLength = 3000 * 100;
 //        maxLength = 3000;
+        self.requestNum = 50;
     }
     return self;
 }
 - (void)viewDidLoad
 {
     self.viewTtle = @"近期改价";
-    self.rightTitle = @"提交";
-    self.showRightBtn = NO;
+    self.rightTitle = @"筛选";
+    self.showRightBtn = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -59,6 +62,52 @@
     }
     
 }
+
+-(void)refreshLatestMinRequestPageNumber:(NSInteger)pageNum
+{
+    self.requestNum = pageNum;
+}
+
+
+-(void)submit
+{
+    NSString * log = [NSString stringWithFormat:@"对刷新数据设置？"];
+    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    MSAlertAction *action = [MSAlertAction actionWithTitle:@"50页数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+                             {
+                                 [weakSelf refreshLatestMinRequestPageNumber:50];
+                             }];
+    [alertController addAction:action];
+    
+    
+    action = [MSAlertAction actionWithTitle:@"100页数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLatestMinRequestPageNumber:100];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"20页数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLatestMinRequestPageNumber:20];
+              }];
+    [alertController addAction:action];
+    
+    
+    
+    NSString * rightTxt = @"取消";
+    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
+    }];
+    [alertController addAction:action2];
+    
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+   
+}
+
 -(NSArray *)latestRefreshRequestDetailUrls
 {
     NSMutableArray * urls = [NSMutableArray array];
@@ -237,7 +286,7 @@
         model = [[EquipListRequestModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
-        model.pageNum = 50;//刷新页数
+        model.pageNum = self.requestNum;//刷新页数
     }
     
     [model sendRequest];
@@ -448,7 +497,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
-    NSLog(@"EquipDetailArrayRequestModel  Success %lu",(unsigned long)[detailModels count]);
+    NSLog(@"EquipDetailArrayRequestModel  Panic %lu",(unsigned long)[detailModels count]);
     
     NSMutableArray * removeArr = [NSMutableArray array];
     NSMutableArray * showArr  = [NSMutableArray array];

@@ -537,7 +537,10 @@ RefreshCellCopyDelgate>
         {
             [self refreshLatestListRequestModelWithSmallList:YES];
         }
-
+        if(self.maxRefresh)
+        {
+            model.pageNum = 100;
+        }
     }
 
     
