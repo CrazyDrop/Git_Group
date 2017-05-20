@@ -316,7 +316,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
         for (NSInteger index = 0 ;index < [orderArr count]; index ++ )
         {
             NSString * eveSn = [orderArr objectAtIndex:index];
-            NSArray * modelsArr = [dbManager localSaveMakeOrderHistoryListForOrderSN:eveSn];
+            NSArray * modelsArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
             if([modelsArr count] > 0)
             {
                 Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
@@ -463,6 +463,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
         Equip_listModel * obj = [models objectAtIndex:index];
         Equip_listModel * objCopy = [obj copy];
+        objCopy.listSaveModel = nil;
+        
         if(![detailEve isKindOfClass:[NSNull class]])
         {
             objCopy.equipModel = detailEve;

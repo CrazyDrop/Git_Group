@@ -348,6 +348,9 @@
             rightStatusTxt = detail.status_desc;
         }
         if(!leftPriceTxt || [leftPriceTxt length] == 0){
+            leftPriceTxt = detail.price_desc;
+        }
+        if(!leftPriceTxt || [leftPriceTxt length] == 0){
             leftPriceTxt = detail.last_price_desc;
         }
         
@@ -401,24 +404,22 @@
         }
         
         CBGListModel * hisCBG = contact.appendHistory;
-        NSInteger priceChange = hisCBG.equip_start_price - hisCBG.equip_price/100;
+        NSInteger priceChange = hisCBG.equip_start_price - [detail.price integerValue]/100;
 
-        
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
-            {
-                sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
-                equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
-                leftRateColor = [UIColor orangeColor];
-            }
-        }else if(priceChange != 0)
+            sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
+            equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
+            leftRateColor = [UIColor orangeColor];
+
+        }else if(priceChange != 0 && hisCBG.equip_start_price > 0)
         {
             if(priceChange >0)
             {
                 leftRateColor = [UIColor orangeColor];
             }
-            equipName = [NSString stringWithFormat:@"%ld%@",hisCBG.equip_start_price,equipName];
+            sellTxt = [NSString stringWithFormat:@"%ld%@",hisCBG.equip_start_price,sellTxt];
         }
 
         
