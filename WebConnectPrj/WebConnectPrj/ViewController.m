@@ -226,7 +226,6 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
                              
-//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
 //                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
                              
 //                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
@@ -235,6 +234,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WEBCheck],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
 
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
 //                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_NightMixed],
 
                              nil];
@@ -484,7 +484,8 @@
             
         }
             break;
-        case CBGDetailTestFunctionStyle_PayStyle:{
+        case CBGDetailTestFunctionStyle_PayStyle:
+        {
             
             ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
             total.isScan = !total.isScan;

@@ -785,7 +785,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     UIColor * equipBuyColor = [UIColor lightGrayColor];
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
-
+    UIColor * priceColor = [UIColor redColor];
     if(extra)
     {
         //进行数据追加
@@ -813,11 +813,18 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
+    if([detail.allow_bargain integerValue] > 0)
+    {
+        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+    }
+
+    
     cell.latestMoneyLbl.textColor = color;
     
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据,是否包含更多
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
+    cell.rateLbl.textColor = priceColor;
     cell.sellTimeLbl.text = rightStatusTxt;
     cell.sellTimeLbl.textColor = rightStatusColor;
     cell.timeLbl.text = rightTimeTxt;

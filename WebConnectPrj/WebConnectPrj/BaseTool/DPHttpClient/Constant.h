@@ -212,7 +212,8 @@ FLoatChange(CGFloat size)
 
 #define Start_Green_Button_BGColor [DZUtils colorWithHex:@"00bf86"]
 #define Custom_Green_Button_BGColor [DZUtils colorWithHex:@"0bbe85"]
-#define Custom_Blue_Button_BGColor RGB(62, 144, 204)
+#define Custom_Blue_Button_BGColor [DZUtils colorWithHex:@"3e90cc"]
+
 
 //#define Contasts_Btn_Blue_BGColor [DZUtils colorWithHex:@"6c95e9"]
 #define Custom_View_Gray_BGColor [DZUtils colorWithHex:@"f5f5f5"]

@@ -8,6 +8,7 @@
 
 #import "CBGListModel.h"
 #import "EquipModel.h"
+#import "JSONKit.h"
 #define   EquipSchoolNumDic   [NSDictionary dictionaryWithObjectsAndKeys:@"大唐官府",@"1",@"化生寺",@"2",@"女儿村",@"3",@"方寸山",@"4",@"天宫",@"5",@"普陀山",@"6",@"龙宫",@"7",@"五庄观",@"8",@"狮驼岭",@"9",@"魔王寨",@"10",@"阴曹地府",@"11",@"盘丝洞",@"12",@"神木林",@"13",@"凌波城",@"14",@"无底洞",@"15",nil]
 #define   EquipSchoolNameDic   [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"大唐官府",@"2",@"化生寺",@"3",@"女儿村",@"4",@"方寸山",@"5",@"天宫",@"6",@"普陀山",@"7",@"龙宫",@"8",@"五庄观",@"9",@"狮驼岭",@"10",@"魔王寨",@"11",@"阴曹地府",@"12",@"盘丝洞",@"13",@"神木林",@"14",@"凌波城",@"15",@"无底洞", nil]
 
@@ -57,9 +58,12 @@
             self.plan_des = @"";
         }
         //已经化圣，或者准化圣 1准化圣 2化圣
-        self.equip_accept = [aDetaiModel.equipExtra furtureMaxStatus];
+        self.equip_huasheng = [aDetaiModel.equipExtra furtureMaxStatus];
+        self.equip_more_append = [self createLatestMoreAppendString];
     }
     
+    self.equip_accept = [aDetaiModel.allow_bargain integerValue];
+
     self.sell_order_time = [NSDate unixDate];
     self.sell_cancel_time = self.sell_order_time;
     
@@ -302,6 +306,20 @@
     }
     return _style;
 }
+-(NSString *)createLatestMoreAppendString
+{
+    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
+    [dataDic setObject:[NSNumber numberWithInteger:self.equip_huasheng] forKey:@"equip_huasheng"];
+    NSString * jsonStr = [dataDic JSONString];
+    return jsonStr;
+}
+-(void)readDataFromMoreAppendString
+{
+    NSDictionary * dic = [self.equip_more_append objectFromJSONString];
+    self.equip_huasheng = [[dic objectForKey:@"equip_huasheng"] integerValue];
+}
+
+
 
 
 @end

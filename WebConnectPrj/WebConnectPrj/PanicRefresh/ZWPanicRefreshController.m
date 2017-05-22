@@ -39,9 +39,17 @@
     if(self){
         cacheDic = [[NSMutableDictionary alloc] init];
         appendDic = [[NSMutableDictionary alloc] init];
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        [cacheDic addEntriesFromDictionary:total.panicCache];
+        
+
+        
         maxLength = 3000 * 100;
 //        maxLength = 3000;
         self.requestNum = 50;
+ 
+
     }
     return self;
 }
@@ -50,6 +58,7 @@
     self.viewTtle = @"近期改价";
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -183,6 +192,13 @@
     cache.cacheReqeustStr = self.requestOrderList;
     cache.showArr = self.showArray;
     
+    @synchronized (cacheDic)
+    {
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        total.panicCache = cacheDic;
+        [total localSave];
+    }
+    
 }
 -(void)startLocationDataRequest
 {
@@ -249,9 +265,13 @@
     
     if(!details || [details count] == 0)
     {
+        self.tagArray = nil;
+        [self.listTable reloadData];
         return;
     }
     self.listReqArr = details;
+    
+    NSMutableArray * orderArr = [NSMutableArray array];
     
     NSMutableArray * urls = [NSMutableArray array];
     for (NSInteger index = 0; index < [details count] ;index ++ )
@@ -259,8 +279,10 @@
         Equip_listModel * list = [details objectAtIndex:index];
         NSString * url = list.detailDataUrl;
         [urls addObject:url];
+        [orderArr addObject:list.game_ordersn];
     }
     
+    self.tagArray = orderArr;
     [self startEquipDetailAllRequestWithUrls:urls];
 }
 

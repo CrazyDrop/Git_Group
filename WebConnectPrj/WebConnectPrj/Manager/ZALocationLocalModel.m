@@ -62,7 +62,7 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT     @"EQUIP_ACCEPT"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE      @"EQUIP_START_PRICE"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE     @"EVAL_PRICE"
-#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL    @"MORE_DETAIL"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL    @"MORE_DETAIL"//存放追加数据json
 
 #define ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE       @"FAV_OR_INGORE"
 
@@ -1817,7 +1817,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.equip_price = model.equip_price;
                 }
 
-                //价格变化
+                //还价状态变化
                 if(preModel.equip_accept != model.equip_accept)
                 {
                     ingoreRefresh = NO;
@@ -2661,6 +2661,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.equip_start_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
     list.equip_eval_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE];
     list.equip_more_append = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL];
+    [list readDataFromMoreAppendString];
     
     list.plan_total_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL];
     list.plan_xiulian_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN];
@@ -2682,6 +2683,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.sell_space = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE];
 
     list.fav_or_ingore = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE];
+    
+    
     if(!list.equip_more_append || [list.equip_more_append length] == 0)
     {
         list.equip_more_append = @"";

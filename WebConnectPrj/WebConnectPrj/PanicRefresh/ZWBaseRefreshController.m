@@ -14,12 +14,11 @@
 #import "ZACBGDetailWebVC.h"
 #import "CBGPlanDetailPreShowWebVC.h"
 #import "RefreshListCell.h"
-@interface ZWBaseRefreshController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ZWBaseRefreshController ()<UITableViewDataSource,UITableViewDelegate,RefreshCellCopyDelgate>
 {
     
     
 }
-@property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,strong) UIView * tipsView;
 @property (nonatomic,strong) NSArray * grayArray;
 @property (nonatomic,copy) NSArray * dataArr;
@@ -38,6 +37,11 @@
     if(self)
     {
         requestLock = [[NSLock alloc] init];
+        
+        self.viewTtle = @"刷新列表";
+        self.rightTitle = @"无";
+        self.showRightBtn = NO;
+
     }
     return self;
 }
@@ -73,9 +77,9 @@
 
 - (void)viewDidLoad
 {
-    self.viewTtle = @"刷新列表";
-    self.rightTitle = @"提交";
-    self.showRightBtn = NO;
+//    self.viewTtle = @"刷新列表";
+//    self.rightTitle = @"提交";
+//    self.showRightBtn = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -295,7 +299,7 @@
         
         cell = swipeCell;
         
-//        cell.cellDelegate = self;
+        cell.cellDelegate = self;
     }
     cell.coverBtn.hidden = NO;
     cell.indexPath = indexPath;
@@ -390,6 +394,7 @@
     UIColor * equipBuyColor = [UIColor lightGrayColor];
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
+    UIColor * priceColor = [UIColor redColor];
     
     EquipExtraModel * extra = detail.equipExtra;
     if(extra)
@@ -406,6 +411,10 @@
         CBGListModel * hisCBG = contact.appendHistory;
         NSInteger priceChange = hisCBG.equip_start_price - [detail.price integerValue]/100;
 
+        if([self.tagArray containsObject:contact.game_ordersn])
+        {
+            equipBuyColor = Custom_Green_Button_BGColor;
+        }
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
@@ -446,6 +455,13 @@
         
     }
     
+    if(listModel.equip_accept > 0)
+    {
+        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+    }
+    
+
+    
     if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
     {
         numcolor = [UIColor redColor];
@@ -454,6 +470,7 @@
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
+    cell.rateLbl.textColor = priceColor;
     cell.sellTimeLbl.text = rightStatusTxt;
     cell.sellTimeLbl.textColor = rightStatusColor;
     cell.timeLbl.text = rightTimeTxt;

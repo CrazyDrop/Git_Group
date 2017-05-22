@@ -59,10 +59,11 @@ typedef enum : NSUInteger
 @property (nonatomic, strong) NSString * equip_xingbie;
 @property (nonatomic, strong) NSString * equip_des;
 @property (nonatomic, assign) NSInteger  equip_price;
-@property (nonatomic, assign) NSInteger  equip_accept;      //修改字段意义，标识是否已经化圣，方便后续展示化圣相关数据
+@property (nonatomic, assign) NSInteger  equip_accept;          //修改字段意义，标识是否可以还价
+@property (nonatomic, assign) NSInteger  equip_huasheng;        //修改字段意义，标识是否已经化圣，方便后续展示化圣相关数据
 @property (nonatomic, assign) NSInteger  equip_start_price; //起始价格  主表中存储
 @property (nonatomic, assign) BOOL  appointed;//是否有指定id ，有指定，使用库表equip_start_price
-@property (nonatomic, strong) NSString * equip_more_append;
+@property (nonatomic, strong) NSString * equip_more_append; //存储equip_huasheng
 @property (nonatomic, assign) NSInteger  equip_eval_price;
 
 //估值部分
@@ -110,5 +111,8 @@ typedef enum : NSUInteger
 - (NSString * )detailDataUrl;
 -(CGFloat)price_base_equip;
 -(BOOL)preBuyEquipStatusWithCurrentExtraEquip;
+
+-(NSString *)createLatestMoreAppendString;
+-(void)readDataFromMoreAppendString;
 
 @end

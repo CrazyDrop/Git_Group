@@ -171,7 +171,9 @@
         {
             list.plan_des = @"";
         }
-        list.equip_accept =    [extra furtureMaxStatus];
+        list.equip_huasheng =    [extra furtureMaxStatus];
+        list.equip_accept = [detail.allow_bargain integerValue];
+        list.equip_more_append = [list createLatestMoreAppendString];
         
 //        NSArray * array = [detail.selling_info lastObject].infoArray;
 //        ExtraModel * extraModel = [array lastObject];

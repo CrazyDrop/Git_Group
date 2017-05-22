@@ -67,7 +67,7 @@
     {
         //视已取回和售出一样
         CBGListModel * eveModel = [sortArr objectAtIndex:index];
-        if(eveModel.equip_accept == 2)
+        if(eveModel.equip_huasheng == 2)
         {
             [resultArr addObject:eveModel];
         }
@@ -93,7 +93,7 @@
     for (NSInteger index = 0;index < [total count] ;index ++ )
     {
         CBGListModel * list = [total objectAtIndex:index];
-        NSInteger status = list.equip_accept;
+        NSInteger status = list.equip_huasheng;
         
         switch (tagIndex) {
             case 0:
@@ -133,7 +133,81 @@
     [self refreshLatestShowTableView];
     
 }
-
+-(void)submit
+{//纵横两个维度看
+    //    1、通过进入数据，控制数据的相关程度
+    //    2、估价情况  1、有利  2、值得  3、不值  4、全部
+    //    3、列表筛选  筛选  已售出  未售出 全部
+    NSString * log = [NSString stringWithFormat:@"对统计数据如何处理？"];
+    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    MSAlertAction *action = nil;
+    
+    action = [MSAlertAction actionWithTitle:@"服务器分组" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.sortStyle = CBGStaticSortShowStyle_Server;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"价格排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Price;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    
+    [alertController addAction:action];
+    action = [MSAlertAction actionWithTitle:@"利差排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Rate;
+                  [weakSelf refreshLatestShowTableView];
+                  
+              }];
+    
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"时间排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_Create;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"附加排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_MorePrice;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"空号排序" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.orderStyle = CBGStaticOrderShowStyle_EquipPrice;
+                  [weakSelf refreshLatestShowTableView];
+              }];
+    [alertController addAction:action];
+    
+    
+    //    action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    //              {
+    //                  [weakSelf startLatestDetailListRequestForShowedCBGListArr:[weakSelf latestTotalShowedHistoryList]];
+    //              }];
+    //    [alertController addAction:action];
+    
+    
+    NSString * rightTxt = @"取消";
+    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
+    }];
+    [alertController addAction:action2];
+    
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
 
 
 

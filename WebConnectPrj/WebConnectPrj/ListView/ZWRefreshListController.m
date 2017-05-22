@@ -894,6 +894,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSString * centerDetailTxt = contact.desc_sumup;
 
     UIColor * color = [UIColor lightGrayColor];
+    UIColor * priceColor = [UIColor redColor];
     NSString * sellTxt = [NSString stringWithFormat:@"%@-%@",contact.area_name,contact.server_name];
     NSString * equipName = [NSString stringWithFormat:@"%@  -  %@",contact.equip_name,contact.subtitle];
     NSString * leftPriceTxt = contact.price_desc;
@@ -1021,6 +1022,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         
     }
     
+    if(listModel.equip_accept > 0)
+    {
+        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+    }
+    
     if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
     {
         numcolor = [UIColor redColor];
@@ -1029,6 +1035,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
+    cell.rateLbl.textColor = priceColor;
     cell.sellTimeLbl.text = rightStatusTxt;
     cell.sellTimeLbl.textColor = rightStatusColor;
     cell.timeLbl.text = rightTimeTxt;
