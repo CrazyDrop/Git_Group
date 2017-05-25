@@ -184,6 +184,609 @@
 		1820981D1EA6F50A0015E393 /* NSDate+Extension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D11E7FDDD400B48E3C /* NSDate+Extension.h */; };
 		1820981E1EA6F50A0015E393 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D21E7FDDD400B48E3C /* NSDate+Extension.m */; };
 		1832EDF31EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */; };
+		1833209A1ED51EA900B1ECEA /* ZAAutoBuySettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183320991ED51EA900B1ECEA /* ZAAutoBuySettingVC.m */; };
+		1833209D1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */; };
+		183320A01ED5853000B1ECEA /* ZAPanicSortSchoolVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833209F1ED5853000B1ECEA /* ZAPanicSortSchoolVC.m */; };
+		183320A31ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */; };
+		183323041ED6B10D00B1ECEA /* CBGPanicMixedNightListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */; };
+		183323051ED6B10D00B1ECEA /* Samurai_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974531E7FDDD400B48E3C /* Samurai_UI.m */; };
+		183323061ED6B10D00B1ECEA /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FC19E65EF30045A720 /* UIRefreshControl+AFNetworking.m */; };
+		183323071ED6B10D00B1ECEA /* CBGDaysDetailSortHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */; };
+		183323081ED6B10D00B1ECEA /* OLEGOTapTextFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974E91E7FDDD400B48E3C /* OLEGOTapTextFooterView.m */; };
+		183323091ED6B10D00B1ECEA /* Keyword_argModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF11E7FC2C500B48E3C /* Keyword_argModel.m */; };
+		1833230A1ED6B10D00B1ECEA /* AALabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090DF1E9F555D0015E393 /* AALabels.m */; };
+		1833230B1ED6B10D00B1ECEA /* ServiceGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9749A1E7FDDD400B48E3C /* ServiceGesture.m */; };
+		1833230C1ED6B10D00B1ECEA /* Order_headersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF31E7FC2C500B48E3C /* Order_headersModel.m */; };
+		1833230D1ED6B10D00B1ECEA /* NTConnectSepcialClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972971E7FDDD300B48E3C /* NTConnectSepcialClient.m */; };
+		1833230E1ED6B10D00B1ECEA /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE41A0B5B0200B66A59 /* UIImage+WebP.m */; };
+		1833230F1ED6B10D00B1ECEA /* YYDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972051E7FCA0800B48E3C /* YYDiskCache.m */; };
+		183323101ED6B10D00B1ECEA /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722C1E7FCA5C00B48E3C /* MJPropertyType.m */; };
+		183323111ED6B10D00B1ECEA /* Samurai_EventConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973131E7FDDD400B48E3C /* Samurai_EventConfig.m */; };
+		183323121ED6B10D00B1ECEA /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DDE1A0B5B0200B66A59 /* UIButton+WebCache.m */; };
+		183323131ED6B10D00B1ECEA /* ZALocationHTTPApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976591E7FDE1500B48E3C /* ZALocationHTTPApi.m */; };
+		183323141ED6B10D00B1ECEA /* CBGTotalHistroySortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7931E8F364A00F18440 /* CBGTotalHistroySortVC.m */; };
+		183323151ED6B10D00B1ECEA /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9747A1E7FDDD400B48E3C /* utf8.c */; };
+		183323161ED6B10D00B1ECEA /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9750F1E7FDDD400B48E3C /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		183323171ED6B10D00B1ECEA /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E619E65EF30045A720 /* AFURLConnectionOperation.m */; };
+		183323181ED6B10D00B1ECEA /* ServiceMonitorCPUModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974BE1E7FDDD400B48E3C /* ServiceMonitorCPUModel.m */; };
+		183323191ED6B10D00B1ECEA /* OLEGOCustomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974F41E7FDDD400B48E3C /* OLEGOCustomHeaderView.m */; };
+		1833231A1ED6B10D00B1ECEA /* ZWConfigListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D741E7FC24700B48E3C /* ZWConfigListController.m */; };
+		1833231B1ED6B10D00B1ECEA /* ZWSortArrModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E101E7FC2C500B48E3C /* ZWSortArrModel.m */; };
+		1833231C1ED6B10D00B1ECEA /* Signal+ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9733A1E7FDDD400B48E3C /* Signal+ViewController.m */; };
+		1833231D1ED6B10D00B1ECEA /* Samurai_HtmlFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973A81E7FDDD400B48E3C /* Samurai_HtmlFunction.m */; };
+		1833231E1ED6B10D00B1ECEA /* ServiceMonitorNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C41E7FDDD400B48E3C /* ServiceMonitorNetworkModel.m */; };
+		1833231F1ED6B10D00B1ECEA /* Samurai_RenderStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974411E7FDDD400B48E3C /* Samurai_RenderStyle.m */; };
+		183323201ED6B10D00B1ECEA /* Samurai_Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972ED1E7FDDD400B48E3C /* Samurai_Property.m */; };
+		183323211ED6B10D00B1ECEA /* ZWPanicRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */; };
+		183323221ED6B10D00B1ECEA /* UITableViewCell+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973DE1E7FDDD400B48E3C /* UITableViewCell+Html.m */; };
+		183323231ED6B10D00B1ECEA /* AASubtitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090F91E9F555D0015E393 /* AASubtitle.m */; };
+		183323241ED6B10D00B1ECEA /* JBBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974B61E7FDDD400B48E3C /* JBBarChartView.m */; };
+		183323251ED6B10D00B1ECEA /* AAPie.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090EB1E9F555D0015E393 /* AAPie.m */; };
+		183323261ED6B10D00B1ECEA /* ServiceMonitorFPSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C01E7FDDD400B48E3C /* ServiceMonitorFPSModel.m */; };
+		183323271ED6B10D00B1ECEA /* ZWRefreshListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D7F1E7FC24700B48E3C /* ZWRefreshListController.m */; };
+		183323281ED6B10D00B1ECEA /* View+Signal.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973401E7FDDD400B48E3C /* View+Signal.m */; };
+		183323291ED6B10D00B1ECEA /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FA19E65EF30045A720 /* UIProgressView+AFNetworking.m */; };
+		1833232A1ED6B10D00B1ECEA /* katana.lex.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974841E7FDDD400B48E3C /* katana.lex.c */; };
+		1833232B1ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_30UpdateFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973961E7FDDD400B48E3C /* Samurai_HtmlRenderWorklet_30UpdateFrame.m */; };
+		1833232C1ED6B10D00B1ECEA /* ServiceMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974BC1E7FDDD400B48E3C /* ServiceMonitor.m */; };
+		1833232D1ED6B10D00B1ECEA /* ZACBGDetailWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D721E7FC24700B48E3C /* ZACBGDetailWebVC.m */; };
+		1833232E1ED6B10D00B1ECEA /* Samurai_ViewCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9744D1E7FDDD400B48E3C /* Samurai_ViewCore.m */; };
+		1833232F1ED6B10D00B1ECEA /* Samurai_System.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972F51E7FDDD400B48E3C /* Samurai_System.m */; };
+		183323301ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_40Finish.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973981E7FDDD400B48E3C /* Samurai_HtmlRenderWorklet_40Finish.m */; };
+		183323311ED6B10D00B1ECEA /* AllRiderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC41E7FC2C500B48E3C /* AllRiderModel.m */; };
+		183323321ED6B10D00B1ECEA /* Samurai_CssStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9735A1E7FDDD400B48E3C /* Samurai_CssStyleSheet.m */; };
+		183323331ED6B10D00B1ECEA /* CBGCombinedScrolledHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */; };
+		183323341ED6B10D00B1ECEA /* ViewController+Signal.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9734A1E7FDDD400B48E3C /* ViewController+Signal.m */; };
+		183323351ED6B10D00B1ECEA /* HtmlElement_Ul.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973811E7FDDD400B48E3C /* HtmlElement_Ul.m */; };
+		183323361ED6B10D00B1ECEA /* RefreshEquipListAllDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971C81E7FC67400B48E3C /* RefreshEquipListAllDataManager.m */; };
+		183323371ED6B10D00B1ECEA /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972281E7FCA5C00B48E3C /* MJProperty.m */; };
+		183323381ED6B10D00B1ECEA /* Selling_infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBD1E7FC2C500B48E3C /* Selling_infoModel.m */; };
+		183323391ED6B10D00B1ECEA /* ZAPanicSortSchoolVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833209F1ED5853000B1ECEA /* ZAPanicSortSchoolVC.m */; };
+		1833233A1ED6B10D00B1ECEA /* EquipModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB51E7FC2C500B48E3C /* EquipModel.m */; };
+		1833233B1ED6B10D00B1ECEA /* Samurai_NotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973091E7FDDD400B48E3C /* Samurai_NotificationCenter.m */; };
+		1833233C1ED6B10D00B1ECEA /* Samurai_Resource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974431E7FDDD400B48E3C /* Samurai_Resource.m */; };
+		1833233D1ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9736D1E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m */; };
+		1833233E1ED6B10D00B1ECEA /* MJExtensionConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972221E7FCA5C00B48E3C /* MJExtensionConfig.m */; };
+		1833233F1ED6B10D00B1ECEA /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722E1E7FCA5C00B48E3C /* NSObject+MJClass.m */; };
+		183323401ED6B10D00B1ECEA /* Samurai_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972C41E7FDDD400B48E3C /* Samurai_Config.m */; };
+		183323411ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9736B1E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m */; };
+		183323421ED6B10D00B1ECEA /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCF1A0B5B0200B66A59 /* SDImageCache.m */; };
+		183323431ED6B10D00B1ECEA /* Samurai_ServiceInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9732E1E7FDDD400B48E3C /* Samurai_ServiceInstance.m */; };
+		183323441ED6B10D00B1ECEA /* JBLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974BA1E7FDDD400B48E3C /* JBLineChartView.m */; };
+		183323451ED6B10D00B1ECEA /* Samurai_UILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973F71E7FDDD400B48E3C /* Samurai_UILabel.m */; };
+		183323461ED6B10D00B1ECEA /* Samurai_Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974351E7FDDD400B48E3C /* Samurai_Image.m */; };
+		183323471ED6B10D00B1ECEA /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971E51E7FC6B300B48E3C /* MSAlertController.m */; };
+		183323481ED6B10D00B1ECEA /* ZWDetailListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D781E7FC24700B48E3C /* ZWDetailListController.m */; };
+		183323491ED6B10D00B1ECEA /* ZAHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976571E7FDE1500B48E3C /* ZAHTTPResponse.m */; };
+		1833234A1ED6B10D00B1ECEA /* Samurai_Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E91E7FDDD400B48E3C /* Samurai_Log.m */; };
+		1833234B1ED6B10D00B1ECEA /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCD1A0B5B0200B66A59 /* NSData+ImageContentType.m */; };
+		1833234C1ED6B10D00B1ECEA /* HtmlElement_Ol.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9737B1E7FDDD400B48E3C /* HtmlElement_Ol.m */; };
+		1833234D1ED6B10D00B1ECEA /* ZWDefaultRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971CE1E7FC67400B48E3C /* ZWDefaultRequestModel.m */; };
+		1833234E1ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectText.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9738A1E7FDDD400B48E3C /* Samurai_HtmlRenderObjectText.m */; };
+		1833234F1ED6B10D00B1ECEA /* ZWSortHistroyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D811E7FC24700B48E3C /* ZWSortHistroyController.m */; };
+		183323501ED6B10D00B1ECEA /* AAOptions3d.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E91E9F555D0015E393 /* AAOptions3d.m */; };
+		183323511ED6B10D00B1ECEA /* Samurai_Intent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9741A1E7FDDD400B48E3C /* Samurai_Intent.m */; };
+		183323521ED6B10D00B1ECEA /* OLEGOCustomListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A975081E7FDDD400B48E3C /* OLEGOCustomListTableView.m */; };
+		183323531ED6B10D00B1ECEA /* Cross_buy_serveridsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB31E7FC2C500B48E3C /* Cross_buy_serveridsModel.m */; };
+		183323541ED6B10D00B1ECEA /* ServiceGestureSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9749E1E7FDDD400B48E3C /* ServiceGestureSetting.m */; };
+		183323551ED6B10D00B1ECEA /* Samurai_CssParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973501E7FDDD400B48E3C /* Samurai_CssParser.m */; };
+		183323561ED6B10D00B1ECEA /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972901E7FDDD300B48E3C /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		183323571ED6B10D00B1ECEA /* OLConfigDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972881E7FDDD300B48E3C /* OLConfigDataModel.m */; };
+		183323581ED6B10D00B1ECEA /* OLBasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972A61E7FDDD400B48E3C /* OLBasicViewController.m */; };
+		183323591ED6B10D00B1ECEA /* ZAAutoBuyHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */; };
+		1833235A1ED6B10D00B1ECEA /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972181E7FCA2B00B48E3C /* FMResultSet.m */; };
+		1833235B1ED6B10D00B1ECEA /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F319E65EF30045A720 /* UIAlertView+AFNetworking.m */; };
+		1833235C1ED6B10D00B1ECEA /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */; };
+		1833235D1ED6B10D00B1ECEA /* UIImageView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973CE1E7FDDD400B48E3C /* UIImageView+Html.m */; };
+		1833235E1ED6B10D00B1ECEA /* ZAAutoBuyWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */; };
+		1833235F1ED6B10D00B1ECEA /* View+Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973421E7FDDD400B48E3C /* View+Template.m */; };
+		183323601ED6B10D00B1ECEA /* Samurai_CSSRuleSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973561E7FDDD400B48E3C /* Samurai_CSSRuleSet.m */; };
+		183323611ED6B10D00B1ECEA /* UITableView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973DC1E7FDDD400B48E3C /* UITableView+Html.m */; };
+		183323621ED6B10D00B1ECEA /* UIProgressView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973D41E7FDDD400B48E3C /* UIProgressView+Html.m */; };
+		183323631ED6B10D00B1ECEA /* STIHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9764E1E7FDE1500B48E3C /* STIHTTPSessionManager.m */; };
+		183323641ED6B10D00B1ECEA /* ZWSystemTotalRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D6C1E7FC24700B48E3C /* ZWSystemTotalRequestModel.m */; };
+		183323651ED6B10D00B1ECEA /* Samurai_Core.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972FF1E7FDDD400B48E3C /* Samurai_Core.m */; };
+		183323661ED6B10D00B1ECEA /* ServiceTapspotHook.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974CB1E7FDDD400B48E3C /* ServiceTapspotHook.m */; };
+		183323671ED6B10D00B1ECEA /* CBGPlanCommonCheckListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091321EA4BF460015E393 /* CBGPlanCommonCheckListVC.m */; };
+		183323681ED6B10D00B1ECEA /* OLEGORefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974DD1E7FDDD400B48E3C /* OLEGORefreshView.m */; };
+		183323691ED6B10D00B1ECEA /* tokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974771E7FDDD400B48E3C /* tokenizer.c */; };
+		1833236A1ED6B10D00B1ECEA /* ExtraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD41E7FC2C500B48E3C /* ExtraModel.m */; };
+		1833236B1ED6B10D00B1ECEA /* OLEGOCustomFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974F21E7FDDD400B48E3C /* OLEGOCustomFooterView.m */; };
+		1833236C1ED6B10D00B1ECEA /* OLEGOHeaderNormalControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974EC1E7FDDD400B48E3C /* OLEGOHeaderNormalControl.m */; };
+		1833236D1ED6B10D00B1ECEA /* UISlider+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973D81E7FDDD400B48E3C /* UISlider+Html.m */; };
+		1833236E1ED6B10D00B1ECEA /* Samurai_ModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9731C1E7FDDD400B48E3C /* Samurai_ModelManager.m */; };
+		1833236F1ED6B10D00B1ECEA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58A219E622680045A720 /* ViewController.m */; };
+		183323701ED6B10D00B1ECEA /* Summon_equip2Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE81E7FC2C500B48E3C /* Summon_equip2Model.m */; };
+		183323711ED6B10D00B1ECEA /* Samurai_Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972EF1E7FDDD400B48E3C /* Samurai_Runtime.m */; };
+		183323721ED6B10D00B1ECEA /* Samurai_HtmlColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973A61E7FDDD400B48E3C /* Samurai_HtmlColor.m */; };
+		183323731ED6B10D00B1ECEA /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
+		183323741ED6B10D00B1ECEA /* HtmlElement_P.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9737D1E7FDDD400B48E3C /* HtmlElement_P.m */; };
+		183323751ED6B10D00B1ECEA /* AAPlotOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090EF1E9F555D0015E393 /* AAPlotOptions.m */; };
+		183323761ED6B10D00B1ECEA /* Samurai_Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974211E7FDDD400B48E3C /* Samurai_Color.m */; };
+		183323771ED6B10D00B1ECEA /* Samurai_SignalBus.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9730D1E7FDDD400B48E3C /* Samurai_SignalBus.m */; };
+		183323781ED6B10D00B1ECEA /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EA19E65EF30045A720 /* AFURLResponseSerialization.m */; };
+		183323791ED6B10D00B1ECEA /* ZALocationLocalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972441E7FCCA600B48E3C /* ZALocationLocalModel.m */; };
+		1833237A1ED6B10D00B1ECEA /* OLMainTopicListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972B01E7FDDD400B48E3C /* OLMainTopicListTableView.m */; };
+		1833237B1ED6B10D00B1ECEA /* ZALocalStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E021E7FC2C500B48E3C /* ZALocalStateModel.m */; };
+		1833237C1ED6B10D00B1ECEA /* Samurai_EventPanGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9742B1E7FDDD400B48E3C /* Samurai_EventPanGesture.m */; };
+		1833237D1ED6B10D00B1ECEA /* UIView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973E41E7FDDD400B48E3C /* UIView+Html.m */; };
+		1833237E1ED6B10D00B1ECEA /* Samurai_HtmlDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9735D1E7FDDD400B48E3C /* Samurai_HtmlDocument.m */; };
+		1833237F1ED6B10D00B1ECEA /* NSMutableArray+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D61E7FDDD400B48E3C /* NSMutableArray+Extension.m */; };
+		183323801ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973631E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m */; };
+		183323811ED6B10D00B1ECEA /* Samurai_Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974331E7FDDD400B48E3C /* Samurai_Font.m */; };
+		183323821ED6B10D00B1ECEA /* CBGPlanListDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091291EA4739F0015E393 /* CBGPlanListDetailCheckVC.m */; };
+		183323831ED6B10D00B1ECEA /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE81A0B5B0200B66A59 /* UIImageView+WebCache.m */; };
+		183323841ED6B10D00B1ECEA /* Samurai_UISwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974011E7FDDD400B48E3C /* Samurai_UISwitch.m */; };
+		183323851ED6B10D00B1ECEA /* Samurai_ClassLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9745C1E7FDDD400B48E3C /* Samurai_ClassLoader.m */; };
+		183323861ED6B10D00B1ECEA /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187767C21A416805003F31B6 /* SWTableViewCell.m */; };
+		183323871ED6B10D00B1ECEA /* CBGDetailWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7821E8E372600F18440 /* CBGDetailWebView.m */; };
+		183323881ED6B10D00B1ECEA /* Samurai_Watcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974601E7FDDD400B48E3C /* Samurai_Watcher.m */; };
+		183323891ED6B10D00B1ECEA /* Samurai_UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973F11E7FDDD400B48E3C /* Samurai_UICollectionView.m */; };
+		1833238A1ED6B10D00B1ECEA /* Samurai_CoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973011E7FDDD400B48E3C /* Samurai_CoreConfig.m */; };
+		1833238B1ED6B10D00B1ECEA /* CBGOthersBuyRepeatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820912C1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m */; };
+		1833238C1ED6B10D00B1ECEA /* More_attrModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDE1E7FC2C500B48E3C /* More_attrModel.m */; };
+		1833238D1ED6B10D00B1ECEA /* Samurai_ActivityRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974141E7FDDD400B48E3C /* Samurai_ActivityRouter.m */; };
+		1833238E1ED6B10D00B1ECEA /* Summon_equip1Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE61E7FC2C500B48E3C /* Summon_equip1Model.m */; };
+		1833238F1ED6B10D00B1ECEA /* YYCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972031E7FCA0800B48E3C /* YYCache.m */; };
+		183323901ED6B10D00B1ECEA /* OLEGONormalFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974E51E7FDDD400B48E3C /* OLEGONormalFooterView.m */; };
+		183323911ED6B10D00B1ECEA /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972341E7FCA5C00B48E3C /* NSObject+MJProperty.m */; };
+		183323921ED6B10D00B1ECEA /* ZWDataRefreshAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972481E7FCDFA00B48E3C /* ZWDataRefreshAPI.m */; };
+		183323931ED6B10D00B1ECEA /* OLBasicListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A975051E7FDDD400B48E3C /* OLBasicListTableView.m */; };
+		183323941ED6B10D00B1ECEA /* AllEquipModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC21E7FC2C500B48E3C /* AllEquipModel.m */; };
+		183323951ED6B10D00B1ECEA /* Samurai_UIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973EF1E7FDDD400B48E3C /* Samurai_UIButton.m */; };
+		183323961ED6B10D00B1ECEA /* CBGOwnerRepeatListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */; };
+		183323971ED6B10D00B1ECEA /* JBChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974B81E7FDDD400B48E3C /* JBChartView.m */; };
+		183323981ED6B10D00B1ECEA /* ServiceInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974B01E7FDDD400B48E3C /* ServiceInspector.m */; };
+		183323991ED6B10D00B1ECEA /* ServiceGestureViewPinch.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974A41E7FDDD400B48E3C /* ServiceGestureViewPinch.m */; };
+		1833239A1ED6B10D00B1ECEA /* UICollectionView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973CA1E7FDDD400B48E3C /* UICollectionView+Html.m */; };
+		1833239B1ED6B10D00B1ECEA /* AAArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090D11E9F555D0015E393 /* AAArea.m */; };
+		1833239C1ED6B10D00B1ECEA /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DD71A0B5B0200B66A59 /* SDWebImageDownloaderOperation.m */; };
+		1833239D1ED6B10D00B1ECEA /* CBGWebListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE6D1E862A1E009312A7 /* CBGWebListRefreshVC.m */; };
+		1833239E1ED6B10D00B1ECEA /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974881E7FDDD400B48E3C /* parser.c */; };
+		1833239F1ED6B10D00B1ECEA /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F519E65EF30045A720 /* UIButton+AFNetworking.m */; };
+		183323A01ED6B10D00B1ECEA /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974671E7FDDD400B48E3C /* attribute.c */; };
+		183323A11ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9736F1E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_80Finish.m */; };
+		183323A21ED6B10D00B1ECEA /* CBGEquipDetailRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971ED1E7FC6E100B48E3C /* CBGEquipDetailRequestManager.m */; };
+		183323A31ED6B10D00B1ECEA /* ServiceTapspotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974CF1E7FDDD400B48E3C /* ServiceTapspotView.m */; };
+		183323A41ED6B10D00B1ECEA /* Samurai_HtmlValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973BE1E7FDDD400B48E3C /* Samurai_HtmlValue.m */; };
+		183323A51ED6B10D00B1ECEA /* Samurai_Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972F31E7FDDD400B48E3C /* Samurai_Singleton.m */; };
+		183323A61ED6B10D00B1ECEA /* AAStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090F71E9F555D0015E393 /* AAStyle.m */; };
+		183323A71ED6B10D00B1ECEA /* OLEGONormalHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974F01E7FDDD400B48E3C /* OLEGONormalHeaderView.m */; };
+		183323A81ED6B10D00B1ECEA /* AllSummonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC61E7FC2C500B48E3C /* AllSummonModel.m */; };
+		183323A91ED6B10D00B1ECEA /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972261E7FCA5C00B48E3C /* MJFoundation.m */; };
+		183323AA1ED6B10D00B1ECEA /* Samurai_UICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973F31E7FDDD400B48E3C /* Samurai_UICollectionViewCell.m */; };
+		183323AB1ED6B10D00B1ECEA /* Samurai_Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9731E1E7FDDD400B48E3C /* Samurai_Model.m */; };
+		183323AC1ED6B10D00B1ECEA /* Samurai_XmlSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973E91E7FDDD400B48E3C /* Samurai_XmlSupport.m */; };
+		183323AD1ED6B10D00B1ECEA /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972361E7FCA5C00B48E3C /* NSString+MJExtension.m */; };
+		183323AE1ED6B10D00B1ECEA /* ServiceTapspotManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974CD1E7FDDD400B48E3C /* ServiceTapspotManager.m */; };
+		183323AF1ED6B10D00B1ECEA /* ServiceGestureHook.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9749C1E7FDDD400B48E3C /* ServiceGestureHook.m */; };
+		183323B01ED6B10D00B1ECEA /* UIPageControl+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973D21E7FDDD400B48E3C /* UIPageControl+Html.m */; };
+		183323B11ED6B10D00B1ECEA /* Samurai_EventTapGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974311E7FDDD400B48E3C /* Samurai_EventTapGesture.m */; };
+		183323B21ED6B10D00B1ECEA /* Samurai_Namespace.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972C61E7FDDD400B48E3C /* Samurai_Namespace.m */; };
+		183323B31ED6B10D00B1ECEA /* CancelWarningRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820909C1E9E2FA60015E393 /* CancelWarningRefreshManager.m */; };
+		183323B41ED6B10D00B1ECEA /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9722A1E7FCA5C00B48E3C /* MJPropertyKey.m */; };
+		183323B51ED6B10D00B1ECEA /* Samurai_HtmlMediaQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973711E7FDDD400B48E3C /* Samurai_HtmlMediaQuery.m */; };
+		183323B61ED6B10D00B1ECEA /* CBGListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9766A1E7FDFB300B48E3C /* CBGListModel.m */; };
+		183323B71ED6B10D00B1ECEA /* RefreshListDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971CC1E7FC67400B48E3C /* RefreshListDataManager.m */; };
+		183323B81ED6B10D00B1ECEA /* DPWhiteTopController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E4A1E7FC34100B48E3C /* DPWhiteTopController.m */; };
+		183323B91ED6B10D00B1ECEA /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DD11A0B5B0200B66A59 /* SDWebImageCompat.m */; };
+		183323BA1ED6B10D00B1ECEA /* CBGMaxHistoryListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F911E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m */; };
+		183323BB1ED6B10D00B1ECEA /* AALegend.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E11E9F555D0015E393 /* AALegend.m */; };
+		183323BC1ED6B10D00B1ECEA /* NodeModelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE471E862866009312A7 /* NodeModelCell.m */; };
+		183323BD1ED6B10D00B1ECEA /* Samurai_ServiceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973341E7FDDD400B48E3C /* Samurai_ServiceConfig.m */; };
+		183323BE1ED6B10D00B1ECEA /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F119E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m */; };
+		183323BF1ED6B10D00B1ECEA /* NodeModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE4E1E862866009312A7 /* NodeModelViewController.m */; };
+		183323C01ED6B10D00B1ECEA /* Samurai_Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973051E7FDDD400B48E3C /* Samurai_Notification.m */; };
+		183323C11ED6B10D00B1ECEA /* ZWTopRefreshListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D871E7FC24700B48E3C /* ZWTopRefreshListController.m */; };
+		183323C21ED6B10D00B1ECEA /* AASpline.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090F51E9F555D0015E393 /* AASpline.m */; };
+		183323C31ED6B10D00B1ECEA /* STIHTTPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9764C1E7FDE1500B48E3C /* STIHTTPNetwork.m */; };
+		183323C41ED6B10D00B1ECEA /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974751E7FDDD400B48E3C /* tag.c */; };
+		183323C51ED6B10D00B1ECEA /* CBGWebListCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE821E8631C2009312A7 /* CBGWebListCheckManager.m */; };
+		183323C61ED6B10D00B1ECEA /* AASeriesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090F31E9F555D0015E393 /* AASeriesElement.m */; };
+		183323C71ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectViewport.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9738C1E7FDDD400B48E3C /* Samurai_HtmlRenderObjectViewport.m */; };
+		183323C81ED6B10D00B1ECEA /* ServiceTapspot.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C91E7FDDD400B48E3C /* ServiceTapspot.m */; };
+		183323C91ED6B10D00B1ECEA /* ViewController+NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973461E7FDDD400B48E3C /* ViewController+NavigationBar.m */; };
+		183323CA1ED6B10D00B1ECEA /* OLTopicListDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972AA1E7FDDD400B48E3C /* OLTopicListDataModel.m */; };
+		183323CB1ED6B10D00B1ECEA /* Samurai_HtmlNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973AA1E7FDDD400B48E3C /* Samurai_HtmlNumber.m */; };
+		183323CC1ED6B10D00B1ECEA /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976401E7FDE1500B48E3C /* AutoCoding.m */; };
+		183323CD1ED6B10D00B1ECEA /* ZAAnnotationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DFE1E7FC2C500B48E3C /* ZAAnnotationModel.m */; };
+		183323CE1ED6B10D00B1ECEA /* AAColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090D91E9F555D0015E393 /* AAColumn.m */; };
+		183323CF1ED6B10D00B1ECEA /* Samurai_HtmlRenderQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9738E1E7FDDD400B48E3C /* Samurai_HtmlRenderQuery.m */; };
+		183323D01ED6B10D00B1ECEA /* Samurai_NotificationBus.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973071E7FDDD400B48E3C /* Samurai_NotificationBus.m */; };
+		183323D11ED6B10D00B1ECEA /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE01A0B5B0200B66A59 /* UIImage+GIF.m */; };
+		183323D21ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_10Begin.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973921E7FDDD400B48E3C /* Samurai_HtmlRenderWorklet_10Begin.m */; };
+		183323D31ED6B10D00B1ECEA /* katana.tab.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974861E7FDDD400B48E3C /* katana.tab.c */; };
+		183323D41ED6B10D00B1ECEA /* NodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE451E862866009312A7 /* NodeModel.m */; };
+		183323D51ED6B10D00B1ECEA /* UIActivityIndicatorView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973C61E7FDDD400B48E3C /* UIActivityIndicatorView+Html.m */; };
+		183323D61ED6B10D00B1ECEA /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972DC1E7FDDD400B48E3C /* NSObject+Extension.m */; };
+		183323D71ED6B10D00B1ECEA /* Samurai_HtmlStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9739D1E7FDDD400B48E3C /* Samurai_HtmlStyle.m */; };
+		183323D81ED6B10D00B1ECEA /* Samurai_ViewTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9744F1E7FDDD400B48E3C /* Samurai_ViewTemplate.m */; };
+		183323D91ED6B10D00B1ECEA /* AAAreaspline.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090D31E9F555D0015E393 /* AAAreaspline.m */; };
+		183323DA1ED6B10D00B1ECEA /* Samurai_Trigger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972F91E7FDDD400B48E3C /* Samurai_Trigger.m */; };
+		183323DB1ED6B10D00B1ECEA /* ZAHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976531E7FDE1500B48E3C /* ZAHTTPClient.m */; };
+		183323DC1ED6B10D00B1ECEA /* BaseActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971921E7FC4FA00B48E3C /* BaseActivity.m */; };
+		183323DD1ED6B10D00B1ECEA /* WebEquip_listModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE7A1E863158009312A7 /* WebEquip_listModel.m */; };
+		183323DE1ED6B10D00B1ECEA /* AAMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E51E9F555D0015E393 /* AAMarker.m */; };
+		183323DF1ED6B10D00B1ECEA /* HtmlElement_Pre.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9737F1E7FDDD400B48E3C /* HtmlElement_Pre.m */; };
+		183323E01ED6B10D00B1ECEA /* EquipExtraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD01E7FC2C500B48E3C /* EquipExtraModel.m */; };
+		183323E11ED6B10D00B1ECEA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972DE1E7FDDD400B48E3C /* NSString+Extension.m */; };
+		183323E21ED6B10D00B1ECEA /* UIWebView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973E61E7FDDD400B48E3C /* UIWebView+Html.m */; };
+		183323E31ED6B10D00B1ECEA /* Samurai_UITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974051E7FDDD400B48E3C /* Samurai_UITableViewCell.m */; };
+		183323E41ED6B10D00B1ECEA /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE61A0B5B0200B66A59 /* UIImageView+HighlightedWebCache.m */; };
+		183323E51ED6B10D00B1ECEA /* NSObject+AutoRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976441E7FDE1500B48E3C /* NSObject+AutoRuntime.m */; };
+		183323E61ED6B10D00B1ECEA /* Equip_listModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEF1E7FC2C500B48E3C /* Equip_listModel.m */; };
+		183323E71ED6B10D00B1ECEA /* Samurai_Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E51E7FDDD400B48E3C /* Samurai_Encoding.m */; };
+		183323E81ED6B10D00B1ECEA /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E819E65EF30045A720 /* AFURLRequestSerialization.m */; };
+		183323E91ED6B10D00B1ECEA /* Samurai_HtmlSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B81E7FDDD400B48E3C /* Samurai_HtmlSize.m */; };
+		183323EA1ED6B10D00B1ECEA /* NSBundle+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972CE1E7FDDD400B48E3C /* NSBundle+Extension.m */; };
+		183323EB1ED6B10D00B1ECEA /* ServiceGrids.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974AA1E7FDDD400B48E3C /* ServiceGrids.m */; };
+		183323EC1ED6B10D00B1ECEA /* Samurai_UIScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973FD1E7FDDD400B48E3C /* Samurai_UIScrollView.m */; };
+		183323ED1ED6B10D00B1ECEA /* CityLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DAE1E7FC2C500B48E3C /* CityLocationManager.m */; };
+		183323EE1ED6B10D00B1ECEA /* Samurai_UIActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973ED1E7FDDD400B48E3C /* Samurai_UIActivityIndicatorView.m */; };
+		183323EF1ED6B10D00B1ECEA /* RefreshListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D6F1E7FC24700B48E3C /* RefreshListCell.m */; };
+		183323F01ED6B10D00B1ECEA /* ZWDetailBuyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D601E7FC24700B48E3C /* ZWDetailBuyVC.m */; };
+		183323F11ED6B10D00B1ECEA /* ZWDetailCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BB0331E825C4700306695 /* ZWDetailCheckManager.m */; };
+		183323F21ED6B10D00B1ECEA /* Samurai_Predefine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972C81E7FDDD400B48E3C /* Samurai_Predefine.m */; };
+		183323F31ED6B10D00B1ECEA /* CBGPlanDetailPreShowWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */; };
+		183323F41ED6B10D00B1ECEA /* NTConnectClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972951E7FDDD300B48E3C /* NTConnectClient.m */; };
+		183323F51ED6B10D00B1ECEA /* AAChartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090C01E9F555D0015E393 /* AAChartModel.m */; };
+		183323F61ED6B10D00B1ECEA /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
+		183323F71ED6B10D00B1ECEA /* Samurai_Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972FD1E7FDDD400B48E3C /* Samurai_Validator.m */; };
+		183323F81ED6B10D00B1ECEA /* foundation.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974811E7FDDD400B48E3C /* foundation.c */; };
+		183323F91ED6B10D00B1ECEA /* ViewController+Binding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973441E7FDDD400B48E3C /* ViewController+Binding.m */; };
+		183323FA1ED6B10D00B1ECEA /* AADataLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090DB1E9F555D0015E393 /* AADataLabels.m */; };
+		183323FB1ED6B10D00B1ECEA /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DAA1E7FC2C500B48E3C /* BaseDataModel.m */; };
+		183323FC1ED6B10D00B1ECEA /* DirectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DED1E7FC2C500B48E3C /* DirectionModel.m */; };
+		183323FD1ED6B10D00B1ECEA /* PagerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE761E863158009312A7 /* PagerModel.m */; };
+		183323FE1ED6B10D00B1ECEA /* CBGDepthStudyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090BB1E9F4FE70015E393 /* CBGDepthStudyVC.m */; };
+		183323FF1ED6B10D00B1ECEA /* NSMutableSet+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972DA1E7FDDD400B48E3C /* NSMutableSet+Extension.m */; };
+		183324001ED6B10D00B1ECEA /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9746F1E7FDDD400B48E3C /* parser.c */; };
+		183324011ED6B10D00B1ECEA /* Samurai_EventInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974291E7FDDD400B48E3C /* Samurai_EventInput.m */; };
+		183324021ED6B10D00B1ECEA /* Samurai_DockerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973271E7FDDD400B48E3C /* Samurai_DockerProtocol.m */; };
+		183324031ED6B10D00B1ECEA /* UISwitch+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973DA1E7FDDD400B48E3C /* UISwitch+Html.m */; };
+		183324041ED6B10D00B1ECEA /* CBGNearHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976701E8145DF00B48E3C /* CBGNearHistoryVC.m */; };
+		183324051ED6B10D00B1ECEA /* Samurai_ModelInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9731A1E7FDDD400B48E3C /* Samurai_ModelInstance.m */; };
+		183324061ED6B10D00B1ECEA /* CBGPlanCompareBaseListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091351EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m */; };
+		183324071ED6B10D00B1ECEA /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DE21A0B5B0200B66A59 /* UIImage+MultiFormat.m */; };
+		183324081ED6B10D00B1ECEA /* HugeHorseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD81E7FC2C500B48E3C /* HugeHorseModel.m */; };
+		183324091ED6B10D00B1ECEA /* Samurai_RenderStoreNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9743D1E7FDDD400B48E3C /* Samurai_RenderStoreNode.m */; };
+		1833240A1ED6B10D00B1ECEA /* RefreshDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971C21E7FC67400B48E3C /* RefreshDataModel.m */; };
+		1833240B1ED6B10D00B1ECEA /* Samurai_Handler.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E71E7FDDD400B48E3C /* Samurai_Handler.m */; };
+		1833240C1ED6B10D00B1ECEA /* Samurai_Sandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972F11E7FDDD400B48E3C /* Samurai_Sandbox.m */; };
+		1833240D1ED6B10D00B1ECEA /* Samurai_StyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974491E7FDDD400B48E3C /* Samurai_StyleSheet.m */; };
+		1833240E1ED6B10D00B1ECEA /* Samurai_UIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973F91E7FDDD400B48E3C /* Samurai_UIPageControl.m */; };
+		1833240F1ED6B10D00B1ECEA /* Signal+View.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973381E7FDDD400B48E3C /* Signal+View.m */; };
+		183324101ED6B10D00B1ECEA /* ZAAutoBuySettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183320991ED51EA900B1ECEA /* ZAAutoBuySettingVC.m */; };
+		183324111ED6B10D00B1ECEA /* Samurai_Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974231E7FDDD400B48E3C /* Samurai_Document.m */; };
+		183324121ED6B10D00B1ECEA /* CBGCompareSameRoleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */; };
+		183324131ED6B10D00B1ECEA /* Samurai_HtmlNumberPercentage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B41E7FDDD400B48E3C /* Samurai_HtmlNumberPercentage.m */; };
+		183324141ED6B10D00B1ECEA /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EF19E65EF30045A720 /* AFNetworkActivityIndicatorManager.m */; };
+		183324151ED6B10D00B1ECEA /* Samurai_Performance.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972EB1E7FDDD400B48E3C /* Samurai_Performance.m */; };
+		183324161ED6B10D00B1ECEA /* UITextField+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973E01E7FDDD400B48E3C /* UITextField+Html.m */; };
+		183324171ED6B10D00B1ECEA /* Samurai_UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973FF1E7FDDD400B48E3C /* Samurai_UISlider.m */; };
+		183324181ED6B10D00B1ECEA /* Signal+Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973171E7FDDD400B48E3C /* Signal+Model.m */; };
+		183324191ED6B10D00B1ECEA /* CBGRoleDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DAC1E7FC2C500B48E3C /* CBGRoleDataModel.m */; };
+		1833241A1ED6B10D00B1ECEA /* Samurai_Tree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9744B1E7FDDD400B48E3C /* Samurai_Tree.m */; };
+		1833241B1ED6B10D00B1ECEA /* PanicRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892CA421EC9A8DD006AA762 /* PanicRefreshManager.m */; };
+		1833241C1ED6B10D00B1ECEA /* UIButton+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973C81E7FDDD400B48E3C /* UIButton+Html.m */; };
+		1833241D1ED6B10D00B1ECEA /* Samurai_UnitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972FB1E7FDDD400B48E3C /* Samurai_UnitTest.m */; };
+		1833241E1ED6B10D00B1ECEA /* Samurai.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974571E7FDDD400B48E3C /* Samurai.m */; };
+		1833241F1ED6B10D00B1ECEA /* Samurai_UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9740B1E7FDDD400B48E3C /* Samurai_UIView.m */; };
+		183324201ED6B10D00B1ECEA /* CBGStatisticsDetailHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB78F1E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.m */; };
+		183324211ED6B10D00B1ECEA /* AAJsonConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090C51E9F555D0015E393 /* AAJsonConverter.m */; };
+		183324221ED6B10D00B1ECEA /* CBGLocalServerListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185522791EA849580052AD16 /* CBGLocalServerListVC.m */; };
+		183324231ED6B10D00B1ECEA /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E419E65EF30045A720 /* AFSecurityPolicy.m */; };
+		183324241ED6B10D00B1ECEA /* AAChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090D71E9F555D0015E393 /* AAChart.m */; };
+		183324251ED6B10D00B1ECEA /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DFC1E7FC2C500B48E3C /* UserInfo.m */; };
+		183324261ED6B10D00B1ECEA /* Samurai_UIProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973FB1E7FDDD400B48E3C /* Samurai_UIProgressView.m */; };
+		183324271ED6B10D00B1ECEA /* YYMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972091E7FCA0800B48E3C /* YYMemoryCache.m */; };
+		183324281ED6B10D00B1ECEA /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DD91A0B5B0200B66A59 /* SDWebImageManager.m */; };
+		183324291ED6B10D00B1ECEA /* JSWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9728D1E7FDDD300B48E3C /* JSWebView.m */; };
+		1833242A1ED6B10D00B1ECEA /* Samurai_Script.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974471E7FDDD400B48E3C /* Samurai_Script.m */; };
+		1833242B1ED6B10D00B1ECEA /* Samurai_DockerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9732B1E7FDDD400B48E3C /* Samurai_DockerWindow.m */; };
+		1833242C1ED6B10D00B1ECEA /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972121E7FCA2B00B48E3C /* FMDatabaseAdditions.m */; };
+		1833242D1ED6B10D00B1ECEA /* PropertyInfomation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE541E862866009312A7 /* PropertyInfomation.m */; };
+		1833242E1ED6B10D00B1ECEA /* AAOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E71E9F555D0015E393 /* AAOptions.m */; };
+		1833242F1ED6B10D00B1ECEA /* NSDictionary+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D41E7FDDD400B48E3C /* NSDictionary+Extension.m */; };
+		183324301ED6B10D00B1ECEA /* ZWHistoryListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D7A1E7FC24700B48E3C /* ZWHistoryListController.m */; };
+		183324311ED6B10D00B1ECEA /* View+Query.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9733E1E7FDDD400B48E3C /* View+Query.m */; };
+		183324321ED6B10D00B1ECEA /* ZWSortListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D831E7FC24700B48E3C /* ZWSortListController.m */; };
+		183324331ED6B10D00B1ECEA /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DD31A0B5B0200B66A59 /* SDWebImageDecoder.m */; };
+		183324341ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973861E7FDDD400B48E3C /* Samurai_HtmlRenderObjectContainer.m */; };
+		183324351ED6B10D00B1ECEA /* Samurai_Config(Phone).m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972C01E7FDDD400B48E3C /* Samurai_Config(Phone).m */; };
+		183324361ED6B10D00B1ECEA /* tokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9748C1E7FDDD400B48E3C /* tokenizer.c */; };
+		183324371ED6B10D00B1ECEA /* EquipDetailArrayRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971BC1E7FC67400B48E3C /* EquipDetailArrayRequestModel.m */; };
+		183324381ED6B10D00B1ECEA /* RoleDetailDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DBB1E7FC2C500B48E3C /* RoleDetailDataModel.m */; };
+		183324391ED6B10D00B1ECEA /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972101E7FCA2B00B48E3C /* FMDatabase.m */; };
+		1833243A1ED6B10D00B1ECEA /* NodePressAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE521E862866009312A7 /* NodePressAnimationView.m */; };
+		1833243B1ED6B10D00B1ECEA /* RecorderTimeRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A81E9E2FA60015E393 /* RecorderTimeRefreshManager.m */; };
+		1833243C1ED6B10D00B1ECEA /* ExAvtModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD21E7FC2C500B48E3C /* ExAvtModel.m */; };
+		1833243D1ED6B10D00B1ECEA /* Samurai_UIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973F51E7FDDD400B48E3C /* Samurai_UIImageView.m */; };
+		1833243E1ED6B10D00B1ECEA /* ZWSystemBaseListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D681E7FC24700B48E3C /* ZWSystemBaseListVC.m */; };
+		1833243F1ED6B10D00B1ECEA /* Samurai_Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972F71E7FDDD400B48E3C /* Samurai_Thread.m */; };
+		183324401ED6B10D00B1ECEA /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972161E7FCA2B00B48E3C /* FMDatabaseQueue.m */; };
+		183324411ED6B10D00B1ECEA /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DB19E65EF30045A720 /* AFHTTPRequestOperation.m */; };
+		183324421ED6B10D00B1ECEA /* AALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E31E9F555D0015E393 /* AALine.m */; };
+		183324431ED6B10D00B1ECEA /* ZWSellOthersListClearModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D641E7FC24700B48E3C /* ZWSellOthersListClearModel.m */; };
+		183324441ED6B10D00B1ECEA /* LocationTimeRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A21E9E2FA60015E393 /* LocationTimeRefreshManager.m */; };
+		183324451ED6B10D00B1ECEA /* OLBasicDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972861E7FDDD300B48E3C /* OLBasicDataModel.m */; };
+		183324461ED6B10D00B1ECEA /* ZWBGRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E081E7FC2C500B48E3C /* ZWBGRefreshManager.m */; };
+		183324471ED6B10D00B1ECEA /* ZWDataDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E0A1E7FC2C500B48E3C /* ZWDataDetailModel.m */; };
+		183324481ED6B10D00B1ECEA /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EC19E65EF30045A720 /* AFURLSessionManager.m */; };
+		183324491ED6B10D00B1ECEA /* ZWRateEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D7C1E7FC24700B48E3C /* ZWRateEditController.m */; };
+		1833244A1ED6B10D00B1ECEA /* RemoteNTFRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090AA1E9E2FA60015E393 /* RemoteNTFRefreshManager.m */; };
+		1833244B1ED6B10D00B1ECEA /* ServiceMonitorStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C61E7FDDD400B48E3C /* ServiceMonitorStatusBar.m */; };
+		1833244C1ED6B10D00B1ECEA /* YYKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972071E7FCA0800B48E3C /* YYKVStorage.m */; };
+		1833244D1ED6B10D00B1ECEA /* Bargain_infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB11E7FC2C500B48E3C /* Bargain_infoModel.m */; };
+		1833244E1ED6B10D00B1ECEA /* Samurai_Assert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E11E7FDDD400B48E3C /* Samurai_Assert.m */; };
+		1833244F1ED6B10D00B1ECEA /* TokenRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090AE1E9E2FA60015E393 /* TokenRefreshManager.m */; };
+		183324501ED6B10D00B1ECEA /* NSMutableDictionary+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D81E7FDDD400B48E3C /* NSMutableDictionary+Extension.m */; };
+		183324511ED6B10D00B1ECEA /* ServiceBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974921E7FDDD400B48E3C /* ServiceBorder.m */; };
+		183324521ED6B10D00B1ECEA /* NodeModelStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE4B1E862866009312A7 /* NodeModelStrings.m */; };
+		183324531ED6B10D00B1ECEA /* Samurai_ViewWorkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974511E7FDDD400B48E3C /* Samurai_ViewWorkflow.m */; };
+		183324541ED6B10D00B1ECEA /* DPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E481E7FC34100B48E3C /* DPViewController.m */; };
+		183324551ED6B10D00B1ECEA /* CBGSettingURLEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */; };
+		183324561ED6B10D00B1ECEA /* Samurai_RenderQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9743B1E7FDDD400B48E3C /* Samurai_RenderQuery.m */; };
+		183324571ED6B10D00B1ECEA /* AATooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090FD1E9F555D0015E393 /* AATooltip.m */; };
+		183324581ED6B10D00B1ECEA /* Samurai_HtmlArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973A21E7FDDD400B48E3C /* Samurai_HtmlArray.m */; };
+		183324591ED6B10D00B1ECEA /* CBGCombinedHistoryHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */; };
+		1833245A1ED6B10D00B1ECEA /* ZWBaseRefreshController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892CA481EC9B125006AA762 /* ZWBaseRefreshController.m */; };
+		1833245B1ED6B10D00B1ECEA /* UITextView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973E21E7FDDD400B48E3C /* UITextView+Html.m */; };
+		1833245C1ED6B10D00B1ECEA /* ZAHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976551E7FDE1500B48E3C /* ZAHTTPRequest.m */; };
+		1833245D1ED6B10D00B1ECEA /* All_skillsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC01E7FC2C500B48E3C /* All_skillsModel.m */; };
+		1833245E1ED6B10D00B1ECEA /* ZWSystemSellListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D6A1E7FC24700B48E3C /* ZWSystemSellListVC.m */; };
+		1833245F1ED6B10D00B1ECEA /* Samurai_ViewComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9740F1E7FDDD400B48E3C /* Samurai_ViewComponent.m */; };
+		183324601ED6B10D00B1ECEA /* ServiceBorderHook.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974941E7FDDD400B48E3C /* ServiceBorderHook.m */; };
+		183324611ED6B10D00B1ECEA /* Samurai_DomWritter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974271E7FDDD400B48E3C /* Samurai_DomWritter.m */; };
+		183324621ED6B10D00B1ECEA /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9746B1E7FDDD400B48E3C /* error.c */; };
+		183324631ED6B10D00B1ECEA /* Samurai_EventSwipeGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9742F1E7FDDD400B48E3C /* Samurai_EventSwipeGesture.m */; };
+		183324641ED6B10D00B1ECEA /* AttrsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DC81E7FC2C500B48E3C /* AttrsModel.m */; };
+		183324651ED6B10D00B1ECEA /* CBGSortHistoryBaseDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7871E8F348800F18440 /* CBGSortHistoryBaseDetailVC.m */; };
+		183324661ED6B10D00B1ECEA /* ViewController+Query.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973481E7FDDD400B48E3C /* ViewController+Query.m */; };
+		183324671ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9735F1E7FDDD400B48E3C /* Samurai_HtmlDocumentWorkflow.m */; };
+		183324681ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973671E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m */; };
+		183324691ED6B10D00B1ECEA /* Samurai_HtmlStyleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9739F1E7FDDD400B48E3C /* Samurai_HtmlStyleObject.m */; };
+		1833246A1ED6B10D00B1ECEA /* CBGPanicMaxedListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */; };
+		1833246B1ED6B10D00B1ECEA /* ZALocalStateTotalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E041E7FC2C500B48E3C /* ZALocalStateTotalModel.m */; };
+		1833246C1ED6B10D00B1ECEA /* Samurai_HtmlString.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973BA1E7FDDD400B48E3C /* Samurai_HtmlString.m */; };
+		1833246D1ED6B10D00B1ECEA /* OLEGOLoadTypeListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9750A1E7FDDD400B48E3C /* OLEGOLoadTypeListTableView.m */; };
+		1833246E1ED6B10D00B1ECEA /* Samurai_ActivityStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974161E7FDDD400B48E3C /* Samurai_ActivityStack.m */; };
+		1833246F1ED6B10D00B1ECEA /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DD51A0B5B0200B66A59 /* SDWebImageDownloader.m */; };
+		183324701ED6B10D00B1ECEA /* OLEGOPageListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9750C1E7FDDD400B48E3C /* OLEGOPageListTableView.m */; };
+		183324711ED6B10D00B1ECEA /* AAPlotLinesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090ED1E9F555D0015E393 /* AAPlotLinesElement.m */; };
+		183324721ED6B10D00B1ECEA /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9747E1E7FDDD400B48E3C /* vector.c */; };
+		183324731ED6B10D00B1ECEA /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DEA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m */; };
+		183324741ED6B10D00B1ECEA /* HighlightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB71E7FC2C500B48E3C /* HighlightModel.m */; };
+		183324751ED6B10D00B1ECEA /* AAXAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090FF1E9F555D0015E393 /* AAXAxis.m */; };
+		183324761ED6B10D00B1ECEA /* OLEGOFooterAndHeaderNoneControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974DB1E7FDDD400B48E3C /* OLEGOFooterAndHeaderNoneControl.m */; };
+		183324771ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973881E7FDDD400B48E3C /* Samurai_HtmlRenderObjectElement.m */; };
+		183324781ED6B10D00B1ECEA /* Samurai_ActivityStackGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974181E7FDDD400B48E3C /* Samurai_ActivityStackGroup.m */; };
+		183324791ED6B10D00B1ECEA /* OLNameListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18130E0819E8FDA000526957 /* OLNameListTableView.m */; };
+		1833247A1ED6B10D00B1ECEA /* ZAConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E001E7FC2C500B48E3C /* ZAConfigModel.m */; };
+		1833247B1ED6B10D00B1ECEA /* Idbid_descModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDA1E7FC2C500B48E3C /* Idbid_descModel.m */; };
+		1833247C1ED6B10D00B1ECEA /* ZWDaysListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D761E7FC24700B48E3C /* ZWDaysListController.m */; };
+		1833247D1ED6B10D00B1ECEA /* CBGLatestPlanBuyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */; };
+		1833247E1ED6B10D00B1ECEA /* ZWDataDetailModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E0C1E7FC2C500B48E3C /* ZWDataDetailModelManager.m */; };
+		1833247F1ED6B10D00B1ECEA /* Samurai_RenderObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974391E7FDDD400B48E3C /* Samurai_RenderObject.m */; };
+		183324801ED6B10D00B1ECEA /* Samurai_ResourceFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974451E7FDDD400B48E3C /* Samurai_ResourceFetcher.m */; };
+		183324811ED6B10D00B1ECEA /* ChangeschModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCA1E7FC2C500B48E3C /* ChangeschModel.m */; };
+		183324821ED6B10D00B1ECEA /* ChildModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCC1E7FC2C500B48E3C /* ChildModel.m */; };
+		183324831ED6B10D00B1ECEA /* CBGFutureStatusSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */; };
+		183324841ED6B10D00B1ECEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D589F19E622680045A720 /* AppDelegate.m */; };
+		183324851ED6B10D00B1ECEA /* PropKeptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE21E7FC2C500B48E3C /* PropKeptModel.m */; };
+		183324861ED6B10D00B1ECEA /* ZAHTTPApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976511E7FDE1500B48E3C /* ZAHTTPApi.m */; };
+		183324871ED6B10D00B1ECEA /* string_buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974711E7FDDD400B48E3C /* string_buffer.c */; };
+		183324881ED6B10D00B1ECEA /* Samurai_UITextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974071E7FDDD400B48E3C /* Samurai_UITextField.m */; };
+		183324891ED6B10D00B1ECEA /* ZWDetailOthersClearListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D621E7FC24700B48E3C /* ZWDetailOthersClearListVC.m */; };
+		1833248A1ED6B10D00B1ECEA /* UIScrollView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973D61E7FDDD400B48E3C /* UIScrollView+Html.m */; };
+		1833248B1ED6B10D00B1ECEA /* CreateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE421E862866009312A7 /* CreateModel.m */; };
+		1833248C1ED6B10D00B1ECEA /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DA61E7FC2C500B48E3C /* Account.m */; };
+		1833248D1ED6B10D00B1ECEA /* Samurai_HtmlSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9739A1E7FDDD400B48E3C /* Samurai_HtmlSupport.m */; };
+		1833248E1ED6B10D00B1ECEA /* Samurai_DomNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974251E7FDDD400B48E3C /* Samurai_DomNode.m */; };
+		1833248F1ED6B10D00B1ECEA /* ZAMMMaterialDesignSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A975111E7FDDD400B48E3C /* ZAMMMaterialDesignSpinner.m */; };
+		183324901ED6B10D00B1ECEA /* ZWTopRefreshModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971D21E7FC67400B48E3C /* ZWTopRefreshModel.m */; };
+		183324911ED6B10D00B1ECEA /* TimeRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090AC1E9E2FA60015E393 /* TimeRefreshManager.m */; };
+		183324921ED6B10D00B1ECEA /* Samurai_Signal.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9730B1E7FDDD400B48E3C /* Samurai_Signal.m */; };
+		183324931ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_30ParseResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973651E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_30ParseResource.m */; };
+		183324941ED6B10D00B1ECEA /* ServiceInspectorWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974B21E7FDDD400B48E3C /* ServiceInspectorWindow.m */; };
+		183324951ED6B10D00B1ECEA /* LocalTimingRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A01E9E2FA60015E393 /* LocalTimingRefreshManager.m */; };
+		183324961ED6B10D00B1ECEA /* OLTopicListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972AC1E7FDDD400B48E3C /* OLTopicListRequest.m */; };
+		183324971ED6B10D00B1ECEA /* AAOptionsConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090C71E9F555D0015E393 /* AAOptionsConstructor.m */; };
+		183324981ED6B10D00B1ECEA /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972321E7FCA5C00B48E3C /* NSObject+MJKeyValue.m */; };
+		183324991ED6B10D00B1ECEA /* Samurai_Config(Simulator).m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972C21E7FDDD400B48E3C /* Samurai_Config(Simulator).m */; };
+		1833249A1ED6B10D00B1ECEA /* ZAWKConnectDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9765B1E7FDE1500B48E3C /* ZAWKConnectDelegate.m */; };
+		1833249B1ED6B10D00B1ECEA /* Samurai_Metric.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974371E7FDDD400B48E3C /* Samurai_Metric.m */; };
+		1833249C1ED6B10D00B1ECEA /* Samurai_HtmlUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973BC1E7FDDD400B48E3C /* Samurai_HtmlUrl.m */; };
+		1833249D1ED6B10D00B1ECEA /* NSObject+AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976421E7FDE1500B48E3C /* NSObject+AutoCoding.m */; };
+		1833249E1ED6B10D00B1ECEA /* NSData+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D01E7FDDD400B48E3C /* NSData+Extension.m */; };
+		1833249F1ED6B10D00B1ECEA /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DF19E65EF30045A720 /* AFHTTPSessionManager.m */; };
+		183324A01ED6B10D00B1ECEA /* Samurai_HtmlRenderWorkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973901E7FDDD400B48E3C /* Samurai_HtmlRenderWorkflow.m */; };
+		183324A11ED6B10D00B1ECEA /* PetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE01E7FC2C500B48E3C /* PetModel.m */; };
+		183324A21ED6B10D00B1ECEA /* Samurai_HtmlRenderObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973841E7FDDD400B48E3C /* Samurai_HtmlRenderObject.m */; };
+		183324A31ED6B10D00B1ECEA /* HtmlElement_Li.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973791E7FDDD400B48E3C /* HtmlElement_Li.m */; };
+		183324A41ED6B10D00B1ECEA /* ProductInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF91E7FC2C500B48E3C /* ProductInfo.m */; };
+		183324A51ED6B10D00B1ECEA /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DDC1A0B5B0200B66A59 /* SDWebImagePrefetcher.m */; };
+		183324A61ED6B10D00B1ECEA /* Samurai_HtmlNumberDp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B01E7FDDD400B48E3C /* Samurai_HtmlNumberDp.m */; };
+		183324A71ED6B10D00B1ECEA /* NodeModelRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE491E862866009312A7 /* NodeModelRootNavigationController.m */; };
+		183324A81ED6B10D00B1ECEA /* ServiceGestureViewSwipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974A61E7FDDD400B48E3C /* ServiceGestureViewSwipe.m */; };
+		183324A91ED6B10D00B1ECEA /* DPHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976471E7FDE1500B48E3C /* DPHttpClient.m */; };
+		183324AA1ED6B10D00B1ECEA /* NTBasicRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972931E7FDDD300B48E3C /* NTBasicRequest.m */; };
+		183324AB1ED6B10D00B1ECEA /* LeanCloudRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820909E1E9E2FA60015E393 /* LeanCloudRefreshManager.m */; };
+		183324AC1ED6B10D00B1ECEA /* Samurai_ServiceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973301E7FDDD400B48E3C /* Samurai_ServiceLoader.m */; };
+		183324AD1ED6B10D00B1ECEA /* Samurai_ModelConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973201E7FDDD400B48E3C /* Samurai_ModelConfig.m */; };
+		183324AE1ED6B10D00B1ECEA /* RefreshEquipDetailDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971C61E7FC67400B48E3C /* RefreshEquipDetailDataManager.m */; };
+		183324AF1ED6B10D00B1ECEA /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D21E7FDDD400B48E3C /* NSDate+Extension.m */; };
+		183324B01ED6B10D00B1ECEA /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974641E7FDDD400B48E3C /* fishhook.c */; };
+		183324B11ED6B10D00B1ECEA /* Samurai_HtmlNumberAutomatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973AC1E7FDDD400B48E3C /* Samurai_HtmlNumberAutomatic.m */; };
+		183324B21ED6B10D00B1ECEA /* ServiceMonitorMemoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C21E7FDDD400B48E3C /* ServiceMonitorMemoryModel.m */; };
+		183324B31ED6B10D00B1ECEA /* NSArray+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972CC1E7FDDD400B48E3C /* NSArray+Extension.m */; };
+		183324B41ED6B10D00B1ECEA /* Samurai_UIWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9740D1E7FDDD400B48E3C /* Samurai_UIWebView.m */; };
+		183324B51ED6B10D00B1ECEA /* AATitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090FB1E9F555D0015E393 /* AATitle.m */; };
+		183324B61ED6B10D00B1ECEA /* HtmlElement_Hr.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973771E7FDDD400B48E3C /* HtmlElement_Hr.m */; };
+		183324B71ED6B10D00B1ECEA /* JSOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9728B1E7FDDD300B48E3C /* JSOperation.m */; };
+		183324B81ED6B10D00B1ECEA /* AAYAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = 182091011E9F555D0015E393 /* AAYAxis.m */; };
+		183324B91ED6B10D00B1ECEA /* Samurai_EventPinchGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9742D1E7FDDD400B48E3C /* Samurai_EventPinchGesture.m */; };
+		183324BA1ED6B10D00B1ECEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D589C19E622680045A720 /* main.m */; };
+		183324BB1ED6B10D00B1ECEA /* OLMainTopicListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972AE1E7FDDD400B48E3C /* OLMainTopicListCell.m */; };
+		183324BC1ED6B10D00B1ECEA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974D51E7FDDD400B48E3C /* MBProgressHUD.m */; };
+		183324BD1ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973611E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_10Begin.m */; };
+		183324BE1ED6B10D00B1ECEA /* ServiceGestureViewClick.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974A21E7FDDD400B48E3C /* ServiceGestureViewClick.m */; };
+		183324BF1ED6B10D00B1ECEA /* Samurai_Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973111E7FDDD400B48E3C /* Samurai_Event.m */; };
+		183324C01ED6B10D00B1ECEA /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FE19E65EF30045A720 /* UIWebView+AFNetworking.m */; };
+		183324C11ED6B10D00B1ECEA /* CBGWebListErrorCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE861E864F27009312A7 /* CBGWebListErrorCheckVC.m */; };
+		183324C21ED6B10D00B1ECEA /* RoleSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE781E863158009312A7 /* RoleSearch.m */; };
+		183324C31ED6B10D00B1ECEA /* Samurai_UIConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974551E7FDDD400B48E3C /* Samurai_UIConfig.m */; };
+		183324C41ED6B10D00B1ECEA /* Samurai_HtmlNumberEm.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B21E7FDDD400B48E3C /* Samurai_HtmlNumberEm.m */; };
+		183324C51ED6B10D00B1ECEA /* JinjieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DDC1E7FC2C500B48E3C /* JinjieModel.m */; };
+		183324C61ED6B10D00B1ECEA /* Samurai_RenderStoreScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9743F1E7FDDD400B48E3C /* Samurai_RenderStoreScope.m */; };
+		183324C71ED6B10D00B1ECEA /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
+		183324C81ED6B10D00B1ECEA /* BaseBlockController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E461E7FC34100B48E3C /* BaseBlockController.m */; };
+		183324C91ED6B10D00B1ECEA /* ZWSysSellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D661E7FC24700B48E3C /* ZWSysSellModel.m */; };
+		183324CA1ED6B10D00B1ECEA /* selector.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9748A1E7FDDD400B48E3C /* selector.c */; };
+		183324CB1ED6B10D00B1ECEA /* CBGPlanSortHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB78B1E8F350900F18440 /* CBGPlanSortHistoryVC.m */; };
+		183324CC1ED6B10D00B1ECEA /* RefreshEquipListDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971CA1E7FC67400B48E3C /* RefreshEquipListDataManager.m */; };
+		183324CD1ED6B10D00B1ECEA /* Samurai_UITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974091E7FDDD400B48E3C /* Samurai_UITextView.m */; };
+		183324CE1ED6B10D00B1ECEA /* CBGSortHistoryBaseStyleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */; };
+		183324CF1ED6B10D00B1ECEA /* ZACBGListDetailShowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */; };
+		183324D01ED6B10D00B1ECEA /* BaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E4F1E7FC36200B48E3C /* BaseRequestModel.m */; };
+		183324D11ED6B10D00B1ECEA /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E219E65EF30045A720 /* AFNetworkReachabilityManager.m */; };
+		183324D21ED6B10D00B1ECEA /* DZUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976491E7FDE1500B48E3C /* DZUtils.m */; };
+		183324D31ED6B10D00B1ECEA /* Samurai_DockerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973251E7FDDD400B48E3C /* Samurai_DockerManager.m */; };
+		183324D41ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973691E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m */; };
+		183324D51ED6B10D00B1ECEA /* View+Binding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9733C1E7FDDD400B48E3C /* View+Binding.m */; };
+		183324D61ED6B10D00B1ECEA /* ViewController+Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9734C1E7FDDD400B48E3C /* ViewController+Template.m */; };
+		183324D71ED6B10D00B1ECEA /* UICollectionViewCell+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973CC1E7FDDD400B48E3C /* UICollectionViewCell+Html.m */; };
+		183324D81ED6B10D00B1ECEA /* AccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DA81E7FC2C500B48E3C /* AccountInfo.m */; };
+		183324D91ED6B10D00B1ECEA /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F719E65EF30045A720 /* UIImageView+AFNetworking.m */; };
+		183324DA1ED6B10D00B1ECEA /* string_piece.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974731E7FDDD400B48E3C /* string_piece.c */; };
+		183324DB1ED6B10D00B1ECEA /* Samurai_Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E31E7FDDD400B48E3C /* Samurai_Debug.m */; };
+		183324DC1ED6B10D00B1ECEA /* ZWPanicRefreshController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892CA451EC9AAC7006AA762 /* ZWPanicRefreshController.m */; };
+		183324DD1ED6B10D00B1ECEA /* Summon_equip3Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEA1E7FC2C500B48E3C /* Summon_equip3Model.m */; };
+		183324DE1ED6B10D00B1ECEA /* ZWSystemListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D851E7FC24700B48E3C /* ZWSystemListController.m */; };
+		183324DF1ED6B10D00B1ECEA /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DD19E65EF30045A720 /* AFHTTPRequestOperationManager.m */; };
+		183324E01ED6B10D00B1ECEA /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9747C1E7FDDD400B48E3C /* util.c */; };
+		183324E11ED6B10D00B1ECEA /* ZWSystemRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971D01E7FC67400B48E3C /* ZWSystemRequestModel.m */; };
+		183324E21ED6B10D00B1ECEA /* CBGWebListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE711E862A95009312A7 /* CBGWebListRequestModel.m */; };
+		183324E31ED6B10D00B1ECEA /* LoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF71E7FC2C500B48E3C /* LoginInfo.m */; };
+		183324E41ED6B10D00B1ECEA /* Samurai_Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973321E7FDDD400B48E3C /* Samurai_Service.m */; };
+		183324E51ED6B10D00B1ECEA /* CoreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DCE1E7FC2C500B48E3C /* CoreModel.m */; };
+		183324E61ED6B10D00B1ECEA /* AAItemStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090DD1E9F555D0015E393 /* AAItemStyle.m */; };
+		183324E71ED6B10D00B1ECEA /* ServiceTapspotWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974D11E7FDDD400B48E3C /* ServiceTapspotWindow.m */; };
+		183324E81ED6B10D00B1ECEA /* CBGCopyUrlDetailCehckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */; };
+		183324E91ED6B10D00B1ECEA /* AASeries.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090F11E9F555D0015E393 /* AASeries.m */; };
+		183324EA1ED6B10D00B1ECEA /* AABar.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090D51E9F555D0015E393 /* AABar.m */; };
+		183324EB1ED6B10D00B1ECEA /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972141E7FCA2B00B48E3C /* FMDatabasePool.m */; };
+		183324EC1ED6B10D00B1ECEA /* Samurai_CSSRuleCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973541E7FDDD400B48E3C /* Samurai_CSSRuleCollector.m */; };
+		183324ED1ED6B10D00B1ECEA /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
+		183324EE1ED6B10D00B1ECEA /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972301E7FCA5C00B48E3C /* NSObject+MJCoding.m */; };
+		183324EF1ED6B10D00B1ECEA /* Samurai_HtmlNumberPx.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B61E7FDDD400B48E3C /* Samurai_HtmlNumberPx.m */; };
+		183324F01ED6B10D00B1ECEA /* Summon_coreModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE41E7FC2C500B48E3C /* Summon_coreModel.m */; };
+		183324F11ED6B10D00B1ECEA /* ZALocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971E11E7FC69500B48E3C /* ZALocation.m */; };
+		183324F21ED6B10D00B1ECEA /* ServiceGridsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974AC1E7FDDD400B48E3C /* ServiceGridsWindow.m */; };
+		183324F31ED6B10D00B1ECEA /* RefreshDefaultListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971C41E7FC67400B48E3C /* RefreshDefaultListRequestModel.m */; };
+		183324F41ED6B10D00B1ECEA /* Samurai_Vendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9745E1E7FDDD400B48E3C /* Samurai_Vendor.m */; };
+		183324F51ED6B10D00B1ECEA /* ZAPanicPayHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */; };
+		183324F61ED6B10D00B1ECEA /* ServiceGestureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974A01E7FDDD400B48E3C /* ServiceGestureView.m */; };
+		183324F71ED6B10D00B1ECEA /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972241E7FCA5C00B48E3C /* MJExtensionConst.m */; };
+		183324F81ED6B10D00B1ECEA /* FabaoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DD61E7FC2C500B48E3C /* FabaoModel.m */; };
+		183324F91ED6B10D00B1ECEA /* OLEGOPullTextFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974E71E7FDDD400B48E3C /* OLEGOPullTextFooterView.m */; };
+		183324FA1ED6B10D00B1ECEA /* Samurai_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9741E1E7FDDD400B48E3C /* Samurai_ViewController.m */; };
+		183324FB1ED6B10D00B1ECEA /* Poundage_listModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DB91E7FC2C500B48E3C /* Poundage_listModel.m */; };
+		183324FC1ED6B10D00B1ECEA /* ServiceBorderLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974961E7FDDD400B48E3C /* ServiceBorderLayer.m */; };
+		183324FD1ED6B10D00B1ECEA /* OLEGOFooterAutoLoadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974E01E7FDDD400B48E3C /* OLEGOFooterAutoLoadControl.m */; };
+		183324FE1ED6B10D00B1ECEA /* Samurai_CssProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973521E7FDDD400B48E3C /* Samurai_CssProtocol.m */; };
+		183324FF1ED6B10D00B1ECEA /* Samurai_DockerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973291E7FDDD400B48E3C /* Samurai_DockerView.m */; };
+		183325001ED6B10D00B1ECEA /* Samurai_HtmlNumberConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973AE1E7FDDD400B48E3C /* Samurai_HtmlNumberConstant.m */; };
+		183325011ED6B10D00B1ECEA /* OLEGOFooterNormalControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974E21E7FDDD400B48E3C /* OLEGOFooterNormalControl.m */; };
+		183325021ED6B10D00B1ECEA /* Samurai_HtmlDomNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973741E7FDDD400B48E3C /* Samurai_HtmlDomNode.m */; };
+		183325031ED6B10D00B1ECEA /* OLEGOLatestHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974EE1E7FDDD400B48E3C /* OLEGOLatestHeaderView.m */; };
+		183325041ED6B10D00B1ECEA /* AAChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090C21E9F555D0015E393 /* AAChartView.m */; };
+		183325051ED6B10D00B1ECEA /* Samurai_HtmlBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973A41E7FDDD400B48E3C /* Samurai_HtmlBox.m */; };
+		183325061ED6B10D00B1ECEA /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974691E7FDDD400B48E3C /* char_ref.c */; };
+		183325071ED6B10D00B1ECEA /* Samurai_UITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974031E7FDDD400B48E3C /* Samurai_UITableView.m */; };
+		183325081ED6B10D00B1ECEA /* EquipListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971BE1E7FC67400B48E3C /* EquipListRequestModel.m */; };
+		183325091ED6B10D00B1ECEA /* OLMainTopicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972B21E7FDDD400B48E3C /* OLMainTopicListViewController.m */; };
+		1833250A1ED6B10D00B1ECEA /* Samurai_SignalKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9730F1E7FDDD400B48E3C /* Samurai_SignalKVO.m */; };
+		1833250B1ED6B10D00B1ECEA /* RoleDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF51E7FC2C500B48E3C /* RoleDataModel.m */; };
+		1833250C1ED6B10D00B1ECEA /* Samurai_IntentBus.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9741C1E7FDDD400B48E3C /* Samurai_IntentBus.m */; };
+		1833250D1ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_20UpdateStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973941E7FDDD400B48E3C /* Samurai_HtmlRenderWorklet_20UpdateStyle.m */; };
+		1833250E1ED6B10D00B1ECEA /* Samurai_App.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9745A1E7FDDD400B48E3C /* Samurai_App.m */; };
+		1833250F1ED6B10D00B1ECEA /* PWDTimeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A61E9E2FA60015E393 /* PWDTimeManager.m */; };
+		183325101ED6B10D00B1ECEA /* Samurai_CSSSelectorChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973581E7FDDD400B48E3C /* Samurai_CSSSelectorChecker.m */; };
+		183325111ED6B10D00B1ECEA /* CBGMixedListCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */; };
+		183325121ED6B10D00B1ECEA /* Samurai_HtmlUserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973C31E7FDDD400B48E3C /* Samurai_HtmlUserAgent.m */; };
+		183325131ED6B10D00B1ECEA /* UILabel+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973D01E7FDDD400B48E3C /* UILabel+Html.m */; };
+		183325141ED6B10D00B1ECEA /* OpenTimesRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A41E9E2FA60015E393 /* OpenTimesRefreshManager.m */; };
+		183325151ED6B10D00B1ECEA /* Samurai_Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974121E7FDDD400B48E3C /* Samurai_Activity.m */; };
+		183325161ED6B10D00B1ECEA /* OLBasicRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9766D1E7FF03000B48E3C /* OLBasicRequest.m */; };
+		183325181ED6B10D00B1ECEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182091251E9F65550015E393 /* WebKit.framework */; };
+		183325191ED6B10D00B1ECEA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A971FF1E7FC8A500B48E3C /* CoreLocation.framework */; };
+		1833251A1ED6B10D00B1ECEA /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9724A1E7FD05F00B48E3C /* MessageUI.framework */; };
+		1833251B1ED6B10D00B1ECEA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9724B1E7FD05F00B48E3C /* AudioToolbox.framework */; };
+		1833251C1ED6B10D00B1ECEA /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9724C1E7FD05F00B48E3C /* CoreVideo.framework */; };
+		1833251D1ED6B10D00B1ECEA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9724D1E7FD05F00B48E3C /* CoreMedia.framework */; };
+		1833251E1ED6B10D00B1ECEA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9724E1E7FD05F00B48E3C /* ImageIO.framework */; };
+		1833251F1ED6B10D00B1ECEA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9724F1E7FD05F00B48E3C /* CFNetwork.framework */; };
+		183325201ED6B10D00B1ECEA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972501E7FD05F00B48E3C /* OpenGLES.framework */; };
+		183325211ED6B10D00B1ECEA /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972721E7FD06400B48E3C /* libsqlite3.dylib */; };
+		183325221ED6B10D00B1ECEA /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972741E7FD06A00B48E3C /* libstdc++.dylib */; };
+		183325231ED6B10D00B1ECEA /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972751E7FD06A00B48E3C /* libiconv.dylib */; };
+		183325241ED6B10D00B1ECEA /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972761E7FD06A00B48E3C /* libxml2.2.dylib */; };
+		183325251ED6B10D00B1ECEA /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972771E7FD06A00B48E3C /* libz.1.2.5.dylib */; };
+		183325261ED6B10D00B1ECEA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972511E7FD05F00B48E3C /* AVFoundation.framework */; };
+		183325271ED6B10D00B1ECEA /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972521E7FD05F00B48E3C /* AdSupport.framework */; };
+		183325281ED6B10D00B1ECEA /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972531E7FD05F00B48E3C /* Accelerate.framework */; };
+		183325291ED6B10D00B1ECEA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972541E7FD05F00B48E3C /* CoreTelephony.framework */; };
+		1833252A1ED6B10D00B1ECEA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972551E7FD05F00B48E3C /* AssetsLibrary.framework */; };
+		1833252B1ED6B10D00B1ECEA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972561E7FD05F00B48E3C /* MobileCoreServices.framework */; };
+		1833252C1ED6B10D00B1ECEA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972571E7FD05F00B48E3C /* QuartzCore.framework */; };
+		1833252D1ED6B10D00B1ECEA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972581E7FD05F00B48E3C /* SystemConfiguration.framework */; };
+		1833252E1ED6B10D00B1ECEA /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A972591E7FD05F00B48E3C /* CoreText.framework */; };
+		1833252F1ED6B10D00B1ECEA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725A1E7FD05F00B48E3C /* UIKit.framework */; };
+		183325301ED6B10D00B1ECEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725B1E7FD05F00B48E3C /* Foundation.framework */; };
+		183325311ED6B10D00B1ECEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725C1E7FD05F00B48E3C /* CoreGraphics.framework */; };
+		183325321ED6B10D00B1ECEA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725D1E7FD05F00B48E3C /* Security.framework */; };
+		183325341ED6B10D00B1ECEA /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
+		183325351ED6B10D00B1ECEA /* 刷新1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A975001E7FDDD400B48E3C /* 刷新1@2x.png */; };
+		183325361ED6B10D00B1ECEA /* MSAlertController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A971E61E7FC6B300B48E3C /* MSAlertController.xib */; };
+		183325371ED6B10D00B1ECEA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A919E622680045A720 /* LaunchScreen.xib */; };
+		183325381ED6B10D00B1ECEA /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A9721F1E7FCA5C00B48E3C /* Info.plist */; };
+		183325391ED6B10D00B1ECEA /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 180D58C019E622910045A720 /* readme.txt */; };
+		1833253A1ED6B10D00B1ECEA /* 刷新2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A975011E7FDDD400B48E3C /* 刷新2@2x.png */; };
+		1833253B1ED6B10D00B1ECEA /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F441A1DCACC0039E222 /* jquery.js */; };
+		1833253C1ED6B10D00B1ECEA /* AAJQueryLibrary.js in Resources */ = {isa = PBXBuildFile; fileRef = 182090CE1E9F555D0015E393 /* AAJQueryLibrary.js */; };
+		1833253D1ED6B10D00B1ECEA /* NodeModelViewControllerBack_next@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A1EE501E862866009312A7 /* NodeModelViewControllerBack_next@3x.png */; };
+		1833253E1ED6B10D00B1ECEA /* ServiceGrids.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A974A81E7FDDD400B48E3C /* ServiceGrids.bundle */; };
+		1833253F1ED6B10D00B1ECEA /* AAHighchartsMore.js in Resources */ = {isa = PBXBuildFile; fileRef = 182090CD1E9F555D0015E393 /* AAHighchartsMore.js */; };
+		183325401ED6B10D00B1ECEA /* NodeModelViewControllerBack_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A1EE4F1E862866009312A7 /* NodeModelViewControllerBack_black@3x.png */; };
+		183325411ED6B10D00B1ECEA /* AAFunnel.js in Resources */ = {isa = PBXBuildFile; fileRef = 182090CA1E9F555D0015E393 /* AAFunnel.js */; };
+		183325421ED6B10D00B1ECEA /* AAHighCharts-3d.js in Resources */ = {isa = PBXBuildFile; fileRef = 182090CB1E9F555D0015E393 /* AAHighCharts-3d.js */; };
+		183325431ED6B10D00B1ECEA /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974F91E7FDDD400B48E3C /* blueArrow.png */; };
+		183325441ED6B10D00B1ECEA /* AAChartView.html in Resources */ = {isa = PBXBuildFile; fileRef = 182090C91E9F555D0015E393 /* AAChartView.html */; };
+		183325451ED6B10D00B1ECEA /* AAHighChartsLibrary.js in Resources */ = {isa = PBXBuildFile; fileRef = 182090CC1E9F555D0015E393 /* AAHighChartsLibrary.js */; };
+		183325461ED6B10D00B1ECEA /* ServiceInspector.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A974AE1E7FDDD400B48E3C /* ServiceInspector.bundle */; };
+		183325471ED6B10D00B1ECEA /* MSAlertController_ActionSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A971E71E7FC6B300B48E3C /* MSAlertController_ActionSheet.xib */; };
+		183325481ED6B10D00B1ECEA /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974FE1E7FDDD400B48E3C /* whiteArrow@2x.png */; };
+		183325491ED6B10D00B1ECEA /* html+ios.css in Resources */ = {isa = PBXBuildFile; fileRef = 18A973C01E7FDDD400B48E3C /* html+ios.css */; };
+		1833254A1ED6B10D00B1ECEA /* html.css in Resources */ = {isa = PBXBuildFile; fileRef = 18A973C11E7FDDD400B48E3C /* html.css */; };
+		1833254B1ED6B10D00B1ECEA /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974FB1E7FDDD400B48E3C /* grayArrow.png */; };
+		1833254C1ED6B10D00B1ECEA /* 下拉（松开刷新）@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974FF1E7FDDD400B48E3C /* 下拉（松开刷新）@2x.png */; };
+		1833254D1ED6B10D00B1ECEA /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974FD1E7FDDD400B48E3C /* whiteArrow.png */; };
+		1833254E1ED6B10D00B1ECEA /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974FA1E7FDDD400B48E3C /* blueArrow@2x.png */; };
+		1833254F1ED6B10D00B1ECEA /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974F71E7FDDD400B48E3C /* blackArrow.png */; };
+		183325501ED6B10D00B1ECEA /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974FC1E7FDDD400B48E3C /* grayArrow@2x.png */; };
+		183325511ED6B10D00B1ECEA /* ServiceGesture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A974981E7FDDD400B48E3C /* ServiceGesture.bundle */; };
+		183325521ED6B10D00B1ECEA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A719E622680045A720 /* Images.xcassets */; };
+		183325531ED6B10D00B1ECEA /* 2015-12-09_17-41-23_1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */; };
+		183325541ED6B10D00B1ECEA /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A974F81E7FDDD400B48E3C /* blackArrow@2x.png */; };
+		183325551ED6B10D00B1ECEA /* ServiceBorder.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A974901E7FDDD400B48E3C /* ServiceBorder.bundle */; };
+		183325561ED6B10D00B1ECEA /* NodeModelStrings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A1EE4C1E862866009312A7 /* NodeModelStrings.plist */; };
+		183325571ED6B10D00B1ECEA /* 刷新3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A975021E7FDDD400B48E3C /* 刷新3@2x.png */; };
+		183325581ED6B10D00B1ECEA /* 刷新4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A975031E7FDDD400B48E3C /* 刷新4@2x.png */; };
+		183325591ED6B10D00B1ECEA /* RefreshListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A96D701E7FC24700B48E3C /* RefreshListCell.xib */; };
+		1833255A1ED6B10D00B1ECEA /* ZWRateEditController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A96D7D1E7FC24700B48E3C /* ZWRateEditController.xib */; };
+		183325631ED6B93500B1ECEA /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 183325621ED6B93500B1ECEA /* NSString+Base64.m */; };
+		183325641ED6B93500B1ECEA /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 183325621ED6B93500B1ECEA /* NSString+Base64.m */; };
 		183C56BC1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */; };
 		184616551EB2DA2800505B7C /* CBGFutureStatusSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */; };
 		1855227A1EA849580052AD16 /* CBGLocalServerListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185522791EA849580052AD16 /* CBGLocalServerListVC.m */; };
@@ -868,6 +1471,18 @@
 		1820913F1EA6F0470015E393 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1832EDF11EA8B0E30001A2E4 /* CBGCompareSameRoleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCompareSameRoleVC.h; sourceTree = "<group>"; };
 		1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCompareSameRoleVC.m; sourceTree = "<group>"; };
+		183320981ED51EA900B1ECEA /* ZAAutoBuySettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAAutoBuySettingVC.h; sourceTree = "<group>"; };
+		183320991ED51EA900B1ECEA /* ZAAutoBuySettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAAutoBuySettingVC.m; sourceTree = "<group>"; };
+		1833209B1ED5279600B1ECEA /* ZAAutoBuyHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAAutoBuyHomeVC.h; sourceTree = "<group>"; };
+		1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAAutoBuyHomeVC.m; sourceTree = "<group>"; };
+		1833209E1ED5853000B1ECEA /* ZAPanicSortSchoolVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAPanicSortSchoolVC.h; sourceTree = "<group>"; };
+		1833209F1ED5853000B1ECEA /* ZAPanicSortSchoolVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAPanicSortSchoolVC.m; sourceTree = "<group>"; };
+		183320A11ED680AD00B1ECEA /* ZAPanicPayHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAPanicPayHistoryVC.h; sourceTree = "<group>"; };
+		183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAPanicPayHistoryVC.m; sourceTree = "<group>"; };
+		1833255E1ED6B10D00B1ECEA /* WebConnectPrj copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WebConnectPrj copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1833255F1ED6B10E00B1ECEA /* WebConnectPrj copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "WebConnectPrj copy-Info.plist"; path = "/Users/apple/Documents/GitHub/Git_Group/WebConnectPrj/WebConnectPrj copy-Info.plist"; sourceTree = "<absolute>"; };
+		183325611ED6B93500B1ECEA /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		183325621ED6B93500B1ECEA /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		183C56BA1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseStyleVC.h; sourceTree = "<group>"; };
 		183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseStyleVC.m; sourceTree = "<group>"; };
 		184616531EB2DA2800505B7C /* CBGFutureStatusSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGFutureStatusSortVC.h; sourceTree = "<group>"; };
@@ -1900,6 +2515,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		183325171ED6B10D00B1ECEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				183325181ED6B10D00B1ECEA /* WebKit.framework in Frameworks */,
+				183325191ED6B10D00B1ECEA /* CoreLocation.framework in Frameworks */,
+				1833251A1ED6B10D00B1ECEA /* MessageUI.framework in Frameworks */,
+				1833251B1ED6B10D00B1ECEA /* AudioToolbox.framework in Frameworks */,
+				1833251C1ED6B10D00B1ECEA /* CoreVideo.framework in Frameworks */,
+				1833251D1ED6B10D00B1ECEA /* CoreMedia.framework in Frameworks */,
+				1833251E1ED6B10D00B1ECEA /* ImageIO.framework in Frameworks */,
+				1833251F1ED6B10D00B1ECEA /* CFNetwork.framework in Frameworks */,
+				183325201ED6B10D00B1ECEA /* OpenGLES.framework in Frameworks */,
+				183325211ED6B10D00B1ECEA /* libsqlite3.dylib in Frameworks */,
+				183325221ED6B10D00B1ECEA /* libstdc++.dylib in Frameworks */,
+				183325231ED6B10D00B1ECEA /* libiconv.dylib in Frameworks */,
+				183325241ED6B10D00B1ECEA /* libxml2.2.dylib in Frameworks */,
+				183325251ED6B10D00B1ECEA /* libz.1.2.5.dylib in Frameworks */,
+				183325261ED6B10D00B1ECEA /* AVFoundation.framework in Frameworks */,
+				183325271ED6B10D00B1ECEA /* AdSupport.framework in Frameworks */,
+				183325281ED6B10D00B1ECEA /* Accelerate.framework in Frameworks */,
+				183325291ED6B10D00B1ECEA /* CoreTelephony.framework in Frameworks */,
+				1833252A1ED6B10D00B1ECEA /* AssetsLibrary.framework in Frameworks */,
+				1833252B1ED6B10D00B1ECEA /* MobileCoreServices.framework in Frameworks */,
+				1833252C1ED6B10D00B1ECEA /* QuartzCore.framework in Frameworks */,
+				1833252D1ED6B10D00B1ECEA /* SystemConfiguration.framework in Frameworks */,
+				1833252E1ED6B10D00B1ECEA /* CoreText.framework in Frameworks */,
+				1833252F1ED6B10D00B1ECEA /* UIKit.framework in Frameworks */,
+				183325301ED6B10D00B1ECEA /* Foundation.framework in Frameworks */,
+				183325311ED6B10D00B1ECEA /* CoreGraphics.framework in Frameworks */,
+				183325321ED6B10D00B1ECEA /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1911,6 +2560,7 @@
 				1820913C1EA6F0470015E393 /* WebConnectPrjTests */,
 				180D589819E622680045A720 /* Products */,
 				18A971FE1E7FC8A500B48E3C /* Frameworks */,
+				1833255F1ED6B10E00B1ECEA /* WebConnectPrj copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1919,6 +2569,7 @@
 			children = (
 				180D589719E622680045A720 /* WebConnectPrj.app */,
 				1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */,
+				1833255E1ED6B10D00B1ECEA /* WebConnectPrj copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2218,6 +2869,15 @@
 			path = WebConnectPrjTests;
 			sourceTree = "<group>";
 		};
+		183325601ED6B93500B1ECEA /* Base64 */ = {
+			isa = PBXGroup;
+			children = (
+				183325611ED6B93500B1ECEA /* NSString+Base64.h */,
+				183325621ED6B93500B1ECEA /* NSString+Base64.m */,
+			);
+			path = Base64;
+			sourceTree = "<group>";
+		};
 		187767C01A416805003F31B6 /* SWTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2280,6 +2940,10 @@
 				18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */,
 				18DAF5EB1ECFF4AC00873D19 /* ZWPanicRefreshManager.h */,
 				18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */,
+				1833209E1ED5853000B1ECEA /* ZAPanicSortSchoolVC.h */,
+				1833209F1ED5853000B1ECEA /* ZAPanicSortSchoolVC.m */,
+				183320A11ED680AD00B1ECEA /* ZAPanicPayHistoryVC.h */,
+				183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */,
 			);
 			path = PanicRefresh;
 			sourceTree = "<group>";
@@ -2289,6 +2953,10 @@
 			children = (
 				18DAF5E51ECC325700873D19 /* ZAAutoBuyWebView.h */,
 				18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */,
+				183320981ED51EA900B1ECEA /* ZAAutoBuySettingVC.h */,
+				183320991ED51EA900B1ECEA /* ZAAutoBuySettingVC.m */,
+				1833209B1ED5279600B1ECEA /* ZAAutoBuyHomeVC.h */,
+				1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */,
 			);
 			path = AutoBuy;
 			sourceTree = "<group>";
@@ -2750,6 +3418,7 @@
 		18A972831E7FDDD300B48E3C /* BaseTool */ = {
 			isa = PBXGroup;
 			children = (
+				183325601ED6B93500B1ECEA /* Base64 */,
 				18A9763D1E7FDE1500B48E3C /* DPHttpClient */,
 				18A972841E7FDDD300B48E3C /* DataModel */,
 				18A972891E7FDDD300B48E3C /* JSBlockOperation */,
@@ -4002,6 +4671,23 @@
 			productReference = 1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		183323021ED6B10D00B1ECEA /* WebConnectPrj copy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1833255B1ED6B10D00B1ECEA /* Build configuration list for PBXNativeTarget "WebConnectPrj copy" */;
+			buildPhases = (
+				183323031ED6B10D00B1ECEA /* Sources */,
+				183325171ED6B10D00B1ECEA /* Frameworks */,
+				183325331ED6B10D00B1ECEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WebConnectPrj copy";
+			productName = WebConnectPrj;
+			productReference = 1833255E1ED6B10D00B1ECEA /* WebConnectPrj copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -4027,6 +4713,9 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 180D589619E622680045A720;
 					};
+					183323021ED6B10D00B1ECEA = {
+						DevelopmentTeam = X9YQDM8Q42;
+					};
 				};
 			};
 			buildConfigurationList = 180D589219E622680045A720 /* Build configuration list for PBXProject "WebConnectPrj" */;
@@ -4043,6 +4732,7 @@
 			projectRoot = "";
 			targets = (
 				180D589619E622680045A720 /* WebConnectPrj */,
+				183323021ED6B10D00B1ECEA /* WebConnectPrj copy */,
 				1820913A1EA6F0460015E393 /* WebConnectPrjTests */,
 			);
 		};
@@ -4102,6 +4792,52 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		183325331ED6B10D00B1ECEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				183325341ED6B10D00B1ECEA /* blogDetail.js in Resources */,
+				183325351ED6B10D00B1ECEA /* 刷新1@2x.png in Resources */,
+				183325361ED6B10D00B1ECEA /* MSAlertController.xib in Resources */,
+				183325371ED6B10D00B1ECEA /* LaunchScreen.xib in Resources */,
+				183325381ED6B10D00B1ECEA /* Info.plist in Resources */,
+				183325391ED6B10D00B1ECEA /* readme.txt in Resources */,
+				1833253A1ED6B10D00B1ECEA /* 刷新2@2x.png in Resources */,
+				1833253B1ED6B10D00B1ECEA /* jquery.js in Resources */,
+				1833253C1ED6B10D00B1ECEA /* AAJQueryLibrary.js in Resources */,
+				1833253D1ED6B10D00B1ECEA /* NodeModelViewControllerBack_next@3x.png in Resources */,
+				1833253E1ED6B10D00B1ECEA /* ServiceGrids.bundle in Resources */,
+				1833253F1ED6B10D00B1ECEA /* AAHighchartsMore.js in Resources */,
+				183325401ED6B10D00B1ECEA /* NodeModelViewControllerBack_black@3x.png in Resources */,
+				183325411ED6B10D00B1ECEA /* AAFunnel.js in Resources */,
+				183325421ED6B10D00B1ECEA /* AAHighCharts-3d.js in Resources */,
+				183325431ED6B10D00B1ECEA /* blueArrow.png in Resources */,
+				183325441ED6B10D00B1ECEA /* AAChartView.html in Resources */,
+				183325451ED6B10D00B1ECEA /* AAHighChartsLibrary.js in Resources */,
+				183325461ED6B10D00B1ECEA /* ServiceInspector.bundle in Resources */,
+				183325471ED6B10D00B1ECEA /* MSAlertController_ActionSheet.xib in Resources */,
+				183325481ED6B10D00B1ECEA /* whiteArrow@2x.png in Resources */,
+				183325491ED6B10D00B1ECEA /* html+ios.css in Resources */,
+				1833254A1ED6B10D00B1ECEA /* html.css in Resources */,
+				1833254B1ED6B10D00B1ECEA /* grayArrow.png in Resources */,
+				1833254C1ED6B10D00B1ECEA /* 下拉（松开刷新）@2x.png in Resources */,
+				1833254D1ED6B10D00B1ECEA /* whiteArrow.png in Resources */,
+				1833254E1ED6B10D00B1ECEA /* blueArrow@2x.png in Resources */,
+				1833254F1ED6B10D00B1ECEA /* blackArrow.png in Resources */,
+				183325501ED6B10D00B1ECEA /* grayArrow@2x.png in Resources */,
+				183325511ED6B10D00B1ECEA /* ServiceGesture.bundle in Resources */,
+				183325521ED6B10D00B1ECEA /* Images.xcassets in Resources */,
+				183325531ED6B10D00B1ECEA /* 2015-12-09_17-41-23_1.m4r in Resources */,
+				183325541ED6B10D00B1ECEA /* blackArrow@2x.png in Resources */,
+				183325551ED6B10D00B1ECEA /* ServiceBorder.bundle in Resources */,
+				183325561ED6B10D00B1ECEA /* NodeModelStrings.plist in Resources */,
+				183325571ED6B10D00B1ECEA /* 刷新3@2x.png in Resources */,
+				183325581ED6B10D00B1ECEA /* 刷新4@2x.png in Resources */,
+				183325591ED6B10D00B1ECEA /* RefreshListCell.xib in Resources */,
+				1833255A1ED6B10D00B1ECEA /* ZWRateEditController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -4157,11 +4893,13 @@
 				18A96E1F1E7FC2C500B48E3C /* AllRiderModel.m in Sources */,
 				18A9756D1E7FDDD400B48E3C /* Samurai_CssStyleSheet.m in Sources */,
 				18936F8E1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m in Sources */,
+				183325631ED6B93500B1ECEA /* NSString+Base64.m in Sources */,
 				18A975661E7FDDD400B48E3C /* ViewController+Signal.m in Sources */,
 				18A9757F1E7FDDD400B48E3C /* HtmlElement_Ul.m in Sources */,
 				18A971D91E7FC67400B48E3C /* RefreshEquipListAllDataManager.m in Sources */,
 				18A9723B1E7FCA5C00B48E3C /* MJProperty.m in Sources */,
 				18A96E1C1E7FC2C500B48E3C /* Selling_infoModel.m in Sources */,
+				183320A01ED5853000B1ECEA /* ZAPanicSortSchoolVC.m in Sources */,
 				18A96E181E7FC2C500B48E3C /* EquipModel.m in Sources */,
 				18A9754A1E7FDDD400B48E3C /* Samurai_NotificationCenter.m in Sources */,
 				18A975DC1E7FDDD500B48E3C /* Samurai_Resource.m in Sources */,
@@ -4193,6 +4931,7 @@
 				18A975161E7FDDD400B48E3C /* JSONKit.m in Sources */,
 				18A975131E7FDDD400B48E3C /* OLConfigDataModel.m in Sources */,
 				18A9751F1E7FDDD400B48E3C /* OLBasicViewController.m in Sources */,
+				1833209D1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
 				18A9721D1E7FCA2B00B48E3C /* FMResultSet.m in Sources */,
 				180D590A19E65EF30045A720 /* UIAlertView+AFNetworking.m in Sources */,
 				18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */,
@@ -4375,6 +5114,7 @@
 				18A975DF1E7FDDD500B48E3C /* Samurai_StyleSheet.m in Sources */,
 				18A975B81E7FDDD400B48E3C /* Samurai_UIPageControl.m in Sources */,
 				18A9755D1E7FDDD400B48E3C /* Signal+View.m in Sources */,
+				1833209A1ED51EA900B1ECEA /* ZAAutoBuySettingVC.m in Sources */,
 				18A975CC1E7FDDD500B48E3C /* Samurai_Document.m in Sources */,
 				1832EDF31EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m in Sources */,
 				18A975971E7FDDD400B48E3C /* Samurai_HtmlNumberPercentage.m in Sources */,
@@ -4603,6 +5343,7 @@
 				18A9760B1E7FDDD500B48E3C /* ServiceGridsWindow.m in Sources */,
 				18A971D71E7FC67400B48E3C /* RefreshDefaultListRequestModel.m in Sources */,
 				18A975E91E7FDDD500B48E3C /* Samurai_Vendor.m in Sources */,
+				183320A31ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m in Sources */,
 				18A976051E7FDDD500B48E3C /* ServiceGestureView.m in Sources */,
 				18A972391E7FCA5C00B48E3C /* MJExtensionConst.m in Sources */,
 				18A96E281E7FC2C500B48E3C /* FabaoModel.m in Sources */,
@@ -4739,6 +5480,545 @@
 				182098001EA6F3150015E393 /* RoleDataModel.h in Sources */,
 				182098011EA6F3150015E393 /* RoleDataModel.m in Sources */,
 				1820913E1EA6F0470015E393 /* WebConnectPrjTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		183323031ED6B10D00B1ECEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				183323041ED6B10D00B1ECEA /* CBGPanicMixedNightListVC.m in Sources */,
+				183323051ED6B10D00B1ECEA /* Samurai_UI.m in Sources */,
+				183323061ED6B10D00B1ECEA /* UIRefreshControl+AFNetworking.m in Sources */,
+				183323071ED6B10D00B1ECEA /* CBGDaysDetailSortHistoryVC.m in Sources */,
+				183323081ED6B10D00B1ECEA /* OLEGOTapTextFooterView.m in Sources */,
+				183323091ED6B10D00B1ECEA /* Keyword_argModel.m in Sources */,
+				1833230A1ED6B10D00B1ECEA /* AALabels.m in Sources */,
+				1833230B1ED6B10D00B1ECEA /* ServiceGesture.m in Sources */,
+				1833230C1ED6B10D00B1ECEA /* Order_headersModel.m in Sources */,
+				1833230D1ED6B10D00B1ECEA /* NTConnectSepcialClient.m in Sources */,
+				1833230E1ED6B10D00B1ECEA /* UIImage+WebP.m in Sources */,
+				1833230F1ED6B10D00B1ECEA /* YYDiskCache.m in Sources */,
+				183323101ED6B10D00B1ECEA /* MJPropertyType.m in Sources */,
+				183323111ED6B10D00B1ECEA /* Samurai_EventConfig.m in Sources */,
+				183323121ED6B10D00B1ECEA /* UIButton+WebCache.m in Sources */,
+				183323131ED6B10D00B1ECEA /* ZALocationHTTPApi.m in Sources */,
+				183323141ED6B10D00B1ECEA /* CBGTotalHistroySortVC.m in Sources */,
+				183323151ED6B10D00B1ECEA /* utf8.c in Sources */,
+				183323161ED6B10D00B1ECEA /* SFHFKeychainUtils.m in Sources */,
+				183323171ED6B10D00B1ECEA /* AFURLConnectionOperation.m in Sources */,
+				183323181ED6B10D00B1ECEA /* ServiceMonitorCPUModel.m in Sources */,
+				183323191ED6B10D00B1ECEA /* OLEGOCustomHeaderView.m in Sources */,
+				1833231A1ED6B10D00B1ECEA /* ZWConfigListController.m in Sources */,
+				1833231B1ED6B10D00B1ECEA /* ZWSortArrModel.m in Sources */,
+				1833231C1ED6B10D00B1ECEA /* Signal+ViewController.m in Sources */,
+				1833231D1ED6B10D00B1ECEA /* Samurai_HtmlFunction.m in Sources */,
+				1833231E1ED6B10D00B1ECEA /* ServiceMonitorNetworkModel.m in Sources */,
+				1833231F1ED6B10D00B1ECEA /* Samurai_RenderStyle.m in Sources */,
+				183323201ED6B10D00B1ECEA /* Samurai_Property.m in Sources */,
+				183323211ED6B10D00B1ECEA /* ZWPanicRefreshManager.m in Sources */,
+				183323221ED6B10D00B1ECEA /* UITableViewCell+Html.m in Sources */,
+				183323231ED6B10D00B1ECEA /* AASubtitle.m in Sources */,
+				183323241ED6B10D00B1ECEA /* JBBarChartView.m in Sources */,
+				183323251ED6B10D00B1ECEA /* AAPie.m in Sources */,
+				183323261ED6B10D00B1ECEA /* ServiceMonitorFPSModel.m in Sources */,
+				183323271ED6B10D00B1ECEA /* ZWRefreshListController.m in Sources */,
+				183323281ED6B10D00B1ECEA /* View+Signal.m in Sources */,
+				183323291ED6B10D00B1ECEA /* UIProgressView+AFNetworking.m in Sources */,
+				1833232A1ED6B10D00B1ECEA /* katana.lex.c in Sources */,
+				1833232B1ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_30UpdateFrame.m in Sources */,
+				1833232C1ED6B10D00B1ECEA /* ServiceMonitor.m in Sources */,
+				1833232D1ED6B10D00B1ECEA /* ZACBGDetailWebVC.m in Sources */,
+				1833232E1ED6B10D00B1ECEA /* Samurai_ViewCore.m in Sources */,
+				1833232F1ED6B10D00B1ECEA /* Samurai_System.m in Sources */,
+				183323301ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_40Finish.m in Sources */,
+				183323311ED6B10D00B1ECEA /* AllRiderModel.m in Sources */,
+				183323321ED6B10D00B1ECEA /* Samurai_CssStyleSheet.m in Sources */,
+				183323331ED6B10D00B1ECEA /* CBGCombinedScrolledHandleVC.m in Sources */,
+				183325641ED6B93500B1ECEA /* NSString+Base64.m in Sources */,
+				183323341ED6B10D00B1ECEA /* ViewController+Signal.m in Sources */,
+				183323351ED6B10D00B1ECEA /* HtmlElement_Ul.m in Sources */,
+				183323361ED6B10D00B1ECEA /* RefreshEquipListAllDataManager.m in Sources */,
+				183323371ED6B10D00B1ECEA /* MJProperty.m in Sources */,
+				183323381ED6B10D00B1ECEA /* Selling_infoModel.m in Sources */,
+				183323391ED6B10D00B1ECEA /* ZAPanicSortSchoolVC.m in Sources */,
+				1833233A1ED6B10D00B1ECEA /* EquipModel.m in Sources */,
+				1833233B1ED6B10D00B1ECEA /* Samurai_NotificationCenter.m in Sources */,
+				1833233C1ED6B10D00B1ECEA /* Samurai_Resource.m in Sources */,
+				1833233D1ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m in Sources */,
+				1833233E1ED6B10D00B1ECEA /* MJExtensionConfig.m in Sources */,
+				1833233F1ED6B10D00B1ECEA /* NSObject+MJClass.m in Sources */,
+				183323401ED6B10D00B1ECEA /* Samurai_Config.m in Sources */,
+				183323411ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m in Sources */,
+				183323421ED6B10D00B1ECEA /* SDImageCache.m in Sources */,
+				183323431ED6B10D00B1ECEA /* Samurai_ServiceInstance.m in Sources */,
+				183323441ED6B10D00B1ECEA /* JBLineChartView.m in Sources */,
+				183323451ED6B10D00B1ECEA /* Samurai_UILabel.m in Sources */,
+				183323461ED6B10D00B1ECEA /* Samurai_Image.m in Sources */,
+				183323471ED6B10D00B1ECEA /* MSAlertController.m in Sources */,
+				183323481ED6B10D00B1ECEA /* ZWDetailListController.m in Sources */,
+				183323491ED6B10D00B1ECEA /* ZAHTTPResponse.m in Sources */,
+				1833234A1ED6B10D00B1ECEA /* Samurai_Log.m in Sources */,
+				1833234B1ED6B10D00B1ECEA /* NSData+ImageContentType.m in Sources */,
+				1833234C1ED6B10D00B1ECEA /* HtmlElement_Ol.m in Sources */,
+				1833234D1ED6B10D00B1ECEA /* ZWDefaultRequestModel.m in Sources */,
+				1833234E1ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectText.m in Sources */,
+				1833234F1ED6B10D00B1ECEA /* ZWSortHistroyController.m in Sources */,
+				183323501ED6B10D00B1ECEA /* AAOptions3d.m in Sources */,
+				183323511ED6B10D00B1ECEA /* Samurai_Intent.m in Sources */,
+				183323521ED6B10D00B1ECEA /* OLEGOCustomListTableView.m in Sources */,
+				183323531ED6B10D00B1ECEA /* Cross_buy_serveridsModel.m in Sources */,
+				183323541ED6B10D00B1ECEA /* ServiceGestureSetting.m in Sources */,
+				183323551ED6B10D00B1ECEA /* Samurai_CssParser.m in Sources */,
+				183323561ED6B10D00B1ECEA /* JSONKit.m in Sources */,
+				183323571ED6B10D00B1ECEA /* OLConfigDataModel.m in Sources */,
+				183323581ED6B10D00B1ECEA /* OLBasicViewController.m in Sources */,
+				183323591ED6B10D00B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
+				1833235A1ED6B10D00B1ECEA /* FMResultSet.m in Sources */,
+				1833235B1ED6B10D00B1ECEA /* UIAlertView+AFNetworking.m in Sources */,
+				1833235C1ED6B10D00B1ECEA /* MKAnnotationView+WebCache.m in Sources */,
+				1833235D1ED6B10D00B1ECEA /* UIImageView+Html.m in Sources */,
+				1833235E1ED6B10D00B1ECEA /* ZAAutoBuyWebView.m in Sources */,
+				1833235F1ED6B10D00B1ECEA /* View+Template.m in Sources */,
+				183323601ED6B10D00B1ECEA /* Samurai_CSSRuleSet.m in Sources */,
+				183323611ED6B10D00B1ECEA /* UITableView+Html.m in Sources */,
+				183323621ED6B10D00B1ECEA /* UIProgressView+Html.m in Sources */,
+				183323631ED6B10D00B1ECEA /* STIHTTPSessionManager.m in Sources */,
+				183323641ED6B10D00B1ECEA /* ZWSystemTotalRequestModel.m in Sources */,
+				183323651ED6B10D00B1ECEA /* Samurai_Core.m in Sources */,
+				183323661ED6B10D00B1ECEA /* ServiceTapspotHook.m in Sources */,
+				183323671ED6B10D00B1ECEA /* CBGPlanCommonCheckListVC.m in Sources */,
+				183323681ED6B10D00B1ECEA /* OLEGORefreshView.m in Sources */,
+				183323691ED6B10D00B1ECEA /* tokenizer.c in Sources */,
+				1833236A1ED6B10D00B1ECEA /* ExtraModel.m in Sources */,
+				1833236B1ED6B10D00B1ECEA /* OLEGOCustomFooterView.m in Sources */,
+				1833236C1ED6B10D00B1ECEA /* OLEGOHeaderNormalControl.m in Sources */,
+				1833236D1ED6B10D00B1ECEA /* UISlider+Html.m in Sources */,
+				1833236E1ED6B10D00B1ECEA /* Samurai_ModelManager.m in Sources */,
+				1833236F1ED6B10D00B1ECEA /* ViewController.m in Sources */,
+				183323701ED6B10D00B1ECEA /* Summon_equip2Model.m in Sources */,
+				183323711ED6B10D00B1ECEA /* Samurai_Runtime.m in Sources */,
+				183323721ED6B10D00B1ECEA /* Samurai_HtmlColor.m in Sources */,
+				183323731ED6B10D00B1ECEA /* CBGSortHistoryBaseTableVC.m in Sources */,
+				183323741ED6B10D00B1ECEA /* HtmlElement_P.m in Sources */,
+				183323751ED6B10D00B1ECEA /* AAPlotOptions.m in Sources */,
+				183323761ED6B10D00B1ECEA /* Samurai_Color.m in Sources */,
+				183323771ED6B10D00B1ECEA /* Samurai_SignalBus.m in Sources */,
+				183323781ED6B10D00B1ECEA /* AFURLResponseSerialization.m in Sources */,
+				183323791ED6B10D00B1ECEA /* ZALocationLocalModel.m in Sources */,
+				1833237A1ED6B10D00B1ECEA /* OLMainTopicListTableView.m in Sources */,
+				1833237B1ED6B10D00B1ECEA /* ZALocalStateModel.m in Sources */,
+				1833237C1ED6B10D00B1ECEA /* Samurai_EventPanGesture.m in Sources */,
+				1833237D1ED6B10D00B1ECEA /* UIView+Html.m in Sources */,
+				1833237E1ED6B10D00B1ECEA /* Samurai_HtmlDocument.m in Sources */,
+				1833237F1ED6B10D00B1ECEA /* NSMutableArray+Extension.m in Sources */,
+				183323801ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */,
+				183323811ED6B10D00B1ECEA /* Samurai_Font.m in Sources */,
+				183323821ED6B10D00B1ECEA /* CBGPlanListDetailCheckVC.m in Sources */,
+				183323831ED6B10D00B1ECEA /* UIImageView+WebCache.m in Sources */,
+				183323841ED6B10D00B1ECEA /* Samurai_UISwitch.m in Sources */,
+				183323851ED6B10D00B1ECEA /* Samurai_ClassLoader.m in Sources */,
+				183323861ED6B10D00B1ECEA /* SWTableViewCell.m in Sources */,
+				183323871ED6B10D00B1ECEA /* CBGDetailWebView.m in Sources */,
+				183323881ED6B10D00B1ECEA /* Samurai_Watcher.m in Sources */,
+				183323891ED6B10D00B1ECEA /* Samurai_UICollectionView.m in Sources */,
+				1833238A1ED6B10D00B1ECEA /* Samurai_CoreConfig.m in Sources */,
+				1833238B1ED6B10D00B1ECEA /* CBGOthersBuyRepeatListVC.m in Sources */,
+				1833238C1ED6B10D00B1ECEA /* More_attrModel.m in Sources */,
+				1833238D1ED6B10D00B1ECEA /* Samurai_ActivityRouter.m in Sources */,
+				1833238E1ED6B10D00B1ECEA /* Summon_equip1Model.m in Sources */,
+				1833238F1ED6B10D00B1ECEA /* YYCache.m in Sources */,
+				183323901ED6B10D00B1ECEA /* OLEGONormalFooterView.m in Sources */,
+				183323911ED6B10D00B1ECEA /* NSObject+MJProperty.m in Sources */,
+				183323921ED6B10D00B1ECEA /* ZWDataRefreshAPI.m in Sources */,
+				183323931ED6B10D00B1ECEA /* OLBasicListTableView.m in Sources */,
+				183323941ED6B10D00B1ECEA /* AllEquipModel.m in Sources */,
+				183323951ED6B10D00B1ECEA /* Samurai_UIButton.m in Sources */,
+				183323961ED6B10D00B1ECEA /* CBGOwnerRepeatListVC.m in Sources */,
+				183323971ED6B10D00B1ECEA /* JBChartView.m in Sources */,
+				183323981ED6B10D00B1ECEA /* ServiceInspector.m in Sources */,
+				183323991ED6B10D00B1ECEA /* ServiceGestureViewPinch.m in Sources */,
+				1833239A1ED6B10D00B1ECEA /* UICollectionView+Html.m in Sources */,
+				1833239B1ED6B10D00B1ECEA /* AAArea.m in Sources */,
+				1833239C1ED6B10D00B1ECEA /* SDWebImageDownloaderOperation.m in Sources */,
+				1833239D1ED6B10D00B1ECEA /* CBGWebListRefreshVC.m in Sources */,
+				1833239E1ED6B10D00B1ECEA /* parser.c in Sources */,
+				1833239F1ED6B10D00B1ECEA /* UIButton+AFNetworking.m in Sources */,
+				183323A01ED6B10D00B1ECEA /* attribute.c in Sources */,
+				183323A11ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */,
+				183323A21ED6B10D00B1ECEA /* CBGEquipDetailRequestManager.m in Sources */,
+				183323A31ED6B10D00B1ECEA /* ServiceTapspotView.m in Sources */,
+				183323A41ED6B10D00B1ECEA /* Samurai_HtmlValue.m in Sources */,
+				183323A51ED6B10D00B1ECEA /* Samurai_Singleton.m in Sources */,
+				183323A61ED6B10D00B1ECEA /* AAStyle.m in Sources */,
+				183323A71ED6B10D00B1ECEA /* OLEGONormalHeaderView.m in Sources */,
+				183323A81ED6B10D00B1ECEA /* AllSummonModel.m in Sources */,
+				183323A91ED6B10D00B1ECEA /* MJFoundation.m in Sources */,
+				183323AA1ED6B10D00B1ECEA /* Samurai_UICollectionViewCell.m in Sources */,
+				183323AB1ED6B10D00B1ECEA /* Samurai_Model.m in Sources */,
+				183323AC1ED6B10D00B1ECEA /* Samurai_XmlSupport.m in Sources */,
+				183323AD1ED6B10D00B1ECEA /* NSString+MJExtension.m in Sources */,
+				183323AE1ED6B10D00B1ECEA /* ServiceTapspotManager.m in Sources */,
+				183323AF1ED6B10D00B1ECEA /* ServiceGestureHook.m in Sources */,
+				183323B01ED6B10D00B1ECEA /* UIPageControl+Html.m in Sources */,
+				183323B11ED6B10D00B1ECEA /* Samurai_EventTapGesture.m in Sources */,
+				183323B21ED6B10D00B1ECEA /* Samurai_Namespace.m in Sources */,
+				183323B31ED6B10D00B1ECEA /* CancelWarningRefreshManager.m in Sources */,
+				183323B41ED6B10D00B1ECEA /* MJPropertyKey.m in Sources */,
+				183323B51ED6B10D00B1ECEA /* Samurai_HtmlMediaQuery.m in Sources */,
+				183323B61ED6B10D00B1ECEA /* CBGListModel.m in Sources */,
+				183323B71ED6B10D00B1ECEA /* RefreshListDataManager.m in Sources */,
+				183323B81ED6B10D00B1ECEA /* DPWhiteTopController.m in Sources */,
+				183323B91ED6B10D00B1ECEA /* SDWebImageCompat.m in Sources */,
+				183323BA1ED6B10D00B1ECEA /* CBGMaxHistoryListRefreshVC.m in Sources */,
+				183323BB1ED6B10D00B1ECEA /* AALegend.m in Sources */,
+				183323BC1ED6B10D00B1ECEA /* NodeModelCell.m in Sources */,
+				183323BD1ED6B10D00B1ECEA /* Samurai_ServiceConfig.m in Sources */,
+				183323BE1ED6B10D00B1ECEA /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				183323BF1ED6B10D00B1ECEA /* NodeModelViewController.m in Sources */,
+				183323C01ED6B10D00B1ECEA /* Samurai_Notification.m in Sources */,
+				183323C11ED6B10D00B1ECEA /* ZWTopRefreshListController.m in Sources */,
+				183323C21ED6B10D00B1ECEA /* AASpline.m in Sources */,
+				183323C31ED6B10D00B1ECEA /* STIHTTPNetwork.m in Sources */,
+				183323C41ED6B10D00B1ECEA /* tag.c in Sources */,
+				183323C51ED6B10D00B1ECEA /* CBGWebListCheckManager.m in Sources */,
+				183323C61ED6B10D00B1ECEA /* AASeriesElement.m in Sources */,
+				183323C71ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectViewport.m in Sources */,
+				183323C81ED6B10D00B1ECEA /* ServiceTapspot.m in Sources */,
+				183323C91ED6B10D00B1ECEA /* ViewController+NavigationBar.m in Sources */,
+				183323CA1ED6B10D00B1ECEA /* OLTopicListDataModel.m in Sources */,
+				183323CB1ED6B10D00B1ECEA /* Samurai_HtmlNumber.m in Sources */,
+				183323CC1ED6B10D00B1ECEA /* AutoCoding.m in Sources */,
+				183323CD1ED6B10D00B1ECEA /* ZAAnnotationModel.m in Sources */,
+				183323CE1ED6B10D00B1ECEA /* AAColumn.m in Sources */,
+				183323CF1ED6B10D00B1ECEA /* Samurai_HtmlRenderQuery.m in Sources */,
+				183323D01ED6B10D00B1ECEA /* Samurai_NotificationBus.m in Sources */,
+				183323D11ED6B10D00B1ECEA /* UIImage+GIF.m in Sources */,
+				183323D21ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_10Begin.m in Sources */,
+				183323D31ED6B10D00B1ECEA /* katana.tab.c in Sources */,
+				183323D41ED6B10D00B1ECEA /* NodeModel.m in Sources */,
+				183323D51ED6B10D00B1ECEA /* UIActivityIndicatorView+Html.m in Sources */,
+				183323D61ED6B10D00B1ECEA /* NSObject+Extension.m in Sources */,
+				183323D71ED6B10D00B1ECEA /* Samurai_HtmlStyle.m in Sources */,
+				183323D81ED6B10D00B1ECEA /* Samurai_ViewTemplate.m in Sources */,
+				183323D91ED6B10D00B1ECEA /* AAAreaspline.m in Sources */,
+				183323DA1ED6B10D00B1ECEA /* Samurai_Trigger.m in Sources */,
+				183323DB1ED6B10D00B1ECEA /* ZAHTTPClient.m in Sources */,
+				183323DC1ED6B10D00B1ECEA /* BaseActivity.m in Sources */,
+				183323DD1ED6B10D00B1ECEA /* WebEquip_listModel.m in Sources */,
+				183323DE1ED6B10D00B1ECEA /* AAMarker.m in Sources */,
+				183323DF1ED6B10D00B1ECEA /* HtmlElement_Pre.m in Sources */,
+				183323E01ED6B10D00B1ECEA /* EquipExtraModel.m in Sources */,
+				183323E11ED6B10D00B1ECEA /* NSString+Extension.m in Sources */,
+				183323E21ED6B10D00B1ECEA /* UIWebView+Html.m in Sources */,
+				183323E31ED6B10D00B1ECEA /* Samurai_UITableViewCell.m in Sources */,
+				183323E41ED6B10D00B1ECEA /* UIImageView+HighlightedWebCache.m in Sources */,
+				183323E51ED6B10D00B1ECEA /* NSObject+AutoRuntime.m in Sources */,
+				183323E61ED6B10D00B1ECEA /* Equip_listModel.m in Sources */,
+				183323E71ED6B10D00B1ECEA /* Samurai_Encoding.m in Sources */,
+				183323E81ED6B10D00B1ECEA /* AFURLRequestSerialization.m in Sources */,
+				183323E91ED6B10D00B1ECEA /* Samurai_HtmlSize.m in Sources */,
+				183323EA1ED6B10D00B1ECEA /* NSBundle+Extension.m in Sources */,
+				183323EB1ED6B10D00B1ECEA /* ServiceGrids.m in Sources */,
+				183323EC1ED6B10D00B1ECEA /* Samurai_UIScrollView.m in Sources */,
+				183323ED1ED6B10D00B1ECEA /* CityLocationManager.m in Sources */,
+				183323EE1ED6B10D00B1ECEA /* Samurai_UIActivityIndicatorView.m in Sources */,
+				183323EF1ED6B10D00B1ECEA /* RefreshListCell.m in Sources */,
+				183323F01ED6B10D00B1ECEA /* ZWDetailBuyVC.m in Sources */,
+				183323F11ED6B10D00B1ECEA /* ZWDetailCheckManager.m in Sources */,
+				183323F21ED6B10D00B1ECEA /* Samurai_Predefine.m in Sources */,
+				183323F31ED6B10D00B1ECEA /* CBGPlanDetailPreShowWebVC.m in Sources */,
+				183323F41ED6B10D00B1ECEA /* NTConnectClient.m in Sources */,
+				183323F51ED6B10D00B1ECEA /* AAChartModel.m in Sources */,
+				183323F61ED6B10D00B1ECEA /* CBGSortHistoryBaseSortVC.m in Sources */,
+				183323F71ED6B10D00B1ECEA /* Samurai_Validator.m in Sources */,
+				183323F81ED6B10D00B1ECEA /* foundation.c in Sources */,
+				183323F91ED6B10D00B1ECEA /* ViewController+Binding.m in Sources */,
+				183323FA1ED6B10D00B1ECEA /* AADataLabels.m in Sources */,
+				183323FB1ED6B10D00B1ECEA /* BaseDataModel.m in Sources */,
+				183323FC1ED6B10D00B1ECEA /* DirectionModel.m in Sources */,
+				183323FD1ED6B10D00B1ECEA /* PagerModel.m in Sources */,
+				183323FE1ED6B10D00B1ECEA /* CBGDepthStudyVC.m in Sources */,
+				183323FF1ED6B10D00B1ECEA /* NSMutableSet+Extension.m in Sources */,
+				183324001ED6B10D00B1ECEA /* parser.c in Sources */,
+				183324011ED6B10D00B1ECEA /* Samurai_EventInput.m in Sources */,
+				183324021ED6B10D00B1ECEA /* Samurai_DockerProtocol.m in Sources */,
+				183324031ED6B10D00B1ECEA /* UISwitch+Html.m in Sources */,
+				183324041ED6B10D00B1ECEA /* CBGNearHistoryVC.m in Sources */,
+				183324051ED6B10D00B1ECEA /* Samurai_ModelInstance.m in Sources */,
+				183324061ED6B10D00B1ECEA /* CBGPlanCompareBaseListVC.m in Sources */,
+				183324071ED6B10D00B1ECEA /* UIImage+MultiFormat.m in Sources */,
+				183324081ED6B10D00B1ECEA /* HugeHorseModel.m in Sources */,
+				183324091ED6B10D00B1ECEA /* Samurai_RenderStoreNode.m in Sources */,
+				1833240A1ED6B10D00B1ECEA /* RefreshDataModel.m in Sources */,
+				1833240B1ED6B10D00B1ECEA /* Samurai_Handler.m in Sources */,
+				1833240C1ED6B10D00B1ECEA /* Samurai_Sandbox.m in Sources */,
+				1833240D1ED6B10D00B1ECEA /* Samurai_StyleSheet.m in Sources */,
+				1833240E1ED6B10D00B1ECEA /* Samurai_UIPageControl.m in Sources */,
+				1833240F1ED6B10D00B1ECEA /* Signal+View.m in Sources */,
+				183324101ED6B10D00B1ECEA /* ZAAutoBuySettingVC.m in Sources */,
+				183324111ED6B10D00B1ECEA /* Samurai_Document.m in Sources */,
+				183324121ED6B10D00B1ECEA /* CBGCompareSameRoleVC.m in Sources */,
+				183324131ED6B10D00B1ECEA /* Samurai_HtmlNumberPercentage.m in Sources */,
+				183324141ED6B10D00B1ECEA /* AFNetworkActivityIndicatorManager.m in Sources */,
+				183324151ED6B10D00B1ECEA /* Samurai_Performance.m in Sources */,
+				183324161ED6B10D00B1ECEA /* UITextField+Html.m in Sources */,
+				183324171ED6B10D00B1ECEA /* Samurai_UISlider.m in Sources */,
+				183324181ED6B10D00B1ECEA /* Signal+Model.m in Sources */,
+				183324191ED6B10D00B1ECEA /* CBGRoleDataModel.m in Sources */,
+				1833241A1ED6B10D00B1ECEA /* Samurai_Tree.m in Sources */,
+				1833241B1ED6B10D00B1ECEA /* PanicRefreshManager.m in Sources */,
+				1833241C1ED6B10D00B1ECEA /* UIButton+Html.m in Sources */,
+				1833241D1ED6B10D00B1ECEA /* Samurai_UnitTest.m in Sources */,
+				1833241E1ED6B10D00B1ECEA /* Samurai.m in Sources */,
+				1833241F1ED6B10D00B1ECEA /* Samurai_UIView.m in Sources */,
+				183324201ED6B10D00B1ECEA /* CBGStatisticsDetailHistoryVC.m in Sources */,
+				183324211ED6B10D00B1ECEA /* AAJsonConverter.m in Sources */,
+				183324221ED6B10D00B1ECEA /* CBGLocalServerListVC.m in Sources */,
+				183324231ED6B10D00B1ECEA /* AFSecurityPolicy.m in Sources */,
+				183324241ED6B10D00B1ECEA /* AAChart.m in Sources */,
+				183324251ED6B10D00B1ECEA /* UserInfo.m in Sources */,
+				183324261ED6B10D00B1ECEA /* Samurai_UIProgressView.m in Sources */,
+				183324271ED6B10D00B1ECEA /* YYMemoryCache.m in Sources */,
+				183324281ED6B10D00B1ECEA /* SDWebImageManager.m in Sources */,
+				183324291ED6B10D00B1ECEA /* JSWebView.m in Sources */,
+				1833242A1ED6B10D00B1ECEA /* Samurai_Script.m in Sources */,
+				1833242B1ED6B10D00B1ECEA /* Samurai_DockerWindow.m in Sources */,
+				1833242C1ED6B10D00B1ECEA /* FMDatabaseAdditions.m in Sources */,
+				1833242D1ED6B10D00B1ECEA /* PropertyInfomation.m in Sources */,
+				1833242E1ED6B10D00B1ECEA /* AAOptions.m in Sources */,
+				1833242F1ED6B10D00B1ECEA /* NSDictionary+Extension.m in Sources */,
+				183324301ED6B10D00B1ECEA /* ZWHistoryListController.m in Sources */,
+				183324311ED6B10D00B1ECEA /* View+Query.m in Sources */,
+				183324321ED6B10D00B1ECEA /* ZWSortListController.m in Sources */,
+				183324331ED6B10D00B1ECEA /* SDWebImageDecoder.m in Sources */,
+				183324341ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectContainer.m in Sources */,
+				183324351ED6B10D00B1ECEA /* Samurai_Config(Phone).m in Sources */,
+				183324361ED6B10D00B1ECEA /* tokenizer.c in Sources */,
+				183324371ED6B10D00B1ECEA /* EquipDetailArrayRequestModel.m in Sources */,
+				183324381ED6B10D00B1ECEA /* RoleDetailDataModel.m in Sources */,
+				183324391ED6B10D00B1ECEA /* FMDatabase.m in Sources */,
+				1833243A1ED6B10D00B1ECEA /* NodePressAnimationView.m in Sources */,
+				1833243B1ED6B10D00B1ECEA /* RecorderTimeRefreshManager.m in Sources */,
+				1833243C1ED6B10D00B1ECEA /* ExAvtModel.m in Sources */,
+				1833243D1ED6B10D00B1ECEA /* Samurai_UIImageView.m in Sources */,
+				1833243E1ED6B10D00B1ECEA /* ZWSystemBaseListVC.m in Sources */,
+				1833243F1ED6B10D00B1ECEA /* Samurai_Thread.m in Sources */,
+				183324401ED6B10D00B1ECEA /* FMDatabaseQueue.m in Sources */,
+				183324411ED6B10D00B1ECEA /* AFHTTPRequestOperation.m in Sources */,
+				183324421ED6B10D00B1ECEA /* AALine.m in Sources */,
+				183324431ED6B10D00B1ECEA /* ZWSellOthersListClearModel.m in Sources */,
+				183324441ED6B10D00B1ECEA /* LocationTimeRefreshManager.m in Sources */,
+				183324451ED6B10D00B1ECEA /* OLBasicDataModel.m in Sources */,
+				183324461ED6B10D00B1ECEA /* ZWBGRefreshManager.m in Sources */,
+				183324471ED6B10D00B1ECEA /* ZWDataDetailModel.m in Sources */,
+				183324481ED6B10D00B1ECEA /* AFURLSessionManager.m in Sources */,
+				183324491ED6B10D00B1ECEA /* ZWRateEditController.m in Sources */,
+				1833244A1ED6B10D00B1ECEA /* RemoteNTFRefreshManager.m in Sources */,
+				1833244B1ED6B10D00B1ECEA /* ServiceMonitorStatusBar.m in Sources */,
+				1833244C1ED6B10D00B1ECEA /* YYKVStorage.m in Sources */,
+				1833244D1ED6B10D00B1ECEA /* Bargain_infoModel.m in Sources */,
+				1833244E1ED6B10D00B1ECEA /* Samurai_Assert.m in Sources */,
+				1833244F1ED6B10D00B1ECEA /* TokenRefreshManager.m in Sources */,
+				183324501ED6B10D00B1ECEA /* NSMutableDictionary+Extension.m in Sources */,
+				183324511ED6B10D00B1ECEA /* ServiceBorder.m in Sources */,
+				183324521ED6B10D00B1ECEA /* NodeModelStrings.m in Sources */,
+				183324531ED6B10D00B1ECEA /* Samurai_ViewWorkflow.m in Sources */,
+				183324541ED6B10D00B1ECEA /* DPViewController.m in Sources */,
+				183324551ED6B10D00B1ECEA /* CBGSettingURLEditVC.m in Sources */,
+				183324561ED6B10D00B1ECEA /* Samurai_RenderQuery.m in Sources */,
+				183324571ED6B10D00B1ECEA /* AATooltip.m in Sources */,
+				183324581ED6B10D00B1ECEA /* Samurai_HtmlArray.m in Sources */,
+				183324591ED6B10D00B1ECEA /* CBGCombinedHistoryHandleVC.m in Sources */,
+				1833245A1ED6B10D00B1ECEA /* ZWBaseRefreshController.m in Sources */,
+				1833245B1ED6B10D00B1ECEA /* UITextView+Html.m in Sources */,
+				1833245C1ED6B10D00B1ECEA /* ZAHTTPRequest.m in Sources */,
+				1833245D1ED6B10D00B1ECEA /* All_skillsModel.m in Sources */,
+				1833245E1ED6B10D00B1ECEA /* ZWSystemSellListVC.m in Sources */,
+				1833245F1ED6B10D00B1ECEA /* Samurai_ViewComponent.m in Sources */,
+				183324601ED6B10D00B1ECEA /* ServiceBorderHook.m in Sources */,
+				183324611ED6B10D00B1ECEA /* Samurai_DomWritter.m in Sources */,
+				183324621ED6B10D00B1ECEA /* error.c in Sources */,
+				183324631ED6B10D00B1ECEA /* Samurai_EventSwipeGesture.m in Sources */,
+				183324641ED6B10D00B1ECEA /* AttrsModel.m in Sources */,
+				183324651ED6B10D00B1ECEA /* CBGSortHistoryBaseDetailVC.m in Sources */,
+				183324661ED6B10D00B1ECEA /* ViewController+Query.m in Sources */,
+				183324671ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorkflow.m in Sources */,
+				183324681ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m in Sources */,
+				183324691ED6B10D00B1ECEA /* Samurai_HtmlStyleObject.m in Sources */,
+				1833246A1ED6B10D00B1ECEA /* CBGPanicMaxedListRefreshVC.m in Sources */,
+				1833246B1ED6B10D00B1ECEA /* ZALocalStateTotalModel.m in Sources */,
+				1833246C1ED6B10D00B1ECEA /* Samurai_HtmlString.m in Sources */,
+				1833246D1ED6B10D00B1ECEA /* OLEGOLoadTypeListTableView.m in Sources */,
+				1833246E1ED6B10D00B1ECEA /* Samurai_ActivityStack.m in Sources */,
+				1833246F1ED6B10D00B1ECEA /* SDWebImageDownloader.m in Sources */,
+				183324701ED6B10D00B1ECEA /* OLEGOPageListTableView.m in Sources */,
+				183324711ED6B10D00B1ECEA /* AAPlotLinesElement.m in Sources */,
+				183324721ED6B10D00B1ECEA /* vector.c in Sources */,
+				183324731ED6B10D00B1ECEA /* UIView+WebCacheOperation.m in Sources */,
+				183324741ED6B10D00B1ECEA /* HighlightModel.m in Sources */,
+				183324751ED6B10D00B1ECEA /* AAXAxis.m in Sources */,
+				183324761ED6B10D00B1ECEA /* OLEGOFooterAndHeaderNoneControl.m in Sources */,
+				183324771ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectElement.m in Sources */,
+				183324781ED6B10D00B1ECEA /* Samurai_ActivityStackGroup.m in Sources */,
+				183324791ED6B10D00B1ECEA /* OLNameListTableView.m in Sources */,
+				1833247A1ED6B10D00B1ECEA /* ZAConfigModel.m in Sources */,
+				1833247B1ED6B10D00B1ECEA /* Idbid_descModel.m in Sources */,
+				1833247C1ED6B10D00B1ECEA /* ZWDaysListController.m in Sources */,
+				1833247D1ED6B10D00B1ECEA /* CBGLatestPlanBuyVC.m in Sources */,
+				1833247E1ED6B10D00B1ECEA /* ZWDataDetailModelManager.m in Sources */,
+				1833247F1ED6B10D00B1ECEA /* Samurai_RenderObject.m in Sources */,
+				183324801ED6B10D00B1ECEA /* Samurai_ResourceFetcher.m in Sources */,
+				183324811ED6B10D00B1ECEA /* ChangeschModel.m in Sources */,
+				183324821ED6B10D00B1ECEA /* ChildModel.m in Sources */,
+				183324831ED6B10D00B1ECEA /* CBGFutureStatusSortVC.m in Sources */,
+				183324841ED6B10D00B1ECEA /* AppDelegate.m in Sources */,
+				183324851ED6B10D00B1ECEA /* PropKeptModel.m in Sources */,
+				183324861ED6B10D00B1ECEA /* ZAHTTPApi.m in Sources */,
+				183324871ED6B10D00B1ECEA /* string_buffer.c in Sources */,
+				183324881ED6B10D00B1ECEA /* Samurai_UITextField.m in Sources */,
+				183324891ED6B10D00B1ECEA /* ZWDetailOthersClearListVC.m in Sources */,
+				1833248A1ED6B10D00B1ECEA /* UIScrollView+Html.m in Sources */,
+				1833248B1ED6B10D00B1ECEA /* CreateModel.m in Sources */,
+				1833248C1ED6B10D00B1ECEA /* Account.m in Sources */,
+				1833248D1ED6B10D00B1ECEA /* Samurai_HtmlSupport.m in Sources */,
+				1833248E1ED6B10D00B1ECEA /* Samurai_DomNode.m in Sources */,
+				1833248F1ED6B10D00B1ECEA /* ZAMMMaterialDesignSpinner.m in Sources */,
+				183324901ED6B10D00B1ECEA /* ZWTopRefreshModel.m in Sources */,
+				183324911ED6B10D00B1ECEA /* TimeRefreshManager.m in Sources */,
+				183324921ED6B10D00B1ECEA /* Samurai_Signal.m in Sources */,
+				183324931ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_30ParseResource.m in Sources */,
+				183324941ED6B10D00B1ECEA /* ServiceInspectorWindow.m in Sources */,
+				183324951ED6B10D00B1ECEA /* LocalTimingRefreshManager.m in Sources */,
+				183324961ED6B10D00B1ECEA /* OLTopicListRequest.m in Sources */,
+				183324971ED6B10D00B1ECEA /* AAOptionsConstructor.m in Sources */,
+				183324981ED6B10D00B1ECEA /* NSObject+MJKeyValue.m in Sources */,
+				183324991ED6B10D00B1ECEA /* Samurai_Config(Simulator).m in Sources */,
+				1833249A1ED6B10D00B1ECEA /* ZAWKConnectDelegate.m in Sources */,
+				1833249B1ED6B10D00B1ECEA /* Samurai_Metric.m in Sources */,
+				1833249C1ED6B10D00B1ECEA /* Samurai_HtmlUrl.m in Sources */,
+				1833249D1ED6B10D00B1ECEA /* NSObject+AutoCoding.m in Sources */,
+				1833249E1ED6B10D00B1ECEA /* NSData+Extension.m in Sources */,
+				1833249F1ED6B10D00B1ECEA /* AFHTTPSessionManager.m in Sources */,
+				183324A01ED6B10D00B1ECEA /* Samurai_HtmlRenderWorkflow.m in Sources */,
+				183324A11ED6B10D00B1ECEA /* PetModel.m in Sources */,
+				183324A21ED6B10D00B1ECEA /* Samurai_HtmlRenderObject.m in Sources */,
+				183324A31ED6B10D00B1ECEA /* HtmlElement_Li.m in Sources */,
+				183324A41ED6B10D00B1ECEA /* ProductInfo.m in Sources */,
+				183324A51ED6B10D00B1ECEA /* SDWebImagePrefetcher.m in Sources */,
+				183324A61ED6B10D00B1ECEA /* Samurai_HtmlNumberDp.m in Sources */,
+				183324A71ED6B10D00B1ECEA /* NodeModelRootNavigationController.m in Sources */,
+				183324A81ED6B10D00B1ECEA /* ServiceGestureViewSwipe.m in Sources */,
+				183324A91ED6B10D00B1ECEA /* DPHttpClient.m in Sources */,
+				183324AA1ED6B10D00B1ECEA /* NTBasicRequest.m in Sources */,
+				183324AB1ED6B10D00B1ECEA /* LeanCloudRefreshManager.m in Sources */,
+				183324AC1ED6B10D00B1ECEA /* Samurai_ServiceLoader.m in Sources */,
+				183324AD1ED6B10D00B1ECEA /* Samurai_ModelConfig.m in Sources */,
+				183324AE1ED6B10D00B1ECEA /* RefreshEquipDetailDataManager.m in Sources */,
+				183324AF1ED6B10D00B1ECEA /* NSDate+Extension.m in Sources */,
+				183324B01ED6B10D00B1ECEA /* fishhook.c in Sources */,
+				183324B11ED6B10D00B1ECEA /* Samurai_HtmlNumberAutomatic.m in Sources */,
+				183324B21ED6B10D00B1ECEA /* ServiceMonitorMemoryModel.m in Sources */,
+				183324B31ED6B10D00B1ECEA /* NSArray+Extension.m in Sources */,
+				183324B41ED6B10D00B1ECEA /* Samurai_UIWebView.m in Sources */,
+				183324B51ED6B10D00B1ECEA /* AATitle.m in Sources */,
+				183324B61ED6B10D00B1ECEA /* HtmlElement_Hr.m in Sources */,
+				183324B71ED6B10D00B1ECEA /* JSOperation.m in Sources */,
+				183324B81ED6B10D00B1ECEA /* AAYAxis.m in Sources */,
+				183324B91ED6B10D00B1ECEA /* Samurai_EventPinchGesture.m in Sources */,
+				183324BA1ED6B10D00B1ECEA /* main.m in Sources */,
+				183324BB1ED6B10D00B1ECEA /* OLMainTopicListCell.m in Sources */,
+				183324BC1ED6B10D00B1ECEA /* MBProgressHUD.m in Sources */,
+				183324BD1ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */,
+				183324BE1ED6B10D00B1ECEA /* ServiceGestureViewClick.m in Sources */,
+				183324BF1ED6B10D00B1ECEA /* Samurai_Event.m in Sources */,
+				183324C01ED6B10D00B1ECEA /* UIWebView+AFNetworking.m in Sources */,
+				183324C11ED6B10D00B1ECEA /* CBGWebListErrorCheckVC.m in Sources */,
+				183324C21ED6B10D00B1ECEA /* RoleSearch.m in Sources */,
+				183324C31ED6B10D00B1ECEA /* Samurai_UIConfig.m in Sources */,
+				183324C41ED6B10D00B1ECEA /* Samurai_HtmlNumberEm.m in Sources */,
+				183324C51ED6B10D00B1ECEA /* JinjieModel.m in Sources */,
+				183324C61ED6B10D00B1ECEA /* Samurai_RenderStoreScope.m in Sources */,
+				183324C71ED6B10D00B1ECEA /* CBGLatestDetailCheckVC.m in Sources */,
+				183324C81ED6B10D00B1ECEA /* BaseBlockController.m in Sources */,
+				183324C91ED6B10D00B1ECEA /* ZWSysSellModel.m in Sources */,
+				183324CA1ED6B10D00B1ECEA /* selector.c in Sources */,
+				183324CB1ED6B10D00B1ECEA /* CBGPlanSortHistoryVC.m in Sources */,
+				183324CC1ED6B10D00B1ECEA /* RefreshEquipListDataManager.m in Sources */,
+				183324CD1ED6B10D00B1ECEA /* Samurai_UITextView.m in Sources */,
+				183324CE1ED6B10D00B1ECEA /* CBGSortHistoryBaseStyleVC.m in Sources */,
+				183324CF1ED6B10D00B1ECEA /* ZACBGListDetailShowVC.m in Sources */,
+				183324D01ED6B10D00B1ECEA /* BaseRequestModel.m in Sources */,
+				183324D11ED6B10D00B1ECEA /* AFNetworkReachabilityManager.m in Sources */,
+				183324D21ED6B10D00B1ECEA /* DZUtils.m in Sources */,
+				183324D31ED6B10D00B1ECEA /* Samurai_DockerManager.m in Sources */,
+				183324D41ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */,
+				183324D51ED6B10D00B1ECEA /* View+Binding.m in Sources */,
+				183324D61ED6B10D00B1ECEA /* ViewController+Template.m in Sources */,
+				183324D71ED6B10D00B1ECEA /* UICollectionViewCell+Html.m in Sources */,
+				183324D81ED6B10D00B1ECEA /* AccountInfo.m in Sources */,
+				183324D91ED6B10D00B1ECEA /* UIImageView+AFNetworking.m in Sources */,
+				183324DA1ED6B10D00B1ECEA /* string_piece.c in Sources */,
+				183324DB1ED6B10D00B1ECEA /* Samurai_Debug.m in Sources */,
+				183324DC1ED6B10D00B1ECEA /* ZWPanicRefreshController.m in Sources */,
+				183324DD1ED6B10D00B1ECEA /* Summon_equip3Model.m in Sources */,
+				183324DE1ED6B10D00B1ECEA /* ZWSystemListController.m in Sources */,
+				183324DF1ED6B10D00B1ECEA /* AFHTTPRequestOperationManager.m in Sources */,
+				183324E01ED6B10D00B1ECEA /* util.c in Sources */,
+				183324E11ED6B10D00B1ECEA /* ZWSystemRequestModel.m in Sources */,
+				183324E21ED6B10D00B1ECEA /* CBGWebListRequestModel.m in Sources */,
+				183324E31ED6B10D00B1ECEA /* LoginInfo.m in Sources */,
+				183324E41ED6B10D00B1ECEA /* Samurai_Service.m in Sources */,
+				183324E51ED6B10D00B1ECEA /* CoreModel.m in Sources */,
+				183324E61ED6B10D00B1ECEA /* AAItemStyle.m in Sources */,
+				183324E71ED6B10D00B1ECEA /* ServiceTapspotWindow.m in Sources */,
+				183324E81ED6B10D00B1ECEA /* CBGCopyUrlDetailCehckVC.m in Sources */,
+				183324E91ED6B10D00B1ECEA /* AASeries.m in Sources */,
+				183324EA1ED6B10D00B1ECEA /* AABar.m in Sources */,
+				183324EB1ED6B10D00B1ECEA /* FMDatabasePool.m in Sources */,
+				183324EC1ED6B10D00B1ECEA /* Samurai_CSSRuleCollector.m in Sources */,
+				183324ED1ED6B10D00B1ECEA /* CBGPlanCheckSpecialListVC.m in Sources */,
+				183324EE1ED6B10D00B1ECEA /* NSObject+MJCoding.m in Sources */,
+				183324EF1ED6B10D00B1ECEA /* Samurai_HtmlNumberPx.m in Sources */,
+				183324F01ED6B10D00B1ECEA /* Summon_coreModel.m in Sources */,
+				183324F11ED6B10D00B1ECEA /* ZALocation.m in Sources */,
+				183324F21ED6B10D00B1ECEA /* ServiceGridsWindow.m in Sources */,
+				183324F31ED6B10D00B1ECEA /* RefreshDefaultListRequestModel.m in Sources */,
+				183324F41ED6B10D00B1ECEA /* Samurai_Vendor.m in Sources */,
+				183324F51ED6B10D00B1ECEA /* ZAPanicPayHistoryVC.m in Sources */,
+				183324F61ED6B10D00B1ECEA /* ServiceGestureView.m in Sources */,
+				183324F71ED6B10D00B1ECEA /* MJExtensionConst.m in Sources */,
+				183324F81ED6B10D00B1ECEA /* FabaoModel.m in Sources */,
+				183324F91ED6B10D00B1ECEA /* OLEGOPullTextFooterView.m in Sources */,
+				183324FA1ED6B10D00B1ECEA /* Samurai_ViewController.m in Sources */,
+				183324FB1ED6B10D00B1ECEA /* Poundage_listModel.m in Sources */,
+				183324FC1ED6B10D00B1ECEA /* ServiceBorderLayer.m in Sources */,
+				183324FD1ED6B10D00B1ECEA /* OLEGOFooterAutoLoadControl.m in Sources */,
+				183324FE1ED6B10D00B1ECEA /* Samurai_CssProtocol.m in Sources */,
+				183324FF1ED6B10D00B1ECEA /* Samurai_DockerView.m in Sources */,
+				183325001ED6B10D00B1ECEA /* Samurai_HtmlNumberConstant.m in Sources */,
+				183325011ED6B10D00B1ECEA /* OLEGOFooterNormalControl.m in Sources */,
+				183325021ED6B10D00B1ECEA /* Samurai_HtmlDomNode.m in Sources */,
+				183325031ED6B10D00B1ECEA /* OLEGOLatestHeaderView.m in Sources */,
+				183325041ED6B10D00B1ECEA /* AAChartView.m in Sources */,
+				183325051ED6B10D00B1ECEA /* Samurai_HtmlBox.m in Sources */,
+				183325061ED6B10D00B1ECEA /* char_ref.c in Sources */,
+				183325071ED6B10D00B1ECEA /* Samurai_UITableView.m in Sources */,
+				183325081ED6B10D00B1ECEA /* EquipListRequestModel.m in Sources */,
+				183325091ED6B10D00B1ECEA /* OLMainTopicListViewController.m in Sources */,
+				1833250A1ED6B10D00B1ECEA /* Samurai_SignalKVO.m in Sources */,
+				1833250B1ED6B10D00B1ECEA /* RoleDataModel.m in Sources */,
+				1833250C1ED6B10D00B1ECEA /* Samurai_IntentBus.m in Sources */,
+				1833250D1ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_20UpdateStyle.m in Sources */,
+				1833250E1ED6B10D00B1ECEA /* Samurai_App.m in Sources */,
+				1833250F1ED6B10D00B1ECEA /* PWDTimeManager.m in Sources */,
+				183325101ED6B10D00B1ECEA /* Samurai_CSSSelectorChecker.m in Sources */,
+				183325111ED6B10D00B1ECEA /* CBGMixedListCheckVC.m in Sources */,
+				183325121ED6B10D00B1ECEA /* Samurai_HtmlUserAgent.m in Sources */,
+				183325131ED6B10D00B1ECEA /* UILabel+Html.m in Sources */,
+				183325141ED6B10D00B1ECEA /* OpenTimesRefreshManager.m in Sources */,
+				183325151ED6B10D00B1ECEA /* Samurai_Activity.m in Sources */,
+				183325161ED6B10D00B1ECEA /* OLBasicRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4924,6 +6204,42 @@
 			};
 			name = Release;
 		};
+		1833255C1ED6B10D00B1ECEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
+				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
+				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		1833255D1ED6B10D00B1ECEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ZhongAn Online P&C Insurance Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = X9YQDM8Q42;
+				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
+				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4950,6 +6266,15 @@
 			buildConfigurations = (
 				182091431EA6F0470015E393 /* Debug */,
 				182091441EA6F0470015E393 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1833255B1ED6B10D00B1ECEA /* Build configuration list for PBXNativeTarget "WebConnectPrj copy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1833255C1ED6B10D00B1ECEA /* Debug */,
+				1833255D1ED6B10D00B1ECEA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

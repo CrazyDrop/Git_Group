@@ -489,6 +489,23 @@
     }
     
     
+    //机缘、减扣    //总数33，不用
+    NSInteger maxNum = 33;
+    NSInteger totalAdd = [self.jiyuan integerValue] + [self.addPoint integerValue];
+    NSInteger needAdd = maxNum - totalAdd;
+    if(needAdd > 10)
+    {
+        price -= (needAdd * 50);
+    }else if(needAdd > 3){
+        price -= (needAdd * 30);
+    }else if(needAdd < 0){
+        price += 200;
+    }
+    
+    //法宝减扣，当前未实现
+    
+    
+    
     //所有后续门派 等级满级 + 200
     //门派加钱,DT  HS ST减500
 // 龙宫  MW  神木  可以抓持国  法系持国 + 500  (LG + 700 )

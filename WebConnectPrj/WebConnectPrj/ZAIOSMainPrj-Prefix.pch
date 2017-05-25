@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Constant.h"
+#import "NSString+Base64.h"
 #import "AAGlobalMacro.h"
 
 #import "BaseDataModel.h"

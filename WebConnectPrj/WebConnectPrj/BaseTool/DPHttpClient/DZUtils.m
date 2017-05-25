@@ -27,7 +27,48 @@
 #define IP_ADDR_IPv6    @"ipv6"
 
 @implementation DZUtils
++(void)startNoticeWithLocalUrl:(NSString *)localUrl
+{
+    ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!model.isAlarm) return;
+    
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state == UIApplicationStateBackground)
+    {
+        [DZUtils localSoundTimeNotificationWithLocalUrl:localUrl];
+        return;
+    }
+    
+    [DZUtils vibrate];
+}
 
++ (void)vibrate
+{
+    AudioServicesPlaySystemSound(1320);
+    //    1327
+}
+
++(BOOL)equipServerIdCheckResultWithSubServerId:(NSInteger)serverId
+{
+    BOOL enable = YES;
+    if(serverId == 45)
+    {
+        enable = NO;
+    }else{
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        NSInteger minId = total.minServerId;
+        if(serverId >= minId){
+            enable = NO;
+        }
+    }
+    return enable;
+}
+
++(UIViewController *)currentRootViewController
+{
+    AppDelegate * dele = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return dele.window.rootViewController;
+}
 +(NSString *)detailNumberStringSubFromBottomCombineStr:(NSString *)detailCopy
 {
 //循环遍历出数字部分
@@ -215,13 +256,18 @@
     [hud show:YES];
     [hud hide:YES afterDelay:1];
 }
++(void)localSoundTimeNotificationWithLocalUrl:(NSString *)url
+{
+    UILocalNotification * noti = [[self class] createLocalNotificationForFindIphoneWithTimeDelay:0 andUrl:url];
+    [[UIApplication sharedApplication] scheduleLocalNotification:noti];
+}
 
 +(void)localSoundTimeNotificationWithAfterSecond
 {
-    UILocalNotification * noti = [[self class] createLocalNotificationForFindIphoneWithTimeDelay:0];
+    UILocalNotification * noti = [[self class] createLocalNotificationForFindIphoneWithTimeDelay:0 andUrl:nil];
     [[UIApplication sharedApplication] scheduleLocalNotification:noti];
 }
-+(UILocalNotification *)createLocalNotificationForFindIphoneWithTimeDelay:(NSTimeInterval)delay
++(UILocalNotification *)createLocalNotificationForFindIphoneWithTimeDelay:(NSTimeInterval)delay andUrl:(NSString *)url
 {
     NSTimeInterval second = delay;
     
@@ -240,10 +286,18 @@
     NSMutableDictionary *infoDic = [NSMutableDictionary dictionary];
     [infoDic setValue:NSLOCAL_NOTIFICATION_IDENTIFIER forKey:@"id"];
     [infoDic setValue:[NSString stringWithFormat:@"%f",second] forKey:@"time"];
+    [infoDic setValue:url forKey:@"weburl"];
     localNotification.userInfo = infoDic;
     localNotification.soundName = @"2015-12-09_17-41-23_1.m4r";
     return localNotification;
 }
++(UIView *)ToolCustomLineView
+{
+    UIView * aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+    aView.backgroundColor = Custom_Gray_Line_Color;
+    return aView;
+}
+
 /**
 +(NSString *)DESEncryptAndURLEncodeWithWarningID:(NSString *)warnid
 {
@@ -404,12 +458,6 @@
     return object;
 }
 
-+(UIView *)ToolCustomLineView
-{
-    UIView * aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
-    aView.backgroundColor = Custom_Gray_Line_Color;
-    return aView;
-}
 +(void)saveCurrentTimingWithEndTime:(NSDate *)endTime andTotalSecond:(NSInteger)second
 {
     ZALocalStateModel * model = [ZALocalStateModel currentLocalStateModel];
@@ -605,11 +653,7 @@
     return errorNum;
 }
 
-+(UIViewController *)currentRootViewController
-{
-    AppDelegate * dele = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    return dele.window.rootViewController;
-}
+
 
 +(NSString *)currentAppBundleVersion{
     static NSString* bundleVersion;

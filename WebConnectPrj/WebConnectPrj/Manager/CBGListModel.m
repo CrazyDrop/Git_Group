@@ -310,6 +310,7 @@
 {
     NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
     [dataDic setObject:[NSNumber numberWithInteger:self.equip_huasheng] forKey:@"equip_huasheng"];
+    
     NSString * jsonStr = [dataDic JSONString];
     return jsonStr;
 }

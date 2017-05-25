@@ -268,7 +268,7 @@ handleSignal( ZWTopRefreshModel, requestLoaded )
                 BOOL firstAdd = [manager localSaveCurrentLocation:obj];
                 if(firstAdd && [model.total_money intValue]>2000)
                 {
-                    [self startUserNotice];
+                    
                 }
             }
         }];
@@ -328,7 +328,7 @@ handleSignal( ZWTopRefreshModel, requestLoaded )
         [preSysArray addObject:total];
         if([preSysArray count] >2)
         {
-            [self startUserNotice];
+            
         }
     }
 }
@@ -376,7 +376,7 @@ handleSignal( RefreshDataModel, requestLoaded )
             BOOL firstAdd = [manager localSaveCurrentLocation:obj];
             if(firstAdd && [model.total_money intValue]>2000)
             {
-                [self startUserNotice];
+                
             }
         }
     }];
@@ -426,25 +426,6 @@ handleSignal( RefreshDataModel, requestLoaded )
     self.latestContain = contain;
     NSIndexSet * set = [NSIndexSet indexSetWithIndex:0];
     [self.listTable reloadSections:set withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
--(void)startUserNotice
-{
-    ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
-    if(!model.isAlarm) return;
-    
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state == UIApplicationStateBackground){
-        [DZUtils localSoundTimeNotificationWithAfterSecond];
-        return;
-    }
-    [self vibrate];
-}
-
-- (void)vibrate
-{
-    AudioServicesPlaySystemSound(1320);
-    //    1327
 }
 
 

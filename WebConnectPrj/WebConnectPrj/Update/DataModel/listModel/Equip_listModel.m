@@ -149,7 +149,7 @@
             list.fav_or_ingore = 2;
             list.appointed = YES;
         }
-        list.equip_more_append = @"";
+        
         
         EquipExtraModel * extra = detail.equipExtra;
         list.equip_school =     [extra.iSchool intValue];

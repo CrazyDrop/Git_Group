@@ -13,6 +13,10 @@
 
 @interface DZUtils : NSObject
 
+
++(void)startNoticeWithLocalUrl:(NSString *)localUrl;
++(BOOL)equipServerIdCheckResultWithSubServerId:(NSInteger)serverId;
+
 +(NSString *)detailNumberStringSubFromBottomCombineStr:(NSString *)str;
 +(NSString *)detailNumberStringSubFromHeaderCombineStr:(NSString *)detailCopy;
 

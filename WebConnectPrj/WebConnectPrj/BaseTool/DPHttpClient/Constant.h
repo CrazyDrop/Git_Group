@@ -195,6 +195,7 @@ FLoatChange(CGFloat size)
 
 #define iOS8_constant_or_later  ( [UIDevice currentDevice].systemVersion.floatValue>=8.0 )
 #define iOS9_constant_or_later  ( [UIDevice currentDevice].systemVersion.floatValue>=9.0 )
+#define iOS10_constant_or_later  ( [UIDevice currentDevice].systemVersion.floatValue>=10.0 )
 
 #define URL_HEAD @"http://115.159.68.180:8080/"//测试服务器
 //#define URL_HEAD @"http://115.28.191.58:8080/"//正式服务器

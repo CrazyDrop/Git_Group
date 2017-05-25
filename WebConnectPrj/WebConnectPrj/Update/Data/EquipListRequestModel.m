@@ -113,6 +113,10 @@
 //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
         NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
         NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)index];
+        if(self.selectSchool > 0)
+        {
+            eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
+        }
         [urls addObject:eve];
     }
     return urls;

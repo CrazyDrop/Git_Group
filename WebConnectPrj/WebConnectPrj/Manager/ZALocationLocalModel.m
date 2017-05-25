@@ -1823,6 +1823,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                     preModel.equip_accept = model.equip_accept;
                 }
+                
+                if(![preModel.equip_more_append  isEqualToString:model.equip_more_append])
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_more_append = model.equip_more_append;
+                }
 
                 
                 if(ingoreRefresh)

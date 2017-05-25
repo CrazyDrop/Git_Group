@@ -121,17 +121,21 @@ RefreshCellCopyDelgate>
     
     if(maxModel)
     {
-               NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
+        NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
         NSString * webUrl = maxModel.detailWebUrl;
-//        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
-//                                                            object:webUrl];
+        NSString * urlString = webUrl;
+        
+        NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxModel.earnRate,[maxModel.price integerValue]/100];
+        
+        NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
+        
+        
         self.planWeb = [[CBGDetailWebView alloc] init];
         [self.planWeb prepareWebViewWithUrl:webUrl];
         
-        //数据有效时，进行提醒
         if(!self.ingoreDB)
         {
-            [self startUserNotice];
+            [DZUtils startNoticeWithLocalUrl:appUrlString];
         }
         
         self.latest = maxModel;
@@ -779,25 +783,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 
     NSIndexSet * set = [NSIndexSet indexSetWithIndex:0];
     [self.listTable reloadSections:set withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
--(void)startUserNotice
-{
-    ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
-    if(!model.isAlarm) return;
-    
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state == UIApplicationStateBackground){
-        [DZUtils localSoundTimeNotificationWithAfterSecond];
-        return;
-    }
-    [self vibrate];
-}
-
-- (void)vibrate
-{
-    AudioServicesPlaySystemSound(1320);
-//    1327
 }
 
 

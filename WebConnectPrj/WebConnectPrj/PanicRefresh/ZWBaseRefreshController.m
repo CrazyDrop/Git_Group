@@ -104,7 +104,8 @@
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
 {
     ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
-    if(!model.isAlarm){
+    if(!model.isAlarm)
+    {
         return;
     }
     Equip_listModel * maxModel = nil;
@@ -131,37 +132,32 @@
     {
         NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
         NSString * webUrl = maxModel.detailWebUrl;
-        //        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE
-        //                                                            object:webUrl];
-        self.planWeb = [[CBGDetailWebView alloc] init];
-        [self.planWeb prepareWebViewWithUrl:webUrl];
+        NSString * urlString = webUrl;
         
-        [self startUserNotice];
+        NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxModel.earnRate,[maxModel.price integerValue]/100];
         
-        self.latest = maxModel;
-        self.latestContain = YES;
+        NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
+        NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
+        if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
+           [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+        {
+            [[UIApplication sharedApplication] openURL:appPayUrl];
+        }else
+        {
+            self.planWeb = [[CBGDetailWebView alloc] init];
+            [self.planWeb prepareWebViewWithUrl:urlString];
+            
+            [DZUtils startNoticeWithLocalUrl:appUrlString];
+            
+            self.latest = maxModel;
+            self.latestContain = YES;
+        }
+
     }
     
 }
 
--(void)startUserNotice
-{
-    ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
-    if(!model.isAlarm) return;
-    
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state == UIApplicationStateBackground){
-        [DZUtils localSoundTimeNotificationWithAfterSecond];
-        return;
-    }
-    [self vibrate];
-}
 
-- (void)vibrate
-{
-    AudioServicesPlaySystemSound(1320);
-    //    1327
-}
 
 
 //列表刷新，按照最新的返回数据,新增，还是替换

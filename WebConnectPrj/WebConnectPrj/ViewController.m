@@ -39,6 +39,7 @@
 #import "ZWPanicRefreshController.h"
 #import "CBGPanicMaxedListRefreshVC.h"
 #import "CBGPanicMixedNightListVC.h"
+#import "ZAAutoBuySettingVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -149,12 +150,12 @@
             name = @"倒手分析";
         }
             break;
-        case CBGDetailTestFunctionStyle_PayStyle:
+        case CBGDetailTestFunctionStyle_PayMessage:
         {
             name = @"支付(短信)";
         }
             break;
-            
+
         case CBGDetailTestFunctionStyle_LatestPlan:
         {
             name = @"近期估价";
@@ -185,7 +186,11 @@
             name = @"夜间混合";
         }
             break;
-
+        case CBGDetailTestFunctionStyle_AutoSetting:
+        {
+            name = @"自动购买";
+        }
+            break;
             
         default:
             break;
@@ -206,7 +211,7 @@
     
     NSArray * testFuncArr = [NSArray arrayWithObjects:
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_Notice],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayMessage],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicMixed],
@@ -226,16 +231,17 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
                              
-//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
-                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
+
 //                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
 //                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WEBCheck],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
 
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
-//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_NightMixed],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
+
 
                              nil];
     
@@ -264,9 +270,9 @@
 }
 -(void)refreshPayStyleBtnStateWithStyle:(BOOL)message
 {
-    NSInteger noticeTag = CBGDetailTestFunctionStyle_PayStyle;
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_PayMessage;
     UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
-    NSString * showState = message?@"支付(短信)":@"支付(扫码)";
+    NSString * showState = message?@"支付(短信)":@"支付(扫码)";//密码支付
     [btn setTitle:showState forState:UIControlStateNormal];
 }
 -(void)refreshWriteInBtnForWriteFinish:(BOOL)finish
@@ -484,12 +490,14 @@
             
         }
             break;
-        case CBGDetailTestFunctionStyle_PayStyle:
+        case CBGDetailTestFunctionStyle_PayMessage:
         {
-            
+            //当大于20 价格小于1.3W 使用密码支付
             ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
             total.isScan = !total.isScan;
             [total localSave];
+            
+            
             [self refreshPayStyleBtnStateWithStyle:!total.isScan];
             
         }
@@ -508,9 +516,6 @@
             break;
         case CBGDetailTestFunctionStyle_ClearCache:
         {
-//            ZWPanicRefreshController * latest = [[ZWPanicRefreshController alloc] init];
-//            [[self rootNavigationController] pushViewController:latest animated:YES];
-            
             [DZUtils noticeCustomerWithShowText:@"清空缓存"];
         }
             break;
@@ -529,7 +534,12 @@
             
         }
             break;
-            
+        case CBGDetailTestFunctionStyle_AutoSetting:
+        {
+            ZAAutoBuySettingVC * latest = [[ZAAutoBuySettingVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+        }
+            break;
             
     }
 }

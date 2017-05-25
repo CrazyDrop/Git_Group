@@ -15,6 +15,8 @@
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshManager.h"
 #import "MSAlertController.h"
+#import "ZAPanicSortSchoolVC.h"
+
 @interface ZWPanicRefreshController ()
 {
     NSMutableDictionary * cacheDic;//以时间为key  model为value
@@ -44,10 +46,9 @@
         [cacheDic addEntriesFromDictionary:total.panicCache];
         
 
-        
         maxLength = 3000 * 100;
 //        maxLength = 3000;
-        self.requestNum = 50;
+        self.requestNum = 100;
  
 
     }
@@ -104,6 +105,12 @@
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"门派设定" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf tapedOnSelectedSortSchool];
+              }];
+    [alertController addAction:action];
+
     
     
     NSString * rightTxt = @"取消";
@@ -115,6 +122,11 @@
                        animated:YES
                      completion:nil];
    
+}
+-(void)tapedOnSelectedSortSchool
+{
+    ZAPanicSortSchoolVC * sort = [[ZAPanicSortSchoolVC alloc] init];
+    [[self rootNavigationController] pushViewController:sort animated:YES];
 }
 
 -(NSArray *)latestRefreshRequestDetailUrls
@@ -308,11 +320,48 @@
         model = [[EquipListRequestModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        NSInteger school = total.refreshSchool;
+        if(school > 0)
+        {
+            model.selectSchool = school;
+        }
         model.pageNum = self.requestNum;//刷新页数
     }
     
     [model sendRequest];
 }
+-(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum
+{
+    //请求参数自动调整
+    
+    NSInteger prePage = self.requestNum;
+    NSInteger needNum = totalNum/15;
+    NSInteger refreshNum = needNum + 5;
+    
+    if(prePage > needNum && prePage < refreshNum)
+    {
+        return;
+    }
+    
+    //当前的，大于需要的+5页时，进行调整
+    if(prePage > refreshNum)
+    {
+        [self refreshLatestMinRequestPageNumber:refreshNum];
+    }else
+    {//设定最大100页
+        refreshNum = MIN(refreshNum, 100);
+        [self refreshLatestMinRequestPageNumber:refreshNum];
+    }
+    
+    
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    [refresh cancel];
+    [refresh removeSignalResponder:self];
+    _dpModel = nil;
+}
+
 #pragma mark EquipListRequestModel
 handleSignal( EquipListRequestModel, requestError )
 {
@@ -356,7 +405,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
         }
     }
     self.tipsView.hidden = [array count] != 0;
-
     
     //检查得出未上架的数据
     //列表数据排重
@@ -408,6 +456,8 @@ handleSignal( EquipListRequestModel, requestLoaded )
             [appendDic addEntriesFromDictionary:currentDic];
         }
     }
+    
+    [self autoRefreshListRequestNumberWithLatestBackNumber:[array count]];
     
 //    [requestLock unlock];
 }

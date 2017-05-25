@@ -15,6 +15,7 @@
 #import "CBGNearHistoryVC.h"
 #import "ZALocationLocalModel.h"
 #import "CBGDetailWebView.h"
+#import "ZAAutoBuyHomeVC.h"
 @interface ZACBGDetailWebVC ()<UIWebViewDelegate>
 {
     Equip_listModel * baseList;
@@ -134,7 +135,9 @@
     {
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setTitle:@"支付" forState:UIControlStateNormal];
+        [btn setTitle:@"问题" forState:UIControlStateDisabled];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateDisabled];
         [btn setBackgroundColor:[UIColor greenColor]];
         CGFloat btnWidth = 80;
         btn.frame = CGRectMake(SCREEN_WIDTH - btnWidth, 0, btnWidth, btnWidth);
@@ -146,16 +149,37 @@
 }
 -(void)tapedOnPayBtn:(id)sender
 {
-    if(!self.orderId)
+    if(self.detailModel)
     {
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        if(total.isScan){
-            [self runDetailJSWithFunctionType:CBGDetailWebFunction_PayInScan];
-        }else{
-            [self runDetailJSWithFunctionType:CBGDetailWebFunction_PayOrder];
+        [baseList refrehLocalBaseListModelWithDetail:self.detailModel];
+    }
+    
+    NSString * urlString = self.cbgList.detailWebUrl;
+    
+    NSString * webUrl = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&rate=%ld&price=%ld",urlString,(NSInteger)baseList.earnRate,[baseList.price integerValue]/100];
+    NSURL *appPayUrl = [NSURL URLWithString:webUrl];
+    if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
+    {
+        [[UIApplication sharedApplication] openURL:appPayUrl];
+    }else
+    {
+        if(!self.detailModel)
+        {
+            [DZUtils noticeCustomerWithShowText:@"无详情信息"];
+            return;
         }
-    }else{
-        [self runDetailJSWithFunctionType:CBGDetailWebFunction_Cancel];
+        
+        if(![DZUtils equipServerIdCheckResultWithSubServerId:[baseList.serverid integerValue]]){
+            [DZUtils noticeCustomerWithShowText:@"角色服务器不满足条件"];
+            return;
+        }
+        
+        ZAAutoBuyHomeVC * home = [[ZAAutoBuyHomeVC alloc] init];
+        home.webUrl = urlString;
+        home.rate = baseList.earnRate;
+        home.price = [baseList.price integerValue] / 100;
+        [[self rootNavigationController] pushViewController:home animated:YES];
+        
     }
 }
 - (void)viewDidLoad {
@@ -265,11 +289,14 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSInteger compareId = total.minServerId;
     
+    BOOL buyEnable = YES;
     NSString * create = self.cbgList.sell_create_time;
     if(compareId <= self.cbgList.server_id)
     {
+        buyEnable = NO;
         self.titleV.text = @"三年内!";
     }else if(compareId == 45){
+        buyEnable = NO;
         self.titleV.text = @"限时区！";
     }else if([create length] > 0)
     {
@@ -287,9 +314,13 @@
     
     if(self.cbgList.appointed)
     {
+        buyEnable = NO;
         self.titleV.text = @"指定ID";
     }
     
+//    self.payBtn.hidden = buyEnable;
+    self.payBtn.userInteractionEnabled = buyEnable;
+    self.payBtn.enabled = buyEnable;
 }
 
 -(void)submit
@@ -418,6 +449,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             NSString * prePrice = detailEve.equipExtra.detailPrePrice;
             prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",urlString];
             self.txtView.text = prePrice;
+            
         }
     }
     

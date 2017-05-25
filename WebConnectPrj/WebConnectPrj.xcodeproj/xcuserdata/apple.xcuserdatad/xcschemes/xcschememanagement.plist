@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>WebConnectPrj copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>WebConnectPrj.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -28,6 +33,16 @@
 			<true/>
 		</dict>
 		<key>182091451EA6F1460015E393</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>183320A41ED6B0A100B1ECEA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>183323021ED6B10D00B1ECEA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

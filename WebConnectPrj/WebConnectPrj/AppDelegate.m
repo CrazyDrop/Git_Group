@@ -7,11 +7,12 @@
 //
 
 #import "AppDelegate.h"
+#import <UserNotifications/UserNotifications.h>
 #import "SFHFKeychainUtils.h"
 #import "ViewController.h"
 #import "ZALocationLocalModel.h"
-
-@interface AppDelegate ()
+#import "ZAAutoBuyHomeVC.h"
+@interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
 @end
 
@@ -53,7 +54,12 @@
         [total localSave];
     }
     if(total.minServerId == 0){
-        total.minServerId = 735;//当前最接近三年外的服务器，风筝之都
+        total.minServerId = 723;//当前最接近三年外的服务器，群星璀璨
+        [total localSave];
+    }
+    if(total.limitPrice == 0 && total.limitRate == 0){
+        total.limitRate = 20;
+        total.limitPrice = 0;
         [total localSave];
     }
     
@@ -62,6 +68,13 @@
 //    [self writeLogToFile];
 #endif
 //    [NSDictionary dictionaryWithObjectsAndKeys:@"大唐官府",@"1",@"化生寺",@"2",@"女儿村",@"3",@"方寸山",@"4",@"天宫",@"5",@"普陀山",@"6",@"龙宫",@"7",@"五庄观",@"8",@"狮驼岭",@"9",@"魔王寨",@"10",@"阴曹地府"@"11",@"盘丝洞",@"12",@"神木林",@"13",@"凌波城",@"14",@"无底洞",@"15", nil]
+    if(iOS10_constant_or_later)
+    {
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    }
+
+//    NSString * localUrl = @"refreshPayApp://params?weburl=http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=9&ordersn=22_1495613221_25411429&equip_refer=1|rate=0|price=33800";
+//    NSDictionary * arr = [self paramDicFromLatestUrlString:localUrl];
     
     
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
@@ -80,6 +93,62 @@
     
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    NSLog(@"%@ %@",url,options);
+//    NSString * webUrl = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&param2=222",urlString];
+
+    NSString * urlString = [url absoluteString];
+    if([urlString containsString:@"refreshPayApp:"])
+    {
+        NSDictionary * paramDic = [self paramDicFromLatestUrlString:urlString];
+        NSString * weburl = [paramDic objectForKey:@"weburl"];
+        NSString * rate = [paramDic objectForKey:@"rate"];
+        NSString * price = [paramDic objectForKey:@"price"];
+
+        weburl = [weburl base64DecodedString];
+        if(weburl)
+        {
+            ZAAutoBuyHomeVC * home = [[ZAAutoBuyHomeVC alloc] init];
+            home.webUrl = weburl;
+            home.rate = [rate integerValue];
+            home.price = [price integerValue];
+            
+            UINavigationController * naVC = (UINavigationController *)[DZUtils currentRootViewController];
+            [naVC pushViewController:home animated:YES];
+            
+            ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+            NSMutableArray * refreshArr = [NSMutableArray arrayWithArray:total.panicHistory];
+            [refreshArr insertObject:paramDic atIndex:0];
+            total.panicHistory = refreshArr;
+            [total localSave];
+        }
+    }
+    
+    
+    return  YES;
+}
+-(NSDictionary *)paramDicFromLatestUrlString:(NSString *)totalStr
+{
+    NSString * paramStr = [totalStr stringByReplacingOccurrencesOfString:@"refreshPayApp://params?" withString:@""];
+    NSArray * subArr = [paramStr componentsSeparatedByString:@"&"];
+    NSMutableDictionary * resultDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0;index < [subArr count];index ++ ) {
+        NSString * eveStr = [subArr objectAtIndex:index];
+        NSArray * eveArr = [eveStr componentsSeparatedByString:@"="];
+        if([eveArr count] >= 2)
+        {
+            NSString * keyStr = [eveArr objectAtIndex:0];
+            NSString * valueStr = [eveStr substringFromIndex:[keyStr length] + 1];
+            [resultDic setObject:valueStr forKey:keyStr];
+        }
+    }
+
+    
+    return resultDic;
+}
+
 
 //自动进行库表合并，将当前part库SOLD表内销售数据  合并入update库Total表
 
@@ -103,6 +172,34 @@
              | UIRemoteNotificationTypeSound];
         }
     }
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler {
+    
+    NSDictionary * info = response.notification.request.content.userInfo;
+    NSLog(@"%s  didReceiveNotificationResponse-->>,%@",__FUNCTION__,info);
+    
+    NSString * web = [info objectForKey:@"weburl"];
+    if([web length] > 0){
+        [self receiveLocalNotificationWithInfo:info andDoneBlock:nil];
+    }
+    
+}
+
+-(void)receiveLocalNotificationWithInfo:(NSDictionary *)userInfo andDoneBlock:(void (^)(void))completionHandler
+{
+    //取出通知中的本地url地址，打开支付APP
+    NSString * webUrl = [userInfo objectForKey:@"weburl"];
+    NSURL *appPayUrl = [NSURL URLWithString:webUrl];
+    if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
+    {
+        [[UIApplication sharedApplication] openURL:appPayUrl];
+    }
+}
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    NSDictionary * info = notification.userInfo;
+    [self receiveLocalNotificationWithInfo:info andDoneBlock:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
