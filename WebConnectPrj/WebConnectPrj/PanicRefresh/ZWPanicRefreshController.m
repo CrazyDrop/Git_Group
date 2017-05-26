@@ -43,9 +43,9 @@
         appendDic = [[NSMutableDictionary alloc] init];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        [cacheDic addEntriesFromDictionary:total.panicCache];
+        NSDictionary * addDic = [self readLocalCacheDetailListFromLocalDBWithArrr:total.panicOrderCacheArr];
+        [cacheDic addEntriesFromDictionary:addDic];
         
-
         maxLength = 3000 * 100;
 //        maxLength = 3000;
         self.requestNum = 100;
@@ -54,6 +54,22 @@
     }
     return self;
 }
+-(NSDictionary *)readLocalCacheDetailListFromLocalDBWithArrr:(NSArray *)orderArr
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSMutableDictionary * readDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0;index < [orderArr count] ;index ++ )
+    {
+        NSString * order = [orderArr objectAtIndex:index];
+        NSArray * arr = [dbManager localSaveMakeOrderHistoryListForOrderSN:order];
+        if([arr count] > 0){
+            [readDic setObject:[arr lastObject] forKey:order];
+        }
+    }
+    return readDic;
+}
+
+
 - (void)viewDidLoad
 {
     self.viewTtle = @"近期改价";
@@ -207,7 +223,7 @@
     @synchronized (cacheDic)
     {
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        total.panicCache = cacheDic;
+        total.panicOrderCacheArr = [cacheDic allKeys];
         [total localSave];
     }
     

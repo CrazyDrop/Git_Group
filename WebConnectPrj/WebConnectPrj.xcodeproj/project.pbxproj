@@ -4623,10 +4623,10 @@
 				18CFB79B1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m */,
 				18CFB78E1E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.h */,
 				18CFB78F1E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.m */,
-				184616531EB2DA2800505B7C /* CBGFutureStatusSortVC.h */,
-				184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */,
 				18CFB78A1E8F350900F18440 /* CBGPlanSortHistoryVC.h */,
 				18CFB78B1E8F350900F18440 /* CBGPlanSortHistoryVC.m */,
+				184616531EB2DA2800505B7C /* CBGFutureStatusSortVC.h */,
+				184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */,
 				188319381EADE14500467F34 /* CBGLatestPlanBuyVC.h */,
 				188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */,
 			);
@@ -6133,7 +6133,7 @@
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ent.zhongan.yi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6151,7 +6151,7 @@
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ent.zhongan.yi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

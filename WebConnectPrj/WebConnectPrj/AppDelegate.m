@@ -119,9 +119,9 @@
             [naVC pushViewController:home animated:YES];
             
             ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-            NSMutableArray * refreshArr = [NSMutableArray arrayWithArray:total.panicHistory];
-            [refreshArr insertObject:paramDic atIndex:0];
-            total.panicHistory = refreshArr;
+            NSMutableArray * refreshArr = [NSMutableArray arrayWithArray:total.panicOrderHistory];
+            [refreshArr insertObject:weburl atIndex:0];
+            total.panicOrderHistory = refreshArr;
             [total localSave];
         }
     }

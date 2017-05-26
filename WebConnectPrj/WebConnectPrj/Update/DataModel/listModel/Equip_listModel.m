@@ -172,6 +172,7 @@
             list.plan_des = @"";
         }
         list.equip_huasheng =    [extra furtureMaxStatus];
+        list.equip_price_common = [detail.web_last_price_desc integerValue];
         list.equip_accept = [detail.allow_bargain integerValue];
         list.equip_more_append = [list createLatestMoreAppendString];
         

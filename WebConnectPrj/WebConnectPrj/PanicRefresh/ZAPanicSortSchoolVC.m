@@ -17,7 +17,7 @@
 - (void)viewDidLoad
 {
     self.showRightBtn = YES;
-    self.rightTitle = @"取消";
+    self.rightTitle = @"全部";
     self.viewTtle = @"刷新门派";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -36,7 +36,7 @@
 }
 -(void)submit
 {
-    [DZUtils noticeCustomerWithShowText:@"取消选中"];
+    [DZUtils noticeCustomerWithShowText:@"取消选中，刷新全部"];
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     total.refreshSchool = 0;

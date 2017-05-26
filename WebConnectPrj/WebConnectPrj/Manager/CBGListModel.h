@@ -60,7 +60,6 @@ typedef enum : NSUInteger
 @property (nonatomic, strong) NSString * equip_des;
 @property (nonatomic, assign) NSInteger  equip_price;
 @property (nonatomic, assign) NSInteger  equip_accept;          //修改字段意义，标识是否可以还价
-@property (nonatomic, assign) NSInteger  equip_huasheng;        //修改字段意义，标识是否已经化圣，方便后续展示化圣相关数据
 @property (nonatomic, assign) NSInteger  equip_start_price; //起始价格  主表中存储
 @property (nonatomic, assign) BOOL  appointed;//是否有指定id ，有指定，使用库表equip_start_price
 @property (nonatomic, strong) NSString * equip_more_append; //存储equip_huasheng
@@ -87,6 +86,10 @@ typedef enum : NSUInteger
 @property (nonatomic, strong) NSString * sell_order_time;       //下单时间    本地时间
 @property (nonatomic, strong) NSString * sell_cancel_time;      //取消时间    本地时间
 @property (nonatomic, assign) NSInteger  sell_space;//售出间隔时间
+
+//额外追加参数
+@property (nonatomic, assign) NSInteger  equip_huasheng;        //修改字段意义，标识是否已经化圣，方便后续展示化圣相关数据
+@property (nonatomic, assign) NSInteger  equip_price_common;    //外部价格，区分是否还价购买，针对售出数据处理
 
 @property (nonatomic, assign) CBGLocalDataBaseListUpdateStyle dbStyle;
 @property (nonatomic, assign) CBGEquipPlanStyle style;

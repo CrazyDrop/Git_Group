@@ -102,10 +102,11 @@
 
 @property (nonatomic, strong) NSDictionary * serverNameDic;//通过服务器id，查找服务器名字
 
-@property (nonatomic, strong) NSDictionary * panicCache;
+
 @property (nonatomic, assign) NSInteger refreshSchool;
 
-@property (nonatomic, strong) NSArray * panicHistory;
+@property (nonatomic, strong) NSArray * panicOrderCacheArr;
+@property (nonatomic, strong) NSArray * panicOrderHistory;
 //针对退出登录清空数据
 +(void)clearLocalStateForLogout;
 

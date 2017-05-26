@@ -59,6 +59,7 @@
         }
         //已经化圣，或者准化圣 1准化圣 2化圣
         self.equip_huasheng = [aDetaiModel.equipExtra furtureMaxStatus];
+        self.equip_price_common = [aDetaiModel.web_last_price_desc integerValue];
         self.equip_more_append = [self createLatestMoreAppendString];
     }
     
@@ -310,7 +311,8 @@
 {
     NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
     [dataDic setObject:[NSNumber numberWithInteger:self.equip_huasheng] forKey:@"equip_huasheng"];
-    
+    [dataDic setObject:[NSNumber numberWithInteger:self.equip_price_common] forKey:@"equip_price_common"];
+
     NSString * jsonStr = [dataDic JSONString];
     return jsonStr;
 }
@@ -318,6 +320,7 @@
 {
     NSDictionary * dic = [self.equip_more_append objectFromJSONString];
     self.equip_huasheng = [[dic objectForKey:@"equip_huasheng"] integerValue];
+    self.equip_price_common = [[dic objectForKey:@"equip_price_common"] integerValue];
 }
 
 

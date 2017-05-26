@@ -95,7 +95,6 @@
     NSInteger secNum = indexPath.section;
     NSArray * subArr = [self.showSortArr objectAtIndex:secNum];
     CBGListModel * contact = [subArr objectAtIndex:rowNum];
-    CBGEquipRoleState state = contact.latestEquipListStatus;
     
     static NSString *cellIdentifier = @"RefreshListCellIdentifier_CBG";
     RefreshListCell *cell = (RefreshListCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -116,6 +115,8 @@
     }
     
     //用来标识是否最新一波数据
+    
+    CBGEquipRoleState state = contact.latestEquipListStatus;
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSDictionary * serNameDic = total.serverNameDic;
@@ -245,7 +246,15 @@
             {
                 leftRateColor = [UIColor orangeColor];
             }
-            leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
+            
+            //当前价格、和web基础价格是否一致
+            if(contact.equip_price_common == contact.equip_price/100.0)
+            {
+                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
+            }else{
+                leftRateColor = Custom_Blue_Button_BGColor;
+                leftRateTxt = [NSString stringWithFormat:@"%ld %ld %@",contact.equip_start_price,contact.equip_price_common,leftRateTxt];
+            }
         }
         
         NSInteger rate = contact.price_rate_latest_plan;

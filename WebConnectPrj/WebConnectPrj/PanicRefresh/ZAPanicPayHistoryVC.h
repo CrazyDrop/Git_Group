@@ -6,8 +6,8 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "DPWhiteTopController.h"
+#import "CBGSortHistoryBaseStyleVC.h"
 
-@interface ZAPanicPayHistoryVC : DPWhiteTopController
+@interface ZAPanicPayHistoryVC : CBGSortHistoryBaseStyleVC
 
 @end
