@@ -156,8 +156,9 @@
     
     NSString * urlString = self.cbgList.detailWebUrl;
     
-    NSString * webUrl = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&rate=%ld&price=%ld",urlString,(NSInteger)baseList.earnRate,[baseList.price integerValue]/100];
+    NSString * webUrl = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&rate=%ld&price=%ld",[urlString base64EncodedString],(NSInteger)baseList.earnRate,[baseList.price integerValue]/100];
     NSURL *appPayUrl = [NSURL URLWithString:webUrl];
+
     if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
     {
         [[UIApplication sharedApplication] openURL:appPayUrl];

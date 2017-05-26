@@ -16,7 +16,8 @@
 
 - (void)viewDidLoad
 {
-    self.showRightBtn = NO;
+    self.showRightBtn = YES;
+    self.rightTitle = @"取消";
     self.viewTtle = @"刷新门派";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,6 +34,17 @@
     self.listTable = table;
     [self.view addSubview:table];
 }
+-(void)submit
+{
+    [DZUtils noticeCustomerWithShowText:@"取消选中"];
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    total.refreshSchool = 0;
+    [total localSave];
+    
+    [self.listTable reloadData];
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -50,6 +62,7 @@
     
     NSInteger index = indexPath.section + 1;
     NSString * nameObj = [CBGListModel schoolNameFromSchoolNumber:index];
+    
     if(!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];

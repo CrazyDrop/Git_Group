@@ -56,11 +56,11 @@
 }
 -(void)submit
 {
-    if(self.showWeb.autoStyle == ZAAutoBuyStep_None)
+    if(self.showWeb.autoStyle == ZAAutoBuyStep_PasswordTotal)
     {
-        self.showWeb.autoStyle = ZAAutoBuyStep_PayPassword;
         [self.showWeb checkAndFinishLatestJSFunction];
     }else{
+        self.showWeb.autoStyle = ZAAutoBuyStep_CBGMsgTotal;
         [self.showWeb checkAndFinishLatestJSFunction];
     }
 }

@@ -8,7 +8,7 @@
 
 #import "ZAAutoBuySettingVC.h"
 #import "ZAPanicPayHistoryVC.h"
-
+#import "ZAAutoBuyHomeVC.h"
 @interface ZAAutoBuySettingVC ()
 {
     UITextField * oldPwdLbl;
@@ -65,7 +65,7 @@
     
     tfd = [[UITextField alloc] initWithFrame:CGRectMake(startX , eveHeight, SCREEN_WIDTH - startX, eveHeight)];
     [whiteView addSubview:tfd];
-    tfd.placeholder = @"默认价格限制10000";
+    tfd.placeholder = @"默认价格限制0";
     NSInteger price =  local.limitPrice;;
     tfd.text = [NSString stringWithFormat:@"当前上限价格:%ld",price];
     tfd.font = [UIFont systemFontOfSize:FLoatChange(15)];
@@ -86,26 +86,47 @@
     aLbl.center = CGPointMake(SCREEN_WIDTH/2.0,  + whiteView.bounds.size.height + aLbl.bounds.size.height/2.0 + FLoatChange(15));
     aLbl.userInteractionEnabled = YES;
     
+    CGFloat btnWidth = 100;
     UIButton * bottomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    bottomBtn.frame = CGRectMake(0, 0, 100, 80);
+    bottomBtn.frame = CGRectMake(0, 0, btnWidth, 80);
     [bottomBtn setBackgroundColor:[UIColor greenColor]];
     [bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [bottomBtn setTitle:@"重置" forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(tapedOnClearLatestSetting) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
-    bottomBtn.center = CGPointMake(SCREEN_WIDTH/2.0, CGRectGetMaxY(whiteView.frame) + 100);
+    bottomBtn.center = CGPointMake(btnWidth/2.0, CGRectGetMaxY(whiteView.frame) + 100);
     
-    CGFloat maxY = CGRectGetMaxY(bottomBtn.frame);
+    CGFloat centerY = bottomBtn.center.y;
     bottomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    bottomBtn.frame = CGRectMake(0, 0, 100, 80);
+    bottomBtn.frame = CGRectMake(0, 0, btnWidth, 80);
     [bottomBtn setBackgroundColor:[UIColor greenColor]];
     [bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [bottomBtn setTitle:@"历史" forState:UIControlStateNormal];
-    [bottomBtn addTarget:self action:@selector(tapedOnClearLatestSetting) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBtn addTarget:self action:@selector(showPanicHistoryList) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
-    bottomBtn.center = CGPointMake(SCREEN_WIDTH/2.0, maxY + 100);
+    bottomBtn.center = CGPointMake(SCREEN_WIDTH/2.0,centerY);
+    
+    
+    centerY = bottomBtn.center.y;
+    bottomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    bottomBtn.frame = CGRectMake(0, 0, btnWidth, 80);
+    [bottomBtn setBackgroundColor:[UIColor greenColor]];
+    [bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [bottomBtn setTitle:@"购买准备" forState:UIControlStateNormal];
+    [bottomBtn addTarget:self action:@selector(showDetailAutoBuyPrepareHomeVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:bottomBtn];
+    bottomBtn.center = CGPointMake(SCREEN_WIDTH - btnWidth/2.0,centerY);
 
 }
+-(void)showDetailAutoBuyPrepareHomeVC
+{
+    NSString * loginUrl = @"https://xyq.cbg.163.com/cgi-bin/show_login.py?server_id=33&server_name=%E8%93%AC%E8%8E%B1%E5%B2%9B&area_id=27&area_name=%E5%B1%B1%E4%B8%9C3%E5%8C%BA&return_url=http%3A%2F%2Fxyq.cbg.163.com%2Fcgi-bin%2Fequipquery.py%3Fserverid%3D443%26equip_id%3D2624458%26equip_refer%3D1%26act%3Doverall_search_show_detail&act=show_login";
+    
+    ZAAutoBuyHomeVC * home = [[ZAAutoBuyHomeVC alloc] init];
+    home.webUrl = loginUrl;
+    [[self rootNavigationController] pushViewController:home animated:YES];
+}
+
 -(void)showPanicHistoryList
 {
     ZAPanicPayHistoryVC * payHis = [[ZAPanicPayHistoryVC alloc] init];

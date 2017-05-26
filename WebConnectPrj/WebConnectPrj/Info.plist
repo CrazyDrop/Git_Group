@@ -35,7 +35,6 @@
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>refreshPayApp</string>
 		<string>openapp.jdmobile</string>
 		<string>iosamap</string>
 		<string>baidumap</string>

@@ -583,49 +583,52 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             detailEve = [detailModels objectAtIndex:index];
         }
         Equip_listModel * obj = [models objectAtIndex:index];
-        Equip_listModel * objCopy = [obj copy];
-        objCopy.listSaveModel = nil;
         
         if(![detailEve isKindOfClass:[NSNull class]])
         {
-            objCopy.equipModel = detailEve;
-            objCopy.earnRate = detailEve.extraEarnRate;
-            if(objCopy.earnRate > 0)
+            obj.listSaveModel = nil;
+            obj.equipModel = detailEve;
+            obj.earnRate = detailEve.extraEarnRate;
+            
+            if(obj.earnRate > 0)
             {
-                objCopy.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
+                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
             }
             if(!detailEve.equipExtra.buyPrice)
             {
-                NSLog(@"失败 %@",objCopy.detailDataUrl);
+                NSLog(@"失败 %@",obj.detailDataUrl);
             }
+            
+            Equip_listModel * objShow = [obj copy];
+            objShow.equipModel= detailEve;
             
             if(detailEve.equipState != CBGEquipRoleState_unSelling)
             {
-                [removeArr addObject:objCopy];
+                [removeArr addObject:objShow];
             }
             
             //当前处于未上架、或者首次上架，进行展示
-            if([objCopy isFirstInSelling]&&!self.ingoreFirst)
+            if([obj isFirstInSelling]&&!self.ingoreFirst)
             {
-                NSString * orderSN = objCopy.game_ordersn;
+                NSString * orderSN = obj.game_ordersn;
                 NSRange range = [self.showOrderList rangeOfString:orderSN];
                 if(range.length == 0)
                 {
-                    [showArr addObject:objCopy];
+                    [showArr addObject:objShow];
                     [self checkShowOrderListAndAddMoreOrderSn:orderSN];
                 }
             }else if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {
-                NSString * orderSN = objCopy.game_ordersn;
+                NSString * orderSN = obj.game_ordersn;
                 NSRange range = [self.showOrderList rangeOfString:orderSN];
                 if(range.length == 0)
                 {
-                    [showArr insertObject:objCopy atIndex:0];
+                    [showArr insertObject:objShow atIndex:0];
                     [self checkShowOrderListAndAddMoreOrderSn:orderSN];
                 }
-            }else if(objCopy.equipState == CBGEquipRoleState_unSelling)
+            }else if(obj.equipState == CBGEquipRoleState_unSelling)
             {//列表数据是未上架，进行展示
-                [showArr insertObject:objCopy atIndex:0];
+                [showArr insertObject:objShow atIndex:0];
             }
         }
     }
