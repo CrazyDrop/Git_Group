@@ -112,10 +112,12 @@ typedef enum : NSUInteger
 -(NSInteger)price_rate_latest_plan;
 - (NSString * )detailWebUrl;
 - (NSString * )detailDataUrl;
+- (NSString * )mobileAppDetailShowUrl;
 -(CGFloat)price_base_equip;
 -(BOOL)preBuyEquipStatusWithCurrentExtraEquip;
 
 -(NSString *)createLatestMoreAppendString;
 -(void)readDataFromMoreAppendString;
+
 
 @end

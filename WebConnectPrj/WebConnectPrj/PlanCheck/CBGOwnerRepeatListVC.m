@@ -49,6 +49,7 @@
                              @"38064578",
                              @"24516744",
                              @"31628872",
+                             @"13776826",
                              
                              @""];
     
@@ -96,6 +97,62 @@
 //    }
 //    return result;
 //}
+
+-(void)outHtmlPlanListWithLatestShowDetail
+{
+    //
+    NSMutableString * listStr = [NSMutableString string];
+    NSArray * listArr = [self latestTotalShowedHistoryList];
+    
+    [listStr appendString:@"<html content='text/html; charset=GBK'> <body>"];
+    [listStr appendString:@"<title>自有数据</title>"];
+    for (NSInteger index = 0; index < [listArr count] ;index ++ )
+    {
+        CBGListModel * eveModel = [listArr objectAtIndex:index];
+        if(eveModel.plan_rate >= 10 && eveModel.plan_rate <= 40)
+        {
+            [listStr appendFormat:@"%ld %ld <a href='%@' target=''> %@ </a> </br>",index,eveModel.plan_total_price,eveModel.detailWebUrl,eveModel.detailWebUrl];
+        }
+    }
+    [listStr appendString:@"</body></html>"];
+    
+    [self writeLatestDataToLocalPathWithDetailString:listStr];
+}
+-(void)writeLatestDataToLocalPathWithDetailString:(NSString *)detailString
+{
+    //    NSFileManager * fm = [NSFileManager defaultManager];
+    
+    NSString * fileName = @"OwnerBuy.html";
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *databasePath=[path stringByAppendingPathComponent:fileName];
+    NSError* error;
+    //    if (![fm fileExistsAtPath:databasePath])
+    {
+        [detailString writeToFile:databasePath
+                       atomically:YES
+                         encoding:NSUTF8StringEncoding
+                            error:&error];
+    }
+}
+-(NSArray *)moreFunctionsForDetailSubVC
+{
+    NSMutableArray * arr = [NSMutableArray array];
+    MSAlertAction * action = nil;
+    __weak typeof(self) weakSelf = self;
+    
+    
+    action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf outHtmlPlanListWithLatestShowDetail];
+              }];
+    [arr addObject:action];
+    
+    
+    return arr;
+}
+
+
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

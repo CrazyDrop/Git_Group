@@ -36,6 +36,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>openapp.jdmobile</string>
+		<string>netease-xyqcbg</string>
 		<string>iosamap</string>
 		<string>baidumap</string>
 		<string>papa.zhongan.com</string>

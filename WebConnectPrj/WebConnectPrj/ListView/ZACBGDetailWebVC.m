@@ -159,6 +159,11 @@
     NSString * webUrl = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&rate=%ld&price=%ld",[urlString base64EncodedString],(NSInteger)baseList.earnRate,[baseList.price integerValue]/100];
     NSURL *appPayUrl = [NSURL URLWithString:webUrl];
 
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!total.isNotSystemApp){
+        appPayUrl = [NSURL URLWithString:self.cbgList.mobileAppDetailShowUrl];
+    }
+    
     if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
     {
         [[UIApplication sharedApplication] openURL:appPayUrl];

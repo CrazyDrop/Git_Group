@@ -193,6 +193,44 @@
 {
     [self selectHistoryForWithHighPlanBuyAndUnSoldOutWithNotice:YES];
 }
+-(void)outHtmlPlanListWithLatestShowDetail
+{
+    //
+    NSMutableString * listStr = [NSMutableString string];
+    NSArray * listArr = [self latestTotalShowedHistoryList];
+    
+    [listStr appendString:@"<html content='text/html; charset=GBK'> <body>"];
+    [listStr appendString:@"<title>统计数据</title>"];
+    for (NSInteger index = 0; index < [listArr count] ;index ++ )
+    {
+        CBGListModel * eveModel = [listArr objectAtIndex:index];
+        if(eveModel.plan_rate >= 10 && eveModel.plan_rate <= 40)
+        {
+            [listStr appendFormat:@"%ld %ld <a href='%@' target=''> %@ </a> </br>",index,eveModel.plan_total_price,eveModel.detailWebUrl,eveModel.detailWebUrl];
+        }
+    }
+    [listStr appendString:@"</body></html>"];
+
+    [self writeLatestDataToLocalPathWithDetailString:listStr];
+}
+-(void)writeLatestDataToLocalPathWithDetailString:(NSString *)detailString
+{
+//    NSFileManager * fm = [NSFileManager defaultManager];
+    
+    NSString * fileName = @"PlanBuyList.html";
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *databasePath=[path stringByAppendingPathComponent:fileName];
+    NSError* error;
+//    if (![fm fileExistsAtPath:databasePath])
+    {
+        [detailString writeToFile:databasePath
+                       atomically:YES
+                         encoding:NSUTF8StringEncoding
+                            error:&error];
+    }
+}
+
+
 
 -(void)showDetailChooseForHistory
 {//纵横两个维度看
@@ -262,6 +300,14 @@
                   [weakSelf selectHistoryForSoldOutQuickly];
               }];
     [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  
+                  [weakSelf outHtmlPlanListWithLatestShowDetail];
+              }];
+    [alertController addAction:action];
+
 
     
     action = [MSAlertAction actionWithTitle:@"WEB刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)

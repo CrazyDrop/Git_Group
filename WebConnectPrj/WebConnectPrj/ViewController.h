@@ -29,7 +29,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_StudyMonth,
     CBGDetailTestFunctionStyle_RepeatList,
     CBGDetailTestFunctionStyle_LatestPlan,
-    CBGDetailTestFunctionStyle_PayMessage,
+    CBGDetailTestFunctionStyle_PayStyle,
     CBGDetailTestFunctionStyle_EditCheck,
     CBGDetailTestFunctionStyle_PanicRefresh,
     CBGDetailTestFunctionStyle_ClearCache,

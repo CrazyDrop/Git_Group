@@ -150,9 +150,9 @@
             name = @"倒手分析";
         }
             break;
-        case CBGDetailTestFunctionStyle_PayMessage:
+        case CBGDetailTestFunctionStyle_PayStyle:
         {
-            name = @"支付(短信)";
+            name = @"支付(系统APP)";
         }
             break;
 
@@ -211,7 +211,7 @@
     
     NSArray * testFuncArr = [NSArray arrayWithObjects:
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_Notice],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayMessage],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicMixed],
@@ -255,12 +255,34 @@
         [bgView addSubview:btn];
     }
     
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     
     [self refreshNoticeBtnStateWithNoticeState:total.isAlarm];
-    [self refreshPayStyleBtnStateWithStyle:!total.isScan];
-    
+    [self refreshPayStyleBtnStateWithStyle:!total.isNotSystemApp];
+    [self refreshLocalPanicBtnWithLatestNumber:total.refreshSchool];
 }
+-(void)refreshLocalPanicBtnWithLatestNumber:(NSInteger)index
+{
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_PanicRefresh;
+    UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
+    
+    NSString * name = [CBGListModel schoolNameFromSchoolNumber:index];
+    if([name length] > 2){
+        name = [name substringToIndex:2];
+    }else
+    {
+        name = @"全部";
+    }
+    
+    NSString * showState = [NSString stringWithFormat:@"改价:%@",name];
+    [btn setTitle:showState forState:UIControlStateNormal];
+}
+
 -(void)refreshNoticeBtnStateWithNoticeState:(BOOL)notice
 {
     NSInteger noticeTag = CBGDetailTestFunctionStyle_Notice;
@@ -268,11 +290,11 @@
     NSString * showState = notice?@"响铃(开)":@"响铃(关)";
     [btn setTitle:showState forState:UIControlStateNormal];
 }
--(void)refreshPayStyleBtnStateWithStyle:(BOOL)message
+-(void)refreshPayStyleBtnStateWithStyle:(BOOL)inCBG
 {
-    NSInteger noticeTag = CBGDetailTestFunctionStyle_PayMessage;
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_PayStyle;
     UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
-    NSString * showState = message?@"支付(短信)":@"支付(扫码)";//密码支付
+    NSString * showState = inCBG?@"支付(CBG)":@"支付(WEB)";//密码支付
     [btn setTitle:showState forState:UIControlStateNormal];
 }
 -(void)refreshWriteInBtnForWriteFinish:(BOOL)finish
@@ -490,15 +512,15 @@
             
         }
             break;
-        case CBGDetailTestFunctionStyle_PayMessage:
+        case CBGDetailTestFunctionStyle_PayStyle:
         {
             //当大于20 价格小于1.3W 使用密码支付
             ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-            total.isScan = !total.isScan;
+            total.isNotSystemApp = !total.isNotSystemApp;
             [total localSave];
             
             
-            [self refreshPayStyleBtnStateWithStyle:!total.isScan];
+            [self refreshPayStyleBtnStateWithStyle:!total.isNotSystemApp];
             
         }
             break;

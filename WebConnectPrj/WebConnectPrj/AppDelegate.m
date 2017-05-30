@@ -12,6 +12,9 @@
 #import "ViewController.h"
 #import "ZALocationLocalModel.h"
 #import "ZAAutoBuyHomeVC.h"
+#import "CBGCopyUrlDetailCehckVC.h"
+#import "CBGListModel.h"
+
 @interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
 @end
@@ -91,8 +94,39 @@
     
     [self refreshNotificationSetting];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+       [self startWebRequest];
+    });
+    
     return YES;
 }
+-(void)startWebRequest
+{
+    NSString * urlString = @"http://log.umtrack.com/ping?devicename=111&mac=1111&idfa=1111&idfv=1111";
+    //    [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:urlString]] delegate:self];
+//        urlString = @"http://www.baidu.com";
+    AFHTTPSessionManager * manager = [[AFHTTPSessionManager alloc] init];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager  GET:urlString
+       parameters:nil
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+              NSString * resultStr = nil;
+              if(responseObject && [responseObject length]>0)
+              {
+                  resultStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                  
+                  if(!resultStr)
+                  {
+                      resultStr = [[NSString alloc] initWithData:responseObject encoding:NSASCIIStringEncoding];
+                  }
+              }
+              NSLog(@"AFHTTPResponseSerializer %@",resultStr);
+          } failure:^(NSURLSessionDataTask *task, NSError *error) {
+              NSLog(@"AFHTTPResponseSerializer %@",error);
+          }];
+
+}
+
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
@@ -190,10 +224,16 @@
 {
     //取出通知中的本地url地址，打开支付APP
     NSString * webUrl = [userInfo objectForKey:@"weburl"];
-    NSURL *appPayUrl = [NSURL URLWithString:webUrl];
+
+    CBGListModel * cbgList = [CBGCopyUrlDetailCehckVC listModelBaseDataFromLatestEquipUrlStr:webUrl];
+    NSURL * appPayUrl = [NSURL URLWithString:cbgList.mobileAppDetailShowUrl];
+    
     if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
     {
         [[UIApplication sharedApplication] openURL:appPayUrl];
+    }else
+    {
+        [DZUtils noticeCustomerWithShowText:@"未安装手机端APP"];
     }
 }
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

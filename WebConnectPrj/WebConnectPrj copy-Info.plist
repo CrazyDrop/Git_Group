@@ -25,6 +25,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>refreshPayApp</string>
+		<string>netease-xyqcbg</string>
 		<string>openapp.jdmobile</string>
 		<string>iosamap</string>
 		<string>baidumap</string>

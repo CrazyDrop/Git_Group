@@ -86,6 +86,7 @@
 @property (nonatomic,assign) BOOL  isAlarm;
 //区分是否扫码支付
 @property (nonatomic,assign) BOOL  isScan;
+@property (nonatomic,assign) BOOL  isNotSystemApp;
 @property (nonatomic,assign) NSInteger minServerId;//最小的服务器号
 
 //区别用数据

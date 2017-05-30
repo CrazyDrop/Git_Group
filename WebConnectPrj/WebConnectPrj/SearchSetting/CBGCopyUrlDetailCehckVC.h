@@ -7,7 +7,10 @@
 //
 
 #import "DPWhiteTopController.h"
+#import "CBGListModel.h"
 
 @interface CBGCopyUrlDetailCehckVC : DPWhiteTopController
+
++(CBGListModel *)listModelBaseDataFromLatestEquipUrlStr:(NSString *)url;
 
 @end

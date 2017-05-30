@@ -439,51 +439,10 @@
 //        http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=26&ordersn=83_1489759087_83947196&equip_refer=1
 //            serverid=358&game_ordersn=447_1489589792_447864717
 //        serverid=275&ordersn=250_1490584375_250940629&equip_refer=1
-        NSArray * urlArr = [detailCopy componentsSeparatedByString:@"?"];
-        if([urlArr count] > 1){
-            detailCopy = [urlArr lastObject];
-        }
+        CBGListModel * cbgList = [[self class] listModelBaseDataFromLatestEquipUrlStr:detailCopy];
+        baseList.serverid = [NSNumber numberWithInteger:cbgList.server_id];
+        baseList.game_ordersn = cbgList.game_ordersn;
         
-        NSArray * detailArr = [detailCopy componentsSeparatedByString:@"&"];
-        for (NSInteger index = 0; index < [detailArr count]; index ++)
-        {
-            NSString * detailEve = [detailArr objectAtIndex:index];
-            
-            NSArray * serverIdArr = @[@"serverid=",@"server_id="];
-            for (NSString * eve in serverIdArr)
-            {
-                if([detailEve hasPrefix:eve])
-                {
-                    NSString * serverId = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
-                    serverId = [self realStringFromSubStringText:serverId];
-                    serverId = [DZUtils detailNumberStringSubFromBottomCombineStr:serverId];
-
-                    baseList.serverid = [NSNumber numberWithInt:[serverId intValue]];
-                }
-            }
-            
-            NSArray * orderSNArr = @[@"ordersn=",@"game_ordersn="];
-            for (NSString * eve in orderSNArr)
-            {
-                if([detailEve hasPrefix:eve])
-                {
-                    NSString * orderSN = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
-                    orderSN = [self realStringFromSubStringText:orderSN];
-                    //排除杂乱数字
-                    if([orderSN containsString:@" "])
-                    {
-                        NSArray * orderArr = [orderSN componentsSeparatedByString:@" "];
-                        orderSN = [orderArr firstObject];
-                    }
-                    
-                    NSString * sub = [DZUtils detailNumberStringSubFromHeaderCombineStr:orderSN];
-                    NSRange subRange = [orderSN rangeOfString:sub];
-                    NSRange range = NSMakeRange(0,subRange.location + subRange.length);
-                    NSString * realSN = [orderSN substringWithRange:range];
-                    baseList.game_ordersn = realSN;
-                }
-            }
-        }
         NSString * showTxt = [NSString stringWithFormat:@"serverId %@ orderSN %@",[baseList.serverid stringValue],baseList.game_ordersn];
         if(baseList.serverid && baseList.game_ordersn)
         {
@@ -517,7 +476,59 @@
         }
     }
 }
--(NSString *)realStringFromSubStringText:(NSString *)serverId
++(CBGListModel *)listModelBaseDataFromLatestEquipUrlStr:(NSString *)detailCopy
+{
+    CBGListModel * list = [[CBGListModel alloc] init];
+    
+    NSArray * urlArr = [detailCopy componentsSeparatedByString:@"?"];
+    if([urlArr count] > 1){
+        detailCopy = [urlArr lastObject];
+    }
+    
+    NSArray * detailArr = [detailCopy componentsSeparatedByString:@"&"];
+    for (NSInteger index = 0; index < [detailArr count]; index ++)
+    {
+        NSString * detailEve = [detailArr objectAtIndex:index];
+        
+        NSArray * serverIdArr = @[@"serverid=",@"server_id="];
+        for (NSString * eve in serverIdArr)
+        {
+            if([detailEve hasPrefix:eve])
+            {
+                NSString * serverId = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
+                serverId = [self realStringFromSubStringText:serverId];
+                serverId = [DZUtils detailNumberStringSubFromBottomCombineStr:serverId];
+                
+                list.server_id = [serverId intValue];
+            }
+        }
+        
+        NSArray * orderSNArr = @[@"ordersn=",@"game_ordersn="];
+        for (NSString * eve in orderSNArr)
+        {
+            if([detailEve hasPrefix:eve])
+            {
+                NSString * orderSN = [detailEve stringByReplacingOccurrencesOfString:eve withString:@""];
+                orderSN = [self realStringFromSubStringText:orderSN];
+                //排除杂乱数字
+                if([orderSN containsString:@" "])
+                {
+                    NSArray * orderArr = [orderSN componentsSeparatedByString:@" "];
+                    orderSN = [orderArr firstObject];
+                }
+                
+                NSString * sub = [DZUtils detailNumberStringSubFromHeaderCombineStr:orderSN];
+                NSRange subRange = [orderSN rangeOfString:sub];
+                NSRange range = NSMakeRange(0,subRange.location + subRange.length);
+                NSString * realSN = [orderSN substringWithRange:range];
+                list.game_ordersn = realSN;
+            }
+        }
+    }
+    return list;
+}
+
++(NSString *)realStringFromSubStringText:(NSString *)serverId
 {
     serverId = [serverId stringByReplacingOccurrencesOfString:@" " withString:@""];
     serverId = [serverId stringByReplacingOccurrencesOfString:@"%20" withString:@""];

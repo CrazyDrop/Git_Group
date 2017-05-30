@@ -106,7 +106,6 @@
     [self.view addSubview:bottomBtn];
     bottomBtn.center = CGPointMake(SCREEN_WIDTH/2.0,centerY);
     
-    
     centerY = bottomBtn.center.y;
     bottomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     bottomBtn.frame = CGRectMake(0, 0, btnWidth, 80);
@@ -116,7 +115,7 @@
     [bottomBtn addTarget:self action:@selector(showDetailAutoBuyPrepareHomeVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
     bottomBtn.center = CGPointMake(SCREEN_WIDTH - btnWidth/2.0,centerY);
-
+    
 }
 -(void)showDetailAutoBuyPrepareHomeVC
 {

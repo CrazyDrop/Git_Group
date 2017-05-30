@@ -221,7 +221,7 @@
             
         case ZAAutoBuyStep_EditPassword:
         {
-            runJs = @"window.document.getElementById('shortPayPassword').value='zhang112';";
+            runJs = @"window.document.getElementById('shortPayPassword').value='zhang1121';";
         }
             break;
             

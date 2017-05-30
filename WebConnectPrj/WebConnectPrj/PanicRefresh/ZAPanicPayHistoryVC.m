@@ -8,7 +8,7 @@
 
 #import "ZAPanicPayHistoryVC.h"
 #import "ZAAutoBuyHomeVC.h"
-
+#import "ZALocationLocalModel.h"
 @interface ZAPanicPayHistoryVC ()
 
 @end
@@ -29,12 +29,20 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSArray * sortArr =  total.panicOrderHistory;
     
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    
     NSMutableArray * resultArr = [NSMutableArray array];
     for (NSInteger index = 0; index < [sortArr count]; index ++)
     {
         NSString * url = [sortArr objectAtIndex:index];
         NSDictionary * eveDic = [self paramDicFromLatestUrlString:url];
         CBGListModel * list = [self createCBGListModelObjFromLatestParamDic:eveDic];
+        NSArray * eveArr = [dbManager localSaveEquipHistoryModelListForOrderSN:list.game_ordersn];
+        if([eveArr count] > 0)
+        {
+            list = [eveArr firstObject];
+        }
+        
         [resultArr addObject:list];
     }
     

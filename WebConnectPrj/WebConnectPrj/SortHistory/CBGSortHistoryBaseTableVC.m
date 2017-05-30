@@ -249,10 +249,15 @@
             
             //当前价格、和web基础价格是否一致
             if(contact.equip_price_common == contact.equip_price/100.0)
-            {
-                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
-            }else{
+            {//肯定是改价的
                 leftRateColor = Custom_Blue_Button_BGColor;
+                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
+            }else if(contact.equip_price_common == contact.equip_start_price){
+                //web价格和上架价格一致
+                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
+
+            }else
+            {
                 leftRateTxt = [NSString stringWithFormat:@"%ld %ld %@",contact.equip_start_price,contact.equip_price_common,leftRateTxt];
             }
         }
@@ -272,6 +277,11 @@
         }
     }
     
+    if(contact.equip_accept > 0)
+    {
+        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+    }
+
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;

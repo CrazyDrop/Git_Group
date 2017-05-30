@@ -8,6 +8,8 @@
 
 #import "ZAAutoBuyHomeVC.h"
 #import "ZAAutoBuyWebView.h"
+#import "CBGListModel.h"
+#import "CBGCopyUrlDetailCehckVC.h"
 @interface ZAAutoBuyHomeVC ()
 @property (nonatomic, strong) ZAAutoBuyWebView * showWeb;
 @end
@@ -28,7 +30,7 @@
     {
         self.rightTitle = @"继续";
     }else{
-        self.rightTitle = @"购买";
+        self.rightTitle = @"CBG";
     }
     
     [super viewDidLoad];
@@ -59,9 +61,18 @@
     if(self.showWeb.autoStyle == ZAAutoBuyStep_PasswordTotal)
     {
         [self.showWeb checkAndFinishLatestJSFunction];
-    }else{
-        self.showWeb.autoStyle = ZAAutoBuyStep_CBGMsgTotal;
-        [self.showWeb checkAndFinishLatestJSFunction];
+    }else
+    {
+        CBGListModel * cbgList = [CBGCopyUrlDetailCehckVC listModelBaseDataFromLatestEquipUrlStr:self.webUrl];
+        NSURL * appPayUrl = [NSURL URLWithString:cbgList.mobileAppDetailShowUrl];
+        
+        if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
+        {
+            [[UIApplication sharedApplication] openURL:appPayUrl];
+        }else
+        {
+            [DZUtils noticeCustomerWithShowText:@"未安装手机端APP"];
+        }
     }
 }
 

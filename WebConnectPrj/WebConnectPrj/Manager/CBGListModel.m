@@ -241,6 +241,20 @@
     return url;
 
 }
+- (NSString * )mobileAppDetailShowUrl
+{
+    if(!self.game_ordersn)
+    {
+        return nil;
+    }
+    
+    NSString * baseUrl = @"netease-xyqcbg://show_equip/";
+    NSString * url = [NSString stringWithFormat:@"?view_loc=link_qq&ordersn=%@&server_id=%ld&equip_refer=328" ,self.game_ordersn,(long)self.server_id];
+    url = [baseUrl stringByAppendingString:url];
+    return url;
+
+}
+
 -(CGFloat)price_base_equip
 {
     //空号价格
