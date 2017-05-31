@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     self.viewTtle = @"估价历史";
 
-    self.rightTitle = @"排序";
+    self.rightTitle = @"筛选";
     self.showRightBtn = YES;
     
     [super viewDidLoad];

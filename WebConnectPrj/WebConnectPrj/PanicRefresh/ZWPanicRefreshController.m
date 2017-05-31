@@ -25,6 +25,8 @@
     NSMutableDictionary * appendDic;
     //新增的字典，以create时间排序  认为create时间不存在完全相同的
     
+    NSCache * listOrderCache;
+    
     NSInteger maxLength;
 }
 @property (nonatomic, strong) NSString * requestOrderList;
@@ -40,17 +42,22 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
         cacheDic = [[NSMutableDictionary alloc] init];
+        //detail的缓存，ordersn：CBGListModel
+        
         appendDic = [[NSMutableDictionary alloc] init];
+        //传递ordersn：createTime
         
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        NSDictionary * addDic = [self readLocalCacheDetailListFromLocalDBWithArrr:total.panicOrderCacheArr];
-        [cacheDic addEntriesFromDictionary:addDic];
+        listOrderCache = [[NSCache alloc] init];
+        listOrderCache.countLimit = 1300;
+        //缓存cache，减少库表查询次数
         
-        maxLength = 3000 * 100;
-//        maxLength = 3000;
+//        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//        NSDictionary * addDic = [self readLocalCacheDetailListFromLocalDBWithArrr:total.panicOrderCacheArr];
+//        [cacheDic addEntriesFromDictionary:addDic];
+        
+        maxLength = 30 * 100;
+        
         self.requestNum = 100;
- 
-
     }
     return self;
 }
@@ -61,7 +68,7 @@
     for (NSInteger index = 0;index < [orderArr count] ;index ++ )
     {
         NSString * order = [orderArr objectAtIndex:index];
-        NSArray * arr = [dbManager localSaveMakeOrderHistoryListForOrderSN:order];
+        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:order];
         if([arr count] > 0){
             [readDic setObject:[arr lastObject] forKey:order];
         }
@@ -69,6 +76,22 @@
     return readDic;
 }
 
+-(BOOL)checkEquipModelCacheStatusWithLatestModel:(Equip_listModel *)list
+{
+    BOOL contain = YES;
+    NSString * orderSn = list.game_ordersn;
+    id obj = [listOrderCache objectForKey:orderSn];
+    if(!obj)
+    {
+        //cache不存在，进行库表查询
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSn];
+        if([arr count] == 0){
+            contain = NO;
+        }
+    }
+    return contain;
+}
 
 - (void)viewDidLoad
 {
@@ -84,7 +107,7 @@
     self.showOrderList =  manager.cacheShowStr;
     if(manager.showArr)
     {
-        [self refreshTableViewWithInputLatestListArray:manager.showArr replace:NO];
+        [self refreshTableViewWithInputLatestListArray:nil cacheArray:manager.showArr];
     }
     
 }
@@ -161,12 +184,12 @@
         [cacheDic addEntriesFromDictionary:addDic];
         
         NSArray * keys = [cacheDic allKeys];
-        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2)
-        {
-//            CBGListModel * eve1 = (CBGListModel *)obj1;
-//            CBGListModel * eve2 = (CBGListModel *)obj2;
-            return [obj2 compare:obj1];
-        }];
+//        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2)
+//        {
+////            CBGListModel * eve1 = (CBGListModel *)obj1;
+////            CBGListModel * eve2 = (CBGListModel *)obj2;
+//            return [obj2 compare:obj1];
+//        }];
         
         NSInteger maxRefresh = 50;
         if([keys count] > maxRefresh)
@@ -218,13 +241,13 @@
     ZWPanicRefreshManager * cache = [ZWPanicRefreshManager sharedInstance];
     cache.cacheShowStr = self.showOrderList;
     cache.cacheReqeustStr = self.requestOrderList;
-    cache.showArr = self.showArray;
+    cache.showArr = self.dataArr;
     
     @synchronized (cacheDic)
     {
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
         total.panicOrderCacheArr = [cacheDic allKeys];
-        [total localSave];
+//        [total localSave];//不进行系统存储
     }
     
 }
@@ -433,43 +456,42 @@ handleSignal( EquipListRequestModel, requestLoaded )
         if(eveModel.equipState == CBGEquipRoleState_unSelling)
         {
             [modelsDic setObject:eveModel forKey:orderSN];
-        }else if(![self cacheOrDBContainOrderSN:orderSN])
+        }else if(![self checkEquipModelCacheStatusWithLatestModel:eveModel])
         {//库表和缓存都不存在
             //首次上架的数据，或库表不存在的数据
             [modelsDic setObject:eveModel forKey:orderSN];
-            [self checkRequestOrderListAndAddMoreOrderSn:orderSN];
+            [listOrderCache setObject:[NSNumber numberWithInt:0] forKey:orderSN];
         }
     }
     
-    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     NSArray * backRefreshArr = [modelsDic allValues];
     if([backRefreshArr count] > 0)
     {
         //进行库表查询，取出创建时间
-        NSMutableDictionary * currentDic = [NSMutableDictionary dictionary];
-        NSArray * orderArr = [modelsDic allKeys];
-        for (NSInteger index = 0 ;index < [orderArr count]; index ++ )
-        {
-            NSString * eveSn = [orderArr objectAtIndex:index];
-            NSArray * modelsArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
-            if([modelsArr count] > 0)
-            {
-                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
-                CBGListModel * eveCBG = [modelsArr firstObject];
-                NSString * time = eveCBG.sell_create_time;
-                
-                listObj.appendHistory = eveCBG;
-                [currentDic setObject:listObj forKey:time];
-            }else
-            {
-                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
-                [currentDic setObject:listObj forKey:eveSn];
-            }
-        }
+//        NSMutableDictionary * currentDic = [NSMutableDictionary dictionary];
+//        NSArray * orderArr = [modelsDic allKeys];
+//        for (NSInteger index = 0 ;index < [orderArr count]; index ++ )
+//        {
+//            NSString * eveSn = [orderArr objectAtIndex:index];
+////            NSArray * modelsArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
+////            if([modelsArr count] > 0)
+////            {
+////                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
+////                CBGListModel * eveCBG = [modelsArr firstObject];
+////                NSString * time = eveCBG.sell_create_time;
+////                
+////                listObj.appendHistory = eveCBG;
+////                [currentDic setObject:listObj forKey:time];
+////            }else
+//            {
+//                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
+//                [currentDic setObject:listObj forKey:eveSn];
+//            }
+//        }
         
         @synchronized (appendDic)
         {
-            [appendDic addEntriesFromDictionary:currentDic];
+            [appendDic addEntriesFromDictionary:modelsDic];
         }
     }
     
@@ -479,23 +501,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
 }
 #pragma mark - CacheOrderSN
 //检查长度，追加新ordersn，当做缓存使用
--(void)checkRequestOrderListAndAddMoreOrderSn:(NSString *)orderSN
-{
-    NSString * preList = self.requestOrderList;
-    if(!preList){
-        preList = @"";
-    }
-    preList = [preList stringByAppendingFormat:@"%@|",orderSN];
-    
-    if([preList length] > maxLength)
-    {
-        NSRange range = [preList rangeOfString:@"|"];
-        preList = [preList substringFromIndex:range.location + range.length];
-    }
-    self.requestOrderList = preList;
-}
-
--(void)checkShowOrderListAndAddMoreOrderSn:(NSString *)orderSN
+-(void)checkShowOrderListAutoAddMoreOrderSn:(NSString *)orderSN
 {
     NSString * preList = self.showOrderList;
     if(!preList){
@@ -510,23 +516,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
     }
     self.showOrderList = preList;
 }
--(BOOL)cacheOrDBContainOrderSN:(NSString *)orderSn
-{
-    BOOL contain = YES;
-    
-    NSRange range = [self.requestOrderList rangeOfString:orderSn];
-    if(range.length == 0 && !self.ingoreFirst)
-    {//进行库表检查
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveUserChangeHistoryListForOrderSN:orderSn];
-        if([dbArr count] == 0 || !dbArr)
-        {
-            contain = NO;
-        }
-    }
-    return contain;
-}
-
 #pragma mark -
 
 
@@ -589,7 +578,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     NSMutableArray * removeArr = [NSMutableArray array];
     NSMutableArray * showArr  = [NSMutableArray array];
-    
+    NSMutableArray * cacheArr  = [NSMutableArray array];
+
     NSArray * models = self.listReqArr;
     for (NSInteger index = 0; index < [models count]; index ++)
     {
@@ -618,34 +608,39 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             Equip_listModel * objShow = [obj copy];
             objShow.equipModel= detailEve;
             
-            if(detailEve.equipState != CBGEquipRoleState_unSelling)
-            {
-                [removeArr addObject:objShow];
-            }
-            
             //当前处于未上架、或者首次上架，进行展示
-            if([obj isFirstInSelling]&&!self.ingoreFirst)
-            {
-                NSString * orderSN = obj.game_ordersn;
-                NSRange range = [self.showOrderList rangeOfString:orderSN];
-                if(range.length == 0)
-                {
-                    [showArr addObject:objShow];
-                    [self checkShowOrderListAndAddMoreOrderSn:orderSN];
-                }
-            }else if(detailEve.equipState == CBGEquipRoleState_unSelling)
-            {
+            if(detailEve.equipState == CBGEquipRoleState_unSelling)
+            {//详情数据处于暂存
+                [cacheArr addObject:objShow];
+                
                 NSString * orderSN = obj.game_ordersn;
                 NSRange range = [self.showOrderList rangeOfString:orderSN];
                 if(range.length == 0)
                 {
                     [showArr insertObject:objShow atIndex:0];
-                    [self checkShowOrderListAndAddMoreOrderSn:orderSN];
+                    [self checkShowOrderListAutoAddMoreOrderSn:orderSN];
                 }
-            }else if(obj.equipState == CBGEquipRoleState_unSelling)
-            {//列表数据是未上架，进行展示
-                [showArr insertObject:objShow atIndex:0];
+            }else
+            {
+                //详情数据不处于暂存的，即将清除
+                [removeArr addObject:objShow];
+                if([obj isFirstInSelling]&&!self.ingoreFirst)
+                {
+                    NSString * orderSN = obj.game_ordersn;
+                    NSRange range = [self.showOrderList rangeOfString:orderSN];
+                    if(range.length == 0)
+                    {
+                        [showArr addObject:objShow];
+                        [self checkShowOrderListAutoAddMoreOrderSn:orderSN];
+                    }
+                }else if(obj.equipState == CBGEquipRoleState_unSelling)
+                {//列表数据是未上架，详情数据已经上架，仅展示
+                    [showArr insertObject:objShow atIndex:0];
+                }
             }
+        }else
+        {//详情请求失败
+            [listOrderCache removeObjectForKey:obj.game_ordersn];
         }
     }
     
@@ -675,11 +670,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             Equip_listModel * eveObj = [removeArr objectAtIndex:index];
             //当前以时间发起的请求，而展示数组  进行展示
             
-            NSString * eveKey = eveObj.equipModel.create_time;
-            [cacheDic removeObjectForKey:eveKey];
-            
+            NSString * eveKey = nil;
             eveKey = eveObj.game_ordersn;
             [cacheDic removeObjectForKey:eveKey];
+            
         }
     }
     
@@ -690,8 +684,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             Equip_listModel * eveObj = [removeArr objectAtIndex:index];
             //当前以时间发起的请求，而展示数组  进行展示
             
-            NSString * eveKey = eveObj.equipModel.create_time;
-            [appendDic removeObjectForKey:eveKey];
+            NSString * eveKey = nil;
             
             eveKey = eveObj.game_ordersn;
             [cacheDic removeObjectForKey:eveKey];
@@ -701,8 +694,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     NSLog(@"Refresh ShowArr %lu",(unsigned long)[showArr count]);
 
-    [self refreshTableViewWithInputLatestListArray:showArr replace:NO];
-    
+    [self refreshTableViewWithInputLatestListArray:showArr cacheArray:cacheArr];
 }
 
 

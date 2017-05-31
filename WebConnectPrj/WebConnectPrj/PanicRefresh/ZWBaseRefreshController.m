@@ -21,8 +21,8 @@
 }
 @property (nonatomic,strong) UIView * tipsView;
 @property (nonatomic,strong) NSArray * grayArray;
-@property (nonatomic,copy) NSArray * dataArr;
-@property (nonatomic,copy) NSArray * dataArr2;
+//@property (nonatomic,strong) NSArray * dataArr;
+@property (nonatomic,strong) NSArray * dataArr2;
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 
 @property (nonatomic,assign) BOOL latestContain;
@@ -161,12 +161,11 @@
 
 
 //列表刷新，按照最新的返回数据,新增，还是替换
--(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace
+-(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
     if(!array || [array count] == 0) return;
     self.grayArray = array;
     
-    //    if(replace)
     {
         [self checkListInputForNoticeWithArray:array];
     }
@@ -174,7 +173,7 @@
     NSMutableArray * refreshArray = [NSMutableArray array];
     [refreshArray addObjectsFromArray:self.showArray];
     
-    if(replace)
+    if(NO)
     {
         
         NSInteger minNum = MIN([array count], [refreshArray count]);
@@ -219,6 +218,7 @@
     
     self.showArray = refreshArray;
     self.dataArr2 = refreshArray;
+    self.dataArr = cacheArr;
     [self.listTable reloadData];
 }
 #pragma mark - UITableViewDataSource

@@ -272,11 +272,13 @@
     UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
     
     NSString * name = [CBGListModel schoolNameFromSchoolNumber:index];
-    if([name length] > 2){
-        name = [name substringToIndex:2];
+    if([name isEqualToString:@"门派"]){
+        name = @"全部";
     }else
     {
-        name = @"全部";
+        if([name length] >= 2){
+            name = [name substringToIndex:2];
+        }
     }
     
     NSString * showState = [NSString stringWithFormat:@"改价:%@",name];

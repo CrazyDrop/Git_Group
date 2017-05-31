@@ -16,8 +16,10 @@
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * tagArray;
+@property (nonatomic,strong) NSArray * dataArr;
+
 
 @property (nonatomic,strong,readonly) UIView * tipsView;
--(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace;
+-(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr;
 
 @end
