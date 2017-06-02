@@ -240,25 +240,28 @@
         }
         
         NSInteger priceChange = contact.equip_start_price - contact.equip_price/100;
+
         if(priceChange != 0)
-        {
+        {//价格有变更
             if(priceChange >0)
             {
                 leftRateColor = [UIColor orangeColor];
             }
             
-            //当前价格、和web基础价格是否一致
-            if(contact.equip_price_common == contact.equip_price/100.0)
-            {//肯定是改价的
+            //价格不同，认为是还价购买的，展示还价前价格
+            if(contact.equip_price_common != contact.equip_price/100.0)
+            {
                 leftRateColor = Custom_Blue_Button_BGColor;
-                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
-            }else if(contact.equip_price_common == contact.equip_start_price){
-                //web价格和上架价格一致
-                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
-
+                if(contact.equip_start_price == contact.equip_price_common){
+                  //初始价格和外部价格一致
+                    leftRateTxt = [NSString stringWithFormat:@"%ld %@",contact.equip_price_common,leftRateTxt];
+                }else
+                {
+                    leftRateTxt = [NSString stringWithFormat:@"%ld %ld %@",contact.equip_start_price,contact.equip_price_common,leftRateTxt];
+                }
             }else
             {
-                leftRateTxt = [NSString stringWithFormat:@"%ld %ld %@",contact.equip_start_price,contact.equip_price_common,leftRateTxt];
+                leftRateTxt = [NSString stringWithFormat:@"%ld%@",contact.equip_start_price,leftRateTxt];
             }
         }
         

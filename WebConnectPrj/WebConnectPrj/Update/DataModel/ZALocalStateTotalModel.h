@@ -106,8 +106,9 @@
 
 @property (nonatomic, assign) NSInteger refreshSchool;
 
-@property (nonatomic, strong) NSArray * panicOrderCacheArr;
 @property (nonatomic, strong) NSArray * panicOrderHistory;
+@property (nonatomic, strong) NSString * orderSnCache;
+
 //针对退出登录清空数据
 +(void)clearLocalStateForLogout;
 

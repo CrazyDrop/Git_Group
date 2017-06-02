@@ -343,6 +343,13 @@
     //用来标识账号是否最新一次请求数据
     if(detail)
     {
+        //补全列表数据缺失
+        if(!contact.area_name)
+        {
+            sellTxt = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
+            equipName = [NSString stringWithFormat:@"%@  -  %@",detail.equip_name,detail.subtitle];
+        }
+        
         if(detail.status_desc)
         {
             rightStatusTxt = detail.status_desc;

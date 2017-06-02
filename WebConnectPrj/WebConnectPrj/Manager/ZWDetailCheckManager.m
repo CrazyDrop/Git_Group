@@ -176,7 +176,7 @@
             result = NO;
         }else {
 
-            if(price && [price intValue] > 0 && [prePrice intValue] > [price intValue]){
+            if(price && [price intValue] > 0 && ([prePrice intValue] > [price intValue] || prePrice == 0)){
                 result = YES;
             }
             if(latestState == CBGEquipRoleState_unSelling){

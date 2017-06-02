@@ -165,6 +165,7 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
 +(instancetype)createInstanceModel
 {
     NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+    stand = [NSUserDefaults standardUserDefaults];
     NSData * data  = [stand objectForKey:Local_File_ZALocalStateTotalModel_Model];
     
     ZALocalStateTotalModel * model = [ZALocalStateTotalModel objectWithContentsOfData:data];
@@ -190,6 +191,7 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
     NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+    stand = [NSUserDefaults standardUserDefaults];
     [stand setObject:data forKey:Local_File_ZALocalStateTotalModel_Model];
     [stand synchronize];
 }

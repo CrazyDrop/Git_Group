@@ -19,14 +19,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ListView/ZACBGDetailWebVC.m"
-            timestampString = "517914044.94443"
+            filePath = "WebConnectPrj/PanicRefresh/ZWBaseRefreshController.m"
+            timestampString = "518003645.210451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
-            landmarkName = "handleSignal()"
-            landmarkType = "9">
+            startingLineNumber = "545"
+            endingLineNumber = "545"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -35,14 +35,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWPanicRefreshController.m"
-            timestampString = "517912778.151867"
+            filePath = "WebConnectPrj/Manager/ZWDetailCheckManager.m"
+            timestampString = "518059334.17508"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "619"
-            endingLineNumber = "619"
-            landmarkName = "handleSignal()"
-            landmarkType = "9">
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "-checkWebRequestLocalSaveEquipListModelWithEveListModel:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

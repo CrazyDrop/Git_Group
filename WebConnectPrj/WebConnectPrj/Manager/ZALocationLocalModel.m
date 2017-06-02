@@ -965,7 +965,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         
         
         //5月份数据
-        NSString * time = @"2017-05";
+        NSString * time = @"2017-06";
         [sqlMutableString appendFormat:@"select * from %@ where %@ like'%@%%' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE,time,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
 
         
