@@ -377,6 +377,7 @@
         {
             model.selectSchool = school;
         }
+        model.priceStatus = total.refreshPriceStatus;
         model.pageNum = self.requestNum;//刷新页数
     }
     
@@ -388,7 +389,7 @@
     
     NSInteger prePage = self.requestNum;
     NSInteger needNum = totalNum/15;
-    NSInteger refreshNum = needNum + 5;
+    NSInteger refreshNum = needNum + 2;
     
     if(prePage > needNum && prePage < refreshNum)
     {

@@ -149,6 +149,8 @@
     UIColor * earnColor = [UIColor lightGrayColor];
     UIColor * equipBuyColor = [UIColor lightGrayColor];
     UIColor * leftRateColor = [UIColor lightGrayColor];
+    UIColor * leftPriceColor = [UIColor redColor];
+    
     //区分状态，
     if( state == CBGEquipRoleState_InSelling)
     {//主要展示上下架时间
@@ -284,10 +286,16 @@
     {
         leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
     }
+    if(contact.appointed)
+    {
+        leftPriceColor = Custom_Blue_Button_BGColor;
+    }
+    
 
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
+    cell.rateLbl.textColor = leftPriceColor;
     
     cell.sellTimeLbl.text = rightStatusTxt;
     cell.sellTimeLbl.textColor = rightStatusColor;

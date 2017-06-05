@@ -192,6 +192,15 @@
     price *= 0.8;
     
     
+    CGFloat xianyuPrice = 0;
+    NSInteger xianyu = [self.xianyu integerValue];
+    if(xianyu > 500){
+        xianyuPrice = xianyu/10;
+        xianyuPrice *= 0.5;
+    }
+    price += xianyuPrice;
+    
+    
     //房子，无房子扣钱
     CGFloat fangziPrice = 0;
     if(!self.rent||[self.rent integerValue] == 0)

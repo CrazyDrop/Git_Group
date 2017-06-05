@@ -117,6 +117,12 @@
         {
             eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
         }
+        if(self.priceStatus == 1){
+            eve = [eve stringByAppendingString:@"&price_min=0&price_max=800100"];
+        }else if(self.priceStatus == 2){
+            eve = [eve stringByAppendingString:@"&price_min=800000&price_max=50000000"];
+        }
+        
         [urls addObject:eve];
     }
     return urls;

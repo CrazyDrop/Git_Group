@@ -10,6 +10,7 @@
 #import "CBGListModel.h"
 @interface ZAPanicSortSchoolVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * listTable;
+@property (nonatomic,strong) UIView * tipsView;
 @end
 
 @implementation ZAPanicSortSchoolVC
@@ -18,6 +19,7 @@
 {
     self.showRightBtn = YES;
     self.rightTitle = @"全部";
+    
     self.viewTtle = @"刷新门派";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,7 +35,61 @@
     table.dataSource =self;
     self.listTable = table;
     [self.view addSubview:table];
+    
+    [self.view addSubview:self.tipsView];
+    //增加按钮开关，设定8000上、下、无区分
+    [self refreshPriceStatusForTitleShow];
+    
 }
+-(UIView *)tipsView{
+    if(!_tipsView)
+    {
+        CGFloat btnWidth = 100;
+        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
+        aView.backgroundColor = [UIColor redColor];
+        
+        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
+        albl.text = @"限定价格";
+        [albl sizeToFit];
+        [aView addSubview:albl];
+        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
+        
+        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedOnExchangePriceStatusWithTapedBtn:)];
+        [aView addGestureRecognizer:tapGes];
+        self.tipsView = aView;
+    }
+    return _tipsView;
+}
+
+
+-(void)refreshPriceStatusForTitleShow
+{
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger status = total.refreshPriceStatus;
+    NSString * priceStatus = @"全部";
+    if(status == 1){
+        priceStatus = @"小于8K";
+    }else if(status == 2){
+        priceStatus = @"大于8K";
+    }
+    NSString * showTitle = [NSString stringWithFormat:@"刷新门派 %@",priceStatus];
+    self.titleV.text = showTitle;
+}
+-(void)tapedOnExchangePriceStatusWithTapedBtn:(id)sender
+{
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger status = total.refreshPriceStatus;
+    status ++;
+    if(status > 2){
+        status = 0 ;
+    }
+    total.refreshPriceStatus = status;
+    [total localSave];
+    
+    [self refreshPriceStatusForTitleShow];
+}
+
+
 -(void)submit
 {
     [DZUtils noticeCustomerWithShowText:@"取消选中，刷新全部"];
