@@ -119,8 +119,9 @@ RefreshCellCopyDelgate>
     }
     
     
-    if(maxModel)
+    if(maxModel && !_ingoreDB)
     {
+        
         NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
         NSString * webUrl = maxModel.detailWebUrl;
         NSString * urlString = webUrl;
@@ -129,17 +130,27 @@ RefreshCellCopyDelgate>
         
         NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
         
+        [DZUtils startNoticeWithLocalUrl:appUrlString];
         
-        self.planWeb = [[CBGDetailWebView alloc] init];
-        [self.planWeb prepareWebViewWithUrl:webUrl];
+        NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
         
-        if(!self.ingoreDB)
-        {
-            [DZUtils startNoticeWithLocalUrl:appUrlString];
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        if(!total.isNotSystemApp){
+            appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
         }
         
-        self.latest = maxModel;
-        self.latestContain = YES;
+        if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
+           [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+        {
+            [[UIApplication sharedApplication] openURL:appPayUrl];
+        }else
+        {
+            self.planWeb = [[CBGDetailWebView alloc] init];
+            [self.planWeb prepareWebViewWithUrl:urlString];
+            
+            self.latest = maxModel;
+            self.latestContain = YES;
+        }
     }
     
 }
@@ -706,6 +717,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         if([detailModels count] > index)
         {
             detailEve = [detailModels objectAtIndex:index];
+        }
+        if(!detailEve.game_ordersn){
+            continue;
         }
         Equip_listModel * obj = [models objectAtIndex:index];
         if(![detailEve isKindOfClass:[NSNull class]])

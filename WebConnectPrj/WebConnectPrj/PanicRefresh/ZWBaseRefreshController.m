@@ -130,6 +130,7 @@
     
     if(maxModel)
     {
+
         NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
         NSString * webUrl = maxModel.detailWebUrl;
         NSString * urlString = webUrl;
@@ -137,7 +138,16 @@
         NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxModel.earnRate,[maxModel.price integerValue]/100];
         
         NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
+        
+        [DZUtils startNoticeWithLocalUrl:appUrlString];
+        
         NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        if(!total.isNotSystemApp){
+            appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
+        }
+        
         if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
            [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
         {
@@ -147,12 +157,9 @@
             self.planWeb = [[CBGDetailWebView alloc] init];
             [self.planWeb prepareWebViewWithUrl:urlString];
             
-            [DZUtils startNoticeWithLocalUrl:appUrlString];
-            
             self.latest = maxModel;
             self.latestContain = YES;
         }
-
     }
     
 }
@@ -163,55 +170,61 @@
 //列表刷新，按照最新的返回数据,新增，还是替换
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
-    if(!array || [array count] == 0) return;
-    self.grayArray = array;
-    
-    {
-        [self checkListInputForNoticeWithArray:array];
+    if([array count] == 0 && [cacheArr count] == [self.dataArr count]){
+        return;
     }
     
     NSMutableArray * refreshArray = [NSMutableArray array];
-    [refreshArray addObjectsFromArray:self.showArray];
-    
-    if(NO)
+    if([array count] > 0)
     {
-        
-        NSInteger minNum = MIN([array count], [refreshArray count]);
-        //替换
-        for (NSInteger index = 0; index < minNum; index++)
+        self.grayArray = array;
+
         {
-            id eveOjb = [array objectAtIndex:index];
-            [refreshArray replaceObjectAtIndex:index withObject:eveOjb];
+            [self checkListInputForNoticeWithArray:array];
         }
-    }else{
-        //插入删除
         
-        //最大
-        NSInteger maxShowNum = RefreshListMaxShowNum;
-        //当前
-        NSInteger listNum = [self.showArray count];
-        //新增
-        NSInteger inputNum = [array count];
+        [refreshArray addObjectsFromArray:self.showArray];
         
-        if(inputNum >= maxShowNum)
+        if(NO)
         {
-            [refreshArray removeAllObjects];
-            [refreshArray addObjectsFromArray:array];
-            [refreshArray removeObjectsInRange:NSMakeRange(maxShowNum,inputNum - maxShowNum)];
             
-        }else{
-            //需要移除的数量
-            NSInteger removeNum = listNum - (maxShowNum - inputNum);
-            
-            if(removeNum > 0)
+            NSInteger minNum = MIN([array count], [refreshArray count]);
+            //替换
+            for (NSInteger index = 0; index < minNum; index++)
             {
-                [refreshArray removeObjectsInRange:NSMakeRange(listNum - removeNum, removeNum)];
+                id eveOjb = [array objectAtIndex:index];
+                [refreshArray replaceObjectAtIndex:index withObject:eveOjb];
             }
-            for (NSInteger index = 0;index < [array count]; index ++)
+        }else{
+            //插入删除
+            
+            //最大
+            NSInteger maxShowNum = RefreshListMaxShowNum;
+            //当前
+            NSInteger listNum = [self.showArray count];
+            //新增
+            NSInteger inputNum = [array count];
+            
+            if(inputNum >= maxShowNum)
             {
-                NSInteger backIndex = [array count] - index - 1;
-                id eveOjb = [array objectAtIndex:backIndex];
-                [refreshArray insertObject:eveOjb atIndex:0];
+                [refreshArray removeAllObjects];
+                [refreshArray addObjectsFromArray:array];
+                [refreshArray removeObjectsInRange:NSMakeRange(maxShowNum,inputNum - maxShowNum)];
+                
+            }else{
+                //需要移除的数量
+                NSInteger removeNum = listNum - (maxShowNum - inputNum);
+                
+                if(removeNum > 0)
+                {
+                    [refreshArray removeObjectsInRange:NSMakeRange(listNum - removeNum, removeNum)];
+                }
+                for (NSInteger index = 0;index < [array count]; index ++)
+                {
+                    NSInteger backIndex = [array count] - index - 1;
+                    id eveOjb = [array objectAtIndex:backIndex];
+                    [refreshArray insertObject:eveOjb atIndex:0];
+                }
             }
         }
     }
@@ -414,7 +427,7 @@
         CBGListModel * hisCBG = contact.appendHistory;
         NSInteger priceChange = hisCBG.equip_start_price - [detail.price integerValue]/100;
 
-        if([self.tagArray containsObject:contact.game_ordersn])
+        if(secNum == 1)
         {
             equipBuyColor = Custom_Green_Button_BGColor;
         }

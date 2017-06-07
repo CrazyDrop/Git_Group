@@ -66,6 +66,10 @@
         [total localSave];
     }
     
+//    NSArray * arr = @[@"1115_1494573357_1118602948",@"487_1496568986_487973101"];
+//    total.orderSnCache = [arr componentsJoinedByString:@"|"];
+//    [total localSave];
+    
 //    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];

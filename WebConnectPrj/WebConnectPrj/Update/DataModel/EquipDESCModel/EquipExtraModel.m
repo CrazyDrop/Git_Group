@@ -195,7 +195,7 @@
     CGFloat xianyuPrice = 0;
     NSInteger xianyu = [self.xianyu integerValue];
     if(xianyu > 500){
-        xianyuPrice = xianyu/10;
+        xianyuPrice = xianyu/10.0;
         xianyuPrice *= 0.5;
     }
     price += xianyuPrice;

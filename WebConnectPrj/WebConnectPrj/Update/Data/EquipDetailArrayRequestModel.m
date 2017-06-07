@@ -48,8 +48,8 @@
 {
     RoleDetailDataModel * listData = [[RoleDetailDataModel alloc] initWithDictionary:aDic];
     EquipModel * model = listData.equip;
-
-    if(!self.ingoreExtra)
+    
+    if(!self.ingoreExtra && model)
     {
         EquipExtraModel * extra = nil;
         extra = [self extraModelFromLatestEquipDESC:model];
@@ -59,7 +59,10 @@
         model.extraEarnRate = [model createEquipExtraEarnRate];
     }
     
-
+    if([listData.msg isEqualToString:@"该商品不存在"]){
+        model = [[EquipModel alloc] init];
+    }
+    
     if(!model || ![model isKindOfClass:[EquipModel class]])
     {
 //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);

@@ -301,6 +301,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
+        
+        if(!detailEve.game_ordersn)
+        {
+            continue;
+        }
         CBGListModel * obj = [models objectAtIndex:index];
         obj.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
         if(![detailEve isKindOfClass:[NSNull class]])

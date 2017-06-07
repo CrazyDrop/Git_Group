@@ -491,6 +491,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
+        if(!detailEve.game_ordersn){
+            continue;
+        }
         WebEquip_listModel * obj = [models objectAtIndex:index];
         if(![detailEve isKindOfClass:[NSNull class]])
         {
@@ -595,6 +598,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     if(maxModel)
     {
+        
         NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
         NSString * webUrl = maxModel.detailWebUrl;
         NSString * urlString = webUrl;
@@ -602,14 +606,28 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxModel.earnRate,[maxModel.price integerValue]/100];
         
         NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
-
-        self.planWeb = [[CBGDetailWebView alloc] init];
-        [self.planWeb prepareWebViewWithUrl:webUrl];
         
         [DZUtils startNoticeWithLocalUrl:appUrlString];
         
-        self.latest = maxModel;
-        self.latestContain = YES;
+        NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        if(!total.isNotSystemApp){
+            appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
+        }
+        
+        if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
+           [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+        {
+            [[UIApplication sharedApplication] openURL:appPayUrl];
+        }else
+        {
+            self.planWeb = [[CBGDetailWebView alloc] init];
+            [self.planWeb prepareWebViewWithUrl:urlString];
+            
+            self.latest = maxModel;
+            self.latestContain = YES;
+        }
     }
     
 }

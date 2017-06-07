@@ -50,11 +50,11 @@
         //缓存cache，减少库表查询次数
         
         listShowCache = [YYCache cacheWithName:@"YY_Cache_List_Show"];
-        listShowCache.diskCache.countLimit = 0;
-        listShowCache.diskCache.costLimit = 0;
+        listShowCache.diskCache.countLimit = 10;
+        listShowCache.diskCache.costLimit = 10;
         
-        listShowCache.memoryCache.countLimit = 30;
-        listShowCache.memoryCache.costLimit = 30;
+        listShowCache.memoryCache.countLimit = 10;
+        listShowCache.memoryCache.costLimit = 10;
         //展示缓存cache
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -100,7 +100,15 @@
         //cache不存在，进行库表查询
         ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSn];
-        if([arr count] == 0){
+        
+        if([arr count] > 0){
+            //价格不一致，价格改变很快，20s内修改
+            CBGListModel * local = [arr firstObject];
+            if([list.price integerValue] > 0 && local.equip_price != [list.price integerValue])
+            {
+                contain = NO;
+            }
+        }else{
             contain = NO;
         }
     }
@@ -121,7 +129,6 @@
     {
         [self refreshTableViewWithInputLatestListArray:nil cacheArray:manager.showArr];
     }
-    
 }
 
 -(void)refreshLatestMinRequestPageNumber:(NSInteger)pageNum
@@ -196,12 +203,6 @@
         [cacheDic addEntriesFromDictionary:addDic];
         
         NSArray * keys = [cacheDic allKeys];
-//        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2)
-//        {
-////            CBGListModel * eve1 = (CBGListModel *)obj1;
-////            CBGListModel * eve2 = (CBGListModel *)obj2;
-//            return [obj2 compare:obj1];
-//        }];
         
         NSInteger maxRefresh = 50;
         if([keys count] > maxRefresh)
@@ -327,8 +328,6 @@
     
     if(!details || [details count] == 0)
     {
-        self.tagArray = nil;
-        [self.listTable reloadData];
         return;
     }
     self.listReqArr = details;
@@ -344,7 +343,7 @@
         [orderArr addObject:list.game_ordersn];
     }
     
-    self.tagArray = orderArr;
+    
     [self startEquipDetailAllRequestWithUrls:urls];
 }
 
@@ -386,6 +385,7 @@
 -(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum
 {
     //请求参数自动调整
+    if(totalNum == 0) return;
     
     NSInteger prePage = self.requestNum;
     NSInteger needNum = totalNum/15;
@@ -479,37 +479,14 @@ handleSignal( EquipListRequestModel, requestLoaded )
     NSArray * backRefreshArr = [modelsDic allValues];
     if([backRefreshArr count] > 0)
     {
-        //进行库表查询，取出创建时间
-//        NSMutableDictionary * currentDic = [NSMutableDictionary dictionary];
-//        NSArray * orderArr = [modelsDic allKeys];
-//        for (NSInteger index = 0 ;index < [orderArr count]; index ++ )
-//        {
-//            NSString * eveSn = [orderArr objectAtIndex:index];
-////            NSArray * modelsArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveSn];
-////            if([modelsArr count] > 0)
-////            {
-////                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
-////                CBGListModel * eveCBG = [modelsArr firstObject];
-////                NSString * time = eveCBG.sell_create_time;
-////                
-////                listObj.appendHistory = eveCBG;
-////                [currentDic setObject:listObj forKey:time];
-////            }else
-//            {
-//                Equip_listModel * listObj = [modelsDic objectForKey:eveSn];
-//                [currentDic setObject:listObj forKey:eveSn];
-//            }
-//        }
-        
         @synchronized (appendDic)
         {
             [appendDic addEntriesFromDictionary:modelsDic];
         }
     }
     
+    //有时候会因为部分请求失败，造成检索范围有误
     [self autoRefreshListRequestNumberWithLatestBackNumber:[array count]];
-    
-//    [requestLock unlock];
 }
 #pragma mark - CacheOrderSN
 
@@ -585,6 +562,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
+        if(!detailEve.game_ordersn){
+            continue;
+        }
         Equip_listModel * obj = [models objectAtIndex:index];
         
         if(![detailEve isKindOfClass:[NSNull class]])
@@ -605,17 +585,22 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             Equip_listModel * objShow = [obj copy];
             objShow.equipModel= detailEve;
             
-            //当前处于未上架、或者首次上架，进行展示
+            //当前处于未上架进行展示
             if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {//详情数据处于暂存
-                [cacheArr addObject:objShow];
                 
-                NSString * orderSN = obj.game_ordersn;
-                if(![listShowCache objectForKey:orderSN])
+                if(detailEve.equipExtra.totalPrice > 1000)
                 {
-                    [showArr insertObject:objShow atIndex:0];
-                    [listShowCache setObject:[NSNumber numberWithInt:0] forKey:orderSN];
+                    [cacheArr addObject:objShow];
+                    
+                    //处于缓存区域的，不再进行列表展示
+                    NSString * orderSN = obj.game_ordersn;
+                    [listShowCache  removeObjectForKey:orderSN];
+                }else
+                {
+                    [removeArr addObject:objShow];
                 }
+
             }else
             {
                 //详情数据不处于暂存的，即将清除
@@ -631,6 +616,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 }else if(obj.equipState == CBGEquipRoleState_unSelling)
                 {//列表数据是未上架，详情数据已经上架，仅展示
                     [showArr insertObject:objShow atIndex:0];
+                }else
+                {
+                    [showArr addObject:objShow];
                 }
             }
         }else

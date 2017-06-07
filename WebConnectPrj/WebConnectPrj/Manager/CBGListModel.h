@@ -91,11 +91,12 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) NSInteger  equip_price_common;    //外部价格，区分是否还价购买，针对售出数据处理
 @property (nonatomic, assign) BOOL  appointed;//是否有指定id ，有指定，使用库表equip_start_price
 
+
 @property (nonatomic, assign) CBGLocalDataBaseListUpdateStyle dbStyle;
 @property (nonatomic, assign) CBGEquipPlanStyle style;
 @property (nonatomic, assign) BOOL detailRefresh;
 
-@property (nonatomic, assign) NSInteger fav_or_ingore;//0默认值  1收藏  2屏蔽 3购买，标识特殊购买数据
+@property (nonatomic, assign) NSInteger fav_or_ingore;//0默认值  1收藏  2屏蔽 3购买  4异常交易，标识特殊购买数据
 //4为服务器失效  服务器合并，serverID无效
 @property (nonatomic, strong) NSString * serverName;
 

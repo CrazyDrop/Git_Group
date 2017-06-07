@@ -19,29 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWBaseRefreshController.m"
-            timestampString = "518003645.210451"
+            filePath = "WebConnectPrj/ListView/ZACBGDetailWebVC.m"
+            timestampString = "518502768.424516"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Manager/ZWDetailCheckManager.m"
-            timestampString = "518059334.17508"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "-checkWebRequestLocalSaveEquipListModelWithEveListModel:"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "-tapedOnPayBtn:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -52,43 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWPanicRefreshController.m"
-            timestampString = "518159641.425777"
+            timestampString = "518504573.672136"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
-            landmarkName = "-autoRefreshListRequestNumberWithLatestBackNumber:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ListView/ZACBGDetailWebVC.m"
-            timestampString = "518324005.516711"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
-            landmarkName = "-refreshCurrentTitleVLableWithServerId"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ListView/ZACBGDetailWebVC.m"
-            timestampString = "518324129.615557"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "452"
-            endingLineNumber = "452"
+            startingLineNumber = "619"
+            endingLineNumber = "619"
             landmarkName = "handleSignal()"
             landmarkType = "9">
          </BreakpointContent>
