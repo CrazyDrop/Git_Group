@@ -36,6 +36,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_PanicMixed,
     CBGDetailTestFunctionStyle_NightMixed,
     CBGDetailTestFunctionStyle_AutoSetting,
+    CBGDetailTestFunctionStyle_MaxPanic,
 } CBGDetailTestFunctionStyle;
 
 

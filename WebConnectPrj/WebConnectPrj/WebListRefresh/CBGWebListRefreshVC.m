@@ -491,12 +491,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
-        if(!detailEve.game_ordersn){
-            continue;
-        }
+
         WebEquip_listModel * obj = [models objectAtIndex:index];
         if(![detailEve isKindOfClass:[NSNull class]])
         {
+            if(!detailEve.game_ordersn){
+                continue;
+            }
             obj.equipModel = detailEve;
             obj.earnRate = detailEve.extraEarnRate;
             obj.planPrice = detailEve.equipExtra.totalPrice;

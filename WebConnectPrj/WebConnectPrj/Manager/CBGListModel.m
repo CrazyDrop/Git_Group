@@ -327,7 +327,8 @@
     [dataDic setObject:[NSNumber numberWithInteger:self.equip_huasheng] forKey:@"equip_huasheng"];
     [dataDic setObject:[NSNumber numberWithInteger:self.equip_price_common] forKey:@"equip_price_common"];
     [dataDic setObject:[NSNumber numberWithInteger:self.appointed] forKey:@"equip_appointed"];
-
+    [dataDic setObject:[NSNumber numberWithInteger:self.errored] forKey:@"equip_errored"];
+    
     NSString * jsonStr = [dataDic JSONString];
     return jsonStr;
 }
@@ -337,6 +338,7 @@
     self.equip_huasheng = [[dic objectForKey:@"equip_huasheng"] integerValue];
     self.equip_price_common = [[dic objectForKey:@"equip_price_common"] integerValue];
     self.appointed = [[dic objectForKey:@"equip_appointed"] boolValue];
+    self.errored = [[dic objectForKey:@"equip_errored"] boolValue];
 
 }
 

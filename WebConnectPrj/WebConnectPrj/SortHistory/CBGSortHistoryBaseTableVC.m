@@ -286,11 +286,14 @@
     {
         leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
     }
+    if(contact.errored){
+        leftPriceTxt = [NSString stringWithFormat:@"!%@",leftPriceTxt];
+    }
     if(contact.appointed)
     {
         leftPriceColor = Custom_Blue_Button_BGColor;
     }
-    
+
 
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;

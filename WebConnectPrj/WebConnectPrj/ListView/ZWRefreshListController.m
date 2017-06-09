@@ -718,12 +718,12 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
-        if(!detailEve.game_ordersn){
-            continue;
-        }
         Equip_listModel * obj = [models objectAtIndex:index];
         if(![detailEve isKindOfClass:[NSNull class]])
         {
+            if(!detailEve.game_ordersn){
+                continue;
+            }
             obj.equipModel = detailEve;
             obj.earnRate = detailEve.extraEarnRate;
             if(obj.earnRate > 0)

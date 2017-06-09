@@ -141,6 +141,9 @@
         
         [DZUtils startNoticeWithLocalUrl:appUrlString];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ZWPANIC_REFRESH_STATE
+                                                            object:_tagString];
+        
         NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -227,10 +230,11 @@
                 }
             }
         }
+        
+        self.showArray = refreshArray;
+        self.dataArr2 = refreshArray;
     }
     
-    self.showArray = refreshArray;
-    self.dataArr2 = refreshArray;
     self.dataArr = cacheArr;
     [self.listTable reloadData];
 }

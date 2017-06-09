@@ -40,6 +40,21 @@
     }
     return self;
 }
+-(void)setStartArr:(NSArray *)startArr
+{
+    NSArray * array = startArr;
+    NSMutableArray * models = [NSMutableArray array];
+    for (NSInteger index = 0;index < [array count] ;index ++ )
+    {
+        CBGListModel * eveModel = [array objectAtIndex:index];
+        if(!eveModel.errored)
+        {
+            [models addObject:eveModel];
+        }
+    }
+    _startArr = models;
+}
+
 - (void)viewDidLoad {
     self.viewTtle = @"集中刷新";
     self.rightTitle = @"分类";
@@ -223,6 +238,7 @@
 
 -(void)startMaxDetailListRequest
 {
+
     //启动一个timer，假设处于请求
     [self startLocationDataRequest];
 }

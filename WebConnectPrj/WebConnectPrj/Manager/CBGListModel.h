@@ -90,7 +90,7 @@ typedef enum : NSUInteger
 @property (nonatomic, assign) NSInteger  equip_huasheng;        //修改字段意义，标识是否已经化圣，方便后续展示化圣相关数据
 @property (nonatomic, assign) NSInteger  equip_price_common;    //外部价格，区分是否还价购买，针对售出数据处理
 @property (nonatomic, assign) BOOL  appointed;//是否有指定id ，有指定，使用库表equip_start_price
-
+@property (nonatomic, assign) BOOL  errored;  //是否为问题交易
 
 @property (nonatomic, assign) CBGLocalDataBaseListUpdateStyle dbStyle;
 @property (nonatomic, assign) CBGEquipPlanStyle style;

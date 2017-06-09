@@ -1,23 +1,24 @@
 //
-//  ZWPanicRefreshController.m
+//  ZWPaincCombineBaseVC.m
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/5/15.
+//  Created by Apple on 2017/6/8.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWPanicRefreshController.h"
+#import "ZWPaincCombineBaseVC.h"
+#import "ZALocalModelDBManager.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "EquipListRequestModel.h"
 #import "Equip_listModel.h"
 #import "CBGDetailWebView.h"
-#import "PanicRefreshManager.h"
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshManager.h"
 #import "MSAlertController.h"
 #import "ZAPanicSortSchoolVC.h"
 #import "YYCache.h"
-@interface ZWPanicRefreshController ()
+
+@interface ZWPaincCombineBaseVC ()
 {
     NSMutableDictionary * cacheDic;//以时间为key  model为value
     //以时间排序，筛选需要进行刷新的
@@ -28,12 +29,19 @@
     NSCache * listOrderCache;
     YYCache * listShowCache;
     NSInteger maxLength;
+    
+    ZALocalModelDBManager  * dbManager;
 }
+@property (nonatomic, assign) NSInteger schoolNum;
+@property (nonatomic, assign) NSInteger priceStatus;
+@property (nonatomic, strong) NSString * showName;
+
+@property (nonatomic, assign) NSInteger requestNum;
 @property (nonatomic, strong) NSArray * listReqArr;
 //@property (nonatomic, assign) NSInteger requestNum;
 @end
 
-@implementation ZWPanicRefreshController
+@implementation ZWPaincCombineBaseVC
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,11 +65,11 @@
         listShowCache.memoryCache.costLimit = 10;
         //展示缓存cache
         
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        
-        NSArray * preArr = [total.orderSnCache componentsSeparatedByString:@"|"];
-        NSDictionary * addDic = [self readLocalCacheDetailListFromLocalDBWithArrr:preArr];
-        [cacheDic addEntriesFromDictionary:addDic];
+//        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//        
+//        NSArray * preArr = [total.orderSnCache componentsSeparatedByString:@"|"];
+//        NSDictionary * addDic = [self readLocalCacheDetailListFromLocalDBWithArrr:preArr];
+//        [cacheDic addEntriesFromDictionary:addDic];
         
         maxLength = 30 * 100;
         
@@ -71,7 +79,6 @@
 }
 -(NSDictionary *)readLocalCacheDetailListFromLocalDBWithArrr:(NSArray *)orderArr
 {
-    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     NSMutableDictionary * readDic = [NSMutableDictionary dictionary];
     for (NSInteger index = 0;index < [orderArr count] ;index ++ )
     {
@@ -98,7 +105,6 @@
     if(!obj)
     {
         //cache不存在，进行库表查询
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSn];
         
         if([arr count] > 0){
@@ -117,18 +123,26 @@
 
 - (void)viewDidLoad
 {
-    self.viewTtle = @"近期改价";
+    
+    self.viewTtle = _tagString;
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    ZWPanicRefreshManager * manager = [ZWPanicRefreshManager sharedInstance];
-    if(manager.showArr)
+    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
+    
+    NSArray * tagArr = [_tagString componentsSeparatedByString:@"_"];
+    if([tagArr count] == 2)
     {
-        [self refreshTableViewWithInputLatestListArray:nil cacheArray:manager.showArr];
+        self.schoolNum = [[tagArr firstObject] integerValue];
+        self.priceStatus = [[tagArr lastObject] integerValue];
     }
+    
+    NSString * tagName = [CBGListModel schoolNameFromSchoolNumber:self.schoolNum];
+    NSString * refreshName = [tagName stringByAppendingFormat:@"-%ld",self.priceStatus];
+    self.showName = refreshName;
 }
 
 -(void)refreshLatestMinRequestPageNumber:(NSInteger)pageNum
@@ -168,7 +182,7 @@
                   [weakSelf tapedOnSelectedSortSchool];
               }];
     [alertController addAction:action];
-
+    
     
     
     NSString * rightTxt = @"取消";
@@ -179,7 +193,7 @@
     [self presentViewController:alertController
                        animated:YES
                      completion:nil];
-   
+    
 }
 -(void)tapedOnSelectedSortSchool
 {
@@ -224,17 +238,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [UIApplication sharedApplication].idleTimerDisabled=YES;
+
     _detailListReqModel = nil;
     _dpModel = nil;
-    [self startLocationDataRequest];
     
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     NSLog(@"%s disappear",__FUNCTION__);
     [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [detailRefresh cancel];
@@ -244,70 +256,24 @@
     [refresh cancel];
     [refresh removeSignalResponder:self];
     
-    [UIApplication sharedApplication].idleTimerDisabled=NO;
-    PanicRefreshManager * manager = [PanicRefreshManager sharedInstance];
-    [manager endAutoRefreshAndClearTime];
-    
-    [[ZALocation sharedInstance] stopUpdateLocation];
     
     
-    ZWPanicRefreshManager * cache = [ZWPanicRefreshManager sharedInstance];
-    cache.showArr = self.dataArr;
+    
+//    ZWPanicRefreshManager * cache = [ZWPanicRefreshManager sharedInstance];
+//    cache.showArr = self.dataArr;
     
     @synchronized (cacheDic)
     {
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        NSArray * arr = [cacheDic allKeys];
-        total.orderSnCache = [arr componentsJoinedByString:@"|"];
-        [total localSave];
+//        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//        NSArray * arr = [cacheDic allKeys];
+//        total.orderSnCache = [arr componentsJoinedByString:@"|"];
+//        [total localSave];
     }
     
 }
--(void)startLocationDataRequest
-{
-    ZALocation * locationInstance = [ZALocation sharedInstance];
-    [locationInstance startLocationRequestUserAuthorization];
-    __weak typeof(self) weakSelf = self;
-    
-    
-    [locationInstance startLocationUpdateWithEndBlock:^(CLLocation *location){
-        [weakSelf backLocationDataWithString:location];
-    }];
-}
--(void)backLocationDataWithString:(id)obj
-{
-    PanicRefreshManager * manager = [PanicRefreshManager sharedInstance];
-    if(manager.isRefreshing) return;
-    [self startOpenTimesRefreshTimer];
-}
--(void)startOpenTimesRefreshTimer
-{
-    
-    PanicRefreshManager * manager = [PanicRefreshManager sharedInstance];
-    __weak typeof(self) weakSelf = self;
-    //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    NSInteger time = 3;
-    //    if(total.refreshTime && [total.refreshTime intValue]>0){
-    //        time = [total.refreshTime intValue];
-    //    }
-    manager.refreshInterval = time;
-    manager.functionInterval = time;
-    manager.funcBlock = ^()
-    {
-        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
-                                   withObject:nil
-                                waitUntilDone:NO];
-        
-        [weakSelf performSelectorOnMainThread:@selector(startRefreshLatestDetailModelRequest)
-                                   withObject:nil
-                                waitUntilDone:NO];
-
-    };
-    [manager saveCurrentAndStartAutoRefresh];
-}
 -(void)refreshCurrentTitleVLableWithFinishWithStartListNumber:(NSInteger)number
 {
-    self.titleV.text = [NSString stringWithFormat:@"近期改价 (%ld)",(long)number];
+    self.titleV.text = [NSString stringWithFormat:@"%@ (%ld)",self.showName,(long)number];
 }
 
 -(void)startRefreshLatestDetailModelRequest
@@ -320,8 +286,8 @@
     EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(listRequest.executing) return;
     
-//    NSLog(@"%s",__FUNCTION__);
-
+    //    NSLog(@"%s",__FUNCTION__);
+    
     
     NSArray * details = [self latestRefreshRequestDetailUrls];
     [self refreshCurrentTitleVLableWithFinishWithStartListNumber:[details count]];
@@ -358,9 +324,9 @@
     EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
     if(listRequest.executing) return;
     
-//    [requestLock lock];
+    //    [requestLock lock];
     
-    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"%s %@",__FUNCTION__,_tagString);
     
     EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
     //仅做数据刷新，不做展示   详情数据请求中时，列表数据也需要刷新
@@ -369,14 +335,11 @@
         model = [[EquipListRequestModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
-        
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        NSInteger school = total.refreshSchool;
-        if(school > 0)
-        {
-            model.selectSchool = school;
+
+        if(self.schoolNum > 0){
+         model.selectSchool = self.schoolNum;
         }
-        model.priceStatus = total.refreshPriceStatus;
+        model.priceStatus = self.priceStatus;
         model.pageNum = self.requestNum;//刷新页数
     }
     
@@ -553,7 +516,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSMutableArray * removeArr = [NSMutableArray array];
     NSMutableArray * showArr  = [NSMutableArray array];
     NSMutableArray * cacheArr  = [NSMutableArray array];
-
+    
     NSArray * models = self.listReqArr;
     for (NSInteger index = 0; index < [models count]; index ++)
     {
@@ -562,6 +525,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
+
         Equip_listModel * obj = [models objectAtIndex:index];
         
         if(![detailEve isKindOfClass:[NSNull class]])
@@ -569,7 +533,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             if(!detailEve.game_ordersn){
                 continue;
             }
-
+            
             obj.listSaveModel = nil;
             obj.equipModel = detailEve;
             obj.earnRate = detailEve.extraEarnRate;
@@ -601,7 +565,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 {
                     [removeArr addObject:objShow];
                 }
-
+                
             }else
             {
                 //详情数据不处于暂存的，即将清除
@@ -614,7 +578,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                         [showArr insertObject:objShow atIndex:0];
                         [listShowCache setObject:[NSNumber numberWithInt:0] forKey:orderSN];
                     }
-                }else if(detailEve.equipExtra.totalPrice > [detailEve.price integerValue]/100 * 0.9)
+                }else if(detailEve.equipExtra.totalPrice > [detailEve.price integerValue]/100 - 300)
                 {
                     NSString * orderSN = obj.game_ordersn;
                     if(![listShowCache objectForKey:orderSN])
@@ -624,7 +588,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                     }
                 }else
                 {
-                    NSLog(@"detailDataUrl %@",[obj detailDataUrl]);
+//                    NSLog(@"detailDataUrl %@",[obj detailDataUrl]);
                 }
             }
         }else
@@ -650,9 +614,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
-    if(!self.ingoreFirst)
     {
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
     }
     
@@ -686,15 +648,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     
     NSLog(@"Refresh ShowArr %lu",(unsigned long)[showArr count]);
-
+    
     [self refreshTableViewWithInputLatestListArray:showArr cacheArray:cacheArr];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 /*
 #pragma mark - Navigation

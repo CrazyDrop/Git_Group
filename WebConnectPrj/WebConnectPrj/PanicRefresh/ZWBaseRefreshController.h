@@ -7,12 +7,19 @@
 //
 
 #import "DPWhiteTopController.h"
+#define NOTIFICATION_ZWPANIC_REFRESH_STATE           @"NOTIFICATION_ZWPANIC_REFRESH_STATE"
+
 //进行数据展示，数据提醒，web页面提前加载
 @interface ZWBaseRefreshController : DPWhiteTopController
 {
     NSLock * requestLock;
     BaseRequestModel * _detailListReqModel;
+    NSString * _tagString;
 }
+
+//指定tag值，开启检索
+@property (nonatomic, strong) NSString * tagString;
+
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * tagArray;

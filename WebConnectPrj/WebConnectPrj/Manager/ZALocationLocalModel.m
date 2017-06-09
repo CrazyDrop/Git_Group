@@ -306,6 +306,40 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     }
     return self;
 }
+-(id)initWithDBExtendString:(NSString *)extend
+{
+    self = [super init];
+    if(self)
+    {
+        
+        NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        path = [path stringByAppendingPathComponent:extend];
+        NSFileManager * fm = [NSFileManager defaultManager];
+        if(![fm fileExistsAtPath:path])
+        {
+            NSError * error;
+            if([fm createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&error])
+            {
+                
+            }
+            else
+            {
+                NSLog(@"Failed to create directory %@,error:%@",path,error);
+            }
+        }
+
+        NSString *databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME];
+        databaseQueue= [[FMDatabaseQueue alloc]initWithPath:databasePath];
+        
+        
+//        databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME_READ];
+//        databaseQueue_read= [[FMDatabaseQueue alloc]initWithPath:databasePath];
+        
+        [self checkLocalTables];
+    }
+    return self;
+}
+
 -(void)checkReadSorceCopyOrIngore
 {
     BOOL needCopy = NO;

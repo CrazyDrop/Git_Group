@@ -31,6 +31,9 @@
 
 +(instancetype)sharedInstance;
 
+-(id)initWithDBExtendString:(NSString *)extend;
+
+
 -(void)exchangeLocalDBWithCurrentDBPath:(NSString *)path;
 //复制售出数据到新数据库
 -(void)localCopySoldOutDataToPartDataBase;
@@ -91,7 +94,6 @@
 -(NSArray *)localServerNameAndIDTotalDictionaryArray;
 -(void)localSaveServerNameAndIDDictionaryArray:(NSArray *)array;
 -(void)localSaveServerName:(NSString *)name withServerID:(NSInteger)serverId;
-
 
 
 @end

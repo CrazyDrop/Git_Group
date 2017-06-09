@@ -95,7 +95,16 @@
     {
         return;
     }
-    NSArray * models = [NSArray arrayWithArray:array];
+    NSMutableArray * models = [NSMutableArray array];
+    for (NSInteger index = 0;index < [array count] ;index ++ )
+    {
+        CBGListModel * eveModel = [array objectAtIndex:index];
+        if(!eveModel.errored)
+        {
+            [models addObject:eveModel];
+        }
+    }
+    
     self.requestModels = models;
     NSMutableArray * urls = [NSMutableArray array];
     for (NSInteger index = 0;index <[models count] ;index ++) {
@@ -182,14 +191,19 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
-        if(!detailEve.game_ordersn){//错误
-            continue;
-        }
+        
         CBGListModel * obj = [models objectAtIndex:index];
         obj.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
         if(![detailEve isKindOfClass:[NSNull class]])
         {
-            [obj refreshCBGListDataModelWithDetaiEquipModel:detailEve];
+            if(detailEve.game_ordersn)
+            {
+                [obj refreshCBGListDataModelWithDetaiEquipModel:detailEve];
+            }else
+            {
+                obj.errored = YES;
+                obj.equip_more_append = [obj createLatestMoreAppendString];
+            }
             [updateModels addObject:obj];
         }else{
             [errorModels addObject:obj];

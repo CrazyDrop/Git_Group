@@ -118,7 +118,7 @@
             eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
         }
         if(self.priceStatus == 1){
-            eve = [eve stringByAppendingString:@"&price_min=0&price_max=800100"];
+            eve = [eve stringByAppendingString:@"&price_min=0&price_max=800000"];
         }else if(self.priceStatus == 2){
             eve = [eve stringByAppendingString:@"&price_min=800000&price_max=50000000"];
         }
