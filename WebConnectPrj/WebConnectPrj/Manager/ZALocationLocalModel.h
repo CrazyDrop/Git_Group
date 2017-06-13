@@ -83,6 +83,7 @@
 -(NSArray *)localSaveEquipHistoryModelListForOrderSN:(NSString *)ordersn;
 -(NSArray *)localSaveEquipHistoryModelListForTime:(NSString *)time;
 -(NSArray *)localSaveEquipHistoryModelListForRoleId:(NSString *)roleId;
+-(NSArray *)localSaveEquipHistoryModelListForSchoolId:(NSString *)school;
 -(NSArray *)localSaveEquipHistoryModelListForServerId:(NSString *)server andSchool:(NSString *)school;
 -(NSArray *)localSaveEquipHistoryModelListForCompareCBGModel:(id)model;
 -(void)updateFavAndIngoreStateForMaxedPlanRateListAndClearChange;

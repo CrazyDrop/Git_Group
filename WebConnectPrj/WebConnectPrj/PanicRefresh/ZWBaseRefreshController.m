@@ -101,12 +101,12 @@
     
 }
 
--(void)checkListInputForNoticeWithArray:(NSArray *)array
+-(BOOL)checkListInputForNoticeWithArray:(NSArray *)array
 {
     ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
     if(!model.isAlarm)
     {
-        return;
+        return NO;
     }
     Equip_listModel * maxModel = nil;
     CGFloat maxRate = 0;
@@ -141,13 +141,11 @@
         
         [DZUtils startNoticeWithLocalUrl:appUrlString];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ZWPANIC_REFRESH_STATE
-                                                            object:_tagString];
-        
         NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        if(!total.isNotSystemApp){
+        if(!total.isNotSystemApp || maxModel.earnRate < model.limitRate || [maxModel.price integerValue] / 100 > model.limitPrice){
+            //当用户主动选择APP支付，或者金钱不足，或者利率过低，或者
             appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
         }
         
@@ -165,6 +163,7 @@
         }
     }
     
+    return maxModel;
 }
 
 
@@ -173,7 +172,8 @@
 //列表刷新，按照最新的返回数据,新增，还是替换
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
-    if([array count] == 0 && [cacheArr count] == [self.dataArr count]){
+    if([array count] == 0 && [cacheArr count] == [self.dataArr count])
+    {
         return;
     }
     
@@ -181,10 +181,6 @@
     if([array count] > 0)
     {
         self.grayArray = array;
-
-        {
-            [self checkListInputForNoticeWithArray:array];
-        }
         
         [refreshArray addObjectsFromArray:self.showArray];
         
@@ -429,7 +425,7 @@
         }
         
         CBGListModel * hisCBG = contact.appendHistory;
-        NSInteger priceChange = hisCBG.equip_start_price - [detail.price integerValue]/100;
+        NSInteger priceChange = hisCBG.equip_price/100 - [detail.price integerValue]/100;
 
         if(secNum == 1)
         {
@@ -442,13 +438,13 @@
             equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
             leftRateColor = [UIColor orangeColor];
 
-        }else if(priceChange != 0 && hisCBG.equip_start_price > 0)
+        }else if(priceChange != 0 && hisCBG.equip_price > 0)
         {
             if(priceChange >0)
             {
                 leftRateColor = [UIColor orangeColor];
             }
-            sellTxt = [NSString stringWithFormat:@"%ld%@",hisCBG.equip_start_price,sellTxt];
+            sellTxt = [NSString stringWithFormat:@"%ld%@",hisCBG.equip_price/100,sellTxt];
         }
 
         

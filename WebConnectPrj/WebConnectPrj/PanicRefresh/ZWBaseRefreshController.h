@@ -18,7 +18,6 @@
 }
 
 //指定tag值，开启检索
-@property (nonatomic, strong) NSString * tagString;
 
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,strong) NSArray * showArray;
@@ -28,5 +27,7 @@
 
 @property (nonatomic,strong,readonly) UIView * tipsView;
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr;
+-(BOOL)checkListInputForNoticeWithArray:(NSArray *)array;
+
 
 @end

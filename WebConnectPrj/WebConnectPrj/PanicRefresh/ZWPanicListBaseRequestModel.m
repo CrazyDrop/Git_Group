@@ -1,24 +1,21 @@
 //
-//  ZWPaincCombineBaseVC.m
+//  ZWPanicListBaseRequestModel.m
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/6/8.
+//  Created by Apple on 2017/6/12.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWPaincCombineBaseVC.h"
+#import "ZWPanicListBaseRequestModel.h"
 #import "ZALocalModelDBManager.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "EquipListRequestModel.h"
 #import "Equip_listModel.h"
-#import "CBGDetailWebView.h"
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshManager.h"
-#import "MSAlertController.h"
-#import "ZAPanicSortSchoolVC.h"
 #import "YYCache.h"
 
-@interface ZWPaincCombineBaseVC ()
+@interface ZWPanicListBaseRequestModel()
 {
     NSMutableDictionary * cacheDic;//以时间为key  model为value
     //以时间排序，筛选需要进行刷新的
@@ -31,22 +28,22 @@
     NSInteger maxLength;
     
     ZALocalModelDBManager  * dbManager;
+    
+    EquipDetailArrayRequestModel * _detailListReqModel;
+    EquipListRequestModel * _dpModel;
 }
 @property (nonatomic, assign) NSInteger schoolNum;
 @property (nonatomic, assign) NSInteger priceStatus;
-@property (nonatomic, strong) NSString * showName;
 
 @property (nonatomic, assign) NSInteger requestNum;
 @property (nonatomic, strong) NSArray * listReqArr;
-//@property (nonatomic, assign) NSInteger requestNum;
-
-@property (nonatomic, assign) BOOL refreshState;
+@property (nonatomic, strong) NSArray * modelCacheArr;
 @end
 
-@implementation ZWPaincCombineBaseVC
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@implementation ZWPanicListBaseRequestModel
+-(id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if(self){
         cacheDic = [[NSMutableDictionary alloc] init];
         //detail的缓存，ordersn：CBGListModel
@@ -67,16 +64,10 @@
         listShowCache.memoryCache.costLimit = 10;
         //展示缓存cache
         
-//        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-//        
-//        NSArray * preArr = [total.orderSnCache componentsSeparatedByString:@"|"];
-//        NSDictionary * addDic = [self readLocalCacheDetailListFromLocalDBWithArrr:preArr];
-//        [cacheDic addEntriesFromDictionary:addDic];
-        
         maxLength = 30 * 100;
         
-        self.refreshState = YES;
         self.requestNum = 100;
+    
     }
     return self;
 }
@@ -93,117 +84,12 @@
             Equip_listModel * list = [[Equip_listModel alloc] init];
             list.serverid = [NSNumber numberWithInteger:cbgList.server_id];
             list.game_ordersn = cbgList.game_ordersn;
-            
+            list.equip_status = @1;
             [readDic setObject:list forKey:order];
         }
     }
     return readDic;
 }
-
--(BOOL)checkEquipModelCacheStatusWithLatestModel:(Equip_listModel *)list
-{
-    BOOL contain = YES;
-    NSString * orderSn = list.game_ordersn;
-    id obj = [listOrderCache objectForKey:orderSn];
-    if(!obj)
-    {
-        //cache不存在，进行库表查询
-        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSn];
-        
-        if([arr count] > 0){
-            //价格不一致，价格改变很快，20s内修改
-            CBGListModel * local = [arr firstObject];
-            if([list.price integerValue] > 0 && local.equip_price != [list.price integerValue])
-            {
-                contain = NO;
-            }
-        }else{
-            contain = NO;
-        }
-    }
-    return contain;
-}
-
-- (void)viewDidLoad
-{
-    
-    self.viewTtle = _tagString;
-    self.rightTitle = @"筛选";
-    self.showRightBtn = YES;
-    
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
-    
-    NSArray * tagArr = [_tagString componentsSeparatedByString:@"_"];
-    if([tagArr count] == 2)
-    {
-        self.schoolNum = [[tagArr firstObject] integerValue];
-        self.priceStatus = [[tagArr lastObject] integerValue];
-    }
-    
-    NSString * tagName = [CBGListModel schoolNameFromSchoolNumber:self.schoolNum];
-    NSString * refreshName = [tagName stringByAppendingFormat:@"-%ld",self.priceStatus];
-    self.showName = refreshName;
-}
-
--(void)refreshLatestMinRequestPageNumber:(NSInteger)pageNum
-{
-    self.requestNum = pageNum;
-}
-
-
--(void)submit
-{
-    NSString * log = [NSString stringWithFormat:@"对刷新数据设置？"];
-    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
-    
-    __weak typeof(self) weakSelf = self;
-    
-    MSAlertAction *action = [MSAlertAction actionWithTitle:@"停止刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-                             {
-                                 [weakSelf refreshTitleWithRefreshState:NO];
-                             }];
-    [alertController addAction:action];
-    
-    
-    action = [MSAlertAction actionWithTitle:@"开始刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshTitleWithRefreshState:YES];
-              }];
-    [alertController addAction:action];
-    
-//    action = [MSAlertAction actionWithTitle:@"20页数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  [weakSelf refreshLatestMinRequestPageNumber:20];
-//              }];
-//    [alertController addAction:action];
-//    
-//    action = [MSAlertAction actionWithTitle:@"门派设定" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  [weakSelf tapedOnSelectedSortSchool];
-//              }];
-//    [alertController addAction:action];
-    
-    
-    
-    NSString * rightTxt = @"取消";
-    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
-    }];
-    [alertController addAction:action2];
-    
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
-    
-}
--(void)tapedOnSelectedSortSchool
-{
-    ZAPanicSortSchoolVC * sort = [[ZAPanicSortSchoolVC alloc] init];
-    [[self rootNavigationController] pushViewController:sort animated:YES];
-}
-
 -(NSArray *)latestRefreshRequestDetailUrls
 {
     NSMutableArray * urls = [NSMutableArray array];
@@ -221,7 +107,7 @@
         
         NSArray * keys = [cacheDic allKeys];
         
-        NSInteger maxRefresh = 50;
+        NSInteger maxRefresh = 30;
         if([keys count] > maxRefresh)
         {
             keys = [keys subarrayWithRange:NSMakeRange(0, maxRefresh)];
@@ -236,60 +122,61 @@
     }
     return urls;
 }
-
-
--(void)viewWillAppear:(BOOL)animated
+-(NSArray *)dbLocalSaveTotalList
 {
-    [super viewWillAppear:animated];
-
-    _detailListReqModel = nil;
-    _dpModel = nil;
-    
+    NSArray * listArr = [dbManager localSaveEquipHistoryModelListTotal];
+    return listArr;
 }
--(void)viewWillDisappear:(BOOL)animated
+-(void)localSaveDBUpdateEquipListWithArray:(NSArray *)arr
 {
-    NSLog(@"%s disappear",__FUNCTION__);
-    [super viewWillDisappear:animated];
-    
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
-    [detailRefresh cancel];
-    [detailRefresh removeSignalResponder:self];
-    
-    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
-    [refresh cancel];
-    [refresh removeSignalResponder:self];
-    
-    
-    
-    
-//    ZWPanicRefreshManager * cache = [ZWPanicRefreshManager sharedInstance];
-//    cache.showArr = self.dataArr;
-    
-    @synchronized (cacheDic)
+    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];
+}
+
+-(BOOL)checkEquipModelCacheStatusWithLatestModel:(Equip_listModel *)list
+{
+    BOOL contain = YES;
+    NSString * orderSn = list.game_ordersn;
+    id obj = [listOrderCache objectForKey:orderSn];
+    if(!obj)
     {
-//        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-//        NSArray * arr = [cacheDic allKeys];
-//        total.orderSnCache = [arr componentsJoinedByString:@"|"];
-//        [total localSave];
+        //cache不存在，进行库表查询
+        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSn];
+        
+        if([arr count] > 0){
+            //价格不一致，价格改变很快，20s内修改
+            CBGListModel * local = [arr firstObject];
+            list.appendHistory = local;
+            if([list.price integerValue] > 0 && local.equip_price != [list.price integerValue])
+            {
+                contain = NO;
+            }
+        }else{
+            contain = NO;
+        }
+    }
+    return contain;
+}
+
+-(void)prepareWebRequestParagramForListRequest
+{
+    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
+    
+    NSArray * tagArr = [_tagString componentsSeparatedByString:@"_"];
+    if([tagArr count] == 2)
+    {
+        self.schoolNum = [[tagArr firstObject] integerValue];
+        self.priceStatus = [[tagArr lastObject] integerValue];
     }
     
-}
--(void)refreshTitleWithRefreshState:(BOOL)refresh
-{
-    self.refreshState = refresh;
-    self.titleV.text = refresh?@"开始刷新":@"停止刷新";
-}
-
--(void)refreshCurrentTitleVLableWithFinishWithStartListNumber:(NSInteger)number
-{
-    self.titleV.text = [NSString stringWithFormat:@"%@ (%ld)",self.showName,(long)number];
+    //读取对应数据填充到缓存中
+    if([self.cacheArr count] > 0){
+        NSDictionary * dataDic = [self readLocalCacheDetailListFromLocalDBWithArrr:self.cacheArr];
+        [cacheDic addEntriesFromDictionary:dataDic];
+    }
 }
 
 -(void)startRefreshLatestDetailModelRequest
 {
-    if(!self.refreshState){
-        return;
-    }
     
     if(![DZUtils deviceWebConnectEnableCheck])
     {
@@ -303,7 +190,7 @@
     
     
     NSArray * details = [self latestRefreshRequestDetailUrls];
-    [self refreshCurrentTitleVLableWithFinishWithStartListNumber:[details count]];
+//    [self refreshCurrentTitleVLableWithFinishWithStartListNumber:[details count]];
     
     if(!details || [details count] == 0)
     {
@@ -329,10 +216,6 @@
 
 -(void)startRefreshDataModelRequest
 {
-    if(!self.refreshState){
-        return;
-    }
-    
     if(![DZUtils deviceWebConnectEnableCheck])
     {
         return;
@@ -352,9 +235,9 @@
         model = [[EquipListRequestModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
-
+        
         if(self.schoolNum > 0){
-         model.selectSchool = self.schoolNum;
+            model.selectSchool = self.schoolNum;
         }
         model.priceStatus = self.priceStatus;
         model.pageNum = self.requestNum;//刷新页数
@@ -362,6 +245,25 @@
     
     [model sendRequest];
 }
+-(void)stopRefreshRequestAndClearRequestModel
+{
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    [detailRefresh cancel];
+    [detailRefresh removeSignalResponder:self];
+    
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    [refresh cancel];
+    [refresh removeSignalResponder:self];
+    
+    _detailListReqModel = nil;
+    _dpModel = nil;
+}
+
+-(void)refreshLatestMinRequestPageNumber:(NSInteger)pageNum
+{
+    self.requestNum = pageNum;
+}
+
 -(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum
 {
     //请求参数自动调整
@@ -396,28 +298,16 @@
 #pragma mark EquipListRequestModel
 handleSignal( EquipListRequestModel, requestError )
 {
-    self.tipsView.hidden = NO;
-    [self hideLoading];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
     
 }
 handleSignal( EquipListRequestModel, requestLoading )
 {
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state != UIApplicationStateActive){
-        return;
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    //    [self showLoading];
 }
 
 
 handleSignal( EquipListRequestModel, requestLoaded )
 {
-    [self hideLoading];
-    //    refreshLatestTotalArray
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    //    refreshLatestTotalArra
     NSLog(@"%s",__FUNCTION__);
     
     EquipListRequestModel * model = (EquipListRequestModel *) _dpModel;
@@ -435,7 +325,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
             [array addObjectsFromArray:obj];
         }
     }
-    self.tipsView.hidden = [array count] != 0;
     
     //检查得出未上架的数据
     //列表数据排重
@@ -492,18 +381,10 @@ handleSignal( EquipListRequestModel, requestLoaded )
 #pragma mark EquipDetailArrayRequestModel
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
-    [self hideLoading];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 }
 handleSignal( EquipDetailArrayRequestModel, requestLoading )
 {
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state != UIApplicationStateActive){
-        return;
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
 }
 
 handleSignal( EquipDetailArrayRequestModel, requestLoaded )
@@ -511,10 +392,12 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSLog(@"%s",__FUNCTION__);
     
     //进行存储操作、展示
+    //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
     EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];
+    NSInteger errorNum = 0;
     for (NSInteger index = 0; index < [total count]; index ++)
     {
         NSInteger backIndex = [total count] - index - 1;
@@ -524,11 +407,12 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             [detailModels addObject:[obj firstObject]];
         }else{
+            errorNum ++;
             [detailModels addObject:[NSNull null]];
         }
     }
     
-    NSLog(@"EquipDetailArrayRequestModel  Panic %lu",(unsigned long)[detailModels count]);
+    NSLog(@"EquipDetailArrayRequestModel  Panic  %@ %lu(%lu)",self.tagString,(unsigned long)[detailModels count],errorNum);
     
     NSMutableArray * removeArr = [NSMutableArray array];
     NSMutableArray * showArr  = [NSMutableArray array];
@@ -542,7 +426,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             detailEve = [detailModels objectAtIndex:index];
         }
-
+        
         Equip_listModel * obj = [models objectAtIndex:index];
         
         if(![detailEve isKindOfClass:[NSNull class]])
@@ -575,7 +459,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 {
                     [cacheArr addObject:objShow];
                     
-                    //处于缓存区域的，不再进行列表展示
+                    //处于缓存区域的，不再进行列表展示，确保下次可在列表展示
                     NSString * orderSN = obj.game_ordersn;
                     [listShowCache  removeObjectForKey:orderSN];
                 }else
@@ -595,8 +479,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                         [showArr insertObject:objShow atIndex:0];
                         [listShowCache setObject:[NSNumber numberWithInt:0] forKey:orderSN];
                     }
-                }else if(detailEve.equipExtra.totalPrice > [detailEve.price integerValue]/100 - 300)
-                {
+                }else if(detailEve.equipExtra.totalPrice > [detailEve.price integerValue]/100 * 0.90)
+                {//相近数据，留作参考
                     NSString * orderSN = obj.game_ordersn;
                     if(![listShowCache objectForKey:orderSN])
                     {
@@ -605,12 +489,22 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                     }
                 }else
                 {
-//                    NSLog(@"detailDataUrl %@",[obj detailDataUrl]);
+                    //                    NSLog(@"detailDataUrl %@",[obj detailDataUrl]);
                 }
             }
         }else
         {//详情请求失败
+            //对于失败的请求，单体刷新的数据也需要展示
             [listOrderCache removeObjectForKey:obj.game_ordersn];
+            if(obj.equipState == CBGEquipRoleState_unSelling)
+            {
+                [cacheArr addObject:obj];
+                
+                //处于缓存区域的，不再进行列表展示，确保下次可在列表展示
+                NSString * orderSN = obj.game_ordersn;
+                [listShowCache  removeObjectForKey:orderSN];
+
+            }
         }
     }
     
@@ -645,8 +539,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             NSString * eveKey = nil;
             eveKey = eveObj.game_ordersn;
             [cacheDic removeObjectForKey:eveKey];
-            
         }
+        
+        
     }
     
     @synchronized (appendDic)
@@ -664,20 +559,30 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }
     
     
-    NSLog(@"Refresh ShowArr %lu",(unsigned long)[showArr count]);
+    NSLog(@"Refresh ShowArr %lu %lu",(unsigned long)[showArr count],[cacheArr count]);
     
-    [self refreshTableViewWithInputLatestListArray:showArr cacheArray:cacheArr];
+    
+    if([showArr count] > 0 || [self.modelCacheArr count] != [cacheArr count])
+    {
+        self.modelCacheArr = cacheArr;
+        [self refreshTableViewWithInputLatestListArray:showArr cacheArray:cacheArr];
+    }else
+    {
+        
+    }
+}
+
+//刷新列表数据
+-(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
+{
+    if(self.requestDelegate && [self.requestDelegate respondsToSelector:@selector(panicListRequestFinishWithTag:listArray:cacheArray:)])
+    {
+        [self.requestDelegate panicListRequestFinishWithTag:self.tagString
+                                                  listArray:array
+                                                 cacheArray:cacheArr];
+    }
 }
 
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

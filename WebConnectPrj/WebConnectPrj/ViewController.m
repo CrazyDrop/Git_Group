@@ -194,7 +194,7 @@
             break;
         case CBGDetailTestFunctionStyle_MaxPanic:
         {
-            name = @"测试刷新";
+            name = @"改价监听";
         }
             break;
             
@@ -220,7 +220,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicMixed],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicRefresh],
@@ -247,7 +247,6 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
 
 
 

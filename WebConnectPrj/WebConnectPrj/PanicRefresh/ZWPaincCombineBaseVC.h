@@ -14,9 +14,6 @@
 @interface ZWPaincCombineBaseVC : ZWBaseRefreshController
 
 
-
-
-
 -(void)startRefreshDataModelRequest;
 -(void)startRefreshLatestDetailModelRequest;
 

@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1801FA431EE9431F00D22E75 /* ZALocalModelDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA421EE9431F00D22E75 /* ZALocalModelDBManager.m */; };
-		1801FA491EE948EE00D22E75 /* ZWPaincCombineBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA481EE948EE00D22E75 /* ZWPaincCombineBaseVC.m */; };
 		1801FA4C1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA4B1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m */; };
 		1801FA4D1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA4B1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m */; };
+		1801FA501EEA632700D22E75 /* ZWPaincCombineBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA4F1EEA632700D22E75 /* ZWPaincCombineBaseVC.m */; };
+		1801FA511EEA632700D22E75 /* ZWPaincCombineBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA4F1EEA632700D22E75 /* ZWPaincCombineBaseVC.m */; };
+		1801FA541EEA634900D22E75 /* ZALocalModelDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA531EEA634900D22E75 /* ZALocalModelDBManager.m */; };
+		1801FA551EEA634900D22E75 /* ZALocalModelDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1801FA531EEA634900D22E75 /* ZALocalModelDBManager.m */; };
 		180D589D19E622680045A720 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D589C19E622680045A720 /* main.m */; };
 		180D58A019E622680045A720 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D589F19E622680045A720 /* AppDelegate.m */; };
 		180D58A319E622680045A720 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58A219E622680045A720 /* ViewController.m */; };
@@ -1303,6 +1305,8 @@
 		18DAF5EA1ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E91ECEE2D500873D19 /* CBGPanicMaxedListRefreshVC.m */; };
 		18DAF5ED1ECFF4AC00873D19 /* ZWPanicRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */; };
 		18DAF5F01ED0406200873D19 /* CBGPanicMixedNightListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */; };
+		18EF4B3F1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */; };
+		18EF4B401EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */; };
 		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 /* End PBXBuildFile section */
@@ -1318,12 +1322,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1801FA411EE9431F00D22E75 /* ZALocalModelDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZALocalModelDBManager.h; sourceTree = "<group>"; };
-		1801FA421EE9431F00D22E75 /* ZALocalModelDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZALocalModelDBManager.m; sourceTree = "<group>"; };
-		1801FA471EE948EE00D22E75 /* ZWPaincCombineBaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPaincCombineBaseVC.h; sourceTree = "<group>"; };
-		1801FA481EE948EE00D22E75 /* ZWPaincCombineBaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPaincCombineBaseVC.m; sourceTree = "<group>"; };
 		1801FA4A1EE9508700D22E75 /* ZWPanicMaxCombinedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicMaxCombinedVC.h; sourceTree = "<group>"; };
 		1801FA4B1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicMaxCombinedVC.m; sourceTree = "<group>"; };
+		1801FA4E1EEA632700D22E75 /* ZWPaincCombineBaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPaincCombineBaseVC.h; sourceTree = "<group>"; };
+		1801FA4F1EEA632700D22E75 /* ZWPaincCombineBaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPaincCombineBaseVC.m; sourceTree = "<group>"; };
+		1801FA521EEA634900D22E75 /* ZALocalModelDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZALocalModelDBManager.h; sourceTree = "<group>"; };
+		1801FA531EEA634900D22E75 /* ZALocalModelDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZALocalModelDBManager.m; sourceTree = "<group>"; };
 		180D589719E622680045A720 /* WebConnectPrj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebConnectPrj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		180D589B19E622680045A720 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		180D589C19E622680045A720 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -2475,6 +2479,8 @@
 		18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicRefreshManager.m; sourceTree = "<group>"; };
 		18DAF5EE1ED0406200873D19 /* CBGPanicMixedNightListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPanicMixedNightListVC.h; sourceTree = "<group>"; };
 		18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPanicMixedNightListVC.m; sourceTree = "<group>"; };
+		18EF4B3D1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicListBaseRequestModel.h; sourceTree = "<group>"; };
+		18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicListBaseRequestModel.m; sourceTree = "<group>"; };
 		18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseTableVC.h; sourceTree = "<group>"; };
 		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
 		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
@@ -2954,10 +2960,12 @@
 				1833209F1ED5853000B1ECEA /* ZAPanicSortSchoolVC.m */,
 				183320A11ED680AD00B1ECEA /* ZAPanicPayHistoryVC.h */,
 				183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */,
+				1801FA4E1EEA632700D22E75 /* ZWPaincCombineBaseVC.h */,
+				1801FA4F1EEA632700D22E75 /* ZWPaincCombineBaseVC.m */,
+				18EF4B3D1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.h */,
+				18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */,
 				1801FA4A1EE9508700D22E75 /* ZWPanicMaxCombinedVC.h */,
 				1801FA4B1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m */,
-				1801FA471EE948EE00D22E75 /* ZWPaincCombineBaseVC.h */,
-				1801FA481EE948EE00D22E75 /* ZWPaincCombineBaseVC.m */,
 			);
 			path = PanicRefresh;
 			sourceTree = "<group>";
@@ -3315,8 +3323,8 @@
 				185BB0331E825C4700306695 /* ZWDetailCheckManager.m */,
 				18A972431E7FCCA600B48E3C /* ZALocationLocalModel.h */,
 				18A972441E7FCCA600B48E3C /* ZALocationLocalModel.m */,
-				1801FA411EE9431F00D22E75 /* ZALocalModelDBManager.h */,
-				1801FA421EE9431F00D22E75 /* ZALocalModelDBManager.m */,
+				1801FA521EEA634900D22E75 /* ZALocalModelDBManager.h */,
+				1801FA531EEA634900D22E75 /* ZALocalModelDBManager.m */,
 				18A971EC1E7FC6E100B48E3C /* CBGEquipDetailRequestManager.h */,
 				18A971ED1E7FC6E100B48E3C /* CBGEquipDetailRequestManager.m */,
 				18A976691E7FDFB300B48E3C /* CBGListModel.h */,
@@ -4731,6 +4739,7 @@
 					};
 					183323021ED6B10D00B1ECEA = {
 						DevelopmentTeam = X9YQDM8Q42;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -4916,7 +4925,7 @@
 				18A9723B1E7FCA5C00B48E3C /* MJProperty.m in Sources */,
 				18A96E1C1E7FC2C500B48E3C /* Selling_infoModel.m in Sources */,
 				183320A01ED5853000B1ECEA /* ZAPanicSortSchoolVC.m in Sources */,
-				1801FA491EE948EE00D22E75 /* ZWPaincCombineBaseVC.m in Sources */,
+				1801FA501EEA632700D22E75 /* ZWPaincCombineBaseVC.m in Sources */,
 				18A96E181E7FC2C500B48E3C /* EquipModel.m in Sources */,
 				18A9754A1E7FDDD400B48E3C /* Samurai_NotificationCenter.m in Sources */,
 				18A975DC1E7FDDD500B48E3C /* Samurai_Resource.m in Sources */,
@@ -4961,7 +4970,6 @@
 				18A976621E7FDE1500B48E3C /* STIHTTPSessionManager.m in Sources */,
 				18A96D8E1E7FC24700B48E3C /* ZWSystemTotalRequestModel.m in Sources */,
 				18A975461E7FDDD400B48E3C /* Samurai_Core.m in Sources */,
-				1801FA431EE9431F00D22E75 /* ZALocalModelDBManager.m in Sources */,
 				18A976191E7FDDD500B48E3C /* ServiceTapspotHook.m in Sources */,
 				182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */,
 				18A9761F1E7FDDD500B48E3C /* OLEGORefreshView.m in Sources */,
@@ -5059,6 +5067,7 @@
 				18A975F21E7FDDD500B48E3C /* tag.c in Sources */,
 				18A1EE831E8631C2009312A7 /* CBGWebListCheckManager.m in Sources */,
 				1801FA4C1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m in Sources */,
+				18EF4B3F1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m in Sources */,
 				1820911D1E9F555D0015E393 /* AASeriesElement.m in Sources */,
 				18A975841E7FDDD400B48E3C /* Samurai_HtmlRenderObjectViewport.m in Sources */,
 				18A976181E7FDDD500B48E3C /* ServiceTapspot.m in Sources */,
@@ -5235,6 +5244,7 @@
 				18809DFA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m in Sources */,
 				18A96E191E7FC2C500B48E3C /* HighlightModel.m in Sources */,
 				182091231E9F555D0015E393 /* AAXAxis.m in Sources */,
+				1801FA541EEA634900D22E75 /* ZALocalModelDBManager.m in Sources */,
 				18A9761E1E7FDDD500B48E3C /* OLEGOFooterAndHeaderNoneControl.m in Sources */,
 				18A975821E7FDDD400B48E3C /* Samurai_HtmlRenderObjectElement.m in Sources */,
 				18A975C71E7FDDD400B48E3C /* Samurai_ActivityStackGroup.m in Sources */,
@@ -5703,6 +5713,7 @@
 				183323C41ED6B10D00B1ECEA /* tag.c in Sources */,
 				183323C51ED6B10D00B1ECEA /* CBGWebListCheckManager.m in Sources */,
 				183323C61ED6B10D00B1ECEA /* AASeriesElement.m in Sources */,
+				18EF4B401EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m in Sources */,
 				183323C71ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectViewport.m in Sources */,
 				183323C81ED6B10D00B1ECEA /* ServiceTapspot.m in Sources */,
 				183323C91ED6B10D00B1ECEA /* ViewController+NavigationBar.m in Sources */,
@@ -5879,6 +5890,7 @@
 				183324741ED6B10D00B1ECEA /* HighlightModel.m in Sources */,
 				183324751ED6B10D00B1ECEA /* AAXAxis.m in Sources */,
 				183324761ED6B10D00B1ECEA /* OLEGOFooterAndHeaderNoneControl.m in Sources */,
+				1801FA551EEA634900D22E75 /* ZALocalModelDBManager.m in Sources */,
 				183324771ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectElement.m in Sources */,
 				183324781ED6B10D00B1ECEA /* Samurai_ActivityStackGroup.m in Sources */,
 				183324791ED6B10D00B1ECEA /* OLNameListTableView.m in Sources */,
@@ -5966,6 +5978,7 @@
 				183324CB1ED6B10D00B1ECEA /* CBGPlanSortHistoryVC.m in Sources */,
 				183324CC1ED6B10D00B1ECEA /* RefreshEquipListDataManager.m in Sources */,
 				183324CD1ED6B10D00B1ECEA /* Samurai_UITextView.m in Sources */,
+				1801FA511EEA632700D22E75 /* ZWPaincCombineBaseVC.m in Sources */,
 				183324CE1ED6B10D00B1ECEA /* CBGSortHistoryBaseStyleVC.m in Sources */,
 				183324CF1ED6B10D00B1ECEA /* ZACBGListDetailShowVC.m in Sources */,
 				183324D01ED6B10D00B1ECEA /* BaseRequestModel.m in Sources */,

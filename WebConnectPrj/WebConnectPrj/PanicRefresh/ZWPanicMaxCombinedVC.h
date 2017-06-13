@@ -7,7 +7,18 @@
 //
 
 #import "DPWhiteTopController.h"
+#import "ZWBaseRefreshController.h"
 
-@interface ZWPanicMaxCombinedVC : DPWhiteTopController
+//界面附加功能
+//考虑合并历史后，再进行查看
+//历史拆分、历史合并、查看历史
+@interface ZWPanicMaxCombinedVC : ZWBaseRefreshController
+
+
+
+
+
+
+
 
 @end

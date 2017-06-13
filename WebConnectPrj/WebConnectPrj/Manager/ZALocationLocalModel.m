@@ -313,12 +313,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     {
         
         NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        path = [path stringByAppendingPathComponent:@"details"];
         path = [path stringByAppendingPathComponent:extend];
         NSFileManager * fm = [NSFileManager defaultManager];
         if(![fm fileExistsAtPath:path])
         {
             NSError * error;
-            if([fm createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&error])
+            if([fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error])
             {
                 
             }
@@ -2328,6 +2329,31 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
     return nil;
+}
+-(NSArray *)localSaveEquipHistoryModelListForSchoolId:(NSString *)school{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = %@ AND %@ =='' AND %@ == '' ORDER BY %@;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,school,ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             location.equip_status = 4;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
 }
 -(NSArray *)localSaveEquipHistoryModelListForServerId:(NSString *)server andSchool:(NSString *)school
 {

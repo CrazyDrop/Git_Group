@@ -9,14 +9,37 @@
 #import "ZWPanicMaxCombinedVC.h"
 #import "ZWPaincCombineBaseVC.h"
 #import "PanicRefreshManager.h"
-
-@interface ZWPanicMaxCombinedVC ()
+#import "ZWPanicListBaseRequestModel.h"
+#import "Equip_listModel.h"
+#import "JSONKit.h"
+#import "MSAlertController.h"
+#import "ZALocationLocalModel.h"
+@interface ZWPanicMaxCombinedVC ()<PanicListRequestTagListDelegate>
+{
+    NSMutableDictionary * showDataDic;
+    NSMutableDictionary * showCacheDic;
+    
+    NSMutableArray * combineArr;
+}
 @property (nonatomic,strong) NSArray * panicTagArr;
 @property (nonatomic,strong) NSArray * baseVCArr;
 @property (nonatomic,strong) UIScrollView * coverScroll;
+@property (nonatomic,assign) BOOL refreshState;
 @end
 
 @implementation ZWPanicMaxCombinedVC
+
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        showDataDic = [NSMutableDictionary dictionary];
+        showCacheDic = [NSMutableDictionary dictionary];
+        combineArr = [NSMutableArray array];
+        self.refreshState = YES;
+    }
+    return self;
+}
 
 -(NSArray *)panicTagArr
 {
@@ -31,8 +54,10 @@
             {
                 NSString * eve1 = [NSString  stringWithFormat:@"%ld_1",(long)index];
                 NSString * eve2 = [NSString  stringWithFormat:@"%ld_2",(long)index];
+                NSString * eve3 = [NSString  stringWithFormat:@"%ld_3",(long)index];
                 [tag addObject:eve1];
                 [tag addObject:eve2];
+                [tag addObject:eve3];
             }else{
                 NSString * eve = [NSString  stringWithFormat:@"%ld_0",(long)index];
                 [tag addObject:eve];
@@ -59,6 +84,8 @@
     PanicRefreshManager * manager = [PanicRefreshManager sharedInstance];
     [manager endAutoRefreshAndClearTime];
 
+    [self stopPanicListRequestModelArray];
+    [self localSaveDetailRefreshEquipListArray];
     [[ZALocation sharedInstance] stopUpdateLocation];
 
 }
@@ -93,14 +120,16 @@
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
+        if(!self.refreshState) return ;
+        
         NSArray * vcArr = weakSelf.baseVCArr;
-        for (ZWPaincCombineBaseVC * eveBase in vcArr)
+        for (ZWPanicListBaseRequestModel * eveRequest in vcArr)
         {
-            [eveBase performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+            [eveRequest performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
                                        withObject:nil
                                     waitUntilDone:NO];
             
-            [eveBase performSelectorOnMainThread:@selector(startRefreshLatestDetailModelRequest)
+            [eveRequest performSelectorOnMainThread:@selector(startRefreshLatestDetailModelRequest)
                                        withObject:nil
                                     waitUntilDone:NO];
 
@@ -108,9 +137,65 @@
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
+-(void)localSaveDetailRefreshEquipListArray
+{
+    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
+    for (NSString * eveKey in showCacheDic)
+    {
+        NSArray * eveArr = [showCacheDic objectForKey:eveKey];
+        NSMutableArray * eveCache = [NSMutableArray array];
+        for (NSInteger index = 0;index < [eveArr count] ;index ++ )
+        {
+            Equip_listModel * eveModel = [eveArr objectAtIndex:index];
+            [eveCache addObject:eveModel.game_ordersn];
+        }
+        
+        if([eveCache count] > 0)
+        {
+            NSString * combine = [eveCache componentsJoinedByString:@"|"];
+            [dataDic setObject:combine forKey:eveKey];
+        }
+    }
+    
+    NSString * jsonStr = [self convertToJsonData:dataDic];
 
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    total.orderSnCache = jsonStr;
+    [total localSave];
+
+}
+- (NSString *)convertToJsonData:(NSDictionary *)dict
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString;
+    if (!jsonData) {
+        NSLog(@"%@",error);
+        
+    }else{
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+    NSRange range = {0,jsonString.length};
+    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+    NSRange range2 = {0,mutStr.length};
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+    return mutStr;
+}
+-(void)stopPanicListRequestModelArray
+{
+    NSArray * vcArr = self.baseVCArr;
+    for (ZWPanicListBaseRequestModel * eveRequest in vcArr)
+    {
+        [eveRequest stopRefreshRequestAndClearRequestModel];
+    }
+
+}
 
 - (void)viewDidLoad {
+    self.rightTitle = @"更多";
+    self.showRightBtn = YES;
+    self.viewTtle = @"改价并发";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -118,40 +203,124 @@
     UIView * bgView = self.view;
     CGRect rect = [[UIScreen mainScreen] bounds];
     
-    UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:rect];
-    [bgView addSubview:scrollView];
-    scrollView.pagingEnabled = YES;
-    scrollView.bounces = NO;
-    scrollView.scrollsToTop = NO;
-    self.coverScroll = scrollView;
+//    UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:rect];
+//    [bgView addSubview:scrollView];
+//    scrollView.pagingEnabled = YES;
+//    scrollView.bounces = NO;
+//    scrollView.scrollsToTop = NO;
+//    self.coverScroll = scrollView;
     
     NSInteger vcNum = [self.panicTagArr count];
     NSMutableArray * vcArr = [NSMutableArray array];
-    scrollView.contentSize = CGSizeMake(rect.size.width * vcNum, rect.size.height);
+//    scrollView.contentSize = CGSizeMake(rect.size.width * vcNum, rect.size.height);
     
-    CGRect subRect = rect;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * dataDic = [total.orderSnCache objectFromJSONString];
+    
     for (NSInteger index = 0; index < vcNum; index ++)
     {
         NSString * eveTag = [self.panicTagArr objectAtIndex:index];
-        ZWPaincCombineBaseVC * eveVC = [[ZWPaincCombineBaseVC alloc] init];
-        eveVC.tagString = eveTag;
-        [self addChildViewController:eveVC];
-        [vcArr addObject:eveVC];
-        
-        subRect.origin.x = index * SCREEN_WIDTH;
-        eveVC.view.frame = subRect;
-        [scrollView addSubview:eveVC.view];
+        ZWPanicListBaseRequestModel * eveModel = [[ZWPanicListBaseRequestModel alloc] init];
+        eveModel.tagString = eveTag;
+        NSString * combine = [dataDic objectForKey:eveTag];
+        if([combine length] > 0){
+            NSArray * eveArr = [combine componentsSeparatedByString:@"|"];
+            eveModel.cacheArr = eveArr;
+        }
+        [eveModel prepareWebRequestParagramForListRequest];
+        eveModel.requestDelegate = self;
+        [vcArr addObject:eveModel];
     }
     
     self.baseVCArr = vcArr;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshPaincVCScrollWithRefreshNoti:)
-                                                 name:NOTIFICATION_ZWPANIC_REFRESH_STATE
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(refreshPaincVCScrollWithRefreshNoti:)
+//                                                 name:NOTIFICATION_ZWPANIC_REFRESH_STATE
+//                                               object:nil];
     
     
 }
+
+
+-(void)refreshLocalPanicRefreshState:(BOOL)state
+{
+    self.refreshState = state;
+    self.titleV.text = state?@"改价并发":@"刷新停止";
+}
+
+-(void)combineSeperatedLocalDBModelForTotalList
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * vcArr = self.baseVCArr;
+    for (ZWPanicListBaseRequestModel * eveRequest in vcArr)
+    {
+        NSArray * eveArr = [eveRequest dbLocalSaveTotalList];
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:eveArr];
+    }
+    [DZUtils noticeCustomerWithShowText:@"合并结束"];
+}
+-(void)seperateTotalListArrayForLocalSaveSeperatedDBModel
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * vcArr = self.baseVCArr;
+    for (ZWPanicListBaseRequestModel * eveRequest in vcArr)
+    {
+        NSString * school = [NSString stringWithFormat:@"%ld",eveRequest.schoolNum];
+        NSArray * eveArr =  [dbManager localSaveEquipHistoryModelListForSchoolId:school];
+        [eveRequest localSaveDBUpdateEquipListWithArray:eveArr];
+    }
+    [DZUtils noticeCustomerWithShowText:@"分拆结束"];
+}
+
+
+
+-(void)submit
+{
+    NSString * log = [NSString stringWithFormat:@"对刷新数据操作？"];
+    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    MSAlertAction *action = [MSAlertAction actionWithTitle:@"停止刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+                             {
+                                 [weakSelf refreshLocalPanicRefreshState:NO];
+                             }];
+    [alertController addAction:action];
+    
+    
+    action = [MSAlertAction actionWithTitle:@"开始刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLocalPanicRefreshState:YES];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"合并历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf combineSeperatedLocalDBModelForTotalList];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"拆分历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf seperateTotalListArrayForLocalSaveSeperatedDBModel];
+              }];
+    [alertController addAction:action];
+
+    
+    
+    NSString * rightTxt = @"取消";
+    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
+    }];
+    [alertController addAction:action2];
+    
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+    
+}
+
+
 -(void)refreshPaincVCScrollWithRefreshNoti:(NSNotification *)not
 {
     NSString * tag = not.object;
@@ -162,6 +331,36 @@
         [self.coverScroll setContentOffset:pt animated:YES];
     }
 }
+
+-(void)panicListRequestFinishWithTag:(NSString *)tagid listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
+{
+    
+    [showCacheDic setObject:cacheArr forKey:tagid];
+    for (NSInteger index = 0;index < [array count] ;index ++ )
+    {
+        NSInteger backIndex = [array count] - 1 - index;
+        id eveObj = [array objectAtIndex:backIndex];
+        [combineArr insertObject:eveObj atIndex:0];
+    }
+    
+    //进行数据缓存，达到5条时，进行刷新
+    if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 10)
+    {//不进行刷新
+        return;
+    }else{
+        //列表刷新，数据清空
+        NSMutableArray * totalCache = [NSMutableArray array];
+        for(NSInteger index = 0 ;index < [self.panicTagArr count]; index ++)
+        {
+            NSString * tag = [self.panicTagArr objectAtIndex:index];
+            NSArray * eveArr = [showCacheDic objectForKey:tag];
+            [totalCache addObjectsFromArray:eveArr];
+        }
+        
+        [self refreshTableViewWithInputLatestListArray:array cacheArray:totalCache];
+    }
+}
+
 
 
 

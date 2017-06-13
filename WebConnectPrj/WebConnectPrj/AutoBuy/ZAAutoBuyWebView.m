@@ -234,7 +234,7 @@
             
         case ZAAutoBuyStep_PayFinish:
         {
-            //界面结束，有下一个的话执行下一个购买
+            //界面结束，有下一个的话执行下一个购买，可以考虑再次打开刷新的APP，以便能够实现继续购买
             [DZUtils noticeCustomerWithShowText:@"自动支付结束"];
         }
             break;

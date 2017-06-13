@@ -111,11 +111,30 @@
     bottomBtn.frame = CGRectMake(0, 0, btnWidth, 80);
     [bottomBtn setBackgroundColor:[UIColor greenColor]];
     [bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [bottomBtn setTitle:@"购买准备" forState:UIControlStateNormal];
+    [bottomBtn setTitle:@"购买登录" forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(showDetailAutoBuyPrepareHomeVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bottomBtn];
     bottomBtn.center = CGPointMake(SCREEN_WIDTH - btnWidth/2.0,centerY);
     
+    
+    centerY = bottomBtn.center.y + bottomBtn.bounds.size.height + FLoatChange(10);
+    bottomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    bottomBtn.frame = CGRectMake(0, 0, btnWidth, 80);
+    [bottomBtn setBackgroundColor:[UIColor greenColor]];
+    [bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [bottomBtn setTitle:@"点卡购买" forState:UIControlStateNormal];
+    [bottomBtn addTarget:self action:@selector(showDetailAutoBuyPreparePayPrepare) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:bottomBtn];
+    bottomBtn.center = CGPointMake(SCREEN_WIDTH - btnWidth/2.0,centerY);
+    
+}
+-(void)showDetailAutoBuyPreparePayPrepare
+{
+    NSString * loginUrl = @"http://epay.163.com/appCenter.htm?t=dianka";
+    
+    ZAAutoBuyHomeVC * home = [[ZAAutoBuyHomeVC alloc] init];
+    home.webUrl = loginUrl;
+    [[self rootNavigationController] pushViewController:home animated:YES];
 }
 -(void)showDetailAutoBuyPrepareHomeVC
 {
