@@ -12,8 +12,10 @@
 #import "ZALocationLocalModel.h"
 @interface CBGWebListCheckManager()
 {
-    YYCache * historyCache;
-
+//    YYCache * historyCache;
+    
+    NSCache * historyCache;
+    NSCache * priceCache;
 }
 @end
 @implementation CBGWebListCheckManager
@@ -31,8 +33,18 @@
     self = [super init];
     if(self){
         //缓存当前已经存储的数据
-        historyCache = [YYCache cacheWithName:@"web_ordersn_cache"];
-
+//        historyCache = [YYCache cacheWithName:@"web_ordersn_cache"];
+        //缓存数据仅作为中间变量使用
+        
+        priceCache = [[NSCache alloc] init];
+        priceCache.countLimit = 10000;
+        historyCache = [[NSCache alloc] init];
+        historyCache.countLimit = 10000;
+#if  !TARGET_IPHONE_SIMULATOR
+        priceCache.countLimit = 3000;
+        historyCache.countLimit = 3000;
+#endif
+        
     }
     return self;
 }
@@ -56,13 +68,13 @@
         WebEquip_listModel * eveModel = [array objectAtIndex:backIndex];
         NSString * url = eveModel.detailDataUrl;
         NSString * identifier = eveModel.detailCheckIdentifier;
+        NSString * price = eveModel.price;
+        if(!price){
+            price = @"0";
+        }
         
-        //如果没缓存，则进行存储，有缓存，则进行判定，状态判定不一致即处理
-        NSNumber * cacheNum = (NSNumber *) [historyCache objectForKey:identifier];
-        if(!cacheNum || [cacheNum intValue] == 2)
-        {//没有缓存过或缓存失败，进行详情请求
-            
-        }else{
+        if(![self checkLocalHistoryWithEveWebListModel:eveModel]){
+            //不需要进行请求
             continue;
         }
         
@@ -75,6 +87,7 @@
             }
             
             //0为有启动过1为成功2为失败
+            [priceCache setObject:price forKey:identifier];
             [historyCache setObject:[NSNumber numberWithInt:0] forKey:identifier];
         }
     }
@@ -82,6 +95,49 @@
     self.modelsArray = requestArr;
     self.urlsArray = requestUrlsArr;
 }
+
+//返回yes，则需要请求
+-(BOOL)checkLocalHistoryWithEveWebListModel:(WebEquip_listModel *)eveModel
+{
+    BOOL request = NO;//是否包含历史，默认不需要
+    NSString * identifier = eveModel.detailCheckIdentifier;
+    NSString * orderSN = eveModel.game_ordersn;
+    NSString * price = eveModel.price;
+    if(!price){
+        price = @"0";
+    }
+    
+    NSString * prePrice = [priceCache objectForKey:identifier];
+    //如果没缓存，则进行存储，有缓存，则进行判定，状态判定不一致即处理
+    NSNumber * cacheNum = (NSNumber *) [historyCache objectForKey:identifier];
+    if([cacheNum integerValue] ==0  && prePrice)
+    {//没有缓存过或缓存失败，进行详情请求
+        //缓存数据处理
+    }else{
+        //读取库表数据
+        if(YES)
+        {
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+            if([dbArr count] > 0)
+            {
+                CBGListModel * list = [dbArr lastObject];
+                prePrice = [NSString stringWithFormat:@"%ld",list.equip_price/100];
+            }
+        }
+    }
+
+    //之前价格不存在，或价格改动100以上，需要请求
+    if(!prePrice ||  [prePrice integerValue] - [price integerValue] > 100)
+    {
+        request = YES;
+    }
+
+    return request;
+}
+
+
+
 //
 -(void)refreshDiskCacheWithDetailRequestFinishedArray:(NSArray *)array
 {
@@ -101,7 +157,6 @@
         if(list.equipModel && ![compareArr containsObject:idenfifier])
         {
             [compareArr addObject:idenfifier];
-//            if([list isFirstInSelling])
             {
                 [editArr addObject:list];
                 

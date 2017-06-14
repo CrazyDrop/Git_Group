@@ -83,6 +83,7 @@
 @property (nonatomic, strong) NSString *share_title;
 @property (nonatomic, strong) NSString *desc_sumup;
 @property (nonatomic, strong) NSString *selling_time;
+@property (nonatomic, strong) NSString *equip_lock_time;
 @property (nonatomic, strong) NSString *fair_show_end_time;
 @property (nonatomic, strong) Bargain_infoModel *bargain_info;
 @property (nonatomic, strong) NSMutableArray <Cross_buy_serveridsModel *> *cross_buy_serverids;

@@ -451,11 +451,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             Equip_listModel * objShow = [obj copy];
             objShow.equipModel= detailEve;
             
-            //当前处于未上架进行展示
+            //当前处于未上架进行展示，并且非时间自动超时
             if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {//详情数据处于暂存
                 
-                if(detailEve.equipExtra.totalPrice > 1000)
+                if(detailEve.equipExtra.totalPrice > 1000 && ![objShow isAutoStopSelling])
                 {
                     [cacheArr addObject:objShow];
                     

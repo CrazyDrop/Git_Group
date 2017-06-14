@@ -45,6 +45,9 @@
     }
     return self;
 }
+-(void)refreshTitleViewTitleWithLatestTitleName:(NSString *)title{
+    self.titleV.text = title;
+}
 -(UIView *)tipsView
 {
     if(!_tipsView)

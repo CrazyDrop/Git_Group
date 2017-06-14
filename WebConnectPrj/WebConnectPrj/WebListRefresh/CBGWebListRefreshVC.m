@@ -418,8 +418,7 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
         return;
     }
     NSLog(@"CBGWebListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
-    
-    //    [self refreshTableViewWithInputLatestListArray:models replace:NO];
+
     
     NSArray * urls = checkManager.urlsArray;
     self.detailsArr = [NSArray arrayWithArray:models];

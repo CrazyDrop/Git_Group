@@ -32,6 +32,29 @@
     
     return NO;
 }
+-(BOOL)isAutoStopSelling
+{
+    if(!self.equipModel) return NO;
+    if(!self.equipModel.equipExtra) return NO;
+
+    EquipModel * detail = self.equipModel;
+//    NSString * leftTime = detail.sell_expire_time_desc;
+    
+    NSDate * sellDate = [NSDate fromString:detail.selling_time];
+    NSDate * finishDate = [NSDate dateWithTimeInterval:DAY * 14 sinceDate:sellDate];
+    NSDate * nowDate = [NSDate date];
+    
+    //使用商品锁定时间、用户下架也会造成，没有自动下架时间，只能默认14天使用
+//    finishDate = [NSDate fromString:detail.equip_lock_time];
+    NSTimeInterval interval = [nowDate timeIntervalSinceDate:finishDate];
+    if(interval > 0)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
 -(void)refrehLocalBaseListModelWithDetail:(EquipModel *)detail
 {//补全list信息，以便能够进行listSaveModel生成
     self.equipModel = detail;

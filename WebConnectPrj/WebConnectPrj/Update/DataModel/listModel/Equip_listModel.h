@@ -56,6 +56,7 @@
 //计算公式，判定账号是否值得购买
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip;
 -(BOOL)isFirstInSelling;
+-(BOOL)isAutoStopSelling;
 -(NSString *)listLatestShowPrice;
 
 -(CBGEquipRoleState)equipState;

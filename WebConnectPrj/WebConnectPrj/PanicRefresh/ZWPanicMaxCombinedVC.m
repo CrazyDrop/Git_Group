@@ -343,11 +343,16 @@
         [combineArr insertObject:eveObj atIndex:0];
     }
     
+
     //进行数据缓存，达到5条时，进行刷新
-    if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 10)
+    if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 5)
     {//不进行刷新
+        NSString * title = [NSString stringWithFormat:@"改价并发 %ld",[combineArr count]];
+        [self refreshTitleViewTitleWithLatestTitleName:title];
+
         return;
     }else{
+        
         //列表刷新，数据清空
         NSMutableArray * totalCache = [NSMutableArray array];
         for(NSInteger index = 0 ;index < [self.panicTagArr count]; index ++)
@@ -356,8 +361,14 @@
             NSArray * eveArr = [showCacheDic objectForKey:tag];
             [totalCache addObjectsFromArray:eveArr];
         }
+        NSArray * showArr = [NSArray arrayWithArray:combineArr];
+        [combineArr removeAllObjects];
         
-        [self refreshTableViewWithInputLatestListArray:array cacheArray:totalCache];
+        NSString * title = [NSString stringWithFormat:@"改价并发 %ld",[combineArr count]];
+        [self refreshTitleViewTitleWithLatestTitleName:title];
+
+        
+        [self refreshTableViewWithInputLatestListArray:showArr cacheArray:totalCache];
     }
 }
 
