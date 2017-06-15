@@ -15,6 +15,7 @@
 
 @interface CBGSortHistoryBaseTableVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UITableView * listTable;
+@property (nonatomic,strong) NSDictionary * serNameDic;
 @end
 
 @implementation CBGSortHistoryBaseTableVC
@@ -22,6 +23,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * serNameDic = total.serverNameDic;
+    self.serNameDic = serNameDic;
+
     
     CGRect rect = [[UIScreen mainScreen] bounds];
     
@@ -118,9 +124,6 @@
     
     CBGEquipRoleState state = contact.latestEquipListStatus;
     
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    NSDictionary * serNameDic = total.serverNameDic;
-    
     
     NSString * centerDetailTxt = contact.plan_des;
     UIColor * numcolor = [UIColor lightGrayColor];
@@ -130,7 +133,7 @@
     NSString * equipName = [NSString stringWithFormat:@"%@ %ld",contact.equip_school_name,contact.equip_level];
     NSString * leftPriceTxt = [NSString stringWithFormat:@"%.2f",contact.equip_price/100.0];
     NSNumber * serId = [NSNumber numberWithInteger:contact.server_id];
-    NSString * serverName = [serNameDic objectForKey:serId];
+    NSString * serverName = [self.serNameDic objectForKey:serId];
     
     if(!contact)
     {

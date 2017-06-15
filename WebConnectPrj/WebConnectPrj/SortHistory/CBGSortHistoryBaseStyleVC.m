@@ -88,6 +88,141 @@
     [self refreshLatestShowTableView];
 }
 
+#pragma mark - WriteDBCSV
+-(void)writeLocalCSVWithFileName:(NSString *)filePath
+                     headerNames:(NSString *)headerName
+                      modelArray:(NSArray *)models
+                  andStringBlock:(ZWWriteDBFunctionBlock)block
+{
+    
+    //移除
+    [self removeFileWithPath:filePath];
+    
+    NSOutputStream *output = [[NSOutputStream alloc] initToFileAtPath:filePath append:YES];
+    [output open];
+    
+    if (![output hasSpaceAvailable])
+    {
+        NSLog(@"没有足够可用空间");
+    } else {
+        
+        NSString *header = headerName;   //这里是文件第一行的头（逗号是换列，\n是换行）
+        
+        const uint8_t *headerString = (const uint8_t *)[header cStringUsingEncoding:NSUTF8StringEncoding];
+        NSInteger headerLength = [header lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        NSInteger result = [output write:headerString maxLength:headerLength];
+        if (result <= 0) {
+            NSLog(@"写入错误");
+        }
+        
+        for (NSInteger index = 0;index < [models count] ;index ++ )
+        {
+            NSInteger nextIndex = index + 1;
+            CBGListModel * model1 = [models objectAtIndex:index];
+            CBGListModel * model2 = nil;
+            if([models count] > nextIndex){
+                model2 = [models objectAtIndex:nextIndex];
+            }
+            
+            NSString * pathEveString = block(model1,model2);
+            if(!pathEveString || [pathEveString length] == 0){
+                continue;
+            }
+            const uint8_t *rowString = (const uint8_t *)[pathEveString cStringUsingEncoding:NSUTF8StringEncoding];
+            NSInteger rowLength = [pathEveString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+            result = [output write:rowString maxLength:rowLength];
+            if (result <= 0)
+            {
+                NSLog(@"无法写入内容");
+            }
+        }
+        [output close];
+    }
+}
+
+-(void)createFilePath:(NSString *)path
+{
+    //    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    //    path = [path stringByAppendingPathComponent:@"details"];
+    //    path = [path stringByAppendingPathComponent:extend];
+    NSFileManager * fm = [NSFileManager defaultManager];
+    if(![fm fileExistsAtPath:path])
+    {
+        NSError * error;
+        if([fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error])
+        {
+            
+        }
+        else
+        {
+            NSLog(@"Failed to create directory %@,error:%@",path,error);
+        }
+    }
+}
+-(void)removeFileWithPath:(NSString *)path
+{
+    NSFileManager * fm = [NSFileManager defaultManager];
+    if([fm fileExistsAtPath:path])
+    {
+        NSError * error;
+        if([fm removeItemAtPath:path error:&error])
+        {
+            
+        }
+        else
+        {
+            NSLog(@"Failed to remove directory %@,error:%@",path,error);
+        }
+    }
+    
+}
+#pragma mark - FileOutPut
+-(void)outLatestShowDetailDBCSVFile
+{//单独服务器compare使用
+    NSString * fileName = @"list.csv";
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    path = [path stringByAppendingPathComponent:@"Files"];
+    [self createFilePath:path];
+    
+    NSString *databasePath=[path stringByAppendingPathComponent:fileName];
+    
+    
+    __weak typeof(self) weakSelf = self;
+    [self writeLocalCSVWithFileName:databasePath
+                        headerNames:@"开始时间,结束时间,价格,估价,服务器,门派,链接\n"
+                         modelArray:[self latestTotalShowedHistoryList]
+                     andStringBlock:^NSString *(CBGListModel * model1, CBGListModel * model2) {
+                         NSString * subStr = [weakSelf inputModelDetailStringForFirstModel:model1
+                                                                               secondModel:model2];
+                         return subStr;
+                     }];
+}
+-(NSString *)inputModelDetailStringForFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
+{
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * serNameDic = total.serverNameDic;
+    NSNumber * serId = [NSNumber numberWithInteger:model1.server_id];
+    NSString * serverName = [serNameDic objectForKey:serId];
+    
+    NSString * soldTime = model1.sell_sold_time?:@"无";
+    if([model1.sell_back_time length] > 0){
+        soldTime = model1.sell_back_time;
+    }
+    
+    
+    NSString *input = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@\n",
+                       model1.sell_create_time,
+                       soldTime,
+                       [NSString stringWithFormat:@"%ld",model1.equip_price/100],
+                       [NSString stringWithFormat:@"%ld",model1.plan_total_price],
+                       serverName,
+                       model1.equip_school_name,
+                       model1.detailWebUrl,
+                       nil];
+    
+    return input;
+}
 
 
 - (void)didReceiveMemoryWarning {

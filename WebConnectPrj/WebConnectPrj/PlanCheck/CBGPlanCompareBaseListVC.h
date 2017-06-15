@@ -8,9 +8,16 @@
 
 #import "DPWhiteTopController.h"
 #import "CBGSortHistoryBaseStyleVC.h"
+
+
 @interface CBGPlanCompareBaseListVC : CBGSortHistoryBaseStyleVC
+@property (nonatomic, strong) NSString * headerNames;
+
+
 -(void)refreshLatestShowedDBArrayWithNotice:(BOOL)notice;
 
 -(NSArray *)moreFunctionsForDetailSubVC;
+
+
 
 @end

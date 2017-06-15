@@ -1764,6 +1764,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     if([model.equip_more_append length] > 0){
                         preModel.equip_more_append = model.equip_more_append;
                     }
+                }else if(preModel.equip_price != model.equip_price)
+                {
+                    preModel.equip_price = model.equip_price;
                 }else{
                     success = YES;
                 }

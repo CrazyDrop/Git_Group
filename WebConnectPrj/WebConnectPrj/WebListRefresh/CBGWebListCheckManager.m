@@ -128,7 +128,8 @@
     }
 
     //之前价格不存在，或价格改动100以上，需要请求
-    if(!prePrice ||  [prePrice integerValue] - [price integerValue] > 100)
+    NSInteger change = [prePrice integerValue] - [price integerValue] ;
+    if(!prePrice || change > 100)
     {
         request = YES;
     }
