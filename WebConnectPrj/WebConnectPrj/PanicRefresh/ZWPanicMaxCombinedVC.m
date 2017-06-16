@@ -15,6 +15,7 @@
 #import "MSAlertController.h"
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshSettingVC.h"
+
 @interface ZWPanicMaxCombinedVC ()<PanicListRequestTagListDelegate>
 {
     NSMutableDictionary * showDataDic;
@@ -26,6 +27,11 @@
 @property (nonatomic,strong) NSArray * baseVCArr;
 @property (nonatomic,strong) UIScrollView * coverScroll;
 @property (nonatomic,assign) BOOL refreshState;
+@property (nonatomic,strong) UIView * tipsErrorView;
+
+@property (nonatomic,assign) NSInteger countNum;//统计成功的数量
+@property (nonatomic,assign) NSInteger errorNum;//统计失败的数量，整个大失败
+
 @end
 
 @implementation ZWPanicMaxCombinedVC
@@ -41,6 +47,31 @@
     }
     return self;
 }
+-(UIView *)tipsErrorView{
+    if(!_tipsErrorView)
+    {
+        CGFloat btnWidth = 100;
+        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
+        aView.backgroundColor = [UIColor redColor];
+        
+        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
+        albl.text = @"重置统计";
+        [albl sizeToFit];
+        [aView addSubview:albl];
+        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
+        
+        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedOnExchangeTotalWithTapedBtn:)];
+        [aView addGestureRecognizer:tapGes];
+        self.tipsErrorView = aView;
+    }
+    return _tipsErrorView;
+}
+-(void)tapedOnExchangeTotalWithTapedBtn:(id)sender
+{
+    self.errorNum = 0;
+    self.countNum = 0;
+}
+
 
 -(NSArray *)panicTagArr
 {
@@ -234,7 +265,7 @@
         ZWPanicListBaseRequestModel * eveModel = [[ZWPanicListBaseRequestModel alloc] init];
         eveModel.tagString = eveTag;
         NSString * combine = [dataDic objectForKey:eveTag];
-        if([combine length] > 0){
+        if([combine isKindOfClass:[NSString class]] && [combine length] > 0){
             NSArray * eveArr = [combine componentsSeparatedByString:@"|"];
             eveModel.cacheArr = eveArr;
         }
@@ -249,7 +280,8 @@
 //                                             selector:@selector(refreshPaincVCScrollWithRefreshNoti:)
 //                                                 name:NOTIFICATION_ZWPANIC_REFRESH_STATE
 //                                               object:nil];
-    
+    [self.view addSubview:self.tipsErrorView];
+    self.tipsErrorView.hidden = NO;
 }
 +(void)updateCacheArrayListWithRemove:(NSString *)orderSn
 {
@@ -265,7 +297,12 @@
             NSArray * eveArr = [combine componentsSeparatedByString:@"|"];
             NSMutableArray * editArr = [NSMutableArray arrayWithArray:eveArr];
             [editArr removeObject:orderSn];
-            [editDic setObject:editArr forKey:eveTag];
+            
+            if([editArr count] > 0)
+            {
+                NSString * combine = [editArr componentsJoinedByString:@"|"];
+                [editDic setObject:combine forKey:eveTag];
+            }
         }
     }
     
@@ -375,9 +412,9 @@
     }
 }
 
--(void)panicListRequestFinishWithTag:(NSString *)tagid listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
+-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
-    
+    NSString * tagid = model.tagString;
     [showCacheDic setObject:cacheArr forKey:tagid];
     for (NSInteger index = 0;index < [array count] ;index ++ )
     {
@@ -386,13 +423,16 @@
         [combineArr insertObject:eveObj atIndex:0];
     }
     
-
     //进行数据缓存，达到5条时，进行刷新
     if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 5)
     {//不进行刷新
-        NSString * title = [NSString stringWithFormat:@"改价并发 %ld",[combineArr count]];
+        
+        NSInteger count = model.requestNum - model.errorTotal;
+        self.countNum += count;
+        
+        NSString * title = [NSString stringWithFormat:@"改价并发 %ld-%ld",[combineArr count],self.countNum];
         [self refreshTitleViewTitleWithLatestTitleName:title];
-
+        
         return;
     }else{
         
@@ -407,16 +447,25 @@
         NSArray * showArr = [NSArray arrayWithArray:combineArr];
         [combineArr removeAllObjects];
         
-        NSString * title = [NSString stringWithFormat:@"改价并发 %ld",[combineArr count]];
+        [self tapedOnExchangeTotalWithTapedBtn:nil];
+        NSString * title = [NSString stringWithFormat:@"改价并发 %ld-%ld",[combineArr count],self.countNum];
         [self refreshTitleViewTitleWithLatestTitleName:title];
 
-        
         [self refreshTableViewWithInputLatestListArray:showArr cacheArray:totalCache];
     }
 }
-
-
-
+-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model withListError:(NSError *)error
+{
+    if(error)
+    {
+        self.errorNum ++;
+    }
+    
+    if(self.errorNum > 5)
+    {
+        [self tapedOnExchangeTotalWithTapedBtn:nil];
+    }
+}
 
 
 /*

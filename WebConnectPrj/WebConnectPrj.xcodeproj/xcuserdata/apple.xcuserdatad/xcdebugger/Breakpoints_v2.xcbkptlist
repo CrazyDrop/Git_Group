@@ -19,29 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWPanicRefreshSettingVC.m"
-            timestampString = "519274254.546638"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-submit"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombinedVC.m"
-            timestampString = "519274449.404468"
+            timestampString = "519293708.908626"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-startOpenTimesRefreshTimer"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
+            landmarkName = "-panicListRequestFinishWithModel:withListError:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -10,7 +10,7 @@
 #define  CBGPlanSortHistoryStyleAddTAG  100
 
 @interface CBGSortHistoryBaseStyleVC ()<UIDocumentInteractionControllerDelegate>
-
+@property (nonatomic, strong) UIDocumentInteractionController * docVc;
 @end
 
 @implementation CBGSortHistoryBaseStyleVC
@@ -233,6 +233,7 @@
     
     //创建实例
     UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:filePath]];
+    self.docVc = documentController;
     
     //设置代理
     documentController.delegate = self;
@@ -252,12 +253,15 @@
     return self.view;
 }
 
-- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller {
+- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller
+{
     return self.view.frame;
 }
 
 //点击预览窗口的“Done”(完成)按钮时调用
-- (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
+- (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller
+{
+    
 }
 #pragma mark -
 

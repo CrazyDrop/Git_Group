@@ -8,6 +8,8 @@
 
 #import "CBGOthersBuyRepeatListVC.h"
 #import "ZALocationLocalModel.h"
+#import "ZWPanicCompareModel.h"
+
 @interface CBGOthersBuyRepeatListVC ()
 
 @end
@@ -39,7 +41,9 @@
 {
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     NSArray * models  = [dbManager localSaveEquipHistoryModelListRepeatSoldTimesMore:NO];
-    NSMutableArray * showArr = [NSMutableArray array];
+    
+    //筛选
+    NSMutableArray * compareArr = [NSMutableArray array];
     for (NSInteger index = 0;index < [models count] ;index ++ )
     {
         NSInteger nextIndex = index + 1;
@@ -48,37 +52,54 @@
         if([models count] > nextIndex){
             model2 = [models objectAtIndex:nextIndex];
         }
-        NSInteger earnPrice = [self detailEarnPriceWithFirstModel:model1 secondModel:model2];
-        if(earnPrice > 1000)
+        ZWPanicCompareModel * eveCompare = [self detailEarnPriceWithFirstModel:model1 secondModel:model2];
+        NSInteger earnPrice = eveCompare.earnPrice;
+        if(earnPrice > 100)
         {
-            if(![showArr containsObject:model1]){
-                [showArr addObject:model1];
-            }
-            if(![showArr containsObject:model2]){
-                [showArr addObject:model2];
-            }
+            [compareArr addObject:eveCompare];
         }
     }
+    
+    //排序
+    [compareArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        ZWPanicCompareModel * compare1 = (ZWPanicCompareModel * )obj1;
+        ZWPanicCompareModel * compare2 = (ZWPanicCompareModel * )obj2;
+        
+        return [[NSNumber numberWithInteger:compare2.earnPrice] compare:[NSNumber numberWithInteger:compare1.earnPrice]];
+    }];
+    
+    
+    //组合
+    NSMutableArray * showArr = [NSMutableArray array];
+    for (NSInteger index = 0; index < [compareArr count]; index++)
+    {
+        ZWPanicCompareModel * compare = [compareArr objectAtIndex:index];
+        [showArr addObject:compare.buyModel];
+        [showArr addObject:compare.soldModel];
+    }
+    
     self.dbHistoryArr = showArr;
     [self refreshLatestShowTableView];
 }
--(NSInteger)detailEarnPriceWithFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
+-(ZWPanicCompareModel *)detailEarnPriceWithFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
 {
     
     if(![model1.owner_roleid isEqualToString:model2.owner_roleid] || !model2)
     {
-        return 0;
+        return nil;
     }
     
     if([model1.sell_sold_time length] == 0 || [model2.sell_sold_time length] == 0)
     {
-        return 0;
+        return nil;
     }
     
     if(model1.server_id != model2.server_id)
     {
-        return 0;
+        return nil;
     }
+    
+    ZWPanicCompareModel * compare = [[ZWPanicCompareModel alloc] init];
     
     //model互换
     CBGListModel * soldModel = model1;
@@ -94,7 +115,17 @@
     }
     NSInteger evalPrice = MIN(soldModel.equip_price/100 * 0.05, 1000);
     NSInteger earnPrice = soldModel.equip_price/100 - evalPrice - buyModel.equip_price/100;
-    return earnPrice;
+    
+    compare.buyModel = buyModel;
+    compare.soldModel = soldModel;
+    compare.startPrice = buyModel.equip_price/100;
+    compare.earnPrice = earnPrice;
+    compare.startTime = buyModel.sell_sold_time;
+    compare.soldTime = soldModel.sell_sold_time;
+    compare.schoolId = buyModel.equip_school;
+    compare.serverId = buyModel.server_id;
+    
+    return compare;
 }
 -(NSArray *)moreFunctionsForDetailSubVC
 {
@@ -110,11 +141,6 @@
               }];
     [arr addObject:action];
     
-    action = [MSAlertAction actionWithTitle:@"盈利列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshLocalDbWithEarnPriceList];
-              }];
-    [arr addObject:action];
     
     //刷新数据
     action = [MSAlertAction actionWithTitle:@"重复3次" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
@@ -122,6 +148,13 @@
                   [weakSelf refreshLocalDbWithMoreRepeat];
               }];
     [arr addObject:action];
+    
+    action = [MSAlertAction actionWithTitle:@"盈利列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLocalDbWithEarnPriceList];
+              }];
+    [arr addObject:action];
+
     
     action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
@@ -139,7 +172,7 @@
 
 -(void)outLatestShowDetailDBCSVFileForOthersCompare
 {//单独服务器compare使用
-    NSString * fileName = @"othersCompareList.csv";
+    NSString * fileName = @"othersList.csv";
     NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     path = [path stringByAppendingPathComponent:@"Files"];
     [self createFilePath:path];

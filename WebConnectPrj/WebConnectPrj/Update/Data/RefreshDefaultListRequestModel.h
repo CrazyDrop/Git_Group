@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSURLSession * listSession;
 @property (nonatomic, assign) BOOL saveKookie;
 
+@property (nonatomic, assign) NSInteger errNum;
+
 @property (nonatomic, copy) NSString * requestUrl;
 //服务器数据，一一对应，若请求失败，则填充null
 @prop_strong( NSArray *,		listArray	OUT )

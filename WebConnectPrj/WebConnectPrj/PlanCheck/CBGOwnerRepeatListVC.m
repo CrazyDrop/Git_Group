@@ -108,7 +108,7 @@
 
 -(void)outLatestShowDetailDBCSVFileForCompare
 {//单独服务器compare使用
-    NSString * fileName = @"ownerCompareList.csv";
+    NSString * fileName = @"ownerList.csv";
     NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     path = [path stringByAppendingPathComponent:@"Files"];
     [self createFilePath:path];

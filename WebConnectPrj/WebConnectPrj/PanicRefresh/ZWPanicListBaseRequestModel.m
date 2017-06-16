@@ -38,6 +38,10 @@
 @property (nonatomic, assign) NSInteger requestNum;
 @property (nonatomic, strong) NSArray * listReqArr;
 @property (nonatomic, strong) NSArray * modelCacheArr;
+
+@property (nonatomic, assign) NSInteger errorTotal;
+
+@property (nonatomic, assign) NSInteger detailError;
 @end
 
 @implementation ZWPanicListBaseRequestModel
@@ -66,7 +70,7 @@
         
         maxLength = 30 * 100;
         
-        self.requestNum = 100;
+        self.requestNum = 50;
     
     }
     return self;
@@ -298,7 +302,7 @@
 #pragma mark EquipListRequestModel
 handleSignal( EquipListRequestModel, requestError )
 {
-    
+    [self refreshListRequestErrorWithFinishDelagateWithError:[NSError errorWithDomain:NSURLErrorDomain code:100 userInfo:nil]];
 }
 handleSignal( EquipListRequestModel, requestLoading )
 {
@@ -312,6 +316,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     EquipListRequestModel * model = (EquipListRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
+    self.errorTotal = model.errNum;
     
     //正常序列
     NSMutableArray * array = [NSMutableArray array];
@@ -381,7 +386,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
 #pragma mark EquipDetailArrayRequestModel
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
-    
+    [self refreshListRequestErrorWithFinishDelagateWithError:[NSError errorWithDomain:NSURLErrorDomain code:100 userInfo:nil]];
 }
 handleSignal( EquipDetailArrayRequestModel, requestLoading )
 {
@@ -571,15 +576,24 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         
     }
 }
+-(void)refreshListRequestErrorWithFinishDelagateWithError:(NSError *)error
+{
+    if(self.requestDelegate && [self.requestDelegate respondsToSelector:@selector(panicListRequestFinishWithModel:withListError:)])
+    {
+        [self.requestDelegate panicListRequestFinishWithModel:self
+                                                withListError:error];
+    }
+
+}
 
 //刷新列表数据
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
-    if(self.requestDelegate && [self.requestDelegate respondsToSelector:@selector(panicListRequestFinishWithTag:listArray:cacheArray:)])
+    if(self.requestDelegate && [self.requestDelegate respondsToSelector:@selector(panicListRequestFinishWithModel:listArray:cacheArray:)])
     {
-        [self.requestDelegate panicListRequestFinishWithTag:self.tagString
-                                                  listArray:array
-                                                 cacheArray:cacheArr];
+        [self.requestDelegate panicListRequestFinishWithModel:self
+                                                    listArray:array
+                                                   cacheArray:cacheArr];
     }
 }
 

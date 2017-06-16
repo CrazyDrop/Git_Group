@@ -12,9 +12,11 @@
 //包含、启动请求、停止请求
 //请求结果代理回调
 //
+@class ZWPanicListBaseRequestModel;
 @protocol PanicListRequestTagListDelegate <NSObject>
 
--(void)panicListRequestFinishWithTag:(NSString *)tagid listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr;
+-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr;
+-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model withListError:(NSError *)list;
 
 @end
 
@@ -27,6 +29,10 @@
 
 @property (nonatomic, assign, readonly) NSInteger priceStatus;
 @property (nonatomic, assign, readonly) NSInteger schoolNum;
+
+@property (nonatomic, assign, readonly) NSInteger requestNum;
+@property (nonatomic, assign, readonly) NSInteger errorTotal;
+
 
 -(void)prepareWebRequestParagramForListRequest;
 

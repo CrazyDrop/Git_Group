@@ -140,6 +140,7 @@
         self.taskArray = nil;
     }
     
+    self.errNum  = 0;
     if(self.oneRequest)
     {
         NSArray * urls = self.requestArr;
@@ -333,6 +334,7 @@
 {
     if(error)
     {
+        self.errNum ++;
         NSLog(@"doneWithRequestBackDic %@",error.domain);
     }
     self.requestUrl = url;
