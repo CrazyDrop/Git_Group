@@ -1307,6 +1307,8 @@
 		18DAF5F01ED0406200873D19 /* CBGPanicMixedNightListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */; };
 		18EF4B3F1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */; };
 		18EF4B401EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */; };
+		18EF4B461EF378DE006FB291 /* ZWPanicRefreshSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B451EF378DE006FB291 /* ZWPanicRefreshSettingVC.m */; };
+		18EF4B471EF378DE006FB291 /* ZWPanicRefreshSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B451EF378DE006FB291 /* ZWPanicRefreshSettingVC.m */; };
 		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 /* End PBXBuildFile section */
@@ -2481,6 +2483,8 @@
 		18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPanicMixedNightListVC.m; sourceTree = "<group>"; };
 		18EF4B3D1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicListBaseRequestModel.h; sourceTree = "<group>"; };
 		18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicListBaseRequestModel.m; sourceTree = "<group>"; };
+		18EF4B441EF378DE006FB291 /* ZWPanicRefreshSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicRefreshSettingVC.h; sourceTree = "<group>"; };
+		18EF4B451EF378DE006FB291 /* ZWPanicRefreshSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicRefreshSettingVC.m; sourceTree = "<group>"; };
 		18EFD52A1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseTableVC.h; sourceTree = "<group>"; };
 		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
 		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
@@ -2958,6 +2962,8 @@
 				18DAF5EC1ECFF4AC00873D19 /* ZWPanicRefreshManager.m */,
 				1833209E1ED5853000B1ECEA /* ZAPanicSortSchoolVC.h */,
 				1833209F1ED5853000B1ECEA /* ZAPanicSortSchoolVC.m */,
+				18EF4B441EF378DE006FB291 /* ZWPanicRefreshSettingVC.h */,
+				18EF4B451EF378DE006FB291 /* ZWPanicRefreshSettingVC.m */,
 				183320A11ED680AD00B1ECEA /* ZAPanicPayHistoryVC.h */,
 				183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */,
 				1801FA4E1EEA632700D22E75 /* ZWPaincCombineBaseVC.h */,
@@ -5316,6 +5322,7 @@
 				180D589D19E622680045A720 /* main.m in Sources */,
 				18A975221E7FDDD400B48E3C /* OLMainTopicListCell.m in Sources */,
 				18A9761D1E7FDDD500B48E3C /* MBProgressHUD.m in Sources */,
+				18EF4B461EF378DE006FB291 /* ZWPanicRefreshSettingVC.m in Sources */,
 				18A975701E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */,
 				18A976061E7FDDD500B48E3C /* ServiceGestureViewClick.m in Sources */,
 				18A9754E1E7FDDD400B48E3C /* Samurai_Event.m in Sources */,
@@ -5962,6 +5969,7 @@
 				183324BB1ED6B10D00B1ECEA /* OLMainTopicListCell.m in Sources */,
 				183324BC1ED6B10D00B1ECEA /* MBProgressHUD.m in Sources */,
 				183324BD1ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */,
+				18EF4B471EF378DE006FB291 /* ZWPanicRefreshSettingVC.m in Sources */,
 				183324BE1ED6B10D00B1ECEA /* ServiceGestureViewClick.m in Sources */,
 				183324BF1ED6B10D00B1ECEA /* Samurai_Event.m in Sources */,
 				183324C01ED6B10D00B1ECEA /* UIWebView+AFNetworking.m in Sources */,
@@ -6248,7 +6256,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6266,7 +6274,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

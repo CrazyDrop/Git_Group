@@ -14,6 +14,7 @@
 #import "JSONKit.h"
 #import "MSAlertController.h"
 #import "ZALocationLocalModel.h"
+#import "ZWPanicRefreshSettingVC.h"
 @interface ZWPanicMaxCombinedVC ()<PanicListRequestTagListDelegate>
 {
     NSMutableDictionary * showDataDic;
@@ -116,15 +117,25 @@
     //    if(total.refreshTime && [total.refreshTime intValue]>0){
     //        time = [total.refreshTime intValue];
     //    }
+
     manager.refreshInterval = time;
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
         if(!self.refreshState) return ;
         
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        NSArray * ingoreArr = [total.ingoreCombineSchool componentsSeparatedByString:@"|"];
+        
         NSArray * vcArr = weakSelf.baseVCArr;
         for (ZWPanicListBaseRequestModel * eveRequest in vcArr)
         {
+            NSString * schoolTag = [NSString stringWithFormat:@"%ld",eveRequest.schoolNum];
+            if([ingoreArr containsObject:schoolTag])
+            {
+                continue;
+            }
+            
             [eveRequest performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
                                        withObject:nil
                                     waitUntilDone:NO];
@@ -157,14 +168,14 @@
         }
     }
     
-    NSString * jsonStr = [self convertToJsonData:dataDic];
+    NSString * jsonStr = [[self class] convertToJsonData:dataDic];
 
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     total.orderSnCache = jsonStr;
     [total localSave];
 
 }
-- (NSString *)convertToJsonData:(NSDictionary *)dict
++ (NSString *)convertToJsonData:(NSDictionary *)dict
 {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
@@ -239,8 +250,31 @@
 //                                                 name:NOTIFICATION_ZWPANIC_REFRESH_STATE
 //                                               object:nil];
     
-    
 }
++(void)updateCacheArrayListWithRemove:(NSString *)orderSn
+{
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * dataDic = [total.orderSnCache objectFromJSONString];
+    
+    NSMutableDictionary * editDic = [NSMutableDictionary dictionary];
+    for (NSString * eveTag in  dataDic)
+    {
+        NSString * combine = [dataDic objectForKey:eveTag];
+        if([combine length] > 0)
+        {
+            NSArray * eveArr = [combine componentsSeparatedByString:@"|"];
+            NSMutableArray * editArr = [NSMutableArray arrayWithArray:eveArr];
+            [editArr removeObject:orderSn];
+            [editDic setObject:editArr forKey:eveTag];
+        }
+    }
+    
+    
+    NSString * jsonStr = [self convertToJsonData:editDic];
+    total.orderSnCache = jsonStr;
+    [total localSave];
+}
+
 
 
 -(void)refreshLocalPanicRefreshState:(BOOL)state
@@ -272,7 +306,11 @@
     }
     [DZUtils noticeCustomerWithShowText:@"分拆结束"];
 }
-
+-(void)showDetailSchoolSettingCheck
+{
+    ZWPanicRefreshSettingVC * setting = [[ZWPanicRefreshSettingVC alloc] init];
+    [[self rootNavigationController] pushViewController:setting animated:YES];
+}
 
 
 -(void)submit
@@ -307,6 +345,11 @@
               }];
     [alertController addAction:action];
 
+    action = [MSAlertAction actionWithTitle:@"门派设置" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf showDetailSchoolSettingCheck];
+              }];
+    [alertController addAction:action];
     
     
     NSString * rightTxt = @"取消";

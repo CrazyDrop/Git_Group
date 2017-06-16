@@ -9,7 +9,7 @@
 #import "CBGSortHistoryBaseStyleVC.h"
 #define  CBGPlanSortHistoryStyleAddTAG  100
 
-@interface CBGSortHistoryBaseStyleVC ()
+@interface CBGSortHistoryBaseStyleVC ()<UIDocumentInteractionControllerDelegate>
 
 @end
 
@@ -223,6 +223,43 @@
     
     return input;
 }
+
+-(void)startShowDetailLocalDBPlistWithFilePath:(NSString *)filePath
+{
+    if (!filePath)
+    {
+        return;
+    }
+    
+    //创建实例
+    UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:filePath]];
+    
+    //设置代理
+    documentController.delegate = self;
+    BOOL canOpen = [documentController presentOpenInMenuFromRect:CGRectZero
+                                                          inView:self.view
+                                                        animated:YES];
+    if (!canOpen)
+    {
+        NSLog(@"沒有程序可以打開要分享的文件");
+    }
+}
+#pragma mark - UIDocumentFile
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
+}
+- (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
+    return self.view;
+}
+
+- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller {
+    return self.view.frame;
+}
+
+//点击预览窗口的“Done”(完成)按钮时调用
+- (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller {
+}
+#pragma mark -
 
 
 - (void)didReceiveMemoryWarning {

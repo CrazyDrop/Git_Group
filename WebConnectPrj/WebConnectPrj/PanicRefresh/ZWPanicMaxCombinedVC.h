@@ -15,7 +15,7 @@
 @interface ZWPanicMaxCombinedVC : ZWBaseRefreshController
 
 
-
++(void)updateCacheArrayListWithRemove:(NSString *)orderSn;
 
 
 

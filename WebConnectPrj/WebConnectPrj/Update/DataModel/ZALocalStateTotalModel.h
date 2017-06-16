@@ -104,6 +104,7 @@
 @property (nonatomic, strong) NSDictionary * serverNameDic;//通过服务器id，查找服务器名字
 
 @property (nonatomic, assign) NSInteger refreshSchool;
+@property (nonatomic, strong) NSString * ingoreCombineSchool;
 //区分  0 1 2  0无区分   1小于8000   2 大于8000
 @property (nonatomic, assign) NSInteger refreshPriceStatus;
 

@@ -22,6 +22,7 @@ typedef NSString * (^ZWWriteDBFunctionBlock)(id model1,id model2);
                   andStringBlock:(ZWWriteDBFunctionBlock)block;
 
 -(void)createFilePath:(NSString *)path;
+-(void)startShowDetailLocalDBPlistWithFilePath:(NSString *)path;
 
 
 @end

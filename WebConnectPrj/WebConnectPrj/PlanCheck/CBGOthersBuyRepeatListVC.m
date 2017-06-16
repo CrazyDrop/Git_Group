@@ -35,7 +35,67 @@
     [self refreshLatestShowTableView];
 }
 
-
+-(void)refreshLocalDbWithEarnPriceList
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * models  = [dbManager localSaveEquipHistoryModelListRepeatSoldTimesMore:NO];
+    NSMutableArray * showArr = [NSMutableArray array];
+    for (NSInteger index = 0;index < [models count] ;index ++ )
+    {
+        NSInteger nextIndex = index + 1;
+        CBGListModel * model1 = [models objectAtIndex:index];
+        CBGListModel * model2 = nil;
+        if([models count] > nextIndex){
+            model2 = [models objectAtIndex:nextIndex];
+        }
+        NSInteger earnPrice = [self detailEarnPriceWithFirstModel:model1 secondModel:model2];
+        if(earnPrice > 1000)
+        {
+            if(![showArr containsObject:model1]){
+                [showArr addObject:model1];
+            }
+            if(![showArr containsObject:model2]){
+                [showArr addObject:model2];
+            }
+        }
+    }
+    self.dbHistoryArr = showArr;
+    [self refreshLatestShowTableView];
+}
+-(NSInteger)detailEarnPriceWithFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
+{
+    
+    if(![model1.owner_roleid isEqualToString:model2.owner_roleid] || !model2)
+    {
+        return 0;
+    }
+    
+    if([model1.sell_sold_time length] == 0 || [model2.sell_sold_time length] == 0)
+    {
+        return 0;
+    }
+    
+    if(model1.server_id != model2.server_id)
+    {
+        return 0;
+    }
+    
+    //model互换
+    CBGListModel * soldModel = model1;
+    CBGListModel * buyModel = model2;
+    
+    NSDate * finishDate1 = [NSDate fromString:model1.sell_sold_time];
+    NSDate * finishDate2 = [NSDate fromString:model2.sell_sold_time];
+    NSTimeInterval sepSecond = [finishDate1 timeIntervalSinceDate:finishDate2];
+    if(sepSecond < 0)
+    {
+        soldModel = model2;
+        buyModel = model1;
+    }
+    NSInteger evalPrice = MIN(soldModel.equip_price/100 * 0.05, 1000);
+    NSInteger earnPrice = soldModel.equip_price/100 - evalPrice - buyModel.equip_price/100;
+    return earnPrice;
+}
 -(NSArray *)moreFunctionsForDetailSubVC
 {
     NSMutableArray * arr = [NSMutableArray array];
@@ -47,6 +107,12 @@
               {
                   weakSelf.orderStyle = CBGStaticSortShowStyle_Space;
                   [weakSelf refreshLatestShowTableView];
+              }];
+    [arr addObject:action];
+    
+    action = [MSAlertAction actionWithTitle:@"盈利列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLocalDbWithEarnPriceList];
               }];
     [arr addObject:action];
     
@@ -68,6 +134,9 @@
     return arr;
     return nil;
 }
+
+
+
 -(void)outLatestShowDetailDBCSVFileForOthersCompare
 {//单独服务器compare使用
     NSString * fileName = @"othersCompareList.csv";
@@ -88,6 +157,11 @@
                                                                secondModel:model2];
          return subStr;
      }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startShowDetailLocalDBPlistWithFilePath:databasePath];
+    });
+    
 }
 -(NSString *)inputModelDetailStringForFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
 {
@@ -101,6 +175,11 @@
         return nil;
     }
     
+    if(model1.server_id != model2.server_id)
+    {
+        return nil;
+    }
+
     //model互换
     CBGListModel * soldModel = model1;
     CBGListModel * buyModel = model2;

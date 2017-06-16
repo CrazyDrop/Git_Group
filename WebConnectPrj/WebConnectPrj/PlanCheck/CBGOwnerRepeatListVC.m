@@ -58,6 +58,7 @@
                              @"18799438",
                              @"29255762",
                              @"19502857",
+                             @"32481480",
                              @""];
     
     
@@ -125,6 +126,10 @@
                                                                                secondModel:model2];
                          return subStr;
                      }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startShowDetailLocalDBPlistWithFilePath:databasePath];
+    });
 }
 -(NSString *)inputModelDetailStringForFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
 {
@@ -134,6 +139,11 @@
     }
     
     if([model1.sell_sold_time length] == 0 || [model2.sell_sold_time length] == 0)
+    {
+        return nil;
+    }
+    
+    if(model1.server_id != model2.server_id)
     {
         return nil;
     }

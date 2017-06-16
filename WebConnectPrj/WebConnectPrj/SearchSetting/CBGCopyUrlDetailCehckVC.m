@@ -12,6 +12,7 @@
 #import "ZALocationLocalModel.h"
 #import "ZWHistoryListController.h"
 #import "CBGNearHistoryVC.h"
+#import "ZWPanicMaxCombinedVC.h"
 #define BlueSettingDebugAddNum 100
 @interface CBGCopyUrlDetailCehckVC ()
 {
@@ -381,6 +382,9 @@
     
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     [dbManager deleteLocalSaveEquipHistoryObjectWithCBGModelOrderSN:cbgList.game_ordersn];
+    
+    
+    [ZWPanicMaxCombinedVC updateCacheArrayListWithRemove:cbgList.game_ordersn];
 }
 
 -(void)viewWillAppear:(BOOL)animated
