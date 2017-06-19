@@ -106,8 +106,8 @@
 
 -(BOOL)checkListInputForNoticeWithArray:(NSArray *)array
 {
-    ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
-    if(!model.isAlarm)
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!total.isAlarm)
     {
         return NO;
     }
@@ -146,10 +146,15 @@
         
         NSURL *appPayUrl = [NSURL URLWithString:appUrlString];
         
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        if(!total.isNotSystemApp || maxModel.earnRate < model.limitRate || [maxModel.price integerValue] / 100 > model.limitPrice){
+        
+        if(!total.isNotSystemApp || maxModel.earnRate < total.limitRate || [maxModel.price integerValue] / 100 > total.limitPrice){
             //当用户主动选择APP支付，或者金钱不足，或者利率过低，或者
             appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
+        }
+        
+        //当需要跳转时系统APP时，对于利率不是很高的，进行快速展示，但不进行主动跳转
+        if(!total.isNotSystemApp && maxModel.earnRate < total.limitRate && total.limitRate > 0){
+            return YES;
         }
         
         if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&

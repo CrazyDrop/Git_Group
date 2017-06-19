@@ -139,6 +139,11 @@ RefreshCellCopyDelgate>
             appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
         }
         
+        //当需要跳转时系统APP时，对于利率不是很高的，进行快速展示，但不进行主动跳转
+        if(!total.isNotSystemApp && maxModel.earnRate < total.limitRate && total.limitRate > 0){
+            return;
+        }
+        
         if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
            [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
         {

@@ -57,6 +57,7 @@
         [btn addTarget:self action:@selector(tapedOnExchangeSortStyleWithTapedBtn:) forControlEvents:UIControlEventTouchUpInside];
     }
 
+    
 }
 
 -(void)tapedOnExchangeSortStyleWithTapedBtn:(id)sender

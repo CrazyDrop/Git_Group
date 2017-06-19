@@ -23,6 +23,7 @@
     
     self.showRightBtn = YES;
     self.rightTitle = @"筛选";
+    self.startLinePrice = 0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -34,7 +35,7 @@
     CGFloat btnWidth = SCREEN_WIDTH/3.0;
     CGFloat btnHeight = 40;
     UIButton * btn = nil;
-    NSArray * namesArr = @[@"未结束",@"售出",@"全部"];//按钮点击时，从全部库表选取
+    NSArray * namesArr = @[@"未结束",@"售出",@"全部",@"价格线"];//按钮点击时，从全部库表选取
     
     CGFloat btnStartY = SCREEN_HEIGHT - btnHeight;
     for (NSInteger index = 0; index < [namesArr count]; index ++)
@@ -88,7 +89,19 @@
             
         }
             break;
+        case 3:
+        {
+            if(self.startLinePrice > 10000)
+            {
+                self.startLinePrice = 0;
+            }
             
+            self.startLinePrice += 1000;
+            NSString * linePrice = [NSString stringWithFormat:@"当前价格%ld",self.startLinePrice];
+            [DZUtils noticeCustomerWithShowText:linePrice];
+            
+        }
+            break;
         default:
             break;
     }

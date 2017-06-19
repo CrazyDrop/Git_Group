@@ -11,6 +11,7 @@
 
 
 @interface CBGPlanCompareBaseListVC : CBGSortHistoryBaseStyleVC
+@property (nonatomic, assign) NSInteger startLinePrice;
 @property (nonatomic, strong) NSString * headerNames;
 
 

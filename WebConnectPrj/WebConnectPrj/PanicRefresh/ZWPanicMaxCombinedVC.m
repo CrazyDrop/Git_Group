@@ -427,7 +427,7 @@
     if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 5)
     {//不进行刷新
         
-        NSInteger count = model.requestNum - model.errorTotal;
+        NSInteger count =  model.errorTotal;
         self.countNum += count;
         
         NSString * title = [NSString stringWithFormat:@"改价并发 %ld-%ld",[combineArr count],self.countNum];
@@ -458,12 +458,18 @@
 {
     if(error)
     {
+        NSInteger count =  model.errorTotal;
+        self.countNum += count;
+
+        NSString * title = [NSString stringWithFormat:@"部分错误 %ld",self.countNum];
+        [self refreshTitleViewTitleWithLatestTitleName:title];
+
         self.errorNum ++;
     }
     
     if(self.errorNum > 5)
     {
-        [self tapedOnExchangeTotalWithTapedBtn:nil];
+//        [self tapedOnExchangeTotalWithTapedBtn:nil];
     }
 }
 

@@ -54,7 +54,7 @@
         }
         ZWPanicCompareModel * eveCompare = [self detailEarnPriceWithFirstModel:model1 secondModel:model2];
         NSInteger earnPrice = eveCompare.earnPrice;
-        if(earnPrice > 100)
+        if(earnPrice > self.startLinePrice)
         {
             [compareArr addObject:eveCompare];
         }
