@@ -631,10 +631,16 @@ handleSignal( EquipListRequestModel, requestLoaded )
     //不检查本地存储、不检查队列是否存在，仅检查缓存数据
     ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
     NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:backArray];
-
+    NSArray * refreshArr = checkManager.refreshArr;
+    if([refreshArr count] > 0)
+    {
+        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
+        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+    }
+    
     if([models count] > 0)
     {
-        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
+//        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
         //数量大于0，发起请求
         NSLog(@"EquipListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
         
@@ -926,6 +932,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     EquipModel * detail = contact.equipModel;
     UIColor * earnColor = [UIColor lightGrayColor];
     CBGListModel * listModel = [contact listSaveModel];
+    if(contact.appendHistory){
+        listModel = contact.appendHistory;
+    }
     //仅无详情时有效，此时数据为库表数据补全
     
     if(listModel.plan_total_price != 0)

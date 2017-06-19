@@ -281,6 +281,9 @@
         EquipExtraModel * detailExtra = detail.equipExtra;
     
         NSString * prePrice = detail.equipExtra.detailPrePrice;
+        if(self.cbgList.equip_eval_price > 0){
+         prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld",self.cbgList.equip_eval_price/100];
+        }
         prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",txtValue];
         txt.text = prePrice;
     }else{
@@ -318,12 +321,12 @@
         }
     }
     
-    
     if(self.cbgList.appointed)
     {
         buyEnable = NO;
         self.titleV.text = @"指定ID";
     }
+    
     
 //    self.payBtn.hidden = buyEnable;
     self.payBtn.userInteractionEnabled = buyEnable;

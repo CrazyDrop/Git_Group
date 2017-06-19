@@ -28,8 +28,6 @@
     CBGListModel * stateModel;
     
 }
-@property (nonatomic,assign) BOOL foreRefresh;
-@property (nonatomic,strong) NSArray * localUpdateModels;
 @property (nonatomic,assign) BOOL timerState;//通过随机时间控制状态变更
 
 @property (nonatomic,assign) NSArray * updateDBArr;
@@ -95,6 +93,8 @@
     //所有数据，进行排重后使用
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
     
+    NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];
+
     //1、筛选当前需要进行详情请求的数据进行详情请求
     //2、筛选需要进行库表更新的数据进行库表更新  包括三个表
     for (NSInteger index = 0 ;index < [backArray count]; index ++ )
@@ -103,87 +103,137 @@
         NSString * identifier = eveModel.detailCheckIdentifier;
         NSNumber * status = eveModel.equip_status;
         NSNumber * price = eveModel.price;
-        BOOL eveResult = [self checkWebRequestLocalSaveEquipListModelWithEveListModel:eveModel];
-        if(eveResult)
-        {
-            if(!price)
-            {
-                price = [NSNumber numberWithInteger:0];
-            }
+        BOOL priceResult = [self checkHistoryPriceWithLatestEveModel:eveModel];
+        BOOL statusResult = [self checkHistoryStatusWithLatestEveModel:eveModel];
+        
+        if(statusResult && priceResult){
+            //两者均有变化，还价成交的类型，进行详情请求
+            continue;
+        }else if(!statusResult && !priceResult){
             [modelsDic setObject:eveModel forKey:identifier];
-            [statusCache setObject:status forKey:identifier];
-            [priceCache setObject:price forKey:identifier];
+        }else if(!statusResult && priceResult){
+            //下单取消、购买、结束等
+            [modelsDic setObject:eveModel forKey:identifier];
+        }else if(statusResult && !priceResult){
+            //状态未变，价格改变
+            eveModel.appendHistory.equip_price = [price integerValue];
+            eveModel.appendHistory.equip_accept = eveModel.accept_bargain;
+            eveModel.appendHistory.sell_start_time = [NSDate unixDate];
+            eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
+
+//            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
+//            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
+
+            [refreshDic setObject:eveModel forKey:identifier];
+        }
+        
+        if(!price)
+        {
+            price = [NSNumber numberWithInteger:0];
+        }
+        
+        [statusCache setObject:status forKey:identifier];
+        [priceCache setObject:price forKey:identifier];
+    }
+    
+    NSArray * dataArr = [refreshDic allValues];
+    self.refreshArr = dataArr;
+
+    //库表操作
+    NSMutableArray * updateArr = [NSMutableArray array];
+    for (Equip_listModel * eveModel in dataArr)
+    {
+        if(eveModel.appendHistory)
+        {
+            [updateArr addObject:eveModel.appendHistory];
         }
     }
     
-    NSArray * requestArr = [modelsDic allValues];
-    return requestArr;
-}
--(BOOL)checkWebRequestLocalSaveEquipListModelWithEveListModel:(Equip_listModel *)eveModel
-{
-    BOOL result = NO;
-    NSString * identifier = eveModel.detailCheckIdentifier;
-    NSNumber * status = eveModel.equip_status;
-    NSNumber * price = eveModel.price;
-    NSString * orderSN = eveModel.game_ordersn;
-    if(!price)
+    if([updateArr count] > 0 && !self.ingoreDB)
     {
-        price = [NSNumber numberWithInteger:0];
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
+        [dbManager localSaveUserChangeArrayListWithDetailCBGModelArray:updateArr];
     }
 
+    NSArray * models = [modelsDic allValues];
+    self.modelsArray = models;
+    return models;
+}
+//价格不存在、进行数据请求//状态不存在，进行详情请求
+-(BOOL)checkHistoryPriceWithLatestEveModel:(Equip_listModel *)eveModel
+{//返回价格比对结果，相同yes，不同NO
+    NSInteger price = 0;
+    NSString * identifier = eveModel.detailCheckIdentifier;
+    NSString * orderSN = eveModel.game_ordersn;
     NSNumber * prePrice = (NSNumber *)[priceCache objectForKey:identifier];
+    if(!prePrice)
+    {
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+        if([dbArr count] > 0)
+        {
+            CBGListModel * list = [dbArr lastObject];
+            eveModel.appendHistory = list;
+            price = list.equip_price;
+        }
+    }else{
+        price = [prePrice integerValue];
+    }
+    
+    BOOL result = [eveModel.price integerValue] == price;
+    if(!result && !eveModel.appendHistory)
+    {//补全追加字段
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+        if([dbArr count] > 0)
+        {
+            CBGListModel * list = [dbArr lastObject];
+            eveModel.appendHistory = list;
+        }
+    }
+    
+    return result;
+}
+
+-(BOOL)checkHistoryStatusWithLatestEveModel:(Equip_listModel *)eveModel
+{
+    NSNumber * status = eveModel.equip_status;
+    NSString * orderSN = eveModel.game_ordersn;
+    NSString * identifier = eveModel.detailCheckIdentifier;
+    
     NSNumber * preStatus = (NSNumber *)[statusCache objectForKey:identifier];
     
     CBGEquipRoleState latestState = [self statusStateFromNum:status];
     CBGEquipRoleState preState = [self statusStateFromNum:preStatus];
 
-    
-    //如果没缓存，则进行存储，有缓存，则进行判定，状态判定不一致即处理
     if(!preStatus)
-    {//没有之前的状态，表明请求失败，或者没有请求过
-        //进行库表检查，库表不存在缓存，库表价格变化大的继续
-        if(!self.ingoreDB){
-            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-            NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-            if([dbArr count] > 0)
-            {
-                CBGListModel * list = [dbArr lastObject];
-                if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
-                    //之前已经结束，不在进行
-                    preState = CBGEquipRoleState_PayFinish;
-                }else{
-                    preState = CBGEquipRoleState_InSelling;
-                }
-                prePrice = [NSNumber numberWithInteger:list.equip_price];
-            }
-
-        }
-    }
-    
-    
-    if(preState == CBGEquipRoleState_None){
-        //之前没状态
-        result = YES;
-    }else if(preState == CBGEquipRoleState_PayFinish ||
-       preState == CBGEquipRoleState_BuyFinish ||
-       preState == CBGEquipRoleState_Backing){
-        //之前已经结束，不再处理
-        result = NO;
-    }else {
-        //状态 无变化不请求
-        if([status isEqual:preStatus])
+    {
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+        if([dbArr count] > 0)
         {
-            result = NO;
-        }else {
-
-            if(price && [price intValue] > 0 && ([prePrice intValue] > [price intValue] || [prePrice integerValue] == 0)){
-                result = YES;
-            }
-            if(latestState == CBGEquipRoleState_unSelling){
-                result = YES;
+            CBGListModel * list = [dbArr lastObject];
+            if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
+                //之前已经结束，不在进行
+                preState = CBGEquipRoleState_PayFinish;
+            }else{
+                preState = CBGEquipRoleState_InSelling;
             }
         }
     }
+    
+    BOOL result = latestState == preState;
+    //之前状态已处于结束状态，不再做展示
+//    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
+//        result = YES;
+//    }
+//    //仅下单状态变更，也不做处理
+//    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
+//       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
+//    {
+//        result = YES;
+//    }
     
     return result;
 }
@@ -353,7 +403,12 @@
     return status;
 }
 
+-(void)refreshLocalSaveDBListModelWithArray:(NSArray *)array
+{
+    
+}
 
+//方法调用，进行详情信息的筛选展示
 -(void)refreshDiskCacheWithDetailRequestFinishedArray:(NSArray *)array
 {
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
@@ -383,9 +438,6 @@
             cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
             [updateArr addObject:cbgList];
             
-//            NSLog(@"extraEarnRate %.2f %ld",list.equipModel.extraEarnRate,cbgList.plan_rate);
-
-            
             NSDate * startDate = [NSDate fromString:list.equipModel.selling_time];
             NSTimeInterval count = [latestDate timeIntervalSinceDate:startDate];
             if(!latestDate || count < 0)
@@ -402,15 +454,7 @@
         }
     }
     
-    if(self.foreRefresh)
-    {//强制刷新，网络请求的结果无效
-        [editArr removeAllObjects];
-    }
-    //若屏蔽本地数据，筛选时不赋值
-    [editArr addObjectsFromArray:self.localUpdateModels];
-
-    
-    if(latestDate && [editArr count] > 0 && !self.foreRefresh)
+    if(latestDate && [editArr count] > 0)
     {
         NSDate * nowDate = [NSDate date];
         NSTimeInterval count = [nowDate timeIntervalSinceDate:latestDate];

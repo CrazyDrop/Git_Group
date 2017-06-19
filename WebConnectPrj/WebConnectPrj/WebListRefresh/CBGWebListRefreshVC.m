@@ -410,8 +410,7 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
     //不检查本地存储、不检查队列是否存在，仅检查缓存数据
     CBGWebListCheckManager * checkManager = [CBGWebListCheckManager sharedInstance];
-    [checkManager checkLatestBackListDataModelsWithBackModelArray:array];
-    NSArray * models = checkManager.modelsArray;
+    NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:array];
     if(!models || [models count] == 0)
     {
         //为空，标识没有新url
@@ -420,8 +419,15 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
     NSLog(@"CBGWebListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
 
     
-    NSArray * urls = checkManager.urlsArray;
+    NSMutableArray * urls = [NSMutableArray array];
     self.detailsArr = [NSArray arrayWithArray:models];
+    for (NSInteger index = 0; index < [models count]; index ++)
+    {
+        WebEquip_listModel * eve = [models objectAtIndex:index];
+        NSString * url = eve.detailDataUrl;
+        [urls addObject:url];
+    }
+    
     [self startEquipDetailAllRequestWithUrls:urls];
     
     //    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
@@ -766,7 +772,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //详情剩余时间
     EquipModel * detail = contact.equipModel;
     EquipExtraModel * extra = detail.equipExtra;
-
+    
     UIColor * earnColor = [UIColor lightGrayColor];
     //用来标识账号是否最新一次销售
     if(detail)
@@ -796,11 +802,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
     UIColor * priceColor = [UIColor redColor];
+    CBGListModel * cbgList = [contact listSaveModel];
+    if(contact.appendHistory)
+    {
+        cbgList = contact.appendHistory;
+    }
+    
     if(extra)
     {
         //进行数据追加
         //        修炼、宝宝、法宝、祥瑞
-        CBGListModel * cbgList = [contact listSaveModel];
         centerDetailTxt = [NSString stringWithFormat:@"%@ 号:%.0f(%d)",extra.buyPrice,[cbgList price_base_equip],[contact.eval_price intValue]/100];
         if([extra.buyPrice floatValue]>[detail.last_price_desc floatValue])
         {
@@ -822,6 +833,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             }
         }
     }
+    
     
     if([detail.allow_bargain integerValue] > 0)
     {

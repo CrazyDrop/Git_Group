@@ -41,6 +41,7 @@
 #import "CBGPanicMixedNightListVC.h"
 #import "ZAAutoBuySettingVC.h"
 #import "ZWPanicMaxCombinedVC.h"
+#import "CBGOwnerRepeatListVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -197,6 +198,11 @@
             name = @"改价监听";
         }
             break;
+        case CBGDetailTestFunctionStyle_SpecialList:
+        {
+            name = @"购买列表";
+        }
+            break;
             
         default:
             break;
@@ -223,7 +229,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PanicRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMax],
@@ -574,6 +580,12 @@
         case CBGDetailTestFunctionStyle_MaxPanic:
         {
             ZWPanicMaxCombinedVC * latest = [[ZWPanicMaxCombinedVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+        }
+            break;
+        case CBGDetailTestFunctionStyle_SpecialList:
+        {
+            CBGOwnerRepeatListVC * latest = [[CBGOwnerRepeatListVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;

@@ -180,6 +180,7 @@
 @property (nonatomic, assign) CGFloat earnRate;
 @property (nonatomic, strong) EquipModel * equipModel;
 @property (nonatomic, strong) CBGListModel * listSaveModel;//详情数据
+@property (nonatomic, strong) CBGListModel * appendHistory;//追加数据
 
 -(BOOL)isFirstInSelling;
 - (NSString * )detailCheckIdentifier;

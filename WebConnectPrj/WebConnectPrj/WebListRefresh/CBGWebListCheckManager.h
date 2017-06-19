@@ -14,14 +14,15 @@
 
 @property (nonatomic,strong) NSArray * latestHistory;
 
-@property (nonatomic,strong) NSArray * urlsArray;
+
 @property (nonatomic,strong) NSArray * modelsArray;
 
-@property (nonatomic,strong) NSArray * filterArray;
 //返回需要详情刷新的列表
--(void)checkLatestBackListDataModelsWithBackModelArray:(NSArray *)array;
+@property (nonatomic,strong) NSArray * refreshArr;
+-(NSArray *)checkLatestBackListDataModelsWithBackModelArray:(NSArray *)backArray;
 
 //详情数据请求结束，数据model返回
+@property (nonatomic,strong) NSArray * filterArray;
 -(void)refreshDiskCacheWithDetailRequestFinishedArray:(NSArray *)array;
 
 @end
