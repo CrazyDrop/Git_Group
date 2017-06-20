@@ -109,6 +109,8 @@
 @property (nonatomic, assign) NSInteger refreshPriceStatus;
 
 @property (nonatomic, strong) NSArray * panicOrderHistory;
+
+@property (nonatomic, strong) NSString * specialHistory;
 @property (nonatomic, strong) NSString * orderSnCache;
 
 //针对退出登录清空数据

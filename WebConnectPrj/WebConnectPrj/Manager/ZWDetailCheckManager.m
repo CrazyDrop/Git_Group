@@ -193,6 +193,14 @@
         }
     }
     
+    if(self.ingoreUpdate)
+    {
+        if((prePrice && [prePrice integerValue] > 0 )|| eveModel.appendHistory)
+        {
+            result = YES;
+        }
+    }
+    
     return result;
 }
 
@@ -225,15 +233,26 @@
     
     BOOL result = latestState == preState;
     //之前状态已处于结束状态，不再做展示
-//    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
-//        result = YES;
-//    }
-//    //仅下单状态变更，也不做处理
-//    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
-//       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
-//    {
-//        result = YES;
-//    }
+    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
+        result = YES;
+    }
+//    //仅下单状态变更，也不做处理，模拟器不处理下单情况
+#if  TARGET_IPHONE_SIMULATOR
+    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
+       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
+    {
+        result = YES;
+    }
+#else
+    if(self.ingoreUpdate)
+    {
+        if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
+           (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
+        {
+            result = YES;
+        }
+    }
+#endif
     
     return result;
 }
@@ -445,7 +464,8 @@
                 latestDate = startDate;
             }
             
-            if(!self.ingoreUpdate || (self.ingoreUpdate && [list isFirstInSelling])){
+//            if(!self.ingoreUpdate || (self.ingoreUpdate && [list isFirstInSelling]))
+            {
                 [editArr addObject:list];
             }
 

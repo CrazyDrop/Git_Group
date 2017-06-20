@@ -41,7 +41,7 @@
 #import "CBGPanicMixedNightListVC.h"
 #import "ZAAutoBuySettingVC.h"
 #import "ZWPanicMaxCombinedVC.h"
-#import "CBGOwnerRepeatListVC.h"
+#import "CBGSpecialCompareListVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -200,7 +200,7 @@
             break;
         case CBGDetailTestFunctionStyle_SpecialList:
         {
-            name = @"购买列表";
+            name = @"关注列表";
         }
             break;
             
@@ -585,7 +585,7 @@
             break;
         case CBGDetailTestFunctionStyle_SpecialList:
         {
-            CBGOwnerRepeatListVC * latest = [[CBGOwnerRepeatListVC alloc] init];
+            CBGSpecialCompareListVC * latest = [[CBGSpecialCompareListVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;

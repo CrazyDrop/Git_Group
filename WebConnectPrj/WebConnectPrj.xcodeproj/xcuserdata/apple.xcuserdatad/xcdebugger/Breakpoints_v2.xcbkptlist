@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombinedVC.m"
-            timestampString = "519293708.908626"
+            timestampString = "519613599.296261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "458"
-            endingLineNumber = "458"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "-panicListRequestFinishWithModel:withListError:"
             landmarkType = "7">
          </BreakpointContent>

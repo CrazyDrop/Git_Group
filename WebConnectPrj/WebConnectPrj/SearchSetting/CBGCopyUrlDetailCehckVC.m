@@ -77,6 +77,9 @@
                         @"保存",//进行数据存储
                         @"删除",//删除
                         
+                        @"添加关注",//进行数据存储
+                        @"取消关注",
+                        
                         @"状态-收藏",//进行状态
                         @"状态-忽略",
                         @"状态-正常",
@@ -157,27 +160,41 @@
             break;
         case 4:
         {
-            [self refreshLocalSaveIngoreStatusWithLatest:1];
+            [self refreshLatestNoticeListWithOrderSNAdd:YES];
+//            [self refreshLocalSaveIngoreStatusWithLatest:1];
         }
             break;
-
+            
         case 5:
         {
-            [self refreshLocalSaveIngoreStatusWithLatest:2];
+            [self refreshLatestNoticeListWithOrderSNAdd:NO];
+//            [self refreshLocalSaveIngoreStatusWithLatest:2];
         }
             break;
 
         case 6:
         {
+            [self refreshLocalSaveIngoreStatusWithLatest:1];
+        }
+            break;
+
+        case 7:
+        {
+            [self refreshLocalSaveIngoreStatusWithLatest:2];
+        }
+            break;
+
+        case 8:
+        {
             [self refreshLocalSaveIngoreStatusWithLatest:0];
         }
             break;
-        case 7:
+        case 9:
         {
             [self refreshLocalSaveIngoreStatusWithLatest:3];
         }
             break;
-        case 8:
+        case 10:
         {
             ZALocationLocalModelManager * dbManager =[ZALocationLocalModelManager sharedInstance];
             [dbManager updateFavAndIngoreStateForMaxedPlanRateListAndClearChange];
@@ -187,7 +204,7 @@
 
         }
             break;
-        case 9:
+        case 11:
         {
             if(!self.detailModel)
             {
@@ -199,7 +216,7 @@
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
-        case 10:
+        case 12:
         {
             if(!self.detailModel)
             {
@@ -215,7 +232,7 @@
 
         }
             break;
-        case 11:
+        case 13:
         {
             [self refreshTotalServerIdRefresh];
         }
@@ -374,8 +391,44 @@
     
     [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateArr];
 }
-
-
+-(void)refreshLatestNoticeListWithOrderSNAdd:(BOOL)add
+{
+    //add为yes则添加 ，同时库表保存  为NO删除
+    NSString * orderSn = baseList.game_ordersn;
+    if(!orderSn)
+    {
+        [DZUtils noticeCustomerWithShowText:@"详情不存在"];
+        return;
+    }
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    //异常判定，库表操作
+    if(add)
+    {
+        if(!self.detailModel)
+        {
+            [DZUtils noticeCustomerWithShowText:@"详情不存在"];
+            return;
+        }
+        //进行
+        [self tapedOnLocalSaveDetailModelBtn:nil];
+    }
+    
+    NSString * history = total.specialHistory;
+    NSArray * specialArr = [history componentsSeparatedByString:@"|"];
+    NSMutableArray * editArr = [NSMutableArray arrayWithArray:specialArr];
+    if(![editArr containsObject:orderSn] && add)
+    {
+        [editArr addObject:orderSn];
+    }else if([editArr containsObject:orderSn] && !add){
+        [editArr removeObject:orderSn];
+    }
+    NSString * comHistory = [editArr componentsJoinedByString:@"|"];
+    total.specialHistory = comHistory;
+    [total localSave];
+    
+    
+    [DZUtils noticeCustomerWithShowText:@"操作成功"];
+}
 -(void)tapedOnRemoveLatestSelectedModelBtn:(id)sender
 {
     CBGListModel * cbgList = baseList.listSaveModel;

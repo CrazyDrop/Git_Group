@@ -1291,6 +1291,8 @@
 		18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */; };
 		18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
 		18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
+		18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
+		18CA6E911EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
 		18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */; };
 		18CFB76D1E8A6BB400F18440 /* CBGSettingURLEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */; };
 		18CFB7761E8BB53F00F18440 /* CBGMixedListCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */; };
@@ -2455,6 +2457,8 @@
 		18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCheckSpecialListVC.m; sourceTree = "<group>"; };
 		18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestDetailCheckVC.h; sourceTree = "<group>"; };
 		18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLatestDetailCheckVC.m; sourceTree = "<group>"; };
+		18CA6E8E1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSpecialCompareListVC.h; sourceTree = "<group>"; };
+		18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSpecialCompareListVC.m; sourceTree = "<group>"; };
 		18CFB7641E8904E300F18440 /* CBGCopyUrlDetailCehckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCopyUrlDetailCehckVC.h; sourceTree = "<group>"; };
 		18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCopyUrlDetailCehckVC.m; sourceTree = "<group>"; };
 		18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSettingURLEditVC.h; sourceTree = "<group>"; };
@@ -2868,6 +2872,8 @@
 				1820912C1EA4BEB00015E393 /* CBGOthersBuyRepeatListVC.m */,
 				1820912E1EA4BEE20015E393 /* CBGOwnerRepeatListVC.h */,
 				1820912F1EA4BEE20015E393 /* CBGOwnerRepeatListVC.m */,
+				18CA6E8E1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.h */,
+				18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */,
 				18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */,
 				18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */,
 				18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */,
@@ -4978,6 +4984,7 @@
 				18A975621E7FDDD400B48E3C /* View+Template.m in Sources */,
 				18A9756B1E7FDDD400B48E3C /* Samurai_CSSRuleSet.m in Sources */,
 				18A975AB1E7FDDD400B48E3C /* UITableView+Html.m in Sources */,
+				18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */,
 				18A975A71E7FDDD400B48E3C /* UIProgressView+Html.m in Sources */,
 				18A976621E7FDE1500B48E3C /* STIHTTPSessionManager.m in Sources */,
 				18A96D8E1E7FC24700B48E3C /* ZWSystemTotalRequestModel.m in Sources */,
@@ -5626,6 +5633,7 @@
 				183323601ED6B10D00B1ECEA /* Samurai_CSSRuleSet.m in Sources */,
 				183323611ED6B10D00B1ECEA /* UITableView+Html.m in Sources */,
 				183323621ED6B10D00B1ECEA /* UIProgressView+Html.m in Sources */,
+				18CA6E911EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */,
 				183323631ED6B10D00B1ECEA /* STIHTTPSessionManager.m in Sources */,
 				183323641ED6B10D00B1ECEA /* ZWSystemTotalRequestModel.m in Sources */,
 				183323651ED6B10D00B1ECEA /* Samurai_Core.m in Sources */,
@@ -6264,7 +6272,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6282,7 +6290,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

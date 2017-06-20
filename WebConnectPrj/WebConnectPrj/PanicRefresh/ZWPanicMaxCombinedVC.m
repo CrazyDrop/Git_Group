@@ -414,6 +414,8 @@
 
 -(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     NSString * tagid = model.tagString;
     [showCacheDic setObject:cacheArr forKey:tagid];
     for (NSInteger index = 0;index < [array count] ;index ++ )
@@ -469,6 +471,7 @@
     
     if(self.errorNum > 5)
     {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //        [self tapedOnExchangeTotalWithTapedBtn:nil];
     }
 }

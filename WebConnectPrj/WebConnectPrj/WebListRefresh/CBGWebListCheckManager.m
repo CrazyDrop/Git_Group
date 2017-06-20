@@ -81,7 +81,7 @@
             [modelsDic setObject:eveModel forKey:identifier];
         }else if(statusResult && !priceResult){
             //状态未变，价格改变
-            eveModel.appendHistory.equip_price = [price integerValue];
+            eveModel.appendHistory.equip_price = [price integerValue] * 100;
             eveModel.appendHistory.equip_accept = [eveModel.can_bargain integerValue];
             eveModel.appendHistory.sell_start_time = [NSDate unixDate];
             eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
@@ -190,15 +190,15 @@
     
     BOOL result = latestState == preState;
     //之前状态已处于结束状态，不再做展示
-    //    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
-    //        result = YES;
-    //    }
-    //    //仅下单状态变更，也不做处理
-    //    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
-    //       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
-    //    {
-    //        result = YES;
-    //    }
+    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
+        result = YES;
+    }
+    //仅下单状态变更，也不做处理
+    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
+       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
+    {
+        result = YES;
+    }
     
     return result;
 }
