@@ -13,6 +13,7 @@
 #import "ZWHistoryListController.h"
 #import "CBGNearHistoryVC.h"
 #import "ZWPanicMaxCombinedVC.h"
+#import "CBGWebDBDownModel.h"
 #define BlueSettingDebugAddNum 100
 @interface CBGCopyUrlDetailCehckVC ()
 {
@@ -89,6 +90,8 @@
                         @"全部历史(旧)",
                         @"相关历史",
                         @"合服修改",
+                        
+                        @"WEB更新",
                         nil];
     
     UIView * bgView = self.view;
@@ -237,9 +240,55 @@
             [self refreshTotalServerIdRefresh];
         }
             break;
+        case 14:
+        {
+            [self startDownLoadWebRefreshDatabase];
+        }
+            break;
+            
 
     }
 }
+-(void)startDownLoadWebRefreshDatabase
+{
+//    http://oru29fpwj.bkt.clouddn.com/zadatabase_update_total.db
+    
+    [self startActivityWebRequest];
+    
+}
+#pragma mark - CBGWebDBDownModel
+-(void)startActivityWebRequest
+{
+    CBGWebDBDownModel * model = (CBGWebDBDownModel *) _dpModel;
+    if(!model){
+        model = [[CBGWebDBDownModel alloc] init];
+        [model addSignalResponder:self];
+        _dpModel = model;
+    }
+    
+    [model sendRequest];
+}
+
+handleSignal( CBGWebDBDownModel, requestError )
+{
+    [self hideLoading];
+    [DZUtils noticeCustomerWithShowText:@"下载失败"];
+
+}
+handleSignal( CBGWebDBDownModel, requestLoading )
+{
+    [self showLoading];
+}
+handleSignal( CBGWebDBDownModel, requestLoaded )
+{
+    [self hideLoading];
+//    if([DZUtils checkAndNoticeErrorWithSignal:signal andNoticeBlock:nil]){
+//        
+//    }
+    [DZUtils noticeCustomerWithShowText:@"下载成功"];
+}
+
+
 -(void)refreshTotalServerIdRefresh
 {
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];

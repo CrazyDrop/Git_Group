@@ -1315,6 +1315,8 @@
 		18EF4B4E1EF38B84006FB291 /* ZWPanicCompareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF4B4C1EF38B84006FB291 /* ZWPanicCompareModel.m */; };
 		18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */; };
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
+		18F6DBF41EF915060047E586 /* CBGWebDBDownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */; };
+		18F6DBF51EF915060047E586 /* CBGWebDBDownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2497,6 +2499,8 @@
 		18EFD52B1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseTableVC.m; sourceTree = "<group>"; };
 		18EFD52D1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseSortVC.h; sourceTree = "<group>"; };
 		18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseSortVC.m; sourceTree = "<group>"; };
+		18F6DBF21EF915060047E586 /* CBGWebDBDownModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGWebDBDownModel.h; sourceTree = "<group>"; };
+		18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebDBDownModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4623,6 +4627,8 @@
 			children = (
 				18CFB7641E8904E300F18440 /* CBGCopyUrlDetailCehckVC.h */,
 				18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */,
+				18F6DBF21EF915060047E586 /* CBGWebDBDownModel.h */,
+				18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */,
 				18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */,
 				18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */,
 			);
@@ -5271,6 +5277,7 @@
 				18A96E3C1E7FC2C500B48E3C /* ZAConfigModel.m in Sources */,
 				18EF4B4D1EF38B84006FB291 /* ZWPanicCompareModel.m in Sources */,
 				18A96E2A1E7FC2C500B48E3C /* Idbid_descModel.m in Sources */,
+				18F6DBF41EF915060047E586 /* CBGWebDBDownModel.m in Sources */,
 				18A96D931E7FC24700B48E3C /* ZWDaysListController.m in Sources */,
 				1883193A1EADE14500467F34 /* CBGLatestPlanBuyVC.m in Sources */,
 				18A96E421E7FC2C500B48E3C /* ZWDataDetailModelManager.m in Sources */,
@@ -5920,6 +5927,7 @@
 				1833247B1ED6B10D00B1ECEA /* Idbid_descModel.m in Sources */,
 				18EF4B4E1EF38B84006FB291 /* ZWPanicCompareModel.m in Sources */,
 				1833247C1ED6B10D00B1ECEA /* ZWDaysListController.m in Sources */,
+				18F6DBF51EF915060047E586 /* CBGWebDBDownModel.m in Sources */,
 				1833247D1ED6B10D00B1ECEA /* CBGLatestPlanBuyVC.m in Sources */,
 				1833247E1ED6B10D00B1ECEA /* ZWDataDetailModelManager.m in Sources */,
 				1833247F1ED6B10D00B1ECEA /* Samurai_RenderObject.m in Sources */,
@@ -6272,7 +6280,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6290,7 +6298,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

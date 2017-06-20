@@ -28,7 +28,7 @@
     self = [super init];
     if(self)
     {
-        self.req = [[ZALocationHTTPRequest alloc] initWithEndpoint:@"" method:STIHTTPRequestMethodGet];
+        self.req = [[ZALocationHTTPRequest alloc] initWithEndpoint:@"zadatabase_update_total.db" method:STIHTTPRequestMethodGet];
         self.req.responseClass = [ZALocationHTTPResponse class];
     }
     return self;
@@ -39,10 +39,10 @@
     if(!_sessionManager)
     {
         //        ?ak=petGKNAWHdahKOlzqPcghijZ&callback=renderReverse&output=json&pois=0&location=39.983424,116.322987
-        NSString * locationUrl = @"https://api.map.baidu.com/geocoder/v2/";
+    
         
-        STIHTTPSessionManager * client = [[STIHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:locationUrl]];
-        client.requestSerializer = [AFJSONRequestSerializer serializer];
+        STIHTTPSessionManager * client = [[STIHTTPSessionManager alloc] init];
+        client.requestSerializer = [AFHTTPRequestSerializer serializer];
         client.responseSerializer = [AFHTTPResponseSerializer serializer];
         self.sessionManager = client;
     }
@@ -76,56 +76,46 @@
     //        ?ak=petGKNAWHdahKOlzqPcghijZ&callback=renderReverse&output=json&pois=0&location=39.983424,116.322987
 
     AFHTTPRequestSerializer * requestSlizer = self.sessionManager.requestSerializer;
-    requestSlizer.timeoutInterval = 5;
+//    requestSlizer.timeoutInterval = 5;
     
     NSMutableDictionary * parameters = [[NSMutableDictionary alloc] init];
-    [parameters addEntriesFromDictionary:self.req.parameters];
-    [parameters setValue:@"petGKNAWHdahKOlzqPcghijZ" forKey:@"ak"];
-    [parameters setValue:@"renderReverse" forKey:@"callback"];
-    [parameters setValue:@"json" forKey:@"output"];
-    [parameters setValue:@"0" forKey:@"pois"];
-    [parameters setValue:@"wgs84ll" forKey:@"coordtype"];
+//    [parameters addEntriesFromDictionary:self.req.parameters];
+//    [parameters setValue:@"petGKNAWHdahKOlzqPcghijZ" forKey:@"ak"];
+//    [parameters setValue:@"renderReverse" forKey:@"callback"];
+//    [parameters setValue:@"json" forKey:@"output"];
+//    [parameters setValue:@"0" forKey:@"pois"];
+//    [parameters setValue:@"wgs84ll" forKey:@"coordtype"];
     
+    NSURL *url = [NSURL URLWithString:@"http://oru29fpwj.bkt.clouddn.com/zadatabase_update_total.db"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *databasePath=[path stringByAppendingPathComponent:@"zadatabase_update_read.db"];
     
-    [self.sessionManager method:STIHTTPRequestMethodGet
-                           endpoint:self.req.endpoint
-                         parameters:parameters
-                            success:^(NSURLSessionDataTask *task, id responseObject) {
-                                //                                __strong typeof(weakSelf) self = weakSelf;
-                                NSString * resultStr = nil;
-                                if(responseObject && [responseObject length]>0)
-                                {
-                                   resultStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-                                    
-                                    if(!resultStr)
-                                    {
-                                        resultStr = [[NSString alloc] initWithData:responseObject encoding:NSASCIIStringEncoding];
 
-                                    }
-                                    
-                                    NSString * tagStr = @"renderReverse&&renderReverse(";
-                                    resultStr = [resultStr stringByReplacingOccurrencesOfString:tagStr withString:@""];
-                                    if([resultStr hasSuffix:@")"])
-                                    {
-                                        resultStr = [resultStr substringToIndex:[resultStr length]-1];
-                                    }
-                                    
-                                    responseObject = [resultStr JSONDecoded];
-                                }
-                                
-                                
-                                self.resp = [self.req.responseClass ac_objectWithAny:[self processedDataWithResponseObject:responseObject task:task]];
+    
+    NSURLSessionDownloadTask *downloadTask =[self.sessionManager downloadTaskWithRequest:request
+                                        progress:nil
+                                     destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
+    {
+//                                         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+//                                         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        NSURL *documentsDirectoryURL = [NSURL fileURLWithPath:databasePath];
+        return documentsDirectoryURL;
+                                     }
+                               completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error)
+    {
+        NSLog(@"File downloaded to: %@", filePath);
 
-                                self.responseObject = responseObject;
-                                if ( self.whenUpdate ) {
-                                    self.whenUpdate( self.resp, nil );
-                                }
-                            }
-                            failure:^(NSURLSessionDataTask *task, id responseObject, NSError *error) {
-                                
-                                [self.sessionManager handleError:error responseObject:responseObject task:task failureBlock:self.whenUpdate];
-                            }];
-
+        self.resp = [[self.req.responseClass alloc] init];
+        self.responseObject = error?@"123":nil;
+        if ( self.whenUpdate )
+        {
+            self.whenUpdate( self.resp, nil );
+        }
+                                     }];
+    
+    [downloadTask resume];
 }
 
 -(void)cancel
