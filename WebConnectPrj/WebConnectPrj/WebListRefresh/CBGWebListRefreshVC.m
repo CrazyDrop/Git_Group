@@ -582,6 +582,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 }
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
 {
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!total.isAlarm)
+    {
+//        return NO;
+    }
+
+    NSInteger compareId = total.minServerId;
     
     WebEquip_listModel * maxModel = nil;
     CGFloat maxRate = 0;
@@ -590,7 +597,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         WebEquip_listModel * list = [array objectAtIndex:index];
         
         BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];
-        if(equipBuy)
+        if(equipBuy && [list.serverid integerValue] < compareId)
         {
             CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);

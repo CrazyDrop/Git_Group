@@ -111,14 +111,18 @@
     {
         return NO;
     }
+    
+    
+    NSInteger compareId = total.minServerId;
+    
     Equip_listModel * maxModel = nil;
     CGFloat maxRate = 0;
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         Equip_listModel * list = [array objectAtIndex:index];
         
-        BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];
-        if(equipBuy)
+        BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];//缺少了服务器3年外判定
+        if(equipBuy && [list.serverid integerValue] < compareId)
         {
             CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);

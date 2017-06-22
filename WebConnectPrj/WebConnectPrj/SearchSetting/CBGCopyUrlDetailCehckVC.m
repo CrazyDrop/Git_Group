@@ -18,6 +18,7 @@
 @interface CBGCopyUrlDetailCehckVC ()
 {
     Equip_listModel * baseList;
+    BaseRequestModel * _dbDataModel;
 }
 @property (nonatomic,strong) UITextView * textView;
 @property (nonatomic,strong) NSArray * combineArr;
@@ -62,61 +63,164 @@
     }
     return _combineArr;
 }
+-(NSString *)functionNamesForDetailFunctionStyle:(CBGDetailTestURLFunctionStyle)style
+{
+    NSString * name = @"未知";
+    switch (style)
+    {
+        case CBGDetailTestURLFunctionStyle_CheckDetail:
+        {
+            name = @"查看详情";
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_WebShow:
+        {
+            name = @"WEB信息";
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_LocalSave:
+        {
+            name = @"保存";//适用于新数据上架频次较低，无人工查看的情况
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_LocalRemove:
+        {
+            name = @"删除";
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_NoticeAdd:
+        {
+            name = @"添加关注";//适用于新数据上架频次较低，无人工查看的情况
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_NoticeRemove:
+        {
+            name = @"取消关注";
+        }
+            break;
+
+            
+        case CBGDetailTestURLFunctionStyle_StateIngore:
+        {
+            name = @"状态-忽略";
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_StateNormal:
+        {
+            name = @"状态-正常";
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_DBClear:
+        {
+            name = @"库表清理";
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_TotalHistory:
+        {
+            name = @"全部历史(旧)";
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_NearHistory:
+        {
+            name = @"相关历史";
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_ServerCombine:
+        {
+            name = @"合服修改";
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_WebRefresh:
+        {
+            name = @"WEB更新";
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_WebInput:
+        {
+            name = @"WEB写入";
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_ReadRemove:
+        {
+            name = @"删除READ";
+        }
+            break;
+            
+            
+            
+        default:
+            break;
+    }
+    return name;
+}
 
 - (void)viewDidLoad {
     
+        //copy信息抓去，解析，展示
+        self.showLeftBtn = YES;
+        self.viewTtle = @"查询";
+        [super viewDidLoad];
+        // Do any additional setup after loading the view, typically from a nib.
     
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    //copy信息抓去，解析，展示
-    
-    NSArray * titles = [NSArray arrayWithObjects:
-                        @"查看详情",
-                        @"WEB信息",
-                        
-                        @"保存",//进行数据存储
-                        @"删除",//删除
-                        
-                        @"添加关注",//进行数据存储
-                        @"取消关注",
-                        
-                        @"状态-收藏",//进行状态
-                        @"状态-忽略",
-                        @"状态-正常",
-                        @"状态-购买",
-                        
-                        @"库表清理",
-                        @"全部历史(旧)",
-                        @"相关历史",
-                        @"合服修改",
-                        
-                        @"WEB更新",
-                        nil];
-    
+        //增加监听
+        //    CBGDetailWebView * detail = [[CBGDetailWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        //    [self.view addSubview:detail];
+
+        NSArray * testFuncArr = [NSArray arrayWithObjects:
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_CheckDetail],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebShow],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_LocalSave],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_LocalRemove],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_NoticeAdd],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_NoticeRemove],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_StateIngore],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_StateNormal],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_DBClear],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_TotalHistory],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_NearHistory],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_ServerCombine],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebRefresh],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebInput],
+                                 
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_ReadRemove],
+                                 
+                                 nil];
+        
     UIView * bgView = self.view;
-    for(NSInteger index = 0 ;index < [titles count]; index ++)
+    for(NSInteger index = 0 ;index < [testFuncArr count]; index ++)
     {
-        NSString * title = [titles objectAtIndex:index];
-        UIButton * btn = [self customTestButtonForIndex: index];
+        NSNumber * num = [testFuncArr objectAtIndex:index];
+        NSString * title = [self functionNamesForDetailFunctionStyle:[num integerValue]];
+        UIButton * btn = [self customTestButtonForIndex: index andMoreTag:[num integerValue]];
         [btn setTitle:title forState:UIControlStateNormal];
         [bgView addSubview:btn];
     }
-
     
     UITextView * txt = [[UITextView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80)];
     [bgView addSubview:txt];
     self.textView = txt;
-    
-    
 }
--(UIButton * )customTestButtonForIndex:(NSInteger)indexNum
+-(UIButton * )customTestButtonForIndex:(NSInteger)indexNum andMoreTag:(NSInteger)tag
 {
     NSInteger lineNum = indexNum/2;
     NSInteger rowNum = indexNum%2;
     
     UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.tag = indexNum + BlueSettingDebugAddNum;
+    btn.tag = tag + BlueSettingDebugAddNum;
     btn.frame = CGRectMake(0, 0,FLoatChange(120) ,FLoatChange(50));
     btn.backgroundColor = [UIColor grayColor];
     [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -130,6 +234,7 @@
     return btn;
 }
 
+
 -(void)tapedOnTestButtonWithSender:(id)sender
 {
     UIButton * btn = (UIButton *)sender;
@@ -141,63 +246,53 @@
 {
     NSLog(@"%s %@",__FUNCTION__,title);
     switch (indexNum) {
-        case 0:
+        case CBGDetailTestURLFunctionStyle_CheckDetail:
         {
             [self tapedOnCheckDetailRequestTxtBtn:nil];
         }
             break;
-        case 1:
+        case CBGDetailTestURLFunctionStyle_WebShow:
         {
             [self tapedOnCheckDetailTxtBtn:nil];
         }
             break;
 
-        case 2:{
+        case CBGDetailTestURLFunctionStyle_LocalSave:{
             [self tapedOnLocalSaveDetailModelBtn:nil];
         }
             break;
-        case 3:
+        case CBGDetailTestURLFunctionStyle_LocalRemove:
         {
             [self tapedOnRemoveLatestSelectedModelBtn:nil];
         }
             break;
-        case 4:
+        case CBGDetailTestURLFunctionStyle_NoticeAdd:
         {
             [self refreshLatestNoticeListWithOrderSNAdd:YES];
 //            [self refreshLocalSaveIngoreStatusWithLatest:1];
         }
             break;
             
-        case 5:
+        case CBGDetailTestURLFunctionStyle_NoticeRemove:
         {
             [self refreshLatestNoticeListWithOrderSNAdd:NO];
 //            [self refreshLocalSaveIngoreStatusWithLatest:2];
         }
             break;
 
-        case 6:
+        case CBGDetailTestURLFunctionStyle_StateIngore:
         {
             [self refreshLocalSaveIngoreStatusWithLatest:1];
         }
             break;
 
-        case 7:
+        case CBGDetailTestURLFunctionStyle_StateNormal:
         {
             [self refreshLocalSaveIngoreStatusWithLatest:2];
         }
             break;
 
-        case 8:
-        {
-            [self refreshLocalSaveIngoreStatusWithLatest:0];
-        }
-            break;
-        case 9:
-        {
-            [self refreshLocalSaveIngoreStatusWithLatest:3];
-        }
-            break;
-        case 10:
+        case CBGDetailTestURLFunctionStyle_DBClear:
         {
             ZALocationLocalModelManager * dbManager =[ZALocationLocalModelManager sharedInstance];
             [dbManager updateFavAndIngoreStateForMaxedPlanRateListAndClearChange];
@@ -207,7 +302,7 @@
 
         }
             break;
-        case 11:
+        case CBGDetailTestURLFunctionStyle_TotalHistory:
         {
             if(!self.detailModel)
             {
@@ -219,7 +314,7 @@
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
-        case 12:
+        case CBGDetailTestURLFunctionStyle_NearHistory:
         {
             if(!self.detailModel)
             {
@@ -235,37 +330,92 @@
 
         }
             break;
-        case 13:
+        case CBGDetailTestURLFunctionStyle_ServerCombine:
         {
             [self refreshTotalServerIdRefresh];
         }
             break;
-        case 14:
+        case CBGDetailTestURLFunctionStyle_WebRefresh:
         {
-            [self startDownLoadWebRefreshDatabase];
+            [self startActivityWebRequest];
         }
             break;
+        case CBGDetailTestURLFunctionStyle_WebInput:
+        {
+            [self showLoading];
+            [self refreshLocalUpdateWithWEBReadDB];
+            [self hideLoading];
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_ReadRemove:
+        {
+            NSError * error = [self clearCurrentLocalReadDB];
+            NSString * tagStr = error?@"删除失败":@"删除成功";
+            [DZUtils noticeCustomerWithShowText:tagStr];
+        }
+            break;
+
             
 
     }
 }
--(void)startDownLoadWebRefreshDatabase
+-(void)refreshLocalUpdateWithWEBReadDB
 {
-//    http://oru29fpwj.bkt.clouddn.com/zadatabase_update_total.db
+    self.titleV.text = @"开始写入";
+    NSString * dbExchange = @"写入结束";
+    NSInteger preNum = 0;
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
+    preNum = [soldout count];
+    dbExchange = [dbExchange stringByAppendingFormat:@"pre %ld",preNum];
     
-    [self startActivityWebRequest];
-    
+    [dbManager localCopySoldOutDataToPartDataBase];
+    soldout = [dbManager localSaveEquipHistoryModelListTotal];
+    dbExchange = [dbExchange stringByAppendingFormat:@"append %ld finished %ld ",[soldout count] - preNum,[soldout count]];
+    {
+        NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
+        [DZUtils noticeCustomerWithShowText:dbExchange];
+    }
+    self.titleV.text = @"写入结束";
 }
 #pragma mark - CBGWebDBDownModel
+-(void)startUpdateLocalReadDBFunction
+{
+    NSError * error = [self clearCurrentLocalReadDB];
+    if(error){
+        [DZUtils noticeCustomerWithShowText:@"删除失败"];
+        return;
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startActivityWebRequest];
+    });
+}
+-(NSError *)clearCurrentLocalReadDB
+{
+    NSString * path = [ZALocationLocalModelManager localSaveReadDBPath];
+    NSFileManager * fm = [NSFileManager defaultManager];
+    NSError * error = nil;
+    if([fm fileExistsAtPath:path])
+    {
+        if([fm removeItemAtPath:path error:&error])
+        {
+            
+        }
+        else
+        {
+            NSLog(@"Failed to remove directory %@,error:%@",path,error);
+        }
+    }
+    return error;
+}
 -(void)startActivityWebRequest
 {
-    CBGWebDBDownModel * model = (CBGWebDBDownModel *) _dpModel;
+    CBGWebDBDownModel * model = (CBGWebDBDownModel *) _dbDataModel;
     if(!model){
         model = [[CBGWebDBDownModel alloc] init];
         [model addSignalResponder:self];
-        _dpModel = model;
+        _dbDataModel = model;
     }
-    
     [model sendRequest];
 }
 
@@ -286,6 +436,10 @@ handleSignal( CBGWebDBDownModel, requestLoaded )
 //        
 //    }
     [DZUtils noticeCustomerWithShowText:@"下载成功"];
+    self.titleV.text = @"开始写入";
+//    [self refreshLocalUpdateWithWEBReadDB];
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    [dbManager localCopySoldOutDataToPartDataBase];
 }
 
 

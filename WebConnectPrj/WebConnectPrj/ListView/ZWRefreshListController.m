@@ -99,6 +99,7 @@ RefreshCellCopyDelgate>
     if(!model.isAlarm){
         return;
     }
+    NSInteger compareId = model.minServerId;
     Equip_listModel * maxModel = nil;
     CGFloat maxRate = 0;
     for (NSInteger index = 0; index < [array count]; index ++)
@@ -106,7 +107,7 @@ RefreshCellCopyDelgate>
         Equip_listModel * list = [array objectAtIndex:index];
         
         BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];
-        if(equipBuy)
+        if(equipBuy && [list.serverid integerValue] < compareId)
         {
             CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);

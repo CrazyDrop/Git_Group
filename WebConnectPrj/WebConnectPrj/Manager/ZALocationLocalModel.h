@@ -30,6 +30,8 @@
 @interface ZALocationLocalModelManager:NSObject
 
 +(instancetype)sharedInstance;
++(NSString *)localSaveReadDBPath;
+
 
 -(id)initWithDBExtendString:(NSString *)extend;
 

@@ -121,6 +121,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     });
     return shareZALocationLocalModelManagerInstance;
 }
+
++(NSString *)localSaveReadDBPath
+{
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME_READ];
+    return databasePath;
+}
 //库表替换
 -(void)exchangeLocalDBWithCurrentDBPath:(NSString *)inputPath
 {
@@ -298,7 +305,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         
 //        path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
         
-        databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME_READ];
+        if(TARGET_IPHONE_SIMULATOR)
+        {
+            databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME_READ];
+        }else{
+            databasePath=[[self class] localSaveReadDBPath];
+        }
         databaseQueue_read= [[FMDatabaseQueue alloc]initWithPath:databasePath];
 
         
@@ -1837,6 +1849,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                     preModel.sell_space = model.sell_space;
                 }
+                if(preModel.equip_eval_price != model.equip_eval_price)
+                {
+                    if(preModel.equip_eval_price == 0){
+                        preModel.equip_eval_price = model.equip_eval_price;
+                    }
+                    ingoreRefresh = NO;
+                }
                 
                 //附带变化时间  当前结束时间>0且和之前不同，或者历史取回时间不存在，当前存在
                 if(([model.sell_sold_time length] > 0 && ![model.sell_sold_time isEqualToString:preModel.sell_sold_time])
@@ -1878,6 +1897,68 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
             case CBGLocalDataBaseListUpdateStyle_CopyRefresh:
             {
                 preModel.server_id = model.server_id;
+                
+                
+                
+                BOOL ingoreRefresh = YES;
+                //估价变化
+                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des] ||  preModel.plan_rate != model.plan_rate )
+                {
+                    ingoreRefresh = NO;
+                    //估价相关，
+                    preModel.plan_total_price = model.plan_total_price;
+                    preModel.plan_xiulian_price = model.plan_xiulian_price;
+                    preModel.plan_chongxiu_price = model.plan_chongxiu_price;
+                    preModel.plan_jineng_price = model.plan_jineng_price;
+                    preModel.plan_qianyuandan_price = model.plan_qianyuandan_price;
+                    preModel.plan_zhaohuanshou_price = model.plan_zhaohuanshou_price;
+                    preModel.plan_jingyan_price = model.plan_jingyan_price;
+                    preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
+                    preModel.plan_des = model.plan_des;
+                    preModel.plan_rate = model.plan_rate;
+                }
+                
+                if(preModel.sell_space != model.sell_space)
+                {
+                    ingoreRefresh = NO;
+                    preModel.sell_space = model.sell_space;
+                }
+                
+                //附带变化时间  当前结束时间>0且和之前不同，或者历史取回时间不存在，当前存在
+                if(([model.sell_sold_time length] > 0 && ![model.sell_sold_time isEqualToString:preModel.sell_sold_time])
+                   || ([preModel.sell_back_time length] == 0 && [model.sell_back_time length] > 0))
+                {
+                    ingoreRefresh = NO;
+                    preModel.sell_sold_time = model.sell_sold_time;
+                    preModel.sell_back_time = model.sell_back_time;
+                }
+                
+                
+                //价格变化
+                if(preModel.equip_price != model.equip_price)
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_price = model.equip_price;
+                }
+                
+                //还价状态变化
+                if(preModel.equip_accept != model.equip_accept)
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_accept = model.equip_accept;
+                }
+                
+                if(![preModel.equip_more_append  isEqualToString:model.equip_more_append])
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_more_append = model.equip_more_append;
+                }
+                
+                
+                if(ingoreRefresh)
+                {
+                    success = YES;
+                }
             }
                 break;
             case CBGLocalDataBaseListUpdateStyle_StatusRefresh:
