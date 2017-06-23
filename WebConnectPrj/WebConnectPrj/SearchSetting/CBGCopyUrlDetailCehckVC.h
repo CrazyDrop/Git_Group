@@ -27,6 +27,7 @@ typedef enum : NSUInteger
     CBGDetailTestURLFunctionStyle_WebRefresh,
     CBGDetailTestURLFunctionStyle_WebInput,
     CBGDetailTestURLFunctionStyle_ReadRemove,
+    CBGDetailTestURLFunctionStyle_WebUpload,//上传
 } CBGDetailTestURLFunctionStyle;
 
 @interface CBGCopyUrlDetailCehckVC : DPWhiteTopController

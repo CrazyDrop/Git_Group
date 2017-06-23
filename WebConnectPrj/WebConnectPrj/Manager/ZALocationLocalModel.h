@@ -31,7 +31,7 @@
 
 +(instancetype)sharedInstance;
 +(NSString *)localSaveReadDBPath;
-
++(NSString *)localSaveTotalDBPath;
 
 -(id)initWithDBExtendString:(NSString *)extend;
 

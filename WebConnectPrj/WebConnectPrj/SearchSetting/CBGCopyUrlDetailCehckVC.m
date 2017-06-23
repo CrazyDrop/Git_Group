@@ -14,6 +14,9 @@
 #import "CBGNearHistoryVC.h"
 #import "ZWPanicMaxCombinedVC.h"
 #import "CBGWebDBDownModel.h"
+
+
+
 #define BlueSettingDebugAddNum 100
 @interface CBGCopyUrlDetailCehckVC ()
 {
@@ -153,6 +156,10 @@
             name = @"删除READ";
         }
             break;
+        case CBGDetailTestURLFunctionStyle_WebUpload:{
+            name = @"上传WEB";
+        }
+            break;
             
             
             
@@ -197,6 +204,8 @@
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebInput],
                                  
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_ReadRemove],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebUpload],
+                                 
                                  
                                  nil];
         
@@ -343,8 +352,11 @@
         case CBGDetailTestURLFunctionStyle_WebInput:
         {
             [self showLoading];
-            [self refreshLocalUpdateWithWEBReadDB];
-            [self hideLoading];
+            self.titleV.text = @"开始写入";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self refreshLocalUpdateWithWEBReadDB];
+                [self hideLoading];
+            });
         }
             break;
         case CBGDetailTestURLFunctionStyle_ReadRemove:
@@ -354,14 +366,19 @@
             [DZUtils noticeCustomerWithShowText:tagStr];
         }
             break;
-
-            
-
+        case CBGDetailTestURLFunctionStyle_WebUpload:{
+            [self refreshWebDatabaseWithLatestSaveDB];
+        }
+            break;
     }
 }
+-(void)refreshWebDatabaseWithLatestSaveDB
+{
+    
+}
+
 -(void)refreshLocalUpdateWithWEBReadDB
 {
-    self.titleV.text = @"开始写入";
     NSString * dbExchange = @"写入结束";
     NSInteger preNum = 0;
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
@@ -646,6 +663,7 @@ handleSignal( CBGWebDBDownModel, requestLoaded )
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled=YES;
     [self readCopyDetailOrderSNAndServerId];
 }
 -(void)refreshLocalSaveIngoreStatusWithLatest:(NSInteger)index
@@ -801,6 +819,7 @@ handleSignal( CBGWebDBDownModel, requestLoaded )
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled=NO;
     EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_dpModel;
     [model cancel];
     [model removeSignalResponder:self];
@@ -927,6 +946,80 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/**
+- (void)upLoad
+{
+    NSString *token = [[self class] token];
+    QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
+        builder.zone = [QNZone zone2];
+    }];
+    QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
+//    NSData *data = [@"Hello, World!Hello, World!Hello, World!" dataUsingEncoding : NSUTF8StringEncoding];
+//    //    NSData *data = [[NSData alloc] initWithContentsOfFile:@"/Users/jingxuelong/Desktop/2017iOS.xlsx"];
+//    
+//    [upManager putData:data key:@"2017iOS.text" token:token
+//              complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+//                  
+//              } option:nil];
+    
+    NSString * path = [ZALocationLocalModelManager localSaveTotalDBPath];
+//    [upManager ];
+
+}
+
+
++ (NSString*)dictionryToJSONString:(NSMutableDictionary *)dictionary
+{
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+}
+
+//AccessKey  以及SecretKey
++ (NSString *)token
+{
+    return [self makeToken:@"f9wjb-PpALgdlFb1Q96ru_1GERDuHFTAatCXDJOZ" secretKey:@"haWI3O4XTfNjVed6YS23YS8ev_Yhz9zSf9Ix2d0m"];
+}
+
++ (NSString *)hmacSha1Key:(NSString*)key textData:(NSString*)text
+{
+    const char *cData  = [text cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    uint8_t cHMAC[CC_SHA1_DIGEST_LENGTH];
+    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
+    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
+    NSString *hash = [QNUrlSafeBase64 encodeData:HMAC];
+    return hash;
+}
+
++ (NSString *)makeToken:(NSString *)accessKey secretKey:(NSString *)secretKey
+{
+    //名字
+    NSString *baseName = [self marshal];
+    baseName = [baseName stringByReplacingOccurrencesOfString:@" " withString:@""];
+    baseName = [baseName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    
+    NSData   *baseNameData = [baseName dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *baseNameBase64 = [QNUrlSafeBase64 encodeData:baseNameData];
+    NSString *secretKeyBase64 =  [self hmacSha1Key:secretKey textData:baseNameBase64];
+    NSString *token = [NSString stringWithFormat:@"%@:%@:%@",  accessKey, secretKeyBase64, baseNameBase64];
+    
+    return token;
+}
+
++ (NSString *)marshal
+{
+    time_t deadline;
+    time(&deadline);
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"localupdatedb" forKey:@"scope"];
+    NSNumber *escapeNumber = [NSNumber numberWithLongLong:3464706673];
+    [dic setObject:escapeNumber forKey:@"deadline"];
+    NSString *json = [self dictionryToJSONString:dic];
+    return json;
+}
+**/
 
 /*
 #pragma mark - Navigation

@@ -19,23 +19,6 @@
 		180D58A819E622680045A720 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A719E622680045A720 /* Images.xcassets */; };
 		180D58AB19E622680045A720 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A919E622680045A720 /* LaunchScreen.xib */; };
 		180D58C219E622910045A720 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 180D58C019E622910045A720 /* readme.txt */; };
-		180D58FF19E65EF30045A720 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DB19E65EF30045A720 /* AFHTTPRequestOperation.m */; };
-		180D590019E65EF30045A720 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DD19E65EF30045A720 /* AFHTTPRequestOperationManager.m */; };
-		180D590119E65EF30045A720 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DF19E65EF30045A720 /* AFHTTPSessionManager.m */; };
-		180D590219E65EF30045A720 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E219E65EF30045A720 /* AFNetworkReachabilityManager.m */; };
-		180D590319E65EF30045A720 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E419E65EF30045A720 /* AFSecurityPolicy.m */; };
-		180D590419E65EF30045A720 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E619E65EF30045A720 /* AFURLConnectionOperation.m */; };
-		180D590519E65EF30045A720 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E819E65EF30045A720 /* AFURLRequestSerialization.m */; };
-		180D590619E65EF30045A720 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EA19E65EF30045A720 /* AFURLResponseSerialization.m */; };
-		180D590719E65EF30045A720 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EC19E65EF30045A720 /* AFURLSessionManager.m */; };
-		180D590819E65EF30045A720 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EF19E65EF30045A720 /* AFNetworkActivityIndicatorManager.m */; };
-		180D590919E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F119E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m */; };
-		180D590A19E65EF30045A720 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F319E65EF30045A720 /* UIAlertView+AFNetworking.m */; };
-		180D590B19E65EF30045A720 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F519E65EF30045A720 /* UIButton+AFNetworking.m */; };
-		180D590C19E65EF30045A720 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F719E65EF30045A720 /* UIImageView+AFNetworking.m */; };
-		180D590D19E65EF30045A720 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FA19E65EF30045A720 /* UIProgressView+AFNetworking.m */; };
-		180D590E19E65EF30045A720 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FC19E65EF30045A720 /* UIRefreshControl+AFNetworking.m */; };
-		180D590F19E65EF30045A720 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FE19E65EF30045A720 /* UIWebView+AFNetworking.m */; };
 		180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
 		180F7F461A1DCACC0039E222 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F441A1DCACC0039E222 /* jquery.js */; };
 		18130E0919E8FDA000526957 /* OLNameListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18130E0819E8FDA000526957 /* OLNameListTableView.m */; };
@@ -196,7 +179,6 @@
 		183320A31ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183320A21ED680AD00B1ECEA /* ZAPanicPayHistoryVC.m */; };
 		183323041ED6B10D00B1ECEA /* CBGPanicMixedNightListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5EF1ED0406200873D19 /* CBGPanicMixedNightListVC.m */; };
 		183323051ED6B10D00B1ECEA /* Samurai_UI.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974531E7FDDD400B48E3C /* Samurai_UI.m */; };
-		183323061ED6B10D00B1ECEA /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FC19E65EF30045A720 /* UIRefreshControl+AFNetworking.m */; };
 		183323071ED6B10D00B1ECEA /* CBGDaysDetailSortHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7971E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m */; };
 		183323081ED6B10D00B1ECEA /* OLEGOTapTextFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974E91E7FDDD400B48E3C /* OLEGOTapTextFooterView.m */; };
 		183323091ED6B10D00B1ECEA /* Keyword_argModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DF11E7FC2C500B48E3C /* Keyword_argModel.m */; };
@@ -213,7 +195,6 @@
 		183323141ED6B10D00B1ECEA /* CBGTotalHistroySortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7931E8F364A00F18440 /* CBGTotalHistroySortVC.m */; };
 		183323151ED6B10D00B1ECEA /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9747A1E7FDDD400B48E3C /* utf8.c */; };
 		183323161ED6B10D00B1ECEA /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9750F1E7FDDD400B48E3C /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		183323171ED6B10D00B1ECEA /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E619E65EF30045A720 /* AFURLConnectionOperation.m */; };
 		183323181ED6B10D00B1ECEA /* ServiceMonitorCPUModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974BE1E7FDDD400B48E3C /* ServiceMonitorCPUModel.m */; };
 		183323191ED6B10D00B1ECEA /* OLEGOCustomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974F41E7FDDD400B48E3C /* OLEGOCustomHeaderView.m */; };
 		1833231A1ED6B10D00B1ECEA /* ZWConfigListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D741E7FC24700B48E3C /* ZWConfigListController.m */; };
@@ -231,7 +212,6 @@
 		183323261ED6B10D00B1ECEA /* ServiceMonitorFPSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C01E7FDDD400B48E3C /* ServiceMonitorFPSModel.m */; };
 		183323271ED6B10D00B1ECEA /* ZWRefreshListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D7F1E7FC24700B48E3C /* ZWRefreshListController.m */; };
 		183323281ED6B10D00B1ECEA /* View+Signal.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973401E7FDDD400B48E3C /* View+Signal.m */; };
-		183323291ED6B10D00B1ECEA /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FA19E65EF30045A720 /* UIProgressView+AFNetworking.m */; };
 		1833232A1ED6B10D00B1ECEA /* katana.lex.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974841E7FDDD400B48E3C /* katana.lex.c */; };
 		1833232B1ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_30UpdateFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973961E7FDDD400B48E3C /* Samurai_HtmlRenderWorklet_30UpdateFrame.m */; };
 		1833232C1ED6B10D00B1ECEA /* ServiceMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974BC1E7FDDD400B48E3C /* ServiceMonitor.m */; };
@@ -281,7 +261,6 @@
 		183323581ED6B10D00B1ECEA /* OLBasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972A61E7FDDD400B48E3C /* OLBasicViewController.m */; };
 		183323591ED6B10D00B1ECEA /* ZAAutoBuyHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */; };
 		1833235A1ED6B10D00B1ECEA /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972181E7FCA2B00B48E3C /* FMResultSet.m */; };
-		1833235B1ED6B10D00B1ECEA /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F319E65EF30045A720 /* UIAlertView+AFNetworking.m */; };
 		1833235C1ED6B10D00B1ECEA /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */; };
 		1833235D1ED6B10D00B1ECEA /* UIImageView+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973CE1E7FDDD400B48E3C /* UIImageView+Html.m */; };
 		1833235E1ED6B10D00B1ECEA /* ZAAutoBuyWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DAF5E61ECC325700873D19 /* ZAAutoBuyWebView.m */; };
@@ -310,7 +289,6 @@
 		183323751ED6B10D00B1ECEA /* AAPlotOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090EF1E9F555D0015E393 /* AAPlotOptions.m */; };
 		183323761ED6B10D00B1ECEA /* Samurai_Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974211E7FDDD400B48E3C /* Samurai_Color.m */; };
 		183323771ED6B10D00B1ECEA /* Samurai_SignalBus.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9730D1E7FDDD400B48E3C /* Samurai_SignalBus.m */; };
-		183323781ED6B10D00B1ECEA /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EA19E65EF30045A720 /* AFURLResponseSerialization.m */; };
 		183323791ED6B10D00B1ECEA /* ZALocationLocalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972441E7FCCA600B48E3C /* ZALocationLocalModel.m */; };
 		1833237A1ED6B10D00B1ECEA /* OLMainTopicListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972B01E7FDDD400B48E3C /* OLMainTopicListTableView.m */; };
 		1833237B1ED6B10D00B1ECEA /* ZALocalStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E021E7FC2C500B48E3C /* ZALocalStateModel.m */; };
@@ -349,7 +327,6 @@
 		1833239C1ED6B10D00B1ECEA /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DD71A0B5B0200B66A59 /* SDWebImageDownloaderOperation.m */; };
 		1833239D1ED6B10D00B1ECEA /* CBGWebListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE6D1E862A1E009312A7 /* CBGWebListRefreshVC.m */; };
 		1833239E1ED6B10D00B1ECEA /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974881E7FDDD400B48E3C /* parser.c */; };
-		1833239F1ED6B10D00B1ECEA /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F519E65EF30045A720 /* UIButton+AFNetworking.m */; };
 		183323A01ED6B10D00B1ECEA /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974671E7FDDD400B48E3C /* attribute.c */; };
 		183323A11ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9736F1E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_80Finish.m */; };
 		183323A21ED6B10D00B1ECEA /* CBGEquipDetailRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971ED1E7FC6E100B48E3C /* CBGEquipDetailRequestManager.m */; };
@@ -380,7 +357,6 @@
 		183323BB1ED6B10D00B1ECEA /* AALegend.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E11E9F555D0015E393 /* AALegend.m */; };
 		183323BC1ED6B10D00B1ECEA /* NodeModelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE471E862866009312A7 /* NodeModelCell.m */; };
 		183323BD1ED6B10D00B1ECEA /* Samurai_ServiceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973341E7FDDD400B48E3C /* Samurai_ServiceConfig.m */; };
-		183323BE1ED6B10D00B1ECEA /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F119E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m */; };
 		183323BF1ED6B10D00B1ECEA /* NodeModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE4E1E862866009312A7 /* NodeModelViewController.m */; };
 		183323C01ED6B10D00B1ECEA /* Samurai_Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973051E7FDDD400B48E3C /* Samurai_Notification.m */; };
 		183323C11ED6B10D00B1ECEA /* ZWTopRefreshListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D871E7FC24700B48E3C /* ZWTopRefreshListController.m */; };
@@ -422,7 +398,6 @@
 		183323E51ED6B10D00B1ECEA /* NSObject+AutoRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976441E7FDE1500B48E3C /* NSObject+AutoRuntime.m */; };
 		183323E61ED6B10D00B1ECEA /* Equip_listModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEF1E7FC2C500B48E3C /* Equip_listModel.m */; };
 		183323E71ED6B10D00B1ECEA /* Samurai_Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E51E7FDDD400B48E3C /* Samurai_Encoding.m */; };
-		183323E81ED6B10D00B1ECEA /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E819E65EF30045A720 /* AFURLRequestSerialization.m */; };
 		183323E91ED6B10D00B1ECEA /* Samurai_HtmlSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B81E7FDDD400B48E3C /* Samurai_HtmlSize.m */; };
 		183323EA1ED6B10D00B1ECEA /* NSBundle+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972CE1E7FDDD400B48E3C /* NSBundle+Extension.m */; };
 		183323EB1ED6B10D00B1ECEA /* ServiceGrids.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974AA1E7FDDD400B48E3C /* ServiceGrids.m */; };
@@ -466,7 +441,6 @@
 		183324111ED6B10D00B1ECEA /* Samurai_Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974231E7FDDD400B48E3C /* Samurai_Document.m */; };
 		183324121ED6B10D00B1ECEA /* CBGCompareSameRoleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */; };
 		183324131ED6B10D00B1ECEA /* Samurai_HtmlNumberPercentage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973B41E7FDDD400B48E3C /* Samurai_HtmlNumberPercentage.m */; };
-		183324141ED6B10D00B1ECEA /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EF19E65EF30045A720 /* AFNetworkActivityIndicatorManager.m */; };
 		183324151ED6B10D00B1ECEA /* Samurai_Performance.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972EB1E7FDDD400B48E3C /* Samurai_Performance.m */; };
 		183324161ED6B10D00B1ECEA /* UITextField+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973E01E7FDDD400B48E3C /* UITextField+Html.m */; };
 		183324171ED6B10D00B1ECEA /* Samurai_UISlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973FF1E7FDDD400B48E3C /* Samurai_UISlider.m */; };
@@ -481,7 +455,6 @@
 		183324201ED6B10D00B1ECEA /* CBGStatisticsDetailHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB78F1E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.m */; };
 		183324211ED6B10D00B1ECEA /* AAJsonConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090C51E9F555D0015E393 /* AAJsonConverter.m */; };
 		183324221ED6B10D00B1ECEA /* CBGLocalServerListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185522791EA849580052AD16 /* CBGLocalServerListVC.m */; };
-		183324231ED6B10D00B1ECEA /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E419E65EF30045A720 /* AFSecurityPolicy.m */; };
 		183324241ED6B10D00B1ECEA /* AAChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090D71E9F555D0015E393 /* AAChart.m */; };
 		183324251ED6B10D00B1ECEA /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DFC1E7FC2C500B48E3C /* UserInfo.m */; };
 		183324261ED6B10D00B1ECEA /* Samurai_UIProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973FB1E7FDDD400B48E3C /* Samurai_UIProgressView.m */; };
@@ -511,14 +484,12 @@
 		1833243E1ED6B10D00B1ECEA /* ZWSystemBaseListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D681E7FC24700B48E3C /* ZWSystemBaseListVC.m */; };
 		1833243F1ED6B10D00B1ECEA /* Samurai_Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972F71E7FDDD400B48E3C /* Samurai_Thread.m */; };
 		183324401ED6B10D00B1ECEA /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972161E7FCA2B00B48E3C /* FMDatabaseQueue.m */; };
-		183324411ED6B10D00B1ECEA /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DB19E65EF30045A720 /* AFHTTPRequestOperation.m */; };
 		183324421ED6B10D00B1ECEA /* AALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090E31E9F555D0015E393 /* AALine.m */; };
 		183324431ED6B10D00B1ECEA /* ZWSellOthersListClearModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D641E7FC24700B48E3C /* ZWSellOthersListClearModel.m */; };
 		183324441ED6B10D00B1ECEA /* LocationTimeRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A21E9E2FA60015E393 /* LocationTimeRefreshManager.m */; };
 		183324451ED6B10D00B1ECEA /* OLBasicDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972861E7FDDD300B48E3C /* OLBasicDataModel.m */; };
 		183324461ED6B10D00B1ECEA /* ZWBGRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E081E7FC2C500B48E3C /* ZWBGRefreshManager.m */; };
 		183324471ED6B10D00B1ECEA /* ZWDataDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E0A1E7FC2C500B48E3C /* ZWDataDetailModel.m */; };
-		183324481ED6B10D00B1ECEA /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58EC19E65EF30045A720 /* AFURLSessionManager.m */; };
 		183324491ED6B10D00B1ECEA /* ZWRateEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D7C1E7FC24700B48E3C /* ZWRateEditController.m */; };
 		1833244A1ED6B10D00B1ECEA /* RemoteNTFRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090AA1E9E2FA60015E393 /* RemoteNTFRefreshManager.m */; };
 		1833244B1ED6B10D00B1ECEA /* ServiceMonitorStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974C61E7FDDD400B48E3C /* ServiceMonitorStatusBar.m */; };
@@ -605,7 +576,6 @@
 		1833249C1ED6B10D00B1ECEA /* Samurai_HtmlUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973BC1E7FDDD400B48E3C /* Samurai_HtmlUrl.m */; };
 		1833249D1ED6B10D00B1ECEA /* NSObject+AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976421E7FDE1500B48E3C /* NSObject+AutoCoding.m */; };
 		1833249E1ED6B10D00B1ECEA /* NSData+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D01E7FDDD400B48E3C /* NSData+Extension.m */; };
-		1833249F1ED6B10D00B1ECEA /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DF19E65EF30045A720 /* AFHTTPSessionManager.m */; };
 		183324A01ED6B10D00B1ECEA /* Samurai_HtmlRenderWorkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973901E7FDDD400B48E3C /* Samurai_HtmlRenderWorkflow.m */; };
 		183324A11ED6B10D00B1ECEA /* PetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DE01E7FC2C500B48E3C /* PetModel.m */; };
 		183324A21ED6B10D00B1ECEA /* Samurai_HtmlRenderObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973841E7FDDD400B48E3C /* Samurai_HtmlRenderObject.m */; };
@@ -638,7 +608,6 @@
 		183324BD1ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973611E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_10Begin.m */; };
 		183324BE1ED6B10D00B1ECEA /* ServiceGestureViewClick.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974A21E7FDDD400B48E3C /* ServiceGestureViewClick.m */; };
 		183324BF1ED6B10D00B1ECEA /* Samurai_Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973111E7FDDD400B48E3C /* Samurai_Event.m */; };
-		183324C01ED6B10D00B1ECEA /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58FE19E65EF30045A720 /* UIWebView+AFNetworking.m */; };
 		183324C11ED6B10D00B1ECEA /* CBGWebListErrorCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE861E864F27009312A7 /* CBGWebListErrorCheckVC.m */; };
 		183324C21ED6B10D00B1ECEA /* RoleSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE781E863158009312A7 /* RoleSearch.m */; };
 		183324C31ED6B10D00B1ECEA /* Samurai_UIConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A974551E7FDDD400B48E3C /* Samurai_UIConfig.m */; };
@@ -655,7 +624,6 @@
 		183324CE1ED6B10D00B1ECEA /* CBGSortHistoryBaseStyleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */; };
 		183324CF1ED6B10D00B1ECEA /* ZACBGListDetailShowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */; };
 		183324D01ED6B10D00B1ECEA /* BaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96E4F1E7FC36200B48E3C /* BaseRequestModel.m */; };
-		183324D11ED6B10D00B1ECEA /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58E219E65EF30045A720 /* AFNetworkReachabilityManager.m */; };
 		183324D21ED6B10D00B1ECEA /* DZUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976491E7FDE1500B48E3C /* DZUtils.m */; };
 		183324D31ED6B10D00B1ECEA /* Samurai_DockerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973251E7FDDD400B48E3C /* Samurai_DockerManager.m */; };
 		183324D41ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973691E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m */; };
@@ -663,13 +631,11 @@
 		183324D61ED6B10D00B1ECEA /* ViewController+Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9734C1E7FDDD400B48E3C /* ViewController+Template.m */; };
 		183324D71ED6B10D00B1ECEA /* UICollectionViewCell+Html.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A973CC1E7FDDD400B48E3C /* UICollectionViewCell+Html.m */; };
 		183324D81ED6B10D00B1ECEA /* AccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DA81E7FC2C500B48E3C /* AccountInfo.m */; };
-		183324D91ED6B10D00B1ECEA /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58F719E65EF30045A720 /* UIImageView+AFNetworking.m */; };
 		183324DA1ED6B10D00B1ECEA /* string_piece.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A974731E7FDDD400B48E3C /* string_piece.c */; };
 		183324DB1ED6B10D00B1ECEA /* Samurai_Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972E31E7FDDD400B48E3C /* Samurai_Debug.m */; };
 		183324DC1ED6B10D00B1ECEA /* ZWPanicRefreshController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892CA451EC9AAC7006AA762 /* ZWPanicRefreshController.m */; };
 		183324DD1ED6B10D00B1ECEA /* Summon_equip3Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96DEA1E7FC2C500B48E3C /* Summon_equip3Model.m */; };
 		183324DE1ED6B10D00B1ECEA /* ZWSystemListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A96D851E7FC24700B48E3C /* ZWSystemListController.m */; };
-		183324DF1ED6B10D00B1ECEA /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58DD19E65EF30045A720 /* AFHTTPRequestOperationManager.m */; };
 		183324E01ED6B10D00B1ECEA /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 18A9747C1E7FDDD400B48E3C /* util.c */; };
 		183324E11ED6B10D00B1ECEA /* ZWSystemRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A971D01E7FC67400B48E3C /* ZWSystemRequestModel.m */; };
 		183324E21ED6B10D00B1ECEA /* CBGWebListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE711E862A95009312A7 /* CBGWebListRequestModel.m */; };
@@ -820,6 +786,40 @@
 		1892CA491EC9B125006AA762 /* ZWBaseRefreshController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892CA481EC9B125006AA762 /* ZWBaseRefreshController.m */; };
 		18936F8E1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */; };
 		18936F921E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18936F911E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m */; };
+		189F788D1EFD007C0048AC11 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78691EFD007C0048AC11 /* AFHTTPRequestOperation.m */; };
+		189F788E1EFD007C0048AC11 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78691EFD007C0048AC11 /* AFHTTPRequestOperation.m */; };
+		189F788F1EFD007C0048AC11 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F786B1EFD007C0048AC11 /* AFHTTPRequestOperationManager.m */; };
+		189F78901EFD007C0048AC11 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F786B1EFD007C0048AC11 /* AFHTTPRequestOperationManager.m */; };
+		189F78911EFD007C0048AC11 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F786D1EFD007C0048AC11 /* AFHTTPSessionManager.m */; };
+		189F78921EFD007C0048AC11 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F786D1EFD007C0048AC11 /* AFHTTPSessionManager.m */; };
+		189F78931EFD007C0048AC11 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78701EFD007C0048AC11 /* AFNetworkReachabilityManager.m */; };
+		189F78941EFD007C0048AC11 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78701EFD007C0048AC11 /* AFNetworkReachabilityManager.m */; };
+		189F78951EFD007C0048AC11 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78721EFD007C0048AC11 /* AFSecurityPolicy.m */; };
+		189F78961EFD007C0048AC11 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78721EFD007C0048AC11 /* AFSecurityPolicy.m */; };
+		189F78971EFD007C0048AC11 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78741EFD007C0048AC11 /* AFURLConnectionOperation.m */; };
+		189F78981EFD007C0048AC11 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78741EFD007C0048AC11 /* AFURLConnectionOperation.m */; };
+		189F78991EFD007C0048AC11 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78761EFD007C0048AC11 /* AFURLRequestSerialization.m */; };
+		189F789A1EFD007C0048AC11 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78761EFD007C0048AC11 /* AFURLRequestSerialization.m */; };
+		189F789B1EFD007C0048AC11 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78781EFD007C0048AC11 /* AFURLResponseSerialization.m */; };
+		189F789C1EFD007C0048AC11 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78781EFD007C0048AC11 /* AFURLResponseSerialization.m */; };
+		189F789D1EFD007C0048AC11 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F787A1EFD007C0048AC11 /* AFURLSessionManager.m */; };
+		189F789E1EFD007C0048AC11 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F787A1EFD007C0048AC11 /* AFURLSessionManager.m */; };
+		189F789F1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F787D1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m */; };
+		189F78A01EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F787D1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m */; };
+		189F78A11EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F787F1EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m */; };
+		189F78A21EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F787F1EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m */; };
+		189F78A31EFD007C0048AC11 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78811EFD007C0048AC11 /* UIAlertView+AFNetworking.m */; };
+		189F78A41EFD007C0048AC11 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78811EFD007C0048AC11 /* UIAlertView+AFNetworking.m */; };
+		189F78A51EFD007C0048AC11 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78831EFD007C0048AC11 /* UIButton+AFNetworking.m */; };
+		189F78A61EFD007C0048AC11 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78831EFD007C0048AC11 /* UIButton+AFNetworking.m */; };
+		189F78A71EFD007C0048AC11 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78851EFD007C0048AC11 /* UIImageView+AFNetworking.m */; };
+		189F78A81EFD007C0048AC11 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78851EFD007C0048AC11 /* UIImageView+AFNetworking.m */; };
+		189F78A91EFD007D0048AC11 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78881EFD007C0048AC11 /* UIProgressView+AFNetworking.m */; };
+		189F78AA1EFD007D0048AC11 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F78881EFD007C0048AC11 /* UIProgressView+AFNetworking.m */; };
+		189F78AB1EFD007D0048AC11 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788A1EFD007C0048AC11 /* UIRefreshControl+AFNetworking.m */; };
+		189F78AC1EFD007D0048AC11 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788A1EFD007C0048AC11 /* UIRefreshControl+AFNetworking.m */; };
+		189F78AD1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */; };
+		189F78AE1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */; };
 		18A1EE551E862866009312A7 /* CreateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE421E862866009312A7 /* CreateModel.m */; };
 		18A1EE571E862866009312A7 /* NodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE451E862866009312A7 /* NodeModel.m */; };
 		18A1EE591E862866009312A7 /* NodeModelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE471E862866009312A7 /* NodeModelCell.m */; };
@@ -1350,42 +1350,6 @@
 		180D58CA19E6255D0045A720 /* BlockConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockConstant.h; sourceTree = "<group>"; };
 		180D58CB19E6255D0045A720 /* MethodConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodConstant.h; sourceTree = "<group>"; };
 		180D58CC19E6255D0045A720 /* WebConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebConstant.h; sourceTree = "<group>"; };
-		180D58DA19E65EF30045A720 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
-		180D58DB19E65EF30045A720 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
-		180D58DC19E65EF30045A720 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
-		180D58DD19E65EF30045A720 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
-		180D58DE19E65EF30045A720 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
-		180D58DF19E65EF30045A720 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
-		180D58E019E65EF30045A720 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		180D58E119E65EF30045A720 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		180D58E219E65EF30045A720 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
-		180D58E319E65EF30045A720 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
-		180D58E419E65EF30045A720 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
-		180D58E519E65EF30045A720 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
-		180D58E619E65EF30045A720 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
-		180D58E719E65EF30045A720 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
-		180D58E819E65EF30045A720 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
-		180D58E919E65EF30045A720 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
-		180D58EA19E65EF30045A720 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
-		180D58EB19E65EF30045A720 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
-		180D58EC19E65EF30045A720 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		180D58EE19E65EF30045A720 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
-		180D58EF19E65EF30045A720 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
-		180D58F019E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58F119E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityIndicatorView+AFNetworking.m"; sourceTree = "<group>"; };
-		180D58F219E65EF30045A720 /* UIAlertView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58F319E65EF30045A720 /* UIAlertView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+AFNetworking.m"; sourceTree = "<group>"; };
-		180D58F419E65EF30045A720 /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58F519E65EF30045A720 /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+AFNetworking.m"; sourceTree = "<group>"; };
-		180D58F619E65EF30045A720 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58F719E65EF30045A720 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		180D58F819E65EF30045A720 /* UIKit+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIKit+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58F919E65EF30045A720 /* UIProgressView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58FA19E65EF30045A720 /* UIProgressView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+AFNetworking.m"; sourceTree = "<group>"; };
-		180D58FB19E65EF30045A720 /* UIRefreshControl+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58FC19E65EF30045A720 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
-		180D58FD19E65EF30045A720 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
-		180D58FE19E65EF30045A720 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		180F7F431A1DCACC0039E222 /* blogDetail.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = blogDetail.js; sourceTree = "<group>"; };
 		180F7F441A1DCACC0039E222 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		18130E0719E8FDA000526957 /* OLNameListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLNameListTableView.h; sourceTree = "<group>"; };
@@ -1560,6 +1524,44 @@
 		18936F8D1E90A481003E1E51 /* CBGCombinedScrolledHandleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCombinedScrolledHandleVC.m; sourceTree = "<group>"; };
 		18936F901E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMaxHistoryListRefreshVC.h; sourceTree = "<group>"; };
 		18936F911E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGMaxHistoryListRefreshVC.m; sourceTree = "<group>"; };
+		189F77AC1EFCFA650048AC11 /* libHappyDNS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHappyDNS.a; path = "../../../../Library/Developer/Xcode/DerivedData/WebConnectPrj-fdtqcospyiomybfldkvzipjrwcfi/Build/Products/Debug-iphoneos/HappyDNS/libHappyDNS.a"; sourceTree = "<group>"; };
+		189F77AD1EFCFA650048AC11 /* libQiniu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQiniu.a; path = "../../../../Library/Developer/Xcode/DerivedData/WebConnectPrj-fdtqcospyiomybfldkvzipjrwcfi/Build/Products/Debug-iphoneos/Qiniu/libQiniu.a"; sourceTree = "<group>"; };
+		189F78681EFD007C0048AC11 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		189F78691EFD007C0048AC11 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		189F786A1EFD007C0048AC11 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
+		189F786B1EFD007C0048AC11 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
+		189F786C1EFD007C0048AC11 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		189F786D1EFD007C0048AC11 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		189F786E1EFD007C0048AC11 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		189F786F1EFD007C0048AC11 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		189F78701EFD007C0048AC11 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		189F78711EFD007C0048AC11 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		189F78721EFD007C0048AC11 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		189F78731EFD007C0048AC11 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		189F78741EFD007C0048AC11 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		189F78751EFD007C0048AC11 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		189F78761EFD007C0048AC11 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		189F78771EFD007C0048AC11 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		189F78781EFD007C0048AC11 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		189F78791EFD007C0048AC11 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		189F787A1EFD007C0048AC11 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		189F787C1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		189F787D1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		189F787E1EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
+		189F787F1EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityIndicatorView+AFNetworking.m"; sourceTree = "<group>"; };
+		189F78801EFD007C0048AC11 /* UIAlertView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+AFNetworking.h"; sourceTree = "<group>"; };
+		189F78811EFD007C0048AC11 /* UIAlertView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+AFNetworking.m"; sourceTree = "<group>"; };
+		189F78821EFD007C0048AC11 /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+AFNetworking.h"; sourceTree = "<group>"; };
+		189F78831EFD007C0048AC11 /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+AFNetworking.m"; sourceTree = "<group>"; };
+		189F78841EFD007C0048AC11 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		189F78851EFD007C0048AC11 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		189F78861EFD007C0048AC11 /* UIKit+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIKit+AFNetworking.h"; sourceTree = "<group>"; };
+		189F78871EFD007C0048AC11 /* UIProgressView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+AFNetworking.h"; sourceTree = "<group>"; };
+		189F78881EFD007C0048AC11 /* UIProgressView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+AFNetworking.m"; sourceTree = "<group>"; };
+		189F78891EFD007C0048AC11 /* UIRefreshControl+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+AFNetworking.h"; sourceTree = "<group>"; };
+		189F788A1EFD007C0048AC11 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
+		189F788B1EFD007C0048AC11 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
+		189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		18A1EE411E862866009312A7 /* CreateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateModel.h; sourceTree = "<group>"; };
 		18A1EE421E862866009312A7 /* CreateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateModel.m; sourceTree = "<group>"; };
 		18A1EE441E862866009312A7 /* NodeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeModel.h; sourceTree = "<group>"; };
@@ -2501,6 +2503,9 @@
 		18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseSortVC.m; sourceTree = "<group>"; };
 		18F6DBF21EF915060047E586 /* CBGWebDBDownModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGWebDBDownModel.h; sourceTree = "<group>"; };
 		18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebDBDownModel.m; sourceTree = "<group>"; };
+		54D455CCBA25D814B44BC0F3 /* Pods-WebConnectPrj.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebConnectPrj.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WebConnectPrj/Pods-WebConnectPrj.debug.xcconfig"; sourceTree = "<group>"; };
+		80DC97B00F800707692AF83F /* Pods-WebConnectPrj.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebConnectPrj.release.xcconfig"; path = "Pods/Target Support Files/Pods-WebConnectPrj/Pods-WebConnectPrj.release.xcconfig"; sourceTree = "<group>"; };
+		FECE0F68A828063AB3ECEF65 /* libPods-WebConnectPrj.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebConnectPrj.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2593,6 +2598,7 @@
 				180D589819E622680045A720 /* Products */,
 				18A971FE1E7FC8A500B48E3C /* Frameworks */,
 				1833255F1ED6B10E00B1ECEA /* WebConnectPrj copy-Info.plist */,
+				B5F031987882F700AE9E0DE6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2663,65 +2669,15 @@
 		180D58D819E65EF30045A720 /* OtherTools */ = {
 			isa = PBXGroup;
 			children = (
+				189F78671EFD007C0048AC11 /* AFNetworking */,
+				189F787B1EFD007C0048AC11 /* UIKit+AFNetworking */,
 				18A9721E1E7FCA5C00B48E3C /* MJExtension */,
 				18A9720E1E7FCA2B00B48E3C /* FMDB */,
 				18A972011E7FCA0800B48E3C /* YYCache */,
 				187767C01A416805003F31B6 /* SWTableViewCell */,
 				18809DC91A0B5B0200B66A59 /* SDWebImage0915 */,
-				180D58D919E65EF30045A720 /* AFNetworking */,
-				180D58ED19E65EF30045A720 /* UIKit+AFNetworking */,
 			);
 			path = OtherTools;
-			sourceTree = "<group>";
-		};
-		180D58D919E65EF30045A720 /* AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				180D58DA19E65EF30045A720 /* AFHTTPRequestOperation.h */,
-				180D58DB19E65EF30045A720 /* AFHTTPRequestOperation.m */,
-				180D58DC19E65EF30045A720 /* AFHTTPRequestOperationManager.h */,
-				180D58DD19E65EF30045A720 /* AFHTTPRequestOperationManager.m */,
-				180D58DE19E65EF30045A720 /* AFHTTPSessionManager.h */,
-				180D58DF19E65EF30045A720 /* AFHTTPSessionManager.m */,
-				180D58E019E65EF30045A720 /* AFNetworking.h */,
-				180D58E119E65EF30045A720 /* AFNetworkReachabilityManager.h */,
-				180D58E219E65EF30045A720 /* AFNetworkReachabilityManager.m */,
-				180D58E319E65EF30045A720 /* AFSecurityPolicy.h */,
-				180D58E419E65EF30045A720 /* AFSecurityPolicy.m */,
-				180D58E519E65EF30045A720 /* AFURLConnectionOperation.h */,
-				180D58E619E65EF30045A720 /* AFURLConnectionOperation.m */,
-				180D58E719E65EF30045A720 /* AFURLRequestSerialization.h */,
-				180D58E819E65EF30045A720 /* AFURLRequestSerialization.m */,
-				180D58E919E65EF30045A720 /* AFURLResponseSerialization.h */,
-				180D58EA19E65EF30045A720 /* AFURLResponseSerialization.m */,
-				180D58EB19E65EF30045A720 /* AFURLSessionManager.h */,
-				180D58EC19E65EF30045A720 /* AFURLSessionManager.m */,
-			);
-			path = AFNetworking;
-			sourceTree = "<group>";
-		};
-		180D58ED19E65EF30045A720 /* UIKit+AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				180D58EE19E65EF30045A720 /* AFNetworkActivityIndicatorManager.h */,
-				180D58EF19E65EF30045A720 /* AFNetworkActivityIndicatorManager.m */,
-				180D58F019E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.h */,
-				180D58F119E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m */,
-				180D58F219E65EF30045A720 /* UIAlertView+AFNetworking.h */,
-				180D58F319E65EF30045A720 /* UIAlertView+AFNetworking.m */,
-				180D58F419E65EF30045A720 /* UIButton+AFNetworking.h */,
-				180D58F519E65EF30045A720 /* UIButton+AFNetworking.m */,
-				180D58F619E65EF30045A720 /* UIImageView+AFNetworking.h */,
-				180D58F719E65EF30045A720 /* UIImageView+AFNetworking.m */,
-				180D58F819E65EF30045A720 /* UIKit+AFNetworking.h */,
-				180D58F919E65EF30045A720 /* UIProgressView+AFNetworking.h */,
-				180D58FA19E65EF30045A720 /* UIProgressView+AFNetworking.m */,
-				180D58FB19E65EF30045A720 /* UIRefreshControl+AFNetworking.h */,
-				180D58FC19E65EF30045A720 /* UIRefreshControl+AFNetworking.m */,
-				180D58FD19E65EF30045A720 /* UIWebView+AFNetworking.h */,
-				180D58FE19E65EF30045A720 /* UIWebView+AFNetworking.m */,
-			);
-			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
 		180F7F421A1DCACC0039E222 /* LocalJS */ = {
@@ -3003,6 +2959,56 @@
 				1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */,
 			);
 			path = AutoBuy;
+			sourceTree = "<group>";
+		};
+		189F78671EFD007C0048AC11 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				189F78681EFD007C0048AC11 /* AFHTTPRequestOperation.h */,
+				189F78691EFD007C0048AC11 /* AFHTTPRequestOperation.m */,
+				189F786A1EFD007C0048AC11 /* AFHTTPRequestOperationManager.h */,
+				189F786B1EFD007C0048AC11 /* AFHTTPRequestOperationManager.m */,
+				189F786C1EFD007C0048AC11 /* AFHTTPSessionManager.h */,
+				189F786D1EFD007C0048AC11 /* AFHTTPSessionManager.m */,
+				189F786E1EFD007C0048AC11 /* AFNetworking.h */,
+				189F786F1EFD007C0048AC11 /* AFNetworkReachabilityManager.h */,
+				189F78701EFD007C0048AC11 /* AFNetworkReachabilityManager.m */,
+				189F78711EFD007C0048AC11 /* AFSecurityPolicy.h */,
+				189F78721EFD007C0048AC11 /* AFSecurityPolicy.m */,
+				189F78731EFD007C0048AC11 /* AFURLConnectionOperation.h */,
+				189F78741EFD007C0048AC11 /* AFURLConnectionOperation.m */,
+				189F78751EFD007C0048AC11 /* AFURLRequestSerialization.h */,
+				189F78761EFD007C0048AC11 /* AFURLRequestSerialization.m */,
+				189F78771EFD007C0048AC11 /* AFURLResponseSerialization.h */,
+				189F78781EFD007C0048AC11 /* AFURLResponseSerialization.m */,
+				189F78791EFD007C0048AC11 /* AFURLSessionManager.h */,
+				189F787A1EFD007C0048AC11 /* AFURLSessionManager.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		189F787B1EFD007C0048AC11 /* UIKit+AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				189F787C1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.h */,
+				189F787D1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m */,
+				189F787E1EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.h */,
+				189F787F1EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m */,
+				189F78801EFD007C0048AC11 /* UIAlertView+AFNetworking.h */,
+				189F78811EFD007C0048AC11 /* UIAlertView+AFNetworking.m */,
+				189F78821EFD007C0048AC11 /* UIButton+AFNetworking.h */,
+				189F78831EFD007C0048AC11 /* UIButton+AFNetworking.m */,
+				189F78841EFD007C0048AC11 /* UIImageView+AFNetworking.h */,
+				189F78851EFD007C0048AC11 /* UIImageView+AFNetworking.m */,
+				189F78861EFD007C0048AC11 /* UIKit+AFNetworking.h */,
+				189F78871EFD007C0048AC11 /* UIProgressView+AFNetworking.h */,
+				189F78881EFD007C0048AC11 /* UIProgressView+AFNetworking.m */,
+				189F78891EFD007C0048AC11 /* UIRefreshControl+AFNetworking.h */,
+				189F788A1EFD007C0048AC11 /* UIRefreshControl+AFNetworking.m */,
+				189F788B1EFD007C0048AC11 /* UIWebView+AFNetworking.h */,
+				189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */,
+			);
+			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
 		18A1EE401E862866009312A7 /* CreateModel */ = {
@@ -3358,6 +3364,8 @@
 		18A971FE1E7FC8A500B48E3C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				189F77AC1EFCFA650048AC11 /* libHappyDNS.a */,
+				189F77AD1EFCFA650048AC11 /* libQiniu.a */,
 				182091251E9F65550015E393 /* WebKit.framework */,
 				18A972741E7FD06A00B48E3C /* libstdc++.dylib */,
 				18A972751E7FD06A00B48E3C /* libiconv.dylib */,
@@ -3385,6 +3393,7 @@
 				18A9725C1E7FD05F00B48E3C /* CoreGraphics.framework */,
 				18A9725D1E7FD05F00B48E3C /* Security.framework */,
 				18A971FF1E7FC8A500B48E3C /* CoreLocation.framework */,
+				FECE0F68A828063AB3ECEF65 /* libPods-WebConnectPrj.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -4681,6 +4690,15 @@
 			path = SortHistory;
 			sourceTree = "<group>";
 		};
+		B5F031987882F700AE9E0DE6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				54D455CCBA25D814B44BC0F3 /* Pods-WebConnectPrj.debug.xcconfig */,
+				80DC97B00F800707692AF83F /* Pods-WebConnectPrj.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4896,7 +4914,6 @@
 			files = (
 				18DAF5F01ED0406200873D19 /* CBGPanicMixedNightListVC.m in Sources */,
 				18A975E41E7FDDD500B48E3C /* Samurai_UI.m in Sources */,
-				180D590E19E65EF30045A720 /* UIRefreshControl+AFNetworking.m in Sources */,
 				18CFB7981E8F367D00F18440 /* CBGDaysDetailSortHistoryVC.m in Sources */,
 				18A976241E7FDDD500B48E3C /* OLEGOTapTextFooterView.m in Sources */,
 				18A96E351E7FC2C500B48E3C /* Keyword_argModel.m in Sources */,
@@ -4913,13 +4930,14 @@
 				18CFB7941E8F364A00F18440 /* CBGTotalHistroySortVC.m in Sources */,
 				18A975F41E7FDDD500B48E3C /* utf8.c in Sources */,
 				18A9763B1E7FDDD500B48E3C /* SFHFKeychainUtils.m in Sources */,
-				180D590419E65EF30045A720 /* AFURLConnectionOperation.m in Sources */,
 				18A976131E7FDDD500B48E3C /* ServiceMonitorCPUModel.m in Sources */,
+				189F78A71EFD007C0048AC11 /* UIImageView+AFNetworking.m in Sources */,
 				18A976291E7FDDD500B48E3C /* OLEGOCustomHeaderView.m in Sources */,
 				18A96D921E7FC24700B48E3C /* ZWConfigListController.m in Sources */,
 				18A96E441E7FC2C500B48E3C /* ZWSortArrModel.m in Sources */,
 				18A9755E1E7FDDD400B48E3C /* Signal+ViewController.m in Sources */,
 				18A975911E7FDDD400B48E3C /* Samurai_HtmlFunction.m in Sources */,
+				189F78A31EFD007C0048AC11 /* UIAlertView+AFNetworking.m in Sources */,
 				18A976161E7FDDD500B48E3C /* ServiceMonitorNetworkModel.m in Sources */,
 				18A975DB1E7FDDD500B48E3C /* Samurai_RenderStyle.m in Sources */,
 				18A9753D1E7FDDD400B48E3C /* Samurai_Property.m in Sources */,
@@ -4931,7 +4949,6 @@
 				18A976141E7FDDD500B48E3C /* ServiceMonitorFPSModel.m in Sources */,
 				18A96D981E7FC24700B48E3C /* ZWRefreshListController.m in Sources */,
 				18A975611E7FDDD400B48E3C /* View+Signal.m in Sources */,
-				180D590D19E65EF30045A720 /* UIProgressView+AFNetworking.m in Sources */,
 				18A975F81E7FDDD500B48E3C /* katana.lex.c in Sources */,
 				18A975891E7FDDD400B48E3C /* Samurai_HtmlRenderWorklet_30UpdateFrame.m in Sources */,
 				18A976121E7FDDD500B48E3C /* ServiceMonitor.m in Sources */,
@@ -4956,6 +4973,7 @@
 				18A975761E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m in Sources */,
 				18A972381E7FCA5C00B48E3C /* MJExtensionConfig.m in Sources */,
 				18A9723E1E7FCA5C00B48E3C /* NSObject+MJClass.m in Sources */,
+				189F78971EFD007C0048AC11 /* AFURLConnectionOperation.m in Sources */,
 				18A9752A1E7FDDD400B48E3C /* Samurai_Config.m in Sources */,
 				18A975751E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m in Sources */,
 				18809DED1A0B5B0200B66A59 /* SDImageCache.m in Sources */,
@@ -4983,16 +5001,17 @@
 				18A9751F1E7FDDD400B48E3C /* OLBasicViewController.m in Sources */,
 				1833209D1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
 				18A9721D1E7FCA2B00B48E3C /* FMResultSet.m in Sources */,
-				180D590A19E65EF30045A720 /* UIAlertView+AFNetworking.m in Sources */,
 				18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */,
 				18A975A41E7FDDD400B48E3C /* UIImageView+Html.m in Sources */,
 				18DAF5E71ECC325700873D19 /* ZAAutoBuyWebView.m in Sources */,
+				189F78AD1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */,
 				18A975621E7FDDD400B48E3C /* View+Template.m in Sources */,
 				18A9756B1E7FDDD400B48E3C /* Samurai_CSSRuleSet.m in Sources */,
 				18A975AB1E7FDDD400B48E3C /* UITableView+Html.m in Sources */,
 				18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */,
 				18A975A71E7FDDD400B48E3C /* UIProgressView+Html.m in Sources */,
 				18A976621E7FDE1500B48E3C /* STIHTTPSessionManager.m in Sources */,
+				189F78911EFD007C0048AC11 /* AFHTTPSessionManager.m in Sources */,
 				18A96D8E1E7FC24700B48E3C /* ZWSystemTotalRequestModel.m in Sources */,
 				18A975461E7FDDD400B48E3C /* Samurai_Core.m in Sources */,
 				18A976191E7FDDD500B48E3C /* ServiceTapspotHook.m in Sources */,
@@ -5004,6 +5023,7 @@
 				18A976251E7FDDD500B48E3C /* OLEGOHeaderNormalControl.m in Sources */,
 				18A975A91E7FDDD400B48E3C /* UISlider+Html.m in Sources */,
 				18A975521E7FDDD400B48E3C /* Samurai_ModelManager.m in Sources */,
+				189F78A11EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				180D58A319E622680045A720 /* ViewController.m in Sources */,
 				18A96E311E7FC2C500B48E3C /* Summon_equip2Model.m in Sources */,
 				18A9753E1E7FDDD400B48E3C /* Samurai_Runtime.m in Sources */,
@@ -5013,13 +5033,13 @@
 				1820911B1E9F555D0015E393 /* AAPlotOptions.m in Sources */,
 				18A975CB1E7FDDD500B48E3C /* Samurai_Color.m in Sources */,
 				18A9754C1E7FDDD400B48E3C /* Samurai_SignalBus.m in Sources */,
-				180D590619E65EF30045A720 /* AFURLResponseSerialization.m in Sources */,
 				18A972451E7FCCA600B48E3C /* ZALocationLocalModel.m in Sources */,
 				18A975231E7FDDD400B48E3C /* OLMainTopicListTableView.m in Sources */,
 				18A96E3D1E7FC2C500B48E3C /* ZALocalStateModel.m in Sources */,
 				18A975D01E7FDDD500B48E3C /* Samurai_EventPanGesture.m in Sources */,
 				18A975AF1E7FDDD400B48E3C /* UIView+Html.m in Sources */,
 				18A9756E1E7FDDD400B48E3C /* Samurai_HtmlDocument.m in Sources */,
+				189F78A91EFD007D0048AC11 /* UIProgressView+AFNetworking.m in Sources */,
 				18A975321E7FDDD400B48E3C /* NSMutableArray+Extension.m in Sources */,
 				18A975711E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */,
 				18A975D41E7FDDD500B48E3C /* Samurai_Font.m in Sources */,
@@ -5036,6 +5056,7 @@
 				18A96E2C1E7FC2C500B48E3C /* More_attrModel.m in Sources */,
 				18A975C51E7FDDD400B48E3C /* Samurai_ActivityRouter.m in Sources */,
 				18A96E301E7FC2C500B48E3C /* Summon_equip1Model.m in Sources */,
+				189F788F1EFD007C0048AC11 /* AFHTTPRequestOperationManager.m in Sources */,
 				18A9720A1E7FCA0800B48E3C /* YYCache.m in Sources */,
 				18A976221E7FDDD500B48E3C /* OLEGONormalFooterView.m in Sources */,
 				18A972411E7FCA5C00B48E3C /* NSObject+MJProperty.m in Sources */,
@@ -5052,7 +5073,6 @@
 				18809DF11A0B5B0200B66A59 /* SDWebImageDownloaderOperation.m in Sources */,
 				18A1EE6E1E862A1E009312A7 /* CBGWebListRefreshVC.m in Sources */,
 				18A975FA1E7FDDD500B48E3C /* parser.c in Sources */,
-				180D590B19E65EF30045A720 /* UIButton+AFNetworking.m in Sources */,
 				18A975EC1E7FDDD500B48E3C /* attribute.c in Sources */,
 				18A975771E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */,
 				18A971EE1E7FC6E100B48E3C /* CBGEquipDetailRequestManager.m in Sources */,
@@ -5083,7 +5103,6 @@
 				182091141E9F555D0015E393 /* AALegend.m in Sources */,
 				18A1EE591E862866009312A7 /* NodeModelCell.m in Sources */,
 				18A9755C1E7FDDD400B48E3C /* Samurai_ServiceConfig.m in Sources */,
-				180D590919E65EF30045A720 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				18A1EE611E862866009312A7 /* NodeModelViewController.m in Sources */,
 				18A975481E7FDDD400B48E3C /* Samurai_Notification.m in Sources */,
 				18A96D9C1E7FC24700B48E3C /* ZWTopRefreshListController.m in Sources */,
@@ -5127,7 +5146,6 @@
 				18A9765E1E7FDE1500B48E3C /* NSObject+AutoRuntime.m in Sources */,
 				18A96E341E7FC2C500B48E3C /* Equip_listModel.m in Sources */,
 				18A975391E7FDDD400B48E3C /* Samurai_Encoding.m in Sources */,
-				180D590519E65EF30045A720 /* AFURLRequestSerialization.m in Sources */,
 				18A975991E7FDDD400B48E3C /* Samurai_HtmlSize.m in Sources */,
 				18A9752E1E7FDDD400B48E3C /* NSBundle+Extension.m in Sources */,
 				18A9760A1E7FDDD500B48E3C /* ServiceGrids.m in Sources */,
@@ -5149,6 +5167,7 @@
 				18A96E131E7FC2C500B48E3C /* BaseDataModel.m in Sources */,
 				18A96E331E7FC2C500B48E3C /* DirectionModel.m in Sources */,
 				18A1EE7B1E863158009312A7 /* PagerModel.m in Sources */,
+				189F78931EFD007C0048AC11 /* AFNetworkReachabilityManager.m in Sources */,
 				182090BC1E9F4FE70015E393 /* CBGDepthStudyVC.m in Sources */,
 				18A975341E7FDDD400B48E3C /* NSMutableSet+Extension.m in Sources */,
 				18A975EF1E7FDDD500B48E3C /* parser.c in Sources */,
@@ -5171,7 +5190,6 @@
 				18A975CC1E7FDDD500B48E3C /* Samurai_Document.m in Sources */,
 				1832EDF31EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m in Sources */,
 				18A975971E7FDDD400B48E3C /* Samurai_HtmlNumberPercentage.m in Sources */,
-				180D590819E65EF30045A720 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				18A9753C1E7FDDD400B48E3C /* Samurai_Performance.m in Sources */,
 				18A975AD1E7FDDD400B48E3C /* UITextField+Html.m in Sources */,
 				18A975BB1E7FDDD400B48E3C /* Samurai_UISlider.m in Sources */,
@@ -5186,7 +5204,6 @@
 				18CFB7901E8F359D00F18440 /* CBGStatisticsDetailHistoryVC.m in Sources */,
 				182091041E9F555D0015E393 /* AAJsonConverter.m in Sources */,
 				1855227A1EA849580052AD16 /* CBGLocalServerListVC.m in Sources */,
-				180D590319E65EF30045A720 /* AFSecurityPolicy.m in Sources */,
 				1820910F1E9F555D0015E393 /* AAChart.m in Sources */,
 				18A96E3A1E7FC2C500B48E3C /* UserInfo.m in Sources */,
 				18A975B91E7FDDD400B48E3C /* Samurai_UIProgressView.m in Sources */,
@@ -5216,14 +5233,12 @@
 				18A96D8C1E7FC24700B48E3C /* ZWSystemBaseListVC.m in Sources */,
 				18A975421E7FDDD400B48E3C /* Samurai_Thread.m in Sources */,
 				18A9721C1E7FCA2B00B48E3C /* FMDatabaseQueue.m in Sources */,
-				180D58FF19E65EF30045A720 /* AFHTTPRequestOperation.m in Sources */,
 				182091151E9F555D0015E393 /* AALine.m in Sources */,
 				18A96D8A1E7FC24700B48E3C /* ZWSellOthersListClearModel.m in Sources */,
 				182090B21E9E2FA60015E393 /* LocationTimeRefreshManager.m in Sources */,
 				18A975121E7FDDD400B48E3C /* OLBasicDataModel.m in Sources */,
 				18A96E401E7FC2C500B48E3C /* ZWBGRefreshManager.m in Sources */,
 				18A96E411E7FC2C500B48E3C /* ZWDataDetailModel.m in Sources */,
-				180D590719E65EF30045A720 /* AFURLSessionManager.m in Sources */,
 				18A96D961E7FC24700B48E3C /* ZWRateEditController.m in Sources */,
 				182090B61E9E2FA60015E393 /* RemoteNTFRefreshManager.m in Sources */,
 				18A976171E7FDDD500B48E3C /* ServiceMonitorStatusBar.m in Sources */,
@@ -5250,6 +5265,7 @@
 				18A975FF1E7FDDD500B48E3C /* ServiceBorderHook.m in Sources */,
 				18A975CE1E7FDDD500B48E3C /* Samurai_DomWritter.m in Sources */,
 				18A975EE1E7FDDD500B48E3C /* error.c in Sources */,
+				189F78A51EFD007C0048AC11 /* UIButton+AFNetworking.m in Sources */,
 				18A975D21E7FDDD500B48E3C /* Samurai_EventSwipeGesture.m in Sources */,
 				18A96E211E7FC2C500B48E3C /* AttrsModel.m in Sources */,
 				18CFB7881E8F348800F18440 /* CBGSortHistoryBaseDetailVC.m in Sources */,
@@ -5311,9 +5327,9 @@
 				18A976681E7FDE1500B48E3C /* ZAWKConnectDelegate.m in Sources */,
 				18A975D61E7FDDD500B48E3C /* Samurai_Metric.m in Sources */,
 				18A9759B1E7FDDD400B48E3C /* Samurai_HtmlUrl.m in Sources */,
+				189F789D1EFD007C0048AC11 /* AFURLSessionManager.m in Sources */,
 				18A9765D1E7FDE1500B48E3C /* NSObject+AutoCoding.m in Sources */,
 				18A9752F1E7FDDD400B48E3C /* NSData+Extension.m in Sources */,
-				180D590119E65EF30045A720 /* AFHTTPSessionManager.m in Sources */,
 				18A975861E7FDDD400B48E3C /* Samurai_HtmlRenderWorkflow.m in Sources */,
 				18A96E2D1E7FC2C500B48E3C /* PetModel.m in Sources */,
 				18A975801E7FDDD400B48E3C /* Samurai_HtmlRenderObject.m in Sources */,
@@ -5335,6 +5351,7 @@
 				18A976151E7FDDD500B48E3C /* ServiceMonitorMemoryModel.m in Sources */,
 				18A9752D1E7FDDD400B48E3C /* NSArray+Extension.m in Sources */,
 				18A975C21E7FDDD400B48E3C /* Samurai_UIWebView.m in Sources */,
+				189F788D1EFD007C0048AC11 /* AFHTTPRequestOperation.m in Sources */,
 				182091211E9F555D0015E393 /* AATitle.m in Sources */,
 				18A9757A1E7FDDD400B48E3C /* HtmlElement_Hr.m in Sources */,
 				18A975141E7FDDD400B48E3C /* JSOperation.m in Sources */,
@@ -5347,12 +5364,12 @@
 				18A975701E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */,
 				18A976061E7FDDD500B48E3C /* ServiceGestureViewClick.m in Sources */,
 				18A9754E1E7FDDD400B48E3C /* Samurai_Event.m in Sources */,
-				180D590F19E65EF30045A720 /* UIWebView+AFNetworking.m in Sources */,
 				18A1EE871E864F27009312A7 /* CBGWebListErrorCheckVC.m in Sources */,
 				18A1EE7D1E863158009312A7 /* RoleSearch.m in Sources */,
 				18A975E51E7FDDD500B48E3C /* Samurai_UIConfig.m in Sources */,
 				18A975961E7FDDD400B48E3C /* Samurai_HtmlNumberEm.m in Sources */,
 				18A96E2B1E7FC2C500B48E3C /* JinjieModel.m in Sources */,
+				189F789F1EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				18A975DA1E7FDDD500B48E3C /* Samurai_RenderStoreScope.m in Sources */,
 				18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */,
 				18A96E4B1E7FC34100B48E3C /* BaseBlockController.m in Sources */,
@@ -5364,7 +5381,7 @@
 				183C56BC1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m in Sources */,
 				18A976741E8148CB00B48E3C /* ZACBGListDetailShowVC.m in Sources */,
 				18A96E501E7FC36200B48E3C /* BaseRequestModel.m in Sources */,
-				180D590219E65EF30045A720 /* AFNetworkReachabilityManager.m in Sources */,
+				189F78951EFD007C0048AC11 /* AFSecurityPolicy.m in Sources */,
 				18A976601E7FDE1500B48E3C /* DZUtils.m in Sources */,
 				18A975551E7FDDD400B48E3C /* Samurai_DockerManager.m in Sources */,
 				18A975741E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */,
@@ -5372,13 +5389,12 @@
 				18A975671E7FDDD400B48E3C /* ViewController+Template.m in Sources */,
 				18A975A31E7FDDD400B48E3C /* UICollectionViewCell+Html.m in Sources */,
 				18A96E121E7FC2C500B48E3C /* AccountInfo.m in Sources */,
-				180D590C19E65EF30045A720 /* UIImageView+AFNetworking.m in Sources */,
+				189F789B1EFD007C0048AC11 /* AFURLResponseSerialization.m in Sources */,
 				18A975F11E7FDDD500B48E3C /* string_piece.c in Sources */,
 				18A975381E7FDDD400B48E3C /* Samurai_Debug.m in Sources */,
 				1892CA461EC9AAC7006AA762 /* ZWPanicRefreshController.m in Sources */,
 				18A96E321E7FC2C500B48E3C /* Summon_equip3Model.m in Sources */,
 				18A96D9B1E7FC24700B48E3C /* ZWSystemListController.m in Sources */,
-				180D590019E65EF30045A720 /* AFHTTPRequestOperationManager.m in Sources */,
 				18A975F51E7FDDD500B48E3C /* util.c in Sources */,
 				18A971DD1E7FC67400B48E3C /* ZWSystemRequestModel.m in Sources */,
 				18A1EE721E862A95009312A7 /* CBGWebListRequestModel.m in Sources */,
@@ -5388,10 +5404,12 @@
 				182091121E9F555D0015E393 /* AAItemStyle.m in Sources */,
 				18A9761C1E7FDDD500B48E3C /* ServiceTapspotWindow.m in Sources */,
 				18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */,
+				189F78AB1EFD007D0048AC11 /* UIRefreshControl+AFNetworking.m in Sources */,
 				1820911C1E9F555D0015E393 /* AASeries.m in Sources */,
 				1820910E1E9F555D0015E393 /* AABar.m in Sources */,
 				18A9721B1E7FCA2B00B48E3C /* FMDatabasePool.m in Sources */,
 				18A9756A1E7FDDD400B48E3C /* Samurai_CSSRuleCollector.m in Sources */,
+				189F78991EFD007C0048AC11 /* AFURLRequestSerialization.m in Sources */,
 				18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */,
 				18A9723F1E7FCA5C00B48E3C /* NSObject+MJCoding.m in Sources */,
 				18A975981E7FDDD400B48E3C /* Samurai_HtmlNumberPx.m in Sources */,
@@ -5546,7 +5564,6 @@
 			files = (
 				183323041ED6B10D00B1ECEA /* CBGPanicMixedNightListVC.m in Sources */,
 				183323051ED6B10D00B1ECEA /* Samurai_UI.m in Sources */,
-				183323061ED6B10D00B1ECEA /* UIRefreshControl+AFNetworking.m in Sources */,
 				183323071ED6B10D00B1ECEA /* CBGDaysDetailSortHistoryVC.m in Sources */,
 				183323081ED6B10D00B1ECEA /* OLEGOTapTextFooterView.m in Sources */,
 				183323091ED6B10D00B1ECEA /* Keyword_argModel.m in Sources */,
@@ -5563,13 +5580,14 @@
 				183323141ED6B10D00B1ECEA /* CBGTotalHistroySortVC.m in Sources */,
 				183323151ED6B10D00B1ECEA /* utf8.c in Sources */,
 				183323161ED6B10D00B1ECEA /* SFHFKeychainUtils.m in Sources */,
-				183323171ED6B10D00B1ECEA /* AFURLConnectionOperation.m in Sources */,
 				183323181ED6B10D00B1ECEA /* ServiceMonitorCPUModel.m in Sources */,
+				189F78A81EFD007C0048AC11 /* UIImageView+AFNetworking.m in Sources */,
 				183323191ED6B10D00B1ECEA /* OLEGOCustomHeaderView.m in Sources */,
 				1833231A1ED6B10D00B1ECEA /* ZWConfigListController.m in Sources */,
 				1833231B1ED6B10D00B1ECEA /* ZWSortArrModel.m in Sources */,
 				1833231C1ED6B10D00B1ECEA /* Signal+ViewController.m in Sources */,
 				1833231D1ED6B10D00B1ECEA /* Samurai_HtmlFunction.m in Sources */,
+				189F78A41EFD007C0048AC11 /* UIAlertView+AFNetworking.m in Sources */,
 				1833231E1ED6B10D00B1ECEA /* ServiceMonitorNetworkModel.m in Sources */,
 				1833231F1ED6B10D00B1ECEA /* Samurai_RenderStyle.m in Sources */,
 				183323201ED6B10D00B1ECEA /* Samurai_Property.m in Sources */,
@@ -5581,7 +5599,6 @@
 				183323261ED6B10D00B1ECEA /* ServiceMonitorFPSModel.m in Sources */,
 				183323271ED6B10D00B1ECEA /* ZWRefreshListController.m in Sources */,
 				183323281ED6B10D00B1ECEA /* View+Signal.m in Sources */,
-				183323291ED6B10D00B1ECEA /* UIProgressView+AFNetworking.m in Sources */,
 				1833232A1ED6B10D00B1ECEA /* katana.lex.c in Sources */,
 				1833232B1ED6B10D00B1ECEA /* Samurai_HtmlRenderWorklet_30UpdateFrame.m in Sources */,
 				1833232C1ED6B10D00B1ECEA /* ServiceMonitor.m in Sources */,
@@ -5606,6 +5623,7 @@
 				1833233E1ED6B10D00B1ECEA /* MJExtensionConfig.m in Sources */,
 				1833233F1ED6B10D00B1ECEA /* NSObject+MJClass.m in Sources */,
 				183323401ED6B10D00B1ECEA /* Samurai_Config.m in Sources */,
+				189F78981EFD007C0048AC11 /* AFURLConnectionOperation.m in Sources */,
 				183323411ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m in Sources */,
 				183323421ED6B10D00B1ECEA /* SDImageCache.m in Sources */,
 				183323431ED6B10D00B1ECEA /* Samurai_ServiceInstance.m in Sources */,
@@ -5632,17 +5650,18 @@
 				183323581ED6B10D00B1ECEA /* OLBasicViewController.m in Sources */,
 				183323591ED6B10D00B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
 				1833235A1ED6B10D00B1ECEA /* FMResultSet.m in Sources */,
-				1833235B1ED6B10D00B1ECEA /* UIAlertView+AFNetworking.m in Sources */,
 				1833235C1ED6B10D00B1ECEA /* MKAnnotationView+WebCache.m in Sources */,
 				1833235D1ED6B10D00B1ECEA /* UIImageView+Html.m in Sources */,
 				1833235E1ED6B10D00B1ECEA /* ZAAutoBuyWebView.m in Sources */,
 				1833235F1ED6B10D00B1ECEA /* View+Template.m in Sources */,
+				189F78AE1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */,
 				183323601ED6B10D00B1ECEA /* Samurai_CSSRuleSet.m in Sources */,
 				183323611ED6B10D00B1ECEA /* UITableView+Html.m in Sources */,
 				183323621ED6B10D00B1ECEA /* UIProgressView+Html.m in Sources */,
 				18CA6E911EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */,
 				183323631ED6B10D00B1ECEA /* STIHTTPSessionManager.m in Sources */,
 				183323641ED6B10D00B1ECEA /* ZWSystemTotalRequestModel.m in Sources */,
+				189F78921EFD007C0048AC11 /* AFHTTPSessionManager.m in Sources */,
 				183323651ED6B10D00B1ECEA /* Samurai_Core.m in Sources */,
 				183323661ED6B10D00B1ECEA /* ServiceTapspotHook.m in Sources */,
 				183323671ED6B10D00B1ECEA /* CBGPlanCommonCheckListVC.m in Sources */,
@@ -5654,6 +5673,7 @@
 				1833236D1ED6B10D00B1ECEA /* UISlider+Html.m in Sources */,
 				1833236E1ED6B10D00B1ECEA /* Samurai_ModelManager.m in Sources */,
 				1833236F1ED6B10D00B1ECEA /* ViewController.m in Sources */,
+				189F78A21EFD007C0048AC11 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				183323701ED6B10D00B1ECEA /* Summon_equip2Model.m in Sources */,
 				183323711ED6B10D00B1ECEA /* Samurai_Runtime.m in Sources */,
 				183323721ED6B10D00B1ECEA /* Samurai_HtmlColor.m in Sources */,
@@ -5662,7 +5682,6 @@
 				183323751ED6B10D00B1ECEA /* AAPlotOptions.m in Sources */,
 				183323761ED6B10D00B1ECEA /* Samurai_Color.m in Sources */,
 				183323771ED6B10D00B1ECEA /* Samurai_SignalBus.m in Sources */,
-				183323781ED6B10D00B1ECEA /* AFURLResponseSerialization.m in Sources */,
 				183323791ED6B10D00B1ECEA /* ZALocationLocalModel.m in Sources */,
 				1833237A1ED6B10D00B1ECEA /* OLMainTopicListTableView.m in Sources */,
 				1833237B1ED6B10D00B1ECEA /* ZALocalStateModel.m in Sources */,
@@ -5670,6 +5689,7 @@
 				1833237D1ED6B10D00B1ECEA /* UIView+Html.m in Sources */,
 				1833237E1ED6B10D00B1ECEA /* Samurai_HtmlDocument.m in Sources */,
 				1833237F1ED6B10D00B1ECEA /* NSMutableArray+Extension.m in Sources */,
+				189F78AA1EFD007D0048AC11 /* UIProgressView+AFNetworking.m in Sources */,
 				183323801ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */,
 				183323811ED6B10D00B1ECEA /* Samurai_Font.m in Sources */,
 				183323821ED6B10D00B1ECEA /* CBGPlanListDetailCheckVC.m in Sources */,
@@ -5686,6 +5706,7 @@
 				1833238D1ED6B10D00B1ECEA /* Samurai_ActivityRouter.m in Sources */,
 				1833238E1ED6B10D00B1ECEA /* Summon_equip1Model.m in Sources */,
 				1833238F1ED6B10D00B1ECEA /* YYCache.m in Sources */,
+				189F78901EFD007C0048AC11 /* AFHTTPRequestOperationManager.m in Sources */,
 				183323901ED6B10D00B1ECEA /* OLEGONormalFooterView.m in Sources */,
 				183323911ED6B10D00B1ECEA /* NSObject+MJProperty.m in Sources */,
 				183323921ED6B10D00B1ECEA /* ZWDataRefreshAPI.m in Sources */,
@@ -5701,7 +5722,6 @@
 				1833239C1ED6B10D00B1ECEA /* SDWebImageDownloaderOperation.m in Sources */,
 				1833239D1ED6B10D00B1ECEA /* CBGWebListRefreshVC.m in Sources */,
 				1833239E1ED6B10D00B1ECEA /* parser.c in Sources */,
-				1833239F1ED6B10D00B1ECEA /* UIButton+AFNetworking.m in Sources */,
 				183323A01ED6B10D00B1ECEA /* attribute.c in Sources */,
 				183323A11ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */,
 				183323A21ED6B10D00B1ECEA /* CBGEquipDetailRequestManager.m in Sources */,
@@ -5733,7 +5753,6 @@
 				183323BB1ED6B10D00B1ECEA /* AALegend.m in Sources */,
 				183323BC1ED6B10D00B1ECEA /* NodeModelCell.m in Sources */,
 				183323BD1ED6B10D00B1ECEA /* Samurai_ServiceConfig.m in Sources */,
-				183323BE1ED6B10D00B1ECEA /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				183323BF1ED6B10D00B1ECEA /* NodeModelViewController.m in Sources */,
 				183323C01ED6B10D00B1ECEA /* Samurai_Notification.m in Sources */,
 				183323C11ED6B10D00B1ECEA /* ZWTopRefreshListController.m in Sources */,
@@ -5776,7 +5795,6 @@
 				183323E51ED6B10D00B1ECEA /* NSObject+AutoRuntime.m in Sources */,
 				183323E61ED6B10D00B1ECEA /* Equip_listModel.m in Sources */,
 				183323E71ED6B10D00B1ECEA /* Samurai_Encoding.m in Sources */,
-				183323E81ED6B10D00B1ECEA /* AFURLRequestSerialization.m in Sources */,
 				183323E91ED6B10D00B1ECEA /* Samurai_HtmlSize.m in Sources */,
 				183323EA1ED6B10D00B1ECEA /* NSBundle+Extension.m in Sources */,
 				183323EB1ED6B10D00B1ECEA /* ServiceGrids.m in Sources */,
@@ -5799,6 +5817,7 @@
 				183323FC1ED6B10D00B1ECEA /* DirectionModel.m in Sources */,
 				183323FD1ED6B10D00B1ECEA /* PagerModel.m in Sources */,
 				183323FE1ED6B10D00B1ECEA /* CBGDepthStudyVC.m in Sources */,
+				189F78941EFD007C0048AC11 /* AFNetworkReachabilityManager.m in Sources */,
 				183323FF1ED6B10D00B1ECEA /* NSMutableSet+Extension.m in Sources */,
 				183324001ED6B10D00B1ECEA /* parser.c in Sources */,
 				183324011ED6B10D00B1ECEA /* Samurai_EventInput.m in Sources */,
@@ -5820,7 +5839,6 @@
 				183324111ED6B10D00B1ECEA /* Samurai_Document.m in Sources */,
 				183324121ED6B10D00B1ECEA /* CBGCompareSameRoleVC.m in Sources */,
 				183324131ED6B10D00B1ECEA /* Samurai_HtmlNumberPercentage.m in Sources */,
-				183324141ED6B10D00B1ECEA /* AFNetworkActivityIndicatorManager.m in Sources */,
 				183324151ED6B10D00B1ECEA /* Samurai_Performance.m in Sources */,
 				183324161ED6B10D00B1ECEA /* UITextField+Html.m in Sources */,
 				183324171ED6B10D00B1ECEA /* Samurai_UISlider.m in Sources */,
@@ -5835,7 +5853,6 @@
 				183324201ED6B10D00B1ECEA /* CBGStatisticsDetailHistoryVC.m in Sources */,
 				183324211ED6B10D00B1ECEA /* AAJsonConverter.m in Sources */,
 				183324221ED6B10D00B1ECEA /* CBGLocalServerListVC.m in Sources */,
-				183324231ED6B10D00B1ECEA /* AFSecurityPolicy.m in Sources */,
 				183324241ED6B10D00B1ECEA /* AAChart.m in Sources */,
 				183324251ED6B10D00B1ECEA /* UserInfo.m in Sources */,
 				183324261ED6B10D00B1ECEA /* Samurai_UIProgressView.m in Sources */,
@@ -5865,14 +5882,12 @@
 				1833243E1ED6B10D00B1ECEA /* ZWSystemBaseListVC.m in Sources */,
 				1833243F1ED6B10D00B1ECEA /* Samurai_Thread.m in Sources */,
 				183324401ED6B10D00B1ECEA /* FMDatabaseQueue.m in Sources */,
-				183324411ED6B10D00B1ECEA /* AFHTTPRequestOperation.m in Sources */,
 				183324421ED6B10D00B1ECEA /* AALine.m in Sources */,
 				183324431ED6B10D00B1ECEA /* ZWSellOthersListClearModel.m in Sources */,
 				183324441ED6B10D00B1ECEA /* LocationTimeRefreshManager.m in Sources */,
 				183324451ED6B10D00B1ECEA /* OLBasicDataModel.m in Sources */,
 				183324461ED6B10D00B1ECEA /* ZWBGRefreshManager.m in Sources */,
 				183324471ED6B10D00B1ECEA /* ZWDataDetailModel.m in Sources */,
-				183324481ED6B10D00B1ECEA /* AFURLSessionManager.m in Sources */,
 				183324491ED6B10D00B1ECEA /* ZWRateEditController.m in Sources */,
 				1833244A1ED6B10D00B1ECEA /* RemoteNTFRefreshManager.m in Sources */,
 				1833244B1ED6B10D00B1ECEA /* ServiceMonitorStatusBar.m in Sources */,
@@ -5900,6 +5915,7 @@
 				183324611ED6B10D00B1ECEA /* Samurai_DomWritter.m in Sources */,
 				183324621ED6B10D00B1ECEA /* error.c in Sources */,
 				183324631ED6B10D00B1ECEA /* Samurai_EventSwipeGesture.m in Sources */,
+				189F78A61EFD007C0048AC11 /* UIButton+AFNetworking.m in Sources */,
 				183324641ED6B10D00B1ECEA /* AttrsModel.m in Sources */,
 				183324651ED6B10D00B1ECEA /* CBGSortHistoryBaseDetailVC.m in Sources */,
 				183324661ED6B10D00B1ECEA /* ViewController+Query.m in Sources */,
@@ -5961,8 +5977,8 @@
 				1833249B1ED6B10D00B1ECEA /* Samurai_Metric.m in Sources */,
 				1833249C1ED6B10D00B1ECEA /* Samurai_HtmlUrl.m in Sources */,
 				1833249D1ED6B10D00B1ECEA /* NSObject+AutoCoding.m in Sources */,
+				189F789E1EFD007C0048AC11 /* AFURLSessionManager.m in Sources */,
 				1833249E1ED6B10D00B1ECEA /* NSData+Extension.m in Sources */,
-				1833249F1ED6B10D00B1ECEA /* AFHTTPSessionManager.m in Sources */,
 				183324A01ED6B10D00B1ECEA /* Samurai_HtmlRenderWorkflow.m in Sources */,
 				183324A11ED6B10D00B1ECEA /* PetModel.m in Sources */,
 				183324A21ED6B10D00B1ECEA /* Samurai_HtmlRenderObject.m in Sources */,
@@ -5985,6 +6001,7 @@
 				183324B31ED6B10D00B1ECEA /* NSArray+Extension.m in Sources */,
 				183324B41ED6B10D00B1ECEA /* Samurai_UIWebView.m in Sources */,
 				183324B51ED6B10D00B1ECEA /* AATitle.m in Sources */,
+				189F788E1EFD007C0048AC11 /* AFHTTPRequestOperation.m in Sources */,
 				183324B61ED6B10D00B1ECEA /* HtmlElement_Hr.m in Sources */,
 				183324B71ED6B10D00B1ECEA /* JSOperation.m in Sources */,
 				183324B81ED6B10D00B1ECEA /* AAYAxis.m in Sources */,
@@ -5996,13 +6013,13 @@
 				18EF4B471EF378DE006FB291 /* ZWPanicRefreshSettingVC.m in Sources */,
 				183324BE1ED6B10D00B1ECEA /* ServiceGestureViewClick.m in Sources */,
 				183324BF1ED6B10D00B1ECEA /* Samurai_Event.m in Sources */,
-				183324C01ED6B10D00B1ECEA /* UIWebView+AFNetworking.m in Sources */,
 				183324C11ED6B10D00B1ECEA /* CBGWebListErrorCheckVC.m in Sources */,
 				183324C21ED6B10D00B1ECEA /* RoleSearch.m in Sources */,
 				183324C31ED6B10D00B1ECEA /* Samurai_UIConfig.m in Sources */,
 				183324C41ED6B10D00B1ECEA /* Samurai_HtmlNumberEm.m in Sources */,
 				183324C51ED6B10D00B1ECEA /* JinjieModel.m in Sources */,
 				183324C61ED6B10D00B1ECEA /* Samurai_RenderStoreScope.m in Sources */,
+				189F78A01EFD007C0048AC11 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				183324C71ED6B10D00B1ECEA /* CBGLatestDetailCheckVC.m in Sources */,
 				183324C81ED6B10D00B1ECEA /* BaseBlockController.m in Sources */,
 				183324C91ED6B10D00B1ECEA /* ZWSysSellModel.m in Sources */,
@@ -6014,7 +6031,7 @@
 				183324CE1ED6B10D00B1ECEA /* CBGSortHistoryBaseStyleVC.m in Sources */,
 				183324CF1ED6B10D00B1ECEA /* ZACBGListDetailShowVC.m in Sources */,
 				183324D01ED6B10D00B1ECEA /* BaseRequestModel.m in Sources */,
-				183324D11ED6B10D00B1ECEA /* AFNetworkReachabilityManager.m in Sources */,
+				189F78961EFD007C0048AC11 /* AFSecurityPolicy.m in Sources */,
 				183324D21ED6B10D00B1ECEA /* DZUtils.m in Sources */,
 				183324D31ED6B10D00B1ECEA /* Samurai_DockerManager.m in Sources */,
 				183324D41ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */,
@@ -6022,13 +6039,12 @@
 				183324D61ED6B10D00B1ECEA /* ViewController+Template.m in Sources */,
 				183324D71ED6B10D00B1ECEA /* UICollectionViewCell+Html.m in Sources */,
 				183324D81ED6B10D00B1ECEA /* AccountInfo.m in Sources */,
-				183324D91ED6B10D00B1ECEA /* UIImageView+AFNetworking.m in Sources */,
+				189F789C1EFD007C0048AC11 /* AFURLResponseSerialization.m in Sources */,
 				183324DA1ED6B10D00B1ECEA /* string_piece.c in Sources */,
 				183324DB1ED6B10D00B1ECEA /* Samurai_Debug.m in Sources */,
 				183324DC1ED6B10D00B1ECEA /* ZWPanicRefreshController.m in Sources */,
 				183324DD1ED6B10D00B1ECEA /* Summon_equip3Model.m in Sources */,
 				183324DE1ED6B10D00B1ECEA /* ZWSystemListController.m in Sources */,
-				183324DF1ED6B10D00B1ECEA /* AFHTTPRequestOperationManager.m in Sources */,
 				183324E01ED6B10D00B1ECEA /* util.c in Sources */,
 				183324E11ED6B10D00B1ECEA /* ZWSystemRequestModel.m in Sources */,
 				183324E21ED6B10D00B1ECEA /* CBGWebListRequestModel.m in Sources */,
@@ -6038,10 +6054,12 @@
 				183324E61ED6B10D00B1ECEA /* AAItemStyle.m in Sources */,
 				183324E71ED6B10D00B1ECEA /* ServiceTapspotWindow.m in Sources */,
 				183324E81ED6B10D00B1ECEA /* CBGCopyUrlDetailCehckVC.m in Sources */,
+				189F78AC1EFD007D0048AC11 /* UIRefreshControl+AFNetworking.m in Sources */,
 				183324E91ED6B10D00B1ECEA /* AASeries.m in Sources */,
 				183324EA1ED6B10D00B1ECEA /* AABar.m in Sources */,
 				183324EB1ED6B10D00B1ECEA /* FMDatabasePool.m in Sources */,
 				183324EC1ED6B10D00B1ECEA /* Samurai_CSSRuleCollector.m in Sources */,
+				189F789A1EFD007C0048AC11 /* AFURLRequestSerialization.m in Sources */,
 				183324ED1ED6B10D00B1ECEA /* CBGPlanCheckSpecialListVC.m in Sources */,
 				183324EE1ED6B10D00B1ECEA /* NSObject+MJCoding.m in Sources */,
 				183324EF1ED6B10D00B1ECEA /* Samurai_HtmlNumberPx.m in Sources */,
@@ -6143,7 +6161,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -6179,7 +6197,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6189,6 +6207,7 @@
 		};
 		180D58BB19E622680045A720 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54D455CCBA25D814B44BC0F3 /* Pods-WebConnectPrj.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 超群 张 (45J8GK4F5C)";
@@ -6196,8 +6215,9 @@
 				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -6207,6 +6227,7 @@
 		};
 		180D58BC19E622680045A720 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80DC97B00F800707692AF83F /* Pods-WebConnectPrj.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ZhongAn Online P&C Insurance Co., Ltd.";
@@ -6214,8 +6235,9 @@
 				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = WebConnectPrj/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -6278,9 +6300,9 @@
 				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6296,9 +6318,9 @@
 				DEVELOPMENT_TEAM = X9YQDM8Q42;
 				GCC_PREFIX_HEADER = "WebConnectPrj/ZAIOSMainPrj-Prefix.pch";
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

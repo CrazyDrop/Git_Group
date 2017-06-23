@@ -58,11 +58,12 @@
 
 - (void)leftAction
 {
+    [self.navigationController popViewControllerAnimated:YES];
+    return;
     if(!self.orderId)
     {
         [self.navigationController popViewControllerAnimated:YES];
     }else{
-        
         [self tapedOnPayBtn:nil];
     }
     

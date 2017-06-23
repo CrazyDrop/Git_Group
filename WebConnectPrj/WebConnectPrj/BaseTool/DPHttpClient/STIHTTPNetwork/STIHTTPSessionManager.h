@@ -30,7 +30,6 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
-
 typedef void (^STIHTTPApiBlock)(id data, id error);
 
 typedef NS_ENUM(NSUInteger, STIHTTPRequestMethod) {

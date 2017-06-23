@@ -128,6 +128,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     NSString *databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME_READ];
     return databasePath;
 }
++(NSString *)localSaveTotalDBPath
+{
+    NSString * path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *databasePath=[path stringByAppendingPathComponent:ZADATABASE_NAME];
+    return databasePath;
+}
+
 //库表替换
 -(void)exchangeLocalDBWithCurrentDBPath:(NSString *)inputPath
 {
