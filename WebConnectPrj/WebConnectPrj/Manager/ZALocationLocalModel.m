@@ -1775,18 +1775,28 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         {
             case CBGLocalDataBaseListUpdateStyle_RefreshEval:
             {
+                BOOL ingoreRefresh = YES;
+                if(preModel.equip_price != model.equip_price)
+                {
+                    preModel.equip_price = model.equip_price;
+                    ingoreRefresh = NO;
+                }
+                
+                //价格无变化  时间有历史 (不变化)
                 if(preModel.equip_eval_price != model.equip_eval_price)
                 {
                     if(preModel.equip_eval_price == 0){
                         preModel.equip_eval_price = model.equip_eval_price;
+                        ingoreRefresh = NO;
                     }
                     if([model.equip_more_append length] > 0){
                         preModel.equip_more_append = model.equip_more_append;
+                        ingoreRefresh = NO;
                     }
-                }else if(preModel.equip_price != model.equip_price)
+                }
+                
+                if(ingoreRefresh)
                 {
-                    preModel.equip_price = model.equip_price;
-                }else{
                     success = YES;
                 }
 
@@ -2183,7 +2193,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          NSMutableString *sqlMutableString=[NSMutableString string];
          //是某分类的
          //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
-         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 100000"];
+         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 200000"];
          
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])

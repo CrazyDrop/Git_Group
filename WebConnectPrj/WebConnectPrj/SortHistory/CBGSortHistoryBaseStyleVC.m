@@ -119,10 +119,15 @@
         for (NSInteger index = 0;index < [models count] ;index ++ )
         {
             NSInteger nextIndex = index + 1;
+            NSInteger repeatIndex = nextIndex + 1;
             CBGListModel * model1 = [models objectAtIndex:index];
             CBGListModel * model2 = nil;
             if([models count] > nextIndex){
                 model2 = [models objectAtIndex:nextIndex];
+            }
+            if([model2.sell_back_time length] > 0 && ([models count] > repeatIndex))
+            {
+                model2 = [models objectAtIndex:repeatIndex];
             }
             
             NSString * pathEveString = block(model1,model2);
@@ -190,13 +195,18 @@
     
     __weak typeof(self) weakSelf = self;
     [self writeLocalCSVWithFileName:databasePath
-                        headerNames:@"开始时间,结束时间,价格,估价,服务器,门派,链接\n"
+                        headerNames:@"开始时间,结束时间,间隔,价格,估价,服务器,门派,链接\n"
                          modelArray:[self latestTotalShowedHistoryList]
                      andStringBlock:^NSString *(CBGListModel * model1, CBGListModel * model2) {
                          NSString * subStr = [weakSelf inputModelDetailStringForFirstModel:model1
                                                                                secondModel:model2];
                          return subStr;
                      }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startShowDetailLocalDBPlistWithFilePath:databasePath];
+    });
+
 }
 -(NSString *)inputModelDetailStringForFirstModel:(CBGListModel *)model1 secondModel:(CBGListModel *)model2
 {
@@ -212,16 +222,16 @@
     }
     
     
-    NSString *input = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@\n",
+    NSString *input = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@,%@\n",
                        model1.sell_create_time,
                        soldTime,
+                       [NSString stringWithFormat:@"%ld",model1.sell_space],
                        [NSString stringWithFormat:@"%ld",model1.equip_price/100],
                        [NSString stringWithFormat:@"%ld",model1.plan_total_price],
                        serverName,
                        model1.equip_school_name,
                        model1.detailWebUrl,
                        nil];
-    
     return input;
 }
 

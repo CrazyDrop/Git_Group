@@ -225,110 +225,33 @@
     {
         return;
     }
-    self.detailsArr = [NSArray arrayWithArray:self.dataArr];
-    NSMutableArray * urls = [NSMutableArray array];
-    for (NSInteger index = 0;index <[self.detailsArr count] ;index ++) {
-        CBGListModel * eveModel = [self.detailsArr objectAtIndex:index];
-        NSString * eveUrl = eveModel.detailDataUrl;
-        [urls addObject:eveUrl];
-    }
+//    self.detailsArr = [NSArray arrayWithArray:self.dataArr];
+//    NSMutableArray * urls = [NSMutableArray array];
+//    for (NSInteger index = 0;index <[self.detailsArr count] ;index ++) {
+//        CBGListModel * eveModel = [self.detailsArr objectAtIndex:index];
+//        NSString * eveUrl = eveModel.detailDataUrl;
+//        [urls addObject:eveUrl];
+//    }
     
-    [self startEquipDetailAllRequestWithUrls:urls];
+    [self startLatestDetailListRequestForShowedCBGListArr:self.dataArr];
+
 }
--(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
+-(void)finishDetailListRequestWithFinishedCBGListArray:(NSArray *)array
 {
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
-    if(!model){
-        model = [[EquipDetailArrayRequestModel alloc] init];
-        [model addSignalResponder:self];
-        _detailListReqModel = model;
-    }
     
-    [model refreshWebRequestWithArray:array];
-    [model sendRequest];
+    //    [DZUtils noticeCustomerWithShowText:@"退出重新刷新"];
+    //    //    [self refreshLatestShowTableView];
+    //    [[self rootNavigationController] popViewControllerAnimated:YES];
     
 }
 
-#pragma mark EquipDetailArrayRequestModel
-handleSignal( EquipDetailArrayRequestModel, requestError )
+-(void)finishDetailListRequestWithErrorCBGListArray:(NSArray *)array
 {
-    [self hideLoading];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-}
-handleSignal( EquipDetailArrayRequestModel, requestLoading )
-{
-    [self showLoading];
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state != UIApplicationStateActive){
-        return;
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-}
-
-handleSignal( EquipDetailArrayRequestModel, requestLoaded )
-{
-    [self hideLoading];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
-    //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
-    NSArray * total  = model.listArray;
-    
-    NSMutableArray * detailModels = [NSMutableArray array];
-    for (NSInteger index = 0; index < [total count]; index ++)
+    for (NSInteger index = 0;index < [array count] ;index ++ )
     {
-        NSInteger backIndex = [total count] - index - 1;
-        backIndex = index;
-        id obj = [total objectAtIndex:backIndex];
-        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
-        {
-            [detailModels addObject:[obj firstObject]];
-        }else{
-            [detailModels addObject:[NSNull null]];
-        }
+        CBGListModel * eveList = [array objectAtIndex:index];
+        NSLog(@"%ld %@ %@",(long)index,eveList.equip_name,eveList.detailDataUrl);
     }
-    
-    
-    NSMutableArray * updateModels = [NSMutableArray array];
-    
-    NSArray * models = self.detailsArr;
-    for (NSInteger index = 0; index < [models count]; index ++)
-    {
-        EquipModel * detailEve = nil;
-        if([detailModels count] > index)
-        {
-            detailEve = [detailModels objectAtIndex:index];
-        }
-        
-        CBGListModel * obj = [models objectAtIndex:index];
-        obj.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-        if(![detailEve isKindOfClass:[NSNull class]])
-        {
-            if(!detailEve.game_ordersn)
-            {
-                continue;
-            }
-
-            [obj refreshCBGListDataModelWithDetaiEquipModel:detailEve];
-            [updateModels addObject:obj];
-        }
-    }
-    
-    NSLog(@"历史列表刷新 %lu",(unsigned long)[updateModels count]);
-    
-    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-    [manager localSaveEquipHistoryArrayListWithDetailCBGModelArray:updateModels];
-    
-    
-//    [self startShowLocalTotalSaveEquipListArray];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.dataArr = updateModels;
-        [self.listTable reloadData];
-    });;
-    
 }
 -(void)showDetailChooseForHistory
 {

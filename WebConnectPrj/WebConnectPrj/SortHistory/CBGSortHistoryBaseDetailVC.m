@@ -113,6 +113,11 @@
         [urls addObject:eveUrl];
     }
     
+    
+    [_detailListReqModel removeSignalResponder:self];
+    [_detailListReqModel cancel];
+    _detailListReqModel = nil;
+    
     [self startEquipDetailAllRequestWithUrls:urls];
 }
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array

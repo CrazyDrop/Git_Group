@@ -16,6 +16,7 @@
     
     NSCache * statusCache;
     NSCache * priceCache;
+    NSCache * evalCache;
     CBGListModel * stateModel;
 }
 @end
@@ -41,9 +42,12 @@
         priceCache.countLimit = 10000;
         statusCache = [[NSCache alloc] init];
         statusCache.countLimit = 10000;
+        evalCache = [[NSCache alloc] init];
+        evalCache.countLimit = 1000;
 #if  !TARGET_IPHONE_SIMULATOR
         priceCache.countLimit = 3000;
         statusCache.countLimit = 3000;
+        evalCache.countLimit = 3000;
 #endif
         stateModel = [[CBGListModel alloc] init];
 
@@ -67,7 +71,8 @@
         NSString * identifier = eveModel.detailCheckIdentifier;
         NSNumber * status = eveModel.status;
         NSString * price = eveModel.price;
-
+        NSNumber * evalPrice = eveModel.eval_price;
+        
         BOOL priceResult = [self checkHistoryPriceWithLatestEveModel:eveModel];
         BOOL statusResult = [self checkHistoryStatusWithLatestEveModel:eveModel];
         
@@ -84,8 +89,8 @@
             eveModel.appendHistory.equip_price = [price integerValue] * 100;
             eveModel.appendHistory.equip_accept = [eveModel.can_bargain integerValue];
             eveModel.appendHistory.sell_start_time = [NSDate unixDate];
-            eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
-            
+            eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshEval;
+            eveModel.appendHistory.equip_eval_price = [eveModel.eval_price integerValue];
             //            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
             //            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
             
@@ -96,7 +101,11 @@
         {
             price = @"0";
         }
-        
+        if(!evalPrice)
+        {
+            evalPrice = @0;
+        }
+        [evalCache setObject:evalPrice forKey:identifier];
         [statusCache setObject:status forKey:identifier];
         [priceCache setObject:price forKey:identifier];
     }
@@ -132,7 +141,10 @@
     NSString * identifier = eveModel.detailCheckIdentifier;
     NSString * orderSN = eveModel.game_ordersn;
     NSNumber * prePrice = (NSNumber *)[priceCache objectForKey:identifier];
-    if(!prePrice)
+    NSNumber * evalPrice = (NSNumber *)[evalCache objectForKey:identifier];
+    
+    
+    if(!prePrice || !evalPrice || [evalPrice integerValue] == 0)
     {
         ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
@@ -141,9 +153,17 @@
             CBGListModel * list = [dbArr lastObject];
             eveModel.appendHistory = list;
             price = list.equip_price;
+            evalPrice = [NSNumber numberWithInteger:list.equip_eval_price];
         }
     }else{
         price = [prePrice integerValue];
+    }
+    
+    
+    if([eveModel.eval_price integerValue] > 0 && (!evalPrice || [evalPrice integerValue] == 0))
+    {
+        NSLog(@"%@ %@",eveModel.server_name,eveModel.eval_price);
+        return NO;
     }
     
     BOOL result = [eveModel.price integerValue] == price;

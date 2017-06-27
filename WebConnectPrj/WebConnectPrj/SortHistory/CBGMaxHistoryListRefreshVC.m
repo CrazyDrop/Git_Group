@@ -32,7 +32,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
         startIndex = 0;
-        eveSubCount = 300;
+        eveSubCount = 100;
         tryNumber = 0;
         requestLock = [[NSLock alloc] init];
         self.errorNum = 0;
@@ -253,6 +253,7 @@
 
 -(void)finishDetailListRequestWithErrorCBGListArray:(NSArray *)array
 {
+    
     //增加历史失败数组，判定当前失败数组内数据，属于之前历史失败数组，则不进行再次请求,即失败的请求，再次请求一次后不再处理
     NSMutableArray * errorArr = [NSMutableArray array];
     for (NSInteger index = 0;index < [array count] ;index ++ )

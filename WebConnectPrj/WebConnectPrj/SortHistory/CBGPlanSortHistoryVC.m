@@ -301,12 +301,12 @@
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  
-                  [weakSelf outHtmlPlanListWithLatestShowDetail];
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  
+//                  [weakSelf outHtmlPlanListWithLatestShowDetail];
+//              }];
+//    [alertController addAction:action];
 
 
     

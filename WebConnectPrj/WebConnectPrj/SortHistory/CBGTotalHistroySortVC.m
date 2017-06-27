@@ -18,12 +18,42 @@
 
 -(void)refreshLatestDatabaseListDataForQuickSold
 {
-    
+    NSMutableArray * dataArr = [NSMutableArray array];
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithSoldOut];
-    self.dbHistoryArr = sortArr;
+    for (NSInteger index = 0;index < [sortArr count] ;index ++ )
+    {
+        CBGListModel * eveObj = [sortArr objectAtIndex:index];
+        if(eveObj.sell_space > 0 && eveObj.sell_space < 10 * MINUTE)
+        {
+            [dataArr addObject:eveObj];
+        }
+    }
+    self.dbHistoryArr = dataArr;
     [self refreshLatestShowTableView];
 }
+
+-(void)refreshLatestDatabaseListDataForQuickSoldWithPreUnbuy
+{
+    NSMutableArray * dataArr = [NSMutableArray array];
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithSoldOut];
+    for (NSInteger index = 0;index < [sortArr count] ;index ++ )
+    {
+        CBGListModel * eveObj = [sortArr objectAtIndex:index];
+        if(eveObj.sell_space > 0 && eveObj.sell_space < 3 * MINUTE && eveObj.plan_rate <= 1 )
+        {
+            //增加条件
+//            if(eveObj.plan_zhaohuanshou_price < 300 && eveObj.plan_zhuangbei_price < 100 && eveObj.equip_price > 10000 * 100)
+            {
+                [dataArr addObject:eveObj];
+            }
+        }
+    }
+    self.dbHistoryArr = dataArr;
+    [self refreshLatestShowTableView];
+}
+
 
 
 -(void)refreshLatestDatabaseListDataForUnFinished
@@ -36,6 +66,7 @@
     [self refreshLatestShowTableView];
     
 }
+
 -(void)refreshLatestDatabaseListDataForPriceError
 {
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
@@ -74,12 +105,6 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"未完成列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshLatestDatabaseListDataForUnFinished];
-              }];
-    [alertController addAction:action];
-    
     action = [MSAlertAction actionWithTitle:@"抢购列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf refreshLatestDatabaseListDataForQuickSold];
@@ -87,6 +112,21 @@
     
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"抢购非推荐" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLatestDatabaseListDataForQuickSoldWithPreUnbuy];
+              }];
+    
+    [alertController addAction:action];
+
+    
+    action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf outLatestShowDetailDBCSVFile];
+              }];
+    
+    [alertController addAction:action];
+
     action = [MSAlertAction actionWithTitle:@"估价历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf showTotalHistorySortListWithPlayStyle:YES];
@@ -153,6 +193,7 @@
         [[self rootNavigationController] pushViewController:plan animated:YES];
     }
 }
+
 
 -(void)submit
 {

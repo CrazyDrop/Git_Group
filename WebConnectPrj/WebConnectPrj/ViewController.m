@@ -371,26 +371,24 @@
             break;
         case CBGDetailTestFunctionStyle_CopyData:
         {
-            [self refreshWriteInBtnForWriteFinish:NO];
-            dispatch_async(dispatch_get_main_queue(), ^
-            {
-                NSString * dbExchange = @"写入结束";
-                NSInteger preNum = 0;
-                ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-                NSArray *   soldout = [dbManager localSaveEquipHistoryModelListTotal];
-                preNum = [soldout count];
-                dbExchange = [dbExchange stringByAppendingFormat:@"pre %ld",preNum];
-                
-                [dbManager localCopySoldOutDataToPartDataBase];
-                soldout = [dbManager localSaveEquipHistoryModelListTotal];
-                dbExchange = [dbExchange stringByAppendingFormat:@"append %ld finished %ld ",[soldout count] - preNum,[soldout count]];
-                {
-                    NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
-                    [DZUtils noticeCustomerWithShowText:dbExchange];
-                    [self refreshWriteInBtnForWriteFinish:YES];
-                }
-            });
+            NSString * dbExchange = @"写入结束";
+            NSInteger preNum = 0;
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            NSArray *   totalArr = [dbManager localSaveEquipHistoryModelListTotal];
+            preNum = [totalArr count];
+            dbExchange = [dbExchange stringByAppendingFormat:@"pre %ld",preNum];
             
+            [dbManager localCopySoldOutDataToPartDataBase];
+            totalArr = [dbManager localSaveEquipHistoryModelListTotal];
+            dbExchange = [dbExchange stringByAppendingFormat:@"append %ld finished %ld ",[totalArr count] - preNum,[totalArr count]];
+            {
+                NSLog(@"localCopySoldOutDataToPartDataBase %@",dbExchange);
+                //                    [self refreshWriteInBtnForWriteFinish:YES];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [DZUtils noticeCustomerWithShowText:dbExchange];
+                    self.titleV.text = [NSString stringWithFormat:@"%ld",[totalArr count] - preNum];
+                });
+            }
         }
             break;
         case CBGDetailTestFunctionStyle_MobileMax:

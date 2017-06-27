@@ -58,7 +58,6 @@
         //屏蔽所有缓存
         NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
         config.requestCachePolicy = NSURLRequestReloadIgnoringCacheData;
-//        config.timeoutIntervalForRequest = 10;
         
         
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config
