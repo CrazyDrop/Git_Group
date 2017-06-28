@@ -31,6 +31,15 @@
 //启动数据发送
 -(void)send;
 
+//启动数据删除
+-(void)sendRemoveRequest;
+
+
+//启动数据上传
+-(void)sendUploadRequest;
+
+
+
 //取消
 -(void)cancel;
 

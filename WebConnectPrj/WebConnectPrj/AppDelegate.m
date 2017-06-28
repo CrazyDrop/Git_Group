@@ -113,7 +113,7 @@
 {
     NSString * urlString = @"http://log.umtrack.com/ping?devicename=111&mac=1111&idfa=1111&idfv=1111";
     //    [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:urlString]] delegate:self];
-//        urlString = @"http://www.baidu.com";
+    urlString = @"http://www.baidu.com";
     AFHTTPSessionManager * manager = [[AFHTTPSessionManager alloc] init];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager  GET:urlString
@@ -129,7 +129,7 @@
                       resultStr = [[NSString alloc] initWithData:responseObject encoding:NSASCIIStringEncoding];
                   }
               }
-              NSLog(@"AFHTTPResponseSerializer %@",resultStr);
+              NSLog(@"AFHTTPResponseSerializer %ld",[resultStr length]);
           } failure:^(NSURLSessionDataTask *task, NSError *error) {
               NSLog(@"AFHTTPResponseSerializer %@",error);
           }];

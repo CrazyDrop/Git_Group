@@ -14,7 +14,8 @@
 #import "CBGNearHistoryVC.h"
 #import "ZWPanicMaxCombinedVC.h"
 #import "CBGWebDBDownModel.h"
-
+#import "CBGWebDBUploadModel.h"
+#import "CBGWebDBRemoveModel.h"
 
 
 #define BlueSettingDebugAddNum 100
@@ -22,6 +23,8 @@
 {
     Equip_listModel * baseList;
     BaseRequestModel * _dbDataModel;
+    BaseRequestModel * _dbRemoveModel;
+    BaseRequestModel * _dbUploadModel;
 }
 @property (nonatomic,strong) UITextView * textView;
 @property (nonatomic,strong) NSArray * combineArr;
@@ -156,11 +159,16 @@
             name = @"删除READ";
         }
             break;
-        case CBGDetailTestURLFunctionStyle_WebUpload:{
+        case CBGDetailTestURLFunctionStyle_WebUpload:
+        {
             name = @"上传WEB";
         }
             break;
-            
+        case CBGDetailTestURLFunctionStyle_WebRemove:
+        {
+            name = @"WEB移除";
+        }
+            break;
             
             
         default:
@@ -206,6 +214,7 @@
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_ReadRemove],
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebUpload],
                                  
+
                                  
                                  nil];
         
@@ -366,15 +375,25 @@
             [DZUtils noticeCustomerWithShowText:tagStr];
         }
             break;
-        case CBGDetailTestURLFunctionStyle_WebUpload:{
-            [self refreshWebDatabaseWithLatestSaveDB];
+        case CBGDetailTestURLFunctionStyle_WebUpload:
+        {//先执行删除，后执行上传
+//            [self refreshWebDatabaseWithLatestSaveDB];
+            [self removeWebDatabaseForUploadPrepare];
         }
             break;
+        case CBGDetailTestURLFunctionStyle_WebRemove:
+        {
+            [self removeWebDatabaseForUploadPrepare];
+        }
     }
 }
 -(void)refreshWebDatabaseWithLatestSaveDB
 {
-    
+    [self startActivityWebRequestForUpload];
+}
+-(void)removeWebDatabaseForUploadPrepare
+{
+    [self startActivityWebRequestForRemove];
 }
 
 -(void)refreshLocalUpdateWithWEBReadDB
@@ -458,6 +477,71 @@ handleSignal( CBGWebDBDownModel, requestLoaded )
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     [dbManager localCopySoldOutDataToPartDataBase];
 }
+#pragma mark - CBGWebDBUploadModel
+-(void)startActivityWebRequestForUpload
+{
+    CBGWebDBUploadModel * model = (CBGWebDBUploadModel *) _dbUploadModel;
+    if(!model){
+        model = [[CBGWebDBUploadModel alloc] init];
+        [model addSignalResponder:self];
+        _dbUploadModel = model;
+    }
+    [model sendRequest];
+}
+
+handleSignal( CBGWebDBUploadModel, requestError )
+{
+    [self hideLoading];
+    [DZUtils noticeCustomerWithShowText:@"上传失败"];
+    self.titleV.text = @"上传失败";
+
+}
+handleSignal( CBGWebDBUploadModel, requestLoading )
+{
+    [self showLoading];
+}
+handleSignal( CBGWebDBUploadModel, requestLoaded )
+{
+    [self hideLoading];
+    //    if([DZUtils checkAndNoticeErrorWithSignal:signal andNoticeBlock:nil]){
+    //
+    //    }
+    [DZUtils noticeCustomerWithShowText:@"上传成功"];
+    self.titleV.text = @"上传成功";
+
+}
+#pragma mark - CBGWebDBRemoveModel
+-(void)startActivityWebRequestForRemove
+{
+    CBGWebDBRemoveModel * model = (CBGWebDBRemoveModel *) _dbRemoveModel;
+    if(!model){
+        model = [[CBGWebDBRemoveModel alloc] init];
+        [model addSignalResponder:self];
+        _dbRemoveModel = model;
+    }
+    [model sendRequest];
+}
+
+handleSignal( CBGWebDBRemoveModel, requestError )
+{
+    [self hideLoading];
+    [DZUtils noticeCustomerWithShowText:@"删除失败"];
+    
+}
+handleSignal( CBGWebDBRemoveModel, requestLoading )
+{
+    [self showLoading];
+}
+handleSignal( CBGWebDBRemoveModel, requestLoaded )
+{
+    [self hideLoading];
+    //    if([DZUtils checkAndNoticeErrorWithSignal:signal andNoticeBlock:nil]){
+    //
+    //    }
+    [DZUtils noticeCustomerWithShowText:@"删除成功"];
+    [self refreshWebDatabaseWithLatestSaveDB];
+}
+
 
 
 -(void)refreshTotalServerIdRefresh
@@ -947,79 +1031,62 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     // Dispose of any resources that can be recreated.
 }
 
-/**
-- (void)upLoad
-{
-    NSString *token = [[self class] token];
-    QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
-        builder.zone = [QNZone zone2];
-    }];
-    QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
-//    NSData *data = [@"Hello, World!Hello, World!Hello, World!" dataUsingEncoding : NSUTF8StringEncoding];
-//    //    NSData *data = [[NSData alloc] initWithContentsOfFile:@"/Users/jingxuelong/Desktop/2017iOS.xlsx"];
+
+//- (void)upLoad
+//{
+//    NSString *token = [[self class] token];
 //    
-//    [upManager putData:data key:@"2017iOS.text" token:token
-//              complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-//                  
-//              } option:nil];
-    
-    NSString * path = [ZALocationLocalModelManager localSaveTotalDBPath];
-//    [upManager ];
+//    NSString * url = @"http://61.162.231.217:80/";
+//    url = @"http://upload-z2.qiniu.com";
+//    NSString * domain = @"upload-z2.qiniu.com";
+//    
+//    NSString  * access = [[self class] getAccess];
+//    NSString * agent = [[self class] getUserAgent:access];
+//    
+//    NSString * path = [ZALocationLocalModelManager localSaveTotalDBPath];
+//    NSData * data = [NSData dataWithContentsOfFile:path];
+////    data = [@"hahaha" dataUsingEncoding:NSUTF8StringEncoding];
+//    
+//    NSString * key = @"2017test1122.xlsx";
+//    NSString * mime = @"application/octet-stream";
+//    
+//    NSDictionary *dic = @{
+//                          @"key" :key,
+//                          @"token":token
+//                          };
+//    
+//    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+//    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//
+//    NSMutableURLRequest *request = [manager.requestSerializer multipartFormRequestWithMethod:@"POST"
+//                                                                                        URLString:url
+//                                                                                       parameters:dic
+//                                                                        constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//                                                                            [formData appendPartWithFileData:data name:@"file" fileName:key mimeType:mime];
+//                                                                        }
+//                                                                                            error:nil];
+//    
+////    request.URL = [NSURL URLWithString:url];
+//    [request setValue:domain forHTTPHeaderField:@"Host"];
+//    [request setValue:agent forHTTPHeaderField:@"User-Agent"];
+//    [request setValue:nil forHTTPHeaderField:@"Accept-Language"];
+//    
+//
+//    NSURLSessionUploadTask * uploadTask = [manager uploadTaskWithStreamedRequest:request
+//                                                                  progress:nil
+//                                                         completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+//                                                             if(error){
+//                                                                 [DZUtils noticeCustomerWithShowText:@"网络请求失败"];
+//                                                             }else
+//                                                             {
+//                                                                 [DZUtils noticeCustomerWithShowText:@"上传结束"];
+//                                                             }
+//                                                         }];
+//    [uploadTask resume];
+//
+//}
 
-}
 
-
-+ (NSString*)dictionryToJSONString:(NSMutableDictionary *)dictionary
-{
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
-    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-}
-
-//AccessKey  以及SecretKey
-+ (NSString *)token
-{
-    return [self makeToken:@"f9wjb-PpALgdlFb1Q96ru_1GERDuHFTAatCXDJOZ" secretKey:@"haWI3O4XTfNjVed6YS23YS8ev_Yhz9zSf9Ix2d0m"];
-}
-
-+ (NSString *)hmacSha1Key:(NSString*)key textData:(NSString*)text
-{
-    const char *cData  = [text cStringUsingEncoding:NSUTF8StringEncoding];
-    const char *cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
-    uint8_t cHMAC[CC_SHA1_DIGEST_LENGTH];
-    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
-    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
-    NSString *hash = [QNUrlSafeBase64 encodeData:HMAC];
-    return hash;
-}
-
-+ (NSString *)makeToken:(NSString *)accessKey secretKey:(NSString *)secretKey
-{
-    //名字
-    NSString *baseName = [self marshal];
-    baseName = [baseName stringByReplacingOccurrencesOfString:@" " withString:@""];
-    baseName = [baseName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    
-    NSData   *baseNameData = [baseName dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *baseNameBase64 = [QNUrlSafeBase64 encodeData:baseNameData];
-    NSString *secretKeyBase64 =  [self hmacSha1Key:secretKey textData:baseNameBase64];
-    NSString *token = [NSString stringWithFormat:@"%@:%@:%@",  accessKey, secretKeyBase64, baseNameBase64];
-    
-    return token;
-}
-
-+ (NSString *)marshal
-{
-    time_t deadline;
-    time(&deadline);
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"localupdatedb" forKey:@"scope"];
-    NSNumber *escapeNumber = [NSNumber numberWithLongLong:3464706673];
-    [dic setObject:escapeNumber forKey:@"deadline"];
-    NSString *json = [self dictionryToJSONString:dic];
-    return json;
-}
-**/
 
 /*
 #pragma mark - Navigation

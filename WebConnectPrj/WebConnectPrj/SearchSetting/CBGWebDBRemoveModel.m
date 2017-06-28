@@ -1,19 +1,20 @@
 //
-//  CBGWebDBDownModel.m
+//  CBGWebDBRemoveModel.m
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/6/20.
+//  Created by Apple on 2017/6/28.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "CBGWebDBDownModel.h"
+#import "CBGWebDBRemoveModel.h"
 #import "ZALocationHTTPApi.h"
 
-@interface CBGWebDBDownModel()
+@interface CBGWebDBRemoveModel()
 @property (nonatomic,strong) ZALocationHTTPApi * api;
 @end
 
-@implementation CBGWebDBDownModel
+@implementation CBGWebDBRemoveModel
+
 
 -(void)sendRequest
 {
@@ -25,9 +26,9 @@
     
     ZALocationHTTPApi *api = [[ZALocationHTTPApi alloc] init];
     @weakify(self)
-
     
-
+    
+    
     api.whenUpdate = ^(ZALocationHTTPResponse *resp, id error){
         @strongify(self)
         if(resp)
@@ -38,9 +39,10 @@
         }
     };
     self.api = api;
-    [api send];
+    [api sendRemoveRequest];
     
     [self sendSignal:self.requestLoading];
 }
+
 
 @end

@@ -820,6 +820,14 @@
 		189F78AC1EFD007D0048AC11 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788A1EFD007C0048AC11 /* UIRefreshControl+AFNetworking.m */; };
 		189F78AD1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */; };
 		189F78AE1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */; };
+		18A0DAE21F02610B0022FA09 /* QN_GTM_Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DADF1F02610B0022FA09 /* QN_GTM_Base64.m */; };
+		18A0DAE31F02610B0022FA09 /* QN_GTM_Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DADF1F02610B0022FA09 /* QN_GTM_Base64.m */; };
+		18A0DAE41F02610B0022FA09 /* QNUrlSafeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DAE11F02610B0022FA09 /* QNUrlSafeBase64.m */; };
+		18A0DAE51F02610B0022FA09 /* QNUrlSafeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DAE11F02610B0022FA09 /* QNUrlSafeBase64.m */; };
+		18A0DAE81F03444D0022FA09 /* CBGWebDBUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DAE71F03444D0022FA09 /* CBGWebDBUploadModel.m */; };
+		18A0DAE91F03444D0022FA09 /* CBGWebDBUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DAE71F03444D0022FA09 /* CBGWebDBUploadModel.m */; };
+		18A0DAEC1F03498C0022FA09 /* CBGWebDBRemoveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DAEB1F03498C0022FA09 /* CBGWebDBRemoveModel.m */; };
+		18A0DAED1F03498C0022FA09 /* CBGWebDBRemoveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A0DAEB1F03498C0022FA09 /* CBGWebDBRemoveModel.m */; };
 		18A1EE551E862866009312A7 /* CreateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE421E862866009312A7 /* CreateModel.m */; };
 		18A1EE571E862866009312A7 /* NodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE451E862866009312A7 /* NodeModel.m */; };
 		18A1EE591E862866009312A7 /* NodeModelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A1EE471E862866009312A7 /* NodeModelCell.m */; };
@@ -1562,6 +1570,14 @@
 		189F788A1EFD007C0048AC11 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		189F788B1EFD007C0048AC11 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		189F788C1EFD007C0048AC11 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		18A0DADE1F02610B0022FA09 /* QN_GTM_Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QN_GTM_Base64.h; sourceTree = "<group>"; };
+		18A0DADF1F02610B0022FA09 /* QN_GTM_Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QN_GTM_Base64.m; sourceTree = "<group>"; };
+		18A0DAE01F02610B0022FA09 /* QNUrlSafeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNUrlSafeBase64.h; sourceTree = "<group>"; };
+		18A0DAE11F02610B0022FA09 /* QNUrlSafeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNUrlSafeBase64.m; sourceTree = "<group>"; };
+		18A0DAE61F03444D0022FA09 /* CBGWebDBUploadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGWebDBUploadModel.h; sourceTree = "<group>"; };
+		18A0DAE71F03444D0022FA09 /* CBGWebDBUploadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebDBUploadModel.m; sourceTree = "<group>"; };
+		18A0DAEA1F03498C0022FA09 /* CBGWebDBRemoveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGWebDBRemoveModel.h; sourceTree = "<group>"; };
+		18A0DAEB1F03498C0022FA09 /* CBGWebDBRemoveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebDBRemoveModel.m; sourceTree = "<group>"; };
 		18A1EE411E862866009312A7 /* CreateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateModel.h; sourceTree = "<group>"; };
 		18A1EE421E862866009312A7 /* CreateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateModel.m; sourceTree = "<group>"; };
 		18A1EE441E862866009312A7 /* NodeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeModel.h; sourceTree = "<group>"; };
@@ -2862,6 +2878,10 @@
 		183325601ED6B93500B1ECEA /* Base64 */ = {
 			isa = PBXGroup;
 			children = (
+				18A0DADE1F02610B0022FA09 /* QN_GTM_Base64.h */,
+				18A0DADF1F02610B0022FA09 /* QN_GTM_Base64.m */,
+				18A0DAE01F02610B0022FA09 /* QNUrlSafeBase64.h */,
+				18A0DAE11F02610B0022FA09 /* QNUrlSafeBase64.m */,
 				183325611ED6B93500B1ECEA /* NSString+Base64.h */,
 				183325621ED6B93500B1ECEA /* NSString+Base64.m */,
 			);
@@ -4638,6 +4658,10 @@
 				18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */,
 				18F6DBF21EF915060047E586 /* CBGWebDBDownModel.h */,
 				18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */,
+				18A0DAE61F03444D0022FA09 /* CBGWebDBUploadModel.h */,
+				18A0DAE71F03444D0022FA09 /* CBGWebDBUploadModel.m */,
+				18A0DAEA1F03498C0022FA09 /* CBGWebDBRemoveModel.h */,
+				18A0DAEB1F03498C0022FA09 /* CBGWebDBRemoveModel.m */,
 				18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */,
 				18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */,
 			);
@@ -4942,6 +4966,7 @@
 				18A975DB1E7FDDD500B48E3C /* Samurai_RenderStyle.m in Sources */,
 				18A9753D1E7FDDD400B48E3C /* Samurai_Property.m in Sources */,
 				18DAF5ED1ECFF4AC00873D19 /* ZWPanicRefreshManager.m in Sources */,
+				18A0DAE41F02610B0022FA09 /* QNUrlSafeBase64.m in Sources */,
 				18A975AC1E7FDDD400B48E3C /* UITableViewCell+Html.m in Sources */,
 				182091201E9F555D0015E393 /* AASubtitle.m in Sources */,
 				18A9760F1E7FDDD500B48E3C /* JBBarChartView.m in Sources */,
@@ -5102,6 +5127,7 @@
 				18936F921E91650A003E1E51 /* CBGMaxHistoryListRefreshVC.m in Sources */,
 				182091141E9F555D0015E393 /* AALegend.m in Sources */,
 				18A1EE591E862866009312A7 /* NodeModelCell.m in Sources */,
+				18A0DAEC1F03498C0022FA09 /* CBGWebDBRemoveModel.m in Sources */,
 				18A9755C1E7FDDD400B48E3C /* Samurai_ServiceConfig.m in Sources */,
 				18A1EE611E862866009312A7 /* NodeModelViewController.m in Sources */,
 				18A975481E7FDDD400B48E3C /* Samurai_Notification.m in Sources */,
@@ -5167,6 +5193,7 @@
 				18A96E131E7FC2C500B48E3C /* BaseDataModel.m in Sources */,
 				18A96E331E7FC2C500B48E3C /* DirectionModel.m in Sources */,
 				18A1EE7B1E863158009312A7 /* PagerModel.m in Sources */,
+				18A0DAE81F03444D0022FA09 /* CBGWebDBUploadModel.m in Sources */,
 				189F78931EFD007C0048AC11 /* AFNetworkReachabilityManager.m in Sources */,
 				182090BC1E9F4FE70015E393 /* CBGDepthStudyVC.m in Sources */,
 				18A975341E7FDDD400B48E3C /* NSMutableSet+Extension.m in Sources */,
@@ -5423,6 +5450,7 @@
 				18A972391E7FCA5C00B48E3C /* MJExtensionConst.m in Sources */,
 				18A96E281E7FC2C500B48E3C /* FabaoModel.m in Sources */,
 				18A976231E7FDDD500B48E3C /* OLEGOPullTextFooterView.m in Sources */,
+				18A0DAE21F02610B0022FA09 /* QN_GTM_Base64.m in Sources */,
 				18A975CA1E7FDDD500B48E3C /* Samurai_ViewController.m in Sources */,
 				18A96E1A1E7FC2C500B48E3C /* Poundage_listModel.m in Sources */,
 				18A976001E7FDDD500B48E3C /* ServiceBorderLayer.m in Sources */,
@@ -5592,6 +5620,7 @@
 				1833231F1ED6B10D00B1ECEA /* Samurai_RenderStyle.m in Sources */,
 				183323201ED6B10D00B1ECEA /* Samurai_Property.m in Sources */,
 				183323211ED6B10D00B1ECEA /* ZWPanicRefreshManager.m in Sources */,
+				18A0DAE51F02610B0022FA09 /* QNUrlSafeBase64.m in Sources */,
 				183323221ED6B10D00B1ECEA /* UITableViewCell+Html.m in Sources */,
 				183323231ED6B10D00B1ECEA /* AASubtitle.m in Sources */,
 				183323241ED6B10D00B1ECEA /* JBBarChartView.m in Sources */,
@@ -5752,6 +5781,7 @@
 				183323BA1ED6B10D00B1ECEA /* CBGMaxHistoryListRefreshVC.m in Sources */,
 				183323BB1ED6B10D00B1ECEA /* AALegend.m in Sources */,
 				183323BC1ED6B10D00B1ECEA /* NodeModelCell.m in Sources */,
+				18A0DAED1F03498C0022FA09 /* CBGWebDBRemoveModel.m in Sources */,
 				183323BD1ED6B10D00B1ECEA /* Samurai_ServiceConfig.m in Sources */,
 				183323BF1ED6B10D00B1ECEA /* NodeModelViewController.m in Sources */,
 				183323C01ED6B10D00B1ECEA /* Samurai_Notification.m in Sources */,
@@ -5817,6 +5847,7 @@
 				183323FC1ED6B10D00B1ECEA /* DirectionModel.m in Sources */,
 				183323FD1ED6B10D00B1ECEA /* PagerModel.m in Sources */,
 				183323FE1ED6B10D00B1ECEA /* CBGDepthStudyVC.m in Sources */,
+				18A0DAE91F03444D0022FA09 /* CBGWebDBUploadModel.m in Sources */,
 				189F78941EFD007C0048AC11 /* AFNetworkReachabilityManager.m in Sources */,
 				183323FF1ED6B10D00B1ECEA /* NSMutableSet+Extension.m in Sources */,
 				183324001ED6B10D00B1ECEA /* parser.c in Sources */,
@@ -6073,6 +6104,7 @@
 				183324F71ED6B10D00B1ECEA /* MJExtensionConst.m in Sources */,
 				183324F81ED6B10D00B1ECEA /* FabaoModel.m in Sources */,
 				183324F91ED6B10D00B1ECEA /* OLEGOPullTextFooterView.m in Sources */,
+				18A0DAE31F02610B0022FA09 /* QN_GTM_Base64.m in Sources */,
 				183324FA1ED6B10D00B1ECEA /* Samurai_ViewController.m in Sources */,
 				183324FB1ED6B10D00B1ECEA /* Poundage_listModel.m in Sources */,
 				183324FC1ED6B10D00B1ECEA /* ServiceBorderLayer.m in Sources */,
