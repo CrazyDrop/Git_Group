@@ -9,6 +9,7 @@
 #import "CBGListModel.h"
 #import "EquipModel.h"
 #import "JSONKit.h"
+#import "CBGPlanModel.h"
 #define   EquipSchoolNumDic   [NSDictionary dictionaryWithObjectsAndKeys:@"大唐官府",@"1",@"化生寺",@"2",@"女儿村",@"3",@"方寸山",@"4",@"天宫",@"5",@"普陀山",@"6",@"龙宫",@"7",@"五庄观",@"8",@"狮驼岭",@"9",@"魔王寨",@"10",@"阴曹地府",@"11",@"盘丝洞",@"12",@"神木林",@"13",@"凌波城",@"14",@"无底洞",@"15",nil]
 #define   EquipSchoolNameDic   [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"大唐官府",@"2",@"化生寺",@"3",@"女儿村",@"4",@"方寸山",@"5",@"天宫",@"6",@"普陀山",@"7",@"龙宫",@"8",@"五庄观",@"9",@"狮驼岭",@"10",@"魔王寨",@"11",@"阴曹地府",@"12",@"盘丝洞",@"13",@"神木林",@"14",@"凌波城",@"15",@"无底洞", nil]
 
@@ -35,33 +36,37 @@
     if(aDetaiModel.appointed_roleid && [aDetaiModel.appointed_roleid length] > 0)
     {
         self.appointed = YES;
-        self.fav_or_ingore = 2;
     }
     
-    self.equip_status = [aDetaiModel.status intValue];
+    self.equip_status = [aDetaiModel.status integerValue];
+    self.equip_type = aDetaiModel.equip_type;
+    self.kindid = [aDetaiModel.kindid integerValue];
     
-    NSString *  planPrice = [aDetaiModel.equipExtra createExtraPrice];
-    if(planPrice)
-    {
-        self.plan_total_price = aDetaiModel.equipExtra.totalPrice;
-        self.plan_xiulian_price = aDetaiModel.equipExtra.xiulianPrice;
-        self.plan_chongxiu_price = aDetaiModel.equipExtra.chongxiuPrice;
-        self.plan_jineng_price = aDetaiModel.equipExtra.jinengPrice;
-        self.plan_qianyuandan_price = aDetaiModel.equipExtra.qianyuandanPrice;
-        self.plan_zhaohuanshou_price = aDetaiModel.equipExtra.zhaohuanPrice;
-        self.plan_jingyan_price = aDetaiModel.equipExtra.jingyanPrice;
-        self.plan_zhuangbei_price = aDetaiModel.equipExtra.zhuangbeiPrice;
-        self.plan_des = aDetaiModel.equipExtra.detailPrePrice;
-        self.plan_rate = (int)aDetaiModel.extraEarnRate;
-        if(!self.plan_des)
-        {
-            self.plan_des = @"";
-        }
-        //已经化圣，或者准化圣 1准化圣 2化圣
-        self.equip_huasheng = [aDetaiModel.equipExtra furtureMaxStatus];
-        self.equip_price_common = [aDetaiModel.web_last_price_desc integerValue];
-        self.equip_more_append = [self createLatestMoreAppendString];
-    }
+    self.equip_more_append = [self createLatestMoreAppendString];
+
+    
+    CBGPlanModel * planModel = [CBGPlanModel planModelForDetailEquipModel:aDetaiModel];
+    self.plan_total_price = planModel.total_price;
+    self.plan_xiulian_price = planModel.xiulian_plan_price;
+    self.plan_chongxiu_price = planModel.chongxiu_plan_price;
+    self.plan_jineng_price = planModel.jineng_plan_price;
+    self.plan_jingyan_price = planModel.jingyan_plan_price;
+    self.plan_qiannengguo_price = planModel.qiannengguo_plan_price;
+    self.plan_qianyuandan_price = planModel.qianyuandan_plan_price;
+    self.plan_dengji_price = planModel.dengji_plan_price;
+    self.plan_jiyuan_price = planModel.jiyuan_plan_price;
+    self.plan_menpai_price = planModel.menpai_plan_price;
+    self.plan_fangwu_price = planModel.fangwu_plan_price;
+    self.plan_xianjin_price = planModel.xianjin_plan_price;
+    self.plan_haizi_price = planModel.haizi_plan_price;
+    self.plan_xiangrui_price = planModel.xiangrui_plan_price;
+    self.plan_zuoji_price = planModel.zuoji_plan_price;
+    self.plan_fabao_price = planModel.fabao_plan_price;
+    self.plan_zhaohuanshou_price = planModel.zhaohuanshou_plan_price;
+    self.plan_zhuangbei_price = planModel.zhuangbei_plan_price;
+    self.plan_rate = planModel.plan_rate;
+    self.plan_des = [planModel description];
+    self.server_check = planModel.server_check;
     
     self.equip_accept = [aDetaiModel.allow_bargain integerValue];
 
@@ -220,6 +225,23 @@
     }
     return 0;
 }
+-(NSInteger)price_earn_plan
+{
+    if(self.equip_price == 0) return 0;
+    NSInteger price = self.price_add_total_plan;
+    NSInteger realPrice = self.equip_price/100;
+    NSInteger coustPrice = (NSInteger)price * 0.05;
+    coustPrice = MIN(coustPrice, 1000);
+    
+    CGFloat earnPrice = price - realPrice - coustPrice;
+    
+    if(earnPrice > 0)
+    {
+        return earnPrice;
+    }
+    return 0;
+
+}
 - (NSString * )detailWebUrl
 {
     if(!self.game_ordersn)
@@ -323,6 +345,7 @@
 }
 -(NSString *)createLatestMoreAppendString
 {
+    return @"";
     NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
     [dataDic setObject:[NSNumber numberWithInteger:self.equip_huasheng] forKey:@"equip_huasheng"];
     [dataDic setObject:[NSNumber numberWithInteger:self.equip_price_common] forKey:@"equip_price_common"];
@@ -334,11 +357,11 @@
 }
 -(void)readDataFromMoreAppendString
 {
-    NSDictionary * dic = [self.equip_more_append objectFromJSONString];
-    self.equip_huasheng = [[dic objectForKey:@"equip_huasheng"] integerValue];
-    self.equip_price_common = [[dic objectForKey:@"equip_price_common"] integerValue];
-    self.appointed = [[dic objectForKey:@"equip_appointed"] boolValue];
-    self.errored = [[dic objectForKey:@"equip_errored"] boolValue];
+//    NSDictionary * dic = [self.equip_more_append objectFromJSONString];
+//    self.equip_huasheng = [[dic objectForKey:@"equip_huasheng"] integerValue];
+//    self.equip_price_common = [[dic objectForKey:@"equip_price_common"] integerValue];
+//    self.appointed = [[dic objectForKey:@"equip_appointed"] boolValue];
+//    self.errored = [[dic objectForKey:@"equip_errored"] boolValue];
 
 }
 

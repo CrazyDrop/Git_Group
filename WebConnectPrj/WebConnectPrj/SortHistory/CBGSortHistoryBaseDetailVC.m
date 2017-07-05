@@ -216,6 +216,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         
         if([detailEve isKindOfClass:[EquipModel class]])
         {
+            NSLog(@"EquipModel errored %@",obj.detailDataUrl);
             NSNumber * idKeyNum = detailEve.serverid;
             if(!idKeyNum)
             {

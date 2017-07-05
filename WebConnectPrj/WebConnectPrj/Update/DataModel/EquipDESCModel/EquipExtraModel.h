@@ -152,6 +152,22 @@
 -(NSInteger)furtureMaxStatus;
 
 
+-(CGFloat)price_xiulian;
+-(CGFloat)price_chongxiu;
+-(CGFloat)price_jineng;
+-(CGFloat)price_jingyan;
+-(CGFloat)price_qiannengguo;
+-(CGFloat)price_qianyuandan;
+-(CGFloat)price_dengji;
+-(CGFloat)price_jiyuan;
+-(CGFloat)price_menpai;
+-(CGFloat)price_fangwu;
+-(CGFloat)price_xianjin;
+-(CGFloat)price_haizi;
+-(CGFloat)price_xiangrui;
+-(CGFloat)price_zuoji;
+-(CGFloat)price_fabao;
+
 /**
  *  Init the model with dictionary
  *

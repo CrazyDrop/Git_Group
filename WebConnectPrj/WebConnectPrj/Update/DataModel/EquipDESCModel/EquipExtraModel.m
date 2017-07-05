@@ -96,7 +96,7 @@
 -(CGFloat)price_zhuangbei
 {
     CGFloat price = 0;
-    //装备价格，当前仅进行判定  8段以上估价  统一10块
+    //装备价格，当前仅进行判定  8段以上估价  统一100块
     NSArray * detailEquipArr = [self.AllEquip modelsArray];
     for (ExtraModel * eve in detailEquipArr)
     {
@@ -144,7 +144,6 @@
             {
                 CGFloat evePrice = [eveSummon summonPlanPriceForTotal];
                 price += evePrice;
-//                NSLog(@"%ld %.0f ",skillNum,evePrice);
             }else{
                 
                 if(skillNum > 5 && [eveSummon.iGrade integerValue] > 160)
@@ -200,18 +199,6 @@
     }
     price += xianyuPrice;
     
-    
-    //房子，无房子扣钱
-    CGFloat fangziPrice = 0;
-    if(!self.rent||[self.rent integerValue] == 0)
-    {
-        fangziPrice -= 300;
-    }else if([self.rent integerValue] < 3){
-        fangziPrice -= 100;
-    }
-    
-    
-    price += fangziPrice;
     
     return price;
 }
@@ -351,14 +338,13 @@
         money += eveMoney;
     }
     
-    //宠修高  经验过低时，宠修估价0.7即宠修
-    if(money > 4000 && [self.sum_exp integerValue] < 300)
-    {
-        money *= 0.9;
-    }
+//    //宠修高  经验过低时，宠修估价0.7即宠修
+//    if(money > 4000 && [self.sum_exp integerValue] < 300)
+//    {
+//        money *= 0.9;
+//    }
+//
 
-        
-    
     return money;
 }
 //25级各级需要修炼点 13级以上计算价格
@@ -451,118 +437,32 @@
 }
 -(CGFloat)price_jingyan
 {
-    CGFloat price = 100;
+    CGFloat price = 0;
 //    sum_exp总经验
     NSInteger sup_total = [self.sum_exp integerValue];
-    if(sup_total < 100)
+    if(sup_total > 600)
     {
-        price -= 1000.0;
-    }else if(sup_total < 160){
-        price -= 500;
-    }else if(sup_total < 200){
-        price += 100;
-    }else if(sup_total < 300){
-        price += 200;
-    }else if(sup_total < 400){
-        NSInteger countNum = MIN(330, sup_total);
-        NSInteger sub = (countNum - 330) * 5 + 200;
-        sub = MIN(600, sub);
-        price += sub;
-
-    }else if(sup_total < 500)
-    {
-        price += 1000;
-    }else{
         price += 2000;
-    }
-    
-    
-    if(sup_total > 160)
-    {
-        NSInteger qiannengguo = [self.iNutsNum integerValue];
-        if(qiannengguo < 80){
-            price -= 1000;
-        }
-        else if(qiannengguo < 120)
-        {
-            price -= 500;
-        }else if(qiannengguo < 150){
-            price -= 300;
-        }else if(qiannengguo < 190){
-            price -= 150;
-        }else if(qiannengguo < 195){
-            price += 50;
-        }else{
-            price += 100;
-        }
-    }
-    
-    
-    //机缘、减扣    //总数33，不用
-    NSInteger maxNum = 33;
-    NSInteger totalAdd = [self.jiyuan integerValue] + [self.addPoint integerValue];
-    NSInteger needAdd = maxNum - totalAdd;
-    if(needAdd > 10)
-    {
-        price -= (needAdd * 50);
-    }else if(needAdd > 3){
-        price -= (needAdd * 30);
-    }else if(needAdd < 0){
+        NSInteger more = sup_total - 600;
+        price += (more * 10);
+    }else if(sup_total > 500){
+        price += 1000;
+        NSInteger more = sup_total - 500;
+        price += (more * 8);
+    }else if(sup_total > 300){
         price += 200;
-    }
-    
-    //法宝减扣，当前未实现
-    
-    
-    
-    //所有后续门派 等级满级 + 200
-    //门派加钱,DT  HS ST减500
-// 龙宫  MW  神木  可以抓持国  法系持国 + 500  (LG + 700 )
-//      FC PS 挂机 200
-//    PT  五开  500
-
-    //等级加钱
-    NSInteger levelPrice = 0;
-    if([self.iGrade intValue] == 175)
+        NSInteger more = sup_total - 300;
+        price += (more * 5);
+    }else if(sup_total > 200){
+        price += 50;
+    }else if(sup_total > 160){
+        price -= 500;
+    }else if(sup_total > 100){
+        price -= 800;
+    }else
     {
-        levelPrice = 300;
+        price -= 1200;
     }
-    price += levelPrice;
-    
-    
-    NSInteger school = [self.iSchool intValue];
-    NSInteger schoolNum = [self countSchoolPriceForSchoolNum:school];
-    //判定历史门派
-    NSArray * history = self.changesch;
-    
-    NSInteger maxHistory = 0;
-    for (NSInteger index = 0; index < [history count]; index ++)
-    {
-        ChangeschModel * eve = [history objectAtIndex:index];
-        NSInteger eveNum = [self countSchoolPriceForSchoolNum:[eve.intNum integerValue]];
-        
-        //判定历史门派是否有效，主要验证龙宫是否有魔属性
-        BOOL effective = [self checkHistorySchoolEffectiveWithPreSchool:[eve.intNum integerValue]];
-        if(effective)
-        {
-            if(maxHistory < eveNum){
-                maxHistory = eveNum;
-            }
-        }
-
-    }
-    if( [history count] > 0 && maxHistory > schoolNum){
-        schoolNum = MAX(maxHistory - 300, schoolNum);
-    }
-    
-    price += schoolNum;
-
-    if(price < 0 && [self.iNutsNum intValue] > 170)
-    {
-        price = 0;
-    }
-    
-    
 
     return price;
 }
@@ -664,11 +564,6 @@
             schoolNum = -500;
         }
             break;
-//        case 14:
-//        {
-//            schoolNum = -100;
-//        }
-//            break;
         default:
             break;
     }
@@ -734,20 +629,6 @@
         mainSkill += eveMoney;
     }
     
-    if([self.sum_exp integerValue] < 200)
-    {
-        if( mainSkill > 4000 && mainSkill < 6000)
-        {
-            mainSkill = 0.7 * (mainSkill - 4000) + 4000;
-        }
-    }else if([self.sum_exp integerValue] < 300){
-        
-        if( mainSkill > 4000 && mainSkill < 6000)
-        {
-            mainSkill = 0.8 * (mainSkill - 4000) + 4000;
-        }
-    }
-    
     money += mainSkill;
     
     
@@ -764,44 +645,85 @@
 //25级各级需要修炼点 13级以上计算价格
 -(CGFloat)jineng_price_countForEveShiMenNum:(NSInteger)number
 {
+    CGFloat price = 0;
+
     if(number > 155)
     {
-        NSInteger countNum = 155;
-        if(number <= countNum)
-        {
-            return 0;
-        }
-        
-        NSInteger addNum = number - countNum;
-        CGFloat price = 0;
-        NSString * detailStr = @"4239607,4344845,4452027,4561177,4672319,450041,4594563,4680138,4766769,4854465,4943226,5033064,5123985,5215995,5309100,7204407,7331490,7460064,7590129,7721700,9818475,9986727,10156893,10328979,12252600";
-        NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
-        CGFloat shiMenJN = 0;
-        for (NSInteger index = 0;index < addNum;index ++ )
-        {
-            if([eveArr count]>index)
-            {
-                NSString * eve = [eveArr objectAtIndex:index];
-                shiMenJN += ([eve floatValue]/10000);
-            }
-        }
-        
-        CGFloat youxibi = shiMenJN ;
-        price = youxibi/YouxibiRateForMoney;
-        price *= 0.8;
-        
-        return price;
-
+        //技能正向加法
+        CGFloat addPrice = [self jineng_price_addConstPriceForEveNum:number];
+        CGFloat appendPrice = [self jineng_price_appendLetfPriceForEveNum:number];
+        price = MIN(addPrice, appendPrice);
+        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
     }else
     {
-        CGFloat price = 0;
         if(number < 150)
         {
             price = - 300.0;
         }
-        return price;
+        
     }
+    return price;
 }
+-(CGFloat)jineng_price_addConstPriceForEveNum:(NSInteger)number
+{
+    CGFloat price = 0;
+    NSInteger countNum = 155;
+    if(number <= countNum)
+    {
+        return 0;
+    }
+    
+    NSInteger addNum = number - countNum;
+    NSString * detailStr = @"4239607,4344845,4452027,4561177,4672319,450041,4594563,4680138,4766769,4854465,4943226,5033064,5123985,5215995,5309100,7204407,7331490,7460064,7590129,7721700,9818475,9986727,10156893,10328979,12252600";
+    NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
+    CGFloat shiMenJN = 0;
+    for (NSInteger index = 0;index < addNum;index ++ )
+    {
+        if([eveArr count]>index)
+        {
+            NSString * eve = [eveArr objectAtIndex:index];
+            shiMenJN += ([eve floatValue]/10000);
+        }
+    }
+    
+    CGFloat youxibi = shiMenJN ;
+    price = youxibi/YouxibiRateForMoney;
+    price *= 0.8;
+    
+    return price;
+}
+-(CGFloat)jineng_price_appendLetfPriceForEveNum:(NSInteger)number
+{
+    CGFloat price = 0;
+    NSInteger countNum = 155;
+    if(number <= countNum)
+    {
+        return 0;
+    }
+    if(number > 180){
+        number = 180;
+    }
+    
+    
+    NSInteger appendNum = 180 - number;
+    NSString * detailStr = @"4239607,4344845,4452027,4561177,4672319,450041,4594563,4680138,4766769,4854465,4943226,5033064,5123985,5215995,5309100,7204407,7331490,7460064,7590129,7721700,9818475,9986727,10156893,10328979,12252600";
+    NSArray * eveArr = [detailStr componentsSeparatedByString:@","];
+    CGFloat shiMenJN = 0;
+    for (NSInteger index = 0;index < appendNum;index ++ )
+    {
+        NSInteger constIndex = [eveArr count] - 1 - index;
+        NSString * eve = [eveArr objectAtIndex:constIndex];
+        shiMenJN += ([eve floatValue]/10000);
+    }
+    
+    CGFloat youxibi = shiMenJN ;
+    price = 1000 - youxibi/YouxibiRateForMoney;//总价1000,扣除补齐花费即估值
+    
+    price = MAX(0, price);
+
+    return price;
+}
+
 -(CGFloat)jineng_price_countForEveShenghuoKeyNum:(NSString *)key andskillNum:(NSInteger)skillNum
 {
     CGFloat money = 0;
@@ -812,16 +734,23 @@
         // 20以上计算价格
         if(skillNum >= 40)
         {
-            skillNum = 1000;
+            money = 700;
         }else if(skillNum >= 35)
         {
-            skillNum = 700;
+            money = 400;
         }else if(skillNum >= 30){
-            skillNum = 400;
+            money = 250;
         }else if(skillNum >= 20){
-            skillNum = 100;
+            money = 100;
         }
         
+    }else if([key isEqualToString:@"201"] || [key isEqualToString:@"211"]){
+        //强壮、养生
+        if(skillNum >= 140 ){
+            money = 150;
+        }else if(skillNum >= 130){
+            money = 100;
+        }
     }else
     {
         if(skillNum >= 155)
@@ -829,15 +758,270 @@
             money = 100;
         }else if(skillNum > 140)
         {
-            money = 40;
+            money = 50;
         }else if(skillNum > 110){
-            money = 10;
+            money = 30;
         }
     }
     
     return money;
 }
 
+//-(CGFloat)price_xiulian{
+//    
+//}
+//-(CGFloat)price_chongxiu{
+//    
+//}
+//-(CGFloat)price_jineng{
+//    
+//}
+//-(CGFloat)price_jingyan{
+//    
+//}
+-(CGFloat)price_qiannengguo
+{
+    CGFloat price = 0;
+    NSInteger sup_total = [self.sum_exp integerValue];
+    if(sup_total > 300)
+    {
+        NSInteger qiannengguo = [self.iNutsNum integerValue];
+        if(qiannengguo < 80){
+            price -= 1000;
+        }
+        else if(qiannengguo < 120)
+        {
+            price -= 500;
+        }else if(qiannengguo < 150){
+            price -= 300;
+        }else if(qiannengguo < 190){
+            price -= 150;
+        }else if(qiannengguo < 195){
+            price += 0;
+        }else{
+            price += 100;
+        }
+    }
+    
+    return price;
+}
+-(CGFloat)price_dengji
+{
+    CGFloat price = 0;
+    NSInteger level = [self.iGrade integerValue];
+    if(level >= 175)
+    {
+        price += 200;
+    }else if(level == 174)
+    {
+        
+    }else
+    {
+        price -= 200;
+    }
+    
+    return price;
+}
+-(CGFloat)price_jiyuan
+{
+    CGFloat price = 0;
+    //机缘、减扣    //总数33，不用
+    NSInteger maxNum = 36;
+    NSInteger totalAdd = [self.jiyuan integerValue] + [self.addPoint integerValue];
+    NSInteger needAdd = maxNum - totalAdd;
+    
+    if(needAdd > 10)
+    {
+        price -= (needAdd * 50);
+    }else if(needAdd > 3){
+        price -= (needAdd * 30);
+    }else if(needAdd < 0){
+        NSInteger moreNum = ABS(needAdd);
+        if(moreNum > 3){
+            price += (50) * (moreNum - 3);
+        }
+    }
+    return price;
+}
+-(CGFloat)price_menpai
+{
+    CGFloat price = 0;
+    NSInteger school = [self.iSchool integerValue];
+    price = [self countSchoolPriceForSchoolNum:school];
+    
+    NSArray * history = self.changesch;
+    
+    NSInteger maxHistory = 0;
+    for (NSInteger index = 0; index < [history count]; index ++)
+    {
+        ChangeschModel * eve = [history objectAtIndex:index];
+        NSInteger eveNum = [self countSchoolPriceForSchoolNum:[eve.intNum integerValue]];
+        
+        //判定历史门派是否有效，主要验证龙宫是否有魔属性
+        BOOL effective = [self checkHistorySchoolEffectiveWithPreSchool:[eve.intNum integerValue]];
+        if(effective)
+        {
+            if(maxHistory < eveNum){
+                maxHistory = eveNum;
+            }
+        }
+    }
+    
+    price = MAX(price, maxHistory - 200);
+    
+    return price;
+}
+-(CGFloat)price_fangwu
+{
+    CGFloat price = 0;
+    NSInteger fangwu = [self.rent_level integerValue];
+    NSInteger muchang = [self.farm_level integerValue];
+    
+    //房子，无房子扣钱
+    CGFloat fangziPrice = 0;
+    if(fangwu == 0)
+    {
+        fangziPrice -= 300;
+    }else if(fangwu < 3){
+        fangziPrice -= 100;
+    }else if(muchang >= 3){
+        fangziPrice += 100;
+    }
+    
+    return price;
+}
+-(CGFloat)price_xianjin
+{
+//    1点点卡=1点仙玉=10精力，500精力=50仙玉=50点卡
+    CGFloat price = 0;
+    
+    CGFloat youxibi = [self.iCash floatValue] + [self.iLearnCash floatValue] + [self.iSaving floatValue];
+    youxibi = youxibi / 10000.0;
+    if(youxibi > 1000){
+        price = youxibi / YouxibiRateForMoney ;
+    }
+    price *= 0.8;
+    
+    
+    CGFloat xianyuPrice = 0;
+    NSInteger xianyu = [self.xianyu integerValue];
+    if(xianyu > 500){
+        xianyuPrice = xianyu/10.0;
+        xianyuPrice *= 0.5;
+    }
+    price += xianyuPrice;
+
+    //精力
+    CGFloat jingliPrice = 0;
+    NSInteger jingli = [self.energy integerValue];
+    if(jingli > 500){
+        jingliPrice = jingli/10.0;//点卡数
+        jingliPrice *= 0.6;
+    }
+    price += jingliPrice;
+    
+    
+    return price;
+}
+-(CGFloat)price_haizi{
+    CGFloat price = 0;
+    
+//    CGFloat youxibi = [self.iCash floatValue] + [self.iLearnCash floatValue] + [self.iSaving floatValue];
+//    youxibi = youxibi / 10000.0;
+//    if(youxibi > 1000){
+//        price = youxibi / YouxibiRateForMoney ;
+//    }
+//    price *= 0.8;
+    return price;
+}
+-(CGFloat)price_xiangrui{
+    CGFloat price = 0;
+    NSArray  * xiangruiArr = self.HugeHorse.zuoJiModelsArray;
+    
+    for (NSInteger index = 0;index < [xiangruiArr count] ;index ++ )
+    {
+        ExtraModel * eveExtra = [xiangruiArr objectAtIndex:index];
+        if(![eveExtra.extraTag isEqualToString:@"113"]){
+            price += 10;
+        }
+    }
+
+    if([xiangruiArr count] == 0)
+    {
+        price -= 200;
+    }else if(price == 0){
+        price -= 150;
+    }
+
+    return price;
+}
+-(CGFloat)price_zuoji{
+    
+    CGFloat price = 0;
+    //    self.AllRider
+    NSArray  * xiangruiArr = self.AllRider.riderModelsArray;
+    
+    for (NSInteger index = 0;index < [xiangruiArr count] ;index ++ )
+    {
+        ExtraModel * eveExtra = [xiangruiArr objectAtIndex:index];
+        if([eveExtra.exgrow integerValue] > 23000){
+            price += 100;
+        }
+    }
+    
+    if(price == 0){
+        price -= 100;
+    }
+
+    return price;
+}
+-(CGFloat)price_fabao{
+    CGFloat price = 0;
+//    self.fabao;
+    //17笛子  23附灵玉
+    //物理 4级物理法宝
+    NSArray  * fabaoArr = self.fabao.fabaoModelsArray;
+
+    //总法宝数量
+    if([fabaoArr count] >= 15)
+    {
+        //必须法宝检查
+        NSInteger school = [self.iSchool integerValue];
+        BOOL faxi = NO;
+        BOOL wuli = NO;
+        if(school == 7 || school == 10 || school == 13 || school == 5 ){
+            faxi = YES;
+        }
+        if(school == 1 || school == 8 || school == 9 || school == 11 || school == 14){
+            wuli = YES;
+        }
+    
+        NSMutableArray * tagArr = [NSMutableArray array];
+        for (NSInteger index = 0;index < [fabaoArr count] ;index ++ )
+        {
+            ExtraModel * eveExtra = [fabaoArr objectAtIndex:index];
+            [tagArr addObject:eveExtra.extraTag];
+        }
+        
+        if(faxi && (![tagArr containsObject:@"17"] || ![tagArr containsObject:@"23"])){
+            price -= 400;
+        }else if(wuli && (![tagArr containsObject:@"42"])){
+            price -= 200;
+        }else {
+            
+        }
+        
+        if(![tagArr containsObject:@"11"])
+        {
+            price -= 100;
+        }
+    }else
+    {
+        price -= 500;
+    }
+    
+    return price;
+}
 
 
 -(NSString *)extraDes

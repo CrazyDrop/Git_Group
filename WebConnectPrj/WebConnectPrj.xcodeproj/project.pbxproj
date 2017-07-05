@@ -172,6 +172,12 @@
 		1820981C1EA6F4D00015E393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A9725B1E7FD05F00B48E3C /* Foundation.framework */; };
 		1820981D1EA6F50A0015E393 /* NSDate+Extension.h in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D11E7FDDD400B48E3C /* NSDate+Extension.h */; };
 		1820981E1EA6F50A0015E393 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A972D21E7FDDD400B48E3C /* NSDate+Extension.m */; };
+		18227A921F04F55200A6291B /* CBGPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18227A911F04F55200A6291B /* CBGPlanModel.m */; };
+		18227A931F04F55200A6291B /* CBGPlanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18227A911F04F55200A6291B /* CBGPlanModel.m */; };
+		18227A961F05E52E00A6291B /* CBGPlanZhaohuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18227A951F05E52E00A6291B /* CBGPlanZhaohuanModel.m */; };
+		18227A971F05E52E00A6291B /* CBGPlanZhaohuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18227A951F05E52E00A6291B /* CBGPlanZhaohuanModel.m */; };
+		18227A9A1F05E54100A6291B /* CBGPlanZhuangbeiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18227A991F05E54100A6291B /* CBGPlanZhuangbeiModel.m */; };
+		18227A9B1F05E54100A6291B /* CBGPlanZhuangbeiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18227A991F05E54100A6291B /* CBGPlanZhuangbeiModel.m */; };
 		1832EDF31EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */; };
 		1833209A1ED51EA900B1ECEA /* ZAAutoBuySettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183320991ED51EA900B1ECEA /* ZAAutoBuySettingVC.m */; };
 		1833209D1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833209C1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m */; };
@@ -1463,6 +1469,12 @@
 		1820913B1EA6F0460015E393 /* WebConnectPrjTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebConnectPrjTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1820913D1EA6F0470015E393 /* WebConnectPrjTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebConnectPrjTests.m; sourceTree = "<group>"; };
 		1820913F1EA6F0470015E393 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18227A901F04F55200A6291B /* CBGPlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanModel.h; sourceTree = "<group>"; };
+		18227A911F04F55200A6291B /* CBGPlanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanModel.m; sourceTree = "<group>"; };
+		18227A941F05E52E00A6291B /* CBGPlanZhaohuanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanZhaohuanModel.h; sourceTree = "<group>"; };
+		18227A951F05E52E00A6291B /* CBGPlanZhaohuanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanZhaohuanModel.m; sourceTree = "<group>"; };
+		18227A981F05E54100A6291B /* CBGPlanZhuangbeiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanZhuangbeiModel.h; sourceTree = "<group>"; };
+		18227A991F05E54100A6291B /* CBGPlanZhuangbeiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanZhuangbeiModel.m; sourceTree = "<group>"; };
 		1832EDF11EA8B0E30001A2E4 /* CBGCompareSameRoleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCompareSameRoleVC.h; sourceTree = "<group>"; };
 		1832EDF21EA8B0E30001A2E4 /* CBGCompareSameRoleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCompareSameRoleVC.m; sourceTree = "<group>"; };
 		183320981ED51EA900B1ECEA /* ZAAutoBuySettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAAutoBuySettingVC.h; sourceTree = "<group>"; };
@@ -2631,6 +2643,7 @@
 		180D589919E622680045A720 /* WebConnectPrj */ = {
 			isa = PBXGroup;
 			children = (
+				18227A8F1F04F52200A6291B /* CBGPlanModel */,
 				1892CA401EC9A7E1006AA762 /* AutoBuy */,
 				1892CA3F1EC9A7C8006AA762 /* PanicRefresh */,
 				182091271EA473820015E393 /* PlanCheck */,
@@ -2873,6 +2886,19 @@
 				1820913F1EA6F0470015E393 /* Info.plist */,
 			);
 			path = WebConnectPrjTests;
+			sourceTree = "<group>";
+		};
+		18227A8F1F04F52200A6291B /* CBGPlanModel */ = {
+			isa = PBXGroup;
+			children = (
+				18227A901F04F55200A6291B /* CBGPlanModel.h */,
+				18227A911F04F55200A6291B /* CBGPlanModel.m */,
+				18227A941F05E52E00A6291B /* CBGPlanZhaohuanModel.h */,
+				18227A951F05E52E00A6291B /* CBGPlanZhaohuanModel.m */,
+				18227A981F05E54100A6291B /* CBGPlanZhuangbeiModel.h */,
+				18227A991F05E54100A6291B /* CBGPlanZhuangbeiModel.m */,
+			);
+			path = CBGPlanModel;
 			sourceTree = "<group>";
 		};
 		183325601ED6B93500B1ECEA /* Base64 */ = {
@@ -5040,6 +5066,7 @@
 				18A96D8E1E7FC24700B48E3C /* ZWSystemTotalRequestModel.m in Sources */,
 				18A975461E7FDDD400B48E3C /* Samurai_Core.m in Sources */,
 				18A976191E7FDDD500B48E3C /* ServiceTapspotHook.m in Sources */,
+				18227A9A1F05E54100A6291B /* CBGPlanZhuangbeiModel.m in Sources */,
 				182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */,
 				18A9761F1E7FDDD500B48E3C /* OLEGORefreshView.m in Sources */,
 				18A975F31E7FDDD500B48E3C /* tokenizer.c in Sources */,
@@ -5163,6 +5190,7 @@
 				18A971931E7FC4FA00B48E3C /* BaseActivity.m in Sources */,
 				18A1EE7F1E863158009312A7 /* WebEquip_listModel.m in Sources */,
 				182091161E9F555D0015E393 /* AAMarker.m in Sources */,
+				18227A961F05E52E00A6291B /* CBGPlanZhaohuanModel.m in Sources */,
 				18A9757E1E7FDDD400B48E3C /* HtmlElement_Pre.m in Sources */,
 				18A96E251E7FC2C500B48E3C /* EquipExtraModel.m in Sources */,
 				18A975361E7FDDD400B48E3C /* NSString+Extension.m in Sources */,
@@ -5440,6 +5468,7 @@
 				18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */,
 				18A9723F1E7FCA5C00B48E3C /* NSObject+MJCoding.m in Sources */,
 				18A975981E7FDDD400B48E3C /* Samurai_HtmlNumberPx.m in Sources */,
+				18227A921F04F55200A6291B /* CBGPlanModel.m in Sources */,
 				18A96E2F1E7FC2C500B48E3C /* Summon_coreModel.m in Sources */,
 				18A971E21E7FC69500B48E3C /* ZALocation.m in Sources */,
 				18A9760B1E7FDDD500B48E3C /* ServiceGridsWindow.m in Sources */,
@@ -5694,6 +5723,7 @@
 				183323651ED6B10D00B1ECEA /* Samurai_Core.m in Sources */,
 				183323661ED6B10D00B1ECEA /* ServiceTapspotHook.m in Sources */,
 				183323671ED6B10D00B1ECEA /* CBGPlanCommonCheckListVC.m in Sources */,
+				18227A9B1F05E54100A6291B /* CBGPlanZhuangbeiModel.m in Sources */,
 				183323681ED6B10D00B1ECEA /* OLEGORefreshView.m in Sources */,
 				183323691ED6B10D00B1ECEA /* tokenizer.c in Sources */,
 				1833236A1ED6B10D00B1ECEA /* ExtraModel.m in Sources */,
@@ -5817,6 +5847,7 @@
 				183323DD1ED6B10D00B1ECEA /* WebEquip_listModel.m in Sources */,
 				183323DE1ED6B10D00B1ECEA /* AAMarker.m in Sources */,
 				183323DF1ED6B10D00B1ECEA /* HtmlElement_Pre.m in Sources */,
+				18227A971F05E52E00A6291B /* CBGPlanZhaohuanModel.m in Sources */,
 				183323E01ED6B10D00B1ECEA /* EquipExtraModel.m in Sources */,
 				183323E11ED6B10D00B1ECEA /* NSString+Extension.m in Sources */,
 				183323E21ED6B10D00B1ECEA /* UIWebView+Html.m in Sources */,
@@ -6094,6 +6125,7 @@
 				183324ED1ED6B10D00B1ECEA /* CBGPlanCheckSpecialListVC.m in Sources */,
 				183324EE1ED6B10D00B1ECEA /* NSObject+MJCoding.m in Sources */,
 				183324EF1ED6B10D00B1ECEA /* Samurai_HtmlNumberPx.m in Sources */,
+				18227A931F04F55200A6291B /* CBGPlanModel.m in Sources */,
 				183324F01ED6B10D00B1ECEA /* Summon_coreModel.m in Sources */,
 				183324F11ED6B10D00B1ECEA /* ZALocation.m in Sources */,
 				183324F21ED6B10D00B1ECEA /* ServiceGridsWindow.m in Sources */,
@@ -6334,7 +6366,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6352,7 +6384,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -11,7 +11,8 @@
 #import <Foundation/Foundation.h>
 #import "BaseDataModel.h"
 @interface ExtraModel : BaseDataModel
-
+//"order":2,"cName":"流云玉佩","iSkillLevel":0,"iSkill":0,"iType":11098,"nosale":0,
+//3:(["all_skills":([611:3,]),"ExtraGrow":0,"iGrade":136,"exgrow":12712,"iType":508,"mattrib":"魔力",])
 @property (nonatomic, strong) NSString * extraTag;
 @property (nonatomic, strong) NSString * extraName;
 @property (nonatomic, strong) NSString * extraString;
@@ -48,6 +49,13 @@
 @property (nonatomic, strong) NSNumber *iLock;
 //@property (nonatomic, strong) NSString *cDesc;
 //@property (nonatomic, strong) NSNumber *iType;
+
+
+@property (nonatomic, strong) NSNumber *ExtraGrow;
+@property (nonatomic, strong) NSNumber *iGrade;
+@property (nonatomic, strong) NSNumber *exgrow;
+@property (nonatomic, strong) NSNumber *mattrib;
+
 -(NSInteger)equipErrorTimes;
 -(NSInteger)equipLatestAddLevel;//宝石等级
 -(NSString *)equipAppendSkill;//特技

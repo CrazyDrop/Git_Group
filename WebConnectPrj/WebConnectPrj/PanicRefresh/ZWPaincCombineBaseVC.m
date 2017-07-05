@@ -622,7 +622,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         if(list.equipModel)
         {
             CBGListModel * cbgList = [list listSaveModel];
-            cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
+            cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
             
             if(list.equipModel.equipState != CBGEquipRoleState_unSelling)
             {

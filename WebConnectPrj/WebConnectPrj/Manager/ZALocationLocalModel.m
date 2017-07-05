@@ -55,8 +55,18 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL     @"EQUIP_SCHOOL"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL      @"EQUIP_LEVEL"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_NAME       @"EQUIP_NAME"
-#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_JUESE      @"EQUIP_JUESE"
-#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_XINGBIE    @"EQUIP_XINGBIE"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_TYPE       @"EQUIP_TYPE"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_KINDID     @"EQUIP_KINDID"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SERVERCHECK    @"SERVER_CHECK"
+
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS         @"EQUIP_STATUS"
+#define ZADATABASE_TABLE_EQUIP_KEY_COMMON_PRICE         @"COMMON_PRICE"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_APPOINTED      @"APPOINTED"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_INGORE         @"INGORE"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_OWNERBUY       @"OWNERBUY"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_BARGAINBUY     @"BARGAINBUY"
+#define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ERRORED        @"ERRORED"
+
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_DES        @"EQUIP_DES"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE      @"EQUIP_PRICE"
 #define ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT     @"EQUIP_ACCEPT"
@@ -70,12 +80,23 @@
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN     @"PLAN_XIULIAN"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU    @"PLAN_CHONGXIU"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG      @"PLAN_JINENG"
-#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN @"PLAN_QIANYUANDAN"
-#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN    @"PLAN_ZHAOHUAN"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN     @"PLAN_JINGYAN"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANNENGGUO @"PLAN_QIANNENGGUO"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN @"PLAN_QIANYUANDAN"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_DENGJI      @"PLAN_DENGJI"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_JIYUAN      @"PLAN_JIYUAN"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_MENPAI      @"PLAN_MENPAI"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_FANGWU      @"PLAN_FANGWU"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANJIN     @"PLAN_XIANJIN"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_HAIZI       @"PLAN_HAIZI"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANGRUI    @"PLAN_XIANGRUI"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZUOJI       @"PLAN_ZUOJI"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_FABAO       @"PLAN_FABAO"
+#define ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN    @"PLAN_ZHAOHUAN"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI   @"PLAN_ZHUANGBEI"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES         @"PLAN_DES"
 #define ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE        @"PLAN_RATE"
+
 
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE      @"SELL_CREATE"
 #define ZADATABASE_TABLE_EQUIP_KEY_SELL_START       @"SELL_START"
@@ -250,7 +271,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              if(!dataObj.sell_create_time){
                  dataObj.sell_create_time = @"";
              }
-             dataObj.dbStyle = CBGLocalDataBaseListUpdateStyle_CopyRefresh;//矫正serverid或者新增
+             if(!dataObj.equip_type){
+                 dataObj.equip_type = @"";
+             }
+             if(!dataObj.equip_more_append){
+                 dataObj.equip_more_append = @"";
+             }
+
+             dataObj.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshTotal;//矫正serverid或者新增
              result = [self privateLocalSaveEquipHistoryDetailCBGModel:dataObj withDataBase:db];
              if (!result)
              {
@@ -397,15 +425,16 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //缓存列表 22个
         if(![fmdatabase tableExists:ZADATABASE_TABLE_EQUIP_TOTAL])
         {//主表  sell_time 应该改为 create_time
-            NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text,%@ int,%@ text,%@ int,%@ int,%@ int,%@ int,%@ text,%@ text,%@ text,%@ text,%@ text,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ text,%@ int,%@ int,%@ int);",ZADATABASE_TABLE_EQUIP_TOTAL,
+            NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text,%@ int,%@ text,%@ int,%@ int,%@ int,%@ int,%@ int,%@ text,%@ text,%@ text,%@ text,%@ text,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ text,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@ int,%@  int);",ZADATABASE_TABLE_EQUIP_TOTAL,
                                  ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,
                                  ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
                                  ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_DES,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_TYPE,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
+                                 ZADATABASE_TABLE_EQUIP_KEY_COMMON_PRICE,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_NAME,
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES,
                                  ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE,
@@ -414,17 +443,36 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,
-                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
-                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
-                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN,
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANNENGGUO,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_DENGJI,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_JIYUAN,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_MENPAI,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_FANGWU,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANJIN,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_HAIZI,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANGRUI,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZUOJI,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_FABAO,
+                                 ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN,
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE,
                                  ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL,
                                  ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
                                  ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE,
-                                 ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE];
+                                 ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_KINDID,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SERVERCHECK,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_APPOINTED,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_INGORE,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_OWNERBUY,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_BARGAINBUY,
+                                 ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ERRORED,
+                                 nil];
             [fmdatabase executeUpdate:createSql];
             NSString *databasePath=[fmdatabase databasePath];
             NSFileManager *defaultFileManager=[NSFileManager defaultManager];
@@ -1773,48 +1821,52 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     {
         switch (style)
         {
+                
             case CBGLocalDataBaseListUpdateStyle_RefreshEval:
-            {
+            {//刷新系统估价
+                if(preModel.equip_eval_price == 0 && model.equip_eval_price > 0)
+                {
+                    preModel.equip_eval_price = model.equip_eval_price;
+                }else{
+                    success = YES;
+                }
+            }
+                break;
+            case CBGLocalDataBaseListUpdateStyle_TimeAndPrice:
+            {//刷新结束时间
+                
                 BOOL ingoreRefresh = YES;
+                if(([model.sell_sold_time length] > 0 && ![model.sell_sold_time isEqualToString:preModel.sell_sold_time])
+                   || ([preModel.sell_back_time length] == 0 && [model.sell_back_time length] > 0))
+                {
+                    ingoreRefresh = NO;
+                    preModel.sell_sold_time = model.sell_sold_time;
+                    preModel.sell_back_time = model.sell_back_time;
+                    preModel.sell_space = model.sell_space;
+                }
+                
                 if(preModel.equip_price != model.equip_price)
                 {
                     preModel.equip_price = model.equip_price;
                     ingoreRefresh = NO;
                 }
                 
-                //价格无变化  时间有历史 (不变化)
-                if(preModel.equip_eval_price != model.equip_eval_price)
+                if(preModel.equip_accept != model.equip_accept)
                 {
-                    if(preModel.equip_eval_price == 0){
-                        preModel.equip_eval_price = model.equip_eval_price;
-                        ingoreRefresh = NO;
-                    }
-                    if([model.equip_more_append length] > 0){
-                        preModel.equip_more_append = model.equip_more_append;
-                        ingoreRefresh = NO;
-                    }
+                    preModel.equip_accept = model.equip_accept;
+                    ingoreRefresh = NO;
                 }
+                
+                if(preModel.appointed != model.appointed)
+                {
+                    preModel.appointed = model.appointed;
+                    ingoreRefresh = NO;
+                }
+
                 
                 if(ingoreRefresh)
                 {
                     success = YES;
-                }
-
-            }
-                break;
-            case CBGLocalDataBaseListUpdateStyle_UpdateTime:
-            {
-                //价格无变化  时间有历史 (不变化)
-                if(([preModel.sell_back_time length] > 0) && preModel.equip_price == model.equip_price)
-                {
-                    success = YES;
-                }else{
-                    preModel.equip_price = model.equip_price;
-                    preModel.sell_sold_time = model.sell_sold_time;
-                    preModel.sell_back_time = model.sell_back_time;
-                    if(!preModel.sell_sold_time){
-                        preModel.sell_sold_time = @"";
-                    }
                 }
             }
                 break;
@@ -1827,9 +1879,19 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.plan_xiulian_price = model.plan_xiulian_price;
                     preModel.plan_chongxiu_price = model.plan_chongxiu_price;
                     preModel.plan_jineng_price = model.plan_jineng_price;
-                    preModel.plan_qianyuandan_price = model.plan_qianyuandan_price;
-                    preModel.plan_zhaohuanshou_price = model.plan_zhaohuanshou_price;
                     preModel.plan_jingyan_price = model.plan_jingyan_price;
+                    preModel.plan_qianyuandan_price = model.plan_qianyuandan_price;
+                    preModel.plan_qiannengguo_price = model.plan_qiannengguo_price;
+                    preModel.plan_dengji_price = model.plan_dengji_price;
+                    preModel.plan_jiyuan_price = model.plan_jiyuan_price;
+                    preModel.plan_menpai_price = model.plan_menpai_price;
+                    preModel.plan_fangwu_price = model.plan_fangwu_price;
+                    preModel.plan_xianjin_price = model.plan_xianjin_price;
+                    preModel.plan_haizi_price = model.plan_haizi_price;
+                    preModel.plan_xiangrui_price = model.plan_xiangrui_price;
+                    preModel.plan_zuoji_price = model.plan_zuoji_price;
+                    preModel.plan_fabao_price = model.plan_fabao_price;
+                    preModel.plan_zhaohuanshou_price = model.plan_zhaohuanshou_price;
                     preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
                     preModel.plan_des = model.plan_des;
                     preModel.plan_rate = model.plan_rate;
@@ -1845,33 +1907,38 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 BOOL ingoreRefresh = YES;
                 
                 //估价变化
-                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des] ||  preModel.plan_rate != model.plan_rate )
+                if(preModel.plan_total_price != model.plan_total_price || preModel.plan_rate != model.plan_rate)
                 {
-                    ingoreRefresh = NO;
                     //估价相关，
                     preModel.plan_total_price = model.plan_total_price;
                     preModel.plan_xiulian_price = model.plan_xiulian_price;
                     preModel.plan_chongxiu_price = model.plan_chongxiu_price;
                     preModel.plan_jineng_price = model.plan_jineng_price;
-                    preModel.plan_qianyuandan_price = model.plan_qianyuandan_price;
-                    preModel.plan_zhaohuanshou_price = model.plan_zhaohuanshou_price;
                     preModel.plan_jingyan_price = model.plan_jingyan_price;
+                    preModel.plan_qianyuandan_price = model.plan_qianyuandan_price;
+                    preModel.plan_qiannengguo_price = model.plan_qiannengguo_price;
+                    preModel.plan_dengji_price = model.plan_dengji_price;
+                    preModel.plan_jiyuan_price = model.plan_jiyuan_price;
+                    preModel.plan_menpai_price = model.plan_menpai_price;
+                    preModel.plan_fangwu_price = model.plan_fangwu_price;
+                    preModel.plan_xianjin_price = model.plan_xianjin_price;
+                    preModel.plan_haizi_price = model.plan_haizi_price;
+                    preModel.plan_xiangrui_price = model.plan_xiangrui_price;
+                    preModel.plan_zuoji_price = model.plan_zuoji_price;
+                    preModel.plan_fabao_price = model.plan_fabao_price;
+                    preModel.plan_zhaohuanshou_price = model.plan_zhaohuanshou_price;
                     preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
                     preModel.plan_des = model.plan_des;
                     preModel.plan_rate = model.plan_rate;
+                    preModel.sell_space = model.sell_space;
+                    
+                    ingoreRefresh = NO;
                 }
                 
                 if(preModel.sell_space != model.sell_space)
                 {
                     ingoreRefresh = NO;
                     preModel.sell_space = model.sell_space;
-                }
-                if(preModel.equip_eval_price != model.equip_eval_price)
-                {
-                    if(preModel.equip_eval_price == 0){
-                        preModel.equip_eval_price = model.equip_eval_price;
-                    }
-                    ingoreRefresh = NO;
                 }
                 
                 //附带变化时间  当前结束时间>0且和之前不同，或者历史取回时间不存在，当前存在
@@ -1881,6 +1948,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                     preModel.sell_sold_time = model.sell_sold_time;
                     preModel.sell_back_time = model.sell_back_time;
+                }
+                
+                //数据迁移造成的数据不全
+                if([preModel.equip_type length] == 0)
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_type = model.equip_type;
+                    preModel.equip_more_append = model.equip_more_append;
                 }
                 
                 
@@ -1898,10 +1973,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.equip_accept = model.equip_accept;
                 }
                 
-                if(![preModel.equip_more_append  isEqualToString:model.equip_more_append])
+                if(preModel.appointed != model.appointed)
                 {
+                    preModel.appointed = model.appointed;
                     ingoreRefresh = NO;
-                    preModel.equip_more_append = model.equip_more_append;
                 }
 
                 
@@ -1914,73 +1989,84 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
             case CBGLocalDataBaseListUpdateStyle_CopyRefresh:
             {
                 preModel.server_id = model.server_id;
-                
-                
-                
+            }
+                break;
+            case CBGLocalDataBaseListUpdateStyle_RefreshStatus:
+            {
+                preModel.ingore = model.ingore;
+                preModel.ownerBuy = model.ownerBuy;
+            }
+                break;
+            case CBGLocalDataBaseListUpdateStyle_RefreshTotal:
+            {
                 BOOL ingoreRefresh = YES;
-                //估价变化
-                if(preModel.plan_total_price != model.plan_total_price || [preModel.plan_des isEqualToString:preModel.equip_des] ||  preModel.plan_rate != model.plan_rate )
+                if(preModel.equip_eval_price == 0 && model.equip_eval_price > 0)
                 {
+                    preModel.equip_eval_price = model.equip_eval_price;
                     ingoreRefresh = NO;
-                    //估价相关，
-                    preModel.plan_total_price = model.plan_total_price;
-                    preModel.plan_xiulian_price = model.plan_xiulian_price;
-                    preModel.plan_chongxiu_price = model.plan_chongxiu_price;
-                    preModel.plan_jineng_price = model.plan_jineng_price;
-                    preModel.plan_qianyuandan_price = model.plan_qianyuandan_price;
-                    preModel.plan_zhaohuanshou_price = model.plan_zhaohuanshou_price;
-                    preModel.plan_jingyan_price = model.plan_jingyan_price;
-                    preModel.plan_zhuangbei_price = model.plan_zhuangbei_price;
-                    preModel.plan_des = model.plan_des;
-                    preModel.plan_rate = model.plan_rate;
                 }
                 
-                if(preModel.sell_space != model.sell_space)
-                {
-                    ingoreRefresh = NO;
-                    preModel.sell_space = model.sell_space;
-                }
-                
-                //附带变化时间  当前结束时间>0且和之前不同，或者历史取回时间不存在，当前存在
                 if(([model.sell_sold_time length] > 0 && ![model.sell_sold_time isEqualToString:preModel.sell_sold_time])
                    || ([preModel.sell_back_time length] == 0 && [model.sell_back_time length] > 0))
                 {
                     ingoreRefresh = NO;
                     preModel.sell_sold_time = model.sell_sold_time;
                     preModel.sell_back_time = model.sell_back_time;
+                    preModel.sell_space = model.sell_space;
                 }
                 
+                if(preModel.errored != model.errored && model.errored)
+                {
+                    preModel.errored = model.errored;
+                    ingoreRefresh = NO;
+                }
                 
-                //价格变化
+                if(preModel.ingore != model.ingore && model.ingore)
+                {
+                    preModel.ingore = model.ingore;
+                    ingoreRefresh = NO;
+                }
+
+                if(preModel.ownerBuy != model.ownerBuy && model.ownerBuy)
+                {
+                    preModel.ownerBuy = model.ownerBuy;
+                    ingoreRefresh = NO;
+                }
+                
+                if(preModel.bargainBuy != model.bargainBuy && model.bargainBuy)
+                {
+                    preModel.bargainBuy = model.bargainBuy;
+                    ingoreRefresh = NO;
+                }
+                
+                if(preModel.appointed != model.appointed)
+                {
+                    preModel.appointed = model.appointed;
+                    ingoreRefresh = NO;
+                }
+
+                
                 if(preModel.equip_price != model.equip_price)
                 {
-                    ingoreRefresh = NO;
                     preModel.equip_price = model.equip_price;
+                    ingoreRefresh = NO;
                 }
                 
-                //还价状态变化
                 if(preModel.equip_accept != model.equip_accept)
                 {
-                    ingoreRefresh = NO;
                     preModel.equip_accept = model.equip_accept;
+                    ingoreRefresh = NO;
                 }
                 
-                if(![preModel.equip_more_append  isEqualToString:model.equip_more_append])
-                {
-                    ingoreRefresh = NO;
-                    preModel.equip_more_append = model.equip_more_append;
-                }
                 
                 
                 if(ingoreRefresh)
                 {
                     success = YES;
                 }
-            }
-                break;
-            case CBGLocalDataBaseListUpdateStyle_StatusRefresh:
-            {//只有这一种模式可以修改
-                preModel.fav_or_ingore = model.fav_or_ingore;
+
+
+                
             }
                 break;
 
@@ -2006,28 +2092,50 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     NSString * changeKey = model.game_ordersn;
     NSString * sqlString = nil;
     //更新  时间信息(有历史用历史的)  追加信息 价格 估值 估值详情
-    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? , %@=?,%@=?, %@=? , %@=? , %@=?,%@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
+    sqlString=[NSString stringWithFormat:@"update %@ set %@=?, %@=? ,%@=?,%@=? ,%@=?, %@=? , %@=?,%@=?, %@=? , %@=?,%@=?, %@=? , %@=?,%@=?, %@=? , %@=? , %@=?,%@=? , %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=?, %@=? , %@=?, %@=?, %@=?, %@=? , %@=?, %@=?, %@=?, %@=? , %@=? , %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_TOTAL,
                ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,
+               ZADATABASE_TABLE_EQUIP_KEY_COMMON_PRICE,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU,
-               ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
-               ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
-               ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANNENGGUO,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_DENGJI,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_JIYUAN,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_MENPAI,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_FANGWU,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANJIN,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_HAIZI,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANGRUI,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZUOJI,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_FABAO,
+               ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN,
                ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_EVAL_PRICE,
                ZADATABASE_TABLE_EQUIP_KEY_EQUIP_MORE_DETAIL,
                ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE,
                ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_KINDID,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SERVERCHECK,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_APPOINTED,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_INGORE,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_OWNERBUY,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_BARGAINBUY,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ERRORED,
+               ZADATABASE_TABLE_EQUIP_KEY_EQUIP_TYPE,
                ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,
                nil];
+    
+    
     
     NSArray *sqlarray=[NSArray arrayWithObjects:
                        [NSNumber numberWithInteger:model.server_id],
@@ -2036,19 +2144,39 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        [NSNumber numberWithInteger:model.equip_price],
                        [NSNumber numberWithInteger:model.plan_rate],
                        [NSNumber numberWithInteger:model.equip_accept],
+                       [NSNumber numberWithInteger:model.equip_price_common],
                        model.plan_des,
                        [NSNumber numberWithInteger:model.plan_total_price],
                        [NSNumber numberWithInteger:model.plan_xiulian_price],
                        [NSNumber numberWithInteger:model.plan_chongxiu_price],
                        [NSNumber numberWithInteger:model.plan_jineng_price],
-                       [NSNumber numberWithInteger:model.plan_qianyuandan_price],
-                       [NSNumber numberWithInteger:model.plan_zhaohuanshou_price],
                        [NSNumber numberWithInteger:model.plan_jingyan_price],
+                       [NSNumber numberWithInteger:model.plan_qiannengguo_price],
+                       [NSNumber numberWithInteger:model.plan_qianyuandan_price],
+                       [NSNumber numberWithInteger:model.plan_dengji_price],
+                       [NSNumber numberWithInteger:model.plan_jiyuan_price],
+                       [NSNumber numberWithInteger:model.plan_menpai_price],
+                       [NSNumber numberWithInteger:model.plan_fangwu_price],
+                       [NSNumber numberWithInteger:model.plan_xianjin_price],
+                       [NSNumber numberWithInteger:model.plan_haizi_price],
+                       [NSNumber numberWithInteger:model.plan_xiangrui_price],
+                       [NSNumber numberWithInteger:model.plan_zuoji_price],
+                       [NSNumber numberWithInteger:model.plan_fabao_price],
+                       [NSNumber numberWithInteger:model.plan_zhaohuanshou_price],
                        [NSNumber numberWithInteger:model.plan_zhuangbei_price],
                        [NSNumber numberWithInteger:model.equip_eval_price],
                        model.equip_more_append,
                        [NSNumber numberWithInteger:model.sell_space],
                        [NSNumber numberWithInteger:model.fav_or_ingore],
+                       [NSNumber numberWithInteger:model.kindid],
+                       [NSNumber numberWithInteger:model.server_check],
+                       [NSNumber numberWithInteger:model.equip_status],
+                       [NSNumber numberWithInteger:model.appointed],
+                       [NSNumber numberWithInteger:model.ingore],
+                       [NSNumber numberWithInteger:model.ownerBuy],
+                       [NSNumber numberWithInteger:model.bargainBuy],
+                       [NSNumber numberWithInteger:model.errored],
+                       model.equip_type,
                        changeKey,
                        nil];
     success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
@@ -2063,16 +2191,17 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     BOOL success = NO;
     NSString * changeKey = model.game_ordersn;
     NSString * sqlString = nil;
-    sqlString=[NSString stringWithFormat:@"insert into %@ values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",ZADATABASE_TABLE_EQUIP_TOTAL];
+    sqlString=[NSString stringWithFormat:@"insert into %@ values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",ZADATABASE_TABLE_EQUIP_TOTAL];
     NSArray *sqlarray=[NSArray arrayWithObjects:
                        changeKey,
                        model.owner_roleid,
                        [NSNumber numberWithInteger:model.server_id],
-                       model.equip_des,
+                       model.equip_type,
                        [NSNumber numberWithInteger:model.equip_level],
                        [NSNumber numberWithInteger:model.equip_school],
                        [NSNumber numberWithInteger:model.equip_start_price],
                        [NSNumber numberWithInteger:model.equip_price],
+                       [NSNumber numberWithInteger:model.equip_price_common],
                        model.equip_name,
                        model.plan_des,
                        model.sell_create_time,
@@ -2082,9 +2211,19 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        [NSNumber numberWithInteger:model.plan_xiulian_price],
                        [NSNumber numberWithInteger:model.plan_chongxiu_price],
                        [NSNumber numberWithInteger:model.plan_jineng_price],
-                       [NSNumber numberWithInteger:model.plan_qianyuandan_price],
-                       [NSNumber numberWithInteger:model.plan_zhaohuanshou_price],
                        [NSNumber numberWithInteger:model.plan_jingyan_price],
+                       [NSNumber numberWithInteger:model.plan_qiannengguo_price],
+                       [NSNumber numberWithInteger:model.plan_qianyuandan_price],
+                       [NSNumber numberWithInteger:model.plan_dengji_price],
+                       [NSNumber numberWithInteger:model.plan_jiyuan_price],
+                       [NSNumber numberWithInteger:model.plan_menpai_price],
+                       [NSNumber numberWithInteger:model.plan_fangwu_price],
+                       [NSNumber numberWithInteger:model.plan_xianjin_price],
+                       [NSNumber numberWithInteger:model.plan_haizi_price],
+                       [NSNumber numberWithInteger:model.plan_xiangrui_price],
+                       [NSNumber numberWithInteger:model.plan_zuoji_price],
+                       [NSNumber numberWithInteger:model.plan_fabao_price],
+                       [NSNumber numberWithInteger:model.plan_zhaohuanshou_price],
                        [NSNumber numberWithInteger:model.plan_zhuangbei_price],
                        [NSNumber numberWithInteger:model.equip_accept],
                        [NSNumber numberWithInteger:model.equip_eval_price],
@@ -2092,6 +2231,14 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                        [NSNumber numberWithInteger:model.plan_rate],
                        [NSNumber numberWithInteger:model.sell_space],
                        [NSNumber numberWithInteger:model.fav_or_ingore],
+                       [NSNumber numberWithInteger:model.kindid],
+                       [NSNumber numberWithInteger:model.server_check],
+                       [NSNumber numberWithInteger:model.equip_status],
+                       [NSNumber numberWithInteger:model.appointed],
+                       [NSNumber numberWithInteger:model.ingore],
+                       [NSNumber numberWithInteger:model.ownerBuy],
+                       [NSNumber numberWithInteger:model.bargainBuy],
+                       [NSNumber numberWithInteger:model.errored],
                        nil];
     success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
     if(!success){
@@ -2306,7 +2453,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          //是某分类的
          //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
          
-         [sqlMutableString appendFormat:@"select * from %@ where %@ = 0 or %@ == %@ ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_DES,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = 0 ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_PLAN_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
          
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])
@@ -2816,13 +2963,21 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.game_ordersn = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN];
     list.owner_roleid = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID];
     list.server_id = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID];
-    list.equip_status = 0;
+    list.equip_status = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS];
     list.equip_school =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL];
+    list.equip_price_common =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_COMMON_PRICE];
+    list.appointed =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_APPOINTED];
+    list.errored =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ERRORED];
+    list.ingore =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_INGORE];
+    list.ownerBuy =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_OWNERBUY];
+    list.bargainBuy =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_BARGAINBUY];
+    
+    list.equip_type = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_TYPE];
+    list.kindid =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_KINDID];
+    list.server_check =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SERVERCHECK];
+
     list.equip_level =      [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL];
     list.equip_name =       [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_NAME];
-    list.equip_juese =      [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_JUESE];
-    list.equip_xingbie =    [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_XINGBIE];
-    list.equip_des =        [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_DES];
     list.equip_price =      [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE];
     list.equip_accept =     [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT];
     list.equip_start_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_START_PRICE];
@@ -2834,9 +2989,19 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.plan_xiulian_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIULIAN];
     list.plan_chongxiu_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_CHONGXIU];
     list.plan_jineng_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG];
-    list.plan_qianyuandan_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN];
-    list.plan_zhaohuanshou_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN];
     list.plan_jingyan_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN];
+    list.plan_qiannengguo_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANNENGGUO];
+    list.plan_qianyuandan_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN];
+    list.plan_dengji_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_DENGJI];
+    list.plan_jiyuan_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_JIYUAN];
+    list.plan_menpai_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_MENPAI];
+    list.plan_fangwu_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_FANGWU];
+    list.plan_xianjin_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANJIN];
+    list.plan_haizi_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_HAIZI];
+    list.plan_xiangrui_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_XIANGRUI];
+    list.plan_zuoji_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZUOJI];
+    list.plan_fabao_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_FABAO];
+    list.plan_zhaohuanshou_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHAOHUAN];
     list.plan_zhuangbei_price = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_ZHUANGBEI];
     list.plan_des = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_DES];
     list.plan_rate = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE];

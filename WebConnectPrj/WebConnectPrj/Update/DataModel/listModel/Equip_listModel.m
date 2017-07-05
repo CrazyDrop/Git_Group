@@ -11,6 +11,7 @@
 #import "Equip_listModel.h"
 #import "EquipExtraModel.h"
 #import "NSDate+Extension.h"
+#import "CBGPlanModel.h"
 @implementation Equip_listModel
 -(BOOL)isFirstInSelling
 {
@@ -152,11 +153,11 @@
         
         list.equip_level =      [detail.equip_level intValue];
         list.equip_name =       detail.owner_nickname;
-        list.equip_juese =      @"";
-        list.equip_xingbie =    @"";
-        list.equip_des =        self.desc_sumup;
         list.equip_price =      [self.price intValue];
         list.equip_eval_price = 0;
+        
+        list.equip_type = detail.equip_type;
+        list.kindid = [detail.kindid integerValue];
         
         list.equip_start_price = [detail.last_price_desc intValue];
         if(list.equip_start_price == 0)
@@ -169,7 +170,6 @@
         }
         if(detail.appointed_roleid && [detail.appointed_roleid length] > 0)
         {
-            list.fav_or_ingore = 2;
             list.appointed = YES;
         }
         
@@ -180,25 +180,35 @@
         {
             list.equip_school = [CBGListModel schoolNumberFromSchoolName:self.equip_name];
         }
-        list.plan_total_price = extra.totalPrice;
-        list.plan_xiulian_price = extra.xiulianPrice;
-        list.plan_chongxiu_price = extra.chongxiuPrice;
-        list.plan_jineng_price = extra.jinengPrice;
-        list.plan_qianyuandan_price = extra.qianyuandanPrice;
-        list.plan_zhaohuanshou_price = extra.zhaohuanPrice;
-        list.plan_jingyan_price = extra.jingyanPrice;
-        list.plan_zhuangbei_price = extra.zhuangbeiPrice;
-        list.plan_des = extra.detailPrePrice;
-        list.plan_rate = (int)detail.extraEarnRate;
-        if(!list.plan_des)
-        {
-            list.plan_des = @"";
-        }
-        list.equip_huasheng =    [extra furtureMaxStatus];
-        list.equip_price_common = [detail.web_last_price_desc integerValue];
-        list.equip_accept = [detail.allow_bargain integerValue];
+
+        CBGPlanModel * planModel = [CBGPlanModel planModelForDetailEquipModel:detail];
+        list.plan_total_price = planModel.total_price;
+        list.plan_xiulian_price = planModel.xiulian_plan_price;
+        list.plan_chongxiu_price = planModel.chongxiu_plan_price;
+        list.plan_jineng_price = planModel.jineng_plan_price;
+        list.plan_jingyan_price = planModel.jingyan_plan_price;
+        list.plan_qiannengguo_price = planModel.qiannengguo_plan_price;
+        list.plan_qianyuandan_price = planModel.qianyuandan_plan_price;
+        list.plan_dengji_price = planModel.dengji_plan_price;
+        list.plan_jiyuan_price = planModel.jiyuan_plan_price;
+        list.plan_menpai_price = planModel.menpai_plan_price;
+        list.plan_fangwu_price = planModel.fangwu_plan_price;
+        list.plan_xianjin_price = planModel.xianjin_plan_price;
+        list.plan_haizi_price = planModel.haizi_plan_price;
+        list.plan_xiangrui_price = planModel.xiangrui_plan_price;
+        list.plan_zuoji_price = planModel.zuoji_plan_price;
+        list.plan_fabao_price = planModel.fabao_plan_price;
+        list.plan_zhaohuanshou_price = planModel.zhaohuanshou_plan_price;
+        list.plan_zhuangbei_price = planModel.zhuangbei_plan_price;
+        list.plan_rate = planModel.plan_rate;
+        list.plan_des = [planModel description];
+        list.server_check = planModel.server_check;
+        
         list.equip_more_append = [list createLatestMoreAppendString];
         
+        list.equip_price_common = [detail.web_last_price_desc integerValue];
+        list.equip_accept = [detail.allow_bargain integerValue];
+
 //        NSArray * array = [detail.selling_info lastObject].infoArray;
 //        ExtraModel * extraModel = [array lastObject];
     

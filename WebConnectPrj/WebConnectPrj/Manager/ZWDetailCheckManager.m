@@ -119,7 +119,7 @@
             eveModel.appendHistory.equip_price = [price integerValue];
             eveModel.appendHistory.equip_accept = eveModel.accept_bargain;
             eveModel.appendHistory.sell_start_time = [NSDate unixDate];
-            eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
+            eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
 
 //            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
 //            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
@@ -454,7 +454,7 @@
             [priceCache setObject:price forKey:idenfifier];
             
             CBGListModel * cbgList = [list listSaveModel];
-            cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_UpdateTime;
+            cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
             [updateArr addObject:cbgList];
             
             NSDate * startDate = [NSDate fromString:list.equipModel.selling_time];

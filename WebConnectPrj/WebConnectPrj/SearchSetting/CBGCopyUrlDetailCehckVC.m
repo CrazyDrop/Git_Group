@@ -765,7 +765,7 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
     
     CBGListModel * cbgList = baseList.listSaveModel;
     cbgList.fav_or_ingore = index;
-    cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_StatusRefresh;
+    cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshStatus;
     NSArray * arr = @[cbgList];
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];

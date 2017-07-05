@@ -251,7 +251,8 @@
 //    NSString * serverId = [self.listData.serverid stringValue];
 //    NSString * orderSN = self.listData.game_ordersn;
     NSString * txtValue = self.cbgList.detailWebUrl;
-    UITextView * txt = [[UITextView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80)];
+    CGFloat txtHeight = FLoatChange(300);
+    UITextView * txt = [[UITextView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT - txtHeight , 100, txtHeight)];
     [bgView addSubview:txt];
     txt.text = txtValue;
     self.txtView = txt;
@@ -261,6 +262,7 @@
     [bgView addSubview:self.payBtn];
     
     CGPoint pt = txt.center;
+    pt.y = SCREEN_HEIGHT - boundHeight/2.0;
     pt.x = SCREEN_WIDTH - self.payBtn.bounds.size.width/2.0;
     self.payBtn.center = pt;
     
@@ -278,17 +280,47 @@
     //有详情的展示，没详情的请求
     if(self.detailModel)
     {
-        EquipModel * detail = self.detailModel;
-        EquipExtraModel * detailExtra = detail.equipExtra;
-    
-        NSString * prePrice = detail.equipExtra.detailPrePrice;
-        if(self.cbgList.equip_eval_price > 0){
-         prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld",self.cbgList.equip_eval_price/100];
-        }
-        prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",txtValue];
-        txt.text = prePrice;
+//        EquipModel * detail = self.detailModel;
+//        EquipExtraModel * detailExtra = detail.equipExtra;
+        
     }else{
-        [self startRefreshDataModelRequest];
+//        [self startRefreshDataModelRequest];
+    }
+    
+    if(self.cbgList)
+    {
+        NSString * prePrice = nil;
+        CBGListModel * list = self.cbgList;
+        NSMutableString * edit = [NSMutableString string];
+        [edit appendFormat:@"总价 %.0ld \n",(long)list.plan_total_price];
+        if(list.plan_rate > 0)
+        {
+            [edit appendFormat:@"收益 %.0ld(%.0ld) \n",(long)[list price_earn_plan],(long)list.plan_rate];
+        }
+        [edit appendFormat:@"修炼 %.0ld \n",(long)list.plan_xiulian_price];
+        [edit appendFormat:@"宠修 %.0ld \n",(long)list.plan_chongxiu_price];
+        [edit appendFormat:@"技能 %.0ld \n",(long)list.plan_jineng_price];
+        [edit appendFormat:@"经验 %.0ld \n",(long)list.plan_jingyan_price];
+        [edit appendFormat:@"潜能 %.0ld \n",(long)list.plan_qiannengguo_price];
+        [edit appendFormat:@"乾元丹 %.0ld \n",(long)list.plan_qianyuandan_price];
+        [edit appendFormat:@"等级 %.0ld \n",(long)list.plan_dengji_price];
+        [edit appendFormat:@"机缘 %.0ld \n",(long)list.plan_jiyuan_price];
+        [edit appendFormat:@"门派 %.0ld \n",(long)list.plan_menpai_price];
+        [edit appendFormat:@"房屋 %.0ld \n",(long)list.plan_fangwu_price];
+        [edit appendFormat:@"现金 %.0ld \n",(long)list.plan_xianjin_price];
+        [edit appendFormat:@"孩子 %.0ld \n",(long)list.plan_haizi_price];
+        [edit appendFormat:@"祥瑞 %.0ld \n",(long)list.plan_xiangrui_price];
+        [edit appendFormat:@"坐骑 %.0ld \n",(long)list.plan_zuoji_price];
+        [edit appendFormat:@"法宝 %.0ld \n",(long)list.plan_fabao_price];
+        [edit appendFormat:@"装备 %.0ld \n",list.plan_zhuangbei_price];
+        [edit appendFormat:@"召唤 %.0ld \n",list.plan_zhaohuanshou_price];
+        prePrice = edit;
+        
+        if(self.cbgList.equip_eval_price > 0){
+            prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld\n",self.cbgList.equip_eval_price/100];
+        }
+//        prePrice = [prePrice stringByAppendingFormat:@"\n估价:%@",txtValue];
+        txt.text = prePrice;
     }
     
     [self resizeCBGListTableViewForSmall];
@@ -455,10 +487,41 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             self.detailModel = detailEve;
             baseList.equipModel = detailEve;
-            NSString * urlString = self.cbgList.detailWebUrl;
+            baseList.listSaveModel = nil;
             
-            NSString * prePrice = detailEve.equipExtra.detailPrePrice;
-            prePrice = [prePrice stringByAppendingFormat:@"\n  估价:%@",urlString];
+            NSString * urlString = self.cbgList.detailWebUrl;
+            CBGListModel * list = [baseList listSaveModel];
+            
+            NSString * prePrice = nil;
+            NSMutableString * edit = [NSMutableString string];
+            [edit appendFormat:@"总价 %.0ld \n",(long)list.plan_total_price];
+            if(list.plan_rate > 0)
+            {
+                [edit appendFormat:@"收益 %.0ld(%.0ld) \n",(long)[list price_earn_plan],(long)list.plan_rate];
+            }
+            [edit appendFormat:@"修炼 %.0ld \n",(long)list.plan_xiulian_price];
+            [edit appendFormat:@"宠修 %.0ld \n",(long)list.plan_chongxiu_price];
+            [edit appendFormat:@"技能 %.0ld \n",(long)list.plan_jineng_price];
+            [edit appendFormat:@"经验 %.0ld \n",(long)list.plan_jingyan_price];
+            [edit appendFormat:@"潜能 %.0ld \n",(long)list.plan_qiannengguo_price];
+            [edit appendFormat:@"乾元丹 %.0ld \n",(long)list.plan_qianyuandan_price];
+            [edit appendFormat:@"等级 %.0ld \n",(long)list.plan_dengji_price];
+            [edit appendFormat:@"机缘 %.0ld \n",(long)list.plan_jiyuan_price];
+            [edit appendFormat:@"门派 %.0ld \n",(long)list.plan_menpai_price];
+            [edit appendFormat:@"房屋 %.0ld \n",(long)list.plan_fangwu_price];
+            [edit appendFormat:@"现金 %.0ld \n",(long)list.plan_xianjin_price];
+            [edit appendFormat:@"孩子 %.0ld \n",(long)list.plan_haizi_price];
+            [edit appendFormat:@"祥瑞 %.0ld \n",(long)list.plan_xiangrui_price];
+            [edit appendFormat:@"坐骑 %.0ld \n",(long)list.plan_zuoji_price];
+            [edit appendFormat:@"法宝 %.0ld \n",(long)list.plan_fabao_price];
+            [edit appendFormat:@"装备 %.0ld \n",list.plan_zhuangbei_price];
+            [edit appendFormat:@"召唤 %.0ld \n",list.plan_zhaohuanshou_price];
+            
+            prePrice = edit;
+            if(self.cbgList.equip_eval_price > 0){
+                prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld\n",self.cbgList.equip_eval_price/100];
+            }
+//            prePrice = [prePrice stringByAppendingFormat:@"\n估价:%@",urlString];
             self.txtView.text = prePrice;
             
         }
