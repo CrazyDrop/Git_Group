@@ -38,6 +38,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_AutoSetting,
     CBGDetailTestFunctionStyle_MaxPanic,
     CBGDetailTestFunctionStyle_SpecialList,
+    CBGDetailTestFunctionStyle_BargainList,
 } CBGDetailTestFunctionStyle;
 
 

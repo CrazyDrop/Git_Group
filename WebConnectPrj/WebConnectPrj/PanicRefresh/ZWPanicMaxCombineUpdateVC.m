@@ -162,6 +162,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     @synchronized (detailArr)
     {
+        //当缓存数量和一致时，不展示
         
     }
     

@@ -737,15 +737,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 continue;
             }
             obj.equipModel = detailEve;
-            obj.earnRate = detailEve.extraEarnRate;
-            if(obj.earnRate > 0)
-            {
-                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
-            }
-            if(!detailEve.equipExtra.buyPrice)
-            {
-                NSLog(@"失败 %@",obj.detailDataUrl);
-            }
+            CBGListModel * list = obj.listSaveModel;
+            obj.earnRate = list.plan_rate;
+            obj.earnPrice = [NSString stringWithFormat:@"%ld",list.price_earn_plan];
         }
     }
     

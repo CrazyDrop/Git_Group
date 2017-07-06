@@ -69,7 +69,10 @@
     
     NSInteger coustMoney = [planModel totalPlanCoustMoneyWithTotalMoney:planMoney];
     NSInteger baseMoney = [detailModel.price integerValue] / 100;
-    NSInteger earn = planMoney - coustMoney -  baseMoney - baseMoney;
+    if(baseMoney == 0){
+        baseMoney = [detailModel.last_price_desc integerValue];
+    }
+    NSInteger earn = planMoney - coustMoney -  baseMoney ;
     if(earn > 0)
     {
         planModel.earn_price = earn;

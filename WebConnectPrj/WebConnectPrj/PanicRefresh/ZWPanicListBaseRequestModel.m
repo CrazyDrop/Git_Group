@@ -441,25 +441,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             
             obj.listSaveModel = nil;
             obj.equipModel = detailEve;
-            obj.earnRate = detailEve.extraEarnRate;
-            
-            if(obj.earnRate > 0)
-            {
-                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
-            }
-            if(!detailEve.equipExtra.buyPrice)
-            {
-                NSLog(@"失败 %@",obj.detailDataUrl);
-            }
-            
+
             Equip_listModel * objShow = [obj copy];
             objShow.equipModel= detailEve;
             
+            objShow.listSaveModel = nil;
             //当前处于未上架进行展示，并且非时间自动超时
             if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {//详情数据处于暂存
                 
-                if(detailEve.equipExtra.totalPrice > 1000 && ![objShow isAutoStopSelling])
+                if(![objShow isAutoStopSelling])
                 {
                     [cacheArr addObject:objShow];
                     

@@ -203,6 +203,12 @@
             name = @"关注列表";
         }
             break;
+        case CBGDetailTestFunctionStyle_BargainList:
+        {
+            name = @"还价列表";
+        }
+            break;
+
             
         default:
             break;

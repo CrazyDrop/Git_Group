@@ -122,7 +122,7 @@
         Equip_listModel * list = [array objectAtIndex:index];
         
         BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];//缺少了服务器3年外判定
-        if(equipBuy && [list.serverid integerValue] < compareId)
+        if(equipBuy)
         {
             CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);
@@ -138,6 +138,12 @@
     if(maxModel)
     {
 
+        //三年内区时，并且利率不是很大，仅进行提醒
+        if(!total.isNotSystemApp && [maxModel.serverid integerValue] >= compareId && total.limitRate > 0 && maxModel.earnRate < total.limitRate * 2)
+        {
+            return NO;
+        }
+        
         NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
         NSString * webUrl = maxModel.detailWebUrl;
         NSString * urlString = webUrl;
@@ -160,7 +166,8 @@
         if(!total.isNotSystemApp && maxModel.earnRate < total.limitRate && total.limitRate > 0){
             return YES;
         }
-        
+
+
         if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
            [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
         {

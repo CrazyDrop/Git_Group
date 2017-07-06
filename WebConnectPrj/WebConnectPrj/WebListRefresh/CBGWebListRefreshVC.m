@@ -504,9 +504,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 continue;
             }
             obj.equipModel = detailEve;
-            obj.earnRate = detailEve.extraEarnRate;
-            obj.planPrice = detailEve.equipExtra.totalPrice;
-            obj.earnPrice = detailEve.earnPrice;
+            CBGListModel * list = obj.listSaveModel;
+            obj.planPrice = list.plan_total_price;
+            obj.earnRate = list.plan_rate;
+            obj.earnPrice = list.price_earn_plan;
         }
     }
     

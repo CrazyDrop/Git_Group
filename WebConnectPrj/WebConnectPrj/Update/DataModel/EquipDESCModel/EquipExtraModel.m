@@ -653,7 +653,7 @@
         CGFloat addPrice = [self jineng_price_addConstPriceForEveNum:number];
         CGFloat appendPrice = [self jineng_price_appendLetfPriceForEveNum:number];
         price = MIN(addPrice, appendPrice);
-        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
+//        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
     }else
     {
         if(number < 150)

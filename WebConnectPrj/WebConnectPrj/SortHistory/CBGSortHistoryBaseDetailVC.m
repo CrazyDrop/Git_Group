@@ -206,6 +206,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 [obj refreshCBGListDataModelWithDetaiEquipModel:detailEve];
             }else
             {
+                NSLog(@"EquipModel errored %@",obj.detailDataUrl);
                 obj.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshStatus;
                 obj.errored = YES;
                 obj.equip_more_append = [obj createLatestMoreAppendString];
@@ -217,7 +218,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         
         if([detailEve isKindOfClass:[EquipModel class]])
         {
-            NSLog(@"EquipModel errored %@",obj.detailDataUrl);
             NSNumber * idKeyNum = detailEve.serverid;
             if(!idKeyNum)
             {
