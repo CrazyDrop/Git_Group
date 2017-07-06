@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZALocalModelDBManager.h"
+
 //自定义model，处理代理，回调
 //完成列表数据请求，库表查询，详情请求，拆分
 //包含、启动请求、停止请求
@@ -22,7 +24,9 @@
 
 
 @interface ZWPanicListBaseRequestModel : NSObject
-
+{
+    ZALocalModelDBManager  * dbManager;
+}
 @property (nonatomic, assign) id<PanicListRequestTagListDelegate> requestDelegate;
 @property (nonatomic, strong) NSString * tagString;
 @property (nonatomic, strong) NSArray * cacheArr;

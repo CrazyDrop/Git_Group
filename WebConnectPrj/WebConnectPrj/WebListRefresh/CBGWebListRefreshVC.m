@@ -835,7 +835,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             if(contact.earnPrice > 0)
             {
                 sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
-                equipName = [NSString stringWithFormat:@"%.0f %@",contact.earnPrice,equipName];
+                equipName = [NSString stringWithFormat:@"%.0ld %@",(long)cbgList.price_earn_plan,equipName];
                 leftRateColor = [UIColor orangeColor];
             }
         }

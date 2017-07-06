@@ -53,6 +53,7 @@
 - (NSString * )detailCheckIdentifier;
 - (NSString * )detailDataUrl;
 - (NSString * )detailWebUrl;
+- (NSString * )listCombineIdfa;
 //计算公式，判定账号是否值得购买
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip;
 -(BOOL)isFirstInSelling;

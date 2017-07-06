@@ -72,7 +72,7 @@
     
     //两部分均展示
     NSMutableArray * editArr = [NSMutableArray array];
-    [editArr addObject:roleIdArr];
+    [editArr addObjectsFromArray:roleIdArr];
     
     for (NSInteger index = 0;index < [order count] ;index ++ )
     {

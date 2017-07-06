@@ -9,6 +9,7 @@
 #import "DPWhiteTopController.h"
 #import "ZACBGListDetailShowVC.h"
 //历史高标记录，储存 earnRate 比例高的数据
+//暂未使用
 @interface ZWHistoryListController :ZACBGListDetailShowVC
 
 

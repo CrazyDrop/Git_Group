@@ -242,9 +242,6 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 
 -(void)localCopySoldOutDataToPartDataBase
 {
-//    [self testDetailSQLForTime];
-//    return;
-//    
     
     NSArray *   soldout = [self localSaveEquipArrayForSoldOut_database];
     NSMutableDictionary * remoteDic = [NSMutableDictionary dictionary];
@@ -1995,6 +1992,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
             {
                 preModel.ingore = model.ingore;
                 preModel.ownerBuy = model.ownerBuy;
+                preModel.errored = model.errored;
             }
                 break;
             case CBGLocalDataBaseListUpdateStyle_RefreshTotal:

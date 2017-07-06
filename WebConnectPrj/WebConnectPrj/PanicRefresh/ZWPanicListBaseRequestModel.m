@@ -11,7 +11,6 @@
 #import "EquipDetailArrayRequestModel.h"
 #import "EquipListRequestModel.h"
 #import "Equip_listModel.h"
-#import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshManager.h"
 #import "YYCache.h"
 
@@ -27,7 +26,7 @@
     YYCache * listShowCache;
     NSInteger maxLength;
     
-    ZALocalModelDBManager  * dbManager;
+    
     
     EquipDetailArrayRequestModel * _detailListReqModel;
     EquipListRequestModel * _dpModel;

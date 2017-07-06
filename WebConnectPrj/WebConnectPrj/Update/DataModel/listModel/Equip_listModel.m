@@ -113,6 +113,15 @@
     return url;
     return nil;
 }
+- (NSString * )listCombineIdfa{
+    if(!self.serverid || !self.game_ordersn){
+        return nil;
+    }
+    //    http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=443&ordersn=525_1480680251_527287531&equip_refer=1
+    NSString * idfa = [NSString stringWithFormat:@"%@|%@",self.game_ordersn,self.serverid];
+    return idfa;
+}
+
 //计算公式，判定账号是否值得购买
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip
 {
@@ -149,11 +158,19 @@
         list.owner_roleid = detail.owner_roleid;
         list.server_id = [self.serverid intValue];
         
-        list.equip_status = [self.equip_status intValue];
+        if(!self.equip_status){
+            list.equip_status = [self.equip_status intValue];
+        }else{
+            list.equip_status = [detail.status intValue];
+        }
         
         list.equip_level =      [detail.equip_level intValue];
         list.equip_name =       detail.owner_nickname;
-        list.equip_price =      [self.price intValue];
+        if(self.price){
+            list.equip_price =      [self.price intValue];
+        }else{
+            
+        }
         list.equip_eval_price = 0;
         
         list.equip_type = detail.equip_type;

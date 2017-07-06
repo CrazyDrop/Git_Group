@@ -1025,7 +1025,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             case CBGEquipPlanStyle_PlanBuy:
             {
                 sellTxt = [NSString stringWithFormat:@"%ld %@",listModel.price_rate_latest_plan,sellTxt];
-                equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
+                equipName = [NSString stringWithFormat:@"%.0ld %@",(long)listModel.price_earn_plan,equipName];
                 leftRateColor = [UIColor orangeColor];
 
             }
