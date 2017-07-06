@@ -169,7 +169,17 @@
             name = @"WEB移除";
         }
             break;
-            
+        case CBGDetailTestURLFunctionStyle_OwnerBuy:
+        {
+            name = @"购买-有";
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_OwnerSold:
+        {
+            name = @"购买-无";
+        }
+            break;
+
             
         default:
             break;
@@ -201,6 +211,9 @@
                                  
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_StateIngore],
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_StateNormal],
+           
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_OwnerBuy],
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_OwnerSold],
                                  
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_DBClear],
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_TotalHistory],
@@ -287,26 +300,35 @@
         case CBGDetailTestURLFunctionStyle_NoticeAdd:
         {
             [self refreshLatestNoticeListWithOrderSNAdd:YES];
-//            [self refreshLocalSaveIngoreStatusWithLatest:1];
         }
             break;
             
         case CBGDetailTestURLFunctionStyle_NoticeRemove:
         {
             [self refreshLatestNoticeListWithOrderSNAdd:NO];
-//            [self refreshLocalSaveIngoreStatusWithLatest:2];
         }
             break;
 
         case CBGDetailTestURLFunctionStyle_StateIngore:
         {
-            [self refreshLocalSaveIngoreStatusWithLatest:1];
+            [self refreshLocalSaveEquipListEquipWithOwner:YES];
         }
             break;
 
         case CBGDetailTestURLFunctionStyle_StateNormal:
         {
-            [self refreshLocalSaveIngoreStatusWithLatest:2];
+            [self refreshLocalSaveEquipListEquipWithOwner:NO];
+        }
+            break;
+        case CBGDetailTestURLFunctionStyle_OwnerBuy:
+        {
+            [self refreshLocalSaveEquipListEquipWithOwner:YES];
+        }
+            break;
+            
+        case CBGDetailTestURLFunctionStyle_OwnerSold:
+        {
+            [self refreshLocalSaveEquipListEquipWithOwner:NO];
         }
             break;
 
@@ -752,12 +774,13 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
 }
 -(void)refreshLocalSaveIngoreStatusWithLatest:(NSInteger)index
 {
-    if(!self.detailModel){
+    if(!self.detailModel)
+    {
         [DZUtils noticeCustomerWithShowText:@"详情不存在"];
         return;
     }
     //纠正估价
-    [self.detailModel.equipExtra createExtraPrice];
+//    [self.detailModel.equipExtra createExtraPrice];
     
     //    return;
     //强制刷新
@@ -769,6 +792,53 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
     NSArray * arr = @[cbgList];
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];
+}
+-(void)refreshLocalSaveEquipListEquipWithIngore:(BOOL)ingore
+{
+    if(!baseList.game_ordersn)
+    {
+        [DZUtils noticeCustomerWithShowText:@"订单号不存在"];
+        return;
+    }
+    
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:baseList.game_ordersn];
+    if([orderArr count] == 0)
+    {
+        [DZUtils noticeCustomerWithShowText:@"不存在历史数据"];
+        return;
+    }
+    
+    CBGListModel * cbgList = baseList.listSaveModel;
+    cbgList.ingore = ingore;
+    
+    cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshStatus;
+    NSArray * arr = @[cbgList];
+    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];
+}
+-(void)refreshLocalSaveEquipListEquipWithOwner:(BOOL)owner
+{
+    if(!baseList.game_ordersn)
+    {
+        [DZUtils noticeCustomerWithShowText:@"订单号不存在"];
+        return;
+    }
+    
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:baseList.game_ordersn];
+    if([orderArr count] == 0)
+    {
+        [DZUtils noticeCustomerWithShowText:@"不存在历史数据"];
+        return;
+    }
+    
+    CBGListModel * cbgList = baseList.listSaveModel;
+    cbgList.ownerBuy = owner;
+    
+    cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshStatus;
+    NSArray * arr = @[cbgList];
+    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];
+
 }
 
 -(void)tapedOnLocalSaveDetailModelBtn:(id)sender
@@ -989,12 +1059,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             self.detailModel = detailEve;
             //刷新baseList 由
+            baseList.listSaveModel = nil;
             [baseList refrehLocalBaseListModelWithDetail:detailEve];
-            
+            CBGListModel * list = [baseList listSaveModel];
             
             NSString * urlString = baseList.detailWebUrl;
             
-            NSString * prePrice = detailEve.equipExtra.detailPrePrice;
+            NSString * prePrice = list.plan_des;
             if(!prePrice){
                 prePrice = [NSString stringWithFormat:@"估价失败 %@",detailEve.desc_sumup];
             }

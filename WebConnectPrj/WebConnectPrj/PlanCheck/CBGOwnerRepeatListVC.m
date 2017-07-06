@@ -63,11 +63,28 @@
                              @"31780420",
                              @"28508479",
                              @"13051880",
+                             @"30911286",
+                             @"18558132",
                              @""];
     
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray  * order = [dbManager localSaveEquipHistoryModelListOwnerList];
     
+    //两部分均展示
+    NSMutableArray * editArr = [NSMutableArray array];
+    [editArr addObject:roleIdArr];
     
-    NSArray * listArr = [self localSaveListArrayFromRoleIdArray:roleIdArr];
+    for (NSInteger index = 0;index < [order count] ;index ++ )
+    {
+        CBGListModel * eve = [order objectAtIndex:index];
+        NSString * eveRoleId = eve.owner_roleid;
+        
+        if(![editArr containsObject:eveRoleId]){
+            [editArr addObject:eveRoleId];
+        }
+    }
+    
+    NSArray * listArr = [self localSaveListArrayFromRoleIdArray:editArr];
     self.dbHistoryArr = listArr;
     [self refreshLatestShowedDBArrayWithNotice:YES];
 }

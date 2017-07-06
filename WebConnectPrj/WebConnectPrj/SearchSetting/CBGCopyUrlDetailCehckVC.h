@@ -20,6 +20,8 @@ typedef enum : NSUInteger
     CBGDetailTestURLFunctionStyle_NoticeRemove,
     CBGDetailTestURLFunctionStyle_StateIngore,
     CBGDetailTestURLFunctionStyle_StateNormal,
+    CBGDetailTestURLFunctionStyle_OwnerBuy,
+    CBGDetailTestURLFunctionStyle_OwnerSold,
     CBGDetailTestURLFunctionStyle_DBClear,
     CBGDetailTestURLFunctionStyle_TotalHistory,
     CBGDetailTestURLFunctionStyle_NearHistory,

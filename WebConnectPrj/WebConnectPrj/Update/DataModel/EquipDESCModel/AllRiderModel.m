@@ -39,20 +39,7 @@
         
         return;
     }
-    if ([key isEqualToString:@"riderModelsArray"] && [value isKindOfClass:[NSArray class]])
-    {
-        NSArray        *array     = value;
-        NSMutableArray *dataArray = [NSMutableArray array];
-        
-        for (NSDictionary *dictionary in array) {
-            
-            ExtraModel *model = [[ExtraModel alloc] initWithDictionary:dictionary];
-            [dataArray addObject:model];
-        }
-        
-        value = dataArray;
-    }
-    if ([value isKindOfClass:[NSNumber class]]) {
+    if ([key isKindOfClass:[NSString class]]) {
         
         ExtraModel * model = [[ExtraModel alloc] initWithDictionary:value];
         [self.riderModelsArray addObject:model];

@@ -1303,6 +1303,10 @@
 		18A976741E8148CB00B48E3C /* ZACBGListDetailShowVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */; };
 		18A976761E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */; };
 		18A9EC691E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */; };
+		18AF91FA1F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */; };
+		18AF91FB1F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */; };
+		18AF91FE1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */; };
+		18AF91FF1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */; };
 		18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
 		18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
 		18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
@@ -2485,6 +2489,10 @@
 		18A976751E820EFC00B48E3C /* 2015-12-09_17-41-23_1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = "2015-12-09_17-41-23_1.m4r"; sourceTree = "<group>"; };
 		18A9EC671E974D4100B92192 /* CBGPlanDetailPreShowWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanDetailPreShowWebVC.h; sourceTree = "<group>"; };
 		18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanDetailPreShowWebVC.m; sourceTree = "<group>"; };
+		18AF91F81F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicMaxCombineUpdateVC.h; sourceTree = "<group>"; };
+		18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicMaxCombineUpdateVC.m; sourceTree = "<group>"; };
+		18AF91FC1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicUpdateListBaseRequestModel.h; sourceTree = "<group>"; };
+		18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicUpdateListBaseRequestModel.m; sourceTree = "<group>"; };
 		18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCheckSpecialListVC.h; sourceTree = "<group>"; };
 		18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCheckSpecialListVC.m; sourceTree = "<group>"; };
 		18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestDetailCheckVC.h; sourceTree = "<group>"; };
@@ -2990,6 +2998,10 @@
 				18EF4B3E1EEE29C6006FB291 /* ZWPanicListBaseRequestModel.m */,
 				1801FA4A1EE9508700D22E75 /* ZWPanicMaxCombinedVC.h */,
 				1801FA4B1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m */,
+				18AF91FC1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.h */,
+				18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */,
+				18AF91F81F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.h */,
+				18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */,
 			);
 			path = PanicRefresh;
 			sourceTree = "<group>";
@@ -5070,6 +5082,7 @@
 				182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */,
 				18A9761F1E7FDDD500B48E3C /* OLEGORefreshView.m in Sources */,
 				18A975F31E7FDDD500B48E3C /* tokenizer.c in Sources */,
+				18AF91FE1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */,
 				18A96E271E7FC2C500B48E3C /* ExtraModel.m in Sources */,
 				18A976281E7FDDD500B48E3C /* OLEGOCustomFooterView.m in Sources */,
 				18A976251E7FDDD500B48E3C /* OLEGOHeaderNormalControl.m in Sources */,
@@ -5087,6 +5100,7 @@
 				18A9754C1E7FDDD400B48E3C /* Samurai_SignalBus.m in Sources */,
 				18A972451E7FCCA600B48E3C /* ZALocationLocalModel.m in Sources */,
 				18A975231E7FDDD400B48E3C /* OLMainTopicListTableView.m in Sources */,
+				18AF91FA1F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m in Sources */,
 				18A96E3D1E7FC2C500B48E3C /* ZALocalStateModel.m in Sources */,
 				18A975D01E7FDDD500B48E3C /* Samurai_EventPanGesture.m in Sources */,
 				18A975AF1E7FDDD400B48E3C /* UIView+Html.m in Sources */,
@@ -5727,6 +5741,7 @@
 				183323681ED6B10D00B1ECEA /* OLEGORefreshView.m in Sources */,
 				183323691ED6B10D00B1ECEA /* tokenizer.c in Sources */,
 				1833236A1ED6B10D00B1ECEA /* ExtraModel.m in Sources */,
+				18AF91FF1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */,
 				1833236B1ED6B10D00B1ECEA /* OLEGOCustomFooterView.m in Sources */,
 				1833236C1ED6B10D00B1ECEA /* OLEGOHeaderNormalControl.m in Sources */,
 				1833236D1ED6B10D00B1ECEA /* UISlider+Html.m in Sources */,
@@ -5744,6 +5759,7 @@
 				183323791ED6B10D00B1ECEA /* ZALocationLocalModel.m in Sources */,
 				1833237A1ED6B10D00B1ECEA /* OLMainTopicListTableView.m in Sources */,
 				1833237B1ED6B10D00B1ECEA /* ZALocalStateModel.m in Sources */,
+				18AF91FB1F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m in Sources */,
 				1833237C1ED6B10D00B1ECEA /* Samurai_EventPanGesture.m in Sources */,
 				1833237D1ED6B10D00B1ECEA /* UIView+Html.m in Sources */,
 				1833237E1ED6B10D00B1ECEA /* Samurai_HtmlDocument.m in Sources */,

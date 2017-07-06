@@ -22,6 +22,7 @@
     NSMutableDictionary * showCacheDic;
     
     NSMutableArray * combineArr;
+    NSMutableArray * detailRefreshArr;
 }
 @property (nonatomic,strong) NSArray * panicTagArr;
 @property (nonatomic,strong) NSArray * baseVCArr;
@@ -44,9 +45,29 @@
         showCacheDic = [NSMutableDictionary dictionary];
         combineArr = [NSMutableArray array];
         self.refreshState = YES;
+        detailRefreshArr = [NSMutableArray array];
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(listenToDetailUpdateRequestWithNoti:) name:NOTIFICATION_ADD_REFRESH_WEBDETAIL_STATE
+//                                                   object:nil];
+        
     }
     return self;
 }
+
+//-(void)listenToDetailUpdateRequestWithNoti:(NSNotification *)noti
+//{
+//    NSString * objStr = [noti object];
+//    if(![detailRefreshArr containsObject:objStr])
+//    {
+//        [detailRefreshArr addObject:objStr];
+//    }
+//}
+//
+
+
+
+
 -(UIView *)tipsErrorView{
     if(!_tipsErrorView)
     {
@@ -167,11 +188,11 @@
                 continue;
             }
             
-            [eveRequest performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
-                                       withObject:nil
-                                    waitUntilDone:NO];
-            
             [eveRequest performSelectorOnMainThread:@selector(startRefreshLatestDetailModelRequest)
+                                         withObject:nil
+                                      waitUntilDone:NO];
+
+            [eveRequest performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
                                        withObject:nil
                                     waitUntilDone:NO];
 
