@@ -570,7 +570,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 continue;
             }
 
-            obj.listSaveModel = nil;
+//            obj.listSaveModel = nil;
             obj.equipModel = detailEve;
             obj.earnRate = detailEve.extraEarnRate;
             

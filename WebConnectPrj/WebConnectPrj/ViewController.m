@@ -43,6 +43,7 @@
 #import "ZWPanicMaxCombinedVC.h"
 #import "CBGSpecialCompareListVC.h"
 #import "CBGBargainListVC.h"
+#import "ZWPanicMaxCombineUpdateVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -584,7 +585,7 @@
             break;
         case CBGDetailTestFunctionStyle_MaxPanic:
         {
-            ZWPanicMaxCombinedVC * latest = [[ZWPanicMaxCombinedVC alloc] init];
+            ZWPanicMaxCombineUpdateVC * latest = [[ZWPanicMaxCombineUpdateVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;
@@ -597,7 +598,8 @@
 
         case CBGDetailTestFunctionStyle_BargainList:
         {
-            CBGBargainListVC * latest = [[CBGBargainListVC alloc] init];
+//            CBGBargainListVC * latest = [[CBGBargainListVC alloc] init];
+            ZWPanicMaxCombinedVC * latest = [[ZWPanicMaxCombinedVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;

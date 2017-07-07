@@ -284,7 +284,14 @@
                     self.plan_chongxiu_price +
                     self.plan_jineng_price +
                     self.plan_jingyan_price +
-                    self.plan_qianyuandan_price;
+                    self.plan_qiannengguo_price +
+                    self.plan_qianyuandan_price +
+                    self.plan_dengji_price +
+                    self.plan_jiyuan_price +
+                    self.plan_menpai_price +
+                    self.plan_xiangrui_price +
+                    self.plan_zuoji_price +
+                    self.plan_fabao_price ;
     
     return empty;
 }

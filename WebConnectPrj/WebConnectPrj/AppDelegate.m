@@ -56,6 +56,11 @@
         total.localURL1 = WebRefresh_ListRequest_Default_URLString;
         [total localSave];
     }
+    if(total.localURL2)
+    {
+        total.localURL2 = nil;
+        [total localSave];
+    }
     if(total.minServerId == 0){
         total.minServerId = 723;//当前最接近三年外的服务器，群星璀璨
         [total localSave];

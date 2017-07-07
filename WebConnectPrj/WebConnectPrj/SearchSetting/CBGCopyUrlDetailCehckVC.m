@@ -1059,7 +1059,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             self.detailModel = detailEve;
             //刷新baseList 由
-            baseList.listSaveModel = nil;
+//            baseList.listSaveModel = nil;
             [baseList refrehLocalBaseListModelWithDetail:detailEve];
             CBGListModel * list = [baseList listSaveModel];
             

@@ -8,8 +8,6 @@
 
 #import "ZWPanicListBaseRequestModel.h"
 #import "ZALocalModelDBManager.h"
-#import "EquipDetailArrayRequestModel.h"
-#import "EquipListRequestModel.h"
 #import "Equip_listModel.h"
 #import "ZWPanicRefreshManager.h"
 #import "YYCache.h"
@@ -24,11 +22,7 @@
     NSCache * listOrderCache;
     YYCache * listShowCache;
     NSInteger maxLength;
-    
-    
-    
-    EquipDetailArrayRequestModel * _detailListReqModel;
-    EquipListRequestModel * _dpModel;
+        
 }
 @property (nonatomic, assign) NSInteger schoolNum;
 @property (nonatomic, assign) NSInteger priceStatus;
@@ -438,13 +432,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 continue;
             }
             
-            obj.listSaveModel = nil;
+//            obj.listSaveModel = nil;
             obj.equipModel = detailEve;
 
             Equip_listModel * objShow = [obj copy];
             objShow.equipModel= detailEve;
             
-            objShow.listSaveModel = nil;
+//            objShow.listSaveModel = nil;
             //当前处于未上架进行展示，并且非时间自动超时
             if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {//详情数据处于暂存

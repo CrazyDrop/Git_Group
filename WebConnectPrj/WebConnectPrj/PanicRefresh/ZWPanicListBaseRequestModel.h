@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ZALocalModelDBManager.h"
+#import "EquipDetailArrayRequestModel.h"
+#import "EquipListRequestModel.h"
 
 //自定义model，处理代理，回调
 //完成列表数据请求，库表查询，详情请求，拆分
@@ -27,6 +29,9 @@
 {
     ZALocalModelDBManager  * dbManager;
     NSMutableDictionary * cacheDic;//以时间为key  model为value
+    
+    EquipDetailArrayRequestModel * _detailListReqModel;
+    EquipListRequestModel * _dpModel;
 
 }
 @property (nonatomic, assign) id<PanicListRequestTagListDelegate> requestDelegate;
@@ -41,6 +46,7 @@
 
 
 -(void)prepareWebRequestParagramForListRequest;
+-(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum;
 
 -(NSArray *)dbLocalSaveTotalList;
 -(void)localSaveDBUpdateEquipListWithArray:(NSArray *)arr;

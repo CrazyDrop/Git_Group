@@ -63,7 +63,7 @@
     self.desc_sumup = detail.desc_sumup;
     self.price = detail.price;
     self.equip_name = detail.equip_name;
-    self.listSaveModel = nil;
+//    self.listSaveModel = nil;
     
 }
 
@@ -148,6 +148,29 @@
 
 -(CBGListModel *)listSaveModel
 {
+    //判定是否需要清空
+    if(_listSaveModel)
+    {
+        //以详情数据为准
+        EquipModel * detail = self.equipModel;
+        if(detail)
+        {//价格或状态发生变化，进行变更
+            if([detail.price integerValue] != _listSaveModel.equip_price ||
+               [detail.status integerValue] != _listSaveModel.equip_status)
+            {
+                _listSaveModel = nil;
+            }
+        }else
+        {
+            if([self.price integerValue] != _listSaveModel.equip_price ||
+               [self.equip_status integerValue] != _listSaveModel.equip_status)
+            {
+                _listSaveModel = nil;
+            }
+
+        }
+    }
+    
     if(!_listSaveModel)
     {
         EquipModel * detail = self.equipModel;

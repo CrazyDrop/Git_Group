@@ -188,7 +188,7 @@
 -(void)refreshTableViewWithLatestCacheArray:(NSArray *)cacheArr
 {
     self.dataArr = cacheArr;
-    [self.listTable reloadData];
+//    [self.listTable reloadData];
 }
 
 //列表刷新，按照最新的返回数据,新增，还是替换
@@ -253,7 +253,7 @@
         self.dataArr2 = refreshArray;
     }
     
-    self.dataArr = cacheArr;
+//    self.dataArr = cacheArr;
     [self.listTable reloadData];
 }
 #pragma mark - UITableViewDataSource
@@ -313,6 +313,8 @@
         contact = self.latest;
     }
     
+    //两种数据   有历史、没历史
+    //有详情、没详情
     static NSString *cellIdentifier = @"RefreshListCellIdentifier";
     RefreshListCell *cell = (RefreshListCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil)
@@ -354,8 +356,6 @@
     
     cell.latestMoneyLbl.textColor = color;
     
-    //默认设置
-    
     //列表剩余时间
     NSString * dateStr = contact.sell_expire_time_desc;
     //    @"dd天HH小时mm分钟"
@@ -368,49 +368,54 @@
     EquipModel * detail = contact.equipModel;
     UIColor * earnColor = [UIColor lightGrayColor];
     CBGListModel * listModel = [contact listSaveModel];
+    CBGListModel * historyModel = [contact appendHistory];
+    NSInteger histroyPrice = 0;
     //仅无详情时有效，此时数据为库表数据补全
-    
-    if(listModel.plan_total_price != 0)
+    if(historyModel)
     {
-        centerDetailTxt = [NSString stringWithFormat:@"%ld (%ld) %d",listModel.plan_total_price,listModel.plan_zhaohuanshou_price + listModel.plan_zhuangbei_price,(int)listModel.price_base_equip];
+        //有历史、此时有无详情不重要，展示历史，价格状态、刷新即可
+        histroyPrice = historyModel.equip_price;
+        
+        //状态刷新
+        if([contact.price integerValue] > 0){
+            historyModel.equip_price = [contact.price integerValue];
+        }
+//        historyModel.equip_price = listModel.equip_price;
+        historyModel.equip_accept = contact.accept_bargain;
+        historyModel.equip_status = [contact.equip_status integerValue];
+        
+        //用数据刷新界面
+        listModel = historyModel;
     }
+    listModel.style = CBGEquipPlanStyle_None;
     
-    //用来标识账号是否最新一次请求数据
-    if(detail)
+    UIColor * equipBuyColor = [UIColor lightGrayColor];
+    UIColor * leftRateColor = [UIColor lightGrayColor];
+    UIColor * rightStatusColor = [UIColor lightGrayColor];
+    UIColor * priceColor = [UIColor redColor];
+
+    if(secNum == 1)
     {
-        //补全列表数据缺失
-        if(!contact.area_name)
-        {
-            sellTxt = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
-            equipName = [NSString stringWithFormat:@"%@  -  %@",detail.equip_name,detail.subtitle];
-        }
-        
-        if(detail.status_desc)
-        {
-            rightStatusTxt = detail.status_desc;
-        }
-        if(!leftPriceTxt || [leftPriceTxt length] == 0){
-            leftPriceTxt = detail.price_desc;
-        }
-        if(!leftPriceTxt || [leftPriceTxt length] == 0){
-            leftPriceTxt = detail.last_price_desc;
-        }
-        
-        date = [NSDate fromString:detail.selling_time];
+        equipBuyColor = Custom_Green_Button_BGColor;
+    }
+
+    //无详情、无历史
+    if(!detail && !historyModel)
+    {
+        date = [NSDate fromString:contact.selling_time];
         rightTimeTxt =  [date toString:@"HH:mm"];
-        
-        NSTimeInterval interval = [self timeIntervalWithCreateTime:detail.create_time andSellTime:detail.selling_time];
-        if(interval < 60 * 60 * 24 )
-        {
-            earnColor = [UIColor orangeColor];
-        }
-        if(interval < 60){
-            earnColor = [UIColor redColor];
-        }
         
     }else
     {
-        rightStatusTxt = contact.status_desc;
+        //补全列表数据缺失
+        if(detail)
+        {
+            sellTxt = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
+            equipName = [NSString stringWithFormat:@"%@  -  %@",detail.equip_name,detail.subtitle];
+            rightStatusTxt = detail.status_desc;
+            leftPriceTxt = detail.price_desc;
+        }
+        
         if((!leftPriceTxt || [leftPriceTxt intValue] == 0 )&& listModel.equip_price > 0)
         {
             leftPriceTxt = [NSString stringWithFormat:@"%ld",listModel.equip_price/100];
@@ -427,51 +432,30 @@
         if(interval < 60){
             earnColor = [UIColor redColor];
         }
-    }
-    
-    UIColor * equipBuyColor = [UIColor lightGrayColor];
-    UIColor * leftRateColor = [UIColor lightGrayColor];
-    UIColor * rightStatusColor = [UIColor lightGrayColor];
-    UIColor * priceColor = [UIColor redColor];
-    
-    EquipExtraModel * extra = detail.equipExtra;
-    if(extra)
-    {
-        //进行数据追加
-        //        修炼、宝宝、法宝、祥瑞
-        //        centerDetailTxt = [extra extraDes];
-        //        NSLog(@"price_rate_latest_plan %ld",listModel.price_rate_latest_plan);
-        if(listModel.price_rate_latest_plan > 0)
+
+        
+        if(listModel.plan_total_price != 0)
         {
-            rightStatusColor = [UIColor redColor];
+            centerDetailTxt = [NSString stringWithFormat:@"%ld (%ld) %d",listModel.plan_total_price,listModel.plan_zhaohuanshou_price + listModel.plan_zhuangbei_price,(int)listModel.price_base_equip];
         }
         
-        CBGListModel * hisCBG = contact.appendHistory;
-        NSInteger priceChange = hisCBG.equip_price/100 - [detail.price integerValue]/100;
-
-        if(secNum == 1)
-        {
-            equipBuyColor = Custom_Green_Button_BGColor;
-        }
+        NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
+    
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
             sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
             equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
             leftRateColor = [UIColor orangeColor];
-
-        }else if(priceChange != 0 && hisCBG.equip_price > 0)
+            
+        }else if(histroyPrice > 0 && priceChange != 0 )
         {
             if(priceChange >0)
             {
                 leftRateColor = [UIColor orangeColor];
             }
-            sellTxt = [NSString stringWithFormat:@"%ld%@",hisCBG.equip_price/100,sellTxt];
+            sellTxt = [NSString stringWithFormat:@"%ld%@",listModel.equip_price/100,sellTxt];
         }
-
-        
-    }else
-    {
         
         switch (listModel.style) {
             case CBGEquipPlanStyle_Worth:
@@ -481,6 +465,7 @@
                 break;
             case CBGEquipPlanStyle_PlanBuy:
             {
+                
                 sellTxt = [NSString stringWithFormat:@"%ld %@",listModel.price_rate_latest_plan,sellTxt];
                 equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
                 leftRateColor = [UIColor orangeColor];
@@ -490,21 +475,24 @@
             default:
                 break;
         }
-        
-    }
-    
-    if(listModel.equip_accept > 0)
-    {
-        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
-    }
-    
 
-    
-    if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
-    {
-        numcolor = [UIColor redColor];
+        if(listModel.equip_accept > 0)
+        {
+            leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+        }
+        
+        if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
+        {
+            numcolor = [UIColor redColor];
+        }
+        
+        if(listModel.price_rate_latest_plan > 0)
+        {
+            rightStatusColor = [UIColor redColor];
+        }
+
     }
-    
+
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;
     cell.rateLbl.text = leftPriceTxt;
