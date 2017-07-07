@@ -185,8 +185,11 @@
     return maxModel;
 }
 
-
-
+-(void)refreshTableViewWithLatestCacheArray:(NSArray *)cacheArr
+{
+    self.dataArr = cacheArr;
+    [self.listTable reloadData];
+}
 
 //列表刷新，按照最新的返回数据,新增，还是替换
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr

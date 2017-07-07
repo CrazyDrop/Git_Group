@@ -1307,6 +1307,8 @@
 		18AF91FB1F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */; };
 		18AF91FE1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */; };
 		18AF91FF1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */; };
+		18AF92021F0E2D88004D07FF /* CBGBargainListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF92011F0E2D88004D07FF /* CBGBargainListVC.m */; };
+		18AF92031F0E2D88004D07FF /* CBGBargainListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF92011F0E2D88004D07FF /* CBGBargainListVC.m */; };
 		18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
 		18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
 		18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
@@ -2493,6 +2495,8 @@
 		18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicMaxCombineUpdateVC.m; sourceTree = "<group>"; };
 		18AF91FC1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicUpdateListBaseRequestModel.h; sourceTree = "<group>"; };
 		18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicUpdateListBaseRequestModel.m; sourceTree = "<group>"; };
+		18AF92001F0E2D88004D07FF /* CBGBargainListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGBargainListVC.h; sourceTree = "<group>"; };
+		18AF92011F0E2D88004D07FF /* CBGBargainListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGBargainListVC.m; sourceTree = "<group>"; };
 		18BD50F01EB3341300CC7053 /* CBGPlanCheckSpecialListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGPlanCheckSpecialListVC.h; sourceTree = "<group>"; };
 		18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCheckSpecialListVC.m; sourceTree = "<group>"; };
 		18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestDetailCheckVC.h; sourceTree = "<group>"; };
@@ -4748,6 +4752,8 @@
 				184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */,
 				188319381EADE14500467F34 /* CBGLatestPlanBuyVC.h */,
 				188319391EADE14500467F34 /* CBGLatestPlanBuyVC.m */,
+				18AF92001F0E2D88004D07FF /* CBGBargainListVC.h */,
+				18AF92011F0E2D88004D07FF /* CBGBargainListVC.m */,
 			);
 			path = SortHistory;
 			sourceTree = "<group>";
@@ -5470,6 +5476,7 @@
 				18A96E381E7FC2C500B48E3C /* LoginInfo.m in Sources */,
 				18A9755B1E7FDDD400B48E3C /* Samurai_Service.m in Sources */,
 				18A96E241E7FC2C500B48E3C /* CoreModel.m in Sources */,
+				18AF92021F0E2D88004D07FF /* CBGBargainListVC.m in Sources */,
 				182091121E9F555D0015E393 /* AAItemStyle.m in Sources */,
 				18A9761C1E7FDDD500B48E3C /* ServiceTapspotWindow.m in Sources */,
 				18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */,
@@ -6129,6 +6136,7 @@
 				183324E31ED6B10D00B1ECEA /* LoginInfo.m in Sources */,
 				183324E41ED6B10D00B1ECEA /* Samurai_Service.m in Sources */,
 				183324E51ED6B10D00B1ECEA /* CoreModel.m in Sources */,
+				18AF92031F0E2D88004D07FF /* CBGBargainListVC.m in Sources */,
 				183324E61ED6B10D00B1ECEA /* AAItemStyle.m in Sources */,
 				183324E71ED6B10D00B1ECEA /* ServiceTapspotWindow.m in Sources */,
 				183324E81ED6B10D00B1ECEA /* CBGCopyUrlDetailCehckVC.m in Sources */,

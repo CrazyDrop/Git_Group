@@ -12,7 +12,7 @@
 
 @interface ZWPanicMaxCombineUpdateVC ()
 {
-    NSMutableArray * detailArr;
+    NSMutableDictionary * detailModelDic;
 }
 @property (nonatomic, strong) NSArray * baseArr;
 @end
@@ -23,7 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        detailArr = [NSMutableArray array];
+        detailModelDic = [NSMutableDictionary dictionary];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(panicCombineUpdateAddMoreDetailRefreshNoti:)
                                                      name:NOTIFICATION_ADD_REFRESH_WEBDETAIL_STATE
@@ -35,14 +35,17 @@
 }
 -(void)panicCombineUpdateAddMoreDetailRefreshNoti:(NSNotification *)noti
 {
-    NSString * keyStr = (NSString *)[noti object];
-    @synchronized (detailArr)
+    Equip_listModel * listObj = (Equip_listModel *)[noti object];
+    NSString * keyObj = [listObj listCombineIdfa];
+    @synchronized (detailModelDic)
     {
-        if(![detailArr containsObject:keyStr])
+        if(![detailModelDic objectForKey:keyObj])
         {
-            [detailArr addObject:keyStr];
+            [detailModelDic setObject:listObj forKey:keyObj];
         }
     }
+    
+    [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
 }
 -(void)startPanicDetailArrayRequestRightNow
 {
@@ -57,9 +60,11 @@
     //以当前的detailArr  创建对应的model
     NSMutableArray * base = [NSMutableArray array];
     NSMutableArray * urls = [NSMutableArray array];
-    for (NSInteger index = 0;index < [detailArr count] ;index ++ )
+    
+    NSArray * keyArr = [detailModelDic allKeys];
+    for (NSInteger index = 0;index < [keyArr count] ;index ++ )
     {
-        NSString * eveBase = [detailArr objectAtIndex:index];
+        NSString * eveBase = [keyArr objectAtIndex:index];
         NSArray * arr = [eveBase componentsSeparatedByString:@"|"];
         if([arr count] == 2)
         {
@@ -143,27 +148,21 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
+    
     if([refreshArr count] > 0)
     {
         for (NSInteger index = 0;index < [refreshArr count] ;index ++ )
         {
             Equip_listModel * eveList = [refreshArr objectAtIndex:index];
             NSString * removeStr = [eveList listCombineIdfa];
-            @synchronized (detailArr)
+            @synchronized (detailModelDic)
             {
-                if([detailArr containsObject:removeStr])
-                {
-                    [detailArr removeObject:removeStr];
-                }
+                [detailModelDic removeObjectForKey:removeStr];
             }
             [self finishDetailRefreshPostNotificationWithBaseDetailModel:eveList];
         }
-    }
-    
-    @synchronized (detailArr)
-    {
-        //当缓存数量和一致时，不展示
         
+        [self refreshTableViewWithInputLatestListArray:refreshArr cacheArray:[detailModelDic allValues]];
     }
     
 }

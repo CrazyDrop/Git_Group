@@ -42,6 +42,7 @@
 #import "ZAAutoBuySettingVC.h"
 #import "ZWPanicMaxCombinedVC.h"
 #import "CBGSpecialCompareListVC.h"
+#import "CBGBargainListVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -259,7 +260,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
-
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_BargainList],
 
 
                              nil];
@@ -593,7 +594,14 @@
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;
-            
+
+        case CBGDetailTestFunctionStyle_BargainList:
+        {
+            CBGBargainListVC * latest = [[CBGBargainListVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+        }
+            break;
+
             
     }
 }

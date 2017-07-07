@@ -2338,8 +2338,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          NSMutableString *sqlMutableString=[NSMutableString string];
          //是某分类的
          //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
-         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 200000"];
-         
+//         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 200000"];
+         [sqlMutableString appendFormat:@"select * from %@ where %@ > 100 or %@ = 1 ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_PLAN_RATE,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ERRORED,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+
          FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
          while ([resultSet next])
          {
@@ -2840,6 +2841,15 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          {
              
          }
+         
+         sqlMutableString=[NSMutableString string];
+         [sqlMutableString appendFormat:@"delete from %@ where %@ < 173",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_LEVEL];
+         resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             
+         }
+         
          
          [resultSet close];
          [fmdatabase close];

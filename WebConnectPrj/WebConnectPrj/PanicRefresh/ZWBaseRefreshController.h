@@ -27,6 +27,7 @@
 
 @property (nonatomic,strong,readonly) UIView * tipsView;
 
+-(void)refreshTableViewWithLatestCacheArray:(NSArray *)cacheArr;
 -(void)refreshTitleViewTitleWithLatestTitleName:(NSString *)title;
 -(BOOL)checkListInputForNoticeWithArray:(NSArray *)array;
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr;

@@ -16,7 +16,6 @@
 
 @interface ZWPanicListBaseRequestModel()
 {
-    NSMutableDictionary * cacheDic;//以时间为key  model为value
     //以时间排序，筛选需要进行刷新的
     
     NSMutableDictionary * appendDic;

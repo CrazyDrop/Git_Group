@@ -30,7 +30,7 @@
 @property (nonatomic, strong) NSString *price_desc;
 @property (nonatomic, strong) NSString *icon;
 @property (nonatomic, strong) NSString *desc_sumup;
-
+@property (nonatomic, strong) NSString * selling_time;
 //新增字段，作为接受库表回传的数据补充
 @property (nonatomic, strong) NSString *add_create_time;
 @property (nonatomic, strong) NSString *add_selling_time;
@@ -48,6 +48,8 @@
 
 @property (nonatomic, strong) NSString * earnPrice;
 @property (nonatomic, assign) CGFloat  earnRate;
+
+
 
 -(void)refrehLocalBaseListModelWithDetail:(EquipModel *)detail;
 - (NSString * )detailCheckIdentifier;

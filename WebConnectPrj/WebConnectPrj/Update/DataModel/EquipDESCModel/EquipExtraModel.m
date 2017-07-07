@@ -975,6 +975,7 @@
 
     return price;
 }
+//抵扣乾元丹的钱
 -(CGFloat)price_fabao{
     CGFloat price = 0;
 //    self.fabao;
@@ -1000,21 +1001,31 @@
         for (NSInteger index = 0;index < [fabaoArr count] ;index ++ )
         {
             ExtraModel * eveExtra = [fabaoArr objectAtIndex:index];
-            [tagArr addObject:eveExtra.extraTag];
+            [tagArr addObject:[NSString stringWithFormat:@"%ld",[eveExtra.iType integerValue]]];
         }
         
-        if(faxi && (![tagArr containsObject:@"17"] || ![tagArr containsObject:@"23"])){
-            price -= 400;
-        }else if(wuli && (![tagArr containsObject:@"42"])){
+        //6096落星飞鸿  6097流影云笛  6073附灵玉
+        //6068神行飞剑  6020七杀  6088盘龙玉璧
+        //必带 6063混元伞  6063七宝玲珑灯  6033乾坤玄火塔  6072降魔斗篷  6082重明战鼓
+        if(faxi && (![tagArr containsObject:@"6073"] || ![tagArr containsObject:@"6097"])){
+            if(![tagArr containsObject:@"6073"]){
+                price -= 200;
+            }
+            if(![tagArr containsObject:@"6097"]){
+                price -= 300;
+            }
+
+        }else if(wuli && (![tagArr containsObject:@"6096"])){
             price -= 200;
-        }else {
-            
+        }else if(![tagArr containsObject:@"6082"]){
+            price -= 200;
         }
         
-        if(![tagArr containsObject:@"11"])
-        {
-            price -= 100;
+        //乾坤塔
+        if(![tagArr containsObject:@"6033"]){
+            price -= 200;
         }
+        
     }else
     {
         price -= 500;

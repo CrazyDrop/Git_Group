@@ -65,6 +65,11 @@
     planModel.fabao_plan_price = extra.price_fabao;
     
     NSInteger planMoney = [planModel totalCountPrice];
+    if(planMoney == 0)
+    {
+        planMoney = -1;
+    }
+    
     planModel.total_price = planMoney;
     
     NSInteger coustMoney = [planModel totalPlanCoustMoneyWithTotalMoney:planMoney];

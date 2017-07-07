@@ -13,7 +13,7 @@
 @interface CBGWebListCheckManager()
 {
 //    YYCache * historyCache;
-    
+//不在使用缓存，统一使用库表查询
     NSCache * statusCache;
     NSCache * priceCache;
     NSCache * evalCache;

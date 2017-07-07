@@ -26,6 +26,8 @@
 @interface ZWPanicListBaseRequestModel : NSObject
 {
     ZALocalModelDBManager  * dbManager;
+    NSMutableDictionary * cacheDic;//以时间为key  model为value
+
 }
 @property (nonatomic, assign) id<PanicListRequestTagListDelegate> requestDelegate;
 @property (nonatomic, strong) NSString * tagString;
