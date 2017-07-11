@@ -487,7 +487,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         {
             self.detailModel = detailEve;
             baseList.equipModel = detailEve;
-//            baseList.listSaveModel = nil;
+            baseList.listSaveModel = nil;
             
             NSString * urlString = self.cbgList.detailWebUrl;
             CBGListModel * list = [baseList listSaveModel];

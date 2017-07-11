@@ -174,6 +174,9 @@
         if([dbArr count] > 0)
         {
             CBGListModel * list = [dbArr lastObject];
+            NSInteger hisPrice = list.equip_price;
+            list.historyPrice = hisPrice;
+            list.equip_price = [eveModel.price integerValue];
             eveModel.appendHistory = list;
             price = list.equip_price;
         }
@@ -189,6 +192,9 @@
         if([dbArr count] > 0)
         {
             CBGListModel * list = [dbArr lastObject];
+            NSInteger hisPrice = list.equip_price;
+            list.historyPrice = hisPrice;
+            list.equip_price = [eveModel.price integerValue];
             eveModel.appendHistory = list;
         }
     }

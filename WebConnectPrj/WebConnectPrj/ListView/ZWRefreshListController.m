@@ -997,14 +997,23 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             rightStatusColor = [UIColor redColor];
         }
         
+        NSInteger histroyPrice = listModel.historyPrice;
+        NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
+        
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
+            sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
+            equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
+            leftRateColor = [UIColor orangeColor];
+            
+        }else if(histroyPrice > 0 && priceChange != 0 )
+        {
+            if(priceChange >0)
             {
-                sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
-                equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
                 leftRateColor = [UIColor orangeColor];
             }
+            sellTxt = [NSString stringWithFormat:@"%ld%@",histroyPrice/100,sellTxt];
         }
         
     }else

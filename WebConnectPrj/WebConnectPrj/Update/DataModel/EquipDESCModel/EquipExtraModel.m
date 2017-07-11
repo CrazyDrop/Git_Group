@@ -893,7 +893,7 @@
 }
 -(CGFloat)price_xianjin
 {
-//    1点点卡=1点仙玉=10精力，500精力=50仙玉=50点卡
+//    1点点卡=1点仙玉=10精力 0.1元，500精力=50仙玉=50点卡 = 5块钱
     CGFloat price = 0;
     
     CGFloat youxibi = [self.iCash floatValue] + [self.iLearnCash floatValue] + [self.iSaving floatValue];
@@ -907,17 +907,17 @@
     CGFloat xianyuPrice = 0;
     NSInteger xianyu = [self.xianyu integerValue];
     if(xianyu > 500){
-        xianyuPrice = xianyu/10.0;
-        xianyuPrice *= 0.5;
+        xianyuPrice = xianyu/10.0;  //50仙玉=5块钱
+        xianyuPrice *= 0.5;//仙玉半价
     }
     price += xianyuPrice;
 
     //精力
     CGFloat jingliPrice = 0;
     NSInteger jingli = [self.energy integerValue];
-    if(jingli > 500){
-        jingliPrice = jingli/10.0;//点卡数
-        jingliPrice *= 0.6;
+    if(jingli > 5000){
+        jingliPrice = jingli/100.0;//500精力= 5块钱
+        jingliPrice *= 0.2;//精力2折
     }
     price += jingliPrice;
     
@@ -953,7 +953,7 @@
             //635金身舍利
             //631清心
             //569还魂
-            NSLog(@"ChildModelSkill %@",[skills componentsJoinedByString:@"|"]);
+//            NSLog(@"ChildModelSkill %@",[skills componentsJoinedByString:@"|"]);
             if([skills count] >= 6 && [skills containsObject:@"411"])
             {
                 //加血技能、拉人技能、解封

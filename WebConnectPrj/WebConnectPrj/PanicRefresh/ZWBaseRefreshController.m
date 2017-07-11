@@ -459,7 +459,7 @@
             equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
             leftRateColor = [UIColor orangeColor];
             
-        }else if(histroyPrice > 0 && priceChange != 0 )
+        }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
         {
             if(priceChange >0)
             {

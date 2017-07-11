@@ -572,7 +572,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 
 //            obj.listSaveModel = nil;
             obj.equipModel = detailEve;
-            obj.earnRate = detailEve.extraEarnRate;
+            CBGListModel * list = obj.listSaveModel;
+            obj.earnRate = list.plan_rate;
+            obj.earnPrice = [NSString stringWithFormat:@"%.0ld",list.price_earn_plan];
             
             if(obj.earnRate > 0)
             {
