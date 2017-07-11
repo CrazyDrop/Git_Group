@@ -162,7 +162,7 @@
     
     if([eveModel.eval_price integerValue] > 0 && (!evalPrice || [evalPrice integerValue] == 0))
     {
-        NSLog(@"%@ %@",eveModel.server_name,eveModel.eval_price);
+//        NSLog(@"%@ %@",eveModel.server_name,eveModel.eval_price);
         return NO;
     }
     

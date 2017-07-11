@@ -113,7 +113,8 @@
     
     //进行库表存储
 //    list.listSaveModel = nil;
-    if(list.equipModel.equipState == CBGEquipRoleState_unSelling){
+    CBGEquipRoleState state = list.equipModel.equipState;
+    if(state == CBGEquipRoleState_unSelling){
         list.listSaveModel = nil;
     }
     CBGListModel * cbgModel = [list listSaveModel];

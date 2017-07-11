@@ -39,6 +39,13 @@
     }
     
     self.equip_status = [aDetaiModel.status integerValue];
+    if(self.latestEquipListStatus == CBGEquipRoleState_unSelling){
+        self.equip_status = 11;
+        if(![aDetaiModel isAutoStopSelling])
+        {
+            self.equip_status = 12;
+        }
+    }
     self.equip_type = aDetaiModel.equip_type;
     self.kindid = [aDetaiModel.kindid integerValue];
     
@@ -150,6 +157,16 @@
         case 6:
         {
             status = CBGEquipRoleState_BuyFinish;
+        }
+            break;
+        case 11:
+        {
+            status = CBGEquipRoleState_AutoUnSell;
+        }
+            break;
+        case 12:
+        {
+            status = CBGEquipRoleState_UserUnSell;
         }
             break;
 

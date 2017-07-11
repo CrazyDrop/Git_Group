@@ -888,6 +888,7 @@
         fangziPrice += 100;
     }
     
+    
     return price;
 }
 -(CGFloat)price_xianjin
@@ -926,14 +927,50 @@
 -(CGFloat)price_haizi{
     CGFloat price = 0;
     
-//    CGFloat youxibi = [self.iCash floatValue] + [self.iLearnCash floatValue] + [self.iSaving floatValue];
-//    youxibi = youxibi / 10000.0;
-//    if(youxibi > 1000){
-//        price = youxibi / YouxibiRateForMoney ;
-//    }
-//    price *= 0.8;
+    NSMutableArray * childArr = [NSMutableArray array];
+    if(self.child){
+        [childArr addObject:self.child];
+    }
+    if(self.child2){
+        [childArr addObject:self.child2];
+    }
+    
+    for (NSInteger index = 0;index < [childArr count] ;index++ )
+    {
+        ChildModel * aChild = [childArr objectAtIndex:index];
+        if([aChild.grow integerValue] > 1280){
+            NSArray * arr = aChild.all_skills.skillsArray;
+            NSMutableArray * skills = [NSMutableArray array];
+            for (NSInteger eve = 0;eve < [arr count] ;eve++)
+            {
+                ExtraModel * eta = [arr objectAtIndex:eve];
+                [skills addObject:eta.extraTag];
+            }
+            
+            // 581  556  //针灸、蚩尤
+            //648、636、649  金刚不坏、地涌金莲、
+            //  |568|585|560   推拿、杨柳甘露、五行学说、
+            //635金身舍利
+            //631清心
+            //569还魂
+            NSLog(@"ChildModelSkill %@",[skills componentsJoinedByString:@"|"]);
+            if([skills count] >= 6 && [skills containsObject:@"411"])
+            {
+                //加血技能、拉人技能、解封
+                if([skills containsObject:@"569"] || [skills containsObject:@"631"] || [skills containsObject:@"560"])
+                {
+                    price += 80;
+                }
+            }
+        }
+    }
+    
+    
+    
+    
     return price;
 }
+
 -(CGFloat)price_xiangrui{
     CGFloat price = 0;
     NSArray  * xiangruiArr = self.HugeHorse.zuoJiModelsArray;
@@ -953,6 +990,47 @@
         price -= 150;
     }
 
+    //成就价格、混合在祥瑞价格内
+    NSInteger addNum = [self.AchPointTotal integerValue];
+    NSInteger chengjiu = 0;
+    if(addNum > 4500)
+    {
+        chengjiu += (addNum - 3500) * 1.2;
+        
+    }else if(addNum > 3700){
+        chengjiu += (addNum - 3500) * 1;
+    }
+    
+    price += chengjiu;
+    
+    NSInteger special = 0;
+    NSArray * specialArr = @[@"神行小驴",
+                             @"七彩小驴",
+                             @"粉红小驴",
+                             @"飞天猪猪",
+                             @"九尾冰狐",
+                             @"飞天猪猪",
+                             @"幽骨战龙",
+                             @"甜蜜猪猪",
+                             @""];
+    for (NSInteger index = 0;index < [xiangruiArr count] ;index ++ )
+    {
+        ExtraModel * eveExtra = [xiangruiArr objectAtIndex:index];
+        if([specialArr containsObject:eveExtra.cName])
+        {
+            special += 500;
+        }
+    }
+    
+    if(addNum > 6000){
+        special *= 0.35;
+    }else if(addNum > 5000){
+        special *= 0.5;
+    }
+
+    
+    price += special;
+    
     return price;
 }
 -(CGFloat)price_zuoji{

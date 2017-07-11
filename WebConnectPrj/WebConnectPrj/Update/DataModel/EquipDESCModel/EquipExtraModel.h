@@ -39,7 +39,7 @@
 @property (nonatomic, strong) NSNumber *iAtt_All;
 @property (nonatomic, strong) NSNumber *iLearnCash;//储备金
 @property (nonatomic, strong) NSNumber *iCGTotalAmount;
-@property (nonatomic, strong) NSNumber *AchPointTotal;//彩果数量
+@property (nonatomic, strong) NSNumber *AchPointTotal;//成就点
 @property (nonatomic, strong) NSNumber *ExpJw;
 @property (nonatomic, strong) NSNumber *iExptSki1;//人物物理
 @property (nonatomic, strong) NSNumber *iGrade;//等级

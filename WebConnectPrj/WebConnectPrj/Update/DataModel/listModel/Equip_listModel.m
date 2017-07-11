@@ -197,6 +197,7 @@
             list.equip_status = [detail.status intValue];
         }
         
+        
         list.equip_level =      [detail.equip_level intValue];
         list.equip_name =       detail.owner_nickname;
         if(self.price){

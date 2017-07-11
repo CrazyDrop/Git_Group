@@ -223,7 +223,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                     forceRefresh = YES;
                 }
                 eveList.equipModel = equip;
-                if(equip.equipState != CBGEquipRoleState_unSelling)
+                if(equip.equipState != CBGEquipRoleState_unSelling || [eveList isAutoStopSelling])
                 {
                     [refreshArr addObject:eveList];
                 }

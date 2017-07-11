@@ -98,6 +98,7 @@
 @property (nonatomic, strong) NSString * finishDate;//详情刷新时间
 
 -(CBGEquipRoleState)equipState;
+-(BOOL)isAutoStopSelling;
 
 -(NSString *)equipSoldOutResultTime;
 -(NSString *)equipCancelBackResultTime;

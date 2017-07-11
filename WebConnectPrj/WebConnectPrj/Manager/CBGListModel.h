@@ -17,6 +17,8 @@ typedef enum : NSUInteger
     CBGEquipRoleState_Backing,
     CBGEquipRoleState_PayFinish,
     CBGEquipRoleState_BuyFinish,
+    CBGEquipRoleState_AutoUnSell,//自动下架
+    CBGEquipRoleState_UserUnSell,//用户下架，只是大概区分
 } CBGEquipRoleState;
 //列表数据
 
