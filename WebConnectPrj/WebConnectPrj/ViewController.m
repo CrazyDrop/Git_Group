@@ -598,8 +598,8 @@
 
         case CBGDetailTestFunctionStyle_BargainList:
         {
-//            CBGBargainListVC * latest = [[CBGBargainListVC alloc] init];
-            ZWPanicMaxCombinedVC * latest = [[ZWPanicMaxCombinedVC alloc] init];
+            CBGBargainListVC * latest = [[CBGBargainListVC alloc] init];
+//            ZWPanicMaxCombinedVC * latest = [[ZWPanicMaxCombinedVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;

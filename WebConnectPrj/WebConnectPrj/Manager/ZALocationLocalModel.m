@@ -1957,7 +1957,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 
                 
                 //价格变化
-                if(preModel.equip_price != model.equip_price)
+                if(preModel.equip_price != model.equip_price && model.equip_price > 0)
                 {
                     ingoreRefresh = NO;
                     preModel.equip_price = model.equip_price;
@@ -1989,10 +1989,11 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
             }
                 break;
             case CBGLocalDataBaseListUpdateStyle_RefreshStatus:
-            {
+            {//状态、价格、时间
                 preModel.ingore = model.ingore;
                 preModel.ownerBuy = model.ownerBuy;
                 preModel.errored = model.errored;
+                
             }
                 break;
             case CBGLocalDataBaseListUpdateStyle_RefreshTotal:
@@ -2056,14 +2057,19 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                 }
                 
+                if(preModel.equip_status != model.equip_status)
+                {
+                    preModel.equip_status = model.equip_status;
+                    ingoreRefresh = NO;
+                }
+
+                
                 
                 
                 if(ingoreRefresh)
                 {
                     success = YES;
                 }
-
-
                 
             }
                 break;

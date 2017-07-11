@@ -113,10 +113,12 @@
     
     //进行库表存储
 //    list.listSaveModel = nil;
+    if(list.equipModel.equipState == CBGEquipRoleState_unSelling){
+        list.listSaveModel = nil;
+    }
     CBGListModel * cbgModel = [list listSaveModel];
     cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
     [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[cbgModel]];
-
     
     @synchronized (localCacheArr)
     {
@@ -154,6 +156,7 @@
         }
         model.priceStatus = self.priceStatus;
         model.pageNum = self.requestNum;//刷新页数
+        model.timerState = !model.timerState;
     }
     
     [model sendRequest];
@@ -193,43 +196,102 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
+    NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];    //后期详情刷新dic
+    NSMutableDictionary * statusDic = [NSMutableDictionary dictionary];     //状态变动，需要刷新dic
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
-    NSMutableDictionary * priceDic = [NSMutableDictionary dictionary];
+    
+    //筛选出价格变更数据进行展示、状态变更数据进行库表刷新、未上架数据进行详情刷新
+    
     NSDate * latestDate = nil;//找出来最晚时间
     for (NSInteger index = 0 ;index < [array count]; index ++ )
     {
         NSInteger backIndex = [array count] - index - 1;
         Equip_listModel * eveModel = [array objectAtIndex:backIndex];
         NSDate * sellDate = [NSDate fromString:eveModel.selling_time];
-
+        
+        if(![eveModel.equip_name isEqualToString:@"大唐官府"]){
+            
+        }
+        
         NSString * orderSN = eveModel.game_ordersn;
         if(eveModel.equipState == CBGEquipRoleState_unSelling)
         {
-            [modelsDic setObject:eveModel forKey:orderSN];
-        }else
-        {
-            //时间戳判定，
-            if(self.lineDate)
+            [refreshDic setObject:eveModel forKey:orderSN];
+        }else if(eveModel.equipState == CBGEquipRoleState_Backing)
+        {//取回，仅做状态刷新、界面展示
+            NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+            if([orderArr count] > 0)
             {
-                NSTimeInterval count = [sellDate timeIntervalSinceDate:self.lineDate];
-                if(count > 0)
+                CBGListModel * pre = [orderArr firstObject];
+                pre.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshTotal;
+                if([pre.sell_back_time length] == 0)
                 {
-                    //进行库表查询，价格判定，筛选响应数据
-                    NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-                    if([orderArr count] > 0)
+                    pre.sell_back_time = [NSDate unixDate];
+                    [statusDic setObject:pre forKey:orderSN];
+                    
+                    pre.equip_status = [eveModel.equip_status integerValue];
+                    eveModel.appendHistory = pre;
+                    [modelsDic setObject:eveModel forKey:orderSN];
+                }
+            }else
+            {
+                [refreshDic setObject:eveModel forKey:orderSN];
+            }
+            
+        }else if(eveModel.equipState == CBGEquipRoleState_PayFinish || eveModel.equipState == CBGEquipRoleState_BuyFinish)
+        {//售出的数据、取回的数据   可能存在价格和状态同时变化
+            NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+            if([orderArr count] > 0)
+            {
+                CBGListModel * pre = [orderArr firstObject];
+                if(self.lineDate && ![self lineDateEarlierThanSellDate:sellDate])
+                {
+                    pre.bargainBuy = YES;
+                }
+                
+                eveModel.appendHistory = pre;
+                [refreshDic setObject:eveModel forKey:orderSN];
+                
+                NSInteger prePirce = pre.equip_price ;
+                pre.historyPrice = prePirce;
+                pre.equip_price = [eveModel.price integerValue];
+                
+            }else
+            {
+                [refreshDic setObject:eveModel forKey:orderSN];
+            }
+        }else{
+            
+            BOOL compareDate = NO;
+            if(self.lineDate){
+                compareDate = YES;
+            }
+            
+            if(!compareDate || (compareDate && [self lineDateEarlierThanSellDate:sellDate]))
+            {
+                //检查价格变动、价格有变动的，进行更新
+                NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+                if([orderArr count] > 0)
+                {
+                    CBGListModel * pre = [orderArr firstObject];
+                    if(pre.equip_price != [eveModel.price integerValue] && [eveModel.price integerValue] > 0)
                     {
-                        CBGListModel * pre = [orderArr firstObject];
-                        if(pre.equip_price != [eveModel.price integerValue])
-                        {
-                            eveModel.appendHistory = pre;
-                            [priceDic setObject:eveModel forKey:orderSN];
-                        }
-                    }else{
+                        NSInteger prePirce = pre.equip_price ;
+                        pre.historyPrice = prePirce;
+                        pre.equip_price = [eveModel.price integerValue];
+                        pre.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
+                        [statusDic setObject:pre forKey:orderSN];
+                        
+                        eveModel.appendHistory = pre;
                         [modelsDic setObject:eveModel forKey:orderSN];
                     }
+                }else
+                {
+                    [refreshDic setObject:eveModel forKey:orderSN];
                 }
             }
         }
+        
         
         if(latestDate)
         {
@@ -245,16 +307,38 @@ handleSignal( EquipListRequestModel, requestLoaded )
     //最晚时间前2分钟，即2分钟内数据重复处理
     self.lineDate = [latestDate dateByAddingTimeInterval:-60 * 2];
     
+    //全部数据进行库表存储
+    NSArray * models = [modelsDic allValues];
+
+    if([statusDic count] > 0){//库表变更
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:[statusDic allValues]];
+    }
     
     //检查发送消息通知
-    if([priceDic count] > 0){
-        [self refreshTableViewWithInputLatestListArray:[priceDic allValues] cacheArray:nil];
+    if([models count] > 0)
+    {//进行展示
+        [self refreshTableViewWithInputLatestListArray:models cacheArray:nil];
     }
-    [self checkUnSellingListArrayPostSubNotificationWithArray:[modelsDic allValues]];
+    
+    //详情刷新
+    [self checkUnSellingListArrayPostSubNotificationWithArray:[refreshDic allValues]];
 
     //有时候会因为部分请求失败，造成检索范围有误
     [self autoRefreshListRequestNumberWithLatestBackNumber:[array count]];
 }
+-(BOOL)lineDateEarlierThanSellDate:(NSDate *)sellDate
+{//不存在时，认为都
+    
+    if(self.lineDate)
+    {
+        NSTimeInterval count = [sellDate timeIntervalSinceDate:self.lineDate];
+        if(count > 0){
+            return YES;
+        }
+    }
+    return NO;
+}
+
 -(void)refreshLatestMinRequestPageNumber:(NSInteger)pageNum
 {
     self.requestNum = pageNum;

@@ -16,6 +16,7 @@
 #import "MSAlertController.h"
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshSettingVC.h"
+//详情数据更新结束，但是列表数据仍未更新，增加延迟2分钟内仅刷新一次
 @interface ZWPanicMaxCombineUpdateVC ()<PanicListRequestTagUpdateListDelegate>
 {
     NSMutableDictionary * detailModelDic;
@@ -23,6 +24,7 @@
     NSMutableDictionary * showCacheDic;
 
     NSMutableArray * combineArr;
+    NSCache * refreshCache;
 }
 @property (nonatomic, strong) NSArray * baseArr;
 
@@ -38,7 +40,12 @@
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if(self){
+    if(self)
+    {
+        refreshCache = [[NSCache alloc] init];
+        refreshCache.totalCostLimit = 1000;
+        refreshCache.countLimit = 1000;
+        
         detailModelDic = [NSMutableDictionary dictionary];
         showCacheDic = [NSMutableDictionary dictionary];
         combineArr = [NSMutableArray array];
@@ -56,15 +63,22 @@
 {
     Equip_listModel * listObj = (Equip_listModel *)[noti object];
     NSString * keyObj = [listObj listCombineIdfa];
+    if([refreshCache objectForKey:keyObj]){
+        return;
+    }
+    [refreshCache setObject:@1 forKey:keyObj];
+    
     @synchronized (detailModelDic)
     {
         if(![detailModelDic objectForKey:keyObj])
         {
             [detailModelDic setObject:listObj forKey:keyObj];
         }
+        
+        [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
+        [self.listTable reloadData];
     }
     
-    [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
 }
 -(void)startPanicDetailArrayRequestRightNow
 {
@@ -73,14 +87,24 @@
         return;
     }
     
-    if([detailModelDic count] == 0){
+    NSMutableDictionary * totalDic = [NSMutableDictionary dictionary];
+    
+    @synchronized (detailModelDic)
+    {
+        [totalDic addEntriesFromDictionary:detailModelDic];
+    }
+    
+    if([totalDic count] == 0){
         return;
     }
     
-    NSLog(@"%s %ld",__FUNCTION__,[detailModelDic count]);
-    
+    NSLog(@"%s %ld",__FUNCTION__,[totalDic count]);
+   
     EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(listRequest.executing) return;
+    
+    
+    
 
     //以当前的detailArr  创建对应的model
     NSMutableArray * base = [NSMutableArray array];
@@ -103,15 +127,27 @@
 //    }
     
     
-    NSArray * models = [detailModelDic allValues];
-    for (NSInteger index = 0;index < [models count] ;index ++ )
+    NSMutableArray * removeArr = [NSMutableArray array];
+    for (NSString * key in totalDic)
     {
-        Equip_listModel * eveBase = [models objectAtIndex:index];
-//        if([arr count] == 2)
+        Equip_listModel * eveBase = [totalDic objectForKey:key];
+        EquipModel * detail = eveBase.equipModel;
+        
+        if(detail && detail.equipState != CBGEquipRoleState_unSelling)
         {
-            
+            [removeArr addObject:key];
+        }else if(!detail || detail.equipState == CBGEquipRoleState_unSelling)
+        {
             [urls addObject:[eveBase detailDataUrl]];
             [base addObject:eveBase];
+        }
+    }
+    
+    @synchronized (detailModelDic)
+    {
+        for (NSString * key in removeArr )
+        {
+            [detailModelDic removeObjectForKey:key];
         }
     }
     
@@ -138,6 +174,8 @@
 #pragma mark EquipDetailArrayRequestModel
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
+    NSLog(@"%s",__FUNCTION__);
+
 }
 handleSignal( EquipDetailArrayRequestModel, requestLoading )
 {
@@ -168,6 +206,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
     }
     
+    
+    BOOL forceRefresh = NO;
     NSArray * list = self.baseArr;
     NSMutableArray * refreshArr = [NSMutableArray array];
     for (NSInteger index = 0;index < [list count] ;index ++ )
@@ -178,6 +218,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             EquipModel * equip = [detailModels objectAtIndex:index];
             if([equip isKindOfClass:[EquipModel class]])
             {
+                if(!eveList.equipModel)
+                {
+                    forceRefresh = YES;
+                }
                 eveList.equipModel = equip;
                 if(equip.equipState != CBGEquipRoleState_unSelling)
                 {
@@ -188,24 +232,34 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }
     
     
+    NSMutableDictionary * totalDic = [NSMutableDictionary dictionary];
+    @synchronized (detailModelDic)
+    {
+        [totalDic addEntriesFromDictionary:detailModelDic];
+    }
+
+    
     if([refreshArr count] > 0)
     {
         for (NSInteger index = 0;index < [refreshArr count] ;index ++ )
         {
             Equip_listModel * eveList = [refreshArr objectAtIndex:index];
             NSString * removeStr = [eveList listCombineIdfa];
-            @synchronized (detailModelDic)
-            {
-                [detailModelDic removeObjectForKey:removeStr];
-            }
+            [totalDic removeObjectForKey:removeStr];
             [self finishDetailRefreshPostNotificationWithBaseDetailModel:eveList];
         }
         
         [self checkListInputForNoticeWithArray:refreshArr];
-        [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
+        [self refreshTableViewWithLatestCacheArray:[totalDic allValues]];
         [self refreshTableViewWithInputLatestListArray:refreshArr cacheArray:nil];
         
+    }else if(forceRefresh)
+    {
+        [self refreshTableViewWithLatestCacheArray:[totalDic allValues]];
+        [self.listTable reloadData];
     }
+    
+    
     
 }
 -(void)finishDetailRefreshPostNotificationWithBaseDetailModel:(Equip_listModel *)listModel
@@ -245,6 +299,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
 //        totalNum = 2;
+//        totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
@@ -350,32 +405,36 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 
 -(void)localSaveDetailRefreshEquipListArray
 {
-    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
-    for (NSString * eveKey in showCacheDic)
+    
+    NSMutableArray * dbArr = [NSMutableArray array];
+    NSMutableArray *  detailArr = [NSMutableArray array];
+    for (NSString * eveKey in detailModelDic)
     {
-        NSArray * eveArr = [showCacheDic objectForKey:eveKey];
-        NSMutableArray * eveCache = [NSMutableArray array];
-        for (NSInteger index = 0;index < [eveArr count] ;index ++ )
-        {
-            Equip_listModel * eveModel = [eveArr objectAtIndex:index];
-            [eveCache addObject:eveModel.game_ordersn];
-        }
+        Equip_listModel * eveModel = [detailModelDic objectForKey:eveKey];
+        [detailArr addObject:eveModel.game_ordersn];
         
-        if([eveCache count] > 0)
+        if(eveModel.equipModel)
         {
-            NSString * combine = [eveCache componentsJoinedByString:@"|"];
-            [dataDic setObject:combine forKey:eveKey];
+            CBGListModel * list = eveModel.listSaveModel;
+            list.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
+            [dbArr addObject:list];
         }
     }
     
-    NSString * jsonStr = [[self class] convertToJsonData:dataDic];
+    if([dbArr count] > 0){
+        ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+        [manager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dbArr];
+    }
+    
+    
+    NSString * jsonStr = [[self class] convertToJsonData:detailArr];
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     total.orderSnCache = jsonStr;
     [total localSave];
     
 }
-+ (NSString *)convertToJsonData:(NSDictionary *)dict
++ (NSString *)convertToJsonData:(NSArray *)dict
 {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
@@ -510,19 +569,31 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSMutableArray * vcArr = [NSMutableArray array];
     //    scrollView.contentSize = CGSizeMake(rect.size.width * vcNum, rect.size.height);
     
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    NSDictionary * dataDic = [total.orderSnCache objectFromJSONString];
+    NSArray * dataArr = [total.orderSnCache objectFromJSONString];
+    
+    NSMutableDictionary * appDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0 ;index < [dataArr count] ;index ++)
+    {
+        NSString * eveKey = [dataArr objectAtIndex:index];
+        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveKey];
+        if([arr count] > 0){
+            CBGListModel * cbgList = [arr firstObject];
+            Equip_listModel * list = [[Equip_listModel alloc] init];
+            list.serverid = [NSNumber numberWithInteger:cbgList.server_id];
+            list.game_ordersn = cbgList.game_ordersn;
+            [appDic setObject:list forKey:[list listCombineIdfa]];
+        }
+    }
+    [detailModelDic addEntriesFromDictionary:appDic];
     
     for (NSInteger index = 0; index < vcNum; index ++)
     {
         NSString * eveTag = [self.panicTagArr objectAtIndex:index];
         ZWPanicUpdateListBaseRequestModel * eveModel = [[ZWPanicUpdateListBaseRequestModel alloc] init];
         eveModel.tagString = eveTag;
-        NSString * combine = [dataDic objectForKey:eveTag];
-        if([combine isKindOfClass:[NSString class]] && [combine length] > 0){
-            NSArray * eveArr = [combine componentsSeparatedByString:@"|"];
-            eveModel.cacheArr = eveArr;
-        }
+        
         [eveModel prepareWebRequestParagramForListRequest];
         eveModel.requestDelegate = self;
         [vcArr addObject:eveModel];
@@ -547,7 +618,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         NSInteger backIndex = [array count] - 1 - index;
         Equip_listModel * eveObj = [array objectAtIndex:backIndex];
         NSLog(@"panicListRequestFinishWithUpdateModel %@ %@",model.tagString, eveObj.listCombineIdfa);
-        [combineArr insertObject:eveObj atIndex:0];
+//        [combineArr insertObject:eveObj atIndex:0];
+        [combineArr addObject:eveObj];
     }
     
     //进行数据缓存，达到5条时，进行刷新

@@ -49,6 +49,7 @@
 @property (nonatomic, strong) NSString * earnPrice;
 @property (nonatomic, assign) CGFloat  earnRate;
 
+@property (nonatomic, assign) BOOL bargainBuy;
 
 
 -(void)refrehLocalBaseListModelWithDetail:(EquipModel *)detail;

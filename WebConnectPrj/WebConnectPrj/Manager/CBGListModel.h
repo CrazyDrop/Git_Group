@@ -116,7 +116,7 @@ typedef enum : NSUInteger
 
 //4为服务器失效  服务器合并，serverID无效//备用
 @property (nonatomic, strong) NSString * serverName;
-
+@property (nonatomic, assign) NSInteger  historyPrice;//上一次的价格信息
 
 -(BOOL)planMore_zhaohuan;
 -(BOOL)planMore_Equip;

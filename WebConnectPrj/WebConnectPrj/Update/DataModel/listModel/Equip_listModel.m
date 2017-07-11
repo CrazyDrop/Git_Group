@@ -118,7 +118,17 @@
         return nil;
     }
     //    http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=443&ordersn=525_1480680251_527287531&equip_refer=1
-    NSString * idfa = [NSString stringWithFormat:@"%@|%@",self.game_ordersn,self.serverid];
+    
+    NSString * idfa = nil;
+
+    if (self.selling_time)
+    {
+        idfa = [NSString stringWithFormat:@"%@|%@|%@",self.game_ordersn,self.serverid,self.selling_time];
+    }else
+    {
+        idfa = [NSString stringWithFormat:@"%@|%@",self.game_ordersn,self.serverid];
+
+    }
     return idfa;
 }
 
@@ -156,7 +166,7 @@
         if(detail)
         {//价格或状态发生变化，进行变更
             if([detail.price integerValue] != _listSaveModel.equip_price ||
-               [detail.status integerValue] != _listSaveModel.equip_status)
+               [detail.storage_type integerValue] != _listSaveModel.equip_status)
             {
                 _listSaveModel = nil;
             }

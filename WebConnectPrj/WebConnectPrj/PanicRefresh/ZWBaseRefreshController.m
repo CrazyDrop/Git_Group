@@ -374,7 +374,13 @@
     if(historyModel)
     {
         //有历史、此时有无详情不重要，展示历史，价格状态、刷新即可
-        histroyPrice = historyModel.equip_price;
+        if(historyModel.historyPrice > 0){
+            histroyPrice = historyModel.historyPrice;
+        }else
+        {
+            histroyPrice = historyModel.equip_price;
+            historyModel.historyPrice = histroyPrice;
+        }
         
         //状态刷新
         if([contact.price integerValue] > 0){
@@ -413,26 +419,31 @@
             sellTxt = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
             equipName = [NSString stringWithFormat:@"%@  -  %@",detail.equip_name,detail.subtitle];
             rightStatusTxt = detail.status_desc;
-            leftPriceTxt = detail.price_desc;
+            leftPriceTxt = detail.last_price_desc;
         }
         
         if((!leftPriceTxt || [leftPriceTxt intValue] == 0 )&& listModel.equip_price > 0)
         {
-            leftPriceTxt = [NSString stringWithFormat:@"%ld",listModel.equip_price/100];
+            leftPriceTxt = [NSString stringWithFormat:@"%.2ld元",listModel.equip_price/100];
         }
         
-        date = [NSDate fromString:listModel.sell_start_time];
+        date = [NSDate fromString:contact.selling_time];
         rightTimeTxt =  [date toString:@"HH:mm"];
         
-        NSTimeInterval interval = [self timeIntervalWithCreateTime:listModel.sell_create_time andSellTime:listModel.sell_start_time];
-        if(interval < 60 * 60 * 24 )
+        if(detail)
         {
-            earnColor = [UIColor orangeColor];
-        }
-        if(interval < 60){
-            earnColor = [UIColor redColor];
-        }
+            date = [NSDate fromString:detail.selling_time];
+            rightTimeTxt =  [date toString:@"HH:mm"];
 
+            NSTimeInterval interval = [self timeIntervalWithCreateTime:detail.create_time andSellTime:detail.selling_time];
+            if(interval < 60 * 60 * 24 )
+            {
+                earnColor = [UIColor orangeColor];
+            }
+            if(interval < 60){
+                earnColor = [UIColor redColor];
+            }
+        }
         
         if(listModel.plan_total_price != 0)
         {
@@ -444,8 +455,8 @@
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
-            sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
-            equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
+            sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
+            equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
             leftRateColor = [UIColor orangeColor];
             
         }else if(histroyPrice > 0 && priceChange != 0 )
@@ -454,7 +465,7 @@
             {
                 leftRateColor = [UIColor orangeColor];
             }
-            sellTxt = [NSString stringWithFormat:@"%ld%@",listModel.equip_price/100,sellTxt];
+            sellTxt = [NSString stringWithFormat:@"%ld%@",histroyPrice/100,sellTxt];
         }
         
         switch (listModel.style) {
