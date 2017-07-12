@@ -187,6 +187,27 @@
 
 -(void)refreshTableViewWithLatestCacheArray:(NSArray *)cacheArr
 {
+    if([cacheArr count] >= 2)
+    {
+        cacheArr = [cacheArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            Equip_listModel * eve1 = (Equip_listModel *)obj1;
+            Equip_listModel * eve2 = (Equip_listModel *)obj2;
+            
+            if([eve1.price integerValue] > 0 && [eve2.price integerValue] > 0){
+                return [eve1.price compare:eve2.price];
+            }
+            
+            if([eve1.price integerValue] == 0 && [eve2.price integerValue] == 0)
+            {
+                return [eve1.serverid compare:eve2.serverid];
+            }
+            
+            NSNumber * num1 = eve1.price?:@0;
+            NSNumber * num2 = eve2.price?:@0;
+            return [num1 compare:num2];
+        }];
+    }
+    
     self.dataArr = cacheArr;
 //    [self.listTable reloadData];
 }
@@ -476,10 +497,9 @@
                 break;
             case CBGEquipPlanStyle_PlanBuy:
             {
-                
                 sellTxt = [NSString stringWithFormat:@"%ld %@",listModel.price_rate_latest_plan,sellTxt];
-                equipName = [NSString stringWithFormat:@"%@ %@",contact.earnPrice,equipName];
-                leftRateColor = [UIColor orangeColor];
+                equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
+                leftRateColor = Custom_Green_Button_BGColor;
                 
             }
                 break;

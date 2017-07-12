@@ -202,7 +202,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                 {
                     if(!eveList.equipModel)
                     {
-                        [removeArr removeObject:eveList.listCombineIdfa];
                         forceRefresh = YES;
                     }
                     eveList.equipModel = equip;
@@ -212,6 +211,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                     
                     if(equip.equipState != CBGEquipRoleState_unSelling || [eveList isAutoStopSelling] || list.plan_total_price < 1000)
                     {
+                        [removeArr addObject:eveList.listCombineIdfa];
                         [refreshArr addObject:eveList];
                     }
                 }
@@ -362,6 +362,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     manager.funcBlock = ^()
     {
         if(!self.refreshState) return ;
+     
+        [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
+                                   withObject:nil
+                                waitUntilDone:NO];
+        
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
         NSArray * ingoreArr = [total.ingoreCombineSchool componentsSeparatedByString:@"|"];
@@ -381,10 +386,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             
             
         }
-        
-        [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
-                                   withObject:nil
-                                waitUntilDone:NO];
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
@@ -624,15 +625,17 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }else{
         
         //列表刷新，数据清空
-        
-        NSArray * showArr = [NSArray arrayWithArray:combineArr];
-        [combineArr removeAllObjects];
-        
-        [self tapedOnExchangeTotalWithTapedBtn:nil];
-        NSString * title = [NSString stringWithFormat:@"改价更新 %ld",[combineArr count]];
-        [self refreshTitleViewTitleWithLatestTitleName:title];
-        
-        [self refreshTableViewWithInputLatestListArray:showArr cacheArray:nil];
+        @synchronized (detailModelDic)
+        {
+            NSArray * showArr = [NSArray arrayWithArray:combineArr];
+            [combineArr removeAllObjects];
+            
+            [self tapedOnExchangeTotalWithTapedBtn:nil];
+            NSString * title = [NSString stringWithFormat:@"改价更新 %ld",[combineArr count]];
+            [self refreshTitleViewTitleWithLatestTitleName:title];
+            [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
+            [self refreshTableViewWithInputLatestListArray:showArr cacheArray:nil];
+        }
     }
 }
 //-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model withListError:(NSError *)error

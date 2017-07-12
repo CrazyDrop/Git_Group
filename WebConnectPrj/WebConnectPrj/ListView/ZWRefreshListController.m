@@ -1000,14 +1000,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         NSInteger histroyPrice = listModel.historyPrice;
         NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
         
-        
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
             sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
             equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
             leftRateColor = [UIColor orangeColor];
             
-        }else if(histroyPrice > 0 && priceChange != 0 )
+        }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
         {
             if(priceChange >0)
             {

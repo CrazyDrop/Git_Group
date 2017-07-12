@@ -202,32 +202,32 @@
 }
 -(void)localSaveDetailRefreshEquipListArray
 {
-    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
-    for (NSString * eveKey in showCacheDic)
-    {
-        NSArray * eveArr = [showCacheDic objectForKey:eveKey];
-        NSMutableArray * eveCache = [NSMutableArray array];
-        for (NSInteger index = 0;index < [eveArr count] ;index ++ )
-        {
-            Equip_listModel * eveModel = [eveArr objectAtIndex:index];
-            [eveCache addObject:eveModel.game_ordersn];
-        }
-        
-        if([eveCache count] > 0)
-        {
-            NSString * combine = [eveCache componentsJoinedByString:@"|"];
-            [dataDic setObject:combine forKey:eveKey];
-        }
-    }
-    
-    NSString * jsonStr = [[self class] convertToJsonData:dataDic];
-
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    total.orderSnCache = jsonStr;
-    [total localSave];
+//    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
+//    for (NSString * eveKey in showCacheDic)
+//    {
+//        NSArray * eveArr = [showCacheDic objectForKey:eveKey];
+//        NSMutableArray * eveCache = [NSMutableArray array];
+//        for (NSInteger index = 0;index < [eveArr count] ;index ++ )
+//        {
+//            Equip_listModel * eveModel = [eveArr objectAtIndex:index];
+//            [eveCache addObject:eveModel.game_ordersn];
+//        }
+//        
+//        if([eveCache count] > 0)
+//        {
+//            NSString * combine = [eveCache componentsJoinedByString:@"|"];
+//            [dataDic setObject:combine forKey:eveKey];
+//        }
+//    }
+//    
+//    NSString * jsonStr = [[self class] convertToJsonData:dataDic];
+//
+//    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//    total.orderSnCache = jsonStr;
+//    [total localSave];
 
 }
-+ (NSString *)convertToJsonData:(NSDictionary *)dict
++ (NSString *)convertToJsonData:(NSArray *)dict
 {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
@@ -279,6 +279,7 @@
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSDictionary * dataDic = [total.orderSnCache objectFromJSONString];
+    dataDic = nil;
     
     for (NSInteger index = 0; index < vcNum; index ++)
     {
@@ -307,28 +308,14 @@
 +(void)updateCacheArrayListWithRemove:(NSString *)orderSn
 {
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    NSDictionary * dataDic = [total.orderSnCache objectFromJSONString];
+    NSArray * dataArr = [total.orderSnCache objectFromJSONString];
     
-    NSMutableDictionary * editDic = [NSMutableDictionary dictionary];
-    for (NSString * eveTag in  dataDic)
-    {
-        NSString * combine = [dataDic objectForKey:eveTag];
-        if([combine length] > 0)
-        {
-            NSArray * eveArr = [combine componentsSeparatedByString:@"|"];
-            NSMutableArray * editArr = [NSMutableArray arrayWithArray:eveArr];
-            [editArr removeObject:orderSn];
-            
-            if([editArr count] > 0)
-            {
-                NSString * combine = [editArr componentsJoinedByString:@"|"];
-                [editDic setObject:combine forKey:eveTag];
-            }
-        }
-    }
+    NSMutableArray * editArr = [NSMutableArray array];
+    [editArr addObjectsFromArray:dataArr];
+    [editArr removeObject:orderSn];
     
     
-    NSString * jsonStr = [self convertToJsonData:editDic];
+    NSString * jsonStr = [self convertToJsonData:editArr];
     total.orderSnCache = jsonStr;
     [total localSave];
 }
