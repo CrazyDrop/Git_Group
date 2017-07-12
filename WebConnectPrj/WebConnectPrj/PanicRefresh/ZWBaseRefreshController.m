@@ -478,7 +478,6 @@
         {
             sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
             equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
-            leftRateColor = [UIColor orangeColor];
             
         }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
         {
@@ -497,10 +496,7 @@
                 break;
             case CBGEquipPlanStyle_PlanBuy:
             {
-                sellTxt = [NSString stringWithFormat:@"%ld %@",listModel.price_rate_latest_plan,sellTxt];
-                equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
                 leftRateColor = Custom_Green_Button_BGColor;
-                
             }
                 break;
             default:

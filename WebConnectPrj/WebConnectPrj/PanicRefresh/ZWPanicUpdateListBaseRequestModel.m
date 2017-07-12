@@ -110,6 +110,7 @@
 {
     Equip_listModel * list = (Equip_listModel *)[noti object];
     NSString * keyStr = list.listCombineIdfa;
+    keyStr = list.game_ordersn;
     
     //进行库表存储
 //    list.listSaveModel = nil;
@@ -141,7 +142,7 @@
     if(listRequest.executing) return;
     
     //    [requestLock lock];
-    
+    self.errorTotal = 0;
     NSLog(@"%s %@",__FUNCTION__,self.tagString);
     
     EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
@@ -179,6 +180,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     EquipListRequestModel * model = (EquipListRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
+    self.errorTotal = model.errNum;
     
     //正常序列
     NSMutableArray * array = [NSMutableArray array];
@@ -192,8 +194,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
             [array addObjectsFromArray:obj];
         }
     }
-    
-    
     
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
@@ -210,13 +210,10 @@ handleSignal( EquipListRequestModel, requestLoaded )
         Equip_listModel * eveModel = [array objectAtIndex:backIndex];
         NSDate * sellDate = [NSDate fromString:eveModel.selling_time];
         
-        if(![eveModel.equip_name isEqualToString:@"大唐官府"]){
-            
-        }
-        
         NSString * orderSN = eveModel.game_ordersn;
         if(eveModel.equipState == CBGEquipRoleState_unSelling)
         {
+            NSLog(@"selling_time UNSell %@ %@ %@",orderSN,eveModel.serverid,eveModel.selling_time);
             [refreshDic setObject:eveModel forKey:orderSN];
         }else if(eveModel.equipState == CBGEquipRoleState_Backing)
         {//取回，仅做状态刷新、界面展示
@@ -385,6 +382,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
         {
             Equip_listModel * eve = [array objectAtIndex:index];
             NSString * combine = eve.listCombineIdfa;
+            combine = eve.game_ordersn;
             if(![localCacheArr containsObject:combine])
             {
                 [localCacheArr addObject:combine];

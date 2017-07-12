@@ -30,6 +30,8 @@
 @property (nonatomic,strong) UIScrollView * coverScroll;
 @property (nonatomic,assign) BOOL refreshState;
 @property (nonatomic,strong) UIView * tipsErrorView;
+@property (nonatomic,assign) NSInteger countNum;
+@property (nonatomic,assign) NSInteger randNum;
 @end
 
 @implementation ZWPanicMaxCombineUpdateVC
@@ -61,6 +63,7 @@
     Equip_listModel * listObj = (Equip_listModel *)[noti object];
     NSString * keyObj = [listObj listCombineIdfa];
     if([refreshCache objectForKey:keyObj]){
+        NSLog(@"%s %@",__FUNCTION__,keyObj);
         return;
     }
     [refreshCache setObject:@1 forKey:keyObj];
@@ -76,8 +79,9 @@
         [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
         [self.listTable reloadData];
     }
-    
 }
+
+
 -(void)startPanicDetailArrayRequestRightNow
 {
     if(![DZUtils deviceWebConnectEnableCheck])
@@ -276,6 +280,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 }
 -(void)tapedOnExchangeTotalWithTapedBtn:(id)sender
 {
+    self.countNum = 0;
+    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[combineArr count],self.countNum];
+    [self refreshTitleViewTitleWithLatestTitleName:title];
+
+    [self stopPanicListRequestModelArray];
 }
 
 
@@ -371,9 +380,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
         NSArray * ingoreArr = [total.ingoreCombineSchool componentsSeparatedByString:@"|"];
         
+        weakSelf.randNum ++;
+        
         NSArray * vcArr = weakSelf.baseVCArr;
-        for (ZWPanicUpdateListBaseRequestModel * eveRequest in vcArr)
+        for (NSInteger index = 0;index < [vcArr count] ; index ++)
         {
+            if(index%3 != weakSelf.randNum%3)
+            {
+                continue;
+            }
+            ZWPanicUpdateListBaseRequestModel * eveRequest = [vcArr objectAtIndex:index];
             NSString * schoolTag = [NSString stringWithFormat:@"%ld",eveRequest.schoolNum];
             if([ingoreArr containsObject:schoolTag])
             {
@@ -607,7 +623,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         NSInteger backIndex = [array count] - 1 - index;
         Equip_listModel * eveObj = [array objectAtIndex:backIndex];
         NSLog(@"panicListRequestFinishWithUpdateModel %@ %@",model.tagString, eveObj.listCombineIdfa);
-//        [combineArr insertObject:eveObj atIndex:0];
         [combineArr addObject:eveObj];
     }
     
@@ -615,15 +630,15 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 5)
     {//不进行刷新
         
-//        NSInteger count =  model.errorTotal;
-//        self.countNum += count;
+        NSInteger count =  model.errorTotal;
+        self.countNum += count;
         
-        NSString * title = [NSString stringWithFormat:@"改价更新 %ld",[combineArr count]];
+        NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[combineArr count],self.countNum];
         [self refreshTitleViewTitleWithLatestTitleName:title];
         
         return;
     }else{
-        
+        self.countNum = 0;
         //列表刷新，数据清空
         @synchronized (detailModelDic)
         {
@@ -631,7 +646,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             [combineArr removeAllObjects];
             
             [self tapedOnExchangeTotalWithTapedBtn:nil];
-            NSString * title = [NSString stringWithFormat:@"改价更新 %ld",[combineArr count]];
+            NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[combineArr count],self.countNum];
             [self refreshTitleViewTitleWithLatestTitleName:title];
             [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
             [self refreshTableViewWithInputLatestListArray:showArr cacheArray:nil];

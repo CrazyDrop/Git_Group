@@ -2065,7 +2065,6 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 
                 
                 
-                
                 if(ingoreRefresh)
                 {
                     success = YES;
