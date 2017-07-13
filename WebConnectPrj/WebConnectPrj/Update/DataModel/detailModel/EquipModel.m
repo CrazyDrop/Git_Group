@@ -34,28 +34,6 @@
     return NO;
 }
 
--(CGFloat)createEquipExtraEarnRate
-{
-    CGFloat soldPrice = [[self.equipExtra buyPrice] floatValue];
-    CGFloat costPrice = [self.price floatValue]/100.0;
-    
-    CGFloat partPrice = 0.05 * soldPrice ;
-    partPrice = MIN(partPrice, 1000);
-    
-    //缴税
-    CGFloat earnTotal = soldPrice - costPrice - partPrice;
-    
-    if(costPrice > 0 && earnTotal > 0 )
-    {
-        CGFloat rate = earnTotal / (costPrice + 0.0);
-        rate *= 100;
-        self.earnPrice = earnTotal;
-        
-//        NSLog(@"earnRate %.2f",rate);
-        return rate;
-    }
-    return 0;
-}
 
 + (NSDictionary *)mj_objectClassInArray
 {

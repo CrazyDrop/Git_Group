@@ -553,25 +553,22 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             
 //            obj.listSaveModel = nil;
             obj.equipModel = detailEve;
-            obj.earnRate = detailEve.extraEarnRate;
-            
-            if(obj.earnRate > 0)
-            {
-                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
-            }
-            if(!detailEve.equipExtra.buyPrice)
-            {
-                NSLog(@"失败 %@",obj.detailDataUrl);
-            }
+            CBGListModel * cbgList = obj.listSaveModel;
+            obj.earnRate = cbgList.plan_rate;
+            obj.earnPrice = [NSString stringWithFormat:@"%ld",cbgList.price_earn_plan];
             
             Equip_listModel * objShow = [obj copy];
             objShow.equipModel= detailEve;
+            
+            if(cbgList.plan_total_price == 0){
+                NSLog(@"失败 %@",obj.detailDataUrl);
+            }
             
             //当前处于未上架进行展示
             if(detailEve.equipState == CBGEquipRoleState_unSelling)
             {//详情数据处于暂存
                 
-                if(detailEve.equipExtra.totalPrice > 1000)
+                if(cbgList.plan_total_price > 1000)
                 {
                     [cacheArr addObject:objShow];
                     

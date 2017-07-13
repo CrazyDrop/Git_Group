@@ -132,8 +132,8 @@
 @property (nonatomic, strong) NSMutableArray <AllSummonModel *> *AllSummon;//召唤兽
 @property (nonatomic, strong) NSMutableArray <Idbid_descModel *> *idbid_desc;
 
-@property (nonatomic, strong) NSString * buyPrice;//价格计算，当前仅计算空号价格
-@property (nonatomic, strong) NSString * detailPrePrice;
+//@property (nonatomic, strong) NSString * buyPrice;//价格计算，当前仅计算空号价格
+//@property (nonatomic, strong) NSString * detailPrePrice;
 
 //totalMoney = xiulian + chongxiu + qianyuandan + jineng + jingyan + youxibi + zhaohuanshou;
 @property (nonatomic, assign) CGFloat xiulianPrice;

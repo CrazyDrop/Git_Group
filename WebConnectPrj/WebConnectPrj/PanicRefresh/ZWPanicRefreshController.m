@@ -576,11 +576,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             obj.earnRate = list.plan_rate;
             obj.earnPrice = [NSString stringWithFormat:@"%.0ld",list.price_earn_plan];
             
-            if(obj.earnRate > 0)
-            {
-                obj.earnPrice = [NSString stringWithFormat:@"%.0f",[detailEve.equipExtra.buyPrice floatValue] - [detailEve.price floatValue]/100.0 - [detailEve.equipExtra.buyPrice floatValue] * 0.05];
-            }
-            if(!detailEve.equipExtra.buyPrice)
+            if(list.plan_total_price == 0)
             {
                 NSLog(@"失败 %@",obj.detailDataUrl);
             }

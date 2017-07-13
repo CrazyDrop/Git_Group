@@ -23,6 +23,7 @@
 @interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource,
 RefreshCellCopyDelgate>{
     BaseRequestModel * _detailListReqModel;
+    NSInteger circleTotal;
 }
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,copy) NSArray * dataArr;
@@ -40,6 +41,11 @@ RefreshCellCopyDelgate>{
 @property (nonatomic,assign) BOOL webCheckError;
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 
+@property (nonatomic,assign) BOOL endRefresh;
+@property (nonatomic,strong) NSDate * finishDate;   //刷新截止时间
+@property (nonatomic,strong) NSDate * nextDate;     //刷新开始时间
+@property (nonatomic,assign) BOOL endEanble;
+
 @end
 
 @implementation CBGWebListRefreshVC
@@ -49,9 +55,12 @@ RefreshCellCopyDelgate>{
     if(self){
 
         [self appendNotificationForRestartTimerRefreshWithActive];
-        
+        circleTotal = 3;
         self.cookieAutoRefresh = NO;
         self.cookieState = YES;
+        
+        self.endEanble = NO;
+        self.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
     }
 
     return self;
@@ -198,26 +207,47 @@ RefreshCellCopyDelgate>{
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"使用cookie(变动)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.cookieAutoRefresh = YES;
-                  weakSelf.cookieState = YES;
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"使用cookie(变动)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  weakSelf.cookieAutoRefresh = YES;
+//                  weakSelf.cookieState = YES;
+//              }];
+//    [alertController addAction:action];
+//    
+//    action = [MSAlertAction actionWithTitle:@"屏蔽cookie" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  weakSelf.cookieState = NO;
+//                  
+//              }];
+//    [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"屏蔽cookie" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.cookieState = NO;
-                  
-              }];
-    [alertController addAction:action];
-    
+
+
     action = [MSAlertAction actionWithTitle:@"增加并发" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   if(weakSelf.pageNum < 5)
                   {
                     weakSelf.pageNum ++;
                   }
+              }];
+    [alertController addAction:action];
+    
+    
+    action = [MSAlertAction actionWithTitle:@"开启中断" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.endEanble = YES;
+                  weakSelf.endRefresh = NO;
+                  weakSelf.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
+                  weakSelf.nextDate = nil;
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"停止中断" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.endEanble = NO;
+                  //                  weakSelf.endRefresh = NO;
+                  //                  weakSelf.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
+                  //                  weakSelf.nextDate = nil;
               }];
     [alertController addAction:action];
 
@@ -296,6 +326,7 @@ RefreshCellCopyDelgate>{
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
+        
 #if TARGET_IPHONE_SIMULATOR
         [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
                                    withObject:nil
@@ -335,8 +366,32 @@ RefreshCellCopyDelgate>{
         return;
     }
     
+    
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
+    
+    //当前已经停止刷新，且未到达下次开始时间
+    NSTimeInterval count = [self.nextDate timeIntervalSinceNow];
+//    NSTimeInterval finishLimit = [self.finishDate timeIntervalSinceNow];
+    if(self.endEanble)
+    {
+        if(self.endRefresh)
+        {
+            if(count > 0 && self.nextDate ){
+                //屏蔽刷新
+                return;
+            }else{
+                //开始1分钟刷新，重新指定下次时间
+                self.endRefresh = NO;
+                self.nextDate = nil;
+                self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
+            }
+        }
+    }
+    
+    
+    NSLog(@"%s %@ %@",__FUNCTION__,[self.finishDate toString:@"HH:mm:ss"],[self.nextDate toString:@"HH:mm:ss"]);
+    
     
     CBGWebListRequestModel * model = (CBGWebListRequestModel *)_dpModel;
     
@@ -405,6 +460,19 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
+    
+    //停止刷新为NO时  endRefresh
+    NSTimeInterval count = [self.finishDate timeIntervalSinceNow];
+    NSTimeInterval nextCount = [self.nextDate timeIntervalSinceNow];
+    if(count < 0 && self.nextDate)
+    {//没有停止之前，已经刷新到数据
+        if(nextCount > 0){
+            self.endRefresh = YES;
+        }else{
+            NSLog(@"延迟1分钟");
+            self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
+        }
+    }
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
@@ -416,6 +484,8 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
         //为空，标识没有新url
         return;
     }
+    
+    self.nextDate = [NSDate dateWithTimeIntervalSinceNow: (-0.5 + circleTotal) * MINUTE];
     NSLog(@"CBGWebListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
 
     
@@ -816,12 +886,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         cbgList = contact.appendHistory;
     }
     
+    
     if(extra)
     {
         //进行数据追加
         //        修炼、宝宝、法宝、祥瑞
-        centerDetailTxt = [NSString stringWithFormat:@"%@ 号:%.0f(%d)",extra.buyPrice,[cbgList price_base_equip],[contact.eval_price intValue]/100];
-        if([extra.buyPrice floatValue]>[detail.last_price_desc floatValue])
+        centerDetailTxt = [NSString stringWithFormat:@"%ld 号:%.0f(%d)",cbgList.plan_total_price,[cbgList price_base_equip],[contact.eval_price intValue]/100];
+        if(cbgList.plan_total_price>[detail.last_price_desc floatValue])
         {
             rightStatusColor = [UIColor redColor];
         }

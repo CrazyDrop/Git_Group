@@ -86,8 +86,8 @@
     }
     
     
-    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f 装备:%.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,zhuangbei,totalMoney];
-    self.detailPrePrice = detaiMoney;
+//    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f 装备:%.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,zhuangbei,totalMoney];
+
     self.zhaohuanPrice = zhaohuanshou;
     self.totalPrice = totalMoney;
     
@@ -1117,10 +1117,6 @@
 {
     NSMutableString * extra = [NSMutableString string];
     
-    if(self.buyPrice)
-    {
-        [extra appendFormat:@"%@",self.buyPrice];
-    }
     
     [extra appendFormat:@"门派%lu",(unsigned long)[self.changesch count]];
     [extra appendFormat:@"召唤%lu",(unsigned long)[self.AllSummon count]];

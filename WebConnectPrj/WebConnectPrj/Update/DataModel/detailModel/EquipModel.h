@@ -102,7 +102,6 @@
 
 -(NSString *)equipSoldOutResultTime;
 -(NSString *)equipCancelBackResultTime;
--(CGFloat)createEquipExtraEarnRate;
 
 -(NSDictionary *)detailDesDicFromCurrentDesc;
 

@@ -215,6 +215,14 @@ handleSignal( EquipListRequestModel, requestLoaded )
         {
             NSLog(@"selling_time UNSell %@ %@ %@",orderSN,eveModel.serverid,eveModel.selling_time);
             [refreshDic setObject:eveModel forKey:orderSN];
+            NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+            if([orderArr count] > 0)
+            {
+                CBGListModel * pre = [orderArr firstObject];
+                NSInteger prePirce = pre.equip_price ;
+                pre.historyPrice = prePirce;
+                pre.equip_price = [eveModel.price integerValue];
+            }
         }else if(eveModel.equipState == CBGEquipRoleState_Backing)
         {//取回，仅做状态刷新、界面展示
             NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];

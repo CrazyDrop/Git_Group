@@ -55,9 +55,7 @@
         extra = [self extraModelFromLatestEquipDESC:model];
         model.equipExtra = extra;
         model.finishDate = [NSDate unixDate];
-        extra.buyPrice = [extra createExtraPrice];
-        model.extraEarnRate = [model createEquipExtraEarnRate];
-    }
+   }
     
     if([listData.msg isEqualToString:@"该商品不存在"]){
         model = [[EquipModel alloc] init];

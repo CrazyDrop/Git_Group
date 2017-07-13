@@ -157,13 +157,14 @@
     
     
     EquipExtraModel * extra = detail.equipExtra;
-    if(extra)
+    CBGListModel * cbgList = contact.listSaveModel;
+//    if(extra)
     {
         //        修炼、宝宝、法宝、祥瑞
         cell.totalNumLbl.text = [extra extraDes];
         
         UIColor * buyColor = [UIColor lightGrayColor];
-        if([extra.buyPrice floatValue]>[detail.last_price_desc floatValue])
+        if(cbgList.plan_total_price >[detail.last_price_desc floatValue])
         {
             buyColor = [UIColor redColor];
         }
