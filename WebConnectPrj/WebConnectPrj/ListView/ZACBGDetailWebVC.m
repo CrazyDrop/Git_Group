@@ -368,7 +368,6 @@
 
 -(void)submit
 {
-    NSString * string = [self.detailModel.equipExtra createExtraPrice];
     
     if(TARGET_IPHONE_SIMULATOR)
     {

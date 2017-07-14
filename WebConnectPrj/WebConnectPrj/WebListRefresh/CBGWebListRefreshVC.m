@@ -479,6 +479,13 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
     //不检查本地存储、不检查队列是否存在，仅检查缓存数据
     CBGWebListCheckManager * checkManager = [CBGWebListCheckManager sharedInstance];
     NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:array];
+    NSArray * refreshArr = checkManager.refreshArr;
+    
+    if([refreshArr count] > 0){
+        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
+        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+    }
+    
     if(!models || [models count] == 0)
     {
         //为空，标识没有新url
@@ -837,6 +844,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }
     
     
+    CBGListModel * listModel = [contact listSaveModel];
+    if(contact.appendHistory){
+        listModel = contact.appendHistory;
+    }
     //默认设置
     
     //列表剩余时间 13天23小时58分钟
@@ -849,7 +860,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     //详情剩余时间
     EquipModel * detail = contact.equipModel;
-    EquipExtraModel * extra = detail.equipExtra;
     
     UIColor * earnColor = [UIColor lightGrayColor];
     //用来标识账号是否最新一次销售
@@ -874,8 +884,15 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         if(interval < 60){
             earnColor = [UIColor redColor];
         }
+    }else{
         
+        rightStatusTxt = @"更新";
+        if((!leftPriceTxt || [leftPriceTxt intValue] == 0 )&& listModel.equip_price > 0)
+        {
+            leftPriceTxt = [NSString stringWithFormat:@"%ld元",listModel.equip_price/100];
+        }
     }
+    
     UIColor * equipBuyColor = [UIColor lightGrayColor];
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
@@ -886,39 +903,43 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         cbgList = contact.appendHistory;
     }
     
+    centerDetailTxt = [NSString stringWithFormat:@"%ld 号:%.0f(%d)",cbgList.plan_total_price,[cbgList price_base_equip],[contact.eval_price intValue]/100];
+    if(cbgList.plan_total_price>[contact.price floatValue] && [contact.price integerValue] > 0)
+    {
+        rightStatusColor = [UIColor redColor];
+    }
     
-    if(extra)
+    if(cbgList.planMore_zhaohuan || cbgList.planMore_Equip)
+    {
+        numcolor = [UIColor redColor];
+    }
+    
+    if([contact preBuyEquipStatusWithCurrentExtraEquip])
+    {
+        if(contact.earnPrice > 0)
+        {
+            sellTxt = [NSString stringWithFormat:@"%.0ld %@",cbgList.plan_rate,sellTxt];
+            equipName = [NSString stringWithFormat:@"%.0ld %@",(long)cbgList.price_earn_plan,equipName];
+            leftRateColor = [UIColor orangeColor];
+        }
+    }
+
+    if(detail)
     {
         //进行数据追加
         //        修炼、宝宝、法宝、祥瑞
-        centerDetailTxt = [NSString stringWithFormat:@"%ld 号:%.0f(%d)",cbgList.plan_total_price,[cbgList price_base_equip],[contact.eval_price intValue]/100];
-        if(cbgList.plan_total_price>[detail.last_price_desc floatValue])
+        if([detail.allow_bargain integerValue] > 0)
         {
-            rightStatusColor = [UIColor redColor];
+            leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
         }
-        
-        if(cbgList.planMore_zhaohuan || cbgList.planMore_Equip)
-        {
-            numcolor = [UIColor redColor];
-        }
-        
-        if([contact preBuyEquipStatusWithCurrentExtraEquip])
-        {
-            if(contact.earnPrice > 0)
-            {
-                sellTxt = [NSString stringWithFormat:@"%.0f %@",contact.earnRate,sellTxt];
-                equipName = [NSString stringWithFormat:@"%.0ld %@",(long)cbgList.price_earn_plan,equipName];
-                leftRateColor = [UIColor orangeColor];
-            }
-        }
-    }
-    
-    
-    if([detail.allow_bargain integerValue] > 0)
-    {
-        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
-    }
 
+    }else{
+        if(cbgList.equip_accept > 0)
+        {
+            leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+        }
+    }
+    
     
     cell.latestMoneyLbl.textColor = color;
     
@@ -943,6 +964,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     cell.selected = NO;
     if(secNum == 0 )
     {
+        
         color = [UIColor lightGrayColor];
         NSString * txt = nil;
         //        NSDate * date = [NSDate dateWithTimeIntervalSince1970:[contact.selling_time floatValue]];
@@ -955,7 +977,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         
         cell.sellTimeLbl.text = txt;
         cell.sellTimeLbl.textColor = color;
-        
+        cell.totalNumLbl.text = nil;
         [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     }
     

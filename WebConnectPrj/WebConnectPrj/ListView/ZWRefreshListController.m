@@ -99,6 +99,7 @@ RefreshCellCopyDelgate>
     if(!model.isAlarm){
         return;
     }
+    
     NSInteger compareId = model.minServerId;
     Equip_listModel * maxModel = nil;
     CGFloat maxRate = 0;

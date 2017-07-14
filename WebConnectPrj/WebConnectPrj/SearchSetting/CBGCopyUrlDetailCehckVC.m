@@ -780,7 +780,6 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
         return;
     }
     //纠正估价
-//    [self.detailModel.equipExtra createExtraPrice];
     
     //    return;
     //强制刷新
@@ -848,9 +847,7 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
         return;
     }
     //纠正估价
-    [self.detailModel.equipExtra createExtraPrice];
     
-//    return;
     //强制刷新
     [baseList refrehLocalBaseListModelWithDetail:self.detailModel];
     

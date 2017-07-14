@@ -1821,10 +1821,37 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 
             case CBGLocalDataBaseListUpdateStyle_RefreshEval:
             {//刷新系统估价
+                BOOL ingoreRefresh = YES;
                 if(preModel.equip_eval_price == 0 && model.equip_eval_price > 0)
                 {
                     preModel.equip_eval_price = model.equip_eval_price;
-                }else{
+                    ingoreRefresh = NO;
+                }
+                
+                if(preModel.equip_price != model.equip_price)
+                {
+                    preModel.equip_price = model.equip_price;
+                    ingoreRefresh = NO;
+                }
+                if(preModel.plan_rate != model.plan_rate)
+                {
+                    preModel.plan_rate = model.plan_rate;
+                    ingoreRefresh = NO;
+                }
+                if(preModel.equip_accept != model.equip_accept)
+                {
+                    preModel.equip_accept = model.equip_accept;
+                    ingoreRefresh = NO;
+                }
+                
+                if(preModel.appointed != model.appointed)
+                {
+                    preModel.appointed = model.appointed;
+                    ingoreRefresh = NO;
+                }
+                
+                if(ingoreRefresh)
+                {
                     success = YES;
                 }
             }
@@ -1857,6 +1884,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 if(preModel.appointed != model.appointed)
                 {
                     preModel.appointed = model.appointed;
+                    ingoreRefresh = NO;
+                }
+
+                if(preModel.plan_rate != model.plan_rate)
+                {
+                    preModel.plan_rate = model.plan_rate;
                     ingoreRefresh = NO;
                 }
 

@@ -112,6 +112,11 @@
     NSString * keyStr = list.listCombineIdfa;
     keyStr = list.game_ordersn;
     
+    if(![localCacheArr containsObject:keyStr])
+    {
+        return;
+    }
+    
     //进行库表存储
 //    list.listSaveModel = nil;
     CBGEquipRoleState state = list.equipModel.equipState;
@@ -221,7 +226,10 @@ handleSignal( EquipListRequestModel, requestLoaded )
                 CBGListModel * pre = [orderArr firstObject];
                 NSInteger prePirce = pre.equip_price ;
                 pre.historyPrice = prePirce;
-                pre.equip_price = [eveModel.price integerValue];
+                if([eveModel.price integerValue] > 0){
+                    pre.equip_price = [eveModel.price integerValue];
+                    pre.plan_rate = pre.price_rate_latest_plan;
+                }
             }
         }else if(eveModel.equipState == CBGEquipRoleState_Backing)
         {//取回，仅做状态刷新、界面展示
@@ -256,11 +264,18 @@ handleSignal( EquipListRequestModel, requestLoaded )
                 }
                 
                 eveModel.appendHistory = pre;
-                [refreshDic setObject:eveModel forKey:orderSN];
+//                [refreshDic setObject:eveModel forKey:orderSN];
                 
                 NSInteger prePirce = pre.equip_price ;
                 pre.historyPrice = prePirce;
                 pre.equip_price = [eveModel.price integerValue];
+                pre.plan_rate = pre.price_rate_latest_plan;
+                pre.equip_status = [eveModel.equip_status integerValue];
+                pre.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshTotal;
+                [modelsDic setObject:eveModel forKey:orderSN];
+                
+                eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
+                eveModel.earnRate = pre.plan_rate;
                 
             }else
             {
@@ -285,8 +300,12 @@ handleSignal( EquipListRequestModel, requestLoaded )
                         NSInteger prePirce = pre.equip_price ;
                         pre.historyPrice = prePirce;
                         pre.equip_price = [eveModel.price integerValue];
+                        pre.plan_rate = pre.price_rate_latest_plan;
                         pre.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
                         [statusDic setObject:pre forKey:orderSN];
+                        
+                        eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
+                        eveModel.earnRate = pre.plan_rate;
                         
                         eveModel.appendHistory = pre;
                         [modelsDic setObject:eveModel forKey:orderSN];

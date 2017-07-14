@@ -86,13 +86,17 @@
             [modelsDic setObject:eveModel forKey:identifier];
         }else if(statusResult && !priceResult){
             //状态未变，价格改变
-            eveModel.appendHistory.equip_price = [price integerValue] * 100;
+//            eveModel.appendHistory.equip_price = [price integerValue] * 100;
             eveModel.appendHistory.equip_accept = [eveModel.can_bargain integerValue];
             eveModel.appendHistory.sell_start_time = [NSDate unixDate];
             eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshEval;
             eveModel.appendHistory.equip_eval_price = [eveModel.eval_price integerValue];
+            eveModel.appendHistory.plan_rate = eveModel.appendHistory.price_rate_latest_plan;
             //            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
             //            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
+            
+            eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
+            eveModel.earnPrice = eveModel.appendHistory.price_earn_plan;
             
             [refreshDic setObject:eveModel forKey:identifier];
         }
@@ -137,47 +141,32 @@
 //价格不存在、进行数据请求//状态不存在，进行详情请求
 -(BOOL)checkHistoryPriceWithLatestEveModel:(WebEquip_listModel *)eveModel
 {//返回价格比对结果，相同yes，不同NO
-    NSInteger price = 0;
-    NSString * identifier = eveModel.detailCheckIdentifier;
+    //不再使用缓存，历史全部库表查询
+    BOOL result = NO;
     NSString * orderSN = eveModel.game_ordersn;
-    NSNumber * prePrice = (NSNumber *)[priceCache objectForKey:identifier];
-    NSNumber * evalPrice = (NSNumber *)[evalCache objectForKey:identifier];
     
-    
-    if(!prePrice || !evalPrice || [evalPrice integerValue] == 0)
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+    if([dbArr count] > 0)
     {
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
+        CBGListModel * list = [dbArr lastObject];
+        eveModel.appendHistory = list;
+        
+        if([eveModel.eval_price integerValue] == list.equip_eval_price && [eveModel.price integerValue] == list.equip_price / 100)
         {
-            CBGListModel * list = [dbArr lastObject];
-            eveModel.appendHistory = list;
-            price = list.equip_price;
-            evalPrice = [NSNumber numberWithInteger:list.equip_eval_price];
-        }
-    }else{
-        price = [prePrice integerValue];
-    }
-    
-    
-    if([eveModel.eval_price integerValue] > 0 && (!evalPrice || [evalPrice integerValue] == 0))
-    {
-//        NSLog(@"%@ %@",eveModel.server_name,eveModel.eval_price);
-        return NO;
-    }
-    
-    BOOL result = [eveModel.price integerValue] == price;
-    if(!result && !eveModel.appendHistory)
-    {//补全追加字段
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
+            //估价需要更新返回NO
+            result = YES;
+        }else if(eveModel.equipState != CBGEquipRoleState_InSelling && eveModel.equipState != CBGEquipRoleState_InOrdering)
+        {//
+            result = YES;
+        }else
         {
-            CBGListModel * list = [dbArr lastObject];
-            eveModel.appendHistory = list;
+            NSInteger hisPrice = list.equip_price;
+            list.historyPrice = hisPrice;
+            list.equip_price = [eveModel.price integerValue] * 100;
         }
     }
-    
+
     return result;
 }
 

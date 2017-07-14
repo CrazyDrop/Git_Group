@@ -182,6 +182,7 @@
 @property (nonatomic, strong) CBGListModel * listSaveModel;//详情数据
 @property (nonatomic, strong) CBGListModel * appendHistory;//追加数据
 
+-(CBGEquipRoleState)equipState;
 -(BOOL)isFirstInSelling;
 - (NSString * )detailCheckIdentifier;
 - (NSString * )detailDataUrl;

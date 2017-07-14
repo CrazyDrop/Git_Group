@@ -120,7 +120,10 @@
             eveModel.appendHistory.equip_accept = eveModel.accept_bargain;
             eveModel.appendHistory.sell_start_time = [NSDate unixDate];
             eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
-
+            
+            eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
+            eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",eveModel.appendHistory.price_earn_plan];
+            
 //            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
 //            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
 
