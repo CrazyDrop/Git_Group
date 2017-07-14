@@ -44,7 +44,7 @@ RefreshCellCopyDelgate>{
 @property (nonatomic,assign) BOOL endRefresh;
 @property (nonatomic,strong) NSDate * finishDate;   //刷新截止时间
 @property (nonatomic,strong) NSDate * nextDate;     //刷新开始时间
-@property (nonatomic,assign) BOOL endEanble;
+
 
 @end
 
@@ -897,32 +897,36 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
     UIColor * priceColor = [UIColor redColor];
-    CBGListModel * cbgList = [contact listSaveModel];
-    if(contact.appendHistory)
-    {
-        cbgList = contact.appendHistory;
-    }
     
-    centerDetailTxt = [NSString stringWithFormat:@"%ld 号:%.0f(%d)",cbgList.plan_total_price,[cbgList price_base_equip],[contact.eval_price intValue]/100];
-    if(cbgList.plan_total_price>[contact.price floatValue] && [contact.price integerValue] > 0)
+    centerDetailTxt = [NSString stringWithFormat:@"%ld 号:%.0f(%d)",listModel.plan_total_price,[listModel price_base_equip],[contact.eval_price intValue]/100];
+    if(listModel.plan_total_price>[contact.price floatValue] && [contact.price integerValue] > 0)
     {
         rightStatusColor = [UIColor redColor];
     }
     
-    if(cbgList.planMore_zhaohuan || cbgList.planMore_Equip)
+    if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
     {
         numcolor = [UIColor redColor];
     }
     
+    NSInteger histroyPrice = listModel.historyPrice;
+    NSInteger priceChange = histroyPrice/100 - [contact.price integerValue];
+    
     if([contact preBuyEquipStatusWithCurrentExtraEquip])
     {
-        if(contact.earnPrice > 0)
+        sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.plan_rate,sellTxt];
+        equipName = [NSString stringWithFormat:@"%.0ld %@",(long)listModel.price_earn_plan,equipName];
+        leftRateColor = Custom_Green_Button_BGColor;
+        
+    }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
+    {
+        if(priceChange >0)
         {
-            sellTxt = [NSString stringWithFormat:@"%.0ld %@",cbgList.plan_rate,sellTxt];
-            equipName = [NSString stringWithFormat:@"%.0ld %@",(long)cbgList.price_earn_plan,equipName];
             leftRateColor = [UIColor orangeColor];
         }
+        sellTxt = [NSString stringWithFormat:@"%ld%@",histroyPrice/100,sellTxt];
     }
+
 
     if(detail)
     {
@@ -934,7 +938,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
         }
 
     }else{
-        if(cbgList.equip_accept > 0)
+        if(listModel.equip_accept > 0)
         {
             leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
         }

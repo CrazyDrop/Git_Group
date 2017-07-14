@@ -224,6 +224,8 @@ handleSignal( EquipListRequestModel, requestLoaded )
             if([orderArr count] > 0)
             {
                 CBGListModel * pre = [orderArr firstObject];
+                eveModel.appendHistory = pre;
+                
                 NSInteger prePirce = pre.equip_price ;
                 pre.historyPrice = prePirce;
                 if([eveModel.price integerValue] > 0){
@@ -258,25 +260,27 @@ handleSignal( EquipListRequestModel, requestLoaded )
             if([orderArr count] > 0)
             {
                 CBGListModel * pre = [orderArr firstObject];
-                if(self.lineDate && ![self lineDateEarlierThanSellDate:sellDate])
+                if([pre.sell_sold_time length] == 0)
                 {
-                    pre.bargainBuy = YES;
+                    if(self.lineDate && ![self lineDateEarlierThanSellDate:sellDate])
+                    {
+                        pre.bargainBuy = YES;
+                    }
+                    
+                    eveModel.appendHistory = pre;
+                    [refreshDic setObject:eveModel forKey:orderSN];
+                    
+                    NSInteger prePirce = pre.equip_price ;
+                    pre.historyPrice = prePirce;
+                    pre.equip_price = [eveModel.price integerValue];
+                    pre.plan_rate = pre.price_rate_latest_plan;
+                    pre.equip_status = [eveModel.equip_status integerValue];
+                    pre.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshTotal;
+//                    [modelsDic setObject:eveModel forKey:orderSN];
+                    
+                    eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
+                    eveModel.earnRate = pre.plan_rate;
                 }
-                
-                eveModel.appendHistory = pre;
-//                [refreshDic setObject:eveModel forKey:orderSN];
-                
-                NSInteger prePirce = pre.equip_price ;
-                pre.historyPrice = prePirce;
-                pre.equip_price = [eveModel.price integerValue];
-                pre.plan_rate = pre.price_rate_latest_plan;
-                pre.equip_status = [eveModel.equip_status integerValue];
-                pre.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshTotal;
-                [modelsDic setObject:eveModel forKey:orderSN];
-                
-                eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
-                eveModel.earnRate = pre.plan_rate;
-                
             }else
             {
                 [refreshDic setObject:eveModel forKey:orderSN];

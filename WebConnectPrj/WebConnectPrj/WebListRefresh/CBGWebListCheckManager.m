@@ -152,12 +152,13 @@
         CBGListModel * list = [dbArr lastObject];
         eveModel.appendHistory = list;
         
-        if([eveModel.eval_price integerValue] == list.equip_eval_price && [eveModel.price integerValue] == list.equip_price / 100)
+        //估价价格都相同
+        if(([eveModel.eval_price integerValue] == 0 || [eveModel.eval_price integerValue] == list.equip_eval_price) && [eveModel.price integerValue] == list.equip_price / 100)
         {
             //估价需要更新返回NO
             result = YES;
         }else if(eveModel.equipState != CBGEquipRoleState_InSelling && eveModel.equipState != CBGEquipRoleState_InOrdering)
-        {//
+        {//非购买状态
             result = YES;
         }else
         {
@@ -166,47 +167,31 @@
             list.equip_price = [eveModel.price integerValue] * 100;
         }
     }
+    
 
     return result;
 }
 
 -(BOOL)checkHistoryStatusWithLatestEveModel:(WebEquip_listModel *)eveModel
 {
-    NSNumber * status = eveModel.status;
+//    NSNumber * status = eveModel.status;
     NSString * orderSN = eveModel.game_ordersn;
-    NSString * identifier = eveModel.detailCheckIdentifier;
+//    NSString * identifier = eveModel.detailCheckIdentifier;
     
-    NSNumber * preStatus = (NSNumber *)[statusCache objectForKey:identifier];
-    
-    CBGEquipRoleState latestState = [self statusStateFromNum:status];
-    CBGEquipRoleState preState = [self statusStateFromNum:preStatus];
-    
-    if(!preStatus)
-    {
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
-        {
-            CBGListModel * list = [dbArr lastObject];
-            if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
-                //之前已经结束，不在进行
-                preState = CBGEquipRoleState_PayFinish;
-            }else{
-                preState = CBGEquipRoleState_InSelling;
-            }
-        }
-    }
-    
-    BOOL result = latestState == preState;
-    //之前状态已处于结束状态，不再做展示
-    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
-        result = YES;
-    }
-    //仅下单状态变更，也不做处理
-    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
-       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
+    BOOL result = NO;
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+    if([dbArr count] > 0)
     {
         result = YES;
+//        CBGListModel * list = [dbArr lastObject];
+//        if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
+//            //之前已经结束，不在进行
+//            result = YES;
+//        }else if(eveModel.equipState == CBGEquipRoleState_InOrdering)
+//        {
+//            result = YES;
+//        }
     }
     
     return result;

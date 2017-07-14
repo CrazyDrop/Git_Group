@@ -120,8 +120,8 @@ RefreshCellCopyDelgate>
         }
     }
     
-    
-    if(maxModel && !_ingoreDB)
+    //进行提醒
+    if(maxModel)
     {
         
         NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
@@ -986,62 +986,39 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
 
-    EquipExtraModel * extra = detail.equipExtra;
-    if(extra)
+    if(listModel.plan_total_price>[contact.price floatValue]/100 && [contact.price integerValue] > 0)
     {
-        //进行数据追加
-//        修炼、宝宝、法宝、祥瑞
-//        centerDetailTxt = [extra extraDes];
-//        NSLog(@"price_rate_latest_plan %ld",listModel.price_rate_latest_plan);
-        if(listModel.price_rate_latest_plan > 0)
-        {
-            rightStatusColor = [UIColor redColor];
-        }
-        
-        NSInteger histroyPrice = listModel.historyPrice;
-        NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
-        
-        if([contact preBuyEquipStatusWithCurrentExtraEquip])
-        {
-            sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
-            equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
-            leftRateColor = [UIColor orangeColor];
-            
-        }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
-        {
-            if(priceChange >0)
-            {
-                leftRateColor = [UIColor orangeColor];
-            }
-            sellTxt = [NSString stringWithFormat:@"%ld%@",histroyPrice/100,sellTxt];
-        }
-        
-    }else
-    {
-
-        switch (listModel.style) {
-            case CBGEquipPlanStyle_Worth:
-            {
-                rightStatusColor = [UIColor redColor];
-            }
-                break;
-            case CBGEquipPlanStyle_PlanBuy:
-            {
-                sellTxt = [NSString stringWithFormat:@"%ld %@",listModel.price_rate_latest_plan,sellTxt];
-                equipName = [NSString stringWithFormat:@"%.0ld %@",(long)listModel.price_earn_plan,equipName];
-                leftRateColor = [UIColor orangeColor];
-
-            }
-                break;
-            default:
-                break;
-        }
-        
+        rightStatusColor = [UIColor redColor];
     }
     
-    if(listModel.equip_accept > 0)
+    NSInteger histroyPrice = listModel.historyPrice;
+    NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
+    
+    if([contact preBuyEquipStatusWithCurrentExtraEquip])
     {
-        leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+        sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.plan_rate,sellTxt];
+        equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
+        leftRateColor = Custom_Green_Button_BGColor;
+        
+    }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
+    {
+        if(priceChange >0)
+        {
+            leftRateColor = [UIColor orangeColor];
+        }
+        sellTxt = [NSString stringWithFormat:@"%ld%@",histroyPrice/100,sellTxt];
+    }
+
+    if(detail){
+        if([detail.allow_bargain integerValue] > 0)
+        {
+            leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+        }
+    }else{
+        if(contact.accept_bargain)
+        {
+            leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
+        }
     }
     
     if(listModel.planMore_zhaohuan || listModel.planMore_Equip)

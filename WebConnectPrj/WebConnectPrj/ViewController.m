@@ -417,6 +417,7 @@
         {
             
             CBGWebListRefreshVC * list = [[CBGWebListRefreshVC alloc] init];
+            list.endEanble = NO;
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
@@ -495,6 +496,7 @@
 
         case CBGDetailTestFunctionStyle_WEBCheck:{
             CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
+
             [[self rootNavigationController] pushViewController:list animated:YES];
             
         }

@@ -195,7 +195,7 @@
     
     __weak typeof(self) weakSelf = self;
     [self writeLocalCSVWithFileName:databasePath
-                        headerNames:@"开始时间,结束时间,间隔,价格,估价,服务器,门派,链接\n"
+                        headerNames:@"统计时间,开始时间,结束时间,间隔,价格,估价,服务器,门派,链接\n"
                          modelArray:[self latestTotalShowedHistoryList]
                      andStringBlock:^NSString *(CBGListModel * model1, CBGListModel * model2) {
                          NSString * subStr = [weakSelf inputModelDetailStringForFirstModel:model1
@@ -221,8 +221,11 @@
         soldTime = model1.sell_back_time;
     }
     
+    NSDate * soldDate = [NSDate fromString:soldTime];
+    NSString * countTime = [soldDate toString:@"yyyy-MM"];
     
-    NSString *input = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@,%@\n",
+    NSString *input = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@,%@,%@\n",
+                       countTime,
                        model1.sell_create_time,
                        soldTime,
                        [NSString stringWithFormat:@"%ld",model1.sell_space],

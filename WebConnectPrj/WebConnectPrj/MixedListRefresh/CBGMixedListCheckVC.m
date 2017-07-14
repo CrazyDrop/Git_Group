@@ -49,6 +49,7 @@
 {
     if(!_webVC){
         CBGWebListRefreshVC * aWeb = [[CBGWebListRefreshVC alloc] init];
+        aWeb.endEanble = YES;
         [self addChildViewController:aWeb];
         _webVC = aWeb;
     }
@@ -59,7 +60,8 @@
     if(!_mobileVC){
         ZWRefreshListController * aWeb = [[ZWRefreshListController alloc] init];
         aWeb.ingoreDB = YES;
-        aWeb.maxRefresh = YES;
+//        aWeb.maxRefresh = NO;
+        aWeb.onlyList = YES;
         [self addChildViewController:aWeb];
         _mobileVC = aWeb;
     }

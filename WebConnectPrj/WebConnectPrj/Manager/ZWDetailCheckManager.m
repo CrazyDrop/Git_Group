@@ -101,7 +101,7 @@
     {
         Equip_listModel * eveModel = [backArray objectAtIndex:index];
         NSString * identifier = eveModel.detailCheckIdentifier;
-        NSNumber * status = eveModel.equip_status;
+//        NSNumber * status = eveModel.equip_status;
         NSNumber * price = eveModel.price;
         BOOL priceResult = [self checkHistoryPriceWithLatestEveModel:eveModel];
         BOOL statusResult = [self checkHistoryStatusWithLatestEveModel:eveModel];
@@ -135,8 +135,8 @@
             price = [NSNumber numberWithInteger:0];
         }
         
-        [statusCache setObject:status forKey:identifier];
-        [priceCache setObject:price forKey:identifier];
+//        [statusCache setObject:status forKey:identifier];
+//        [priceCache setObject:price forKey:identifier];
     }
     
     NSArray * dataArr = [refreshDic allValues];
@@ -466,6 +466,7 @@
             cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
             [updateArr addObject:cbgList];
             
+            
             NSDate * startDate = [NSDate fromString:list.equipModel.selling_time];
             NSTimeInterval count = [latestDate timeIntervalSinceDate:startDate];
             if(!latestDate || count < 0)
@@ -475,6 +476,9 @@
             
 //            if(!self.ingoreUpdate || (self.ingoreUpdate && [list isFirstInSelling]))
             {
+                list.earnRate = cbgList.plan_rate;
+                list.earnPrice = [NSString stringWithFormat:@"%ld",cbgList.price_earn_plan];
+                
                 [editArr addObject:list];
             }
 
