@@ -995,10 +995,10 @@
     NSInteger chengjiu = 0;
     if(addNum > 4500)
     {
-        chengjiu += (addNum - 3500) * 1.2;
+        chengjiu += (addNum - 4000) * 1.2;
         
-    }else if(addNum > 3700){
-        chengjiu += (addNum - 3500) * 1;
+    }else if(addNum > 3900){
+        chengjiu += (addNum - 3900) * 1;
     }
     
     price += chengjiu;

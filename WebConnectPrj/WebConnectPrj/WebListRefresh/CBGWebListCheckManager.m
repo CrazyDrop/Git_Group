@@ -69,9 +69,9 @@
     {
         WebEquip_listModel * eveModel = [backArray objectAtIndex:index];
         NSString * identifier = eveModel.detailCheckIdentifier;
-        NSNumber * status = eveModel.status;
-        NSString * price = eveModel.price;
-        NSNumber * evalPrice = eveModel.eval_price;
+//        NSNumber * status = eveModel.status;
+//        NSString * price = eveModel.price;
+//        NSNumber * evalPrice = eveModel.eval_price;
         
         BOOL priceResult = [self checkHistoryPriceWithLatestEveModel:eveModel];
         BOOL statusResult = [self checkHistoryStatusWithLatestEveModel:eveModel];
@@ -98,20 +98,25 @@
             eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
             eveModel.earnPrice = eveModel.appendHistory.price_earn_plan;
             
-            [refreshDic setObject:eveModel forKey:identifier];
+            if(eveModel.earnRate > 0){
+                [modelsDic setObject:eveModel forKey:identifier];
+            }else
+            {
+                [refreshDic setObject:eveModel forKey:identifier];
+            }
         }
         
-        if(!price)
-        {
-            price = @"0";
-        }
-        if(!evalPrice)
-        {
-            evalPrice = @0;
-        }
-        [evalCache setObject:evalPrice forKey:identifier];
-        [statusCache setObject:status forKey:identifier];
-        [priceCache setObject:price forKey:identifier];
+//        if(!price)
+//        {
+//            price = @"0";
+//        }
+//        if(!evalPrice)
+//        {
+//            evalPrice = @0;
+//        }
+//        [evalCache setObject:evalPrice forKey:identifier];
+//        [statusCache setObject:status forKey:identifier];
+//        [priceCache setObject:price forKey:identifier];
     }
     
     NSArray * dataArr = [refreshDic allValues];

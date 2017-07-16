@@ -112,6 +112,9 @@
     NSString * keyStr = list.listCombineIdfa;
     keyStr = list.game_ordersn;
     
+    @synchronized (localCacheArr)
+    {
+        
     if(![localCacheArr containsObject:keyStr])
     {
         return;
@@ -123,12 +126,12 @@
     if(state == CBGEquipRoleState_unSelling){
         list.listSaveModel = nil;
     }
+    
     CBGListModel * cbgModel = [list listSaveModel];
     cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
     [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[cbgModel]];
     
-    @synchronized (localCacheArr)
-    {
+
         if([localCacheArr containsObject:keyStr])
         {
             [localCacheArr removeObject:keyStr];
@@ -268,7 +271,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
                     }
                     
                     eveModel.appendHistory = pre;
-                    [refreshDic setObject:eveModel forKey:orderSN];
                     
                     NSInteger prePirce = pre.equip_price ;
                     pre.historyPrice = prePirce;
@@ -280,6 +282,13 @@ handleSignal( EquipListRequestModel, requestLoaded )
                     
                     eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
                     eveModel.earnRate = pre.plan_rate;
+                    
+                    if(eveModel.earnRate > 0){
+                        [modelsDic setObject:eveModel forKey:orderSN];
+                    }else
+                    {
+                        [refreshDic setObject:eveModel forKey:orderSN];
+                    }
                 }
             }else
             {

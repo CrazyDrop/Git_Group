@@ -124,17 +124,23 @@
             eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
             eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",eveModel.appendHistory.price_earn_plan];
             
+            if(eveModel.earnRate > 0){
+                [modelsDic setObject:eveModel forKey:identifier];
+            }else
+            {
+                [refreshDic setObject:eveModel forKey:identifier];
+            }
+            
 //            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
 //            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
 
-            [refreshDic setObject:eveModel forKey:identifier];
         }
         
-        if(!price)
-        {
-            price = [NSNumber numberWithInteger:0];
-        }
-        
+//        if(!price)
+//        {
+//            price = [NSNumber numberWithInteger:0];
+//        }
+//        
 //        [statusCache setObject:status forKey:identifier];
 //        [priceCache setObject:price forKey:identifier];
     }

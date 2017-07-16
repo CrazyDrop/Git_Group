@@ -134,6 +134,33 @@
 }
 -(CBGListModel *)listSaveModel
 {
+    //判定是否需要清空
+    if(_listSaveModel)
+    {
+        //以详情数据为准
+        EquipModel * detail = self.equipModel;
+        if(detail)
+        {//价格或状态发生变化，进行变更
+            if([detail.price integerValue] != _listSaveModel.equip_price ||
+               [detail.storage_type integerValue] != _listSaveModel.equip_status)
+            {
+                _listSaveModel = nil;
+            }
+            if(detail.appointed_roleid)
+            {
+                _listSaveModel = nil;
+            }
+        }else
+        {
+            if([self.price integerValue] * 100 != _listSaveModel.equip_price ||
+               [self.status integerValue] != _listSaveModel.equip_status)
+            {
+                _listSaveModel = nil;
+            }
+            
+        }
+    }
+
     if(!_listSaveModel)
     {
         EquipModel * detail = self.equipModel;

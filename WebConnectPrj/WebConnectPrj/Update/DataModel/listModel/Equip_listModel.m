@@ -170,6 +170,10 @@
             {
                 _listSaveModel = nil;
             }
+            if(detail.appointed_roleid)
+            {
+                _listSaveModel = nil;
+            }
         }else
         {
             if([self.price integerValue] != _listSaveModel.equip_price ||
