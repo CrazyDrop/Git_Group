@@ -102,10 +102,19 @@
     }
     
     NSString * replaceStr = [replaceArr componentsJoinedByString:sepStr];
-    NSString * appendStr = @"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1";
+    NSString * appendStr = @"&limit_clothes_logic=or";
     appendStr = @"";
-    //去掉设备号
     
+    //增加随机参数，尽可能防止屏蔽
+    //        &sum_exp_min=111
+    //        &qian_neng_guo=33
+    //        &skill_qiang_shen=22
+    NSInteger randMinExp = arc4random() % 111 + 1;
+    NSInteger randQianneng = arc4random() % 50 + 1;
+    NSInteger skill_qiang_shen = arc4random() % 50 + 1;
+    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld&limit_clothes_logic=or",randMinExp,randQianneng,skill_qiang_shen];
+    
+    //去掉设备号
     NSString * result = [replaceStr stringByAppendingString:appendStr];
     
     
@@ -118,7 +127,7 @@
     
     if(total.localURL1)
     {
-        pageUrl = [NSString stringWithFormat:@"%@%@",HeaderUrl_WebRefresh_URLString,total.localURL1] ;
+        pageUrl = total.localURL1 ;
     }
 
     pageUrl = [self replaceStringWithLatestWebString:pageUrl];
@@ -235,6 +244,7 @@
         NSString * result = [preStr stringByReplacingCharactersInRange:range withString:refreshStr];
         [replaceArr addObject:result];
     }
+    
     [self refreshWebRequestWithArray:replaceArr];
 }
 -(NSArray *)backObjectArrayFromBackDataDic:(NSDictionary *)aDic

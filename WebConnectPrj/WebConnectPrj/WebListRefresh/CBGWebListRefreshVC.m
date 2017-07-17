@@ -404,8 +404,9 @@ RefreshCellCopyDelgate>{
         model.pageNum = self.pageNum;
         model.saveKookie = self.cookieState;
         model.autoRefresh = self.cookieAutoRefresh;
+        
     }
-    
+    model.timerState = !model.timerState;
     
     [model sendRequest];
 }

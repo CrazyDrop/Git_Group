@@ -166,9 +166,9 @@
         }
         model.priceStatus = self.priceStatus;
         model.pageNum = self.requestNum;//刷新页数
-        model.timerState = !model.timerState;
     }
     
+    model.timerState = !model.timerState;
     [model sendRequest];
 }
 #pragma mark EquipListRequestModel

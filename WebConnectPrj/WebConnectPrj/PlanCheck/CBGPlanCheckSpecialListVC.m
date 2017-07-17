@@ -46,6 +46,47 @@
     self.preArr = [NSArray arrayWithArray:self.dbHistoryArr];
     [self refreshLatestShowTableView];
 }
+-(NSArray *)moreFunctionsForDetailSubVC
+{
+    NSMutableArray * arr = [NSMutableArray array];
+    MSAlertAction * action = nil;
+    __weak typeof(self) weakSelf = self;
+    
+    
+    action = [MSAlertAction actionWithTitle:@"数据导出" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf outLatestShowDetailDBCSVFile];
+              }];
+    
+    [arr addObject:action];
+    
+    action = [MSAlertAction actionWithTitle:@"价格筛选" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf selectDBHistoryWithLatestPriceLine];
+              }];
+    
+    [arr addObject:action];
+    
+    return arr;
+}
+-(void)selectDBHistoryWithLatestPriceLine
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * soldArr = [dbManager localSaveEquipHistoryModelListTotalWithSoldOut];
+    NSMutableArray * showArr = [NSMutableArray array];
+    for (NSInteger index = 0 ; index < [soldArr count];index ++ )
+    {
+        CBGListModel * eveList = [soldArr objectAtIndex:index];
+        if(eveList.sell_space < MINUTE * 3 && eveList.sell_space > 0 && eveList.equip_price/100 > self.startLinePrice){
+            [showArr addObject:eveList];
+        }
+    }
+    
+    self.dbHistoryArr = showArr;
+    [self refreshLatestShowedDBArrayWithNotice:NO];
+
+}
+
 
 
 - (void)didReceiveMemoryWarning {

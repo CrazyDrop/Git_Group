@@ -566,7 +566,8 @@ RefreshCellCopyDelgate>
     }
 
     
-    model.timerState = [check refreshListRequestUpdate];
+//    model.timerState = [check refreshListRequestUpdate];
+    model.timerState = !model.timerState;
     [model sendRequest];
 }
 #pragma mark EquipListRequestModel

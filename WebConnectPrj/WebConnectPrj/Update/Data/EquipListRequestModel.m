@@ -18,6 +18,9 @@
     self = [super init];
     if(self)
     {
+//        &sum_exp_min=111
+//        &qian_neng_guo=33
+//        &skill_qiang_shen=22
     }
     return self;
 }
@@ -69,8 +72,18 @@
     }
     
     NSString * replaceStr = [replaceArr componentsJoinedByString:sepStr];
-    NSString * appendStr = @"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1";
+    NSString * appendStr = @"&sum_exp_max=2000";
     //去掉设备号
+    
+    //增加随机参数，尽可能防止屏蔽
+    //        &sum_exp_min=111
+    //        &qian_neng_guo=33
+    //        &skill_qiang_shen=22
+    NSInteger randMinExp = arc4random() % 111 + 1;
+    NSInteger randQianneng = arc4random() % 50 + 1;
+    NSInteger skill_qiang_shen = arc4random() % 50 + 1;
+    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld",randMinExp,randQianneng,skill_qiang_shen];
+    appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
     
     NSString * result = [replaceStr stringByAppendingString:appendStr];
     
@@ -94,7 +107,7 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     if(total.localURL2)
     {
-        pageUrl = [NSString stringWithFormat:@"%@%@",HeaderUrl_MobileRefresh_URLString,total.localURL2] ;
+        pageUrl = total.localURL2 ;
     }
 
     pageUrl = [self replaceStringWithLatestWebString:pageUrl];
