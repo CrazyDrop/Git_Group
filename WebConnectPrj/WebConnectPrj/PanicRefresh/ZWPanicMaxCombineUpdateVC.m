@@ -22,9 +22,9 @@
     NSMutableDictionary * detailModelDic;
     NSMutableArray * combineArr;
     NSCache * refreshCache;
+    NSMutableArray * orderCacheArr;//替代refreshCache，屏蔽重复
 }
 @property (nonatomic, strong) NSArray * baseArr;
-
 @property (nonatomic,strong) NSArray * panicTagArr;
 @property (nonatomic,strong) NSArray * baseVCArr;
 @property (nonatomic,strong) UIScrollView * coverScroll;
@@ -41,9 +41,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self)
     {
-        refreshCache = [[NSCache alloc] init];
-        refreshCache.totalCostLimit = 1000;
-        refreshCache.countLimit = 1000;
+        orderCacheArr = [NSMutableArray array];
+//        refreshCache = [[NSCache alloc] init];
+//        refreshCache.totalCostLimit = 1000;
+//        refreshCache.countLimit = 1000;
         
         detailModelDic = [NSMutableDictionary dictionary];
         combineArr = [NSMutableArray array];
@@ -62,11 +63,15 @@
 {
     Equip_listModel * listObj = (Equip_listModel *)[noti object];
     NSString * keyObj = [listObj listCombineIdfa];
-    if([refreshCache objectForKey:keyObj]){
-        NSLog(@"%s %@",__FUNCTION__,keyObj);
+    if([orderCacheArr containsObject:keyObj])
+    {
         return;
     }
-    [refreshCache setObject:@1 forKey:keyObj];
+    if([orderCacheArr count] > 80)
+    {
+        [orderCacheArr removeObjectAtIndex:0];
+    }
+    [orderCacheArr addObject:keyObj];
     
     //添加
     @synchronized (detailModelDic)

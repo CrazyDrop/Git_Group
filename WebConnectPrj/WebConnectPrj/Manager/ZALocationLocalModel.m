@@ -1076,7 +1076,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
         while ([resultSet next]) {
             CBGListModel *location=[self listModelFromDatabaseResult:resultSet];
-            location.equip_status = 4;
+//            location.equip_status = 4;
             [totalArray addObject:location];
             
 
@@ -1549,7 +1549,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 3;
+//             location.equip_status = 3;
              [totalArray addObject:location];
          }
          
@@ -1578,7 +1578,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 3;
+//             location.equip_status = 3;
              [totalArray addObject:location];
          }
          
@@ -1691,7 +1691,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 2;
+//             location.equip_status = 2;
              [totalArray addObject:location];
          }
          
@@ -1720,7 +1720,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 2;
+//             location.equip_status = 2;
              [totalArray addObject:location];
          }
          
@@ -2327,7 +2327,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2355,7 +2355,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2383,7 +2383,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2412,7 +2412,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2440,7 +2440,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2468,7 +2468,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2496,7 +2496,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2519,7 +2519,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     while ([resultSet next])
     {
         CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-        location.equip_status = 4;
+//        location.equip_status = 4;
         [totalArray addObject:location];
     }
     [resultSet close];
@@ -2576,7 +2576,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         while ([resultSet next])
         {
             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-            location.equip_status = 4;
+//            location.equip_status = 4;
             [totalArray addObject:location];
         }
         
@@ -2604,7 +2604,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2630,7 +2630,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2673,7 +2673,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2806,7 +2806,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          {
              //(价格要低于当前价格的)
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
 //             if(equipPrice > location.equip_price || equipPrice == 0)
              {
                  [totalArray addObject:location];
@@ -2934,7 +2934,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -2961,7 +2961,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
-             location.equip_status = 4;
+//             location.equip_status = 4;
              [totalArray addObject:location];
          }
          
@@ -3061,7 +3061,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     list.sell_space = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_SPACE];
 
     list.fav_or_ingore = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE];
-    
+    list.equip_status = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS];
     
     if(!list.equip_more_append || [list.equip_more_append length] == 0)
     {

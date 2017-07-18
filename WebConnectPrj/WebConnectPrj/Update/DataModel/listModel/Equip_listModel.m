@@ -121,7 +121,7 @@
     
     NSString * idfa = nil;
 
-    if (self.selling_time)
+    if (self.selling_time && [self.selling_time length] > 0)
     {
         idfa = [NSString stringWithFormat:@"%@|%@|%@",self.game_ordersn,self.serverid,self.selling_time];
     }else

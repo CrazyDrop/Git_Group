@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Update/Data/EquipListRequestModel.m"
-            timestampString = "521951895.819016"
+            filePath = "WebConnectPrj/PanicRefresh/ZWPanicUpdateListBaseRequestModel.m"
+            timestampString = "522040157.485004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-webRequestDataList"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "-checkUnSellingListArrayPostSubNotificationWithArray:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,14 +35,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ListView/ZWRefreshListController.m"
-            timestampString = "521950376.828709"
+            filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
+            timestampString = "522039378.841861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "602"
-            endingLineNumber = "602"
-            landmarkName = "handleSignal()"
-            landmarkType = "9">
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "-panicCombineUpdateAddMoreDetailRefreshNoti:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

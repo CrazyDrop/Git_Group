@@ -91,8 +91,10 @@
 -(NSArray *)checkLatestBackListDataModelsWithBackModelArray:(NSArray *)backArray
 {
     //所有数据，进行排重后使用
+    //网络请求详情的数据
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
     
+    //刷新展示数据
     NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];
 
     //1、筛选当前需要进行详情请求的数据进行详情请求
@@ -167,52 +169,34 @@
 
     NSArray * models = [modelsDic allValues];
     self.modelsArray = models;
+    
     return models;
 }
 //价格不存在、进行数据请求//状态不存在，进行详情请求
 -(BOOL)checkHistoryPriceWithLatestEveModel:(Equip_listModel *)eveModel
 {//返回价格比对结果，相同yes，不同NO
-    NSInteger price = 0;
-    NSString * identifier = eveModel.detailCheckIdentifier;
+//    NSString * identifier = eveModel.detailCheckIdentifier;
     NSString * orderSN = eveModel.game_ordersn;
-    NSNumber * prePrice = (NSNumber *)[priceCache objectForKey:identifier];
-    if(!prePrice)
+    BOOL result = NO;
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+    if([dbArr count] > 0)
     {
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
-        {
-            CBGListModel * list = [dbArr lastObject];
-            NSInteger hisPrice = list.equip_price;
-            list.historyPrice = hisPrice;
-            list.equip_price = [eveModel.price integerValue];
-            eveModel.appendHistory = list;
-            price = list.equip_price;
-        }
-    }else{
-        price = [prePrice integerValue];
-    }
-    
-    BOOL result = [eveModel.price integerValue] == price;
-    if(!result && !eveModel.appendHistory)
-    {//补全追加字段
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
-        {
-            CBGListModel * list = [dbArr lastObject];
-            NSInteger hisPrice = list.equip_price;
-            list.historyPrice = hisPrice;
-            list.equip_price = [eveModel.price integerValue];
-            eveModel.appendHistory = list;
-        }
-    }
-    
-    if(self.ingoreUpdate)
-    {
-        if((prePrice && [prePrice integerValue] > 0 )|| eveModel.appendHistory)
+        CBGListModel * list = [dbArr lastObject];
+        NSInteger exchange = ABS((list.equip_price - [eveModel.price integerValue])/100);
+        if([eveModel.price integerValue] == 0){
+            result = YES;
+        }else if(exchange < 10)
         {
             result = YES;
+        }else
+        {
+            NSInteger hisPrice = list.equip_price;
+            list.historyPrice = hisPrice;
+            if([eveModel.price integerValue] > 0){
+                list.equip_price = [eveModel.price integerValue];
+            }
+            eveModel.appendHistory = list;
         }
     }
     
@@ -221,54 +205,39 @@
 
 -(BOOL)checkHistoryStatusWithLatestEveModel:(Equip_listModel *)eveModel
 {
-    NSNumber * status = eveModel.equip_status;
+//    NSNumber * status = eveModel.equip_status;
+//    NSString * identifier = eveModel.detailCheckIdentifier;
     NSString * orderSN = eveModel.game_ordersn;
-    NSString * identifier = eveModel.detailCheckIdentifier;
-    
-    NSNumber * preStatus = (NSNumber *)[statusCache objectForKey:identifier];
-    
-    CBGEquipRoleState latestState = [self statusStateFromNum:status];
-    CBGEquipRoleState preState = [self statusStateFromNum:preStatus];
+    BOOL result = NO;
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
+    if([dbArr count] > 0)
+    {
+        if(eveModel.equipState == CBGEquipRoleState_InOrdering){
 
-    if(!preStatus)
-    {
-        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
-        if([dbArr count] > 0)
-        {
-            CBGListModel * list = [dbArr lastObject];
-            if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0){
-                //之前已经结束，不在进行
-                preState = CBGEquipRoleState_PayFinish;
-            }else{
-                preState = CBGEquipRoleState_InSelling;
-            }
         }
-    }
-    
-    BOOL result = latestState == preState;
-    //之前状态已处于结束状态，不再做展示
-    if(preState == CBGEquipRoleState_PayFinish || preState == CBGEquipRoleState_Backing){
-        result = YES;
-    }
-//    //仅下单状态变更，也不做处理，模拟器不处理下单情况
-#if  TARGET_IPHONE_SIMULATOR
-    if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
-       (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
-    {
-        result = YES;
-    }
-#else
-    if(self.ingoreUpdate)
-    {
-        if((preState == CBGEquipRoleState_InSelling && latestState == CBGEquipRoleState_InOrdering)||
-           (latestState == CBGEquipRoleState_InSelling && preState == CBGEquipRoleState_InOrdering))
+        CBGListModel * list = [dbArr lastObject];
+        if([list.sell_sold_time length] > 0 || [list.sell_back_time length] > 0)
+        {
+            result = YES;
+        }else if(eveModel.equipState == CBGEquipRoleState_unSelling){
+            result = YES;
+        }
+        else if((eveModel.equipState == CBGEquipRoleState_InOrdering && list.equip_status == 2) ||
+                 (eveModel.equipState == CBGEquipRoleState_InSelling && list.equip_status == 3))
+        {
+            result = NO;
+        }else if(eveModel.equipState != CBGEquipRoleState_InSelling &&
+                 eveModel.equipState != CBGEquipRoleState_InOrdering &&
+                 eveModel.equipState != CBGEquipRoleState_unSelling)
+        {
+            result = NO;
+        }else
         {
             result = YES;
         }
     }
-#endif
-    
+
     return result;
 }
 

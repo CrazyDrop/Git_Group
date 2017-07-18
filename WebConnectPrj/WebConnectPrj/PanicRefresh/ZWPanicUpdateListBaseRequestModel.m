@@ -12,6 +12,7 @@
 
 @interface ZWPanicUpdateListBaseRequestModel ()
 {
+    NSMutableArray * repeatCache;
     NSMutableArray * localCacheArr;
     NSInteger maxLength;
 }
@@ -99,6 +100,7 @@
     self = [super init];
     if(self){
         localCacheArr = [NSMutableArray array];
+        repeatCache = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(detailRefreshFinishedLocalUpdateAndRemoveWithBackNoti:)
                                                      name:NOTIFICATION_REMOVE_REFRESH_WEBDETAIL_STATE
@@ -114,23 +116,26 @@
     
     @synchronized (localCacheArr)
     {
+        if(![localCacheArr containsObject:keyStr])
+        {
+            return;
+        }
         
-    if(![localCacheArr containsObject:keyStr])
-    {
-        return;
-    }
-    
-    //进行库表存储
-//    list.listSaveModel = nil;
-    CBGEquipRoleState state = list.equipModel.equipState;
-    if(state == CBGEquipRoleState_unSelling){
-        list.listSaveModel = nil;
-    }
-    
-    CBGListModel * cbgModel = [list listSaveModel];
-    cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[cbgModel]];
-    
+        //进行库表存储
+    //    list.listSaveModel = nil;
+        CBGEquipRoleState state = list.equipModel.equipState;
+        if(state == CBGEquipRoleState_unSelling){
+            list.listSaveModel = nil;
+        }
+        
+        if(state == CBGEquipRoleState_PayFinish || state == CBGEquipRoleState_BuyFinish){
+            list.listSaveModel = nil;
+        }
+        
+        CBGListModel * cbgModel = [list listSaveModel];
+        cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[cbgModel]];
+        
 
         if([localCacheArr containsObject:keyStr])
         {
@@ -263,7 +268,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
             if([orderArr count] > 0)
             {
                 CBGListModel * pre = [orderArr firstObject];
-                if([pre.sell_sold_time length] == 0)
+                if(!pre.sell_sold_time || [pre.sell_sold_time length] == 0)
                 {
                     if(self.lineDate && ![self lineDateEarlierThanSellDate:sellDate])
                     {
@@ -283,12 +288,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
                     eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
                     eveModel.earnRate = pre.plan_rate;
                     
-                    if(eveModel.earnRate > 0){
-                        [modelsDic setObject:eveModel forKey:orderSN];
-                    }else
-                    {
-                        [refreshDic setObject:eveModel forKey:orderSN];
-                    }
+                    [refreshDic setObject:eveModel forKey:orderSN];
                 }
             }else
             {
@@ -416,6 +416,15 @@ handleSignal( EquipListRequestModel, requestLoaded )
 -(void)checkUnSellingListArrayPostSubNotificationWithArray:(NSArray *)array
 {
     if([array count] == 0) return;
+    
+    //repeatCache最大值  20，20超过从前面移除
+//    NSInteger countNum = 20;
+//    if([repeatCache count] > countNum)
+//    {
+//        NSRange range = NSMakeRange(0, [repeatCache count] - countNum);
+//        [repeatCache removeObjectsInRange:range];
+//    }
+    
     @synchronized (localCacheArr)
     {
         for (NSInteger index = 0;index < [array count] ;index ++ )
@@ -423,6 +432,17 @@ handleSignal( EquipListRequestModel, requestLoaded )
             Equip_listModel * eve = [array objectAtIndex:index];
             NSString * combine = eve.listCombineIdfa;
             combine = eve.game_ordersn;
+            
+//            if(eve.equipState != CBGEquipRoleState_unSelling )
+//            {//对于非未上架的数据，增加重复排重限定
+//                if([repeatCache containsObject:combine])
+//                {
+//                    continue;
+//                }else
+//                {
+//                    [repeatCache addObject:combine];
+//                }
+//            }
             if(![localCacheArr containsObject:combine])
             {
                 [localCacheArr addObject:combine];

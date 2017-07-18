@@ -52,7 +52,7 @@ typedef enum : NSUInteger
 @property (nonatomic, strong) NSString * owner_roleid;
 @property (nonatomic, assign) NSInteger server_id;
 
-//整理数据字段 //无需存储，方便库表操作判定
+//整理数据字段 存储
 @property (nonatomic, assign) NSInteger  equip_status;
 
 @property (nonatomic, assign) NSInteger  equip_huasheng;        //修改字段意义，标识是否已经化圣，方便后续展示化圣相关数据
