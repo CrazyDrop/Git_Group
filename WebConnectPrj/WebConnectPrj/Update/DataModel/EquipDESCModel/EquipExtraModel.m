@@ -440,7 +440,11 @@
     CGFloat price = 0;
 //    sum_exp总经验
     NSInteger sup_total = [self.sum_exp integerValue];
-    if(sup_total > 600)
+    if(sup_total > 750 && sup_total < 1000){
+        price += 4000;
+        NSInteger more = sup_total - 750;
+        price += (more * 15);
+    }else if(sup_total > 600)
     {
         price += 2000;
         NSInteger more = sup_total - 600;

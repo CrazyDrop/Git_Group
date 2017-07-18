@@ -325,12 +325,12 @@
 }
 -(BOOL)planMore_zhaohuan
 {
-    BOOL more = self.plan_zhaohuanshou_price > 1000;
+    BOOL more = self.plan_zhaohuanshou_price >= 800;
     return more;
 }
 -(BOOL)planMore_Equip
 {
-    BOOL more = self.plan_zhaohuanshou_price > 500;
+    BOOL more = self.plan_zhaohuanshou_price >= 300;
     return more;
 }
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip

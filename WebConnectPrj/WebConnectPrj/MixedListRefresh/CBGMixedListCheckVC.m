@@ -49,7 +49,7 @@
 {
     if(!_webVC){
         CBGWebListRefreshVC * aWeb = [[CBGWebListRefreshVC alloc] init];
-        aWeb.endEanble = YES;
+        aWeb.endEanble = NO;
         [self addChildViewController:aWeb];
         _webVC = aWeb;
     }

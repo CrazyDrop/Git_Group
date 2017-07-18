@@ -15,7 +15,7 @@
 
 @interface CBGSortHistoryBaseTableVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UITableView * listTable;
-@property (nonatomic,strong) NSDictionary * serNameDic;
+//@property (nonatomic,strong) NSDictionary * serNameDic;
 @end
 
 @implementation CBGSortHistoryBaseTableVC
@@ -154,31 +154,31 @@
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * leftPriceColor = [UIColor redColor];
     
-    //区分状态，
-    if( state == CBGEquipRoleState_InSelling)
-    {//主要展示上下架时间
-        NSDate * date = [NSDate fromString:contact.sell_start_time];
-        rightTimeTxt =  [date toString:@"(MM-dd)HH:mm"];
-        leftRateTxt  = @"上架";
-        leftRateColor = [UIColor orangeColor];
-        equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
-        centerDetailTxt = [contact.game_ordersn substringToIndex:15];
-        
-    }else if(state == CBGEquipRoleState_InOrdering)
-    {//主要展示  下单信息  取消,金额
-        NSDate * date = [NSDate fromString:contact.sell_order_time];
-        rightTimeTxt =  [date toString:@"MM-dd HH点"];
-        
-        date = [NSDate fromString:contact.sell_cancel_time];
-        rightStatusTxt =  [date toString:@"MM-dd HH点"];
-        
-        leftRateTxt =  @"下单";
-        leftRateColor = [UIColor orangeColor];
-        equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
-        centerDetailTxt = [contact.game_ordersn substringToIndex:15];
-        
-    }
-    else if(state == CBGEquipRoleState_PayFinish)
+//    //区分状态，
+//    if( state == CBGEquipRoleState_InSelling)
+//    {//主要展示上下架时间
+//        NSDate * date = [NSDate fromString:contact.sell_start_time];
+//        rightTimeTxt =  [date toString:@"(MM-dd)HH:mm"];
+//        leftRateTxt  = @"上架";
+//        leftRateColor = [UIColor orangeColor];
+//        equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
+//        centerDetailTxt = [contact.game_ordersn substringToIndex:15];
+//        
+//    }else if(state == CBGEquipRoleState_InOrdering)
+//    {//主要展示  下单信息  取消,金额
+//        NSDate * date = [NSDate fromString:contact.sell_order_time];
+//        rightTimeTxt =  [date toString:@"MM-dd HH点"];
+//        
+//        date = [NSDate fromString:contact.sell_cancel_time];
+//        rightStatusTxt =  [date toString:@"MM-dd HH点"];
+//        
+//        leftRateTxt =  @"下单";
+//        leftRateColor = [UIColor orangeColor];
+//        equipName =  [NSString stringWithFormat:@"ID:%@",contact.owner_roleid];
+//        centerDetailTxt = [contact.game_ordersn substringToIndex:15];
+//        
+//    }
+//    else if(state == CBGEquipRoleState_PayFinish)
     {//主要展示  账号基础信息
         NSDate * startDate = [NSDate fromString:contact.sell_create_time];
         rightTimeTxt =  [startDate toString:@"MM-dd HH点"];

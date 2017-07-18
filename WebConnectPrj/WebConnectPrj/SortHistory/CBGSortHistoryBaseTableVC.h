@@ -12,6 +12,8 @@
 //数据展示，统一基类
 @interface CBGSortHistoryBaseTableVC : DPWhiteTopController
 
+//服务器名称
+@property (nonatomic,strong) NSDictionary * serNameDic;
 
 //基础数据传递
 @property (nonatomic,strong) NSArray * dbHistoryArr;

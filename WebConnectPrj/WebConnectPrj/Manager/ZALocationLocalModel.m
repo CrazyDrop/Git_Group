@@ -2732,7 +2732,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                                 model.plan_chongxiu_price +
                                 model.plan_jineng_price +
                                 model.plan_jingyan_price +
-                                model.plan_qianyuandan_price;
+                                model.plan_qianyuandan_price +
+                                model.plan_qiannengguo_price +
+                                model.plan_menpai_price;
+    
     NSInteger school = model.equip_school;
     NSInteger equipPrice = model.equip_price ;
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -2797,7 +2800,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          
          //总值较大，且未售出
          sqlMutableString  = [NSMutableString string];
-         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = %ld AND %@ == 0  AND %@ != 0 AND %@ != 45 AND %@ < 100 AND %@ + %@ + %@ + %@ + %@  + %@  + %@ >= %ld AND %@ <= %ld ORDER BY %@",ZADATABASE_TABLE_EQUIP_TOTAL,
           ZADATABASE_TABLE_EQUIP_KEY_EQUIP_SCHOOL,
           school,
           ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE,
@@ -2809,6 +2812,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINENG,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_JINGYAN,
           ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANYUANDAN,
+          ZADATABASE_TABLE_EQUIP_KEY_PLAN_QIANNENGGUO,
+          ZADATABASE_TABLE_EQUIP_KEY_PLAN_MENPAI,
           comparePrice,
           ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
           minServerId,
