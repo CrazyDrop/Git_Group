@@ -63,15 +63,18 @@
 {
     Equip_listModel * listObj = (Equip_listModel *)[noti object];
     NSString * keyObj = [listObj listCombineIdfa];
-    if([orderCacheArr containsObject:keyObj])
+    @synchronized (orderCacheArr)
     {
-        return;
+        if([orderCacheArr containsObject:keyObj])
+        {
+            return;
+        }
+        if([orderCacheArr count] > 80)
+        {
+            [orderCacheArr removeObjectAtIndex:0];
+        }
+        [orderCacheArr addObject:keyObj];
     }
-    if([orderCacheArr count] > 80)
-    {
-        [orderCacheArr removeObjectAtIndex:0];
-    }
-    [orderCacheArr addObject:keyObj];
     
     //添加
     @synchronized (detailModelDic)

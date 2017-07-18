@@ -1850,6 +1850,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                 }
                 
+                if(preModel.equip_status != model.equip_status)
+                {
+                    preModel.equip_status = model.equip_status;
+                    ingoreRefresh = NO;
+                }
+
+                
                 if(ingoreRefresh)
                 {
                     success = YES;
@@ -1890,6 +1897,12 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 if(preModel.plan_rate != model.plan_rate)
                 {
                     preModel.plan_rate = model.plan_rate;
+                    ingoreRefresh = NO;
+                }
+                
+                if(preModel.equip_status != model.equip_status)
+                {
+                    preModel.equip_status = model.equip_status;
                     ingoreRefresh = NO;
                 }
 

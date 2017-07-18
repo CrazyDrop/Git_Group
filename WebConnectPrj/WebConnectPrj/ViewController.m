@@ -44,6 +44,7 @@
 #import "CBGSpecialCompareListVC.h"
 #import "CBGBargainListVC.h"
 #import "ZWPanicMaxCombineUpdateVC.h"
+#import "CBGMixedUpdateAndRefreshVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -210,6 +211,9 @@
             name = @"还价列表";
         }
             break;
+        case CBGDetailTestFunctionStyle_MobileAndUpdate:{
+            name = @"附带更新";
+        }
 
             
         default:
@@ -240,7 +244,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMax],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryTotal],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_LatestPlan],
@@ -605,6 +609,13 @@
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;
+        case CBGDetailTestFunctionStyle_MobileAndUpdate:{
+            CBGMixedUpdateAndRefreshVC * latest = [[CBGMixedUpdateAndRefreshVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+
+        }
+            break;
+            
 
             
     }

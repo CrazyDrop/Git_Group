@@ -35,13 +35,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
-            timestampString = "522039378.841861"
+            filePath = "WebConnectPrj/Manager/ZWDetailCheckManager.m"
+            timestampString = "522041224.440514"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "-panicCombineUpdateAddMoreDetailRefreshNoti:"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "-checkLatestBackListDataModelsWithBackModelArray:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/Manager/ZWDetailCheckManager.m"
+            timestampString = "522042106.659331"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "-checkHistoryStatusWithLatestEveModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

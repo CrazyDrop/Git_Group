@@ -166,7 +166,7 @@
         if(detail)
         {//价格或状态发生变化，进行变更
             if([detail.price integerValue] != _listSaveModel.equip_price ||
-               [detail.storage_type integerValue] != _listSaveModel.equip_status)
+               [detail.status integerValue] != _listSaveModel.equip_status)
             {
                 _listSaveModel = nil;
             }
@@ -195,7 +195,7 @@
         list.owner_roleid = detail.owner_roleid;
         list.server_id = [self.serverid intValue];
         
-        if(!self.equip_status){
+        if(!self.equipModel){
             list.equip_status = [self.equip_status intValue];
         }else{
             list.equip_status = [detail.status intValue];

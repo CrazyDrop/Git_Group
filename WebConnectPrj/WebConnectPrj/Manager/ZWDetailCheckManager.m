@@ -120,7 +120,6 @@
             //状态未变，价格改变
             eveModel.appendHistory.equip_price = [price integerValue];
             eveModel.appendHistory.equip_accept = eveModel.accept_bargain;
-            eveModel.appendHistory.sell_start_time = [NSDate unixDate];
             eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
             
             eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
@@ -130,6 +129,7 @@
                 [modelsDic setObject:eveModel forKey:identifier];
             }else
             {
+                eveModel.appendHistory.sell_start_time = [NSDate unixDate];
                 [refreshDic setObject:eveModel forKey:identifier];
             }
             

@@ -64,7 +64,10 @@
     // Do any additional setup after loading the view.
     
     self.listTable.hidden = YES;
-    UIView * bgView = self.view;
+    UIView * aBgView = self.view;
+    UIScrollView * bgView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [aBgView insertSubview:bgView belowSubview:topBgView];
+    bgView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT * 2);
     
     CGRect rect = [[UIScreen mainScreen] bounds];
     rect.size.height = FLoatChange(138);

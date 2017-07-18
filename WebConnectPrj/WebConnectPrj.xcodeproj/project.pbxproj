@@ -22,6 +22,8 @@
 		180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
 		180F7F461A1DCACC0039E222 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F441A1DCACC0039E222 /* jquery.js */; };
 		18130E0919E8FDA000526957 /* OLNameListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18130E0819E8FDA000526957 /* OLNameListTableView.m */; };
+		181B5ED91F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */; };
+		181B5EDA1F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */; };
 		182090AF1E9E2FA60015E393 /* CancelWarningRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820909C1E9E2FA60015E393 /* CancelWarningRefreshManager.m */; };
 		182090B01E9E2FA60015E393 /* LeanCloudRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820909E1E9E2FA60015E393 /* LeanCloudRefreshManager.m */; };
 		182090B11E9E2FA60015E393 /* LocalTimingRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 182090A01E9E2FA60015E393 /* LocalTimingRefreshManager.m */; };
@@ -1374,6 +1376,8 @@
 		180F7F441A1DCACC0039E222 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		18130E0719E8FDA000526957 /* OLNameListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLNameListTableView.h; sourceTree = "<group>"; };
 		18130E0819E8FDA000526957 /* OLNameListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLNameListTableView.m; sourceTree = "<group>"; };
+		181B5ED71F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMixedUpdateAndRefreshVC.h; sourceTree = "<group>"; };
+		181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGMixedUpdateAndRefreshVC.m; sourceTree = "<group>"; };
 		1820909B1E9E2FA60015E393 /* CancelWarningRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelWarningRefreshManager.h; sourceTree = "<group>"; };
 		1820909C1E9E2FA60015E393 /* CancelWarningRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelWarningRefreshManager.m; sourceTree = "<group>"; };
 		1820909D1E9E2FA60015E393 /* LeanCloudRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeanCloudRefreshManager.h; sourceTree = "<group>"; };
@@ -4719,6 +4723,8 @@
 				18CFB7821E8E372600F18440 /* CBGDetailWebView.m */,
 				18A9EC671E974D4100B92192 /* CBGPlanDetailPreShowWebVC.h */,
 				18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */,
+				181B5ED71F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.h */,
+				181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */,
 			);
 			path = MixedListRefresh;
 			sourceTree = "<group>";
@@ -5111,6 +5117,7 @@
 				18A975D01E7FDDD500B48E3C /* Samurai_EventPanGesture.m in Sources */,
 				18A975AF1E7FDDD400B48E3C /* UIView+Html.m in Sources */,
 				18A9756E1E7FDDD400B48E3C /* Samurai_HtmlDocument.m in Sources */,
+				181B5ED91F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */,
 				189F78A91EFD007D0048AC11 /* UIProgressView+AFNetworking.m in Sources */,
 				18A975321E7FDDD400B48E3C /* NSMutableArray+Extension.m in Sources */,
 				18A975711E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */,
@@ -5771,6 +5778,7 @@
 				1833237D1ED6B10D00B1ECEA /* UIView+Html.m in Sources */,
 				1833237E1ED6B10D00B1ECEA /* Samurai_HtmlDocument.m in Sources */,
 				1833237F1ED6B10D00B1ECEA /* NSMutableArray+Extension.m in Sources */,
+				181B5EDA1F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */,
 				189F78AA1EFD007D0048AC11 /* UIProgressView+AFNetworking.m in Sources */,
 				183323801ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */,
 				183323811ED6B10D00B1ECEA /* Samurai_Font.m in Sources */,
