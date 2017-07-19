@@ -405,6 +405,7 @@
         
         //状态刷新
         if([contact.price integerValue] > 0){
+            historyModel.style = CBGEquipPlanStyle_None;
             historyModel.equip_price = [contact.price integerValue];
         }
 //        historyModel.equip_price = listModel.equip_price;

@@ -15,9 +15,10 @@
 }
 @property (nonatomic, strong) NSMutableDictionary * orderSNDic;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
-@property (nonatomic, assign) NSInteger pageIndex;//页码序列号，鉴于当前的服务器数据刷新频率低，
+@property (nonatomic, assign) NSInteger pageIndex;
+//页码序列号，鉴于当前的服务器数据刷新频率低，
 //进行循环，每次请求后更换url  0、1、2、3  数据相当于12s刷新一次
-@property (nonatomic, assign) NSInteger maxPageNum;
+@property (nonatomic, assign) NSInteger maxPageNum; //并发请求数量控制
 @end
 @implementation CBGWebListRequestModel
 
@@ -27,7 +28,7 @@
     if(self)
     {
         self.cookieDic = [NSMutableDictionary dictionary];
-        self.orderSNDic = [NSMutableDictionary dictionary];
+//        self.orderSNDic = [NSMutableDictionary dictionary];
         self.maxPageNum = 3;
     }
     return self;
@@ -135,7 +136,7 @@
     NSMutableArray * urls = [NSMutableArray array];
     NSInteger totalNum = self.pageNum;
     
-    for (NSInteger index = 0; index <= totalNum; index ++)
+    for (NSInteger index = 1; index <= totalNum; index ++)
     {
         //增加设备号
         //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
@@ -143,8 +144,8 @@
         
         NSString * subStr = [self replaceAutoNumberForRandomReplaceIndex:index andBaseString:pageUrl];
     
-        NSInteger inUse = index%2 ;
-        NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",subStr,(long)inUse];
+//        NSInteger inUse = index%2 ;
+        NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",subStr,(long)index];
         [urls addObject:eve];
     }
     return urls;
@@ -196,29 +197,16 @@
     
     if(!self.executing)
     {
-        NSInteger lineNum = 55;
-        //不使用cookie，少于判定线，直接请求
-        if(!self.saveKookie)
-        {
-            if(self.maxTimeNum < lineNum)
-            {
-                if(self.pageNum <= 3)
-                {
-                    self.pageNum ++;
-                }
-            }
-        }else
-        {
-            if(self.autoRefresh && self.maxTimeNum < lineNum){
-                [self clearTotalSearchCookie];
-            }
-            
-            self.pageNum = 0;
+//        NSInteger lineNum = 55;
+        if(self.autoRefresh){
+            //自动递增  1、2、3页独立请求
+            self.pageNum = 1;
+            self.pageIndex ++;
             [self refreshPageIndexForLatestWebReqeust];
+        }else{
+            self.pageNum = 3;
         }
-
         self.maxTimeNum = 0;
-        [self.orderSNDic removeAllObjects];
     }
     [super sendRequest];
 }
@@ -231,12 +219,8 @@
         NSString * preStr = [urls objectAtIndex:index];
         NSString * subStr = @"page=";
         NSRange range = [preStr rangeOfString:subStr];
-        NSString * preIndex = [preStr substringWithRange:NSMakeRange(range.length + range.location, 1)];
-        
-        NSInteger pageNum = [preIndex intValue] + 1;
-        if(pageNum >= self.maxPageNum){
-            pageNum = 0;
-        }
+//        NSString * preIndex = [preStr substringWithRange:NSMakeRange(range.length + range.location, 1)];
+        NSInteger pageNum =  (self.pageIndex + 2) % self.maxPageNum + 1;//数值  123  pageindex为1pageNum为1
         self.latestIndex = pageNum;
         NSString * refreshStr = [subStr stringByAppendingFormat:@"%ld",pageNum];
         
@@ -268,7 +252,7 @@
     {
         //希望能够不重复
         WebEquip_listModel * eve = [array firstObject];
-        NSString * orderSN = eve.game_ordersn;
+//        NSString * orderSN = eve.game_ordersn;
 //        NSString * url = self.requestUrl;
 //        NSArray * preArr = [self.orderSNDic allValues];
 //        NSString * compare = @"13天23小时51分钟";//取出分钟数，最大的保留，其他的删除

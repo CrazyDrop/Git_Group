@@ -56,7 +56,7 @@ RefreshCellCopyDelgate>{
 
         [self appendNotificationForRestartTimerRefreshWithActive];
         circleTotal = 3;
-        self.cookieAutoRefresh = NO;
+        self.cookieAutoRefresh = YES;
         self.cookieState = YES;
         
         self.endEanble = NO;
