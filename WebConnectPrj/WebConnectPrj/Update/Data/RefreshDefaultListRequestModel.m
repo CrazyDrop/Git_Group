@@ -334,7 +334,7 @@
     if(error)
     {
         self.errNum ++;
-        NSLog(@"doneWithRequestBackDic %@",error.domain);
+        NSLog(@"doneWithRequestBackDic %@ %@",error.domain,url);
     }
     self.requestUrl = url;
     NSArray * array = [self backObjectArrayFromBackDataDic:dic];

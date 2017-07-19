@@ -144,6 +144,11 @@
         return NO;
     }
     CGFloat earnRate = self.earnRate;
+//    if((earnRate > 0 && [self.serverid integerValue]!=45))
+//    {
+//        return YES;
+//    }
+    
     if((earnRate > 8 && [self.serverid integerValue]!=45))
     {
         return YES;

@@ -1004,8 +1004,12 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     if(contact)
     {
+        CBGListModel * cbgModel = [contact listSaveModel];
+        if(cbgModel.plan_total_price == 0 && contact.appendHistory){
+            cbgModel = contact.appendHistory;
+        }
         ZACBGDetailWebVC * list = [[ZACBGDetailWebVC alloc] init];
-        list.cbgList = [contact listSaveModel];
+        list.cbgList = cbgModel;
         list.detailModel = contact.equipModel;
         [[self rootNavigationController] pushViewController:list animated:YES];
     }

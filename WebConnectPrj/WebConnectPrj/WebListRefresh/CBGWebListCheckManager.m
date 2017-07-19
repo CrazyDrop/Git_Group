@@ -61,6 +61,7 @@
     //所有数据，进行排重后使用
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
     
+    //仅历史展示
     NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];
     
     //1、筛选当前需要进行详情请求的数据进行详情请求
@@ -86,17 +87,23 @@
             [modelsDic setObject:eveModel forKey:identifier];
         }else if(statusResult && !priceResult){
             //状态未变，价格改变
-//            eveModel.appendHistory.equip_price = [price integerValue] * 100;
-            eveModel.appendHistory.equip_accept = [eveModel.can_bargain integerValue];
-            eveModel.appendHistory.sell_start_time = [NSDate unixDate];
-            eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshEval;
-            eveModel.appendHistory.equip_eval_price = [eveModel.eval_price integerValue];
-            eveModel.appendHistory.plan_rate = eveModel.appendHistory.price_rate_latest_plan;
-            //            eveModel.appendHistory.sell_order_time = [NSDate unixDate];
-            //            eveModel.appendHistory.sell_cancel_time = [NSDate unixDate];
             
-            eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
-            eveModel.earnPrice = eveModel.appendHistory.price_earn_plan;
+            CBGListModel * hisList = eveModel.appendHistory;
+            if([eveModel.eval_price integerValue] > 0)
+            {
+                hisList.equip_eval_price = [eveModel.eval_price integerValue];
+            }
+            if([eveModel.price integerValue] > 0)
+            {
+                hisList.sell_start_time = [NSDate unixDate];
+                hisList.equip_price = [eveModel.price integerValue] * 100;
+                hisList.equip_accept = [eveModel.can_bargain integerValue];
+                hisList.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshEval;
+                hisList.plan_rate = hisList.price_rate_latest_plan;
+                
+                eveModel.earnRate = hisList.price_rate_latest_plan;
+                eveModel.earnPrice = hisList.price_earn_plan;
+            }
             
             if(eveModel.earnRate > 0){
                 [modelsDic setObject:eveModel forKey:identifier];
@@ -247,6 +254,9 @@
             CBGListModel * cbgList = [list listSaveModel];
             cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_RefreshEval;
             [updateArr addObject:cbgList];
+            
+            list.earnRate = cbgList.plan_rate;
+            list.earnPrice = cbgList.price_earn_plan;
             
             NSDate * startDate = [NSDate fromString:list.equipModel.selling_time];
             NSTimeInterval count = [latestDate timeIntervalSinceDate:startDate];

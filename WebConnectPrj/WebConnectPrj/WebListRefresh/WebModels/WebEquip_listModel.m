@@ -142,7 +142,7 @@
         if(detail)
         {//价格或状态发生变化，进行变更
             if([detail.price integerValue] != _listSaveModel.equip_price ||
-               [detail.storage_type integerValue] != _listSaveModel.equip_status)
+               [detail.status integerValue] != _listSaveModel.equip_status)
             {
                 _listSaveModel = nil;
             }

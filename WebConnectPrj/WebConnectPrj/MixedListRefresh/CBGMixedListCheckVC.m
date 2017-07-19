@@ -59,7 +59,7 @@
 {
     if(!_mobileVC){
         ZWRefreshListController * aWeb = [[ZWRefreshListController alloc] init];
-        aWeb.ingoreDB = YES;
+//        aWeb.ingoreDB = YES;
 //        aWeb.maxRefresh = NO;
         aWeb.onlyList = YES;
         [self addChildViewController:aWeb];

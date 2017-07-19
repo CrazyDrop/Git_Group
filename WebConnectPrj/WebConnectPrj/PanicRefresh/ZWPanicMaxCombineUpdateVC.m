@@ -181,7 +181,8 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
     EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
-    
+    NSArray * list = self.baseArr;
+
     NSMutableArray * detailModels = [NSMutableArray array];
     NSInteger errorNum = 0;
     for (NSInteger index = 0; index < [total count]; index ++)
@@ -202,7 +203,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     {
         BOOL forceRefresh = NO;
         NSMutableArray * removeArr = [NSMutableArray array];
-        NSArray * list = self.baseArr;
         NSMutableArray * refreshArr = [NSMutableArray array];
         for (NSInteger index = 0;index < [list count] ;index ++ )
         {
@@ -629,6 +629,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     for (NSInteger index = 0;index < [array count] ;index ++ )
     {
         NSInteger backIndex = [array count] - 1 - index;
+        backIndex = index;
         Equip_listModel * eveObj = [array objectAtIndex:backIndex];
         NSLog(@"panicListRequestFinishWithUpdateModel %@ %@",model.tagString, eveObj.listCombineIdfa);
         [combineArr addObject:eveObj];
