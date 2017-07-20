@@ -35,7 +35,6 @@ RefreshCellCopyDelgate>{
 @property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * grayArray;
 @property (nonatomic,assign) BOOL cookieState;
-@property (nonatomic,assign) BOOL cookieAutoRefresh;
 @property (nonatomic,assign) NSInteger pageNum;
 
 @property (nonatomic,assign) BOOL webCheckError;
@@ -56,7 +55,7 @@ RefreshCellCopyDelgate>{
 
         [self appendNotificationForRestartTimerRefreshWithActive];
         circleTotal = 3;
-        self.cookieAutoRefresh = YES;
+        self.pageAutoRefresh = YES;//顺序请求
         self.cookieState = YES;
         
         self.endEanble = NO;
@@ -187,29 +186,31 @@ RefreshCellCopyDelgate>{
     
     __weak typeof(self) weakSelf = self;
     //清空model，界面展示时，已经调用disappear方法，清空了model，
-    MSAlertAction *action = [MSAlertAction actionWithTitle:@"使用cookie(常规)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    MSAlertAction *action = [MSAlertAction actionWithTitle:@"顺序请求" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                              {
-                                 weakSelf.cookieState = YES;
-                                 weakSelf.cookieAutoRefresh = NO;
+                                 weakSelf.pageAutoRefresh = YES;
+//                                 weakSelf.cookieState = YES;
+//                                 weakSelf.pageAutoRefresh = NO;
                              }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"清空cookie" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"并发请求" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-                  for (NSHTTPCookie *cookie in cookiesArray)
-                  {
-                      if([cookie.name isEqualToString:@"overall_sid"]){
-                          [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
-                      }
-                  }
+                  weakSelf.pageAutoRefresh = NO;
+//                  NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//                  for (NSHTTPCookie *cookie in cookiesArray)
+//                  {
+//                      if([cookie.name isEqualToString:@"overall_sid"]){
+//                          [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+//                      }
+//                  }
                   
               }];
     [alertController addAction:action];
     
 //    action = [MSAlertAction actionWithTitle:@"使用cookie(变动)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
 //              {
-//                  weakSelf.cookieAutoRefresh = YES;
+//                  weakSelf.pageAutoRefresh = YES;
 //                  weakSelf.cookieState = YES;
 //              }];
 //    [alertController addAction:action];
@@ -220,17 +221,7 @@ RefreshCellCopyDelgate>{
 //                  
 //              }];
 //    [alertController addAction:action];
-    
 
-
-    action = [MSAlertAction actionWithTitle:@"增加并发" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  if(weakSelf.pageNum < 5)
-                  {
-                    weakSelf.pageNum ++;
-                  }
-              }];
-    [alertController addAction:action];
     
     
     action = [MSAlertAction actionWithTitle:@"开启中断" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
@@ -403,7 +394,7 @@ RefreshCellCopyDelgate>{
         
         model.pageNum = self.pageNum;
         model.saveKookie = self.cookieState;
-        model.autoRefresh = self.cookieAutoRefresh;
+        model.autoRefresh = self.pageAutoRefresh;
         
     }
     model.timerState = !model.timerState;

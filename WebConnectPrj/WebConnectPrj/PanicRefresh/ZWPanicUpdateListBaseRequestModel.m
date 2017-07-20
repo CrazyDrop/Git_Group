@@ -192,7 +192,7 @@ handleSignal( EquipListRequestModel, requestLoaded )
     NSLog(@"%s",__FUNCTION__);
     
     EquipListRequestModel * model = (EquipListRequestModel *) _dpModel;
-    NSArray * total  = model.listArray;
+    NSArray * total  = [NSArray arrayWithArray:model.listArray];
     self.errorTotal = model.errNum;
     
     //正常序列
@@ -415,7 +415,6 @@ handleSignal( EquipListRequestModel, requestLoaded )
 
 -(void)checkUnSellingListArrayPostSubNotificationWithArray:(NSArray *)array
 {
-    if([array count] == 0) return;
     
     //repeatCache最大值  20，20超过从前面移除
 //    NSInteger countNum = 20;
@@ -427,6 +426,8 @@ handleSignal( EquipListRequestModel, requestLoaded )
     
     @synchronized (localCacheArr)
     {
+        if([array count] == 0) return;
+        
         for (NSInteger index = 0;index < [array count] ;index ++ )
         {
             Equip_listModel * eve = [array objectAtIndex:index];

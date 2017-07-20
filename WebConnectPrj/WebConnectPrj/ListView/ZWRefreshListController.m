@@ -434,7 +434,7 @@ RefreshCellCopyDelgate>
     [self startLocationDataRequest];
     
     self.inWebRequesting = NO;
-    [requestLock unlock];
+//    [requestLock unlock];
 
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -442,6 +442,8 @@ RefreshCellCopyDelgate>
     NSLog(@"%s disappear",__FUNCTION__);
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    [requestLock unlock];
 
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     check.latestHistory = self.showArray;

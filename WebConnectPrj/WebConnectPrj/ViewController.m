@@ -421,7 +421,7 @@
         {
             
             CBGWebListRefreshVC * list = [[CBGWebListRefreshVC alloc] init];
-            list.endEanble = NO;
+            list.endEanble = YES;
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;

@@ -11,6 +11,7 @@
 
 @interface CBGWebListRefreshVC : DPWhiteTopController
 @property (nonatomic,assign) BOOL endEanble;
+@property (nonatomic,assign) BOOL pageAutoRefresh;
 @property (nonatomic, strong)  NSString * baseUrl;//基础url
 
 
