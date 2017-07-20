@@ -1315,6 +1315,10 @@
 		18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
 		18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
 		18CA6E911EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
+		18CBBBC61F20A86100E8C226 /* ZWAutoRefreshListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */; };
+		18CBBBC71F20A86100E8C226 /* ZWAutoRefreshListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */; };
+		18CBBBCA1F20A99A00E8C226 /* ZWAutoRefreshListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CBBBC91F20A99A00E8C226 /* ZWAutoRefreshListController.m */; };
+		18CBBBCB1F20A99A00E8C226 /* ZWAutoRefreshListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CBBBC91F20A99A00E8C226 /* ZWAutoRefreshListController.m */; };
 		18CFB7661E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */; };
 		18CFB76D1E8A6BB400F18440 /* CBGSettingURLEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB76C1E8A6BB400F18440 /* CBGSettingURLEditVC.m */; };
 		18CFB7761E8BB53F00F18440 /* CBGMixedListCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFB7751E8BB53F00F18440 /* CBGMixedListCheckVC.m */; };
@@ -2507,6 +2511,10 @@
 		18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLatestDetailCheckVC.m; sourceTree = "<group>"; };
 		18CA6E8E1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSpecialCompareListVC.h; sourceTree = "<group>"; };
 		18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSpecialCompareListVC.m; sourceTree = "<group>"; };
+		18CBBBC41F20A86100E8C226 /* ZWAutoRefreshListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWAutoRefreshListModel.h; sourceTree = "<group>"; };
+		18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWAutoRefreshListModel.m; sourceTree = "<group>"; };
+		18CBBBC81F20A99A00E8C226 /* ZWAutoRefreshListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWAutoRefreshListController.h; sourceTree = "<group>"; };
+		18CBBBC91F20A99A00E8C226 /* ZWAutoRefreshListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWAutoRefreshListController.m; sourceTree = "<group>"; };
 		18CFB7641E8904E300F18440 /* CBGCopyUrlDetailCehckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGCopyUrlDetailCehckVC.h; sourceTree = "<group>"; };
 		18CFB7651E8904E300F18440 /* CBGCopyUrlDetailCehckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGCopyUrlDetailCehckVC.m; sourceTree = "<group>"; };
 		18CFB76B1E8A6BB400F18440 /* CBGSettingURLEditVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSettingURLEditVC.h; sourceTree = "<group>"; };
@@ -3166,6 +3174,10 @@
 			children = (
 				18A96D7E1E7FC24700B48E3C /* ZWRefreshListController.h */,
 				18A96D7F1E7FC24700B48E3C /* ZWRefreshListController.m */,
+				18CBBBC81F20A99A00E8C226 /* ZWAutoRefreshListController.h */,
+				18CBBBC91F20A99A00E8C226 /* ZWAutoRefreshListController.m */,
+				18CBBBC41F20A86100E8C226 /* ZWAutoRefreshListModel.h */,
+				18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */,
 				18A96D711E7FC24700B48E3C /* ZACBGDetailWebVC.h */,
 				18A96D721E7FC24700B48E3C /* ZACBGDetailWebVC.m */,
 				18A9766F1E8145DF00B48E3C /* CBGNearHistoryVC.h */,
@@ -5163,6 +5175,7 @@
 				18A96E201E7FC2C500B48E3C /* AllSummonModel.m in Sources */,
 				18A9723A1E7FCA5C00B48E3C /* MJFoundation.m in Sources */,
 				18A975B51E7FDDD400B48E3C /* Samurai_UICollectionViewCell.m in Sources */,
+				18CBBBC61F20A86100E8C226 /* ZWAutoRefreshListModel.m in Sources */,
 				18A975531E7FDDD400B48E3C /* Samurai_Model.m in Sources */,
 				18A975B11E7FDDD400B48E3C /* Samurai_XmlSupport.m in Sources */,
 				18A972421E7FCA5C00B48E3C /* NSString+MJExtension.m in Sources */,
@@ -5185,6 +5198,7 @@
 				18A9755C1E7FDDD400B48E3C /* Samurai_ServiceConfig.m in Sources */,
 				18A1EE611E862866009312A7 /* NodeModelViewController.m in Sources */,
 				18A975481E7FDDD400B48E3C /* Samurai_Notification.m in Sources */,
+				18CBBBCA1F20A99A00E8C226 /* ZWAutoRefreshListController.m in Sources */,
 				18A96D9C1E7FC24700B48E3C /* ZWTopRefreshListController.m in Sources */,
 				1820911E1E9F555D0015E393 /* AASpline.m in Sources */,
 				18A976611E7FDE1500B48E3C /* STIHTTPNetwork.m in Sources */,
@@ -5824,6 +5838,7 @@
 				183323A91ED6B10D00B1ECEA /* MJFoundation.m in Sources */,
 				183323AA1ED6B10D00B1ECEA /* Samurai_UICollectionViewCell.m in Sources */,
 				183323AB1ED6B10D00B1ECEA /* Samurai_Model.m in Sources */,
+				18CBBBC71F20A86100E8C226 /* ZWAutoRefreshListModel.m in Sources */,
 				183323AC1ED6B10D00B1ECEA /* Samurai_XmlSupport.m in Sources */,
 				1801FA4D1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m in Sources */,
 				183323AD1ED6B10D00B1ECEA /* NSString+MJExtension.m in Sources */,
@@ -5846,6 +5861,7 @@
 				183323BD1ED6B10D00B1ECEA /* Samurai_ServiceConfig.m in Sources */,
 				183323BF1ED6B10D00B1ECEA /* NodeModelViewController.m in Sources */,
 				183323C01ED6B10D00B1ECEA /* Samurai_Notification.m in Sources */,
+				18CBBBCB1F20A99A00E8C226 /* ZWAutoRefreshListController.m in Sources */,
 				183323C11ED6B10D00B1ECEA /* ZWTopRefreshListController.m in Sources */,
 				183323C21ED6B10D00B1ECEA /* AASpline.m in Sources */,
 				183323C31ED6B10D00B1ECEA /* STIHTTPNetwork.m in Sources */,

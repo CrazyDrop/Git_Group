@@ -94,6 +94,7 @@
 {
     if(!self.executing && self.needUpdate)
     {
+        self.needUpdate = NO;
         [self refreshWebRequestWithArray:[self webRequestDataList]];
     }
     

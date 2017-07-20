@@ -178,6 +178,9 @@
         //有*100
         list.equip_eval_price = [self.eval_price intValue];
         list.equip_price =      [self.price intValue]  * 100;
+        if(detail){
+            list.equip_price = [detail.price integerValue];
+        }
         
         list.equip_type = detail.equip_type;
         list.kindid = [detail.kindid integerValue];

@@ -45,6 +45,7 @@
 #import "CBGBargainListVC.h"
 #import "ZWPanicMaxCombineUpdateVC.h"
 #import "CBGMixedUpdateAndRefreshVC.h"
+#import "ZWAutoRefreshListController.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -214,6 +215,10 @@
         case CBGDetailTestFunctionStyle_MobileAndUpdate:{
             name = @"附带更新";
         }
+            break;
+        case CBGDetailTestFunctionStyle_MobileLimit:{
+            name = @"限制刷新";
+        }
 
             
         default:
@@ -238,10 +243,10 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileLimit],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
@@ -266,8 +271,8 @@
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_BargainList],
-
-
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
                              nil];
     
     UIView * bgView = self.view;
@@ -615,7 +620,10 @@
 
         }
             break;
-            
+        case CBGDetailTestFunctionStyle_MobileLimit:{
+            ZWAutoRefreshListController * list = [[ZWAutoRefreshListController alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
 
             
     }

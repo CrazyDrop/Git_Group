@@ -87,6 +87,7 @@
 
 -(void)refreshWebRequestWithArray:(NSArray *)array
 {
+    NSLog(@"%s %@",__FUNCTION__,array);
     self.requestArr = array;
     self.oneRequest = [array count] == 1;
 }
