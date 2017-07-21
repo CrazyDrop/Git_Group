@@ -19,24 +19,8 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/WebListRefresh/CBGWebListRefreshVC.m"
-            timestampString = "522207962.1731"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "908"
-            endingLineNumber = "908"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/ListView/ZWRefreshListController.m"
-            timestampString = "522207320.751377"
+            timestampString = "522295816.478893"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1002"
@@ -51,28 +35,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/WebListRefresh/CBGWebListRefreshVC.m"
-            timestampString = "522207962.1731"
+            filePath = "WebConnectPrj/ListView/ZWRefreshListController.m"
+            timestampString = "522295816.478893"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
-            landmarkName = "handleSignal()"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/WebListRefresh/CBGWebListRefreshVC.m"
-            timestampString = "522207962.1731"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "445"
-            endingLineNumber = "445"
+            startingLineNumber = "608"
+            endingLineNumber = "608"
             landmarkName = "handleSignal()"
             landmarkType = "9">
          </BreakpointContent>
@@ -84,28 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/ListView/ZWRefreshListController.m"
-            timestampString = "522231258.126156"
+            timestampString = "522295816.478893"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "601"
-            endingLineNumber = "601"
-            landmarkName = "handleSignal()"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Update/Data/RefreshDefaultListRequestModel.m"
-            timestampString = "522236611.515729"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-refreshWebRequestWithArray:"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
+            landmarkName = "-refreshLatestListRequestModelWithSmallList:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,13 +67,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ListView/ZWAutoRefreshListController.m"
-            timestampString = "522237269.090373"
+            filePath = "WebConnectPrj/WebListRefresh/CBGWebListRefreshVC.m"
+            timestampString = "522296449.53301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
-            landmarkName = "-startOpenTimesRefreshTimer"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
+            landmarkName = "-startRefreshDataModelRequest"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/Update/Data/RefreshDefaultListRequestModel.m"
+            timestampString = "522296624.360082"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "-refreshWebRequestWithArray:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

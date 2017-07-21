@@ -49,7 +49,7 @@
 {
     if(!_webVC){
         CBGWebListRefreshVC * aWeb = [[CBGWebListRefreshVC alloc] init];
-        aWeb.pageAutoRefresh = YES;
+        aWeb.pageAutoRefresh = NO;
         [self addChildViewController:aWeb];
         _webVC = aWeb;
     }

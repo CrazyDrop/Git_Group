@@ -212,7 +212,7 @@
 }
 -(void)refreshPageIndexForLatestWebReqeust
 {
-    NSArray * urls = self.requestArr;
+    NSArray * urls = [self webRequestDataList];
     NSMutableArray * replaceArr = [NSMutableArray array];
     for (NSInteger index = 0; index < [urls count]; index ++)
     {

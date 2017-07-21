@@ -40,7 +40,8 @@ RefreshCellCopyDelgate>
     NSLock * requestLock;
 }
 //界面不消失，一直不重复大范围请求操作
-@property (nonatomic,assign) NSInteger refreshIndex;
+
+@property (nonatomic,assign) NSInteger totalPageNum;
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,copy) NSArray * dataArr;
 @property (nonatomic,copy) NSArray * dataArr2;
@@ -62,7 +63,7 @@ RefreshCellCopyDelgate>
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        self.refreshIndex = 10;
+        self.totalPageNum = 3;
         [self appendNotificationForRestartTimerRefreshWithActive];
         
         self.inWebRequesting = NO;
@@ -321,30 +322,34 @@ RefreshCellCopyDelgate>
     [alertController addAction:action];
     
     
-    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshLocalShowListForLatestSelling];
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf refreshLocalShowListForLatestSelling];
+//              }];
+//    [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"常规刷新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"刷新3页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf refreshLocalShowListForLactestUpdating];
+//                  [weakSelf refreshLocalShowListForLactestUpdating];
+                  weakSelf.totalPageNum = 3;
+                  [weakSelf refreshLatestListRequestModelWithSmallList:NO];
               }];
     [alertController addAction:action];
 
     action = [MSAlertAction actionWithTitle:@"刷新10页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+//                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.totalPageNum = 10;
+                  [weakSelf refreshLatestListRequestModelWithSmallList:NO];
               }];
     [alertController addAction:action];
 
     
-    action = [MSAlertAction actionWithTitle:@"预加载数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshLocalShowListForLargeRequest];
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"预加载数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf refreshLocalShowListForLargeRequest];
+//              }];
+//    [alertController addAction:action];
     
     action = [MSAlertAction actionWithTitle:@"屏蔽库表操作" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
@@ -383,16 +388,11 @@ RefreshCellCopyDelgate>
 -(void)refreshLocalShowListForLargeRequest
 {//3页列表数据内的变更
     //展示变更
-    self.refreshIndex = 0;
-    [self refreshLatestListRequestModelWithSmallList:NO];
+//    self.totalPageNum = 10;
+//    [self refreshLatestListRequestModelWithSmallList:NO];
 
 }
--(void)refreshLocalShowLatestCountPagesRequest
-{//3页列表数据内的变更
-    //展示变更
-    self.refreshIndex = 30;
-    self.forceRefresh = YES;
-}
+
 
 
 -(void)showForDetailHistory
@@ -507,20 +507,23 @@ RefreshCellCopyDelgate>
 -(void)refreshLatestListRequestModelWithSmallList:(BOOL)small
 {//使用小范围请求
 //    if(TARGET_IPHONE_SIMULATOR)
-    {
-        small = NO;
-    }
-    if(self.onlyList){
-        small = YES;
-    }
+//    {
+//        small = NO;
+//    }
+//    if(self.onlyList){
+//        small = YES;
+//    }
+    
+    
     //变更请求model，实现小范围请求
     EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
-    model.pageNum = small?RefreshListMinPageNum:RefreshListMaxPageNum;
+//    model.pageNum = small?RefreshListMinPageNum:RefreshListMaxPageNum;
+    model.pageNum = self.totalPageNum;
     
-    if(self.forceRefresh)
-    {
-        model.pageNum = 10;
-    }
+//    if(self.forceRefresh)
+//    {
+//        model.pageNum = 10;
+//    }
 }
 
 -(void)startRefreshDataModelRequest
@@ -557,7 +560,9 @@ RefreshCellCopyDelgate>
 //        model.saveKookie = YES;
         _dpModel = model;
         
-        if(self.refreshIndex >= 3)
+        model.pageNum = self.totalPageNum;
+        /*
+        if(self.totalPageNum >= 3)
         {
             [self refreshLatestListRequestModelWithSmallList:YES];
         }
@@ -565,10 +570,9 @@ RefreshCellCopyDelgate>
         {
             model.pageNum = 100;
         }
+         */
     }
 
-    
-//    model.timerState = [check refreshListRequestUpdate];
     model.timerState = !model.timerState;
     [model sendRequest];
 }
@@ -751,14 +755,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     [check refreshDiskCacheWithDetailRequestFinishedArray:models];
     NSArray * showModels = check.filterArray;
     
-    if([showModels count] < 10)
-    {
-        self.refreshIndex ++;
-    }
-    if(self.refreshIndex == 3)
-    {
-        [self refreshLatestListRequestModelWithSmallList:YES];
-    }
     
     //刷新展示列表
     [self refreshTableViewWithInputLatestListArray:showModels replace:NO];
@@ -972,10 +968,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             leftPriceTxt = [NSString stringWithFormat:@"%ld",listModel.equip_price/100];
         }
         
-        date = [NSDate fromString:listModel.sell_start_time];
+        date = [NSDate fromString:contact.selling_time];
         rightTimeTxt =  [date toString:@"HH:mm"];
         
-        NSTimeInterval interval = [self timeIntervalWithCreateTime:listModel.sell_create_time andSellTime:listModel.sell_start_time];
+        NSTimeInterval interval = [self timeIntervalWithCreateTime:listModel.sell_create_time andSellTime:contact.selling_time];
         if(interval < 60 * 60 * 24 )
         {
             earnColor = [UIColor orangeColor];

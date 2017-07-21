@@ -55,7 +55,7 @@ RefreshCellCopyDelgate>{
 
         [self appendNotificationForRestartTimerRefreshWithActive];
         circleTotal = 3;
-        self.pageAutoRefresh = YES;//顺序请求
+        self.pageAutoRefresh = NO;//顺序请求
         self.cookieState = YES;
         
         self.endEanble = NO;
@@ -393,11 +393,14 @@ RefreshCellCopyDelgate>{
         _dpModel = model;
         
         model.pageNum = self.pageNum;
-        model.saveKookie = self.cookieState;
-        model.autoRefresh = self.pageAutoRefresh;
-        
     }
-    model.timerState = !model.timerState;
+    model.saveKookie = self.cookieState;
+    model.autoRefresh = self.pageAutoRefresh;
+
+    if(!self.pageAutoRefresh)
+    {
+        model.timerState = !model.timerState;
+    }
     
     [model sendRequest];
 }

@@ -583,12 +583,13 @@ RefreshCellCopyDelgate>
         [model addSignalResponder:self];
         //        model.saveKookie = YES;
         _dpModel = model;
-        model.autoRefresh = self.pageAutoRefresh;
     }
-    
+    model.autoRefresh = self.pageAutoRefresh;
 
     //    model.timerState = [check refreshListRequestUpdate];
-//    model.timerState = !model.timerState;
+    if(!self.pageAutoRefresh){
+        model.timerState = !model.timerState;
+    }
     [model sendRequest];
 }
 #pragma mark ZWAutoRefreshListModel
@@ -991,10 +992,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             leftPriceTxt = [NSString stringWithFormat:@"%ld",listModel.equip_price/100];
         }
         
-        date = [NSDate fromString:listModel.sell_start_time];
+        date = [NSDate fromString:contact.selling_time];
         rightTimeTxt =  [date toString:@"HH:mm"];
         
-        NSTimeInterval interval = [self timeIntervalWithCreateTime:listModel.sell_create_time andSellTime:listModel.sell_start_time];
+        NSTimeInterval interval = [self timeIntervalWithCreateTime:listModel.sell_create_time andSellTime:contact.selling_time];
         if(interval < 60 * 60 * 24 )
         {
             earnColor = [UIColor orangeColor];
