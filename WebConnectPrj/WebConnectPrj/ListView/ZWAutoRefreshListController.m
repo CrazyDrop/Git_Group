@@ -458,18 +458,23 @@ RefreshCellCopyDelgate>
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    [requestLock unlock];
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    if(detailRefresh.executing || refresh.executing)
+    {
+        [requestLock unlock];
+    }
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     check.latestHistory = self.showArray;
     [check refreshDiskCacheWithDetailRequestFinishedArray:check.modelsArray];
     
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+//    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
     //    _detailListReqModel = nil;
     
-    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+//    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
     [refresh cancel];
     [refresh removeSignalResponder:self];
     //    _dpModel = nil;

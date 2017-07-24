@@ -443,18 +443,23 @@ RefreshCellCopyDelgate>
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-    [requestLock unlock];
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+
+    if(detailRefresh.executing || refresh.executing)
+    {
+        [requestLock unlock];
+    }
+
 
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     check.latestHistory = self.showArray;
     [check refreshDiskCacheWithDetailRequestFinishedArray:check.modelsArray];
     
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
 //    _detailListReqModel = nil;
     
-    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
     [refresh cancel];
     [refresh removeSignalResponder:self];
 //    _dpModel = nil;
@@ -1079,19 +1084,23 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     if(contact)
     {
-        NSString * planUrl = self.planWeb.showUrl;
-        if([planUrl isEqualToString:contact.detailWebUrl])
+//        NSString * planUrl = self.planWeb.showUrl;
+//        if([planUrl isEqualToString:contact.detailWebUrl])
+//        {
+//            CBGPlanDetailPreShowWebVC * detail = [[CBGPlanDetailPreShowWebVC alloc] init];
+//            detail.planWebView = self.planWeb;
+//            detail.cbgList = [contact listSaveModel];
+//            detail.detailModel = contact.equipModel;
+//            [[self rootNavigationController] pushViewController:detail animated:YES];
+//        }else
         {
-            CBGPlanDetailPreShowWebVC * detail = [[CBGPlanDetailPreShowWebVC alloc] init];
-            detail.planWebView = self.planWeb;
-            detail.cbgList = [contact listSaveModel];
-            detail.detailModel = contact.equipModel;
-            [[self rootNavigationController] pushViewController:detail animated:YES];
-        }else
-        {
+            CBGListModel * cbgModel = [contact listSaveModel];
+            if(cbgModel.plan_total_price == 0 && contact.appendHistory){
+                cbgModel = contact.appendHistory;
+            }
             
             ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
-            detail.cbgList = [contact listSaveModel];
+            detail.cbgList = cbgModel;
             detail.detailModel = contact.equipModel;
             [[self rootNavigationController] pushViewController:detail animated:YES];
         }

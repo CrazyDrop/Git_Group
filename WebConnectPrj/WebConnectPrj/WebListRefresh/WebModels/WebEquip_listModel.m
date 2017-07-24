@@ -159,6 +159,11 @@
             }
             
         }
+        
+        if([self.eval_price integerValue] > 0 && [self.eval_price integerValue] != _listSaveModel.equip_eval_price)
+        {
+            _listSaveModel = nil;
+        }
     }
 
     if(!_listSaveModel)

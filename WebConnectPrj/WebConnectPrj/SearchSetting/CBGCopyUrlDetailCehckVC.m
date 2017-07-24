@@ -1059,7 +1059,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 //            baseList.listSaveModel = nil;
             [baseList refrehLocalBaseListModelWithDetail:detailEve];
             CBGListModel * list = [baseList listSaveModel];
-            
+                        
             NSString * urlString = baseList.detailWebUrl;
             
             NSString * prePrice = list.plan_des;

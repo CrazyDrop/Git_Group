@@ -32,6 +32,8 @@
 @property (nonatomic,strong) UIView * tipsErrorView;
 @property (nonatomic,assign) NSInteger countNum;
 @property (nonatomic,assign) NSInteger randNum;
+@property (nonatomic,strong) UIView * errorTips;
+@property (nonatomic,assign) NSInteger errorNum;
 @end
 
 @implementation ZWPanicMaxCombineUpdateVC
@@ -167,7 +169,13 @@
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
     NSLog(@"%s",__FUNCTION__);
-
+    //修改文本，提示网络异常
+    self.errorTips.hidden = NO;
+    self.errorNum ++;
+    if(self.errorNum %5 == 0)
+    {
+//        [DZUtils vibrate];
+    }
 }
 handleSignal( EquipDetailArrayRequestModel, requestLoading )
 {
@@ -176,6 +184,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoading )
 handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 {
     NSLog(@"%s",__FUNCTION__);
+    self.errorTips.hidden = YES;
     
     //进行存储操作、展示
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
@@ -267,12 +276,13 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 }
 
 
--(UIView *)tipsErrorView{
+-(UIView *)tipsErrorView
+{
     if(!_tipsErrorView)
     {
         CGFloat btnWidth = 100;
         UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
-        aView.backgroundColor = [UIColor redColor];
+        aView.backgroundColor = [UIColor greenColor];
         
         UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
         albl.text = @"重置统计";
@@ -286,6 +296,28 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }
     return _tipsErrorView;
 }
+-(UIView *)errorTips
+{
+    if(!_errorTips)
+    {
+        CGFloat btnWidth = 100;
+        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
+        aView.backgroundColor = [UIColor redColor];
+        
+        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
+        albl.text = @"错误(刷新)";
+        [albl sizeToFit];
+        [aView addSubview:albl];
+        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
+        
+//        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedRefreshGesture:)];
+//        [aView addGestureRecognizer:tapGes];
+        self.errorTips = aView;
+    }
+    return _errorTips;
+}
+
+
 -(void)tapedOnExchangeTotalWithTapedBtn:(id)sender
 {
     self.countNum = 0;
@@ -616,6 +648,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     [self.view addSubview:self.tipsErrorView];
     self.tipsErrorView.hidden = NO;
+    
+    [self.view addSubview:self.errorTips];
+    self.errorTips.hidden = NO;
+
 }
 
 - (void)didReceiveMemoryWarning {

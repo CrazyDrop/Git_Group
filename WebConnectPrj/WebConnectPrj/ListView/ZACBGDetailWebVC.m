@@ -316,8 +316,21 @@
         [edit appendFormat:@"召唤 %.0ld \n",list.plan_zhaohuanshou_price];
         prePrice = edit;
         
-        if(self.cbgList.equip_eval_price > 0){
-            prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld\n",self.cbgList.equip_eval_price/100];
+        if(list.equip_eval_price == 0)
+        {
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:baseList.game_ordersn];
+            if([orderArr count] > 0)
+            {
+                CBGListModel * orCBG = [orderArr lastObject];
+                if(orCBG.equip_eval_price > 0){
+                    list.equip_eval_price = orCBG.equip_eval_price;
+                }
+            }
+        }
+
+        if(list.equip_eval_price > 0){
+            prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld\n",list.equip_eval_price/100];
         }
 //        prePrice = [prePrice stringByAppendingFormat:@"\n估价:%@",txtValue];
         txt.text = prePrice;
@@ -517,8 +530,22 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             [edit appendFormat:@"召唤 %.0ld \n",list.plan_zhaohuanshou_price];
             
             prePrice = edit;
-            if(self.cbgList.equip_eval_price > 0){
-                prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld\n",self.cbgList.equip_eval_price/100];
+            
+            if(list.equip_eval_price == 0)
+            {
+                ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+                NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:baseList.game_ordersn];
+                if([orderArr count] > 0)
+                {
+                    CBGListModel * orCBG = [orderArr lastObject];
+                    if(orCBG.equip_eval_price > 0){
+                        list.equip_eval_price = orCBG.equip_eval_price;
+                    }
+                }
+            }
+            
+            if(list.equip_eval_price > 0){
+                prePrice = [prePrice stringByAppendingFormat:@"  系统:%ld\n",list.equip_eval_price/100];
             }
 //            prePrice = [prePrice stringByAppendingFormat:@"\n估价:%@",urlString];
             self.txtView.text = prePrice;
