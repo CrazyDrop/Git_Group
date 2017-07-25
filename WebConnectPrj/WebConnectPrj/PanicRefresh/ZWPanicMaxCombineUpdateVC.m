@@ -164,18 +164,23 @@
     [model sendRequest];
     
 }
+-(void)refreshTipStateWithError:(BOOL)error
+{
+    self.errorTips.hidden = NO;
+    self.errorNum ++;
+    if(self.errorNum %5 == 0)
+    {
+        
+        AudioServicesPlaySystemSound(1327);
+    }
+}
 
 #pragma mark EquipDetailArrayRequestModel
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
     NSLog(@"%s",__FUNCTION__);
     //修改文本，提示网络异常
-    self.errorTips.hidden = NO;
-    self.errorNum ++;
-    if(self.errorNum %5 == 0)
-    {
-//        [DZUtils vibrate];
-    }
+    [self refreshTipStateWithError:YES];
 }
 handleSignal( EquipDetailArrayRequestModel, requestLoading )
 {
@@ -184,7 +189,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoading )
 handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 {
     NSLog(@"%s",__FUNCTION__);
-    self.errorTips.hidden = YES;
+    
     
     //进行存储操作、展示
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
@@ -206,6 +211,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             errorNum ++;
             [detailModels addObject:[NSNull null]];
         }
+    }
+    
+    {
+        BOOL showError = errorNum == [list count];
+        [self refreshTipStateWithError:showError];
     }
     
     @synchronized (detailModelDic)
@@ -562,6 +572,14 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"添加库表缓存" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLatestDatabaseListDataForLatestUnSell];
+                  
+              }];
+    [alertController addAction:action];
+
+    
     action = [MSAlertAction actionWithTitle:@"合并历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   [weakSelf combineSeperatedLocalDBModelForTotalList];
@@ -591,6 +609,25 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
                      completion:nil];
     
 }
+-(void)refreshLatestDatabaseListDataForLatestUnSell
+{
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * sortArr = [manager localSaveEquipHistoryModelListEquipUnSell];
+    NSMutableArray * orderArr = [NSMutableArray array];
+    for (CBGListModel * eve in sortArr )
+    {
+        NSString * orderSN = eve.game_ordersn;
+        if(![orderArr containsObject:orderSN]){
+            [orderArr addObject:orderSN];
+        }
+    }
+    
+    NSDictionary * appDic = [self historyRequestDetailListFromOrderArray:orderArr];
+    @synchronized (detailModelDic)
+    {
+        [detailModelDic addEntriesFromDictionary:appDic];
+    }
+}
 
 - (void)viewDidLoad {
     self.rightTitle = @"更多";
@@ -613,24 +650,9 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSInteger vcNum = [self.panicTagArr count];
     NSMutableArray * vcArr = [NSMutableArray array];
     //    scrollView.contentSize = CGSizeMake(rect.size.width * vcNum, rect.size.height);
-    
-    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSArray * dataArr = [total.orderSnCache objectFromJSONString];
-    
-    NSMutableDictionary * appDic = [NSMutableDictionary dictionary];
-    for (NSInteger index = 0 ;index < [dataArr count] ;index ++)
-    {
-        NSString * eveKey = [dataArr objectAtIndex:index];
-        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveKey];
-        if([arr count] > 0){
-            CBGListModel * cbgList = [arr firstObject];
-            Equip_listModel * list = [[Equip_listModel alloc] init];
-            list.serverid = [NSNumber numberWithInteger:cbgList.server_id];
-            list.game_ordersn = cbgList.game_ordersn;
-            [appDic setObject:list forKey:[list listCombineIdfa]];
-        }
-    }
+    NSDictionary * appDic = [self historyRequestDetailListFromOrderArray:dataArr];
     [detailModelDic addEntriesFromDictionary:appDic];
     
     for (NSInteger index = 0; index < vcNum; index ++)
@@ -650,8 +672,26 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     self.tipsErrorView.hidden = NO;
     
     [self.view addSubview:self.errorTips];
-    self.errorTips.hidden = NO;
+    self.errorTips.hidden = YES;
 
+}
+-(NSDictionary *)historyRequestDetailListFromOrderArray:(NSArray *)dataArr
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSMutableDictionary * appDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0 ;index < [dataArr count] ;index ++)
+    {
+        NSString * eveKey = [dataArr objectAtIndex:index];
+        NSArray * arr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveKey];
+        if([arr count] > 0){
+            CBGListModel * cbgList = [arr firstObject];
+            Equip_listModel * list = [[Equip_listModel alloc] init];
+            list.serverid = [NSNumber numberWithInteger:cbgList.server_id];
+            list.game_ordersn = cbgList.game_ordersn;
+            [appDic setObject:list forKey:[list listCombineIdfa]];
+        }
+    }
+    return appDic;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -1902,9 +1902,16 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 
                 if(preModel.equip_status != model.equip_status)
                 {
-                    preModel.equip_status = model.equip_status;
-                    ingoreRefresh = NO;
+                    //排除特殊存储情况
+                    if(model.equip_status == 1 && (preModel.equip_status == 11 || preModel.equip_status == 12)){
+                        
+                    }else
+                    {
+                        preModel.equip_status = model.equip_status;
+                        ingoreRefresh = NO;
+                    }
                 }
+
 
                 
                 if(ingoreRefresh)
@@ -2021,6 +2028,18 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.appointed = model.appointed;
                     ingoreRefresh = NO;
                 }
+                
+                if(preModel.equip_status != model.equip_status)
+                {
+                    //排除特殊存储情况
+                    if(model.equip_status == 1 && (preModel.equip_status == 11 || preModel.equip_status == 12)){
+                        
+                    }else
+                    {
+                        preModel.equip_status = model.equip_status;
+                        ingoreRefresh = NO;
+                    }
+                }
 
                 
                 if(ingoreRefresh)
@@ -2105,9 +2124,16 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                 
                 if(preModel.equip_status != model.equip_status)
                 {
-                    preModel.equip_status = model.equip_status;
-                    ingoreRefresh = NO;
+                    //排除特殊存储情况
+                    if(model.equip_status == 1 && (preModel.equip_status == 11 || preModel.equip_status == 12)){
+                        
+                    }else
+                    {
+                        preModel.equip_status = model.equip_status;
+                        ingoreRefresh = NO;
+                    }
                 }
+
 
                 
                 
@@ -2378,6 +2404,35 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
 }
+-(NSArray *)localSaveEquipHistoryModelListEquipUnSell
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         //         [sqlMutableString appendString:@"select * from ZADATABASE_TABLE_EQUIP_TOTAL where EQUIP_PRICE < 200000"];
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = 1 or %@ = 11 or  %@ = 12 ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             //             location.equip_status = 4;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+}
+
 -(NSArray *)localSaveEquipHistoryModelListEquipPriceError
 {
     NSMutableArray *totalArray=[NSMutableArray array];

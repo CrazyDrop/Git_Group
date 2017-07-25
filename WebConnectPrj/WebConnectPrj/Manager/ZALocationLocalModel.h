@@ -77,6 +77,7 @@
 -(void)deleteLocalSaveEquipHistoryObjectWithCBGModelOrderSN:(NSString *)ordersn;
 -(NSArray *)localSaveEquipHistoryModelListWithIngoreNumber:(NSInteger)number;
 -(NSArray *)localSaveEquipHistoryModelListTotal;
+-(NSArray *)localSaveEquipHistoryModelListEquipUnSell;
 -(NSArray *)localSaveEquipHistoryModelListEquipPriceError;
 -(NSArray *)localSaveEquipHistoryModelListTotalWithSoldOut;
 -(NSArray *)localSaveEquipHistoryModelListTotalWithUnFinished;

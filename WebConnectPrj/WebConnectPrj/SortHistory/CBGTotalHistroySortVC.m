@@ -84,6 +84,14 @@
     self.dbHistoryArr = sortArr;
     [self refreshLatestShowTableView];
 }
+-(void)refreshLatestDatabaseListDataForLatestUnSell
+{
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * sortArr = [manager localSaveEquipHistoryModelListEquipUnSell];
+    
+    self.dbHistoryArr = sortArr;
+    [self refreshLatestShowTableView];
+}
 
 -(void)showDetailChooseForHistory
 {
@@ -98,9 +106,9 @@
                              }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"估价失败列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"暂存列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  [weakSelf refreshLatestDatabaseListDataForEarnPriceIsNull];
+                  [weakSelf refreshLatestDatabaseListDataForLatestUnSell];
               }];
     
     [alertController addAction:action];

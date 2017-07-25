@@ -27,6 +27,25 @@
 #define IP_ADDR_IPv6    @"ipv6"
 
 @implementation DZUtils
++ (NSString *)currentDeviceIdentifer
+{
+    NSString * preStr = [SFHFKeychainUtils commonStaticAppDeviceId];
+    NSString * defautStr = [[NSUserDefaults standardUserDefaults] valueForKey:NSUSERDEFAULT_CHECK_DEVICEID_IDENTIFIER];
+    
+    if(!defautStr)
+    {
+        return preStr;
+    }
+    
+    if([defautStr isEqualToString:preStr])
+    {
+        return preStr;
+    }
+    
+    return defautStr;
+}
+
+
 +(void)startNoticeWithLocalUrl:(NSString *)localUrl
 {
     ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
@@ -613,24 +632,6 @@
     if ([platform isEqualToString:@"i386"])      return @"iPhone Simulator";
     if ([platform isEqualToString:@"x86_64"])    return @"iPhone Simulator";
     return platform;
-}
-
-+ (NSString *)currentDeviceIdentifer
-{
-    NSString * preStr = [SFHFKeychainUtils commonStaticAppDeviceId];
-    NSString * defautStr = [[NSUserDefaults standardUserDefaults] valueForKey:NSUSERDEFAULT_CHECK_DEVICEID_IDENTIFIER];
-    
-    if(!defautStr)
-    {
-        return preStr;
-    }
-    
-    if([defautStr isEqualToString:preStr])
-    {
-        return preStr;
-    }
-    
-    return defautStr;
 }
 
 
