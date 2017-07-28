@@ -444,6 +444,11 @@
         leftPriceColor = Custom_Blue_Button_BGColor;
     }
     
+    if([contact.owner_roleid intValue] == self.selectedRoleId)
+    {
+        centerDetailTxt = [NSString stringWithFormat:@"(同)%@",centerDetailTxt];
+        numcolor = [UIColor redColor];
+    }
     
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据
     cell.totalNumLbl.text = centerDetailTxt;

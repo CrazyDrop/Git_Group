@@ -46,6 +46,8 @@
 #import "ZWPanicMaxCombineUpdateVC.h"
 #import "CBGMixedUpdateAndRefreshVC.h"
 #import "ZWAutoRefreshListController.h"
+#import "ZWServerRefreshListVC.h"
+#import "CBGMixedServerMobileRefreshVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -219,7 +221,15 @@
         case CBGDetailTestFunctionStyle_MobileLimit:{
             name = @"限制刷新";
         }
-
+            break;
+        case CBGDetailTestFunctionStyle_MobileServer:{
+            name = @"服务器刷新";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_MixedServer:{
+            name = @"服务器混合";
+        }
+            break;
             
         default:
             break;
@@ -273,6 +283,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_BargainList],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedServer],
                              nil];
     
     UIView * bgView = self.view;
@@ -622,6 +633,17 @@
             break;
         case CBGDetailTestFunctionStyle_MobileLimit:{
             ZWAutoRefreshListController * list = [[ZWAutoRefreshListController alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
+        case CBGDetailTestFunctionStyle_MobileServer:
+        {
+            ZWServerRefreshListVC * list = [[ZWServerRefreshListVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
+        case CBGDetailTestFunctionStyle_MixedServer:{
+            CBGMixedServerMobileRefreshVC * list = [[CBGMixedServerMobileRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
 

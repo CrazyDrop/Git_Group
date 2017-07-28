@@ -105,7 +105,7 @@
                 eveModel.earnPrice = hisList.price_earn_plan;
             }
             
-            if(eveModel.earnRate > 0){
+            if(eveModel.earnRate > 0 || [eveModel.price integerValue] == 0){
                 [modelsDic setObject:eveModel forKey:identifier];
             }else
             {
@@ -165,7 +165,9 @@
         eveModel.appendHistory = list;
         
         //估价价格都相同
-        if(([eveModel.eval_price integerValue] == 0 || [eveModel.eval_price integerValue] == list.equip_eval_price) && [eveModel.price integerValue] == list.equip_price / 100)
+        if([eveModel.price integerValue] == 0){
+            result = NO;
+        }else if(([eveModel.eval_price integerValue] == 0 || [eveModel.eval_price integerValue] == list.equip_eval_price) && [eveModel.price integerValue] == list.equip_price / 100)
         {
             //估价需要更新返回NO
             result = YES;

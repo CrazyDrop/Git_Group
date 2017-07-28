@@ -41,6 +41,8 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_BargainList,
     CBGDetailTestFunctionStyle_MobileAndUpdate,
     CBGDetailTestFunctionStyle_MobileLimit,
+    CBGDetailTestFunctionStyle_MobileServer,
+    CBGDetailTestFunctionStyle_MixedServer,
 } CBGDetailTestFunctionStyle;
 
 

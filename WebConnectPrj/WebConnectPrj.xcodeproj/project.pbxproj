@@ -1343,6 +1343,12 @@
 		18EFD52F1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */; };
 		18F6DBF41EF915060047E586 /* CBGWebDBDownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */; };
 		18F6DBF51EF915060047E586 /* CBGWebDBDownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */; };
+		18F8DACD1F2ADAAD00530041 /* ZWServerRefreshListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8DACC1F2ADAAD00530041 /* ZWServerRefreshListVC.m */; };
+		18F8DACE1F2ADAAD00530041 /* ZWServerRefreshListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8DACC1F2ADAAD00530041 /* ZWServerRefreshListVC.m */; };
+		18F8DAD11F2ADB4500530041 /* ServerRefreshRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8DAD01F2ADB4500530041 /* ServerRefreshRequestModel.m */; };
+		18F8DAD21F2ADB4500530041 /* ServerRefreshRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8DAD01F2ADB4500530041 /* ServerRefreshRequestModel.m */; };
+		18F8DAD51F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8DAD41F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m */; };
+		18F8DAD61F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8DAD41F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2555,6 +2561,12 @@
 		18EFD52E1EADA8630084BD19 /* CBGSortHistoryBaseSortVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseSortVC.m; sourceTree = "<group>"; };
 		18F6DBF21EF915060047E586 /* CBGWebDBDownModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGWebDBDownModel.h; sourceTree = "<group>"; };
 		18F6DBF31EF915060047E586 /* CBGWebDBDownModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGWebDBDownModel.m; sourceTree = "<group>"; };
+		18F8DACB1F2ADAAD00530041 /* ZWServerRefreshListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerRefreshListVC.h; sourceTree = "<group>"; };
+		18F8DACC1F2ADAAD00530041 /* ZWServerRefreshListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerRefreshListVC.m; sourceTree = "<group>"; };
+		18F8DACF1F2ADB4500530041 /* ServerRefreshRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerRefreshRequestModel.h; sourceTree = "<group>"; };
+		18F8DAD01F2ADB4500530041 /* ServerRefreshRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerRefreshRequestModel.m; sourceTree = "<group>"; };
+		18F8DAD31F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMixedServerMobileRefreshVC.h; sourceTree = "<group>"; };
+		18F8DAD41F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGMixedServerMobileRefreshVC.m; sourceTree = "<group>"; };
 		54D455CCBA25D814B44BC0F3 /* Pods-WebConnectPrj.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebConnectPrj.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WebConnectPrj/Pods-WebConnectPrj.debug.xcconfig"; sourceTree = "<group>"; };
 		80DC97B00F800707692AF83F /* Pods-WebConnectPrj.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebConnectPrj.release.xcconfig"; path = "Pods/Target Support Files/Pods-WebConnectPrj/Pods-WebConnectPrj.release.xcconfig"; sourceTree = "<group>"; };
 		FECE0F68A828063AB3ECEF65 /* libPods-WebConnectPrj.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebConnectPrj.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2667,6 +2679,7 @@
 		180D589919E622680045A720 /* WebConnectPrj */ = {
 			isa = PBXGroup;
 			children = (
+				18F8DACA1F2ACB4300530041 /* ServerRefresh */,
 				18227A8F1F04F52200A6291B /* CBGPlanModel */,
 				1892CA401EC9A7E1006AA762 /* AutoBuy */,
 				1892CA3F1EC9A7C8006AA762 /* PanicRefresh */,
@@ -3182,10 +3195,10 @@
 				18A96D721E7FC24700B48E3C /* ZACBGDetailWebVC.m */,
 				18A9766F1E8145DF00B48E3C /* CBGNearHistoryVC.h */,
 				18A976701E8145DF00B48E3C /* CBGNearHistoryVC.m */,
-				18A96D791E7FC24700B48E3C /* ZWHistoryListController.h */,
-				18A96D7A1E7FC24700B48E3C /* ZWHistoryListController.m */,
 				18A976721E8148CB00B48E3C /* ZACBGListDetailShowVC.h */,
 				18A976731E8148CB00B48E3C /* ZACBGListDetailShowVC.m */,
+				18A96D791E7FC24700B48E3C /* ZWHistoryListController.h */,
+				18A96D7A1E7FC24700B48E3C /* ZWHistoryListController.m */,
 				18A96D801E7FC24700B48E3C /* ZWSortHistroyController.h */,
 				18A96D811E7FC24700B48E3C /* ZWSortHistroyController.m */,
 				18A96D6E1E7FC24700B48E3C /* RefreshListCell.h */,
@@ -4737,6 +4750,8 @@
 				18A9EC681E974D4100B92192 /* CBGPlanDetailPreShowWebVC.m */,
 				181B5ED71F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.h */,
 				181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */,
+				18F8DAD31F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.h */,
+				18F8DAD41F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m */,
 			);
 			path = MixedListRefresh;
 			sourceTree = "<group>";
@@ -4774,6 +4789,17 @@
 				18AF92011F0E2D88004D07FF /* CBGBargainListVC.m */,
 			);
 			path = SortHistory;
+			sourceTree = "<group>";
+		};
+		18F8DACA1F2ACB4300530041 /* ServerRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				18F8DACB1F2ADAAD00530041 /* ZWServerRefreshListVC.h */,
+				18F8DACC1F2ADAAD00530041 /* ZWServerRefreshListVC.m */,
+				18F8DACF1F2ADB4500530041 /* ServerRefreshRequestModel.h */,
+				18F8DAD01F2ADB4500530041 /* ServerRefreshRequestModel.m */,
+			);
+			path = ServerRefresh;
 			sourceTree = "<group>";
 		};
 		B5F031987882F700AE9E0DE6 /* Pods */ = {
@@ -5084,6 +5110,7 @@
 				18A976041E7FDDD500B48E3C /* ServiceGestureSetting.m in Sources */,
 				18A975681E7FDDD400B48E3C /* Samurai_CssParser.m in Sources */,
 				18A975161E7FDDD400B48E3C /* JSONKit.m in Sources */,
+				18F8DAD11F2ADB4500530041 /* ServerRefreshRequestModel.m in Sources */,
 				18A975131E7FDDD400B48E3C /* OLConfigDataModel.m in Sources */,
 				18A9751F1E7FDDD400B48E3C /* OLBasicViewController.m in Sources */,
 				1833209D1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
@@ -5116,6 +5143,7 @@
 				180D58A319E622680045A720 /* ViewController.m in Sources */,
 				18A96E311E7FC2C500B48E3C /* Summon_equip2Model.m in Sources */,
 				18A9753E1E7FDDD400B48E3C /* Samurai_Runtime.m in Sources */,
+				18F8DACD1F2ADAAD00530041 /* ZWServerRefreshListVC.m in Sources */,
 				18A975901E7FDDD400B48E3C /* Samurai_HtmlColor.m in Sources */,
 				18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */,
 				18A9757D1E7FDDD400B48E3C /* HtmlElement_P.m in Sources */,
@@ -5444,6 +5472,7 @@
 				18A975301E7FDDD400B48E3C /* NSDate+Extension.m in Sources */,
 				18A975EB1E7FDDD500B48E3C /* fishhook.c in Sources */,
 				18A975931E7FDDD400B48E3C /* Samurai_HtmlNumberAutomatic.m in Sources */,
+				18F8DAD51F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m in Sources */,
 				18A976151E7FDDD500B48E3C /* ServiceMonitorMemoryModel.m in Sources */,
 				18A9752D1E7FDDD400B48E3C /* NSArray+Extension.m in Sources */,
 				18A975C21E7FDDD400B48E3C /* Samurai_UIWebView.m in Sources */,
@@ -5747,6 +5776,7 @@
 				183323551ED6B10D00B1ECEA /* Samurai_CssParser.m in Sources */,
 				183323561ED6B10D00B1ECEA /* JSONKit.m in Sources */,
 				183323571ED6B10D00B1ECEA /* OLConfigDataModel.m in Sources */,
+				18F8DAD21F2ADB4500530041 /* ServerRefreshRequestModel.m in Sources */,
 				183323581ED6B10D00B1ECEA /* OLBasicViewController.m in Sources */,
 				183323591ED6B10D00B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
 				1833235A1ED6B10D00B1ECEA /* FMResultSet.m in Sources */,
@@ -5779,6 +5809,7 @@
 				183323701ED6B10D00B1ECEA /* Summon_equip2Model.m in Sources */,
 				183323711ED6B10D00B1ECEA /* Samurai_Runtime.m in Sources */,
 				183323721ED6B10D00B1ECEA /* Samurai_HtmlColor.m in Sources */,
+				18F8DACE1F2ADAAD00530041 /* ZWServerRefreshListVC.m in Sources */,
 				183323731ED6B10D00B1ECEA /* CBGSortHistoryBaseTableVC.m in Sources */,
 				183323741ED6B10D00B1ECEA /* HtmlElement_P.m in Sources */,
 				183323751ED6B10D00B1ECEA /* AAPlotOptions.m in Sources */,
@@ -6107,6 +6138,7 @@
 				183324B01ED6B10D00B1ECEA /* fishhook.c in Sources */,
 				183324B11ED6B10D00B1ECEA /* Samurai_HtmlNumberAutomatic.m in Sources */,
 				183324B21ED6B10D00B1ECEA /* ServiceMonitorMemoryModel.m in Sources */,
+				18F8DAD61F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m in Sources */,
 				183324B31ED6B10D00B1ECEA /* NSArray+Extension.m in Sources */,
 				183324B41ED6B10D00B1ECEA /* Samurai_UIWebView.m in Sources */,
 				183324B51ED6B10D00B1ECEA /* AATitle.m in Sources */,
@@ -6414,7 +6446,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6432,7 +6464,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

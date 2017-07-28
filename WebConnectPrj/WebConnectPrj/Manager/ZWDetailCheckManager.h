@@ -14,6 +14,7 @@
 //check出现问题，或者出现请求后库表处理问题
 +(instancetype)sharedInstance;
 
+@property (nonatomic,strong) NSArray * serverHistory;
 @property (nonatomic,strong) NSArray * latestHistory;  //缓存列表，进行展示
 
 @property (nonatomic,strong) NSArray * modelsArray;

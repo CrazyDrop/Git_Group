@@ -182,23 +182,24 @@
         list.equip_name =       detail.owner_nickname;
         //有*100
         list.equip_eval_price = [self.eval_price intValue];
-        list.equip_price =      [self.price intValue]  * 100;
-        if(detail){
+        if(detail)
+        {
             list.equip_price = [detail.price integerValue];
+            if(list.equip_price == 0)
+            {
+                list.equip_price = [detail.last_price_desc integerValue] * 100;
+            }
+            
+            list.equip_start_price = [detail.last_price_desc intValue];
+        }else
+        {
+            list.equip_price = [self.price intValue];
+            list.equip_start_price = [self.price intValue]/100;
         }
         
         list.equip_type = detail.equip_type;
         list.kindid = [detail.kindid integerValue];
-        //无*100
-        list.equip_start_price = [detail.last_price_desc intValue];
-        if(list.equip_price == 0)
-        {
-            list.equip_price = [self.price integerValue];
-        }
-        if(list.equip_start_price == 0)
-        {
-            list.equip_start_price = list.equip_price/100;
-        }
+        
         if(detail.appointed_roleid && [detail.appointed_roleid length] > 0)
         {
             list.fav_or_ingore = 2;
