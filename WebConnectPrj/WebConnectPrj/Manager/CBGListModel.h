@@ -51,7 +51,7 @@ typedef enum : NSUInteger
 @property (nonatomic, strong) NSString * game_ordersn;
 @property (nonatomic, strong) NSString * owner_roleid;
 @property (nonatomic, assign) NSInteger server_id;
-
+@property (nonatomic, assign) NSInteger equip_id;
 //整理数据字段 存储
 @property (nonatomic, assign) NSInteger  equip_status;
 

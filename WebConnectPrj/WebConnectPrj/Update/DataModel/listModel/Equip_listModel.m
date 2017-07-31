@@ -211,6 +211,7 @@
         list.equip_name =       detail.owner_nickname;
         if(detail)
         {
+            list.equip_id = [detail.equipid integerValue];
             list.equip_price = [detail.price integerValue];
             if(list.equip_price == 0)
             {

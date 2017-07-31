@@ -206,8 +206,14 @@
                         resultStr = [dic JSONString];
                     }
                 }
+                
+                if([resultStr hasPrefix:@"http"])
+                {
+                    dic = @{@"html":resultStr};
+                }
             }
             dic = [resultStr objectFromJSONString];
+            
             if(!dic){
                 NSLog(@"%s %@ ",__FUNCTION__,resultStr);
             }

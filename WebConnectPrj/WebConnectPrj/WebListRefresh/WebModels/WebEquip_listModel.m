@@ -176,6 +176,7 @@
         list.owner_roleid = detail.owner_roleid;
         list.server_id = [self.serverid intValue];
         
+        
         list.equip_status = [self.status intValue];
         
         list.equip_level =      [detail.equip_level intValue];
@@ -184,6 +185,7 @@
         list.equip_eval_price = [self.eval_price intValue];
         if(detail)
         {
+            list.equip_id = [detail.equipid integerValue];
             list.equip_price = [detail.price integerValue];
             if(list.equip_price == 0)
             {

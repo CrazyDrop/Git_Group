@@ -50,6 +50,7 @@
     self.kindid = [aDetaiModel.kindid integerValue];
     
     self.equip_more_append = [self createLatestMoreAppendString];
+    self.equip_id = [aDetaiModel.equipid integerValue];
 
     
     CBGPlanModel * planModel = [CBGPlanModel planModelForDetailEquipModel:aDetaiModel];

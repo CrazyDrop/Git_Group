@@ -28,7 +28,9 @@
 @end
 
 @interface ZALocationLocalModelManager:NSObject
-
+{
+    
+}
 +(instancetype)sharedInstance;
 +(NSString *)localSaveReadDBPath;
 +(NSString *)localSaveTotalDBPath;
@@ -93,6 +95,10 @@
 -(NSArray *)localSaveEquipHistoryModelListRepeatSoldTimesMore:(BOOL)more;
 -(NSArray *)localSaveEquipHistoryModelListOwnerList;
 -(void)refreshLocalSaveEquipHistoryModelServerId:(NSString *)preId withLatest:(NSString *)latestId;
+
+//读取最新的服务器列表、库表最大id
+-(NSArray *)localSaveEquipServerMaxEquipIdAndServerIdList;
+
 
 //服务器名称存储操作
 -(NSArray *)localServerNameAndIDTotalDictionaryArray;

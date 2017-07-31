@@ -61,8 +61,8 @@
         total.localURL2 = nil;
         [total localSave];
     }
-    if(total.minServerId == 0){
-        total.minServerId = 723;//当前最接近三年外的服务器，群星璀璨
+    if(total.minServerId == 0 || total.minServerId == 723 || total.minServerId == 730){
+        total.minServerId = 732;//当前最接近三年外的服务器，群星璀璨
         [total localSave];
     }
     if(total.limitPrice == 0 && total.limitRate == 0){

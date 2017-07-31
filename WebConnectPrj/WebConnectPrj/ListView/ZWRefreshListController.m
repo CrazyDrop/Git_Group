@@ -31,6 +31,9 @@
 #import "CBGNearHistoryVC.h"
 #import "CBGDetailWebView.h"
 #import "CBGPlanDetailPreShowWebVC.h"
+
+#import "CBGZhaohuanListRequestModel.h"
+
 #define MonthTimeIntervalConstant 60*60*24*(30)
 @interface ZWRefreshListController ()<UITableViewDataSource,UITableViewDelegate,
 RefreshCellCopyDelgate>
@@ -557,10 +560,11 @@ RefreshCellCopyDelgate>
     NSLog(@"%s",__FUNCTION__);
     
     EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
-    
+//    CBGZhaohuanListRequestModel * model = (CBGZhaohuanListRequestModel *)_dpModel;
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
         model = [[EquipListRequestModel alloc] init];
+//        model = [[CBGZhaohuanListRequestModel alloc] init];
         [model addSignalResponder:self];
 //        model.saveKookie = YES;
         _dpModel = model;

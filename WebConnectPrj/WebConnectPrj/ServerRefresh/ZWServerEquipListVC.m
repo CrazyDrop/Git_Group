@@ -1,11 +1,12 @@
 //
-//  ZWServerRefreshListVC.m
+//  ZWServerEquipListVC.m
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/7/28.
+//  Created by Apple on 2017/7/31.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
+#import "ZWServerEquipListVC.h"
 #import "ZWServerRefreshListVC.h"
 #import "RefreshListCell.h"
 #import "ZWDataDetailModel.h"
@@ -27,12 +28,13 @@
 #import "ZACBGDetailWebVC.h"
 #import "RefreshEquipListAllDataManager.h"
 #import "ServerRefreshRequestModel.h"
-#import "EquipDetailArrayRequestModel.h"
+#import "ServerEquipIdRequestModel.h"
 #import "CBGNearHistoryVC.h"
 #import "CBGDetailWebView.h"
 #import "CBGPlanDetailPreShowWebVC.h"
+#import "ZWServerEquipModel.h"
 #define MonthTimeIntervalConstant 60*60*24*(30)
-@interface ZWServerRefreshListVC ()<UITableViewDataSource,UITableViewDelegate,
+@interface ZWServerEquipListVC ()<UITableViewDataSource,UITableViewDelegate,
 RefreshCellCopyDelgate>
 {
     BaseRequestModel * _detailListReqModel;
@@ -61,24 +63,24 @@ RefreshCellCopyDelgate>
 @property (nonatomic,assign) BOOL forceRefresh;
 @end
 
-@implementation ZWServerRefreshListVC
-
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if(self){
-        self.serverNum = 30;
-        [self appendNotificationForRestartTimerRefreshWithActive];
-        
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        self.totalArr = [total.serverNameDic allKeys];
-        
-        self.inWebRequesting = NO;
-        requestLock = [[NSLock alloc] init];
-    }
+@implementation ZWServerEquipListVC
     
-    return self;
-}
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+    {
+        self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+        if(self){
+            self.serverNum = 30;
+            [self appendNotificationForRestartTimerRefreshWithActive];
+            
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            self.totalArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
+            
+            self.inWebRequesting = NO;
+            requestLock = [[NSLock alloc] init];
+        }
+        
+        return self;
+    }
 -(NSArray *)latestServerIdArr
 {
     NSArray * allArr = self.totalArr;
@@ -100,33 +102,31 @@ RefreshCellCopyDelgate>
     NSArray * part = [allArr subarrayWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
     NSMutableArray * data = [NSMutableArray array];
     [data addObjectsFromArray:part];
-    [data removeObject:[NSNumber numberWithInt:45]];
-    [data removeObject:@"45"];
     return data;
 }
-
--(void)appendNotificationForRestartTimerRefreshWithActive
-{
-    //    UIApplicationDidBecomeActiveNotification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(checkLatestVCAndStartTimer)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
     
-}
--(void)checkLatestVCAndStartTimer
-{
-    NSArray * arr = [[self rootNavigationController] viewControllers];
-    if([arr count] > 0){
-        UIViewController * vc = [arr lastObject];
+-(void)appendNotificationForRestartTimerRefreshWithActive
+    {
+        //    UIApplicationDidBecomeActiveNotification
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(checkLatestVCAndStartTimer)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
         
-        if([vc isKindOfClass:[self class]]){
-            [self startLocationDataRequest];
+    }
+-(void)checkLatestVCAndStartTimer
+    {
+        NSArray * arr = [[self rootNavigationController] viewControllers];
+        if([arr count] > 0){
+            UIViewController * vc = [arr lastObject];
+            
+            if([vc isKindOfClass:[self class]]){
+                [self startLocationDataRequest];
+            }
         }
     }
-}
-
-
+    
+    
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
 {
     ZALocalStateTotalModel * model = [ZALocalStateTotalModel currentLocalStateModel];
@@ -195,8 +195,8 @@ RefreshCellCopyDelgate>
     }
     
 }
-
-//列表刷新，按照最新的返回数据,新增，还是替换
+    
+    //列表刷新，按照最新的返回数据,新增，还是替换
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace
 {
     if(!array || [array count] == 0) return;
@@ -257,17 +257,17 @@ RefreshCellCopyDelgate>
     self.dataArr2 = refreshArray;
     [self.listTable reloadData];
 }
-
+    
 - (void)viewDidLoad {
     
     NSDate * date = [NSDate date];
     //    NSDate * date = [NSDate fromString:@"2016-02-05 17:54"];
     date = [date dateByAddingTimeInterval:MonthTimeIntervalConstant];
-//    NSString * select = [date toString:@"MM-dd"];
+    //    NSString * select = [date toString:@"MM-dd"];
     showTotal = YES;
     //    @"yyyy-MM-dd HH:mm:ss"
-//    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-//    NSString * str = [NSString stringWithFormat:@"%ds",[total.refreshTime intValue]];
+    //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    //    NSString * str = [NSString stringWithFormat:@"%ds",[total.refreshTime intValue]];
     
     self.viewTtle = @"服务器刷新";
     
@@ -320,7 +320,7 @@ RefreshCellCopyDelgate>
     }
     return _tipsView;
 }
-
+    
 -(void)tapedRefreshGesture:(id)sender
 {
     //    [SFHFKeychainUtils exchangeLocalCreatedDeviceNum];
@@ -329,7 +329,7 @@ RefreshCellCopyDelgate>
     total.randomAgent = [[DZUtils currentDeviceIdentifer] MD5String];
     [total localSave];
 }
-
+    
 -(void)submit
 {
     //提供选择
@@ -396,7 +396,7 @@ RefreshCellCopyDelgate>
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     check.ingoreDB = ingore;
 }
-
+    
 -(void)refreshLocalShowListForLatestSelling
 {//3页列表内的新增
     //展示上架
@@ -417,15 +417,15 @@ RefreshCellCopyDelgate>
     //    [self refreshLatestListRequestModelWithSmallList:NO];
     
 }
-
-
-
+    
+    
+    
 -(void)showForDetailHistory
 {
     ZWHistoryListController * history = [[ZWHistoryListController alloc] init];
     [[self rootNavigationController] pushViewController:history animated:YES];
 }
-
+    
 -(void)startLocationDataRequest
 {
     ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
@@ -448,8 +448,8 @@ RefreshCellCopyDelgate>
     if(manager.isRefreshing) return;
     [self startOpenTimesRefreshTimer];
 }
-
-
+    
+    
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -469,7 +469,7 @@ RefreshCellCopyDelgate>
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
-    ServerRefreshRequestModel * refresh = (ServerRefreshRequestModel *)_dpModel;
+    ServerEquipIdRequestModel * refresh = (ServerEquipIdRequestModel *)_dpModel;
     
     if(detailRefresh.executing || refresh.executing)
     {
@@ -500,7 +500,7 @@ RefreshCellCopyDelgate>
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishRequestWithExchange) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(startRefreshDataModelRequest) object:nil];
 }
-
+    
 -(void)startOpenTimesRefreshTimer
 {
     
@@ -514,18 +514,18 @@ RefreshCellCopyDelgate>
     manager.refreshInterval = time;
     manager.functionInterval = time;
     manager.funcBlock = ^()
-    {
+{
 #if TARGET_IPHONE_SIMULATOR
-        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
-                                   withObject:nil
-                                waitUntilDone:YES];
+    [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                               withObject:nil
+                            waitUntilDone:YES];
 #else
-        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
-                                   withObject:nil
-                                waitUntilDone:NO];
+    [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                               withObject:nil
+                            waitUntilDone:NO];
 #endif
-        
-    };
+    
+};
     [manager saveCurrentAndStartAutoRefresh];
 }
 -(void)refreshCurrentTitleVLableWithTotal:(CGFloat)totalMoney andCountNum:(NSInteger)number
@@ -533,44 +533,44 @@ RefreshCellCopyDelgate>
     NSString * total = [NSString stringWithFormat:@"总在售 %.1fW(%d)",totalMoney/10000,number];
     self.titleV.text = total;
 }
-
+    
 -(void)refreshLatestListRequestModelWithSmallList:(BOOL)small
 {
     //变更请求基数，重新发起
     
     
 }
-
+    
 -(void)startRefreshDataModelRequest
 {
     if(![DZUtils deviceWebConnectEnableCheck])
     {
         return;
     }
-    
+
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
-    
+
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
-    
-    ServerRefreshRequestModel * listRequest = (ServerRefreshRequestModel *)_dpModel;
+
+    ServerEquipIdRequestModel * listRequest = (ServerEquipIdRequestModel *)_dpModel;
     if(listRequest.executing) return;
-    
-    
+
+
     //    if(self.inWebRequesting)
     //    {
     //        return;
     //    }
     //    self.inWebRequesting = YES;
     [requestLock lock];
-    
+
     NSLog(@"%s",__FUNCTION__);
-    
-    ServerRefreshRequestModel * model = (ServerRefreshRequestModel *)_dpModel;
-    
+
+    ServerEquipIdRequestModel * model = (ServerEquipIdRequestModel *)_dpModel;
+
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
-        model = [[ServerRefreshRequestModel alloc] init];
+        model = [[ServerEquipIdRequestModel alloc] init];
         [model addSignalResponder:self];
         //        model.saveKookie = YES;
         _dpModel = model;
@@ -590,35 +590,39 @@ RefreshCellCopyDelgate>
     model.timerState = !model.timerState;
     [model sendRequest];
 }
-#pragma mark ServerRefreshRequestModel
-handleSignal( ServerRefreshRequestModel, requestError )
+#pragma mark ServerEquipIdRequestModel
+handleSignal( ServerEquipIdRequestModel, requestError )
 {
     self.tipsView.hidden = NO;
     [self hideLoading];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    
+
+
 }
-handleSignal( ServerRefreshRequestModel, requestLoading )
+handleSignal( ServerEquipIdRequestModel, requestLoading )
 {
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state != UIApplicationStateActive){
-        return;
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    //    [self showLoading];
+UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+if(state != UIApplicationStateActive){
+    return;
+}
+[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    [self showLoading];
 }
 
 
-handleSignal( ServerRefreshRequestModel, requestLoaded )
+handleSignal( ServerEquipIdRequestModel, requestLoaded )
 {
     [self hideLoading];
     //    refreshLatestTotalArray
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSLog(@"%s",__FUNCTION__);
-    
-    ServerRefreshRequestModel * model = (ServerRefreshRequestModel *) _dpModel;
+
+    ServerEquipIdRequestModel * model = (ServerEquipIdRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
+    
+    //根据结果，重新刷新totalArr内含int
+    
+    
     
     //正常序列
     NSMutableArray * array = [NSMutableArray array];
@@ -632,7 +636,7 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
             [array addObjectsFromArray:obj];
         }
     }
-    
+
     //列表数据排重
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
     for (NSInteger index = 0 ;index < [array count]; index ++ )
@@ -642,12 +646,12 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
         [modelsDic setObject:eveModel forKey:eveModel.detailCheckIdentifier];
     }
     NSArray * backArray = [modelsDic allValues];
-    
+
     self.tipsView.hidden = [backArray count] != 0;
-    
+
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
-    
+
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
@@ -660,7 +664,7 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
         NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
         [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
     }
-    
+
     if([models count] > 0)
     {
         //        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
@@ -677,14 +681,27 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
         [self startEquipDetailAllRequestWithUrls:urls];
     }else{
         
-        //进行查询库表操作处理
-        
-        //为空，标识没有新url
-        self.inWebRequesting = NO;
-        [requestLock unlock];
+                //进行查询库表操作处理
+                
+                //为空，标识没有新url
+                self.inWebRequesting = NO;
+                [requestLock unlock];
     }
     
 }
+-(void)refreshServerEquipListWithNextPageIndexArray
+{
+    NSArray * edit = self.dataArr;
+    for (NSInteger index = 0; index < [edit count]; index ++)
+    {
+        ZWServerEquipModel * server = [edit objectAtIndex:index];
+        if([server.equipDesc length] > 0)
+        {
+            server.equipId ++;
+        }
+    }
+}
+
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
 {
     NSLog(@"%s",__FUNCTION__);
@@ -702,7 +719,7 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
     [model sendRequest];
     
 }
-
+    
 #pragma mark EquipDetailArrayRequestModel
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
@@ -786,48 +803,48 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     self.inWebRequesting = NO;
 }
-
-
+    
+    
 -(void)startRequestWithEquipModel:(Equip_listModel *)list
 {
     CBGEquipDetailRequestManager * manager = [CBGEquipDetailRequestManager sharedInstance];
     [manager addDetailEquipRequestUrlWithEquipModel:list];
 }
-
-
+    
+    
 -(void)checkCurrentLatestContainState
 {
-    return;
-    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-    ZWDataDetailModel * contact = [manager latestLocationModel];
-    //    self.latest = contact;
-    
-    if(!contact) return;
-    
-    __block BOOL contain = NO;
-    NSMutableArray * array = [NSMutableArray arrayWithArray:self.dataArr];
-    
-    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        ZWDataDetailModel  * model = (ZWDataDetailModel *)obj;
-        if([contact.product_id isEqualToString:model.product_id]){
-            contain = YES;
-            contact.left_money  = model.left_money;
-        }
-    }];
-    
+        return;
+        ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+        ZWDataDetailModel * contact = [manager latestLocationModel];
+        //    self.latest = contact;
+        
+        if(!contact) return;
+        
+        __block BOOL contain = NO;
+        NSMutableArray * array = [NSMutableArray arrayWithArray:self.dataArr];
+        
+        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            ZWDataDetailModel  * model = (ZWDataDetailModel *)obj;
+            if([contact.product_id isEqualToString:model.product_id]){
+                contain = YES;
+                contact.left_money  = model.left_money;
+            }
+        }];
+        
     NSIndexSet * set = [NSIndexSet indexSetWithIndex:0];
     [self.listTable reloadSections:set withRowAnimation:UITableViewRowAnimationAutomatic];
 }
-
-
-
+    
+    
+    
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     NSLog(@"%s",__FUNCTION__);
 }
-
-
+    
+    
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

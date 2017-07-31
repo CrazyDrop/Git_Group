@@ -48,6 +48,7 @@
 #import "ZWAutoRefreshListController.h"
 #import "ZWServerRefreshListVC.h"
 #import "CBGMixedServerMobileRefreshVC.h"
+#import "ZWServerEquipListVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -230,6 +231,10 @@
             name = @"服务器混合";
         }
             break;
+        case CBGDetailTestFunctionStyle_EquipServer:{
+            name = @"服务器递增";
+        }
+            break;
             
         default:
             break;
@@ -256,7 +261,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileLimit],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipServer],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
@@ -283,7 +288,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_BargainList],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedServer],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
                              nil];
     
     UIView * bgView = self.view;
@@ -646,6 +651,13 @@
             CBGMixedServerMobileRefreshVC * list = [[CBGMixedServerMobileRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
+            break;
+        case CBGDetailTestFunctionStyle_EquipServer:{
+            ZWServerEquipListVC * list = [[ZWServerEquipListVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+
+        }
+            break;
 
             
     }
