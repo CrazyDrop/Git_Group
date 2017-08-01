@@ -49,6 +49,7 @@
 #import "ZWServerRefreshListVC.h"
 #import "CBGMixedServerMobileRefreshVC.h"
 #import "ZWServerEquipListVC.h"
+#import "ZWServerURLCheckVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -520,8 +521,8 @@
             break;
 
         case CBGDetailTestFunctionStyle_WEBCheck:{
-            CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
-
+//            CBGWebListErrorCheckVC * list = [[CBGWebListErrorCheckVC alloc] init];
+            ZWServerURLCheckVC * list = [[ZWServerURLCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
             
         }

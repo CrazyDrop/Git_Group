@@ -1985,6 +1985,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     ingoreRefresh = NO;
                 }
                 
+                
+                if(preModel.equip_id != model.equip_id)
+                {
+                    ingoreRefresh = NO;
+                    preModel.equip_id = model.equip_id;
+                }
+                
                 if(preModel.sell_space != model.sell_space)
                 {
                     ingoreRefresh = NO;
@@ -3098,7 +3105,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              
 //             NSDictionary * maxDic = @{@"equipid":[NSNumber numberWithInteger:equipId],
 //                                       @"serverid":[NSNumber numberWithInteger:serverId]};
-             if(serverId != 45)
+             if(serverId != 45 || serverId != 0)
              {
                  ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
                  eve.equipId = equipId;

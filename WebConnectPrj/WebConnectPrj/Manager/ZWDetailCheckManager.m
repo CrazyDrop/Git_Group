@@ -55,8 +55,8 @@
 //        statusCache = [YYCache cacheWithName:@"list_ordersn_status_cache"];
 //        priceCache = [YYCache cacheWithName:@"list_ordersn_money_cache"];
 //#else
-        statusCache = [[NSCache alloc] init];
-        priceCache = [[NSCache alloc] init];
+//        statusCache = [[NSCache alloc] init];
+//        priceCache = [[NSCache alloc] init];
         priceCache.countLimit = 10000;
         statusCache.countLimit = 10000;
 #if  !TARGET_IPHONE_SIMULATOR
@@ -458,7 +458,7 @@
             }
 
         }else{
-            [statusCache removeObjectForKey:idenfifier];
+//            [statusCache removeObjectForKey:idenfifier];
         }
     }
     

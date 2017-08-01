@@ -167,6 +167,10 @@
     //所有返回均在主线程操作
     __weak typeof(self) weakSelf = self;
     NSURLSession *session = weakSelf.listSession;
+    NSString *charactersToEscape = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
+//    NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
+
+    urlStr  = [urlStr stringByRemovingPercentEncoding];
     NSURL *url = [NSURL URLWithString:urlStr];
     
     
@@ -196,7 +200,7 @@
                     
                 }
                 
-                if(!resultStr || [resultStr containsString:@"action"])
+                if(!resultStr || [resultStr containsString:@"action"] || [resultStr hasPrefix:@"<!DOCTYPE html PUBLIC"])
                 {
                     unsigned long encode = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
                     resultStr = [[NSString alloc] initWithData:responseObject encoding:encode];
@@ -207,17 +211,19 @@
                     }
                 }
                 
-                if([resultStr hasPrefix:@"http"])
-                {
-                    dic = @{@"html":resultStr};
-                }
             }
             dic = [resultStr objectFromJSONString];
             
+            if([resultStr hasPrefix:@"<!DOCTYPE html PUBLIC"])
+            {
+                dic = @{@"html":resultStr};
+            }
+
             if(!dic){
                 NSLog(@"%s %@ ",__FUNCTION__,resultStr);
             }
         }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf doneWithRequestBackDic:dic andUrl:urlStr andError:error];
             [weakSelf finishListRequestWithOperationFinished];
@@ -290,7 +296,7 @@
                     
                 }
                 
-                if(!resultStr || [resultStr containsString:@"action"])
+                if(!resultStr || [resultStr containsString:@"action"]|| [resultStr hasPrefix:@"<!DOCTYPE html PUBLIC"])
                 {
                     unsigned long encode = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
                     resultStr = [[NSString alloc] initWithData:responseObject encoding:encode];
@@ -300,8 +306,15 @@
                         resultStr = [dic JSONString];
                     }
                 }
+                
+
             }
             dic = [resultStr objectFromJSONString];
+            if([resultStr hasPrefix:@"<!DOCTYPE html PUBLIC"])
+            {
+                dic = @{@"html":resultStr};
+            }
+
         }
         [weakSelf doneWithRequestBackDic:dic andUrl:urlStr andError:error];
     };

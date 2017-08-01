@@ -67,7 +67,7 @@ RefreshCellCopyDelgate>
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        self.serverNum = 30;
+        self.serverNum = 3;
         [self appendNotificationForRestartTimerRefreshWithActive];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -266,10 +266,9 @@ RefreshCellCopyDelgate>
 //    NSString * select = [date toString:@"MM-dd"];
     showTotal = YES;
     //    @"yyyy-MM-dd HH:mm:ss"
-//    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-//    NSString * str = [NSString stringWithFormat:@"%ds",[total.refreshTime intValue]];
+    NSString * str = [NSString stringWithFormat:@"%lu",(unsigned long)[self.totalArr count]];
     
-    self.viewTtle = @"服务器刷新";
+    self.viewTtle = [NSString stringWithFormat:@"服务器 %@",str];
     
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
@@ -556,6 +555,8 @@ RefreshCellCopyDelgate>
     ServerRefreshRequestModel * listRequest = (ServerRefreshRequestModel *)_dpModel;
     if(listRequest.executing) return;
     
+    NSArray * arr = [self latestServerIdArr];
+    if([arr count] == 0)return;
     
     //    if(self.inWebRequesting)
     //    {
@@ -586,7 +587,7 @@ RefreshCellCopyDelgate>
          }
          */
     }
-    model.serverArr = [self latestServerIdArr];
+    model.serverArr = arr;
     model.timerState = !model.timerState;
     [model sendRequest];
 }
@@ -661,28 +662,10 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
         [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
     }
     
-    if([models count] > 0)
-    {
-        //        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
-        //数量大于0，发起请求
-        NSLog(@"EquipListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
-        
-        NSMutableArray * urls = [NSMutableArray array];
-        for (NSInteger index = 0; index < [models count]; index++) {
-            Equip_listModel * eveModel = [models objectAtIndex:index];
-            [urls addObject:eveModel.detailDataUrl];
-        }
-        
-        self.detailsArr = [NSArray arrayWithArray:models];
-        [self startEquipDetailAllRequestWithUrls:urls];
-    }else{
-        
-        //进行查询库表操作处理
-        
-        //为空，标识没有新url
-        self.inWebRequesting = NO;
-        [requestLock unlock];
-    }
+    //为空，标识没有新url
+    self.inWebRequesting = NO;
+    [requestLock unlock];
+
     
 }
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array

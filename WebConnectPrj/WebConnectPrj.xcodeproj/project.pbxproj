@@ -776,6 +776,8 @@
 		1855227A1EA849580052AD16 /* CBGLocalServerListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185522791EA849580052AD16 /* CBGLocalServerListVC.m */; };
 		185BB0341E825C4700306695 /* ZWDetailCheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BB0331E825C4700306695 /* ZWDetailCheckManager.m */; };
 		187767C31A416805003F31B6 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187767C21A416805003F31B6 /* SWTableViewCell.m */; };
+		1878BDA21F2F7DD600DF2110 /* ZWServerURLCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878BDA11F2F7DD600DF2110 /* ZWServerURLCheckVC.m */; };
+		1878BDA31F2F7DD600DF2110 /* ZWServerURLCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878BDA11F2F7DD600DF2110 /* ZWServerURLCheckVC.m */; };
 		18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */; };
 		18809DEC1A0B5B0200B66A59 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCD1A0B5B0200B66A59 /* NSData+ImageContentType.m */; };
 		18809DED1A0B5B0200B66A59 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18809DCF1A0B5B0200B66A59 /* SDImageCache.m */; };
@@ -1541,6 +1543,8 @@
 		185BB0331E825C4700306695 /* ZWDetailCheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWDetailCheckManager.m; sourceTree = "<group>"; };
 		187767C11A416805003F31B6 /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
 		187767C21A416805003F31B6 /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWTableViewCell.m; sourceTree = "<group>"; };
+		1878BDA01F2F7DD600DF2110 /* ZWServerURLCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerURLCheckVC.h; sourceTree = "<group>"; };
+		1878BDA11F2F7DD600DF2110 /* ZWServerURLCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerURLCheckVC.m; sourceTree = "<group>"; };
 		18809DCA1A0B5B0200B66A59 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		18809DCB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		18809DCC1A0B5B0200B66A59 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -2715,8 +2719,8 @@
 		180D589919E622680045A720 /* WebConnectPrj */ = {
 			isa = PBXGroup;
 			children = (
-				18F8DAD71F2B317300530041 /* CBGBBList */,
 				18F8DACA1F2ACB4300530041 /* ServerRefresh */,
+				18F8DAD71F2B317300530041 /* CBGBBList */,
 				18227A8F1F04F52200A6291B /* CBGPlanModel */,
 				1892CA401EC9A7E1006AA762 /* AutoBuy */,
 				1892CA3F1EC9A7C8006AA762 /* PanicRefresh */,
@@ -4839,6 +4843,8 @@
 				188BE5191F2ECE7600DBBF09 /* ZWServerEquipListVC.m */,
 				184F70C91F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.h */,
 				184F70CA1F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.m */,
+				1878BDA01F2F7DD600DF2110 /* ZWServerURLCheckVC.h */,
+				1878BDA11F2F7DD600DF2110 /* ZWServerURLCheckVC.m */,
 				184F70CD1F2F2CAA00C4BB92 /* ZWServerEquipModel.h */,
 				184F70CE1F2F2CAA00C4BB92 /* ZWServerEquipModel.m */,
 			);
@@ -5431,6 +5437,7 @@
 				18A975811E7FDDD400B48E3C /* Samurai_HtmlRenderObjectContainer.m in Sources */,
 				18A975281E7FDDD400B48E3C /* Samurai_Config(Phone).m in Sources */,
 				18A975FC1E7FDDD500B48E3C /* tokenizer.c in Sources */,
+				1878BDA21F2F7DD600DF2110 /* ZWServerURLCheckVC.m in Sources */,
 				18A971D31E7FC67400B48E3C /* EquipDetailArrayRequestModel.m in Sources */,
 				18A96E1B1E7FC2C500B48E3C /* RoleDetailDataModel.m in Sources */,
 				18A972191E7FCA2B00B48E3C /* FMDatabase.m in Sources */,
@@ -6106,6 +6113,7 @@
 				183324351ED6B10D00B1ECEA /* Samurai_Config(Phone).m in Sources */,
 				183324361ED6B10D00B1ECEA /* tokenizer.c in Sources */,
 				183324371ED6B10D00B1ECEA /* EquipDetailArrayRequestModel.m in Sources */,
+				1878BDA31F2F7DD600DF2110 /* ZWServerURLCheckVC.m in Sources */,
 				183324381ED6B10D00B1ECEA /* RoleDetailDataModel.m in Sources */,
 				183324391ED6B10D00B1ECEA /* FMDatabase.m in Sources */,
 				1833243A1ED6B10D00B1ECEA /* NodePressAnimationView.m in Sources */,

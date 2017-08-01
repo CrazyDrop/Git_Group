@@ -242,6 +242,62 @@
     return soldDateStr;
 }
 
+-(NSString *)detailStatusDes
+{
+    NSString * statusDes = nil;
+    NSInteger number = [self.status integerValue];
+    switch (number)
+    {
+        case 0:
+        {
+            statusDes = @"已取回";
+        }
+            break;
+        case 1:
+        {
+            statusDes = @"暂存";
+//            status = CBGEquipRoleState_unSelling;
+        }
+            break;
+        case 2:
+        {
+            statusDes = @"上架中";
+//            status = CBGEquipRoleState_InSelling;
+        }
+            break;
+            
+        case 3:
+        {
+            statusDes = @"下单中";
+//            status = CBGEquipRoleState_InOrdering;
+        }
+            break;
+        case 4:
+        {
+            statusDes = @"已付款";
+//            status = CBGEquipRoleState_PayFinish;
+        }
+            break;
+        case 5:
+        {
+            //交易完成，认为和购买一致
+            statusDes = @"已取走";
+//            status = CBGEquipRoleState_BuyFinish;
+        }
+            break;
+        case 6:
+        {
+            statusDes = @"已取走";
+//            status = CBGEquipRoleState_BuyFinish;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    return statusDes;
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     
     if ([dictionary isKindOfClass:[NSDictionary class]]) {

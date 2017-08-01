@@ -105,6 +105,9 @@
 
 -(NSDictionary *)detailDesDicFromCurrentDesc;
 
+-(NSString *)detailStatusDes;
+
+
 /**
  *  Init the model with dictionary
  *

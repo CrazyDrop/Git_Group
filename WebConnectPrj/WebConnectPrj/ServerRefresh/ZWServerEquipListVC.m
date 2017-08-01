@@ -61,26 +61,31 @@ RefreshCellCopyDelgate>
 @property (nonatomic,assign) BOOL inWebRequesting;
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 @property (nonatomic,assign) BOOL forceRefresh;
+@property (nonatomic,strong) NSDictionary * serNameDic;
 @end
 
 @implementation ZWServerEquipListVC
     
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-    {
-        self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        if(self){
-            self.serverNum = 30;
-            [self appendNotificationForRestartTimerRefreshWithActive];
-            
-            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-            self.totalArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
-            
-            self.inWebRequesting = NO;
-            requestLock = [[NSLock alloc] init];
-        }
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        self.serverNum = 10;
+        [self appendNotificationForRestartTimerRefreshWithActive];
         
-        return self;
+        ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+        self.totalArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        NSDictionary * serNameDic = total.serverNameDic;
+        self.serNameDic = serNameDic;
+        
+        self.inWebRequesting = NO;
+        requestLock = [[NSLock alloc] init];
     }
+    
+    return self;
+}
 -(NSArray *)latestServerIdArr
 {
     NSArray * allArr = self.totalArr;
@@ -106,25 +111,25 @@ RefreshCellCopyDelgate>
 }
     
 -(void)appendNotificationForRestartTimerRefreshWithActive
-    {
-        //    UIApplicationDidBecomeActiveNotification
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(checkLatestVCAndStartTimer)
-                                                     name:UIApplicationDidBecomeActiveNotification
-                                                   object:nil];
-        
-    }
+{
+    //    UIApplicationDidBecomeActiveNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(checkLatestVCAndStartTimer)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+}
 -(void)checkLatestVCAndStartTimer
-    {
-        NSArray * arr = [[self rootNavigationController] viewControllers];
-        if([arr count] > 0){
-            UIViewController * vc = [arr lastObject];
-            
-            if([vc isKindOfClass:[self class]]){
-                [self startLocationDataRequest];
-            }
+{
+    NSArray * arr = [[self rootNavigationController] viewControllers];
+    if([arr count] > 0){
+        UIViewController * vc = [arr lastObject];
+        
+        if([vc isKindOfClass:[self class]]){
+            [self startLocationDataRequest];
         }
     }
+}
     
     
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
@@ -135,34 +140,37 @@ RefreshCellCopyDelgate>
     }
     
     NSInteger compareId = model.minServerId;
+    CBGListModel * maxCBGModel = nil;
     Equip_listModel * maxModel = nil;
     CGFloat maxRate = 0;
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         Equip_listModel * list = [array objectAtIndex:index];
+        CBGListModel * cbgList = [list listSaveModel];
         
-        BOOL equipBuy = [list preBuyEquipStatusWithCurrentExtraEquip];
-        if(equipBuy && [list.serverid integerValue] < compareId)
+        BOOL equipBuy = [cbgList preBuyEquipStatusWithCurrentExtraEquip];
+        if(equipBuy && cbgList.server_id  < compareId)
         {
-            CBGEquipRoleState state = list.listSaveModel.latestEquipListStatus;
+            CBGEquipRoleState state = cbgList.latestEquipListStatus;
             BOOL unSold = ( state == CBGEquipRoleState_InSelling|| state == CBGEquipRoleState_InOrdering || state == CBGEquipRoleState_unSelling);
-            CGFloat rate = list.earnRate;
+            CGFloat rate = cbgList.plan_rate;
             if(unSold && rate >= maxRate){
                 maxRate = rate;
                 maxModel = list;
+                maxCBGModel = cbgList;
             }
         }
     }
     
     //进行提醒
-    if(maxModel)
+    if(maxCBGModel)
     {
         
-        NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
-        NSString * webUrl = maxModel.detailWebUrl;
+        NSLog(@"%s %@",__FUNCTION__,maxCBGModel.game_ordersn);
+        NSString * webUrl = maxCBGModel.detailWebUrl;
         NSString * urlString = webUrl;
         
-        NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxModel.earnRate,[maxModel.price integerValue]/100];
+        NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxCBGModel.plan_rate,maxCBGModel.equip_price];
         
         NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
         
@@ -172,11 +180,11 @@ RefreshCellCopyDelgate>
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
         if(!total.isNotSystemApp){
-            appPayUrl = [NSURL URLWithString:maxModel.listSaveModel.mobileAppDetailShowUrl];
+            appPayUrl = [NSURL URLWithString:maxCBGModel.mobileAppDetailShowUrl];
         }
         
         //当需要跳转时系统APP时，对于利率不是很高的，进行快速展示，但不进行主动跳转
-        if(!total.isNotSystemApp && maxModel.earnRate < total.limitRate && total.limitRate > 0){
+        if(!total.isNotSystemApp && maxCBGModel.plan_rate < total.limitRate && total.limitRate > 0){
             return;
         }
         
@@ -269,7 +277,10 @@ RefreshCellCopyDelgate>
     //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     //    NSString * str = [NSString stringWithFormat:@"%ds",[total.refreshTime intValue]];
     
-    self.viewTtle = @"服务器刷新";
+    NSString * str = [NSString stringWithFormat:@"%lu",(unsigned long)[self.totalArr count]];
+    
+    self.viewTtle = [NSString stringWithFormat:@"尝试刷 %@",str];
+
     
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
@@ -556,7 +567,8 @@ RefreshCellCopyDelgate>
     ServerEquipIdRequestModel * listRequest = (ServerEquipIdRequestModel *)_dpModel;
     if(listRequest.executing) return;
 
-
+    NSArray * server = [self latestServerIdArr];
+    if([server count] == 0) return;
     //    if(self.inWebRequesting)
     //    {
     //        return;
@@ -586,7 +598,7 @@ RefreshCellCopyDelgate>
          }
          */
     }
-    model.serverArr = [self latestServerIdArr];
+    model.serverArr = server;
     model.timerState = !model.timerState;
     [model sendRequest];
 }
@@ -617,84 +629,72 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSLog(@"%s",__FUNCTION__);
 
+    //使用total给request赋值
     ServerEquipIdRequestModel * model = (ServerEquipIdRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
+    NSArray * request = model.serverArr;
+    NSMutableArray * backArray = [NSMutableArray array];
+
+    if([total count] == [request count])
+    {
+        for (NSInteger index = 0;index < [total count] ;index ++ )
+        {
+            NSArray * objArr = [total objectAtIndex:index];
+            ZWServerEquipModel * req = [request objectAtIndex:index];
+            
+            if([objArr isKindOfClass:[NSArray class]] && [objArr count] > 0)
+            {
+                EquipModel * detail = [objArr lastObject];
+                req.detail = detail;
+                req.equipDesc =  detail.equip_desc;
+                
+                if(detail.game_ordersn)
+                {
+                    Equip_listModel * list = [[Equip_listModel alloc] init];
+                    list.serverid = detail.serverid;
+                    list.game_ordersn = detail.game_ordersn;
+                    list.equipModel = detail;
+                    [backArray addObject:list];
+                }
+
+            }
+        }
+    }else
+    {
+        NSLog(@"数量不相等");
+    }
+
     
     //根据结果，重新刷新totalArr内含int
+    [self refreshServerEquipListWithRequestPageIndexArray:request];
     
-    
-    
-    //正常序列
-    NSMutableArray * array = [NSMutableArray array];
-    for (NSInteger index = 0; index < [total count]; index ++)
-    {
-        NSInteger backIndex = [total count] - index - 1;
-        backIndex = index;
-        id obj = [total objectAtIndex:backIndex];
-        if([obj isKindOfClass:[NSArray class]])
-        {
-            [array addObjectsFromArray:obj];
-        }
-    }
-
-    //列表数据排重
-    NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
-    for (NSInteger index = 0 ;index < [array count]; index ++ )
-    {
-        NSInteger backIndex = [array count] - index - 1;
-        Equip_listModel * eveModel = [array objectAtIndex:backIndex];
-        [modelsDic setObject:eveModel forKey:eveModel.detailCheckIdentifier];
-    }
-    NSArray * backArray = [modelsDic allValues];
 
     self.tipsView.hidden = [backArray count] != 0;
-
-    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
-    if(detailArr.executing) return;
 
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
     //不检查本地存储、不检查队列是否存在，仅检查缓存数据
     ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
-    NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:backArray];
-    NSArray * refreshArr = checkManager.refreshArr;
+    [checkManager refreshDiskCacheWithDetailRequestFinishedArray:backArray];
+    NSArray * refreshArr = checkManager.filterArray;
     if([refreshArr count] > 0)
     {
         NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
         [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
     }
 
-    if([models count] > 0)
-    {
-        //        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
-        //数量大于0，发起请求
-        NSLog(@"EquipListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
-        
-        NSMutableArray * urls = [NSMutableArray array];
-        for (NSInteger index = 0; index < [models count]; index++) {
-            Equip_listModel * eveModel = [models objectAtIndex:index];
-            [urls addObject:eveModel.detailDataUrl];
-        }
-        
-        self.detailsArr = [NSArray arrayWithArray:models];
-        [self startEquipDetailAllRequestWithUrls:urls];
-    }else{
-        
-                //进行查询库表操作处理
-                
-                //为空，标识没有新url
-                self.inWebRequesting = NO;
-                [requestLock unlock];
-    }
+    self.inWebRequesting = NO;
+    [requestLock unlock];
+
     
 }
--(void)refreshServerEquipListWithNextPageIndexArray
+-(void)refreshServerEquipListWithRequestPageIndexArray:(NSArray *)array
 {
-    NSArray * edit = self.dataArr;
-    for (NSInteger index = 0; index < [edit count]; index ++)
+//    NSArray * edit = self.dataArr;
+    for (NSInteger index = 0; index < [array count]; index ++)
     {
-        ZWServerEquipModel * server = [edit objectAtIndex:index];
+        ZWServerEquipModel * server = [array objectAtIndex:index];
         if([server.equipDesc length] > 0)
         {
             server.equipId ++;
@@ -702,108 +702,7 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     }
 }
 
--(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
-{
-    NSLog(@"%s",__FUNCTION__);
-    
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
-    if(!model){
-        model = [[EquipDetailArrayRequestModel alloc] init];
-        [model addSignalResponder:self];
-        _detailListReqModel = model;
-    }
-    
-    if(model.executing) return;
-    
-    [model refreshWebRequestWithArray:array];
-    [model sendRequest];
-    
-}
-    
-#pragma mark EquipDetailArrayRequestModel
-handleSignal( EquipDetailArrayRequestModel, requestError )
-{
-    [self hideLoading];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-}
-handleSignal( EquipDetailArrayRequestModel, requestLoading )
-{
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if(state != UIApplicationStateActive){
-        return;
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-}
 
-handleSignal( EquipDetailArrayRequestModel, requestLoaded )
-{
-    NSLog(@"%s",__FUNCTION__);
-    
-    //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
-    NSArray * total  = model.listArray;
-    
-    NSMutableArray * detailModels = [NSMutableArray array];
-    for (NSInteger index = 0; index < [total count]; index ++)
-    {
-        NSInteger backIndex = [total count] - index - 1;
-        backIndex = index;
-        id obj = [total objectAtIndex:backIndex];
-        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
-        {
-            [detailModels addObject:[obj firstObject]];
-        }else{
-            [detailModels addObject:[NSNull null]];
-        }
-    }
-    
-    NSLog(@"EquipDetailArrayRequestModel %lu",(unsigned long)[detailModels count]);
-    
-    NSArray * models = self.detailsArr;
-    for (NSInteger index = 0; index < [models count]; index ++)
-    {
-        EquipModel * detailEve = nil;
-        if([detailModels count] > index)
-        {
-            detailEve = [detailModels objectAtIndex:index];
-        }
-        Equip_listModel * obj = [models objectAtIndex:index];
-        if(![detailEve isKindOfClass:[NSNull class]])
-        {
-            if(!detailEve.game_ordersn){
-                continue;
-            }
-            obj.equipModel = detailEve;
-            CBGListModel * list = obj.listSaveModel;
-            obj.earnRate = list.plan_rate;
-            obj.earnPrice = [NSString stringWithFormat:@"%ld",list.price_earn_plan];
-        }
-    }
-    
-    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
-    [check refreshDiskCacheWithDetailRequestFinishedArray:models];
-    NSArray * showModels = check.filterArray;
-    
-    
-    //刷新展示列表
-    [self refreshTableViewWithInputLatestListArray:showModels replace:NO];
-    //    self.inWebRequesting = NO;
-    
-    self.inWebRequesting = NO;
-    [requestLock unlock];
-    //预留库表处理时间
-    //    [self performSelector:@selector(finishRequestWithExchange) withObject:nil afterDelay:2];
-    //    [self performSelector:@selector(startRefreshDataModelRequest) withObject:nil afterDelay:2];
-}
--(void)finishRequestWithExchange
-{
-    NSLog(@"%s",__FUNCTION__);
-    
-    self.inWebRequesting = NO;
-}
-    
     
 -(void)startRequestWithEquipModel:(Equip_listModel *)list
 {
@@ -924,9 +823,12 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     cell.coverBtn.hidden = NO;
     cell.indexPath = indexPath;
     
+    //以detail为主进行展示
+    
     //用来标识是否最新一波数据
     UIColor * numcolor = [self.grayArray containsObject:contact]?[UIColor blackColor]:[UIColor lightGrayColor];
     
+    EquipModel * detail = contact.equipModel;
     NSString * centerDetailTxt = contact.desc_sumup;
     
     UIColor * color = [UIColor lightGrayColor];
@@ -955,7 +857,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSString * rightStatusTxt = contact.status_desc;
     
     //详情剩余时间
-    EquipModel * detail = contact.equipModel;
     UIColor * earnColor = [UIColor lightGrayColor];
     CBGListModel * listModel = [contact listSaveModel];
     if(contact.appendHistory){
@@ -971,16 +872,16 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //用来标识账号是否最新一次请求数据
     if(detail)
     {
-        if(!rightStatusTxt)
-        {
-            rightStatusTxt = detail.status_desc;
-        }
-        if(!leftPriceTxt || [leftPriceTxt length] == 0){
-            leftPriceTxt = detail.last_price_desc;
-        }
+        NSNumber * serId = detail.serverid;
+        sellTxt = [self.serNameDic objectForKey:serId];
+        equipName = [NSString stringWithFormat:@"%@ - %ld级",listModel.equip_school_name,[detail.equip_level integerValue]];
         
         date = [NSDate fromString:detail.selling_time];
         rightTimeTxt =  [date toString:@"HH:mm"];
+        
+        leftPriceTxt = detail.last_price_desc;
+        
+        rightStatusTxt = detail.detailStatusDes;
         
         NSTimeInterval interval = [self timeIntervalWithCreateTime:detail.create_time andSellTime:detail.selling_time];
         if(interval < 60 * 60 * 24 )
@@ -991,25 +892,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             earnColor = [UIColor redColor];
         }
         
-    }else
-    {
-        rightStatusTxt = contact.status_desc;
-        if((!leftPriceTxt || [leftPriceTxt intValue] == 0 )&& listModel.equip_price > 0)
-        {
-            leftPriceTxt = [NSString stringWithFormat:@"%ld",listModel.equip_price/100];
-        }
-        
-        date = [NSDate fromString:contact.selling_time];
-        rightTimeTxt =  [date toString:@"HH:mm"];
-        
-        NSTimeInterval interval = [self timeIntervalWithCreateTime:listModel.sell_create_time andSellTime:contact.selling_time];
-        if(interval < 60 * 60 * 24 )
-        {
-            earnColor = [UIColor orangeColor];
-        }
-        if(interval < 60){
-            earnColor = [UIColor redColor];
-        }
     }
     
     UIColor * equipBuyColor = [UIColor lightGrayColor];
@@ -1024,7 +906,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSInteger histroyPrice = listModel.historyPrice;
     NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
     
-    if([contact preBuyEquipStatusWithCurrentExtraEquip])
+    if([listModel preBuyEquipStatusWithCurrentExtraEquip])
     {
         sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.plan_rate,sellTxt];
         equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
