@@ -295,6 +295,15 @@ FLoatChange(CGFloat size)
 #define ZAViewLocalizedStringForKey(str) NSLocalizedStringFromTable(str,@"ZAViewLocal", nil)
 #define ZANoticeLocalizedStringForKey(str) NSLocalizedStringFromTable(str,@"ZANoticeLocal", nil)
 
+typedef enum : NSUInteger {
+    ServerResultCheckType_None = 0,
+    ServerResultCheckType_Error,
+    ServerResultCheckType_Redirect,
+    ServerResultCheckType_NoneProduct,
+    ServerResultCheckType_Success,
+} ServerResultCheckType;
+
+
 typedef enum
 {
     DetailModelSaveType_Buy = 1,//建议购买利率  15以上

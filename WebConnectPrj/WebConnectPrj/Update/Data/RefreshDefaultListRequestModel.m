@@ -67,11 +67,12 @@
     }
     return _listSession;
 }
--(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)dic andStartUrl:(NSString *)url{
+-(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)dicStr andStartUrl:(NSString *)url{
     
 }
--(BOOL)cookieStateWithStartWebRequestWithUrl:(NSString *)url{
-    return NO;
+-(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
+{
+    return nil;
 }
 
 //提供请求url数组
@@ -140,6 +141,21 @@
         self.taskArray = nil;
     }
     
+//    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    for (NSHTTPCookie *cookie in cookiesArray)
+//    {
+//        if([cookie.name isEqualToString:@"sid"])
+//        {
+//            if([cookie.value length] == 0){
+//                [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+//            }
+//        }
+//        NSLog(@"name %@ %@",cookie.name,cookie.value);
+////        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+//    }
+//    
+//    NSArray * refreshArr = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    
     self.errNum  = 0;
     if(self.oneRequest)
     {
@@ -244,12 +260,12 @@
     NSString * str = @"xyqcbg2/2.2.8 CFNetwork/758.1.6 Darwin/15.0.0";
     [request setValue:str forHTTPHeaderField:@"User-Agent"];
     
-    BOOL cookie = NO;
-    if(self.saveKookie)
+    NSDictionary * cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
+    if(cookie)
     {
-        cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
+        [request setValue: [cookie objectForKey:@"Cookie"] forHTTPHeaderField: @"Cookie"];
     }
-    [request setHTTPShouldHandleCookies:cookie];
+//    [request setHTTPShouldHandleCookies:cookie];
     
     NSURLSessionTask *task = [session dataTaskWithRequest:request
                                         completionHandler:finishBlock];
@@ -333,12 +349,12 @@
     NSString * str = @"xyqcbg2/2.2.8 CFNetwork/758.1.6 Darwin/15.0.0";
     [request setValue:str forHTTPHeaderField:@"User-Agent"];
 
-    BOOL cookie = NO;
-    if(self.saveKookie)
+    NSDictionary * cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
+    if(cookie)
     {
-        cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
+        [request setValue: [cookie objectForKey:@"Cookie"] forHTTPHeaderField: @"Cookie"];
     }
-    [request setHTTPShouldHandleCookies:cookie];
+//    [request setHTTPShouldHandleCookies:cookie];
     
     NSURLSessionTask *task = [session dataTaskWithRequest:request
                                         completionHandler:finishBlock];

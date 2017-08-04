@@ -16,9 +16,11 @@
 #import "Poundage_listModel.h"
 #import "EquipExtraModel.h"
 #import "CBGListModel.h"
+#import "Constant.h"
 
 @interface EquipModel : BaseDataModel
 
+@property (nonatomic, assign) ServerResultCheckType resultType;
 @property (nonatomic, strong) NSString *raw_fair_show_end_time_desc;
 @property (nonatomic, strong) NSString *server_name;
 @property (nonatomic, strong) NSNumber *owner_uid;

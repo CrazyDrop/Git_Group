@@ -8,13 +8,6 @@
 
 #import "RefreshDefaultListRequestModel.h"
 
-typedef enum : NSUInteger {
-    ServerResultCheckType_None = 0,
-    ServerResultCheckType_Error,
-    ServerResultCheckType_Redirect,
-    ServerResultCheckType_Success,
-} ServerResultCheckType;
-
 @interface ServerEquipIdRequestModel : RefreshDefaultListRequestModel
 
 //数据刷新

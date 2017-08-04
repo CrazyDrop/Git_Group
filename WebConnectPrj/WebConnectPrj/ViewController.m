@@ -50,6 +50,7 @@
 #import "CBGMixedServerMobileRefreshVC.h"
 #import "ZWServerEquipListVC.h"
 #import "ZWServerURLCheckVC.h"
+#import "ZWServerRefreshAutoEquipVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -225,15 +226,19 @@
         }
             break;
         case CBGDetailTestFunctionStyle_MobileServer:{
-            name = @"服务器刷新";
+            name = @"单服mobile";
         }
             break;
         case CBGDetailTestFunctionStyle_MixedServer:{
-            name = @"服务器混合";
+            name = @"mobile混合";
         }
             break;
         case CBGDetailTestFunctionStyle_EquipServer:{
-            name = @"服务器递增";
+            name = @"递增刷新";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_EquipPage:{
+            name = @"递增页面";
         }
             break;
             
@@ -264,7 +269,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipServer],
 
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipPage],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryTotal],
@@ -276,7 +281,8 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
 
 //                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
@@ -289,7 +295,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_BargainList],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
+                             
                              nil];
     
     UIView * bgView = self.view;
@@ -657,6 +663,11 @@
             ZWServerEquipListVC * list = [[ZWServerEquipListVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
 
+        }
+            break;
+        case CBGDetailTestFunctionStyle_EquipPage:{
+            ZWServerRefreshAutoEquipVC * list = [[ZWServerRefreshAutoEquipVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
 

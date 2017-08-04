@@ -2015,6 +2015,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                     preModel.equip_more_append = model.equip_more_append;
                 }
                 
+                if([preModel.equip_name length] != [model.equip_name length]){
+                    ingoreRefresh = NO;
+                    preModel.equip_name = model.equip_name;
+                }
                 
                 //价格变化
                 if(preModel.equip_price != model.equip_price && model.equip_price > 0)
@@ -3087,6 +3091,26 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 
 -(NSArray *)localSaveEquipServerMaxEquipIdAndServerIdList
 {
+//    NSMutableArray * txtArr = [NSMutableArray array];
+//    ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
+//    eve1.equipId = 2278160;
+//    eve1.serverId = 33;
+//    [txtArr addObject:eve1];
+//
+//    ZWServerEquipModel * eve2 = [[ZWServerEquipModel alloc] init];
+//    eve2.equipId = 1499977;
+//    eve2.serverId = 11;
+//    [txtArr addObject:eve2];
+//    
+////
+////    ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
+////    eve.equipId = 2278160;
+////    eve.serverId = 33;
+////    [txtArr addObject:eve];
+//    
+//    return txtArr;
+    
+    
     NSMutableArray *totalArray=[NSMutableArray array];
     [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
      {
@@ -3105,7 +3129,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              
 //             NSDictionary * maxDic = @{@"equipid":[NSNumber numberWithInteger:equipId],
 //                                       @"serverid":[NSNumber numberWithInteger:serverId]};
-             if(serverId != 45 || serverId != 0)
+             if(serverId != 45 && serverId != 0)
              {
                  ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
                  eve.equipId = equipId;
@@ -3119,6 +3143,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          [fmdatabase close];
          
      }];
+    
     return totalArray;
 }
 

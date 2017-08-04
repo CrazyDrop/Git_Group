@@ -1004,7 +1004,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     
     if([contact preBuyEquipStatusWithCurrentExtraEquip])
     {
-        sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.plan_rate,sellTxt];
+        sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
         equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
         leftRateColor = Custom_Green_Button_BGColor;
         

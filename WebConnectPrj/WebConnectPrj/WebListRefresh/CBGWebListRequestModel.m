@@ -33,13 +33,13 @@
     }
     return self;
 }
--(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)dic andStartUrl:(NSString *)url
+-(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)url
 {
     //有，则先保存
-    if([dic objectForKey:@"Set-Cookie"])
-    {
-        [self.cookieDic setObject:dic forKey:url];
-    }
+//    if([dic objectForKey:@"Set-Cookie"])
+//    {
+//        [self.cookieDic setObject:dic forKey:url];
+//    }
     
 }
 
@@ -61,18 +61,19 @@
     }
 }
 
--(BOOL)cookieStateWithStartWebRequestWithUrl:(NSString *)url
+-(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
-    NSDictionary * dic = [self.cookieDic objectForKey:url];
-    if(dic)
-    {
-        [self setCookitWithLatestUrl:url];
-        return YES;
-    }else{
-        [self clearTotalSearchCookie];
-        return NO;
-    }
-    return YES;
+    return nil;
+//    NSDictionary * dic = [self.cookieDic objectForKey:url];
+//    if(dic)
+//    {
+//        [self setCookitWithLatestUrl:url];
+//        return nil;
+//    }else{
+//        [self clearTotalSearchCookie];
+//        return NO;
+//    }
+//    return YES;
 }
 
 

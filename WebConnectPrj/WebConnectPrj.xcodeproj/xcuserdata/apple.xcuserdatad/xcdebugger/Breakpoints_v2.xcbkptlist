@@ -100,11 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/Update/Data/RefreshDefaultListRequestModel.m"
-            timestampString = "523190192.584454"
+            timestampString = "523505422.989487"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "-backObjectArrayFromBackDataDic:"
             landmarkType = "7">
          </BreakpointContent>
@@ -116,27 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/ServerRefresh/ZWServerEquipListVC.m"
-            timestampString = "523258109.132701"
+            timestampString = "523522669.332244"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
-            landmarkName = "handleSignal()"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ServerRefresh/ZWServerEquipListVC.m"
-            timestampString = "523258731.473307"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "652"
-            endingLineNumber = "652"
+            startingLineNumber = "701"
+            endingLineNumber = "701"
             landmarkName = "handleSignal()"
             landmarkType = "9">
          </BreakpointContent>
@@ -148,12 +132,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/ServerRefresh/ServerEquipIdRequestModel.m"
-            timestampString = "523258840.665178"
+            timestampString = "523523080.053879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "312"
-            endingLineNumber = "312"
-            landmarkName = "-backObjectArrayFromBackDataDic:"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
+            landmarkName = "-refreshEquipModelWithDetailBackDic:andEquipModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

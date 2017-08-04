@@ -12,6 +12,7 @@
 #import "ZWServerEquipModel.h"
 @interface ServerEquipIdRequestModel ()
 @property (nonatomic, assign) BOOL needUpdate;
+@property (nonatomic, strong) NSMutableDictionary * cookieDic;
 @end
 @implementation ServerEquipIdRequestModel
 
@@ -20,6 +21,7 @@
    self = [super init];
     if(self){
         self.saveKookie = YES;
+        self.cookieDic = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -32,9 +34,58 @@
     }
     _timerState = timerState;
 }
--(BOOL)cookieStateWithStartWebRequestWithUrl:(NSString *)url{
-    return YES;
+-(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
+{
+    if(!self.saveKookie){
+        return nil;
+    }
+    NSRange range = [url rangeOfString:@"server_id="];
+    if(range.location != NSNotFound)
+    {
+        NSInteger startIndex = range.location + range.length;
+        NSString * subStr = [url substringWithRange:NSMakeRange(startIndex,[url length] - startIndex)];
+        
+        NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
+        //内含cookie
+        if([serverDic count] > 0){
+            NSArray * arrCookies = [serverDic allValues];
+            NSDictionary *dictCookies = [NSHTTPCookie requestHeaderFieldsWithCookies:arrCookies];
+            return dictCookies;
+        }
+    }
+    return nil;
 }
+-(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr{
+//    NSLog(@"NSDictionary %@",fields);
+    if(!self.saveKookie)
+    {
+        return ;
+    }
+    
+    NSURL * url = [NSURL URLWithString:urlStr];
+    NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:fields forURL:url];
+    
+    NSRange range = [urlStr rangeOfString:@"server_id="];
+    if(range.location != NSNotFound)
+    {
+        NSInteger startIndex = range.location + range.length;
+        NSString * subStr = [urlStr substringWithRange:NSMakeRange(startIndex,[urlStr length] - startIndex)];
+        
+        NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
+        NSMutableDictionary * editDic = [NSMutableDictionary dictionaryWithDictionary:serverDic];
+        
+        for (NSInteger index = 0;index < [cookies count] ;index ++ )
+        {
+            NSHTTPCookie * cookie = [cookies objectAtIndex:index];
+            if([cookie.value length] > 0){
+                [editDic setObject:cookie forKey:cookie.name];   
+            }
+        }
+        
+        [self.cookieDic setObject:editDic forKey:subStr];
+    }
+}
+
 
 -(NSString *)replaceStringWithLatestWebString:(NSString *)webStr andServerId:(NSString *)server andEquipId:(NSString *)equipId
 {
@@ -212,7 +263,8 @@
     NSArray * typeArray = @[
                             @"请输入验证码后继续访问",
                             @"如果您看到这个页面，说明您的网速缓慢或者浏览器阻止您在https和http页面间跳转。",
-                            @"\"equip_name\":"
+                            @"没有找到该物品",
+                            @"\"equip_name\":",
                             ];
     for (NSInteger index = 0;index < [typeArray count] ;index++ )
     {
@@ -223,7 +275,7 @@
             checkType = index +1;
         }
     }
-    NSLog(@"checkType %ld",checkType);
+//    NSLog(@"checkType %ld",checkType);
     return checkType;
 }
 -(void)refreshEquipModelWithDetailBackDic:(NSDictionary *)aDic andEquipModel:(EquipModel *)detail
@@ -250,7 +302,14 @@
         detail.status = [NSNumber numberWithInt:[[dataArr objectAtIndex:2] intValue]];
         detail.kindid = [NSNumber numberWithInt:[[dataArr objectAtIndex:3] intValue]];
 //        detail.equip_name = [dataArr objectAtIndex:4];
-        detail.owner_nickname = [dataArr objectAtIndex:5];
+        NSString * nickName = [dataArr objectAtIndex:5];
+//        if([nickName length] > 0)
+//        {
+//            const char * nickCName =  [nickName cStringUsingEncoding:NSASCIIStringEncoding];
+//            NSString * realName = [NSString stringWithUTF8String:nickCName];
+//            detail.owner_nickname = realName;
+//        }
+        detail.owner_nickname = nickName;
         
         detail.owner_roleid = [dataArr objectAtIndex:6];
         detail.last_price_desc = [dataArr objectAtIndex:7];
@@ -271,10 +330,14 @@
 {
     ServerResultCheckType type = [self subDetailErroredFromDetailHTMl:aDic];
     NSArray * resultArr = nil;
-    switch (type) {
+    EquipModel * detail = [[EquipModel alloc] init];
+    detail.resultType = type;
+    
+    switch (type)
+    {
         case ServerResultCheckType_Success:
         {
-            EquipModel * detail = [[EquipModel alloc] init];
+            //请求成功
             NSString * equipName = [self subDetailEquipNameFromDetailHTMl:aDic];
             if([equipName integerValue] != 0)
             {
@@ -291,25 +354,28 @@
                 NSString * extra = [self replaceWebHtmlWithLatestBackHtmlDic:aDic];
                 detail.equip_desc = extra;
             }
-            
-            resultArr = @[detail];
 
         }
             break;
          
         case ServerResultCheckType_Error:{
-            
+            //需要验证码
         }
             break;
         case ServerResultCheckType_Redirect:{
-            
+            //需要重定向
         }
             break;
+        case ServerResultCheckType_NoneProduct:{
+            //需要重定向
+        }
+            break;
+
         default:
             break;
     }
 
-    
+    resultArr = @[detail];
     
     return resultArr;
 }

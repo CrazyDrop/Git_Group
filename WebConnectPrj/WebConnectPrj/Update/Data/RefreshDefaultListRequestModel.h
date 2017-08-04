@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseRequestModel.h"
+
 //列表数据请求基类
 @interface RefreshDefaultListRequestModel : BaseRequestModel
 @property (nonatomic, strong, readonly) NSArray * requestArr;
@@ -21,7 +23,7 @@
 @prop_strong( NSArray *,		listArray	OUT )
 
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)dic andStartUrl:(NSString *)url;
--(BOOL)cookieStateWithStartWebRequestWithUrl:(NSString *)url;
+-(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url;
 
 -(void)refreshWebRequestWithArray:(NSArray *)array;
 

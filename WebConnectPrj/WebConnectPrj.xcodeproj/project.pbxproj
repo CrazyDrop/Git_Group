@@ -1321,6 +1321,10 @@
 		18AF92031F0E2D88004D07FF /* CBGBargainListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AF92011F0E2D88004D07FF /* CBGBargainListVC.m */; };
 		18BD50F21EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */; };
 		18C4ED311EB81B6B00A03887 /* CBGLatestDetailCheckVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */; };
+		18C882041F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882031F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m */; };
+		18C882051F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882031F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m */; };
+		18C882081F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */; };
+		18C882091F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */; };
 		18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
 		18CA6E911EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
 		18CBBBC61F20A86100E8C226 /* ZWAutoRefreshListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */; };
@@ -2543,6 +2547,10 @@
 		18BD50F11EB3341300CC7053 /* CBGPlanCheckSpecialListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGPlanCheckSpecialListVC.m; sourceTree = "<group>"; };
 		18C4ED2F1EB81B6B00A03887 /* CBGLatestDetailCheckVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGLatestDetailCheckVC.h; sourceTree = "<group>"; };
 		18C4ED301EB81B6B00A03887 /* CBGLatestDetailCheckVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGLatestDetailCheckVC.m; sourceTree = "<group>"; };
+		18C882021F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerRefreshAutoEquipVC.h; sourceTree = "<group>"; };
+		18C882031F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerRefreshAutoEquipVC.m; sourceTree = "<group>"; };
+		18C882061F34420100D01A37 /* ZWServerEquipServerSelectedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerEquipServerSelectedVC.h; sourceTree = "<group>"; };
+		18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerEquipServerSelectedVC.m; sourceTree = "<group>"; };
 		18CA6E8E1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSpecialCompareListVC.h; sourceTree = "<group>"; };
 		18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSpecialCompareListVC.m; sourceTree = "<group>"; };
 		18CBBBC41F20A86100E8C226 /* ZWAutoRefreshListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWAutoRefreshListModel.h; sourceTree = "<group>"; };
@@ -4847,6 +4855,10 @@
 				1878BDA11F2F7DD600DF2110 /* ZWServerURLCheckVC.m */,
 				184F70CD1F2F2CAA00C4BB92 /* ZWServerEquipModel.h */,
 				184F70CE1F2F2CAA00C4BB92 /* ZWServerEquipModel.m */,
+				18C882021F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.h */,
+				18C882031F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m */,
+				18C882061F34420100D01A37 /* ZWServerEquipServerSelectedVC.h */,
+				18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */,
 			);
 			path = ServerRefresh;
 			sourceTree = "<group>";
@@ -5203,6 +5215,7 @@
 				184F70CF1F2F2CAA00C4BB92 /* ZWServerEquipModel.m in Sources */,
 				18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */,
 				18A975A41E7FDDD400B48E3C /* UIImageView+Html.m in Sources */,
+				18C882081F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */,
 				18DAF5E71ECC325700873D19 /* ZAAutoBuyWebView.m in Sources */,
 				189F78AD1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */,
 				18A975621E7FDDD400B48E3C /* View+Template.m in Sources */,
@@ -5229,6 +5242,7 @@
 				180D58A319E622680045A720 /* ViewController.m in Sources */,
 				18A96E311E7FC2C500B48E3C /* Summon_equip2Model.m in Sources */,
 				18A9753E1E7FDDD400B48E3C /* Samurai_Runtime.m in Sources */,
+				18C882041F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m in Sources */,
 				18F8DACD1F2ADAAD00530041 /* ZWServerRefreshListVC.m in Sources */,
 				18A975901E7FDDD400B48E3C /* Samurai_HtmlColor.m in Sources */,
 				18EFD52C1EADA4B10084BD19 /* CBGSortHistoryBaseTableVC.m in Sources */,
@@ -5879,6 +5893,7 @@
 				184F70D01F2F2CAA00C4BB92 /* ZWServerEquipModel.m in Sources */,
 				1833235D1ED6B10D00B1ECEA /* UIImageView+Html.m in Sources */,
 				1833235E1ED6B10D00B1ECEA /* ZAAutoBuyWebView.m in Sources */,
+				18C882091F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */,
 				1833235F1ED6B10D00B1ECEA /* View+Template.m in Sources */,
 				189F78AE1EFD007D0048AC11 /* UIWebView+AFNetworking.m in Sources */,
 				183323601ED6B10D00B1ECEA /* Samurai_CSSRuleSet.m in Sources */,
@@ -5905,6 +5920,7 @@
 				183323701ED6B10D00B1ECEA /* Summon_equip2Model.m in Sources */,
 				183323711ED6B10D00B1ECEA /* Samurai_Runtime.m in Sources */,
 				183323721ED6B10D00B1ECEA /* Samurai_HtmlColor.m in Sources */,
+				18C882051F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m in Sources */,
 				18F8DACE1F2ADAAD00530041 /* ZWServerRefreshListVC.m in Sources */,
 				183323731ED6B10D00B1ECEA /* CBGSortHistoryBaseTableVC.m in Sources */,
 				183323741ED6B10D00B1ECEA /* HtmlElement_P.m in Sources */,

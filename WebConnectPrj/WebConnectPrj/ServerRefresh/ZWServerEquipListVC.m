@@ -33,6 +33,7 @@
 #import "CBGDetailWebView.h"
 #import "CBGPlanDetailPreShowWebVC.h"
 #import "ZWServerEquipModel.h"
+#import "ZWServerURLCheckVC.h"
 #define MonthTimeIntervalConstant 60*60*24*(30)
 @interface ZWServerEquipListVC ()<UITableViewDataSource,UITableViewDelegate,
 RefreshCellCopyDelgate>
@@ -40,7 +41,6 @@ RefreshCellCopyDelgate>
     BaseRequestModel * _detailListReqModel;
     BOOL showTotal;
     NSLock * requestLock;
-    
     
 }
 //界面不消失，一直不重复大范围请求操作
@@ -53,7 +53,9 @@ RefreshCellCopyDelgate>
 @property (nonatomic,copy) NSArray * dataArr2;
 @property (nonatomic,assign) BOOL latestContain;
 @property (nonatomic,strong) id latest;
-@property (nonatomic,strong) UIView * tipsView;
+@property (nonatomic,strong) UIView * waitingTips;
+@property (nonatomic,strong) UIView * randomTips;
+@property (nonatomic,strong) UIView * networkTips;
 @property (nonatomic,strong) NSArray * detailsArr;
 @property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * grayArray;
@@ -62,6 +64,7 @@ RefreshCellCopyDelgate>
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 @property (nonatomic,assign) BOOL forceRefresh;
 @property (nonatomic,strong) NSDictionary * serNameDic;
+
 @end
 
 @implementation ZWServerEquipListVC
@@ -82,6 +85,12 @@ RefreshCellCopyDelgate>
         
         self.inWebRequesting = NO;
         requestLock = [[NSLock alloc] init];
+        
+        NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+        for (NSHTTPCookie *cookie in cookiesArray)
+        {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+        }
     }
     
     return self;
@@ -92,17 +101,27 @@ RefreshCellCopyDelgate>
     if(!allArr || [allArr count] == 0) return nil;
     
     NSInteger startIndex = self.latestNum;
-    if([allArr count] <= startIndex){
-        startIndex = 0;
-    }
-    
-    NSInteger endIndex = self.latestNum  + self.serverNum;
-    if([allArr count] <= endIndex)
+    NSInteger endIndex = 0;
+    if(self.serverNum >= [allArr count])
     {
-        endIndex = [allArr count] - 1;
+        startIndex = 0;
+        endIndex = [allArr count] ;
+    }else{
+        if([allArr count] <= startIndex){
+            startIndex = 0;
+        }
+        
+        endIndex = self.latestNum  + self.serverNum;
+        if([allArr count] <= endIndex)
+        {
+            endIndex = [allArr count] ;
+            self.latestNum = 0;
+        }else
+        {
+            self.latestNum = endIndex;
+        }
     }
     
-    self.latestNum = [allArr count] -1 == endIndex?0:endIndex;
     
     NSArray * part = [allArr subarrayWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
     NSMutableArray * data = [NSMutableArray array];
@@ -300,8 +319,15 @@ RefreshCellCopyDelgate>
     self.listTable = table;
     [self.view addSubview:table];
     
-    [self.view addSubview:self.tipsView];
-    self.tipsView.hidden = YES;
+    [self.view addSubview:self.waitingTips];
+    self.waitingTips.hidden = YES;
+    
+    [self.view addSubview:self.randomTips];
+    self.randomTips.hidden = YES;
+    
+    [self.view addSubview:self.networkTips];
+    self.randomTips.hidden = YES;
+
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     if(check.serverHistory)
@@ -312,35 +338,83 @@ RefreshCellCopyDelgate>
     }
     
 }
--(UIView *)tipsView{
-    if(!_tipsView)
+-(UIView *)randomTips
+{
+    if(!_randomTips)
     {
-        CGFloat btnWidth = 100;
+        CGFloat btnWidth = 150;
         UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
         aView.backgroundColor = [UIColor redColor];
         
         UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
-        albl.text = @"错误(刷新)";
+        albl.text = @"验证码异常";
+        [albl sizeToFit];
+        [aView addSubview:albl];
+        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
+        
+        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedRefreshRandNumGesture:)];
+        [aView addGestureRecognizer:tapGes];
+        self.randomTips = aView;
+    }
+    return _randomTips;
+}
+-(void)tapedRefreshRandNumGesture:(UITapGestureRecognizer *)tap
+{
+    ZWServerURLCheckVC * check = [[ZWServerURLCheckVC  alloc] init];
+    [[self rootNavigationController] pushViewController:check animated:YES];
+}
+
+-(UIView *)waitingTips{
+    if(!_waitingTips)
+    {
+        CGFloat btnWidth = 150;
+        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
+        aView.backgroundColor = [UIColor greenColor];
+        
+        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
+        albl.text = @"Cookiet(刷新)";
         [albl sizeToFit];
         [aView addSubview:albl];
         albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
         
         UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedRefreshGesture:)];
         [aView addGestureRecognizer:tapGes];
-        self.tipsView = aView;
+        self.waitingTips = aView;
     }
-    return _tipsView;
+    return _waitingTips;
 }
     
 -(void)tapedRefreshGesture:(id)sender
 {
-    //    [SFHFKeychainUtils exchangeLocalCreatedDeviceNum];
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    total.randomAgent = [[DZUtils currentDeviceIdentifer] MD5String];
-    [total localSave];
+    [DZUtils noticeCustomerWithShowText:@"自动获取"];
 }
-    
+-(UIView *)networkTips
+{
+    if(!_networkTips)
+    {
+        CGFloat btnWidth = 150;
+        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
+        aView.backgroundColor = [UIColor greenColor];
+        
+        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
+        albl.text = @"网络异常(刷新)";
+        [albl sizeToFit];
+        [aView addSubview:albl];
+        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
+        
+        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedRefreshNetworkGesture:)];
+        [aView addGestureRecognizer:tapGes];
+        self.networkTips = aView;
+    }
+    return _networkTips;
+}
+
+-(void)tapedRefreshNetworkGesture:(id)sender
+{
+    [DZUtils noticeCustomerWithShowText:@"自动获取"];
+}
+
+
 -(void)submit
 {
     //提供选择
@@ -392,6 +466,18 @@ RefreshCellCopyDelgate>
                   [weakSelf refreshLatestListRequestModelWithSmallList:NO];
               }];
     [alertController addAction:action];
+
+    action = [MSAlertAction actionWithTitle:@"清空cookie" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+                    for (NSHTTPCookie *cookie in cookiesArray)
+                    {
+                        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+                    }
+
+              }];
+    [alertController addAction:action];
+
     
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
@@ -567,8 +653,13 @@ RefreshCellCopyDelgate>
     ServerEquipIdRequestModel * listRequest = (ServerEquipIdRequestModel *)_dpModel;
     if(listRequest.executing) return;
 
+    if(!self.randomTips.hidden) return;//当展示需要输入验证码时，不进行继续刷新
+    
+    
     NSArray * server = [self latestServerIdArr];
     if([server count] == 0) return;
+    
+    
     //    if(self.inWebRequesting)
     //    {
     //        return;
@@ -584,7 +675,6 @@ RefreshCellCopyDelgate>
         //model重建，仅界面消失时出现，执行时不处于请求中
         model = [[ServerEquipIdRequestModel alloc] init];
         [model addSignalResponder:self];
-        //        model.saveKookie = YES;
         _dpModel = model;
         
         /*
@@ -598,6 +688,8 @@ RefreshCellCopyDelgate>
          }
          */
     }
+    
+    model.saveKookie = YES;
     model.serverArr = server;
     model.timerState = !model.timerState;
     [model sendRequest];
@@ -605,7 +697,7 @@ RefreshCellCopyDelgate>
 #pragma mark ServerEquipIdRequestModel
 handleSignal( ServerEquipIdRequestModel, requestError )
 {
-    self.tipsView.hidden = NO;
+    self.networkTips.hidden = NO;
     [self hideLoading];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
@@ -613,12 +705,12 @@ handleSignal( ServerEquipIdRequestModel, requestError )
 }
 handleSignal( ServerEquipIdRequestModel, requestLoading )
 {
-UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-if(state != UIApplicationStateActive){
-    return;
-}
-[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    [self showLoading];
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //    [self showLoading];
 }
 
 
@@ -628,13 +720,18 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     //    refreshLatestTotalArray
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSLog(@"%s",__FUNCTION__);
-
+    
     //使用total给request赋值
     ServerEquipIdRequestModel * model = (ServerEquipIdRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
     NSArray * request = model.serverArr;
-    NSMutableArray * backArray = [NSMutableArray array];
-
+    NSMutableArray * backArray = [NSMutableArray array];//用来展示的
+    
+    NSMutableArray * finishArr = [NSMutableArray array];
+    NSMutableArray * randArr = [NSMutableArray array];
+    NSMutableArray * waitingArr = [NSMutableArray array];
+    
+    
     if([total count] == [request count])
     {
         for (NSInteger index = 0;index < [total count] ;index ++ )
@@ -648,7 +745,7 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
                 req.detail = detail;
                 req.equipDesc =  detail.equip_desc;
                 
-                if(detail.game_ordersn)
+                if([detail.game_ordersn length] > 0)
                 {
                     Equip_listModel * list = [[Equip_listModel alloc] init];
                     list.serverid = detail.serverid;
@@ -656,7 +753,26 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
                     list.equipModel = detail;
                     [backArray addObject:list];
                 }
-
+                
+                switch (detail.resultType)
+                {
+                    case ServerResultCheckType_Error:
+                    {
+                        [randArr addObject:detail];
+                    }
+                        break;
+                    case ServerResultCheckType_Redirect:{
+                        [waitingArr addObject:detail];
+                    }
+                        break;
+                    case ServerResultCheckType_None:{
+                        [finishArr addObject:detail];
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
             }
         }
     }else
@@ -669,8 +785,10 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     [self refreshServerEquipListWithRequestPageIndexArray:request];
     
 
-    self.tipsView.hidden = [backArray count] != 0;
-
+    self.networkTips.hidden = [finishArr count] == 0;
+    self.randomTips.hidden = [randArr count] == 0;
+    self.waitingTips.hidden = [waitingArr count] == 0;
+    
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
@@ -695,11 +813,15 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         ZWServerEquipModel * server = [array objectAtIndex:index];
-        if([server.equipDesc length] > 0)
+        if(server.detail.resultType == ServerResultCheckType_Success)
         {
             server.equipId ++;
+            
+            server.detail = nil;
+            server.equipDesc = nil;
         }
     }
+    
 }
 
 

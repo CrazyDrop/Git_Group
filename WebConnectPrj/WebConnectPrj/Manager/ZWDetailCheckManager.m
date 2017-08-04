@@ -121,10 +121,12 @@
             eveModel.appendHistory.equip_price = [price integerValue];
             eveModel.appendHistory.equip_accept = eveModel.accept_bargain;
             eveModel.appendHistory.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
-            
+            eveModel.appendHistory.plan_rate = eveModel.appendHistory.price_rate_latest_plan;
+
             eveModel.earnRate = eveModel.appendHistory.price_rate_latest_plan;
             eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",eveModel.appendHistory.price_earn_plan];
             
+
             if(eveModel.earnRate > 0){
                 [modelsDic setObject:eveModel forKey:identifier];
             }else
@@ -441,6 +443,8 @@
             cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPrice;
             [updateArr addObject:cbgList];
             
+            list.appendHistory.plan_rate = cbgList.plan_rate;
+            list.appendHistory.equip_price = cbgList.equip_price;
             
             NSDate * startDate = [NSDate fromString:list.equipModel.selling_time];
             NSTimeInterval count = [latestDate timeIntervalSinceDate:startDate];
