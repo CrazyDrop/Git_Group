@@ -99,6 +99,8 @@
 @property (nonatomic, assign) CGFloat earnPrice;
 @property (nonatomic, strong) NSString * finishDate;//详情刷新时间
 
+@property (nonatomic, strong) CBGListModel * listSaveModel;//详情数据
+
 -(CBGEquipRoleState)equipState;
 -(BOOL)isAutoStopSelling;
 

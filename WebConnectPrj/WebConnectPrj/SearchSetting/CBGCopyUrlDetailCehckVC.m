@@ -179,6 +179,10 @@
             name = @"购买-无";
         }
             break;
+        case CBGDetailTestURLFunctionStyle_TotalClear:{
+            name = @"数据清空";
+        }
+            break;
 
             
         default:
@@ -227,7 +231,7 @@
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_ReadRemove],
                                  [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_WebUpload],
                                  
-
+                                 [NSNumber numberWithInt:CBGDetailTestURLFunctionStyle_TotalClear],
                                  
                                  nil];
         
@@ -407,6 +411,14 @@
         {
             [self removeWebDatabaseForUploadPrepare];
         }
+            break;
+        case CBGDetailTestURLFunctionStyle_TotalClear:
+        {
+            NSError * error = [self clearCurrentLocalTotalDB];
+            NSString * tagStr = error?@"删除失败":@"删除成功";
+            [DZUtils noticeCustomerWithShowText:tagStr];
+        }
+            break;
     }
 }
 -(void)refreshWebDatabaseWithLatestSaveDB
@@ -466,6 +478,19 @@
     }
     return error;
 }
+-(NSError *)clearCurrentLocalTotalDB
+{
+    ZALocationLocalModelManager * aDbMan = [ZALocationLocalModelManager sharedInstance];
+    NSArray * arr = [aDbMan localSaveEquipHistoryModelListTotal];
+    for (NSInteger index = 0;index < [arr count] ; index++)
+    {
+        CBGListModel * eveObj = [arr objectAtIndex:index];
+        [aDbMan deleteLocalSaveEquipHistoryObjectWithCBGModelOrderSN:eveObj.game_ordersn];
+    }
+    
+    return nil;
+}
+
 -(void)startActivityWebRequest
 {
     CBGWebDBDownModel * model = (CBGWebDBDownModel *) _dbDataModel;
@@ -868,6 +893,10 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
 //        http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=26&ordersn=83_1489759087_83947196&equip_refer=1
 //            serverid=358&game_ordersn=447_1489589792_447864717
 //        serverid=275&ordersn=250_1490584375_250940629&equip_refer=1
+        
+        detailCopy = [detailCopy stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        detailCopy = [detailCopy stringByReplacingOccurrencesOfString:@" " withString:@""];
+
         CBGListModel * cbgList = [[self class] listModelBaseDataFromLatestEquipUrlStr:detailCopy];
         baseList.serverid = [NSNumber numberWithInteger:cbgList.server_id];
         baseList.game_ordersn = cbgList.game_ordersn;

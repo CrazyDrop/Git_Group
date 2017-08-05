@@ -10,7 +10,13 @@
 #import "ZWServerEquipModel.h"
 #import "ZALocationLocalModel.h"
 #import "ZWServerEquipServerSelectedVC.h"
+#import "OpenTimesRefreshManager.h"
+#import "ServerEquipIdRequestModel.h"
+#import "EquipDetailArrayRequestModel.h"
 @interface ZWServerRefreshAutoEquipVC ()<UIWebViewDelegate>
+{
+    BaseRequestModel * _detailListReqModel;
+}
 @property (nonatomic,strong) UIWebView * showWeb;
 @property (nonatomic,strong) ZWServerEquipModel * serverEquip;
 @property (nonatomic,strong) UIButton * refreshBtn;
@@ -20,6 +26,8 @@
 
 @property (nonatomic,strong) UIButton * preEquipBtn;
 @property (nonatomic,strong) UIButton * nextEquipBtn;
+@property (nonatomic,assign) BOOL autoRefresh;
+@property (nonatomic,assign) BOOL autoChecking;
 @end
 
 @implementation ZWServerRefreshAutoEquipVC
@@ -30,7 +38,7 @@
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setTitle:@"上一页" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:[UIColor blueColor]];
+        [btn setBackgroundColor:[UIColor greenColor]];
         CGFloat btnWidth = 80;
         btn.frame = CGRectMake(0, 0, btnWidth, btnWidth);
         [btn addTarget:self
@@ -46,7 +54,7 @@
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setTitle:@"下一页" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [btn setBackgroundColor:[UIColor blueColor]];
+        [btn setBackgroundColor:[UIColor greenColor]];
         CGFloat btnWidth = 80;
         btn.frame = CGRectMake(0, 0, btnWidth, btnWidth);
         [btn addTarget:self
@@ -70,7 +78,7 @@
     if(!_refreshBtn)
     {
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:@"刷新" forState:UIControlStateNormal];
+        [btn setTitle:@"停止" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [btn setBackgroundColor:[UIColor blueColor]];
         CGFloat btnWidth = 80;
@@ -86,7 +94,7 @@
     if(!_saveBtn)
     {
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:@"保存" forState:UIControlStateNormal];
+        [btn setTitle:@"检查" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [btn setBackgroundColor:[UIColor blueColor]];
         CGFloat btnWidth = 80;
@@ -99,33 +107,29 @@
 }
 -(void)tapedOnRefreshWebViewBtn:(id)sender
 {
-//    [self startRefreshDataModelRequest];
-//    
-//    NSString * urlString = self.cbgList.detailWebUrl;
-//    if(!urlString) return;
-//    NSURL *url = [NSURL URLWithString:urlString];
-//    NSURLRequest *request =[NSURLRequest requestWithURL:url];
-//    [self.showWeb loadRequest:request];
+    //控制开关
+    self.autoRefresh = !self.autoRefresh;
+    [self refreshShowRefreshBtnStyleWithRefresh:self.autoRefresh];
+    
+    if(self.autoRefresh)
+    {
+        if(self.serverEquip.equipDesc)
+        {
+            //请求下一个
+            ZWServerEquipModel * server = self.serverEquip;
+            server.equipId ++ ;
+            server.equipDesc = nil;
+            server.detail = nil;
+            server.orderSN = nil;
+        }
+        NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+        [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+    }
 }
-
 -(void)tapedOnLocalDBSaveBtn:(id)sender
 {
-    //进行数据刷新
-//    if(!self.detailModel){
-//        [DZUtils noticeCustomerWithShowText:@"详情不存在"];
-//        return;
-//    }
-//    baseList.equipModel = self.detailModel;
-//    
-//    //强制刷新
-//    [baseList refrehLocalBaseListModelWithDetail:self.detailModel];
-//    
-//    CBGListModel * cbgList = [baseList listSaveModel];
-//    cbgList.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-//    
-//    NSArray * arr = @[cbgList];
-//    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-//    [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:arr];
+    NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+    [self refreshWebViewWithLatestReqeustUrl:nextUrl];
 }
 -(UIButton *)payBtn
 {
@@ -147,8 +151,72 @@
 }
 -(void)tapedOnPayBtn:(id)sender
 {
+    if(!self.serverEquip.orderSN)
+    {
+        [DZUtils noticeCustomerWithShowText:@"未获取编号"];
+        [self tapedOnLocalDBSaveBtn:nil];
+        return;
+    }
     
+    NSString * urlString = self.serverEquip.mobileAppDetailShowUrl;
+    
+    NSURL *appPayUrl = [NSURL URLWithString:urlString];
+    
+    if([[UIApplication sharedApplication] canOpenURL:appPayUrl])
+    {
+        [[UIApplication sharedApplication] openURL:appPayUrl];
+    }
 }
+-(void)startLocationDataRequest
+{
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+//    self.latest = [manager latestLocationModel];
+    
+    ZALocation * locationInstance = [ZALocation sharedInstance];
+    [locationInstance startLocationRequestUserAuthorization];
+    __weak typeof(self) weakSelf = self;
+    
+    
+    [locationInstance startLocationUpdateWithEndBlock:^(CLLocation *location){
+        [weakSelf backLocationDataWithString:location];
+    }];
+}
+-(void)backLocationDataWithString:(id)obj
+{
+    //    NSLog(@"%s",__FUNCTION__);
+    
+    OpenTimesRefreshManager * manager = [OpenTimesRefreshManager sharedInstance];
+    if(manager.isRefreshing) return;
+    [self startOpenTimesRefreshTimer];
+}
+
+-(void)startOpenTimesRefreshTimer
+{
+    OpenTimesRefreshManager * manager = [OpenTimesRefreshManager sharedInstance];
+    __weak typeof(self) weakSelf = self;
+    //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger time = 3;
+    //    if(total.refreshTime && [total.refreshTime intValue]>0){
+    //        time = [total.refreshTime intValue];
+    //    }
+    manager.refreshInterval = time;
+    manager.functionInterval = time;
+    manager.funcBlock = ^()
+    {
+        
+#if TARGET_IPHONE_SIMULATOR
+        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                                   withObject:nil
+                                waitUntilDone:NO];
+#else
+        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+                                   withObject:nil
+                                waitUntilDone:NO];
+#endif
+    };
+    [manager saveCurrentAndStartAutoRefresh];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -196,14 +264,15 @@
     
     
     pt.y = SCREEN_HEIGHT - boundHeight/2.0;
-    pt.x = self.preEquipBtn.bounds.size.width/2.0;
-    [bgView addSubview:self.preEquipBtn];
-    self.preEquipBtn.center = pt;
-    
-    pt.y -= boundHeight;
+    pt.x = self.nextEquipBtn.bounds.size.width/2.0;
     [bgView addSubview:self.nextEquipBtn];
     self.nextEquipBtn.center = pt;
     
+    pt.y -= boundHeight;
+    [bgView addSubview:self.preEquipBtn];
+    self.preEquipBtn.center = pt;
+    
+    self.autoRefresh = NO;
 }
 -(void)refreshShowRefreshBtnStyleWithRefresh:(BOOL)refresh
 {
@@ -212,6 +281,13 @@
 }
 -(void)refreshShowNextPageBtnStyleWithNext:(BOOL)next
 {//手动的触发后，无效
+    if(self.autoChecking) return;
+    if(self.autoRefresh)
+    {
+        self.autoRefresh = NO;
+        [self refreshShowRefreshBtnStyleWithRefresh:self.autoRefresh];
+    }
+    
     //下一页、上一页
     NSInteger nxtPage = next?1:-1;
     self.serverEquip.equipId += nxtPage;
@@ -224,6 +300,7 @@
 {
     [super viewWillAppear:animated];
     [self refreshLocalEquipServerModel];
+//    [self startLocationDataRequest];
 }
 -(void)refreshLocalEquipServerModel
 {
@@ -240,6 +317,14 @@
             {
                 self.serverEquip = eve;
             }
+        }
+        
+        if(!self.serverEquip)
+        {
+            ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
+            eve1.equipId = 2281755;
+            eve1.serverId = 33;
+            self.serverEquip = eve1;
         }
         
         NSString * webUrl = [self latestWebRequestUrlWithSelectedServerId];
@@ -280,28 +365,319 @@
     ZWServerEquipServerSelectedVC * select = [[ZWServerEquipServerSelectedVC alloc] init];
     [[self rootNavigationController] pushViewController:select animated:YES];
 }
-
--(void)webViewDidFinishLoad:(UIWebView *)webView
+-(void)checkAndRefreshLocalWebCookie
 {
-    [self startWebDetailJSForNextPage];
-    NSString * nextUrl = [webView request].URL.absoluteString;
-    NSLog(@"webViewDidFinishLoad %@",nextUrl);
-    
-    //    if()
+
+    NSString * cookieName = @"latest_views";
+    NSHTTPCookie * editCookie = nil;
+    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    for (NSHTTPCookie *cookie in cookiesArray)
     {
-        //        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_REFRESH_WEB_ERROR_STATE object:[NSNumber numberWithBool:NO]];
+        if([cookie.name isEqualToString:cookieName])
+        {
+            editCookie = cookie;
+            break;
+        }
     }
     
+    if(editCookie)
+    {
+        NSString * editValue = editCookie.value;
+        NSArray * arr = [editValue componentsSeparatedByString:@"-"];
+        if([arr count] >1)
+        {
+            NSString * editRefresh = [arr lastObject];
+            
+            NSDictionary * preDic = [editCookie properties];
+            NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+            [cookieProperties addEntriesFromDictionary:preDic];
+            [cookieProperties setObject:editRefresh forKey:NSHTTPCookieValue];
+
+            NSHTTPCookie *refreshCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
+//            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:refreshCookie];
+        }
+    }
 }
--(void)startWebDetailJSForNextPage
+-(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    NSString * runJs = @"window.document.getElementById('level_min').value='15'";
+    [self checkAndRefreshLocalWebCookie];
+    
+    NSString * nextUrl = [webView request].URL.absoluteString;
+    NSLog(@"webViewDidFinishLoad %@",nextUrl);
+    if(nextUrl){
+        
+    }
+    
+    [self checkAndStartedNextEquipWebRequest];
+}
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    NSLog(@"didFailLoadWithError ");
+    [self checkAndStartedNextEquipWebRequest];
+
+}
+-(void)checkAndStartedNextEquipWebRequest
+{
+
+    NSString * runJs = @"window.document.getElementById('equip_desc_value').value;";
     NSString * result = [self.showWeb stringByEvaluatingJavaScriptFromString:runJs];
     
-    //    runJs = @"submit_query_form();";
-    //    result = [self.showWeb stringByEvaluatingJavaScriptFromString:runJs];
+    NSString * petJs = @"window.document.getElementById('pet_desc').value;";
+    NSString * petResult = [self.showWeb stringByEvaluatingJavaScriptFromString:petJs];
+    
+    NSString * nonePrjJS =@"window.document.getElementsByClassName('cDYellow tips').length;";
+    NSString * nonePrjResult = [self.showWeb stringByEvaluatingJavaScriptFromString:nonePrjJS];
+
+    NSString * randJs =@"window.document.getElementsByClassName('txt1').length;";
+    NSString * randResult = [self.showWeb stringByEvaluatingJavaScriptFromString:randJs];
+
+    NSString * orderSNJS =@"equip.game_ordersn;";
+    NSString * orderSN = [self.showWeb stringByEvaluatingJavaScriptFromString:orderSNJS];
+
+    NSString * equipNameJS =@"equip.equip_name;";
+    NSString * equipName = [self.showWeb stringByEvaluatingJavaScriptFromString:equipNameJS];
+
+    
+    if([orderSN length] > 0)
+    {
+        self.serverEquip.orderSN = orderSN;
+    }
+    
+    //纯id数据、标识为角色，进行详情请求，发现角色，进行角色详情请求
+    if([equipName integerValue] > 100)
+    {
+        NSString * detailWeb = self.serverEquip.detailDataUrl;
+        [self startEquipDetailAllRequestWithUrls:@[detailWeb]];
+        
+        self.autoChecking = YES;
+//        self.autoRefresh = NO;
+//        [self refreshShowRefreshBtnStyleWithRefresh:self.autoRefresh];
+    }
+    
+    if(!self.autoRefresh || self.autoChecking) return;
+    
+    if([result length] > 0 || [petResult length]> 0)
+    {
+        [self startNextEquipPageLoadAndRefresh];
+//        ZWServerEquipModel * server = self.serverEquip;
+//        server.equipId ++;
+//        server.detail = nil;
+//        server.equipDesc = nil;
+//        server.orderSN = nil;
+//        
+//        NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+//        [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+    }
+    else if([nonePrjResult integerValue] > 0)
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+            [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+        });
+    }else if([randResult integerValue] > 0){
+        //停止刷新，等待
+        self.autoRefresh = !self.autoRefresh;
+        [self refreshShowRefreshBtnStyleWithRefresh:self.autoRefresh];
+    }
+
+}
+-(void)startNextEquipPageLoadAndRefresh
+{
+    ZWServerEquipModel * server = self.serverEquip;
+    server.equipId ++;
+    server.detail = nil;
+    server.equipDesc = nil;
+    server.orderSN = nil;
+    
+    NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+    [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+
 }
 
+
+-(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
+{
+    NSLog(@"%s",__FUNCTION__);
+    
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(!model){
+        model = [[EquipDetailArrayRequestModel alloc] init];
+        [model addSignalResponder:self];
+        _detailListReqModel = model;
+    }
+    
+    if(model.executing) return;
+    
+    [model refreshWebRequestWithArray:array];
+    [model sendRequest];
+    
+}
+
+#pragma mark EquipDetailArrayRequestModel
+handleSignal( EquipDetailArrayRequestModel, requestError )
+{
+    self.autoChecking = NO;
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+}
+handleSignal( EquipDetailArrayRequestModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+}
+
+handleSignal( EquipDetailArrayRequestModel, requestLoaded )
+{
+    NSLog(@"%s",__FUNCTION__);
+    self.autoChecking = NO;
+    
+    //进行存储操作、展示
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
+    NSArray * total  = model.listArray;
+    if([total count] > 0){
+        NSArray * detailArr = [total lastObject];
+        if([detailArr count] > 0)
+        {
+            EquipModel * detail = [detailArr lastObject];
+            
+            ZWServerEquipModel * server = self.serverEquip;
+            server.detail = detail;
+            server.equipDesc = detail.equip_desc;
+            server.orderSN = detail.game_ordersn;
+            
+            
+            CBGListModel * list = detail.listSaveModel;
+            list.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
+            if([list preBuyEquipStatusWithCurrentExtraEquip])
+            {
+                NSString * webUrl = list.mobileAppDetailShowUrl;
+                [DZUtils startNoticeWithLocalUrl:webUrl];
+                NSURL * appPayUrl = [NSURL URLWithString:webUrl];
+                
+                if([[UIApplication sharedApplication] canOpenURL:appPayUrl]  &&
+                   [UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+                {
+                    [[UIApplication sharedApplication] openURL:appPayUrl];
+                }
+            }
+            
+            ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+            [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[list]];
+            [self startNextEquipPageLoadAndRefresh];
+        }
+    }
+
+}
+
+
+//-(void)startRefreshDataModelRequest
+//{
+//    if(![DZUtils deviceWebConnectEnableCheck])
+//    {
+//        return;
+//    }
+//    
+//    if(!self.autoRefresh) return;
+//    
+//    ServerEquipIdRequestModel * listRequest = (ServerEquipIdRequestModel *)_dpModel;
+//    if(listRequest.executing) return;
+//    
+//    if(!self.serverEquip) return;
+//    
+//    NSArray * server = @[self.serverEquip];
+//    if([server count] == 0) return;
+//
+//    
+//    NSString * webUrl = [self latestWebRequestUrlWithSelectedServerId];
+//    [self refreshWebViewWithLatestReqeustUrl:webUrl];
+//    
+//    NSLog(@"%s",__FUNCTION__);
+//    
+//    ServerEquipIdRequestModel * model = (ServerEquipIdRequestModel *)_dpModel;
+//    
+//    if(!model){
+//        //model重建，仅界面消失时出现，执行时不处于请求中
+//        model = [[ServerEquipIdRequestModel alloc] init];
+//        [model addSignalResponder:self];
+//        _dpModel = model;
+//        
+//        /*
+//         if(self.totalPageNum >= 3)
+//         {
+//         [self refreshLatestListRequestModelWithSmallList:YES];
+//         }
+//         if(self.maxRefresh)
+//         {
+//         model.pageNum = 100;
+//         }
+//         */
+//    }
+//    
+//    model.saveKookie = YES;
+//    model.serverArr = server;
+//    model.timerState = !model.timerState;
+//    [model sendRequest];
+//}
+//#pragma mark ServerEquipIdRequestModel
+//handleSignal( ServerEquipIdRequestModel, requestError )
+//{
+//    [self hideLoading];
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//    if(self.autoRefresh)
+//    {
+//        [self startRefreshDataModelRequest];
+//    }
+//
+//    
+//}
+//handleSignal( ServerEquipIdRequestModel, requestLoading )
+//{
+//    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//    if(state != UIApplicationStateActive){
+//        return;
+//    }
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    //    [self showLoading];
+//}
+//
+//
+//handleSignal( ServerEquipIdRequestModel, requestLoaded )
+//{
+//    [self hideLoading];
+//    
+//    ServerEquipIdRequestModel * model = (ServerEquipIdRequestModel *)_dpModel;
+//    NSArray * total  = model.listArray;
+//    if([total count] > 0)
+//    {
+//        NSArray * objArr = [total lastObject];
+//        if([objArr isKindOfClass:[NSArray class]] && [objArr count] > 0)
+//        {
+//            EquipModel * detail = [objArr lastObject];
+//            if(detail.resultType == ServerResultCheckType_Success)
+//            {
+//                ZWServerEquipModel * server = self.serverEquip;
+//                if(server.detail.resultType == ServerResultCheckType_Success)
+//                {
+//                    server.equipId ++;
+//                    
+//                    server.detail = nil;
+//                    server.equipDesc = nil;
+//                }
+//            }
+//        }
+//    }
+//    
+//    if(self.autoRefresh)
+//    {
+//        [self startRefreshDataModelRequest];
+//    }
+//}
 /*
 #pragma mark - Navigation
 

@@ -10,6 +10,7 @@
 
 @interface ServerEquipIdRequestModel : RefreshDefaultListRequestModel
 
+@property (nonatomic, strong, readonly) NSMutableDictionary * cookieDic;
 //数据刷新
 @property (nonatomic, assign) BOOL timerState;
 

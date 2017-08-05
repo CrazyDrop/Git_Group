@@ -268,7 +268,7 @@ RefreshCellCopyDelgate>
     //    @"yyyy-MM-dd HH:mm:ss"
     NSString * str = [NSString stringWithFormat:@"%lu",(unsigned long)[self.totalArr count]];
     
-    self.viewTtle = [NSString stringWithFormat:@"服务器 %@",str];
+    self.viewTtle = [NSString stringWithFormat:@"预处理 %@",str];
     
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;

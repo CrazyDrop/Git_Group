@@ -85,6 +85,7 @@
 -(NSArray *)localSaveEquipHistoryModelListTotalWithUnFinished;
 -(NSArray *)localSaveEquipHistoryModelListTotalWithPlanBuy;
 -(NSArray *)localSaveEquipHistoryModelListTotalWithPlanFail;
+-(NSArray *)localSaveEquipHistoryModelListTotalWithNameErrored;
 -(NSArray *)localSaveEquipHistoryModelListForOrderSN:(NSString *)ordersn;
 -(NSArray *)localSaveEquipHistoryModelListForTime:(NSString *)time;
 -(NSArray *)localSaveEquipHistoryModelListForRoleId:(NSString *)roleId;
@@ -95,6 +96,7 @@
 -(NSArray *)localSaveEquipHistoryModelListRepeatSoldTimesMore:(BOOL)more;
 -(NSArray *)localSaveEquipHistoryModelListOwnerList;
 -(void)refreshLocalSaveEquipHistoryModelServerId:(NSString *)preId withLatest:(NSString *)latestId;
+
 
 //读取最新的服务器列表、库表最大id
 -(NSArray *)localSaveEquipServerMaxEquipIdAndServerIdList;

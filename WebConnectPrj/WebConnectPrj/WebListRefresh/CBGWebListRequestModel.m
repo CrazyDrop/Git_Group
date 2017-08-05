@@ -33,13 +33,38 @@
     }
     return self;
 }
--(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)url
+-(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr
 {
-    //有，则先保存
-//    if([dic objectForKey:@"Set-Cookie"])
-//    {
-//        [self.cookieDic setObject:dic forKey:url];
-//    }
+    if(!self.saveKookie)
+    {
+        return ;
+    }
+    
+    NSURL * url = [NSURL URLWithString:urlStr];
+    NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:fields forURL:url];
+    
+    NSRange range = [urlStr rangeOfString:@"server_id="];
+    if(range.location != NSNotFound)
+    {
+        NSInteger startIndex = range.location + range.length;
+        NSString * subStr = [urlStr substringWithRange:NSMakeRange(startIndex,[urlStr length] - startIndex)];
+        
+        NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
+        NSMutableDictionary * editDic = [NSMutableDictionary dictionaryWithDictionary:serverDic];
+        
+        NSString * cookieName = @"latest_views";
+        
+        for (NSInteger index = 0;index < [cookies count] ;index ++ )
+        {
+            NSHTTPCookie * cookie = [cookies objectAtIndex:index];
+            
+            if([cookie.value length] > 0 && ![cookie.name isEqualToString:cookieName]){
+                [editDic setObject:cookie forKey:cookie.name];
+            }
+        }
+        
+        [self.cookieDic setObject:editDic forKey:subStr];
+    }
     
 }
 
@@ -63,17 +88,24 @@
 
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
+    if(!self.saveKookie){
+        return nil;
+    }
+    NSRange range = [url rangeOfString:@"page="];
+    if(range.location != NSNotFound)
+    {
+        NSInteger startIndex = range.location + range.length;
+        NSString * subStr = [url substringWithRange:NSMakeRange(startIndex,[url length] - startIndex)];
+        
+        NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
+        //内含cookie
+        if([serverDic count] > 0){
+            NSArray * arrCookies = [serverDic allValues];
+            NSDictionary *dictCookies = [NSHTTPCookie requestHeaderFieldsWithCookies:arrCookies];
+            return dictCookies;
+        }
+    }
     return nil;
-//    NSDictionary * dic = [self.cookieDic objectForKey:url];
-//    if(dic)
-//    {
-//        [self setCookitWithLatestUrl:url];
-//        return nil;
-//    }else{
-//        [self clearTotalSearchCookie];
-//        return NO;
-//    }
-//    return YES;
 }
 
 

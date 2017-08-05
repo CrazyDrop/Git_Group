@@ -11,7 +11,160 @@
 #import "EquipModel.h"
 #import "NSData+Extension.h"
 #import "NSDate+Extension.h"
+#import "CBGPlanModel.h"
 @implementation EquipModel
+-(CBGListModel *)listSaveModel
+{
+    //判定是否需要清空
+    if(_listSaveModel)
+    {
+        //以详情数据为准
+        EquipModel * detail = self;
+        if(detail)
+        {//价格或状态发生变化，进行变更
+            if([detail.price integerValue] != _listSaveModel.equip_price ||
+               [detail.status integerValue] != _listSaveModel.equip_status)
+            {
+                _listSaveModel = nil;
+            }
+            if(detail.appointed_roleid)
+            {
+                _listSaveModel = nil;
+            }
+        }
+    }
+    
+    if(!_listSaveModel)
+    {
+        EquipModel * detail = self;
+        
+        CBGListModel * list = [[CBGListModel alloc] init];
+        
+        list.game_ordersn = self.game_ordersn;
+        list.owner_roleid = detail.owner_roleid;
+        list.server_id = [self.serverid intValue];
+        
+        list.equip_status = [detail.status intValue];
+
+        list.equip_level =      [detail.equip_level intValue];
+        list.equip_name =       detail.owner_nickname;
+        if(detail)
+        {
+            list.equip_id = [detail.equipid integerValue];
+            list.equip_price = [detail.price integerValue];
+            if(list.equip_price == 0)
+            {
+                list.equip_price = [self.last_price_desc integerValue] * 100;
+            }
+            
+            list.equip_start_price = [detail.last_price_desc intValue];
+        }
+        
+        list.equip_eval_price = 0;
+        list.equip_type = detail.equip_type;
+        list.kindid = [detail.kindid integerValue];
+        
+        if(detail.appointed_roleid && [detail.appointed_roleid length] > 0)
+        {
+            list.appointed = YES;
+        }
+        
+        
+        EquipExtraModel * extra = detail.equipExtra;
+        list.equip_school =     [extra.iSchool intValue];
+        if(list.equip_school == 0)
+        {
+            list.equip_school = [CBGListModel schoolNumberFromSchoolName:self.equip_name];
+        }
+        
+        CBGPlanModel * planModel = [CBGPlanModel planModelForDetailEquipModel:detail];
+        list.plan_total_price = planModel.total_price;
+        list.plan_xiulian_price = planModel.xiulian_plan_price;
+        list.plan_chongxiu_price = planModel.chongxiu_plan_price;
+        list.plan_jineng_price = planModel.jineng_plan_price;
+        list.plan_jingyan_price = planModel.jingyan_plan_price;
+        list.plan_qiannengguo_price = planModel.qiannengguo_plan_price;
+        list.plan_qianyuandan_price = planModel.qianyuandan_plan_price;
+        list.plan_dengji_price = planModel.dengji_plan_price;
+        list.plan_jiyuan_price = planModel.jiyuan_plan_price;
+        list.plan_menpai_price = planModel.menpai_plan_price;
+        list.plan_fangwu_price = planModel.fangwu_plan_price;
+        list.plan_xianjin_price = planModel.xianjin_plan_price;
+        list.plan_haizi_price = planModel.haizi_plan_price;
+        list.plan_xiangrui_price = planModel.xiangrui_plan_price;
+        list.plan_zuoji_price = planModel.zuoji_plan_price;
+        list.plan_fabao_price = planModel.fabao_plan_price;
+        list.plan_zhaohuanshou_price = planModel.zhaohuanshou_plan_price;
+        list.plan_zhuangbei_price = planModel.zhuangbei_plan_price;
+        list.plan_rate = planModel.plan_rate;
+        list.plan_des = [planModel description];
+        list.server_check = planModel.server_check;
+        
+        list.equip_more_append = [list createLatestMoreAppendString];
+        
+        list.equip_price_common = [detail.web_last_price_desc integerValue];
+        list.equip_accept = [detail.allow_bargain integerValue];
+        
+        //        NSArray * array = [detail.selling_info lastObject].infoArray;
+        //        ExtraModel * extraModel = [array lastObject];
+        
+        list.sell_start_time = detail.selling_time;
+        list.sell_create_time = detail.create_time;
+        list.sell_sold_time = [detail equipSoldOutResultTime];
+        list.sell_back_time = [detail equipCancelBackResultTime];
+        
+        if(!list.sell_start_time){
+            list.sell_start_time = @"";
+        }
+        if(!list.sell_create_time){
+            list.sell_create_time = @"";
+        }
+        if(!list.sell_sold_time)
+        {
+            list.sell_sold_time = @"";
+        }
+        if(!list.sell_back_time)
+        {
+            list.sell_back_time = @"";
+        }
+        if([list.sell_sold_time length] > 0)
+        {
+            NSDate * createDate = [NSDate fromString:detail.selling_time];
+            NSDate * soldDate = [NSDate fromString:list.sell_sold_time];
+            NSTimeInterval timeNum = [soldDate timeIntervalSinceDate:createDate];
+            if(timeNum <= 0){
+                timeNum = 1;
+            }
+            list.sell_space = timeNum;
+        }
+        //结束时间的获取
+        //        if([list latestEquipListStatus] == CBGEquipRoleState_BuyFinish || [list latestEquipListStatus] == CBGEquipRoleState_PayFinish)
+        //        {
+        //            list.sell_sold_time = extraModel.extraString;
+        //        }else if([list latestEquipListStatus] == CBGEquipRoleState_Backing)
+        //        {
+        //            list.sell_back_time = extraModel.extraString;;
+        //        }
+        
+        //本地时间两个
+        list.sell_order_time = [NSDate unixDate];
+        list.sell_cancel_time = list.sell_order_time;
+        
+        if(detail){
+            list.serverName = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
+        }else{
+            list.serverName = @"";
+        }
+        
+        //        list.sell_order_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_ORDER];
+        //        list.sell_cancel_time = [resultSet stringForColumn:ZADATABASE_TABLE_EQUIP_KEY_SELL_CANCEL];
+        
+        _listSaveModel = list;
+    }
+    return _listSaveModel;
+}
+
+
 -(BOOL)isAutoStopSelling
 {
     if(!self.equipExtra) return NO;

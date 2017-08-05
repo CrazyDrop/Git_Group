@@ -166,12 +166,16 @@
 }
 -(void)refreshTipStateWithError:(BOOL)error
 {
-    self.errorTips.hidden = NO;
-    self.errorNum ++;
-    if(self.errorNum %5 == 0)
+    
+    self.errorTips.hidden = !error;
+    if(error)
     {
-        
-        AudioServicesPlaySystemSound(1327);
+        self.errorNum ++;
+        if(self.errorNum %5 == 0)
+        {
+            
+            //        AudioServicesPlaySystemSound(1327);
+        }
     }
 }
 
@@ -214,8 +218,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     }
     
     {
-        BOOL showError = errorNum == [list count];
-        [self refreshTipStateWithError:showError];
+        if(errorNum > 0)
+        {
+            BOOL showError = errorNum == [total count];
+            [self refreshTipStateWithError:showError];
+        }
     }
     
     @synchronized (detailModelDic)

@@ -16,6 +16,14 @@
 
 @implementation CBGTotalHistroySortVC
 
+-(void)refreshLatestDatabaseListDataForNameErrored
+{
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * sortArr = [manager localSaveEquipHistoryModelListTotalWithNameErrored];
+    self.dbHistoryArr = sortArr;
+    [self refreshLatestShowTableView];
+}
+
 -(void)refreshLatestDatabaseListDataForQuickSold
 {
     NSMutableArray * dataArr = [NSMutableArray array];
@@ -113,11 +121,18 @@
     
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"抢购列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshLatestDatabaseListDataForQuickSold];
-              }];
+//    action = [MSAlertAction actionWithTitle:@"抢购列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf refreshLatestDatabaseListDataForQuickSold];
+//              }];
+//    
+//    [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"更名列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLatestDatabaseListDataForNameErrored];
+              }];
+
     [alertController addAction:action];
     
     action = [MSAlertAction actionWithTitle:@"抢购非推荐" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) EquipModel * detail;
 @property (nonatomic, assign) NSString * equipDesc;
 
-
-
+@property (nonatomic, strong) NSString * orderSN;
+- (NSString * )mobileAppDetailShowUrl;
+- (NSString * )detailDataUrl;
 @end

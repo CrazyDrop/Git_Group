@@ -263,14 +263,14 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_Notice],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
 
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipServer],
 
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipPage],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipPage],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryTotal],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_LatestPlan],

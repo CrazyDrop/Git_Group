@@ -298,7 +298,7 @@ RefreshCellCopyDelgate>
     
     NSString * str = [NSString stringWithFormat:@"%lu",(unsigned long)[self.totalArr count]];
     
-    self.viewTtle = [NSString stringWithFormat:@"尝试刷 %@",str];
+    self.viewTtle = [NSString stringWithFormat:@"服务器 %@",str];
 
     
     self.rightTitle = @"筛选";
@@ -329,13 +329,13 @@ RefreshCellCopyDelgate>
     self.randomTips.hidden = YES;
 
     
-    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
-    if(check.serverHistory)
-    {
-        self.showArray = check.serverHistory;
-        self.dataArr2 = check.serverHistory;
-        [self.listTable reloadData];
-    }
+//    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
+//    if(check.serverHistory)
+//    {
+//        self.showArray = check.serverHistory;
+//        self.dataArr2 = check.serverHistory;
+//        [self.listTable reloadData];
+//    }
     
 }
 -(UIView *)randomTips
@@ -394,7 +394,7 @@ RefreshCellCopyDelgate>
     {
         CGFloat btnWidth = 150;
         UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
-        aView.backgroundColor = [UIColor greenColor];
+        aView.backgroundColor = [UIColor redColor];
         
         UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
         albl.text = @"网络异常(刷新)";
@@ -556,6 +556,7 @@ RefreshCellCopyDelgate>
     [self startLocationDataRequest];
     
     self.inWebRequesting = NO;
+    self.randomTips.hidden = YES;
     //    [requestLock unlock];
     
 }
@@ -575,8 +576,10 @@ RefreshCellCopyDelgate>
     
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
-    check.serverHistory = self.showArray;
-    [check refreshDiskCacheWithDetailRequestFinishedArray:check.modelsArray];
+    if([refresh.cookieDic count]> 0){
+        check.cookieDic = refresh.cookieDic;
+    }
+    
     
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
@@ -751,6 +754,7 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
                     list.serverid = detail.serverid;
                     list.game_ordersn = detail.game_ordersn;
                     list.equipModel = detail;
+                    
                     [backArray addObject:list];
                 }
                 
@@ -765,7 +769,8 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
                         [waitingArr addObject:detail];
                     }
                         break;
-                    case ServerResultCheckType_None:{
+                    case ServerResultCheckType_None:
+                    {
                         [finishArr addObject:detail];
                     }
                         break;

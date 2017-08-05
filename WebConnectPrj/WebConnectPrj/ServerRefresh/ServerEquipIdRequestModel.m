@@ -10,6 +10,7 @@
 #import "EquipModel.h"
 #import "JSONKit.h"
 #import "ZWServerEquipModel.h"
+#import "ZWDetailCheckManager.h"
 @interface ServerEquipIdRequestModel ()
 @property (nonatomic, assign) BOOL needUpdate;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
@@ -22,6 +23,8 @@
     if(self){
         self.saveKookie = YES;
         self.cookieDic = [NSMutableDictionary dictionary];
+        ZWDetailCheckManager * manager = [ZWDetailCheckManager sharedInstance];
+        [self.cookieDic addEntriesFromDictionary:manager.cookieDic];
     }
     return self;
 }
@@ -34,6 +37,40 @@
     }
     _timerState = timerState;
 }
+-(void)checkAndRefreshLocalWebCookie
+{
+    NSString * cookieName = @"latest_views";
+    NSHTTPCookie * editCookie = nil;
+    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    for (NSHTTPCookie *cookie in cookiesArray)
+    {
+        if([cookie.name isEqualToString:cookieName])
+        {
+            editCookie = cookie;
+            break;
+        }
+    }
+    
+    if(editCookie)
+    {
+        NSString * editValue = editCookie.value;
+        NSArray * arr = [editValue componentsSeparatedByString:@"-"];
+        if([arr count] >1)
+        {
+            NSString * editRefresh = [arr lastObject];
+            
+            NSDictionary * preDic = [editCookie properties];
+            NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+            [cookieProperties addEntriesFromDictionary:preDic];
+            [cookieProperties setObject:editRefresh forKey:NSHTTPCookieValue];
+            
+            NSHTTPCookie *refreshCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
+            //            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:refreshCookie];
+        }
+    }
+}
+
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
     if(!self.saveKookie){
@@ -74,10 +111,13 @@
         NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
         NSMutableDictionary * editDic = [NSMutableDictionary dictionaryWithDictionary:serverDic];
         
+        NSString * cookieName = @"latest_views";
+
         for (NSInteger index = 0;index < [cookies count] ;index ++ )
         {
             NSHTTPCookie * cookie = [cookies objectAtIndex:index];
-            if([cookie.value length] > 0){
+            
+            if([cookie.value length] > 0 && ![cookie.name isEqualToString:cookieName]){
                 [editDic setObject:cookie forKey:cookie.name];   
             }
         }
@@ -310,7 +350,6 @@
 //            detail.owner_nickname = realName;
 //        }
         detail.owner_nickname = nickName;
-        
         detail.owner_roleid = [dataArr objectAtIndex:6];
         detail.last_price_desc = [dataArr objectAtIndex:7];
         detail.price = [NSNumber numberWithInt:[detail.last_price_desc intValue] * 100];
@@ -348,6 +387,7 @@
                 
                 EquipExtraModel * model = [self extraModelFromLatestEquipDESC:detail];
                 detail.equipExtra = model;
+                
                 
             }else
             {
@@ -442,7 +482,7 @@
     //    18521,]),6:  这种数据，处理为     18521,]),"6"
     NSString * replace = [NSString stringWithString:shortString];
     NSMutableString * checkStr = [NSMutableString string];//数字字符
-    
+    BOOL temp = NO;
     //由后向前，取到非数字字符截止
     for (NSInteger index = 0; index < [shortString length]; index ++ )
     {
@@ -452,9 +492,19 @@
         if(realNumber)
         {
             [checkStr insertString:eve atIndex:0];
+        }else if([eve isEqualToString:@" "])
+        {
+            temp = YES;
+            //临时属性判定，不需要截取拼装
         }else{
+            //此时应该全是,
             break;
         }
+    }
+    
+    if(temp)
+    {
+        return shortString;
     }
     NSRange  range = NSMakeRange([shortString length] - [checkStr length] , [checkStr length]);
     replace = [replace stringByReplacingCharactersInRange:range withString:[NSString stringWithFormat:@"\"%@\"",checkStr]];

@@ -2588,6 +2588,35 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
 }
+-(NSArray *)localSaveEquipHistoryModelListTotalWithNameErrored
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         
+         [sqlMutableString appendFormat:@"select * from %@ where %@ LIKE '\\u%%' ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_NAME,ZADATABASE_TABLE_EQUIP_KEY_SELL_CREATE];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             //             location.equip_status = 4;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+
+}
 -(NSArray *)privateLocalSaveEquipHistroyPreModelForOrderSN:(NSString *)orderId withDataBase:(FMDatabase *)fmdatabase
 {
     NSMutableArray * totalArray = [NSMutableArray array];
@@ -3093,19 +3122,21 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 {
 //    NSMutableArray * txtArr = [NSMutableArray array];
 //    ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
-//    eve1.equipId = 2278160;
+//    eve1.equipId = 2281755;
 //    eve1.serverId = 33;
 //    [txtArr addObject:eve1];
-//
-//    ZWServerEquipModel * eve2 = [[ZWServerEquipModel alloc] init];
-//    eve2.equipId = 1499977;
-//    eve2.serverId = 11;
-//    [txtArr addObject:eve2];
-//    
 ////
+////    ZWServerEquipModel * eve2 = [[ZWServerEquipModel alloc] init];
+////    eve2.equipId = 1499977;
+////    eve2.serverId = 11;
+////    [txtArr addObject:eve2];
+//
+////  http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=buy_show_equip_info&equip_id=1079107&server_id=60&from=game
+//
+//
 ////    ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
-////    eve.equipId = 2278160;
-////    eve.serverId = 33;
+////    eve.equipId = 1079107;
+////    eve.serverId = 60;
 ////    [txtArr addObject:eve];
 //    
 //    return txtArr;

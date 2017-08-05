@@ -13,6 +13,7 @@
 
 @interface DZUtils : NSObject
 
++ (void)vibrate;
 
 +(void)startNoticeWithLocalUrl:(NSString *)localUrl;
 +(BOOL)equipServerIdCheckResultWithSubServerId:(NSInteger)serverId;
