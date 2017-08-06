@@ -118,19 +118,12 @@
         
         NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
         NSMutableDictionary * editDic = [NSMutableDictionary dictionaryWithDictionary:serverDic];
-        
-//        NSString * cookieName = @"latest_views";
-//
-//        for (NSInteger index = 0;index < [cookies count] ;index ++ )
-//        {
-//            NSHTTPCookie * cookie = [cookies objectAtIndex:index];
-//            
-//            if([cookie.value length] > 0 )
-//            {
-//                [editDic setObject:cookie forKey:cookie.name];   
-//            }
-//        }
-        
+        for (NSInteger index = 0;index < [cookies count] ;index ++ )
+        {
+            NSHTTPCookie * cookie = [cookies objectAtIndex:index];
+            [editDic setObject:cookie forKey:cookie.name];
+        }
+
         [self.cookieDic setObject:editDic forKey:subStr];
     }
 }
@@ -213,8 +206,15 @@
     for (NSInteger index = 0; index < totalNum; index ++)
     {
         ZWServerEquipModel * server = [serverArr objectAtIndex:index];
+        
         NSString *  serverId = [NSString stringWithFormat:@"%ld",server.serverId];
         NSString * equipId = [NSString stringWithFormat:@"%ld",server.equipId];
+        
+        //清理cookie，需要刷新的
+        if(server.cookieClear)
+        {
+            [self.cookieDic removeObjectForKey:serverId];
+        }
         
         NSString * requestUrl = [self replaceStringWithLatestWebString:pageUrl andServerId:serverId andEquipId:equipId];
         [urls addObject:requestUrl];

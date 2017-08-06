@@ -45,6 +45,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_MixedServer,
     CBGDetailTestFunctionStyle_EquipServer,
     CBGDetailTestFunctionStyle_EquipPage,
+    CBGDetailTestFunctionStyle_MixedEquip,
 } CBGDetailTestFunctionStyle;
 
 

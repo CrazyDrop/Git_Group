@@ -3146,7 +3146,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 {
 //    NSMutableArray * txtArr = [NSMutableArray array];
 //    ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
-//    eve1.equipId = 2283737;
+//    eve1.equipId = 2284251;
 //    eve1.serverId = 33;
 //    [txtArr addObject:eve1];
 ////

@@ -51,6 +51,7 @@
 #import "ZWServerEquipListVC.h"
 #import "ZWServerURLCheckVC.h"
 #import "ZWServerRefreshAutoEquipVC.h"
+#import "CBGMixedServerNormalRefreshVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -241,6 +242,10 @@
             name = @"递增页面";
         }
             break;
+        case CBGDetailTestFunctionStyle_MixedEquip:{
+            name = @"递增混合";
+        }
+            break;
             
         default:
             break;
@@ -292,7 +297,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_BargainList],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedEquip],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
                              
@@ -670,6 +675,10 @@
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
+        case CBGDetailTestFunctionStyle_MixedEquip:{
+            CBGMixedServerNormalRefreshVC * list = [[CBGMixedServerNormalRefreshVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
 
             
     }

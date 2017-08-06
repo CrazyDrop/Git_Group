@@ -1325,6 +1325,8 @@
 		18C882051F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882031F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m */; };
 		18C882081F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */; };
 		18C882091F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */; };
+		18C8820C1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8820B1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m */; };
+		18C8820D1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8820B1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m */; };
 		18CA6E901EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
 		18CA6E911EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */; };
 		18CBBBC61F20A86100E8C226 /* ZWAutoRefreshListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */; };
@@ -2551,6 +2553,8 @@
 		18C882031F3428C700D01A37 /* ZWServerRefreshAutoEquipVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerRefreshAutoEquipVC.m; sourceTree = "<group>"; };
 		18C882061F34420100D01A37 /* ZWServerEquipServerSelectedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerEquipServerSelectedVC.h; sourceTree = "<group>"; };
 		18C882071F34420100D01A37 /* ZWServerEquipServerSelectedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerEquipServerSelectedVC.m; sourceTree = "<group>"; };
+		18C8820A1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMixedServerNormalRefreshVC.h; sourceTree = "<group>"; };
+		18C8820B1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGMixedServerNormalRefreshVC.m; sourceTree = "<group>"; };
 		18CA6E8E1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSpecialCompareListVC.h; sourceTree = "<group>"; };
 		18CA6E8F1EF8E34000EA0BA3 /* CBGSpecialCompareListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSpecialCompareListVC.m; sourceTree = "<group>"; };
 		18CBBBC41F20A86100E8C226 /* ZWAutoRefreshListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWAutoRefreshListModel.h; sourceTree = "<group>"; };
@@ -4801,6 +4805,8 @@
 				181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */,
 				18F8DAD31F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.h */,
 				18F8DAD41F2AF15E00530041 /* CBGMixedServerMobileRefreshVC.m */,
+				18C8820A1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.h */,
+				18C8820B1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m */,
 			);
 			path = MixedListRefresh;
 			sourceTree = "<group>";
@@ -5470,6 +5476,7 @@
 				18A96E411E7FC2C500B48E3C /* ZWDataDetailModel.m in Sources */,
 				18A96D961E7FC24700B48E3C /* ZWRateEditController.m in Sources */,
 				182090B61E9E2FA60015E393 /* RemoteNTFRefreshManager.m in Sources */,
+				18C8820C1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m in Sources */,
 				18A976171E7FDDD500B48E3C /* ServiceMonitorStatusBar.m in Sources */,
 				18A9720C1E7FCA0800B48E3C /* YYKVStorage.m in Sources */,
 				18A96E161E7FC2C500B48E3C /* Bargain_infoModel.m in Sources */,
@@ -6148,6 +6155,7 @@
 				183324491ED6B10D00B1ECEA /* ZWRateEditController.m in Sources */,
 				1833244A1ED6B10D00B1ECEA /* RemoteNTFRefreshManager.m in Sources */,
 				1833244B1ED6B10D00B1ECEA /* ServiceMonitorStatusBar.m in Sources */,
+				18C8820D1F37705800D01A37 /* CBGMixedServerNormalRefreshVC.m in Sources */,
 				1833244C1ED6B10D00B1ECEA /* YYKVStorage.m in Sources */,
 				1833244D1ED6B10D00B1ECEA /* Bargain_infoModel.m in Sources */,
 				1833244E1ED6B10D00B1ECEA /* Samurai_Assert.m in Sources */,

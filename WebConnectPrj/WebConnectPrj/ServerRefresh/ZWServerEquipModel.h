@@ -17,6 +17,11 @@
 @property (nonatomic, assign) NSString * equipDesc;
 
 @property (nonatomic, strong) NSString * orderSN;
+
+@property (nonatomic, assign) NSInteger waitingNum;
+@property (nonatomic, assign) NSInteger checkMaxNum;
+@property (nonatomic, assign) BOOL cookieClear;
+
 - (NSString * )mobileAppDetailShowUrl;
 - (NSString * )detailDataUrl;
 @end

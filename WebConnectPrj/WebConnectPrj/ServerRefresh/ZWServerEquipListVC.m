@@ -64,7 +64,7 @@ RefreshCellCopyDelgate>
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 @property (nonatomic,assign) BOOL forceRefresh;
 @property (nonatomic,strong) NSDictionary * serNameDic;
-
+@property (nonatomic,strong) NSMutableDictionary * finishDic;
 @end
 
 @implementation ZWServerEquipListVC
@@ -85,6 +85,7 @@ RefreshCellCopyDelgate>
         
         self.inWebRequesting = NO;
         requestLock = [[NSLock alloc] init];
+        self.finishDic = [NSMutableDictionary dictionary];
         
         NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
         for (NSHTTPCookie *cookie in cookiesArray)
@@ -128,6 +129,17 @@ RefreshCellCopyDelgate>
     [data addObjectsFromArray:part];
     return data;
 }
+-(void)refreshCurrentTitleVLableWithTotal:(NSInteger)totalMoney andCountNum:(NSInteger)number
+{
+    NSString * total = [NSString stringWithFormat:@"等待%ld(%ld)",totalMoney,number];
+    if(totalMoney == number && number > 0)
+    {
+        total = @"等待完成";
+    }
+    self.titleV.text = total;
+    
+}
+
     
 -(void)appendNotificationForRestartTimerRefreshWithActive
 {
@@ -326,7 +338,7 @@ RefreshCellCopyDelgate>
     self.randomTips.hidden = YES;
     
     [self.view addSubview:self.networkTips];
-    self.randomTips.hidden = YES;
+    self.networkTips.hidden = YES;
 
     
 //    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
@@ -597,7 +609,7 @@ RefreshCellCopyDelgate>
     
     [[ZALocation sharedInstance] stopUpdateLocation];
     
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishRequestWithExchange) object:nil];
+//    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishRequestWithExchange) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(startRefreshDataModelRequest) object:nil];
 }
     
@@ -628,12 +640,7 @@ RefreshCellCopyDelgate>
 };
     [manager saveCurrentAndStartAutoRefresh];
 }
--(void)refreshCurrentTitleVLableWithTotal:(CGFloat)totalMoney andCountNum:(NSInteger)number
-{
-    NSString * total = [NSString stringWithFormat:@"总在售 %.1fW(%d)",totalMoney/10000,number];
-    self.titleV.text = total;
-}
-    
+
 -(void)refreshLatestListRequestModelWithSmallList:(BOOL)small
 {
     //变更请求基数，重新发起
@@ -659,8 +666,28 @@ RefreshCellCopyDelgate>
     if(!self.randomTips.hidden) return;//当展示需要输入验证码时，不进行继续刷新
     
     
+    NSMutableArray * editArr = [NSMutableArray array];
     NSArray * server = [self latestServerIdArr];
-    if([server count] == 0) return;
+    for (NSInteger index = 0;index < [server count] ;index ++ )
+    {
+        ZWServerEquipModel * eveObj = [server objectAtIndex:index];
+        [editArr addObject:eveObj];
+        if(eveObj.checkMaxNum == 0)
+        {
+            eveObj.waitingNum = 12;
+            eveObj.checkMaxNum = eveObj.equipId + eveObj.waitingNum;
+            eveObj.equipId = eveObj.checkMaxNum;
+        }else if(eveObj.equipId < (eveObj.checkMaxNum - eveObj.waitingNum))
+        {//开始新的检查
+            eveObj.checkMaxNum += eveObj.waitingNum;//重置检查目标
+            eveObj.equipId = eveObj.checkMaxNum;
+//        }else if(eveObj.detail.resultType == ServerResultCheckType_Success)
+//        {//不需要处理，尽早的清空detail，在请求结束后清空
+//            eveObj.equipId --;
+        }
+    }
+    
+    if([editArr count] == 0) return;
     
     
     //    if(self.inWebRequesting)
@@ -693,7 +720,7 @@ RefreshCellCopyDelgate>
     }
     
     model.saveKookie = YES;
-    model.serverArr = server;
+    model.serverArr = editArr;
     model.timerState = !model.timerState;
     [model sendRequest];
 }
@@ -747,6 +774,7 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
                 EquipModel * detail = [objArr lastObject];
                 req.detail = detail;
                 req.equipDesc =  detail.equip_desc;
+                req.orderSN = detail.game_ordersn;
                 
                 if([detail.game_ordersn length] > 0)
                 {
@@ -788,7 +816,7 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     
     //根据结果，重新刷新totalArr内含int
     [self refreshServerEquipListWithRequestPageIndexArray:request];
-    
+    [self refreshCurrentTitleVLableWithTotal:[self.totalArr count] andCountNum:[self.finishDic count]];
 
     self.networkTips.hidden = [finishArr count] == 0;
     self.randomTips.hidden = [randArr count] == 0;
@@ -816,25 +844,46 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     
 }
 -(void)refreshServerEquipListWithRequestPageIndexArray:(NSArray *)array
-{
+{//进行数据清空，数据统计
 //    NSArray * edit = self.dataArr;
+    
     NSMutableString * moreReq = [NSMutableString string];
+    NSMutableDictionary * waitDic = self.finishDic;
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         ZWServerEquipModel * server = [array objectAtIndex:index];
-        if(server.detail.resultType == ServerResultCheckType_Success)
-        {
-            [moreReq appendFormat:@"%ld(%ld)+  ",server.serverId,server.equipId];
-            server.equipId ++;
-            
-            server.detail = nil;
-            server.equipDesc = nil;
+        ServerResultCheckType type = server.detail.resultType;
+        
+        switch (type) {
+            case ServerResultCheckType_Success:
+            {
+                server.cookieClear = NO;
+                [moreReq appendFormat:@"%ld(%ld)-  ",server.serverId,server.equipId];
+                server.equipId --;
+                
+                server.detail = nil;
+                server.equipDesc = nil;
+                server.orderSN = nil;
+                [waitDic removeObjectForKey:[NSString stringWithFormat:@"%ld",server.serverId]];
+            }
+                break;
+            case ServerResultCheckType_NoneProduct:
+            {
+                server.cookieClear = YES;
+                [waitDic setObject:@"wait" forKey:[NSString stringWithFormat:@"%ld",server.serverId]];
+            }
+                break;
+                
+                
+            default:
+                break;
         }
     }
     if([moreReq length] > 0)
     {
         NSLog(@"moreReq %@",moreReq);
     }
+    
 }
 
 
