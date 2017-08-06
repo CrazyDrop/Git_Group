@@ -40,7 +40,8 @@
     NSArray * removeArr = @[@"page",
                             @"device_id",
                             @"device_name",
-                            @"os_version"];
+                            @"os_version",
+                            @"level_min"];
     
     NSString * sepStr = @"&";
     NSArray * sepArr = [webStr componentsSeparatedByString:sepStr];
@@ -67,10 +68,10 @@
     //        &sum_exp_min=111
     //        &qian_neng_guo=33
     //        &skill_qiang_shen=22
-    NSInteger randMinExp = arc4random() % 111 + 1;
+    NSInteger randMinExp = arc4random() % 10 + 1;
     NSInteger randQianneng = arc4random() % 50 + 1;
-    NSInteger skill_qiang_shen = arc4random() % 50 + 1;
-    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld",randMinExp,randQianneng,skill_qiang_shen];
+    NSInteger skill_qiang_shen = arc4random() % 20 + 1;
+    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&skill_qiang_shen=%ld",randMinExp,skill_qiang_shen];
     appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
     appendStr = [appendStr stringByAppendingFormat:@"&act=super_query&search_type=overall_role_search&serverid=%@&app_version=2.2.9",server];
     appendStr = [appendStr stringByAppendingString:@"&page=1"];

@@ -37,11 +37,14 @@
     }
     _timerState = timerState;
 }
--(void)checkAndRefreshLocalWebCookie
+-(NSArray *)checkAndRefreshLocalWebCookieArray:(NSArray *)arr
 {
+    NSMutableArray * editArr = [NSMutableArray array];
+    [editArr addObjectsFromArray:arr];
+    
     NSString * cookieName = @"latest_views";
     NSHTTPCookie * editCookie = nil;
-    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSArray *cookiesArray = arr;
     for (NSHTTPCookie *cookie in cookiesArray)
     {
         if([cookie.name isEqualToString:cookieName])
@@ -65,10 +68,14 @@
             [cookieProperties setObject:editRefresh forKey:NSHTTPCookieValue];
             
             NSHTTPCookie *refreshCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
+//            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
             //            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:refreshCookie];
+            [editArr removeObject:editCookie];
+            [editArr addObject:refreshCookie];
         }
+        
     }
+    return editArr;
 }
 
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
@@ -100,7 +107,8 @@
     }
     
     NSURL * url = [NSURL URLWithString:urlStr];
-    NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:fields forURL:url];
+    NSArray * normalArr = [NSHTTPCookie cookiesWithResponseHeaderFields:fields forURL:url];
+    NSArray *  cookies= [self checkAndRefreshLocalWebCookieArray:normalArr];
     
     NSRange range = [urlStr rangeOfString:@"server_id="];
     if(range.location != NSNotFound)
@@ -111,16 +119,17 @@
         NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
         NSMutableDictionary * editDic = [NSMutableDictionary dictionaryWithDictionary:serverDic];
         
-        NSString * cookieName = @"latest_views";
-
-        for (NSInteger index = 0;index < [cookies count] ;index ++ )
-        {
-            NSHTTPCookie * cookie = [cookies objectAtIndex:index];
-            
-            if([cookie.value length] > 0 && ![cookie.name isEqualToString:cookieName]){
-                [editDic setObject:cookie forKey:cookie.name];   
-            }
-        }
+//        NSString * cookieName = @"latest_views";
+//
+//        for (NSInteger index = 0;index < [cookies count] ;index ++ )
+//        {
+//            NSHTTPCookie * cookie = [cookies objectAtIndex:index];
+//            
+//            if([cookie.value length] > 0 )
+//            {
+//                [editDic setObject:cookie forKey:cookie.name];   
+//            }
+//        }
         
         [self.cookieDic setObject:editDic forKey:subStr];
     }

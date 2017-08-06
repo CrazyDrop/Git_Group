@@ -798,13 +798,16 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
     //不检查本地存储、不检查队列是否存在，仅检查缓存数据
-    ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
-    [checkManager refreshDiskCacheWithDetailRequestFinishedArray:backArray];
-    NSArray * refreshArr = checkManager.filterArray;
-    if([refreshArr count] > 0)
+    if([backArray count] > 0)
     {
-        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
-        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+        ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
+        [checkManager refreshDiskCacheWithDetailRequestFinishedArray:backArray];
+        NSArray * refreshArr = checkManager.filterArray;
+        if([refreshArr count] > 0)
+        {
+            NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
+            [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+        }
     }
 
     self.inWebRequesting = NO;
@@ -815,18 +818,23 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
 -(void)refreshServerEquipListWithRequestPageIndexArray:(NSArray *)array
 {
 //    NSArray * edit = self.dataArr;
+    NSMutableString * moreReq = [NSMutableString string];
     for (NSInteger index = 0; index < [array count]; index ++)
     {
         ZWServerEquipModel * server = [array objectAtIndex:index];
         if(server.detail.resultType == ServerResultCheckType_Success)
         {
+            [moreReq appendFormat:@"%ld(%ld)+  ",server.serverId,server.equipId];
             server.equipId ++;
             
             server.detail = nil;
             server.equipDesc = nil;
         }
     }
-    
+    if([moreReq length] > 0)
+    {
+        NSLog(@"moreReq %@",moreReq);
+    }
 }
 
 
@@ -1024,7 +1032,7 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     UIColor * equipBuyColor = [UIColor lightGrayColor];
     UIColor * leftRateColor = [UIColor lightGrayColor];
     UIColor * rightStatusColor = [UIColor lightGrayColor];
-    
+
     if(listModel.plan_total_price>[contact.price floatValue]/100 && [contact.price integerValue] > 0)
     {
         rightStatusColor = [UIColor redColor];
@@ -1063,6 +1071,11 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     if(listModel.planMore_zhaohuan || listModel.planMore_Equip)
     {
         numcolor = [UIColor redColor];
+    }
+    
+    if(listModel.appointed)
+    {
+        priceColor = Custom_Blue_Button_BGColor;
     }
     
     cell.totalNumLbl.textColor = numcolor;//文本信息展示，区分是否最新一波数据

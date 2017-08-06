@@ -19,22 +19,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ServerRefresh/ZWServerRefreshAutoEquipVC.m"
-            timestampString = "523615180.319161"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "-webView:didFailLoadWithError:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
             timestampString = "523611769.350141"
             startingColumnNumber = "9223372036854775807"
@@ -51,13 +35,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ServerRefresh/ZWServerRefreshAutoEquipVC.m"
-            timestampString = "523615538.806963"
+            filePath = "WebConnectPrj/ServerRefresh/ZWServerEquipListVC.m"
+            timestampString = "523633389.25429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "450"
-            endingLineNumber = "450"
-            landmarkName = "-checkAndStartedNextEquipWebRequest"
+            startingLineNumber = "703"
+            endingLineNumber = "703"
+            landmarkName = "handleSignal()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/ServerRefresh/ZWServerRefreshAutoEquipVC.m"
+            timestampString = "523719775.751982"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
+            landmarkName = "-randomSid"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -68,12 +68,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/ServerRefresh/ZWServerRefreshAutoEquipVC.m"
-            timestampString = "523615601.793768"
+            timestampString = "523719775.751982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
-            landmarkName = "-refreshWebViewWithLatestReqeustUrl:"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
+            landmarkName = "-exchangeAutoServerSidWithLatestRandomSid:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -481,12 +481,7 @@
 -(NSError *)clearCurrentLocalTotalDB
 {
     ZALocationLocalModelManager * aDbMan = [ZALocationLocalModelManager sharedInstance];
-    NSArray * arr = [aDbMan localSaveEquipHistoryModelListTotal];
-    for (NSInteger index = 0;index < [arr count] ; index++)
-    {
-        CBGListModel * eveObj = [arr objectAtIndex:index];
-        [aDbMan deleteLocalSaveEquipHistoryObjectWithCBGModelOrderSN:eveObj.game_ordersn];
-    }
+    [aDbMan deleteTotalLocalSaveEquipHistory];
     
     return nil;
 }

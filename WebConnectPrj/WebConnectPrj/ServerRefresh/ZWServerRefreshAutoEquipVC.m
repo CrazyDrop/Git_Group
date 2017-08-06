@@ -26,11 +26,45 @@
 
 @property (nonatomic,strong) UIButton * preEquipBtn;
 @property (nonatomic,strong) UIButton * nextEquipBtn;
+@property (nonatomic,strong) UIButton * copyBtn;
 @property (nonatomic,assign) BOOL autoRefresh;
 @property (nonatomic,assign) BOOL autoChecking;
+@property (nonatomic,assign) NSInteger checkMaxNum; //作为检查目标
+@property (nonatomic,assign) NSInteger waitingNum;
+//检查出结果后，检查waitingNum区间内的商品，依次递减，当不在区间内，改变checkMaxNum，重新检查
+@property (nonatomic,assign) NSInteger repeatNum;
+@property (nonatomic,strong) NSDate * retryDate;//自动刷新时间倒计时   5s后自动刷新
+
 @end
 
 @implementation ZWServerRefreshAutoEquipVC
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self =[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self)
+    {
+        self.waitingNum = 20;
+        self.checkMaxNum = 0;
+    }
+    return self;
+}
+-(UIButton *)copyBtn
+{
+    if(!_copyBtn)
+    {
+        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setTitle:@"复制" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [btn setBackgroundColor:[UIColor greenColor]];
+        CGFloat btnWidth = 80;
+        btn.frame = CGRectMake(0, 0, btnWidth, btnWidth);
+        [btn addTarget:self
+                action:@selector(tapedOnCopyEquipPageWithSender:) forControlEvents:UIControlEventTouchUpInside];
+        self.copyBtn = btn;
+    }
+    return _copyBtn;
+}
+
 -(UIButton *)preEquipBtn
 {
     if(!_preEquipBtn)
@@ -62,6 +96,15 @@
         self.nextEquipBtn = btn;
     }
     return _nextEquipBtn;
+}
+-(void)tapedOnCopyEquipPageWithSender:(id)sender
+{
+    NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+    
+    if(!nextUrl) return;
+    UIPasteboard * board = [UIPasteboard generalPasteboard];
+    board.string = nextUrl;
+
 }
 -(void)tapedOnShowPreEquipPageWithSender:(id)sender
 {
@@ -113,23 +156,19 @@
     
     if(self.autoRefresh)
     {
-        if(self.serverEquip.equipDesc)
-        {
-            //请求下一个
-            ZWServerEquipModel * server = self.serverEquip;
-            server.equipId ++ ;
-            server.equipDesc = nil;
-            server.detail = nil;
-            server.orderSN = nil;
-        }
+        [self checkAndRefreshMaxCheckNumber];
         NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
         [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+    }else
+    {
+        self.checkMaxNum = 0;
     }
 }
 -(void)tapedOnLocalDBSaveBtn:(id)sender
 {
     NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
     [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+    
 }
 -(UIButton *)payBtn
 {
@@ -169,8 +208,7 @@
 }
 -(void)startLocationDataRequest
 {
-    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-//    self.latest = [manager latestLocationModel];
+//    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
     
     ZALocation * locationInstance = [ZALocation sharedInstance];
     [locationInstance startLocationRequestUserAuthorization];
@@ -205,18 +243,37 @@
     {
         
 #if TARGET_IPHONE_SIMULATOR
-        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
-                                   withObject:nil
-                                waitUntilDone:NO];
+//        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+//                                   withObject:nil
+//                                waitUntilDone:NO];
 #else
-        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
-                                   withObject:nil
-                                waitUntilDone:NO];
+//        [weakSelf performSelectorOnMainThread:@selector(startRefreshDataModelRequest)
+//                                   withObject:nil
+//                                waitUntilDone:NO];
+        [weakSelf performSelectorOnMainThread:@selector(checkAndRefreshFinishDateForAutoRefresh)
+                                            withObject:nil
+                                         waitUntilDone:NO];
 #endif
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
-
+-(void)checkAndRefreshFinishDateForAutoRefresh
+{
+    if(self.autoRefresh && self.checkMaxNum > 0 ){
+        NSInteger equipId = self.serverEquip.equipId ;
+        if(equipId > self.checkMaxNum - self.waitingNum && equipId < self.checkMaxNum)
+        {
+            NSTimeInterval count = [self.retryDate timeIntervalSinceNow];
+            if(count > 0 )
+            {
+                NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
+                [self refreshWebViewWithLatestReqeustUrl:nextUrl];
+                
+                [self tapedOnCopyEquipPageWithSender:nil];
+            }
+        }
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -271,9 +328,15 @@
     pt.y -= boundHeight;
     [bgView addSubview:self.preEquipBtn];
     self.preEquipBtn.center = pt;
+
+    pt.y -= boundHeight;
+    [bgView addSubview:self.copyBtn];
+    self.copyBtn.center = pt;
+
     
     self.autoRefresh = NO;
 }
+
 -(void)refreshShowRefreshBtnStyleWithRefresh:(BOOL)refresh
 {
     NSString * title = refresh?@"自动":@"停止";
@@ -285,6 +348,7 @@
     if(self.autoRefresh)
     {
         self.autoRefresh = NO;
+        self.checkMaxNum = 0;
         [self refreshShowRefreshBtnStyleWithRefresh:self.autoRefresh];
     }
     
@@ -300,7 +364,7 @@
 {
     [super viewWillAppear:animated];
     [self refreshLocalEquipServerModel];
-//    [self startLocationDataRequest];
+    [self startLocationDataRequest];
 }
 -(void)refreshLocalEquipServerModel
 {
@@ -339,35 +403,34 @@
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.showWeb loadRequest:request];
 }
+-(void)checkAndRefreshMaxCheckNumber
+{
+    ZWServerEquipModel * server = self.serverEquip;
+    if(self.checkMaxNum  == 0)
+    {
+        self.checkMaxNum = server.equipId + 1;
+        server.equipId = self.checkMaxNum;
+    }else if(server.equipId < (self.checkMaxNum - self.waitingNum))
+    {//开心新的检查
+        self.checkMaxNum += self.waitingNum;//重置检查目标
+        server.equipId = self.checkMaxNum;
+    }
+}
+
 -(NSString *)latestWebRequestUrlWithSelectedServerId
 {
-    NSString * urlString = [NSString stringWithFormat:@"http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=buy_show_equip_info&equip_id=%ld&server_id=%ld&from=game",self.serverEquip.equipId,self.serverEquip.serverId];
+    ZWServerEquipModel * server = self.serverEquip;
+    NSString * urlString = [NSString stringWithFormat:@"http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=buy_show_equip_info&equip_id=%ld&server_id=%ld&from=game",server.equipId,server.serverId];
     return urlString;
 }
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    NSString * nextUrl = request.URL.absoluteString;
-    NSLog(@"nextUrl %@",nextUrl);
-    //    NSString * comparePre = @"http://xyq.cbg.163.com/cgi-bin/xyq_overall_search.py?";
-    //    if([nextUrl hasPrefix:comparePre])
-    //    {
-    //        //        NSString * detailStr = [nextUrl stringByReplacingOccurrencesOfString:comparePre withString:@""];
-    //        //        NSArray * detailArr = [detailStr componentsSeparatedByString:@"&"];
-    //        comparePre = [comparePre stringByAppendingString:[NSDate unixDate]];
-    //        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    //        total.randomAgent =  [comparePre MD5String];
-    //    }
-    
-    return YES;
-}
+
 -(void)submit
 {
     ZWServerEquipServerSelectedVC * select = [[ZWServerEquipServerSelectedVC alloc] init];
     [[self rootNavigationController] pushViewController:select animated:YES];
 }
--(void)checkAndRefreshLocalWebCookie
+-(void)checkAndRefreshLocalWebCookieRefresh:(BOOL)refresh
 {
-
     NSString * cookieName = @"latest_views";
     NSHTTPCookie * editCookie = nil;
     NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
@@ -387,22 +450,113 @@
         if([arr count] >1)
         {
             NSString * editRefresh = [arr lastObject];
+            if(!refresh) {editRefresh = [arr firstObject];}
             
             NSDictionary * preDic = [editCookie properties];
             NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
             [cookieProperties addEntriesFromDictionary:preDic];
             [cookieProperties setObject:editRefresh forKey:NSHTTPCookieValue];
-
+            
             NSHTTPCookie *refreshCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
-//            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:refreshCookie];
+            //            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:refreshCookie];
         }
     }
 }
+-(NSString *)randomSid
+{
+    
+    NSString * orderString = [NSString stringWithFormat:@"DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8%@%ld",[NSDate unixDate],index];
+    NSString * md5Str = [orderString MD5String];
+    
+    orderString = [orderString stringByAppendingString:@"再来"];
+    NSString * nexMd5 = [orderString MD5String];
+    
+    NSMutableString * total = [NSMutableString string];
+    [total appendString:md5Str];
+    [total appendString:nexMd5];
+    
+    for (NSInteger index = 0;index < [total length] ; index++)
+    {
+        NSInteger randNum = arc4random() % 100;
+        if(randNum % 3 == 0)
+        {
+            NSRange  range = NSMakeRange(index, 0);
+            NSString * subStr = [total substringWithRange:range];
+            [total replaceCharactersInRange:range withString:[subStr lowercaseString]];
+        }
+    }
+    
+    NSString * compareStr = @"jrrfNEOND39xFYsTga5omd2DJEdR5N_lUViPO2Wt";
+    NSArray * arr = [compareStr componentsSeparatedByString:@"_"];
+    
+    NSInteger startIndex = 0;
+    for (NSInteger index = 0; index < [arr count] ;index ++ )
+    {
+        NSInteger eveIndex = [[arr objectAtIndex:index] length];
+        startIndex += eveIndex;
+        [total insertString:@"_" atIndex:startIndex];
+        startIndex += 1;
+    }
+    NSString * result = [total substringWithRange:NSMakeRange(0, [compareStr length])];
+    return result;
+}
+-(void)exchangeAutoServerSidWithLatestRandomSid:(NSString *)rand
+{
+    if(!rand) return;
+    NSString * cookieName = @"sid";
+    NSHTTPCookie * editCookie = nil;
+    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    for (NSHTTPCookie *cookie in cookiesArray)
+    {
+        if([cookie.name isEqualToString:@"sid"])
+        {
+        }
+        if([cookie.name isEqualToString:cookieName])
+        {
+            editCookie = cookie;
+            break;
+        }
+    }
+    
+    if(editCookie)
+    {
+        NSString * editValue = editCookie.value;
+        if([editValue length] >1)
+        {
+            NSDictionary * preDic = [editCookie properties];
+            NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+            [cookieProperties addEntriesFromDictionary:preDic];
+            
+            [cookieProperties setObject:rand forKey:NSHTTPCookieValue];
+            
+            NSHTTPCookie *refreshCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:editCookie];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:refreshCookie];
+        }
+    }
+}
+-(void)clearServerRequestCookieForSidRefresh
+{
+    NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    for (NSHTTPCookie *cookie in cookiesArray)
+    {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+
+}
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString * nextUrl = request.URL.absoluteString;
+    NSLog(@"nextUrl %@",nextUrl);
+    //启动倒计时时间
+    self.retryDate = [NSDate dateWithTimeIntervalSinceNow:3];
+    
+    return YES;
+}
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self checkAndRefreshLocalWebCookie];
-    
+    self.retryDate = nil;
     NSString * nextUrl = [webView request].URL.absoluteString;
     NSLog(@"webViewDidFinishLoad %@",nextUrl);
     if(nextUrl){
@@ -414,7 +568,14 @@
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     NSLog(@"didFailLoadWithError ");
-    [self checkAndStartedNextEquipWebRequest];
+    self.retryDate = nil;
+    [DZUtils noticeCustomerWithShowText:@"加载失败"];
+    
+    if(self.autoRefresh)
+    {
+        [self clearServerRequestCookieForSidRefresh];
+        self.retryDate = [NSDate date];
+    }
 
 }
 -(void)checkAndStartedNextEquipWebRequest
@@ -459,6 +620,8 @@
     
     if([result length] > 0 || [petResult length]> 0)
     {
+        self.repeatNum = 0;
+        [self checkAndRefreshLocalWebCookieRefresh:YES];
         [self startNextEquipPageLoadAndRefresh];
 //        ZWServerEquipModel * server = self.serverEquip;
 //        server.equipId ++;
@@ -471,12 +634,18 @@
     }
     else if([nonePrjResult integerValue] > 0)
     {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.repeatNum ++ ;
+        [self clearServerRequestCookieForSidRefresh];
+        NSInteger randNum = arc4random() % 20 + 10;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(randNum * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            NSString * sid = [self randomSid];
+//            [self exchangeAutoServerSidWithLatestRandomSid:sid];
             NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
             [self refreshWebViewWithLatestReqeustUrl:nextUrl];
         });
     }else if([randResult integerValue] > 0){
         //停止刷新，等待
+        [self checkAndRefreshLocalWebCookieRefresh:NO];
         self.autoRefresh = !self.autoRefresh;
         [self refreshShowRefreshBtnStyleWithRefresh:self.autoRefresh];
     }
@@ -485,7 +654,18 @@
 -(void)startNextEquipPageLoadAndRefresh
 {
     ZWServerEquipModel * server = self.serverEquip;
-    server.equipId ++;
+    NSInteger equipId = server.equipId;
+    if(equipId <= self.checkMaxNum - self.waitingNum)
+    {//到达最后一个检查标识
+        self.checkMaxNum += self.waitingNum;//重置检查目标
+        server.equipId = self.checkMaxNum;
+        equipId = server.equipId;
+    }else if(equipId <= self.checkMaxNum)
+    {
+        equipId --;
+    }
+
+    server.equipId =  equipId;
     server.detail = nil;
     server.equipDesc = nil;
     server.orderSN = nil;
@@ -518,6 +698,10 @@
 handleSignal( EquipDetailArrayRequestModel, requestError )
 {
     self.autoChecking = NO;
+    if(self.autoRefresh)
+    {
+        [self startNextEquipPageLoadAndRefresh];
+    }
     [self hideLoading];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
@@ -534,6 +718,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoading )
 
 handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 {
+    [self hideLoading];
     NSLog(@"%s",__FUNCTION__);
     self.autoChecking = NO;
     
@@ -569,7 +754,10 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
             
             ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
             [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[list]];
-            [self startNextEquipPageLoadAndRefresh];
+            
+            if(self.autoRefresh){
+                [self startNextEquipPageLoadAndRefresh];
+            }
         }
     }
 

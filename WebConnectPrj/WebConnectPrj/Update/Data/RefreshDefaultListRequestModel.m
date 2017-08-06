@@ -67,7 +67,8 @@
     }
     return _listSession;
 }
--(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)dicStr andStartUrl:(NSString *)url{
+-(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)dicStr andStartUrl:(NSString *)url
+{
     
 }
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url

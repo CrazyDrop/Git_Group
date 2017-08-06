@@ -75,6 +75,10 @@
 //    total.orderSnCache = [arr componentsJoinedByString:@"|"];
 //    [total localSave];
     
+    NSDate * startDate = [NSDate date];
+    NSInteger count = [startDate timeIntervalSince1970] - 1;
+    
+    
 //    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];

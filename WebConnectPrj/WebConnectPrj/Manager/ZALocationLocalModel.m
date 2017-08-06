@@ -2362,6 +2362,30 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
 
 }
+-(void)deleteTotalLocalSaveEquipHistory{
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         
+         //******************************
+         //*-begin-- 创建相关的表
+         //******************************
+         NSString *deleteSql = [NSString stringWithFormat:@"delete from %@ where %@ != ''",ZADATABASE_TABLE_EQUIP_TOTAL,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN];
+         
+         //         NSString * deleteSql = @"delete from ZADATABASE_TABLE_EQUIP_TOTAL where SERVER_ID = 0;";
+         
+         BOOL isSuccessed = [fmdatabase executeUpdate:deleteSql];
+         if (isSuccessed == NO) {
+             //更新语句执行失败
+             NSLog(@"delete from --删除语句执行失败:%@",fmdatabase.lastErrorMessage);
+         }
+         
+         [fmdatabase close];
+     }];
+
+}
 -(NSArray *)localSaveEquipHistoryModelListWithIngoreNumber:(NSInteger)number
 {
     NSMutableArray *totalArray=[NSMutableArray array];
@@ -3122,7 +3146,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 {
 //    NSMutableArray * txtArr = [NSMutableArray array];
 //    ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
-//    eve1.equipId = 2281755;
+//    eve1.equipId = 2283737;
 //    eve1.serverId = 33;
 //    [txtArr addObject:eve1];
 ////
@@ -3140,7 +3164,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 ////    [txtArr addObject:eve];
 //    
 //    return txtArr;
-    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSInteger maxNum = total.minServerId;
     
     NSMutableArray *totalArray=[NSMutableArray array];
     [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
@@ -3160,10 +3185,10 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              
 //             NSDictionary * maxDic = @{@"equipid":[NSNumber numberWithInteger:equipId],
 //                                       @"serverid":[NSNumber numberWithInteger:serverId]};
-             if(serverId != 45 && serverId != 0)
+             if(serverId != 45 && serverId != 0 && serverId < maxNum)
              {
                  ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
-                 eve.equipId = equipId;
+                 eve.equipId = equipId + 1;
                  eve.serverId = serverId;
                  
                  [totalArray addObject:eve];

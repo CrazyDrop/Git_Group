@@ -59,6 +59,7 @@ RefreshCellCopyDelgate>
 @property (nonatomic,assign) BOOL inWebRequesting;
 @property (nonatomic,strong) CBGDetailWebView * planWeb;
 @property (nonatomic,assign) BOOL forceRefresh;
+@property (nonatomic,strong) NSMutableDictionary * serverReqDic;
 @end
 
 @implementation ZWServerRefreshListVC
@@ -67,12 +68,16 @@ RefreshCellCopyDelgate>
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        self.serverNum = 3;
+        self.serverNum = 10;
         [self appendNotificationForRestartTimerRefreshWithActive];
         
-        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-        self.totalArr = [total.serverNameDic allKeys];
+        self.serverReqDic = [NSMutableDictionary dictionary];
         
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        NSMutableArray * serverEdit = [NSMutableArray arrayWithArray:[total.serverNameDic allKeys]];
+        [serverEdit removeObject:[NSNumber numberWithInt:45]];
+        self.totalArr = serverEdit;
+
         self.inWebRequesting = NO;
         requestLock = [[NSLock alloc] init];
     }
@@ -92,16 +97,14 @@ RefreshCellCopyDelgate>
     NSInteger endIndex = self.latestNum  + self.serverNum;
     if([allArr count] <= endIndex)
     {
-        endIndex = [allArr count] - 1;
+        endIndex = [allArr count] ;
     }
     
-    self.latestNum = [allArr count] -1 == endIndex?0:endIndex;
+    self.latestNum = [allArr count] == endIndex?0:endIndex;
     
     NSArray * part = [allArr subarrayWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
     NSMutableArray * data = [NSMutableArray array];
     [data addObjectsFromArray:part];
-    [data removeObject:[NSNumber numberWithInt:45]];
-    [data removeObject:@"45"];
     return data;
 }
 
@@ -527,10 +530,15 @@ RefreshCellCopyDelgate>
     };
     [manager saveCurrentAndStartAutoRefresh];
 }
--(void)refreshCurrentTitleVLableWithTotal:(CGFloat)totalMoney andCountNum:(NSInteger)number
+-(void)refreshCurrentTitleVLableWithTotal:(NSInteger)totalMoney andCountNum:(NSInteger)number
 {
-    NSString * total = [NSString stringWithFormat:@"总在售 %.1fW(%d)",totalMoney/10000,number];
+    NSString * total = [NSString stringWithFormat:@"准备%ld(%ld)",totalMoney,number];
+    if(totalMoney == number && number > 0)
+    {
+        total = @"准备完成";
+    }
     self.titleV.text = total;
+    
 }
 
 -(void)refreshLatestListRequestModelWithSmallList:(BOOL)small
@@ -555,8 +563,24 @@ RefreshCellCopyDelgate>
     ServerRefreshRequestModel * listRequest = (ServerRefreshRequestModel *)_dpModel;
     if(listRequest.executing) return;
     
-    NSArray * arr = [self latestServerIdArr];
-    if([arr count] == 0)return;
+    NSArray * subArr = [self latestServerIdArr];
+    if([subArr count] == 0)return;
+    
+    NSMutableArray * idArr = [NSMutableArray array];
+    NSMutableArray * editArr = [NSMutableArray array];
+    //id筛选，已经成功的不需要再次请求
+    for (NSInteger index = 0;index < [subArr count] ;index++ )
+    {
+        NSNumber * subNum = [subArr objectAtIndex:index];
+        if(![self.serverReqDic objectForKey:subNum]){
+            [editArr addObject:subNum];
+            [idArr addObject:[subNum stringValue]];
+        }
+    }
+    
+    NSLog(@"prepareArr %@",[idArr componentsJoinedByString:@"-"]);
+    if([editArr count] == 0)return;
+
     
     //    if(self.inWebRequesting)
     //    {
@@ -587,7 +611,7 @@ RefreshCellCopyDelgate>
          }
          */
     }
-    model.serverArr = arr;
+    model.serverArr = editArr;
     model.timerState = !model.timerState;
     [model sendRequest];
 }
@@ -620,7 +644,10 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
     
     ServerRefreshRequestModel * model = (ServerRefreshRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
+    NSArray * requArr = model.requestArr;
+    NSArray * server = model.serverArr;
     
+    NSMutableDictionary *finishDic = [NSMutableDictionary dictionary];
     //正常序列
     NSMutableArray * array = [NSMutableArray array];
     for (NSInteger index = 0; index < [total count]; index ++)
@@ -630,9 +657,17 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
         id obj = [total objectAtIndex:backIndex];
         if([obj isKindOfClass:[NSArray class]])
         {
+            if([obj count] > 0)
+            {
+                NSNumber * num = [server objectAtIndex:backIndex];
+                [finishDic setObject:@"finish" forKey:num];
+            }
             [array addObjectsFromArray:obj];
         }
     }
+    
+    [self.serverReqDic addEntriesFromDictionary:finishDic];
+    [self refreshCurrentTitleVLableWithTotal:[self.totalArr count] andCountNum:[self.serverReqDic count]];
     
     //列表数据排重
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
@@ -656,15 +691,28 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
     ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
     NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:backArray];
     NSArray * refreshArr = checkManager.refreshArr;
-    if([refreshArr count] > 0)
+    if([models count] > 0)
     {
-        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
-        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+        //        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
+        //数量大于0，发起请求
+        NSLog(@"EquipListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
+        
+        NSMutableArray * urls = [NSMutableArray array];
+        for (NSInteger index = 0; index < [models count]; index++) {
+            Equip_listModel * eveModel = [models objectAtIndex:index];
+            [urls addObject:eveModel.detailDataUrl];
+        }
+        
+        self.detailsArr = [NSArray arrayWithArray:models];
+        [self startEquipDetailAllRequestWithUrls:urls];
+    }else{
+        
+        //进行查询库表操作处理
+        
+        //为空，标识没有新url
+        self.inWebRequesting = NO;
+        [requestLock unlock];
     }
-    
-    //为空，标识没有新url
-    self.inWebRequesting = NO;
-    [requestLock unlock];
 
     
 }

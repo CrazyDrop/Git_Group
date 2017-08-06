@@ -77,6 +77,7 @@
 //存储数据  主表，更新状态，更新估价，新增记录，均可以
 -(void)localSaveEquipHistoryArrayListWithDetailCBGModelArray:(NSArray *)array;
 -(void)deleteLocalSaveEquipHistoryObjectWithCBGModelOrderSN:(NSString *)ordersn;
+-(void)deleteTotalLocalSaveEquipHistory;
 -(NSArray *)localSaveEquipHistoryModelListWithIngoreNumber:(NSInteger)number;
 -(NSArray *)localSaveEquipHistoryModelListTotal;
 -(NSArray *)localSaveEquipHistoryModelListEquipUnSell;
