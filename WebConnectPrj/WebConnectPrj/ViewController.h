@@ -46,6 +46,10 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_EquipServer,
     CBGDetailTestFunctionStyle_EquipPage,
     CBGDetailTestFunctionStyle_MixedEquip,
+    CBGDetailTestFunctionStyle_MobilePage,
+    CBGDetailTestFunctionStyle_VPNList,//vpn列表
+    CBGDetailTestFunctionStyle_MainHistory,
+    CBGDetailTestFunctionStyle_DetailProxy,
 } CBGDetailTestFunctionStyle;
 
 

@@ -1,19 +1,19 @@
 //
-//  EquipListRequestModel.m
-//  ZAIOSMainPrj
+//  EquipListPageRequestModel.m
+//  WebConnectPrj
 //
-//  Created by Apple on 17/2/4.
-//  Copyright © 2017年 ZhongAn Insurance. All rights reserved.
+//  Created by Apple on 2017/8/8.
+//  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "EquipListRequestModel.h"
+#import "EquipListPageRequestModel.h"
 #import "RoleDataModel.h"
-@interface EquipListRequestModel ()
+@interface EquipListPageRequestModel()
 @property (nonatomic, assign) BOOL needUpdate;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
 @end
-@implementation EquipListRequestModel
 
+@implementation EquipListPageRequestModel
 -(instancetype)init
 {
     self = [super init];
@@ -21,10 +21,10 @@
     {
         self.saveKookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
-//        &sum_exp_min=111
-//        &qian_neng_guo=33
-//        &skill_qiang_shen=22
-//        self.withHost = YES;
+        //        &sum_exp_min=111
+        //        &qian_neng_guo=33
+        //        &skill_qiang_shen=22
+        //        self.withHost = YES;
     }
     return self;
 }
@@ -33,22 +33,22 @@
     if(!self.saveKookie){
         return nil;
     }
-//    NSRange range = [url rangeOfString:@"server_id="];
-//    if(range.location != NSNotFound)
-//    {
-//        NSInteger startIndex = range.location + range.length;
-//        NSString * subStr = [url substringWithRange:NSMakeRange(startIndex,[url length] - startIndex)];
+    //    NSRange range = [url rangeOfString:@"server_id="];
+    //    if(range.location != NSNotFound)
+    //    {
+    //        NSInteger startIndex = range.location + range.length;
+    //        NSString * subStr = [url substringWithRange:NSMakeRange(startIndex,[url length] - startIndex)];
     
-        NSString * subStr = @"shareCookie";
-
-        NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
-        //内含cookie
-        if([serverDic count] > 0){
-            NSArray * arrCookies = [serverDic allValues];
-            NSDictionary *dictCookies = [NSHTTPCookie requestHeaderFieldsWithCookies:arrCookies];
-            return dictCookies;
-        }
-//    }
+    NSString * subStr = @"shareCookie";
+    
+    NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
+    //内含cookie
+    if([serverDic count] > 0){
+        NSArray * arrCookies = [serverDic allValues];
+        NSDictionary *dictCookies = [NSHTTPCookie requestHeaderFieldsWithCookies:arrCookies];
+        return dictCookies;
+    }
+    //    }
     return nil;
 }
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr{
@@ -61,13 +61,13 @@
     NSURL * url = [NSURL URLWithString:urlStr];
     NSArray * normalArr = [NSHTTPCookie cookiesWithResponseHeaderFields:fields forURL:url];
     NSArray *  cookies= normalArr;
-//    [self checkAndRefreshLocalWebCookieArray:normalArr];
+    //    [self checkAndRefreshLocalWebCookieArray:normalArr];
     
-//    NSRange range = [urlStr rangeOfString:@"server_id="];
-//    if(range.location != NSNotFound)
+    //    NSRange range = [urlStr rangeOfString:@"server_id="];
+    //    if(range.location != NSNotFound)
     {
-//        NSInteger startIndex = range.location + range.length;
-//        NSString * subStr = [urlStr substringWithRange:NSMakeRange(startIndex,[urlStr length] - startIndex)];
+        //        NSInteger startIndex = range.location + range.length;
+        //        NSString * subStr = [urlStr substringWithRange:NSMakeRange(startIndex,[urlStr length] - startIndex)];
         NSString * subStr = @"shareCookie";
         
         NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
@@ -83,17 +83,13 @@
 }
 
 
--(void)setPageNum:(NSInteger)pageNum
+-(void)setPageIndex:(NSInteger)pageIndex
 {
-    if(_pageNum != pageNum)
+    if(_pageIndex != pageIndex)
     {
         self.needUpdate = YES;
-        if(pageNum < 5)
-        {
-//            self.listSession.configuration.timeoutIntervalForRequest = 60;
-        }
     }
-    _pageNum = pageNum;
+    _pageIndex = pageIndex;
 }
 -(void)setTimerState:(BOOL)timerState
 {
@@ -119,7 +115,7 @@
     for (NSInteger index = 0; index < [sepArr count];index ++)
     {
         NSString * eveStr = [sepArr objectAtIndex:index];
-//        device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8;
+        //        device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8;
         NSArray * eveArr = [eveStr componentsSeparatedByString:@"="];
         NSString * eveSubStr = [eveArr firstObject];
         
@@ -163,40 +159,22 @@
 
 -(NSArray *)webRequestDataList
 {
-    NSString * baseUrl = MobileRefresh_ListRequest_Default_URLString;
-
+    NSString * pageUrl = MobileRefresh_ListRequest_Default_URLString;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.localURL2)
+    {
+        pageUrl = total.localURL2 ;
+    }
+    
+    pageUrl = [self replaceStringWithLatestWebString:pageUrl];
     //启动数据请求
     NSMutableArray * urls = [NSMutableArray array];
-    NSInteger totalNum = self.pageNum;
-    if(totalNum == 0)
-    {
-        totalNum = RefreshListMaxPageNum;
-    }
+    NSInteger index = self.pageIndex;
     
     
-    for (NSInteger index = 1; index <= totalNum; index ++)
-    {
-        NSString * pageUrl = [self replaceStringWithLatestWebString:baseUrl];
-
-        //增加设备号
-//        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
-        NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
-        NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)index];
-        if(self.selectSchool > 0)
-        {
-            eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
-        }
-        if(self.priceStatus == 1){
-            eve = [eve stringByAppendingString:@"&price_min=0&price_max=650000"];
-        }else if(self.priceStatus == 2){
-            eve = [eve stringByAppendingString:@"&price_min=650000&price_max=900000"];
-        }else if(self.priceStatus == 3){
-            eve = [eve stringByAppendingString:@"&price_min=900000&price_max=50000000"];
-        }
-
-        
-        [urls addObject:eve];
-    }
+    NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
+    NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)index];
+    [urls addObject:eve];
     
     return urls;
 }
@@ -233,7 +211,7 @@
     NSArray * array = listData.equip_list;
     if(!array || ![array isKindOfClass:[NSArray class]])
     {
-//        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
+        //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
         return nil;
     }
     if([listData.num_per_page integerValue] == 1)
@@ -244,6 +222,5 @@
     
     return array;
 }
-
 
 @end

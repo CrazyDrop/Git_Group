@@ -82,6 +82,8 @@
 //统计表
 @property (nonatomic,strong) NSString * sellRateStr;
 
+//使用代理
+@property (nonatomic,assign) BOOL  isProxy;//默认NO，即默认不使用代理
 //区分是否要闹铃提示
 @property (nonatomic,assign) BOOL  isAlarm;
 //区分是否扫码支付
@@ -114,6 +116,10 @@
 
 @property (nonatomic, strong) NSString * specialHistory;
 @property (nonatomic, strong) NSString * orderSnCache;
+
+@property (nonatomic, strong) NSArray * proxyDicArr;
+-(NSArray *)proxyModelArray;
+
 
 //针对退出登录清空数据
 +(void)clearLocalStateForLogout;

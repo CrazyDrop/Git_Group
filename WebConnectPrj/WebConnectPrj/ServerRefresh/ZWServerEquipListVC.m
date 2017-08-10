@@ -77,7 +77,9 @@ RefreshCellCopyDelgate>
         [self appendNotificationForRestartTimerRefreshWithActive];
         
         ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-        self.totalArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
+        NSArray * baseArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
+        NSInteger subLength = 3;
+        self.totalArr = [baseArr subarrayWithRange:NSMakeRange(0, subLength)];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
         NSDictionary * serNameDic = total.serverNameDic;
@@ -334,11 +336,11 @@ RefreshCellCopyDelgate>
     [self.view addSubview:self.waitingTips];
     self.waitingTips.hidden = YES;
     
-    [self.view addSubview:self.randomTips];
-    self.randomTips.hidden = YES;
-    
     [self.view addSubview:self.networkTips];
     self.networkTips.hidden = YES;
+
+    [self.view addSubview:self.randomTips];
+    self.randomTips.hidden = YES;
 
     
 //    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
@@ -818,9 +820,9 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
     [self refreshServerEquipListWithRequestPageIndexArray:request];
     [self refreshCurrentTitleVLableWithTotal:[self.totalArr count] andCountNum:[self.finishDic count]];
 
+    self.waitingTips.hidden = [waitingArr count] == 0;
     self.networkTips.hidden = [finishArr count] == 0;
     self.randomTips.hidden = [randArr count] == 0;
-    self.waitingTips.hidden = [waitingArr count] == 0;
     
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求

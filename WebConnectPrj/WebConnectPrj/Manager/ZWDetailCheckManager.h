@@ -43,7 +43,6 @@
 -(void)refreshDiskCacheWithDetailRequestFinishedArray:(NSArray *)array;
 
 
-
 //刷新标示
 -(BOOL)refreshListRequestUpdate;
 

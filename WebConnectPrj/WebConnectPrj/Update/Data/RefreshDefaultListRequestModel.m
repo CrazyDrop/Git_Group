@@ -58,7 +58,18 @@
         //屏蔽所有缓存
         NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
         config.requestCachePolicy = NSURLRequestReloadIgnoringCacheData;
-        
+        config.connectionProxyDictionary =@
+        {
+            (id)kCFNetworkProxiesHTTPEnable:@YES,
+            (id)kCFNetworkProxiesHTTPProxy:@"183.222.102.104",
+            (id)kCFNetworkProxiesHTTPPort:@8080
+//            @"HTTPEnable":@YES,
+//            (id)kCFStreamPropertyHTTPProxyHost:@"1.2.3.4",
+//            (id)kCFStreamPropertyHTTPProxyPort:@8080,
+//            @"HTTPSEnable":@YES,
+//            (id)kCFStreamPropertyHTTPSProxyHost:@"1.2.3.4",
+//            (id)kCFStreamPropertyHTTPSProxyPort:@8080
+        };
         
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config
                                                               delegate:nil
@@ -109,8 +120,10 @@
     self.oneRequest = NO;
     [operationQueue cancelAllOperations];
     [self.listSession invalidateAndCancel];
+    self.listSession = nil;
     [jsonQueue removeObserver:self forKeyPath:@"operationCount"];
     [jsonQueue cancelAllOperations];
+    
     
     self.executing = NO;
     @synchronized (resultDic) {
@@ -184,10 +197,9 @@
     //所有返回均在主线程操作
     __weak typeof(self) weakSelf = self;
     NSURLSession *session = weakSelf.listSession;
-    NSString *charactersToEscape = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
+//    NSString *charactersToEscape = @"?!@#$^&%*+,:;='\"`<>()[]{}/\\| ";
 //    NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
 
-    urlStr  = [urlStr stringByRemovingPercentEncoding];
     NSURL *url = [NSURL URLWithString:urlStr];
     
     
@@ -260,7 +272,9 @@
     
     NSString * str = @"xyqcbg2/2.2.8 CFNetwork/758.1.6 Darwin/15.0.0";
     [request setValue:str forHTTPHeaderField:@"User-Agent"];
-    
+    if(self.withHost){
+        [request setValue:@"xyq-ios2.cbg.163.com" forHTTPHeaderField:@"Host"];
+    }
     NSDictionary * cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
     if(cookie)
     {
@@ -283,11 +297,6 @@
     NSURLSession *session = weakSelf.listSession;
     NSURL *url = [NSURL URLWithString:urlStr];
     
-
-    //        NSURLRequestCachePolicy
-    
-    //        group
-    //        block
     void(^finishBlock)(NSData * data ,NSURLResponse * response ,NSError * error) = ^void(NSData * responseObject ,NSURLResponse * response ,NSError * error)
     {
         if(weakSelf.saveKookie)
@@ -337,18 +346,14 @@
     };
     
     
-    // 通过URL初始化task,在block内部可以直接对返回的数据进行处理
-    
-//    NSURLSessionTask *task = [session dataTaskWithURL:url
-//                                    completionHandler:finishBlock];
-
-    
-
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
 
     
     NSString * str = @"xyqcbg2/2.2.8 CFNetwork/758.1.6 Darwin/15.0.0";
     [request setValue:str forHTTPHeaderField:@"User-Agent"];
+    if(self.withHost){
+        [request setValue:@"xyq-ios2.cbg.163.com" forHTTPHeaderField:@"Host"];
+    }
 
     NSDictionary * cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
     if(cookie)

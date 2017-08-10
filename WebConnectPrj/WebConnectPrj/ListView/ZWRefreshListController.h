@@ -6,11 +6,11 @@
 //  Copyright © 2016年 ZhongAn Insurance. All rights reserved.
 //
 
-#import "DPWhiteTopController.h"
+#import "ZWBaseRefreshShowListVC.h"
 
 
 //监控最新的列表数据，以获得最新数据为主
-@interface ZWRefreshListController : DPWhiteTopController
+@interface ZWRefreshListController : ZWBaseRefreshShowListVC
 //10页或3页，均为并发执行
 
 //开启仅进行列表数据请求，筛选，且进行库表存储(等后续补全)

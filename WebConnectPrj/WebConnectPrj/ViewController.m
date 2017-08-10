@@ -52,6 +52,10 @@
 #import "ZWServerURLCheckVC.h"
 #import "ZWServerRefreshAutoEquipVC.h"
 #import "CBGMixedServerNormalRefreshVC.h"
+#import "ZWLimitCircleRefreshVC.h"
+#import "VPNMainListVC.h"
+#import "CBGHistoryMianListVC.h"
+#import "ZWDetailCheckManager.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -246,6 +250,22 @@
             name = @"递增混合";
         }
             break;
+        case CBGDetailTestFunctionStyle_MobilePage:{
+            name = @"循环mobile";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_VPNList:{
+            name = @"代理列表";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_MainHistory:{
+            name = @"历史主页";
+        }
+            break;
+        case CBGDetailTestFunctionStyle_DetailProxy:{
+            name = @"代理状态";
+        }
+            break;
             
         default:
             break;
@@ -260,6 +280,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+    manager.proxyArrCache = total.proxyModelArray;
+    
     //增加监听
 //    CBGDetailWebView * detail = [[CBGDetailWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    [self.view addSubview:detail];
@@ -269,38 +293,29 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_PayStyle],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileMin],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipServer],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
 
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipPage],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
                              
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryTotal],
+                             
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MainHistory],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
+
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_LatestPlan],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryPart],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryUpdate],
-                             
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryToday],
-                             
-//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_CopyData],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
-
-//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_StudyMonth],
-//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EditCheck],
-                             
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WEBCheck],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
-
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedEquip],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_DetailProxy],
                              
+
                              nil];
     
     UIView * bgView = self.view;
@@ -322,6 +337,7 @@
     
     [self refreshNoticeBtnStateWithNoticeState:total.isAlarm];
     [self refreshPayStyleBtnStateWithStyle:!total.isNotSystemApp];
+    [self refreshDetailRequestProxyStateWithProxyState:total.isProxy];
 //    [self refreshLocalPanicBtnWithLatestNumber:total.refreshSchool];
 }
 //-(void)refreshLocalPanicBtnWithLatestNumber:(NSInteger)index
@@ -342,6 +358,13 @@
 //    NSString * showState = [NSString stringWithFormat:@"改价:%@",name];
 //    [btn setTitle:showState forState:UIControlStateNormal];
 //}
+-(void)refreshDetailRequestProxyStateWithProxyState:(BOOL)proxy
+{
+    NSInteger noticeTag = CBGDetailTestFunctionStyle_DetailProxy;
+    UIButton * btn = (UIButton *)[self.view viewWithTag:BlueDebugAddNum + noticeTag];
+    NSString * showState = proxy?@"代理(开)":@"代理(关)";
+    [btn setTitle:showState forState:UIControlStateNormal];
+}
 
 -(void)refreshNoticeBtnStateWithNoticeState:(BOOL)notice
 {
@@ -366,6 +389,14 @@
 }
 
 
+-(void)exchangeDetailRequestProxyStateForBtnTaped
+{
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    total.isProxy = !total.isProxy;
+    [total localSave];
+    
+    [self refreshDetailRequestProxyStateWithProxyState:total.isProxy];
+}
 -(void)exchangeNoticeForNoticeBtnTaped
 {
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -414,6 +445,13 @@
             
         }
             break;
+        case CBGDetailTestFunctionStyle_DetailProxy:
+        {
+            [self exchangeDetailRequestProxyStateForBtnTaped];
+            
+        }
+            break;
+
         case CBGDetailTestFunctionStyle_CopyData:
         {
             NSString * dbExchange = @"写入结束";
@@ -678,7 +716,25 @@
         case CBGDetailTestFunctionStyle_MixedEquip:{
             CBGMixedServerNormalRefreshVC * list = [[CBGMixedServerNormalRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
+          
         }
+            break;
+        case CBGDetailTestFunctionStyle_MobilePage:{
+            ZWLimitCircleRefreshVC * list = [[ZWLimitCircleRefreshVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+
+        }
+            break;
+        case CBGDetailTestFunctionStyle_VPNList:{
+            VPNMainListVC * list = [[VPNMainListVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
+        case CBGDetailTestFunctionStyle_MainHistory:{
+            CBGHistoryMianListVC * list = [[CBGHistoryMianListVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
 
             
     }

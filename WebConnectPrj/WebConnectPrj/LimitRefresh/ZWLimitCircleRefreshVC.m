@@ -1,0 +1,553 @@
+//
+//  ZWLimitCircleRefreshVC.m
+//  WebConnectPrj
+//
+//  Created by Apple on 2017/8/8.
+//  Copyright © 2017年 zhangchaoqun. All rights reserved.
+//
+
+#import "ZWLimitCircleRefreshVC.h"
+#import "MSAlertController.h"
+#import "EquipDetailArrayRequestModel.h"
+#import "EquipListRequestModel.h"
+#import "ZWDetailCheckManager.h"
+#import "Equip_listModel.h"
+#import "EquipListPageRequestModel.h"
+@interface ZWLimitCircleRefreshVC ()
+{
+    NSInteger EquipListRequestWaitingTimeSep;
+}
+@property (nonatomic, assign) NSInteger requestIndex;
+@property (nonatomic, assign) NSInteger preIndex;
+@property (nonatomic, assign) NSInteger maxPageNum;
+
+@property (nonatomic, strong) NSDate * begainDate;
+@property (nonatomic, strong) NSDate * finishDate;
+@property (nonatomic, assign) NSInteger timeSep;
+@property (nonatomic, strong) NSDate * retryDate;
+@end
+
+@implementation ZWLimitCircleRefreshVC
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self =[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self)
+    {
+        EquipListRequestWaitingTimeSep = 2;
+        self.maxPageNum = 10;
+        self.requestIndex = 1;
+        self.preIndex = 0;
+    }
+    return self;
+}
+-(void)setRequestIndex:(NSInteger)requestIndex
+{
+    self.preIndex = self.requestIndex;
+    _requestIndex = requestIndex;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    _detailListReqModel = nil;
+    _dpModel = nil;
+    [super viewWillAppear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled=YES;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"%s disappear",__FUNCTION__);
+    [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    
+    if(detailRefresh.executing || refresh.executing)
+    {
+        [requestLock unlock];
+    }
+    
+    
+    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
+    check.latestHistory = self.showArray;
+    [check refreshDiskCacheWithDetailRequestFinishedArray:check.modelsArray];
+    
+    [detailRefresh cancel];
+    [detailRefresh removeSignalResponder:self];
+    //    _detailListReqModel = nil;
+    
+    [refresh cancel];
+    [refresh removeSignalResponder:self];
+    //    _dpModel = nil;
+    
+    //    self.inWebRequesting = YES;
+    
+    [UIApplication sharedApplication].idleTimerDisabled=NO;
+    
+}
+- (void)viewDidLoad {
+    self.rightTitle = @"筛选";
+    self.showRightBtn = YES;
+    self.viewTtle = @"屏蔽部分";
+
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startNextPageListModelRequest];
+    });
+    
+}
+
+-(void)clearWebRequestAndStartNextReqeustForError
+{
+    NSLog(@"%s",__FUNCTION__);
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    
+    if(detailRefresh.executing || refresh.executing)
+    {
+        [requestLock unlock];
+    }
+    
+    [detailRefresh cancel];
+    [detailRefresh removeSignalResponder:self];
+    //    _detailListReqModel = nil;
+    
+    [refresh cancel];
+    [refresh removeSignalResponder:self];
+    
+    _dpModel = nil;
+    _detailListReqModel = nil;
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startNextPageListModelRequest];
+    });
+}
+
+-(void)startRefreshDataModelRequest
+{
+//    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
+//    if(detailArr.executing) return;
+//    
+//    EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
+//    if(listRequest.executing) return;
+//
+//    //进行循环的检查
+//    if(self.timeSep == EquipListRequestWaitingTimeSep) return;
+    
+    //取消之前的发送
+//    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    NSTimeInterval sep = [self.retryDate timeIntervalSinceNow];
+    if(self.retryDate && sep < 0){
+        
+    }
+    
+}
+-(void)startNextPageListModelRequest
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+
+//    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
+    
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(detailArr.executing) return;
+    
+    EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
+    if(listRequest.executing) return;
+    
+    
+    //    if(self.inWebRequesting)
+    //    {
+    //        return;
+    //    }
+    //    self.inWebRequesting = YES;
+    [requestLock lock];
+    
+    NSLog(@"%s",__FUNCTION__);
+    
+    EquipListPageRequestModel * model = (EquipListPageRequestModel *)_dpModel;
+    //    CBGZhaohuanListRequestModel * model = (CBGZhaohuanListRequestModel *)_dpModel;
+    if(!model){
+        //model重建，仅界面消失时出现，执行时不处于请求中
+        model = [[EquipListPageRequestModel alloc] init];
+        //        model = [[CBGZhaohuanListRequestModel alloc] init];
+        [model addSignalResponder:self];
+        //        model.saveKookie = YES;
+        _dpModel = model;
+        
+        model.pageIndex = self.requestIndex;
+        /*
+         if(self.totalPageNum >= 3)
+         {
+         [self refreshLatestListRequestModelWithSmallList:YES];
+         }
+         if(self.maxRefresh)
+         {
+         model.pageNum = 100;
+         }
+         */
+    }
+    
+    model.timerState = !model.timerState;
+    [model sendRequest];
+
+}
+
+#pragma mark EquipListPageRequestModel
+handleSignal( EquipListPageRequestModel, requestError )
+{
+    [self clearWebRequestAndStartNextReqeustForError];
+    self.tipsView.hidden = NO;
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+}
+handleSignal( EquipListPageRequestModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //    [self showLoading];
+}
+
+
+handleSignal( EquipListPageRequestModel, requestLoaded )
+{
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    NSLog(@"%s",__FUNCTION__);
+    
+//    [self clearWebRequestAndStartNextReqeustForError];
+//    return;
+
+    
+    EquipListPageRequestModel * model = (EquipListPageRequestModel *) _dpModel;
+    NSArray * total  = model.listArray;
+    
+    //正常序列
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSInteger index = 0; index < [total count]; index ++)
+    {
+        NSInteger backIndex = [total count] - index - 1;
+        backIndex = index;
+        id obj = [total objectAtIndex:backIndex];
+        if([obj isKindOfClass:[NSArray class]])
+        {
+            [array addObjectsFromArray:obj];
+        }
+    }
+    
+    //列表数据排重
+    NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0 ;index < [array count]; index ++ )
+    {
+        NSInteger backIndex = [array count] - index - 1;
+        Equip_listModel * eveModel = [array objectAtIndex:backIndex];
+        [modelsDic setObject:eveModel forKey:eveModel.detailCheckIdentifier];
+    }
+    NSArray * backArray = [modelsDic allValues];
+    
+    [self refreshNextRequestPageAndTimeWithLatestBackArray:backArray];
+    self.tipsView.hidden = [backArray count] != 0;
+    
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(detailArr.executing) return;
+    
+    //服务器数据排列顺序，最新出现的在最前面
+    //服务器返回的列表数据，需要进行详情请求
+    //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
+    //不检查本地存储、不检查队列是否存在，仅检查缓存数据
+    ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
+    NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:backArray];
+    NSArray * refreshArr = checkManager.refreshArr;
+    if([refreshArr count] > 0)
+    {
+        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
+        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+    }
+    
+    if([models count] > 0)
+    {
+        //        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
+        //数量大于0，发起请求
+        NSLog(@"EquipListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
+        
+        NSMutableArray * urls = [NSMutableArray array];
+        for (NSInteger index = 0; index < [models count]; index++) {
+            Equip_listModel * eveModel = [models objectAtIndex:index];
+            [urls addObject:eveModel.detailDataUrl];
+        }
+        
+        self.detailsArr = [NSArray arrayWithArray:models];
+        [self startEquipDetailAllRequestWithUrls:urls];
+    }else{
+        
+        //进行查询库表操作处理
+        [self checkAndStartNextListModelRequest];
+
+        //为空，标识没有新url
+        [requestLock unlock];
+    }
+    
+}
+-(void)refreshNextRequestPageAndTimeWithLatestBackArray:(NSArray *)array
+{
+    if(!array || [array count] == 0) return;
+    
+    NSArray * sort = [array sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        Equip_listModel * eve1 = (Equip_listModel *)obj1;
+        Equip_listModel * eve2 = (Equip_listModel *)obj2;
+        return [eve2.selling_time compare:eve1.selling_time];
+    }];
+    
+    Equip_listModel * startObj = [sort firstObject];
+    Equip_listModel * endObj = [sort lastObject];
+    NSDate * startDate = [NSDate fromString:endObj.selling_time];
+    NSDate * endDate = [NSDate fromString:startObj.selling_time];
+    
+    //两处要确定，1、是否需要请求下一页2、是否需要记录当前最后时间
+    NSDate * preEndDate = self.finishDate;
+//    NSDate * preBegainDate = self.begainDate;
+
+    if(!preEndDate)
+    {
+        self.begainDate = startDate;
+        self.finishDate =  endDate;
+        //        self.begainDate = [NSDate dateWithTimeInterval:-1  sinceDate:startDate];
+        //        self.finishDate = [NSDate dateWithTimeInterval:-1  sinceDate:endDate];
+        
+    }
+    
+    NSTimeInterval sepSpace = [endDate timeIntervalSinceDate:preEndDate];
+    if(sepSpace > 0)
+    {//时间有效，需要刷新
+        if(self.requestIndex == 1)
+        {
+            self.begainDate = startDate;
+            self.finishDate = endDate;
+        }else{
+//            self.requestIndex = 1;
+        }
+    }
+    
+    if(preEndDate)
+    {
+        //刷新请求的页数
+        NSTimeInterval refreshSpace = [preEndDate timeIntervalSinceDate:startDate];
+        if(refreshSpace >= 0)
+        {
+            self.requestIndex = 1;
+            self.timeSep = self.preIndex == 1?EquipListRequestWaitingTimeSep:0;
+        }else
+        {
+            self.requestIndex ++;
+            self.timeSep = 0;
+        }
+    }
+    
+
+    
+}
+-(void)retryLatestDetailArrayRequest
+{
+    NSArray * models = self.detailsArr;
+    NSMutableArray * urls = [NSMutableArray array];
+    for (NSInteger index = 0; index < [models count]; index++) {
+        Equip_listModel * eveModel = [models objectAtIndex:index];
+        [urls addObject:eveModel.detailDataUrl];
+    }
+    
+    [self startEquipDetailAllRequestWithUrls:urls];
+}
+
+-(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
+{
+    NSLog(@"%s",__FUNCTION__);
+    
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(!model){
+        model = [[EquipDetailArrayRequestModel alloc] init];
+        [model addSignalResponder:self];
+        _detailListReqModel = model;
+    }
+    
+    if(model.executing) return;
+    
+    [model refreshWebRequestWithArray:array];
+    [model sendRequest];
+    
+}
+
+#pragma mark EquipDetailArrayRequestModel
+handleSignal( EquipDetailArrayRequestModel, requestError )
+{
+//    [self retryLatestDetailArrayRequest];
+    [self clearWebRequestAndStartNextReqeustForError];
+    self.tipsView.hidden = NO;
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+}
+handleSignal( EquipDetailArrayRequestModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+}
+
+handleSignal( EquipDetailArrayRequestModel, requestLoaded )
+{
+    NSLog(@"%s",__FUNCTION__);
+    //进行存储操作、展示
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
+    NSArray * total  = model.listArray;
+    
+    NSMutableArray * detailModels = [NSMutableArray array];
+    for (NSInteger index = 0; index < [total count]; index ++)
+    {
+        NSInteger backIndex = [total count] - index - 1;
+        backIndex = index;
+        id obj = [total objectAtIndex:backIndex];
+        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+        {
+            [detailModels addObject:[obj firstObject]];
+        }else{
+            [detailModels addObject:[NSNull null]];
+        }
+    }
+    
+    NSLog(@"EquipDetailArrayRequestModel %lu",(unsigned long)[detailModels count]);
+    
+    NSArray * models = self.detailsArr;
+    for (NSInteger index = 0; index < [models count]; index ++)
+    {
+        EquipModel * detailEve = nil;
+        if([detailModels count] > index)
+        {
+            detailEve = [detailModels objectAtIndex:index];
+        }
+        Equip_listModel * obj = [models objectAtIndex:index];
+        if(![detailEve isKindOfClass:[NSNull class]])
+        {
+            if(!detailEve.game_ordersn){
+                continue;
+            }
+            obj.equipModel = detailEve;
+            CBGListModel * list = obj.listSaveModel;
+            obj.earnRate = list.plan_rate;
+            obj.earnPrice = [NSString stringWithFormat:@"%ld",list.price_earn_plan];
+        }
+    }
+    
+    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
+    [check refreshDiskCacheWithDetailRequestFinishedArray:models];
+    NSArray * showModels = check.filterArray;
+    
+    
+    //刷新展示列表
+    [self refreshTableViewWithInputLatestListArray:showModels replace:NO];
+    //    self.inWebRequesting = NO;
+    [self checkAndStartNextListModelRequest];
+
+    [requestLock unlock];
+    
+    //预留库表处理时间
+    //    [self performSelector:@selector(finishRequestWithExchange) withObject:nil afterDelay:2];
+    //    [self performSelector:@selector(startRefreshDataModelRequest) withObject:nil afterDelay:2];
+}
+-(void)checkAndStartNextListModelRequest
+{
+    if(self.timeSep > 0){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeSep * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self startNextPageListModelRequest];
+        });
+    }else{
+        [self startNextPageListModelRequest];
+    }
+}
+
+-(void)submit
+{
+//    //提供选择
+//    NSString * log = [NSString stringWithFormat:@"对刷新数据筛选？"];
+//    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
+//    
+//    __weak typeof(self) weakSelf = self;
+//    
+//    MSAlertAction *action = [MSAlertAction actionWithTitle:@"查看历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//                             {
+////                                 [weakSelf showForDetailHistory];
+//                             }];
+//    [alertController addAction:action];
+//    
+//    
+//    //    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//    //              {
+//    //                  [weakSelf refreshLocalShowListForLatestSelling];
+//    //              }];
+//    //    [alertController addAction:action];
+//    
+//    action = [MSAlertAction actionWithTitle:@"刷新3页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  //                  [weakSelf refreshLocalShowListForLactestUpdating];
+//                  weakSelf.totalPageNum = 3;
+//                  [weakSelf refreshLatestListRequestModelWithSmallList:NO];
+//              }];
+//    [alertController addAction:action];
+//    
+//    action = [MSAlertAction actionWithTitle:@"刷新10页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+//                  weakSelf.totalPageNum = 10;
+//                  [weakSelf refreshLatestListRequestModelWithSmallList:NO];
+//              }];
+//    [alertController addAction:action];
+//    
+//    
+//    //    action = [MSAlertAction actionWithTitle:@"预加载数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//    //              {
+//    //                  [weakSelf refreshLocalShowListForLargeRequest];
+//    //              }];
+//    //    [alertController addAction:action];
+//    
+//    action = [MSAlertAction actionWithTitle:@"屏蔽库表操作" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf refreshCheckManagerDBIngore:YES];
+//              }];
+//    [alertController addAction:action];
+//    
+//    NSString * rightTxt = @"取消";
+//    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
+//    }];
+//    [alertController addAction:action2];
+//    
+//    [self presentViewController:alertController
+//                       animated:YES
+//                     completion:nil];
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

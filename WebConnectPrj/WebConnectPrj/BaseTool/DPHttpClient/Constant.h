@@ -18,6 +18,8 @@
 #define kAPP_YEAR_TOTAL_RATE_NUMBER   @"620,640,640,650,650,680,720,750,780,820,830,840,900,930"
 
 
+#define RefreshListMoreAppendTagNum  100
+
 #define RefreshListMaxShowNum  50
 #define RefreshListMaxPageNum  40   //最大有效页数为100
 #define RefreshListMinPageNum  3    //最小有效页数为100
@@ -26,7 +28,10 @@
 
 //#define MobileRefresh_ListRequest_Default_URLString  @"http://xyq-ios2.cbg.163.com/app2-cgi-bin//xyq_search.py?act=super_query&search_type=overall_role_search&price_min=50000&price_max=50000000&level_min=170&level_max=175&expt_fangyu=25&expt_kangfa=25&expt_total=75&bb_expt_fangyu=10&bb_expt_kangfa=10&qian_neng_guo=50&bb_expt_total=35&qian_yuan_dan=7&page=1&platform=ios&app_version=2.2.8&device_name=%E5%BC%A0%E8%B6%85%E7%BE%A4%E7%9A%84%20iPhone&os_name=iPhone%20OS&os_version=9.1&device_id=AC3A0755-1BFF-4B8E-9970-9097A296E519"
 
+//#define MobileRefresh_ListRequest_Default_URLString  @"http://xyq-ios2.cbg.163.com/app2-cgi-bin//xyq_search.py?act=super_query&search_type=overall_role_search&orderby=selling_time%20DESC&level_min=173&level_max=200&page=0"
 #define MobileRefresh_ListRequest_Default_URLString  @"http://xyq-ios2.cbg.163.com/app2-cgi-bin//xyq_search.py?act=super_query&search_type=overall_role_search&orderby=selling_time%20DESC&level_min=173&level_max=200&page=0"
+
+
 
 
 

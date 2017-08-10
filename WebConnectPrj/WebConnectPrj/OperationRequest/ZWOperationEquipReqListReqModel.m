@@ -1,54 +1,57 @@
 //
-//  EquipListRequestModel.m
-//  ZAIOSMainPrj
+//  ZWOperationEquipReqListReqModel.m
+//  WebConnectPrj
 //
-//  Created by Apple on 17/2/4.
-//  Copyright © 2017年 ZhongAn Insurance. All rights reserved.
+//  Created by Apple on 2017/8/9.
+//  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "EquipListRequestModel.h"
+#import "ZWOperationEquipReqListReqModel.h"
 #import "RoleDataModel.h"
-@interface EquipListRequestModel ()
+#import "VPNProxyModel.h"
+@interface ZWOperationEquipReqListReqModel ()
 @property (nonatomic, assign) BOOL needUpdate;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
 @end
-@implementation EquipListRequestModel
+@implementation ZWOperationEquipReqListReqModel
 
 -(instancetype)init
 {
     self = [super init];
     if(self)
     {
+        self.timeOutNum = 5;
         self.saveKookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
-//        &sum_exp_min=111
-//        &qian_neng_guo=33
-//        &skill_qiang_shen=22
-//        self.withHost = YES;
+        //        &sum_exp_min=111
+        //        &qian_neng_guo=33
+        //        &skill_qiang_shen=22
+        //        self.withHost = YES;
     }
     return self;
 }
+
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
     if(!self.saveKookie){
         return nil;
     }
-//    NSRange range = [url rangeOfString:@"server_id="];
-//    if(range.location != NSNotFound)
-//    {
-//        NSInteger startIndex = range.location + range.length;
-//        NSString * subStr = [url substringWithRange:NSMakeRange(startIndex,[url length] - startIndex)];
+    //    NSRange range = [url rangeOfString:@"server_id="];
+    //    if(range.location != NSNotFound)
+    //    {
+    //        NSInteger startIndex = range.location + range.length;
+    //        NSString * subStr = [url substringWithRange:NSMakeRange(startIndex,[url length] - startIndex)];
     
-        NSString * subStr = @"shareCookie";
-
-        NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
-        //内含cookie
-        if([serverDic count] > 0){
-            NSArray * arrCookies = [serverDic allValues];
-            NSDictionary *dictCookies = [NSHTTPCookie requestHeaderFieldsWithCookies:arrCookies];
-            return dictCookies;
-        }
-//    }
+    NSString * subStr = @"shareCookie";
+    
+    NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
+    //内含cookie
+    if([serverDic count] > 0){
+        NSArray * arrCookies = [serverDic allValues];
+        NSDictionary *dictCookies = [NSHTTPCookie requestHeaderFieldsWithCookies:arrCookies];
+        return dictCookies;
+    }
+    //    }
     return nil;
 }
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr{
@@ -61,13 +64,13 @@
     NSURL * url = [NSURL URLWithString:urlStr];
     NSArray * normalArr = [NSHTTPCookie cookiesWithResponseHeaderFields:fields forURL:url];
     NSArray *  cookies= normalArr;
-//    [self checkAndRefreshLocalWebCookieArray:normalArr];
+    //    [self checkAndRefreshLocalWebCookieArray:normalArr];
     
-//    NSRange range = [urlStr rangeOfString:@"server_id="];
-//    if(range.location != NSNotFound)
+    //    NSRange range = [urlStr rangeOfString:@"server_id="];
+    //    if(range.location != NSNotFound)
     {
-//        NSInteger startIndex = range.location + range.length;
-//        NSString * subStr = [urlStr substringWithRange:NSMakeRange(startIndex,[urlStr length] - startIndex)];
+        //        NSInteger startIndex = range.location + range.length;
+        //        NSString * subStr = [urlStr substringWithRange:NSMakeRange(startIndex,[urlStr length] - startIndex)];
         NSString * subStr = @"shareCookie";
         
         NSDictionary * serverDic = [self.cookieDic objectForKey:subStr];
@@ -90,7 +93,7 @@
         self.needUpdate = YES;
         if(pageNum < 5)
         {
-//            self.listSession.configuration.timeoutIntervalForRequest = 60;
+            //            self.listSession.configuration.timeoutIntervalForRequest = 60;
         }
     }
     _pageNum = pageNum;
@@ -119,7 +122,7 @@
     for (NSInteger index = 0; index < [sepArr count];index ++)
     {
         NSString * eveStr = [sepArr objectAtIndex:index];
-//        device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8;
+        //        device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8;
         NSArray * eveArr = [eveStr componentsSeparatedByString:@"="];
         NSString * eveSubStr = [eveArr firstObject];
         
@@ -164,7 +167,7 @@
 -(NSArray *)webRequestDataList
 {
     NSString * baseUrl = MobileRefresh_ListRequest_Default_URLString;
-
+    
     //启动数据请求
     NSMutableArray * urls = [NSMutableArray array];
     NSInteger totalNum = self.pageNum;
@@ -177,9 +180,9 @@
     for (NSInteger index = 1; index <= totalNum; index ++)
     {
         NSString * pageUrl = [self replaceStringWithLatestWebString:baseUrl];
-
+        
         //增加设备号
-//        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
+        //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
         NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
         NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)index];
         if(self.selectSchool > 0)
@@ -187,13 +190,13 @@
             eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
         }
         if(self.priceStatus == 1){
-            eve = [eve stringByAppendingString:@"&price_min=0&price_max=650000"];
+            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=850000"];
         }else if(self.priceStatus == 2){
-            eve = [eve stringByAppendingString:@"&price_min=650000&price_max=900000"];
+            eve = [eve stringByAppendingString:@"&price_min=850000&price_max=1000000"];
         }else if(self.priceStatus == 3){
-            eve = [eve stringByAppendingString:@"&price_min=900000&price_max=50000000"];
+            eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=2500000"];
         }
-
+        
         
         [urls addObject:eve];
     }
@@ -233,17 +236,19 @@
     NSArray * array = listData.equip_list;
     if(!array || ![array isKindOfClass:[NSArray class]])
     {
-//        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
+        //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
         return nil;
     }
-    if([listData.num_per_page integerValue] == 1)
-    {
-        Equip_listModel * eve = [array firstObject];
-        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
-    }
+//    if([listData.num_per_page integerValue] == 1)
+//    {
+//        Equip_listModel * eve = [array firstObject];
+//        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
+//    }
     
     return array;
 }
+
+
 
 
 @end

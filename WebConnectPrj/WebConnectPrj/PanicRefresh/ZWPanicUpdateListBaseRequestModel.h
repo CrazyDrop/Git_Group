@@ -11,6 +11,7 @@
 //刷新到未上架的数据，发送消息通知，中心处理详情扫描
 //刷新结束后，接收消息通知，进行数据回写操作
 @class ZWPanicUpdateListBaseRequestModel;
+@class ZWOperationEquipReqListReqModel;
 @protocol PanicListRequestTagUpdateListDelegate <NSObject>
 
 -(void)panicListRequestFinishWithUpdateModel:(ZWPanicUpdateListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr;
@@ -24,7 +25,7 @@
     NSMutableDictionary * cacheDic;//以时间为key  model为value
     
     EquipDetailArrayRequestModel * _detailListReqModel;
-    EquipListRequestModel * _dpModel;
+    ZWOperationEquipReqListReqModel * _dpModel;
 }
 
 

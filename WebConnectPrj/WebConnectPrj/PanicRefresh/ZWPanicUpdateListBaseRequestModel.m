@@ -9,7 +9,9 @@
 #import "ZWPanicUpdateListBaseRequestModel.h"
 #import "Equip_listModel.h"
 #import "EquipListRequestModel.h"
-
+#import "ZWOperationEquipReqListReqModel.h"
+#import "VPNProxyModel.h"
+#import "DZUtils.h"
 @interface ZWPanicUpdateListBaseRequestModel ()
 {
     NSMutableArray * repeatCache;
@@ -34,11 +36,11 @@
 
 -(void)stopRefreshRequestAndClearRequestModel
 {
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    ZWOperationEquipReqListReqModel * detailRefresh = (ZWOperationEquipReqListReqModel *)_detailListReqModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
     
-    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    ZWOperationEquipReqListReqModel * refresh = (ZWOperationEquipReqListReqModel *)_dpModel;
     [refresh cancel];
     [refresh removeSignalResponder:self];
     
@@ -151,18 +153,18 @@
         return;
     }
     
-    EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
+    ZWOperationEquipReqListReqModel * listRequest = (ZWOperationEquipReqListReqModel *)_dpModel;
     if(listRequest.executing) return;
     
     //    [requestLock lock];
     self.errorTotal = 0;
     NSLog(@"%s %@",__FUNCTION__,self.tagString);
     
-    EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
+    ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *)_dpModel;
     //仅做数据刷新，不做展示   详情数据请求中时，列表数据也需要刷新
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
-        model = [[EquipListRequestModel alloc] init];
+        model = [[ZWOperationEquipReqListReqModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
         
@@ -173,28 +175,63 @@
         model.pageNum = self.requestNum;//刷新页数
     }
     
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    model.proxyArr = total.isProxy?manager.proxyArrCache:nil;
+    
     model.timerState = !model.timerState;
     [model sendRequest];
 }
-#pragma mark EquipListRequestModel
-handleSignal( EquipListRequestModel, requestError )
+#pragma mark ZWOperationEquipReqListReqModel
+handleSignal( ZWOperationEquipReqListReqModel, requestError )
 {
 //    [self refreshListRequestErrorWithFinishDelagateWithError:[NSError errorWithDomain:NSURLErrorDomain code:100 userInfo:nil]];
 }
-handleSignal( EquipListRequestModel, requestLoading )
+handleSignal( ZWOperationEquipReqListReqModel, requestLoading )
 {
 }
 
 
-handleSignal( EquipListRequestModel, requestLoaded )
+handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 {
     //    refreshLatestTotalArra
     NSLog(@"%s",__FUNCTION__);
     
-    EquipListRequestModel * model = (EquipListRequestModel *) _dpModel;
+    ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *) _dpModel;
     NSArray * total  = [NSArray arrayWithArray:model.listArray];
-    self.errorTotal = model.errNum;
+    NSArray * proxyErr = model.errorProxy;
     
+    BOOL refresh = NO;
+    ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
+    NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
+    if([DZUtils deviceWebConnectEnableCheck])
+    {
+        for (NSInteger index = 0;index < [proxyErr count] ;index ++ )
+        {
+            VPNProxyModel * eve = [proxyErr objectAtIndex:index];
+            if(eve.errorNum >= 2)
+            {
+                refresh = YES;
+                [editProxy removeObject:eve];
+            }
+        }
+        if(refresh)
+        {
+            proxyManager.proxyArrCache = editProxy;
+            
+            NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
+            
+            ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
+            localTotal.proxyDicArr = dicArr;
+            [localTotal localSave];
+        }
+    }
+    
+    
+//    self.errorTotal = model.errNum;
+    
+    NSInteger errorNum = 0;
     //正常序列
     NSMutableArray * array = [NSMutableArray array];
     for (NSInteger index = 0; index < [total count]; index ++)
@@ -202,12 +239,15 @@ handleSignal( EquipListRequestModel, requestLoaded )
         NSInteger backIndex = [total count] - index - 1;
         backIndex = index;
         id obj = [total objectAtIndex:backIndex];
-        if([obj isKindOfClass:[NSArray class]])
+        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             [array addObjectsFromArray:obj];
+        }else{
+            errorNum ++;
         }
     }
     
+    NSLog(@"proxy %ld errorNum %ld total %ld",[editProxy count],errorNum,[total count]);
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
     NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];    //后期详情刷新dic

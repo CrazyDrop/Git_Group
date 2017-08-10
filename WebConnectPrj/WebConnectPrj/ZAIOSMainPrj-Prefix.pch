@@ -33,6 +33,7 @@
 //#import "ZATfdLocalCheck.h"
 #import "BaseRequestModel.h"
 #import "ZALocalStateTotalModel.h"
+#import "ZWProxyRefreshManager.h"
 
 //#import "UIButton+ZASelected.h"
 //#import "ZAIAddDynamicProperty.h"

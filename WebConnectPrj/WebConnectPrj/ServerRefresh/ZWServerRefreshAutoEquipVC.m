@@ -34,7 +34,7 @@
 //检查出结果后，检查waitingNum区间内的商品，依次递减，当不在区间内，改变checkMaxNum，重新检查
 @property (nonatomic,assign) NSInteger repeatNum;
 @property (nonatomic,strong) NSDate * retryDate;//自动刷新时间倒计时   5s后自动刷新
-
+@property (nonatomic,assign) BOOL timerRefresh;
 @end
 
 @implementation ZWServerRefreshAutoEquipVC
@@ -264,8 +264,9 @@
         if(equipId > self.checkMaxNum - self.waitingNum && equipId < self.checkMaxNum)
         {
             NSTimeInterval count = [self.retryDate timeIntervalSinceNow];
-            if(count > 0 )
+            if(count < 0 )
             {
+                self.timerRefresh = YES;
                 NSString * nextUrl = [self latestWebRequestUrlWithSelectedServerId];
                 [self refreshWebViewWithLatestReqeustUrl:nextUrl];
                 
@@ -550,12 +551,16 @@
     NSString * nextUrl = request.URL.absoluteString;
     NSLog(@"nextUrl %@",nextUrl);
     //启动倒计时时间
-    self.retryDate = [NSDate dateWithTimeIntervalSinceNow:3];
+    
+    if(self.autoRefresh){
+        self.retryDate = [NSDate dateWithTimeIntervalSinceNow:10];
+    }
     
     return YES;
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
+    self.timerRefresh = NO;
     self.retryDate = nil;
     NSString * nextUrl = [webView request].URL.absoluteString;
     NSLog(@"webViewDidFinishLoad %@",nextUrl);
@@ -567,14 +572,18 @@
 }
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    NSLog(@"didFailLoadWithError ");
-    self.retryDate = nil;
-    [DZUtils noticeCustomerWithShowText:@"加载失败"];
+    NSString * nextUrl = [webView request].URL.absoluteString;
+    NSLog(@"didFailLoadWithError %@",nextUrl);
+    if(!self.timerRefresh){//针对timer启动的刷新，错误时不进行终止操作
+        self.retryDate = nil;
+    }
+    
+//    [DZUtils noticeCustomerWithShowText:@"加载失败"];
     
     if(self.autoRefresh)
     {
-        [self clearServerRequestCookieForSidRefresh];
-        self.retryDate = [NSDate date];
+//        [self clearServerRequestCookieForSidRefresh];
+//        self.retryDate = [NSDate date];
     }
 
 }

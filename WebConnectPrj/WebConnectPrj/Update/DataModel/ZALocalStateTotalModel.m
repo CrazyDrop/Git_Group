@@ -8,6 +8,7 @@
 
 #import "ZALocalStateTotalModel.h"
 #import "AutoCoding.h"
+#import "VPNProxyModel.h"
 //#import "ContactsModel.h"
 @interface ZALocalStateTotalModel()
 {
@@ -232,6 +233,20 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
     
     [current refreshLocalSaveStateDataWithCurrentData];
 }
-
+-(NSArray *)proxyModelArray
+{
+    NSMutableArray * models = [NSMutableArray array];
+    NSArray * dicArr = self.proxyDicArr;
+    if(dicArr)
+    {
+        for (NSInteger index =0; index < [dicArr count]; index ++)
+        {
+            NSDictionary * eve = [dicArr objectAtIndex:index];
+            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
+            [models addObject:model];
+        }
+    }
+    return models;
+}
 
 @end
