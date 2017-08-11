@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSMutableArray * resultArr;
 @property (nonatomic, strong) NSArray * webReqArr;
 @property (nonatomic, strong)  NSLock *  lock;
-@property (nonatomic, strong) NSMutableDictionary * proxyDic;
+@property (nonatomic, strong) NSMutableDictionary * errorProxyDic;
 @end
 @implementation ZWDefaultOperationReqModel
 -(id)init
@@ -24,7 +24,7 @@
         defaultQueue.name = @"operation-request-model-queue";
         defaultQueue.maxConcurrentOperationCount = 30;
         
-        self.proxyDic = [NSMutableDictionary dictionary];
+        self.errorProxyDic = [NSMutableDictionary dictionary];
         self.baseUrls = [self webRequestDataList];
         self.lock = [[NSLock alloc] init];
     }
@@ -41,6 +41,7 @@
     self.executing = YES;
     self.listArray = nil;
     self.errorProxy = nil;
+    [self.errorProxyDic removeAllObjects];
     [self.lock unlock];
 
     NSArray * list = self.baseUrls;
@@ -96,7 +97,7 @@
 {
     [defaultQueue cancelAllOperations];
     self.resultArr = nil;
-    [self.proxyDic removeAllObjects];
+    [self.errorProxyDic removeAllObjects];
 }
 
 #pragma mark - privateMethods
@@ -142,13 +143,19 @@
     {
         VPNProxyModel * proxy = session.proxyModel;
         
-        if([backDic objectForKey:@"webError"] || [backDic objectForKey:@"noneError"])
+        if([DZUtils deviceWebConnectEnableCheck])
         {
-            proxy.errorNum ++;
-            [self.proxyDic setObject:proxy forKey:proxy.idNum];
-        }else{
-            proxy.errorNum = 0;
-            [self.proxyDic removeObjectForKey:proxy.idNum];
+            if([backDic objectForKey:@"webError"] || [backDic objectForKey:@"noneError"])
+            {
+                proxy.errorNum ++;
+                [self.errorProxyDic setObject:proxy forKey:proxy.idNum];
+            }else{
+                proxy.errorNum = 0;
+                if([self.errorProxyDic objectForKey:proxy.idNum])
+                {
+                    [self.errorProxyDic removeObjectForKey:proxy.idNum];
+                }
+            }
         }
         
         [self.resultArr replaceObjectAtIndex:index withObject:array];
@@ -180,7 +187,7 @@
     {
         [self.lock lock];
         self.listArray = arr;
-        self.errorProxy = [self.proxyDic allValues];
+        self.errorProxy = [self.errorProxyDic allValues];
         self.executing = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self sendSignal:self.requestLoaded];;

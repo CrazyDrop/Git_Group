@@ -251,7 +251,7 @@
         }
             break;
         case CBGDetailTestFunctionStyle_MobilePage:{
-            name = @"循环mobile";
+            name = @"mobile代理";
         }
             break;
         case CBGDetailTestFunctionStyle_VPNList:{
@@ -313,9 +313,11 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
                              
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobilePage],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
+
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_DetailProxy],
                              
-
                              nil];
     
     UIView * bgView = self.view;

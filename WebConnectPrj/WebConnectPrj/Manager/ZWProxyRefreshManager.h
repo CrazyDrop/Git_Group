@@ -11,6 +11,8 @@
 @interface ZWProxyRefreshManager : NSObject
 
 @property (nonatomic, strong) NSArray * proxyArrCache;
+@property (nonatomic, strong, readonly) NSArray * proxySubCache;
 
+-(void)clearProxySubCache;
 
 @end

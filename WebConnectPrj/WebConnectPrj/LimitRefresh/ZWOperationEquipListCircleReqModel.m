@@ -1,32 +1,30 @@
 //
-//  ZWOperationEquipReqListReqModel.m
+//  ZWOperationEquipListCircleReqModel.m
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/8/9.
+//  Created by Apple on 2017/8/11.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWOperationEquipReqListReqModel.h"
+#import "ZWOperationEquipListCircleReqModel.h"
 #import "RoleDataModel.h"
 #import "VPNProxyModel.h"
-@interface ZWOperationEquipReqListReqModel ()
+@interface ZWOperationEquipListCircleReqModel ()
 @property (nonatomic, assign) BOOL needUpdate;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
 @end
-@implementation ZWOperationEquipReqListReqModel
+@implementation ZWOperationEquipListCircleReqModel
 
 -(instancetype)init
 {
     self = [super init];
     if(self)
     {
+        
         self.timeOutNum = 5;
         self.saveKookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
-        //        &sum_exp_min=111
-        //        &qian_neng_guo=33
-        //        &skill_qiang_shen=22
-        //        self.withHost = YES;
+
     }
     return self;
 }
@@ -85,19 +83,6 @@
     }
 }
 
-
--(void)setPageNum:(NSInteger)pageNum
-{
-    if(_pageNum != pageNum)
-    {
-        self.needUpdate = YES;
-        if(pageNum < 5)
-        {
-            //            self.listSession.configuration.timeoutIntervalForRequest = 60;
-        }
-    }
-    _pageNum = pageNum;
-}
 -(void)setTimerState:(BOOL)timerState
 {
     if(_timerState != timerState)
@@ -145,7 +130,7 @@
     NSInteger randQianneng = arc4random() % 50 + 1;
     NSInteger skill_qiang_shen = arc4random() % 50 + 1;
     appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld",randMinExp,randQianneng,skill_qiang_shen];
-    appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
+    appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhoneOS&os_version=7.1"];
     
     NSString * result = [replaceStr stringByAppendingString:appendStr];
     
@@ -170,11 +155,7 @@
     
     //启动数据请求
     NSMutableArray * urls = [NSMutableArray array];
-    NSInteger totalNum = self.pageNum;
-    if(totalNum == 0)
-    {
-//        totalNum = 10;
-    }
+    NSInteger totalNum = self.repeatNum;
     
     for (NSInteger index = 1; index <= totalNum; index ++)
     {
@@ -183,7 +164,7 @@
         //增加设备号
         //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
         NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
-        NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",pageUrl,(long)index];
+        NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",pageUrl,(long)1];
         if(self.selectSchool > 0)
         {
             eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
@@ -238,16 +219,14 @@
         //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
         return nil;
     }
-//    if([listData.num_per_page integerValue] == 1)
-//    {
-//        Equip_listModel * eve = [array firstObject];
-//        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
-//    }
+    //    if([listData.num_per_page integerValue] == 1)
+    //    {
+    //        Equip_listModel * eve = [array firstObject];
+    //        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
+    //    }
     
     return array;
 }
-
-
 
 
 @end

@@ -9,9 +9,10 @@
 #import "CBGMixedListCheckVC.h"
 #import "CBGWebListRefreshVC.h"
 #import "ZWRefreshListController.h"
+#import "ZWLimitCircleRefreshVC.h"
 @interface CBGMixedListCheckVC ()
 @property (nonatomic, strong) CBGWebListRefreshVC * webVC;
-@property (nonatomic, strong) ZWRefreshListController * mobileVC;
+@property (nonatomic, strong) ZWLimitCircleRefreshVC * mobileVC;
 @end
 
 @implementation CBGMixedListCheckVC
@@ -49,19 +50,17 @@
 {
     if(!_webVC){
         CBGWebListRefreshVC * aWeb = [[CBGWebListRefreshVC alloc] init];
-        aWeb.pageAutoRefresh = NO;
         [self addChildViewController:aWeb];
         _webVC = aWeb;
     }
     return _webVC;
 }
--(ZWRefreshListController *)mobileVC
+-(ZWLimitCircleRefreshVC *)mobileVC
 {
     if(!_mobileVC){
-        ZWRefreshListController * aWeb = [[ZWRefreshListController alloc] init];
+        ZWLimitCircleRefreshVC * aWeb = [[ZWLimitCircleRefreshVC alloc] init];
 //        aWeb.ingoreDB = YES;
 //        aWeb.maxRefresh = NO;
-        aWeb.onlyList = YES;
         [self addChildViewController:aWeb];
         _mobileVC = aWeb;
     }

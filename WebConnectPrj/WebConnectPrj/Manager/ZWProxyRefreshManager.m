@@ -7,7 +7,10 @@
 //
 
 #import "ZWProxyRefreshManager.h"
-
+#import "VPNProxyModel.h"
+@interface ZWProxyRefreshManager()
+@property (nonatomic, strong) NSArray * proxySubCache;
+@end
 @implementation ZWProxyRefreshManager
 
 +(instancetype)sharedInstance
@@ -20,6 +23,32 @@
     return shareZWDetailCheckManagerInstance;
 }
 
+-(NSArray *)proxySubCache
+{
+    if(!_proxySubCache)
+    {
+        NSMutableArray * edit = [NSMutableArray arrayWithArray:self.proxyArrCache];
+        [edit sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSNumber * number1 = [NSNumber numberWithInteger:[(VPNProxyModel * )obj1 errorNum]];
+            NSNumber * number2 = [NSNumber numberWithInteger:[(VPNProxyModel * )obj2 errorNum]];
+            
+            return [number1 compare:number2];
+        }];
+        
+        NSArray * sub = nil;
+        if([edit count] > 100){
+           sub = [edit subarrayWithRange:NSMakeRange(0, 100)];
+        }else{
+            sub = edit;
+        }
+        _proxySubCache = edit;
+    }
+    return _proxySubCache;
+}
+-(void)clearProxySubCache
+{
+    self.proxySubCache = nil;
+}
 
 
 @end

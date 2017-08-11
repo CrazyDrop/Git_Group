@@ -109,7 +109,7 @@
     self.window.rootViewController =navc;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
+    [self setAdapter];
     [self refreshNotificationSetting];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -144,7 +144,20 @@
           }];
 
 }
-
+-(void)setAdapter
+{
+    AppDelegate *myDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(SCREEN_HEIGHT > 480){
+//        myDelegate.autoSizeScaleX = SCREEN_WIDTH/320;
+//        myDelegate.autoSizeScaleY = SCREEN_HEIGHT/568;
+        
+        myDelegate.autoSizeScaleBaseIphone6X = SCREEN_WIDTH/375;
+    }else{
+        myDelegate.autoSizeScaleBaseIphone6X = SCREEN_WIDTH/375;
+//        myDelegate.autoSizeScaleX = 1.0;
+//        myDelegate.autoSizeScaleY = 1.0;
+    }
+}
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {

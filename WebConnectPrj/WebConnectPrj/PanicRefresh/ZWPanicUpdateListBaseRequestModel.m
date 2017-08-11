@@ -12,6 +12,7 @@
 #import "ZWOperationEquipReqListReqModel.h"
 #import "VPNProxyModel.h"
 #import "DZUtils.h"
+#import "ZWSessionReqOperation.h"
 @interface ZWPanicUpdateListBaseRequestModel ()
 {
     NSMutableArray * repeatCache;
@@ -61,8 +62,6 @@
 
 -(void)prepareWebRequestParagramForListRequest
 {
-    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
-    
     NSArray * tagArr = [_tagString componentsSeparatedByString:@"_"];
     if([tagArr count] == 2)
     {
@@ -70,11 +69,14 @@
         self.priceStatus = [[tagArr lastObject] integerValue];
     }
     
+    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
+
     //读取对应数据填充到缓存中
     if([self.cacheArr count] > 0){
         NSDictionary * dataDic = [self readLocalCacheDetailListFromLocalDBWithArrr:self.cacheArr];
         [cacheDic addEntriesFromDictionary:dataDic];
     }
+
 }
 -(NSDictionary *)readLocalCacheDetailListFromLocalDBWithArrr:(NSArray *)orderArr
 {
@@ -178,7 +180,7 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = total.isProxy?manager.proxyArrCache:nil;
+    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
     
     model.timerState = !model.timerState;
     [model sendRequest];
@@ -202,34 +204,8 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     NSArray * total  = [NSArray arrayWithArray:model.listArray];
     NSArray * proxyErr = model.errorProxy;
     
-    BOOL refresh = NO;
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
     NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
-    if([DZUtils deviceWebConnectEnableCheck])
-    {
-        for (NSInteger index = 0;index < [proxyErr count] ;index ++ )
-        {
-            VPNProxyModel * eve = [proxyErr objectAtIndex:index];
-            if(eve.errorNum >= 2)
-            {
-                refresh = YES;
-                [editProxy removeObject:eve];
-            }
-        }
-        if(refresh)
-        {
-            proxyManager.proxyArrCache = editProxy;
-            
-            NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
-            
-            ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
-            localTotal.proxyDicArr = dicArr;
-            [localTotal localSave];
-        }
-    }
-    
-    
-//    self.errorTotal = model.errNum;
     
     NSInteger errorNum = 0;
     //正常序列
@@ -241,13 +217,40 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         id obj = [total objectAtIndex:backIndex];
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
+            BOOL proxyCheck = NO;
+            NSString * schoolName = nil;
+            for (NSInteger subIndex = 0;subIndex < [obj count] ;subIndex ++ )
+            {
+                Equip_listModel * listModel = [obj objectAtIndex:subIndex];
+                if(!schoolName){
+                    schoolName = listModel.equip_name;
+                }
+                if(![schoolName isEqualToString:listModel.equip_name])
+                {
+                    proxyCheck = YES;
+                    break;
+                }
+            }
+            
+            if(proxyCheck)
+            {
+                ZWSessionReqOperation * opt = [model.webReqArr objectAtIndex:index];
+                VPNProxyModel * optModel = opt.proxyModel;
+                if([editProxy containsObject:optModel])
+                {
+                    [editProxy removeObject:optModel];
+                    proxyManager.proxyArrCache = editProxy;
+                }
+                NSLog(@"ingore ip  %@",optModel.idNum);
+            }
+            
             [array addObjectsFromArray:obj];
         }else{
             errorNum ++;
         }
     }
     
-    NSLog(@"proxy %ld errorNum %ld total %ld",[editProxy count],errorNum,[total count]);
+    NSLog(@"proxy %ld errorProxy %ld errorNum %ld total %ld",[editProxy count],[proxyErr count],errorNum,[total count]);
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
     NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];    //后期详情刷新dic

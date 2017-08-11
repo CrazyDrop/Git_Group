@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 jialifei. All rights reserved.
 //
 
-
+#import "AppDelegate.h"
 //渠道号相关
 //测试，不定义，则为appstore
 #define kAPP_PAPA_Channel_Identifier @"Channel_LocalTest"
@@ -59,7 +59,15 @@ FLoatChange(CGFloat size)
     return size;
     
 }
-
+CG_INLINE float
+FLoatChangeBaseIphone6(CGFloat size)
+{
+    CGFloat newS;
+    AppDelegate *myDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    newS = size *myDelegate.autoSizeScaleBaseIphone6X;
+    return newS;
+    
+}
 #define kAPP_BPush_Company_Identifier           @"kAPP_BPush_Company_Identifier"
 
 
@@ -201,6 +209,8 @@ FLoatChange(CGFloat size)
 #define UMengAPPKEY @"581989d8a40fa35d48001f07"
 #endif
 
+
+
 #define iOS8_constant_or_later  ( [UIDevice currentDevice].systemVersion.floatValue>=8.0 )
 #define iOS9_constant_or_later  ( [UIDevice currentDevice].systemVersion.floatValue>=9.0 )
 #define iOS10_constant_or_later  ( [UIDevice currentDevice].systemVersion.floatValue>=10.0 )
@@ -251,6 +261,10 @@ FLoatChange(CGFloat size)
 
 #define ZA_Contacts_List_Max_Num @"8"
 #define ZA_Contacts_List_Max_Effective_Num @"3"
+
+#define ZAColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define ZAColorFromRGBWithA(rgbValue,A) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:A]
 
 
 //比例系数

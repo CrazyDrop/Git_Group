@@ -20,6 +20,8 @@
 #import "CBGWebListErrorCheckVC.h"
 #import "CBGDetailWebView.h"
 #import "ZWDetailCheckManager.h"
+#import "ZWOperationWebListReqModel.h"
+#import "ZWProxyRefreshManager.h"
 @interface CBGWebListRefreshVC ()<UITableViewDelegate,UITableViewDataSource,
 RefreshCellCopyDelgate>{
     BaseRequestModel * _detailListReqModel;
@@ -56,8 +58,8 @@ RefreshCellCopyDelgate>{
         [self appendNotificationForRestartTimerRefreshWithActive];
         circleTotal = 3;
         self.pageAutoRefresh = NO;//顺序请求
-        self.cookieState = YES;
-        
+        self.cookieState = NO;
+        self.pageNum = 3;
         self.endEanble = NO;
         self.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
     }
@@ -107,7 +109,7 @@ RefreshCellCopyDelgate>{
 //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
 //    NSString * str = [NSString stringWithFormat:@"%ds",[total.refreshTime intValue]];
     
-    self.viewTtle = @"WEB数据刷新";
+    self.viewTtle = @"WEB代理刷新";
     
     self.rightTitle = @"方案";
     self.showRightBtn = YES;
@@ -181,67 +183,39 @@ RefreshCellCopyDelgate>{
 -(void)submit
 {
     //提供选择
-    NSString * log = [NSString stringWithFormat:@"改变刷新方案?"];
+    NSString * log = [NSString stringWithFormat:@"对刷新数据筛选？"];
     MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
     
     __weak typeof(self) weakSelf = self;
-    //清空model，界面展示时，已经调用disappear方法，清空了model，
-    MSAlertAction *action = [MSAlertAction actionWithTitle:@"顺序请求" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-                             {
-                                 weakSelf.pageAutoRefresh = YES;
-//                                 weakSelf.cookieState = YES;
-//                                 weakSelf.pageAutoRefresh = NO;
-                             }];
-    [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"并发请求" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    MSAlertAction *action = nil;
+    
+    //    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    //              {
+    //                  [weakSelf refreshLocalShowListForLatestSelling];
+    //              }];
+    //    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"并发3个" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  weakSelf.pageAutoRefresh = NO;
-//                  NSArray *cookiesArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-//                  for (NSHTTPCookie *cookie in cookiesArray)
-//                  {
-//                      if([cookie.name isEqualToString:@"overall_sid"]){
-//                          [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
-//                      }
-//                  }
-                  
+                  //                  [weakSelf refreshLocalShowListForLactestUpdating];
+                  weakSelf.pageNum = 3;
               }];
     [alertController addAction:action];
     
-//    action = [MSAlertAction actionWithTitle:@"使用cookie(变动)" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  weakSelf.pageAutoRefresh = YES;
-//                  weakSelf.cookieState = YES;
-//              }];
-//    [alertController addAction:action];
-//    
-//    action = [MSAlertAction actionWithTitle:@"屏蔽cookie" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  weakSelf.cookieState = NO;
-//                  
-//              }];
-//    [alertController addAction:action];
-
-    
-    
-    action = [MSAlertAction actionWithTitle:@"开启中断" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"并发10个" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  weakSelf.endEanble = YES;
-                  weakSelf.endRefresh = NO;
-                  weakSelf.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
-                  weakSelf.nextDate = nil;
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.pageNum = 10;
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"停止中断" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"并发20个" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
-                  weakSelf.endEanble = NO;
-                  //                  weakSelf.endRefresh = NO;
-                  //                  weakSelf.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
-                  //                  weakSelf.nextDate = nil;
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.pageNum = 20;
               }];
     [alertController addAction:action];
-
     
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
@@ -332,8 +306,8 @@ RefreshCellCopyDelgate>{
 }
 -(void)refreshCurrentTitleVLableWithFinishModel:(id)aRequest
 {
-    CBGWebListRequestModel * model = (CBGWebListRequestModel *)aRequest;
-    if(model.latestIndex > 1) return;
+    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *)aRequest;
+//    if(model.latestIndex > 1) return;
     NSInteger minute = model.maxTimeNum;
     NSInteger sepNum = 60 - minute;
     NSDate * date = [NSDate dateWithTimeIntervalSinceNow: - sepNum * 60];
@@ -384,26 +358,126 @@ RefreshCellCopyDelgate>{
     NSLog(@"%s %@ %@",__FUNCTION__,[self.finishDate toString:@"HH:mm:ss"],[self.nextDate toString:@"HH:mm:ss"]);
     
     
-    CBGWebListRequestModel * model = (CBGWebListRequestModel *)_dpModel;
+    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *)_dpModel;
     
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
-        model = [[CBGWebListRequestModel alloc] init];
+        model = [[ZWOperationWebListReqModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
         
-        model.pageNum = self.pageNum;
-    }
-    model.saveKookie = self.cookieState;
-    model.autoRefresh = self.pageAutoRefresh;
-
-    if(!self.pageAutoRefresh)
-    {
-        model.timerState = !model.timerState;
     }
     
+    model.repeatNum = self.pageNum;
+    model.saveKookie = NO;
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    model.proxyArr = manager.proxySubCache;
     [model sendRequest];
 }
+
+#pragma mark ZWOperationWebListReqModel
+handleSignal( ZWOperationWebListReqModel, requestError )
+{
+    self.tipsView.hidden = NO;
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+}
+handleSignal( ZWOperationWebListReqModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //    [self showLoading];
+}
+
+
+handleSignal( ZWOperationWebListReqModel, requestLoaded )
+{
+    [self hideLoading];
+    //    refreshLatestTotalArray
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *) _dpModel;
+    NSArray * total  = model.listArray;
+    
+    //正常序列
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSInteger index = 0; index < [total count]; index ++)
+    {
+        NSInteger backIndex = [total count] - index - 1;
+        backIndex = index;
+        id obj = [total objectAtIndex:backIndex];
+        if([obj isKindOfClass:[NSArray class]])
+        {
+            [array addObjectsFromArray:obj];
+        }
+    }
+    
+    self.tipsView.hidden = [array count] != 0;
+    
+    //    NSLog(@"CBGWebListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[total count]);
+    
+    [self refreshCurrentTitleVLableWithFinishModel:_dpModel];
+    
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(detailArr.executing) return;
+    
+    
+    //停止刷新为NO时  endRefresh
+    NSTimeInterval count = [self.finishDate timeIntervalSinceNow];
+    NSTimeInterval nextCount = [self.nextDate timeIntervalSinceNow];
+    if(count < 0 && self.nextDate)
+    {//没有停止之前，已经刷新到数据
+        if(nextCount > 0){
+            self.endRefresh = YES;
+        }else{
+            NSLog(@"延迟1分钟");
+            self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
+        }
+    }
+    //服务器数据排列顺序，最新出现的在最前面
+    //服务器返回的列表数据，需要进行详情请求
+    //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
+    //不检查本地存储、不检查队列是否存在，仅检查缓存数据
+    CBGWebListCheckManager * checkManager = [CBGWebListCheckManager sharedInstance];
+    NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:array];
+    NSArray * refreshArr = checkManager.refreshArr;
+    
+    if([refreshArr count] > 0){
+        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
+        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
+    }
+    
+    if(!models || [models count] == 0)
+    {
+        //为空，标识没有新url
+        return;
+    }
+    
+    self.nextDate = [NSDate dateWithTimeIntervalSinceNow: (-0.5 + circleTotal) * MINUTE];
+    NSLog(@"CBGWebListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
+    
+    
+    NSMutableArray * urls = [NSMutableArray array];
+    self.detailsArr = [NSArray arrayWithArray:models];
+    for (NSInteger index = 0; index < [models count]; index ++)
+    {
+        WebEquip_listModel * eve = [models objectAtIndex:index];
+        NSString * url = eve.detailDataUrl;
+        [urls addObject:url];
+    }
+    
+    [self startEquipDetailAllRequestWithUrls:urls];
+    
+    //    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    //    [dbManager localSaveEquipModelArray:models];//所有列表数据的缓存
+    
+}
+
 #pragma mark CBGWebListRequestModel
 handleSignal( CBGWebListRequestModel, requestError )
 {

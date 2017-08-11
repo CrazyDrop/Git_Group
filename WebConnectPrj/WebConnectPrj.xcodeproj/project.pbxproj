@@ -815,6 +815,16 @@
 		188B64821F3C0C660056EDCB /* ZWProxyRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64801F3C0C660056EDCB /* ZWProxyRefreshManager.m */; };
 		188B64851F3C15610056EDCB /* ZWOperationDetailListReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64841F3C15610056EDCB /* ZWOperationDetailListReqModel.m */; };
 		188B64861F3C15610056EDCB /* ZWOperationDetailListReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64841F3C15610056EDCB /* ZWOperationDetailListReqModel.m */; };
+		188B64891F3C687E0056EDCB /* ZWOperationWebListReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64881F3C687E0056EDCB /* ZWOperationWebListReqModel.m */; };
+		188B648A1F3C687E0056EDCB /* ZWOperationWebListReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64881F3C687E0056EDCB /* ZWOperationWebListReqModel.m */; };
+		188B64951F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64901F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m */; };
+		188B64961F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64901F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m */; };
+		188B64971F3D627E0056EDCB /* ZAEveLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64921F3D627E0056EDCB /* ZAEveLineView.m */; };
+		188B64981F3D627E0056EDCB /* ZAEveLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64921F3D627E0056EDCB /* ZAEveLineView.m */; };
+		188B64991F3D627E0056EDCB /* ZALineInputPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64941F3D627E0056EDCB /* ZALineInputPasswordView.m */; };
+		188B649A1F3D627E0056EDCB /* ZALineInputPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B64941F3D627E0056EDCB /* ZALineInputPasswordView.m */; };
+		188B649D1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B649C1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m */; };
+		188B649E1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B649C1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m */; };
 		188BE51A1F2ECE7600DBBF09 /* ZWServerEquipListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188BE5191F2ECE7600DBBF09 /* ZWServerEquipListVC.m */; };
 		188BE51B1F2ECE7600DBBF09 /* ZWServerEquipListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188BE5191F2ECE7600DBBF09 /* ZWServerEquipListVC.m */; };
 		1892CA431EC9A8DD006AA762 /* PanicRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892CA421EC9A8DD006AA762 /* PanicRefreshManager.m */; };
@@ -1639,6 +1649,16 @@
 		188B64801F3C0C660056EDCB /* ZWProxyRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWProxyRefreshManager.m; sourceTree = "<group>"; };
 		188B64831F3C15610056EDCB /* ZWOperationDetailListReqModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWOperationDetailListReqModel.h; sourceTree = "<group>"; };
 		188B64841F3C15610056EDCB /* ZWOperationDetailListReqModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWOperationDetailListReqModel.m; sourceTree = "<group>"; };
+		188B64871F3C687E0056EDCB /* ZWOperationWebListReqModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWOperationWebListReqModel.h; sourceTree = "<group>"; };
+		188B64881F3C687E0056EDCB /* ZWOperationWebListReqModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWOperationWebListReqModel.m; sourceTree = "<group>"; };
+		188B648F1F3D627E0056EDCB /* ZACompleteNameAndPWDVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZACompleteNameAndPWDVC.h; sourceTree = "<group>"; };
+		188B64901F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZACompleteNameAndPWDVC.m; sourceTree = "<group>"; };
+		188B64911F3D627E0056EDCB /* ZAEveLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAEveLineView.h; sourceTree = "<group>"; };
+		188B64921F3D627E0056EDCB /* ZAEveLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAEveLineView.m; sourceTree = "<group>"; };
+		188B64931F3D627E0056EDCB /* ZALineInputPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZALineInputPasswordView.h; sourceTree = "<group>"; };
+		188B64941F3D627E0056EDCB /* ZALineInputPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZALineInputPasswordView.m; sourceTree = "<group>"; };
+		188B649B1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWOperationEquipListCircleReqModel.h; sourceTree = "<group>"; };
+		188B649C1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWOperationEquipListCircleReqModel.m; sourceTree = "<group>"; };
 		188BE5181F2ECE7600DBBF09 /* ZWServerEquipListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerEquipListVC.h; sourceTree = "<group>"; };
 		188BE5191F2ECE7600DBBF09 /* ZWServerEquipListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerEquipListVC.m; sourceTree = "<group>"; };
 		1892CA411EC9A8DD006AA762 /* PanicRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanicRefreshManager.h; sourceTree = "<group>"; };
@@ -3125,6 +3145,19 @@
 			path = SDWebImage0915;
 			sourceTree = "<group>";
 		};
+		188B648E1F3D627E0056EDCB /* PWDTestVC */ = {
+			isa = PBXGroup;
+			children = (
+				188B648F1F3D627E0056EDCB /* ZACompleteNameAndPWDVC.h */,
+				188B64901F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m */,
+				188B64911F3D627E0056EDCB /* ZAEveLineView.h */,
+				188B64921F3D627E0056EDCB /* ZAEveLineView.m */,
+				188B64931F3D627E0056EDCB /* ZALineInputPasswordView.h */,
+				188B64941F3D627E0056EDCB /* ZALineInputPasswordView.m */,
+			);
+			path = PWDTestVC;
+			sourceTree = "<group>";
+		};
 		1892CA3F1EC9A7C8006AA762 /* PanicRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -3267,6 +3300,8 @@
 				18A1EE861E864F27009312A7 /* CBGWebListErrorCheckVC.m */,
 				18A1EE701E862A95009312A7 /* CBGWebListRequestModel.h */,
 				18A1EE711E862A95009312A7 /* CBGWebListRequestModel.m */,
+				188B64871F3C687E0056EDCB /* ZWOperationWebListReqModel.h */,
+				188B64881F3C687E0056EDCB /* ZWOperationWebListReqModel.m */,
 				18A1EE811E8631C2009312A7 /* CBGWebListCheckManager.h */,
 				18A1EE821E8631C2009312A7 /* CBGWebListCheckManager.m */,
 			);
@@ -4858,6 +4893,8 @@
 			children = (
 				18C882171F3982B000D01A37 /* ZWLimitCircleRefreshVC.h */,
 				18C882181F3982B000D01A37 /* ZWLimitCircleRefreshVC.m */,
+				188B649B1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.h */,
+				188B649C1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m */,
 			);
 			path = LimitRefresh;
 			sourceTree = "<group>";
@@ -4874,6 +4911,7 @@
 		18C882201F3AA4B900D01A37 /* VPNMain */ = {
 			isa = PBXGroup;
 			children = (
+				188B648E1F3D627E0056EDCB /* PWDTestVC */,
 				18C882211F3AA58B00D01A37 /* VPNMainListVC.h */,
 				18C882221F3AA58B00D01A37 /* VPNMainListVC.m */,
 				188B646C1F3B04960056EDCB /* VPNEditDataAddVC.h */,
@@ -5341,6 +5379,7 @@
 				18A971DC1E7FC67400B48E3C /* ZWDefaultRequestModel.m in Sources */,
 				18A975831E7FDDD400B48E3C /* Samurai_HtmlRenderObjectText.m in Sources */,
 				18A96D991E7FC24700B48E3C /* ZWSortHistroyController.m in Sources */,
+				188B64991F3D627E0056EDCB /* ZALineInputPasswordView.m in Sources */,
 				182091181E9F555D0015E393 /* AAOptions3d.m in Sources */,
 				18A975C81E7FDDD400B48E3C /* Samurai_Intent.m in Sources */,
 				18A976381E7FDDD500B48E3C /* OLEGOCustomListTableView.m in Sources */,
@@ -5454,6 +5493,7 @@
 				18A975B11E7FDDD400B48E3C /* Samurai_XmlSupport.m in Sources */,
 				18A972421E7FCA5C00B48E3C /* NSString+MJExtension.m in Sources */,
 				18A9761A1E7FDDD500B48E3C /* ServiceTapspotManager.m in Sources */,
+				188B64951F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m in Sources */,
 				18A976031E7FDDD500B48E3C /* ServiceGestureHook.m in Sources */,
 				18A975A61E7FDDD400B48E3C /* UIPageControl+Html.m in Sources */,
 				18A975D31E7FDDD500B48E3C /* Samurai_EventTapGesture.m in Sources */,
@@ -5574,6 +5614,7 @@
 				18A975501E7FDDD400B48E3C /* Signal+Model.m in Sources */,
 				18A96E141E7FC2C500B48E3C /* CBGRoleDataModel.m in Sources */,
 				18A975E01E7FDDD500B48E3C /* Samurai_Tree.m in Sources */,
+				188B64891F3C687E0056EDCB /* ZWOperationWebListReqModel.m in Sources */,
 				1892CA431EC9A8DD006AA762 /* PanicRefreshManager.m in Sources */,
 				18A975A11E7FDDD400B48E3C /* UIButton+Html.m in Sources */,
 				18A975441E7FDDD400B48E3C /* Samurai_UnitTest.m in Sources */,
@@ -5698,6 +5739,7 @@
 				18A96E111E7FC2C500B48E3C /* Account.m in Sources */,
 				18A9758B1E7FDDD400B48E3C /* Samurai_HtmlSupport.m in Sources */,
 				18A975CD1E7FDDD500B48E3C /* Samurai_DomNode.m in Sources */,
+				188B64971F3D627E0056EDCB /* ZAEveLineView.m in Sources */,
 				18A9763C1E7FDDD500B48E3C /* ZAMMMaterialDesignSpinner.m in Sources */,
 				18A971DE1E7FC67400B48E3C /* ZWTopRefreshModel.m in Sources */,
 				182090B71E9E2FA60015E393 /* TimeRefreshManager.m in Sources */,
@@ -5730,6 +5772,7 @@
 				182090B01E9E2FA60015E393 /* LeanCloudRefreshManager.m in Sources */,
 				18A9755A1E7FDDD400B48E3C /* Samurai_ServiceLoader.m in Sources */,
 				18A975541E7FDDD400B48E3C /* Samurai_ModelConfig.m in Sources */,
+				188B649D1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m in Sources */,
 				18A971D81E7FC67400B48E3C /* RefreshEquipDetailDataManager.m in Sources */,
 				18A975301E7FDDD400B48E3C /* NSDate+Extension.m in Sources */,
 				18A975EB1E7FDDD500B48E3C /* fishhook.c in Sources */,
@@ -6036,6 +6079,7 @@
 				1833234E1ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectText.m in Sources */,
 				1833234F1ED6B10D00B1ECEA /* ZWSortHistroyController.m in Sources */,
 				183323501ED6B10D00B1ECEA /* AAOptions3d.m in Sources */,
+				188B649A1F3D627E0056EDCB /* ZALineInputPasswordView.m in Sources */,
 				183323511ED6B10D00B1ECEA /* Samurai_Intent.m in Sources */,
 				183323521ED6B10D00B1ECEA /* OLEGOCustomListTableView.m in Sources */,
 				183323531ED6B10D00B1ECEA /* Cross_buy_serveridsModel.m in Sources */,
@@ -6149,6 +6193,7 @@
 				1801FA4D1EE9508700D22E75 /* ZWPanicMaxCombinedVC.m in Sources */,
 				183323AD1ED6B10D00B1ECEA /* NSString+MJExtension.m in Sources */,
 				183323AE1ED6B10D00B1ECEA /* ServiceTapspotManager.m in Sources */,
+				188B64961F3D627E0056EDCB /* ZACompleteNameAndPWDVC.m in Sources */,
 				183323AF1ED6B10D00B1ECEA /* ServiceGestureHook.m in Sources */,
 				183323B01ED6B10D00B1ECEA /* UIPageControl+Html.m in Sources */,
 				183323B11ED6B10D00B1ECEA /* Samurai_EventTapGesture.m in Sources */,
@@ -6269,6 +6314,7 @@
 				183324191ED6B10D00B1ECEA /* CBGRoleDataModel.m in Sources */,
 				1833241A1ED6B10D00B1ECEA /* Samurai_Tree.m in Sources */,
 				1833241B1ED6B10D00B1ECEA /* PanicRefreshManager.m in Sources */,
+				188B648A1F3C687E0056EDCB /* ZWOperationWebListReqModel.m in Sources */,
 				1833241C1ED6B10D00B1ECEA /* UIButton+Html.m in Sources */,
 				1833241D1ED6B10D00B1ECEA /* Samurai_UnitTest.m in Sources */,
 				1833241E1ED6B10D00B1ECEA /* Samurai.m in Sources */,
@@ -6393,6 +6439,7 @@
 				1833248D1ED6B10D00B1ECEA /* Samurai_HtmlSupport.m in Sources */,
 				1833248E1ED6B10D00B1ECEA /* Samurai_DomNode.m in Sources */,
 				1833248F1ED6B10D00B1ECEA /* ZAMMMaterialDesignSpinner.m in Sources */,
+				188B64981F3D627E0056EDCB /* ZAEveLineView.m in Sources */,
 				183324901ED6B10D00B1ECEA /* ZWTopRefreshModel.m in Sources */,
 				183324911ED6B10D00B1ECEA /* TimeRefreshManager.m in Sources */,
 				183324921ED6B10D00B1ECEA /* Samurai_Signal.m in Sources */,
@@ -6425,6 +6472,7 @@
 				183324AC1ED6B10D00B1ECEA /* Samurai_ServiceLoader.m in Sources */,
 				183324AD1ED6B10D00B1ECEA /* Samurai_ModelConfig.m in Sources */,
 				183324AE1ED6B10D00B1ECEA /* RefreshEquipDetailDataManager.m in Sources */,
+				188B649E1F3DAF1D0056EDCB /* ZWOperationEquipListCircleReqModel.m in Sources */,
 				183324AF1ED6B10D00B1ECEA /* NSDate+Extension.m in Sources */,
 				183324B01ED6B10D00B1ECEA /* fishhook.c in Sources */,
 				183324B11ED6B10D00B1ECEA /* Samurai_HtmlNumberAutomatic.m in Sources */,

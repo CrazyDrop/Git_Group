@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property float autoSizeScaleBaseIphone6X;
 
 @end
 

@@ -24,7 +24,7 @@
 -(NSDictionary *)detailProxyDic;
 +(NSArray *)localSaveProxyArray;
 +(NSArray *)proxyDicArrayFromDetailProxyArray:(NSArray *)array;
-
++(NSArray *)localRemoveProxyIpNumberArray;
 
 
 @end

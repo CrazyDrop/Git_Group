@@ -12,7 +12,7 @@
 #import "EquipListRequestModel.h"
 #import "ZWDetailCheckManager.h"
 #import "Equip_listModel.h"
-#import "EquipListPageRequestModel.h"
+#import "ZWOperationEquipListCircleReqModel.h"
 @interface ZWLimitCircleRefreshVC ()
 {
     NSInteger EquipListRequestWaitingTimeSep;
@@ -69,7 +69,6 @@
     
     
     ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
-    check.latestHistory = self.showArray;
     [check refreshDiskCacheWithDetailRequestFinishedArray:check.modelsArray];
     
     [detailRefresh cancel];
@@ -88,14 +87,10 @@
 - (void)viewDidLoad {
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
-    self.viewTtle = @"屏蔽部分";
+    self.viewTtle = @"代理刷新";
 
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self startNextPageListModelRequest];
-    });
     
 }
 
@@ -120,35 +115,13 @@
     _dpModel = nil;
     _detailListReqModel = nil;
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self startNextPageListModelRequest];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self startNextPageListModelRequest];
+//    });
 }
 
 -(void)startRefreshDataModelRequest
 {
-//    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
-//    if(detailArr.executing) return;
-//    
-//    EquipListRequestModel * listRequest = (EquipListRequestModel *)_dpModel;
-//    if(listRequest.executing) return;
-//
-//    //进行循环的检查
-//    if(self.timeSep == EquipListRequestWaitingTimeSep) return;
-    
-    //取消之前的发送
-//    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    NSTimeInterval sep = [self.retryDate timeIntervalSinceNow];
-    if(self.retryDate && sep < 0){
-        
-    }
-    
-}
--(void)startNextPageListModelRequest
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-
-//    ZWDetailCheckManager * check = [ZWDetailCheckManager sharedInstance];
     
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
@@ -166,17 +139,14 @@
     
     NSLog(@"%s",__FUNCTION__);
     
-    EquipListPageRequestModel * model = (EquipListPageRequestModel *)_dpModel;
+    ZWOperationEquipListCircleReqModel * model = (ZWOperationEquipListCircleReqModel *)_dpModel;
     //    CBGZhaohuanListRequestModel * model = (CBGZhaohuanListRequestModel *)_dpModel;
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
-        model = [[EquipListPageRequestModel alloc] init];
-        //        model = [[CBGZhaohuanListRequestModel alloc] init];
+        model = [[ZWOperationEquipListCircleReqModel alloc] init];
         [model addSignalResponder:self];
-        //        model.saveKookie = YES;
         _dpModel = model;
         
-        model.pageIndex = self.requestIndex;
         /*
          if(self.totalPageNum >= 3)
          {
@@ -189,13 +159,17 @@
          */
     }
     
+    model.repeatNum = self.maxPageNum;
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    model.proxyArr = manager.proxyArrCache;
+    
     model.timerState = !model.timerState;
     [model sendRequest];
 
 }
 
-#pragma mark EquipListPageRequestModel
-handleSignal( EquipListPageRequestModel, requestError )
+#pragma mark ZWOperationEquipListCircleReqModel
+handleSignal( ZWOperationEquipListCircleReqModel, requestError )
 {
     [self clearWebRequestAndStartNextReqeustForError];
     self.tipsView.hidden = NO;
@@ -204,7 +178,7 @@ handleSignal( EquipListPageRequestModel, requestError )
     
     
 }
-handleSignal( EquipListPageRequestModel, requestLoading )
+handleSignal( ZWOperationEquipListCircleReqModel, requestLoading )
 {
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if(state != UIApplicationStateActive){
@@ -215,17 +189,13 @@ handleSignal( EquipListPageRequestModel, requestLoading )
 }
 
 
-handleSignal( EquipListPageRequestModel, requestLoaded )
+handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
 {
     [self hideLoading];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSLog(@"%s",__FUNCTION__);
     
-//    [self clearWebRequestAndStartNextReqeustForError];
-//    return;
-
-    
-    EquipListPageRequestModel * model = (EquipListPageRequestModel *) _dpModel;
+    ZWOperationEquipListCircleReqModel * model = (ZWOperationEquipListCircleReqModel *) _dpModel;
     NSArray * total  = model.listArray;
     
     //正常序列
@@ -251,7 +221,7 @@ handleSignal( EquipListPageRequestModel, requestLoaded )
     }
     NSArray * backArray = [modelsDic allValues];
     
-    [self refreshNextRequestPageAndTimeWithLatestBackArray:backArray];
+//    [self refreshNextRequestPageAndTimeWithLatestBackArray:backArray];
     self.tipsView.hidden = [backArray count] != 0;
     
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
@@ -287,8 +257,6 @@ handleSignal( EquipListPageRequestModel, requestLoaded )
     }else{
         
         //进行查询库表操作处理
-        [self checkAndStartNextListModelRequest];
-
         //为空，标识没有新url
         [requestLock unlock];
     }
@@ -454,7 +422,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //刷新展示列表
     [self refreshTableViewWithInputLatestListArray:showModels replace:NO];
     //    self.inWebRequesting = NO;
-    [self checkAndStartNextListModelRequest];
 
     [requestLock unlock];
     
@@ -462,75 +429,51 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     //    [self performSelector:@selector(finishRequestWithExchange) withObject:nil afterDelay:2];
     //    [self performSelector:@selector(startRefreshDataModelRequest) withObject:nil afterDelay:2];
 }
--(void)checkAndStartNextListModelRequest
-{
-    if(self.timeSep > 0){
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeSep * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self startNextPageListModelRequest];
-        });
-    }else{
-        [self startNextPageListModelRequest];
-    }
-}
-
 -(void)submit
 {
-//    //提供选择
-//    NSString * log = [NSString stringWithFormat:@"对刷新数据筛选？"];
-//    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
-//    
-//    __weak typeof(self) weakSelf = self;
-//    
-//    MSAlertAction *action = [MSAlertAction actionWithTitle:@"查看历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//                             {
-////                                 [weakSelf showForDetailHistory];
-//                             }];
-//    [alertController addAction:action];
-//    
-//    
-//    //    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//    //              {
-//    //                  [weakSelf refreshLocalShowListForLatestSelling];
-//    //              }];
-//    //    [alertController addAction:action];
-//    
-//    action = [MSAlertAction actionWithTitle:@"刷新3页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  //                  [weakSelf refreshLocalShowListForLactestUpdating];
-//                  weakSelf.totalPageNum = 3;
-//                  [weakSelf refreshLatestListRequestModelWithSmallList:NO];
-//              }];
-//    [alertController addAction:action];
-//    
-//    action = [MSAlertAction actionWithTitle:@"刷新10页" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
-//                  weakSelf.totalPageNum = 10;
-//                  [weakSelf refreshLatestListRequestModelWithSmallList:NO];
-//              }];
-//    [alertController addAction:action];
-//    
-//    
-//    //    action = [MSAlertAction actionWithTitle:@"预加载数据" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//    //              {
-//    //                  [weakSelf refreshLocalShowListForLargeRequest];
-//    //              }];
-//    //    [alertController addAction:action];
-//    
-//    action = [MSAlertAction actionWithTitle:@"屏蔽库表操作" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-//              {
-//                  [weakSelf refreshCheckManagerDBIngore:YES];
-//              }];
-//    [alertController addAction:action];
-//    
-//    NSString * rightTxt = @"取消";
-//    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
-//    }];
-//    [alertController addAction:action2];
-//    
-//    [self presentViewController:alertController
-//                       animated:YES
-//                     completion:nil];
+    //提供选择
+    NSString * log = [NSString stringWithFormat:@"对刷新数据筛选？"];
+    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    MSAlertAction *action = nil;
+    
+    //    action = [MSAlertAction actionWithTitle:@"刷新上架" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    //              {
+    //                  [weakSelf refreshLocalShowListForLatestSelling];
+    //              }];
+    //    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"代理3个" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowListForLactestUpdating];
+                  weakSelf.maxPageNum = 3;
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"代理10个" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.maxPageNum = 10;
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"代理20个" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.maxPageNum = 20;
+              }];
+    [alertController addAction:action];
+
+    NSString * rightTxt = @"取消";
+    MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
+    }];
+    [alertController addAction:action2];
+    
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 

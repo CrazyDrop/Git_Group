@@ -15,13 +15,14 @@
     NSOperationQueue * defaultQueue;
     
 }
+@property (nonatomic, strong, readonly) NSArray * webReqArr;
+
 @property (nonatomic, strong) NSArray * proxyArr;
 @property (nonatomic, assign) NSInteger timeOutNum;
 @property (nonatomic, strong) NSArray * baseUrls;
 @property (nonatomic, assign) BOOL executing;
 @prop_strong( NSArray *,		listArray	OUT )
 @prop_strong( NSArray *,		errorProxy	OUT )
-
 -(void)refreshWebRequestWithArray:(NSArray *)list;
 
 //cookie相关

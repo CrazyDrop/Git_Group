@@ -11,13 +11,20 @@
 #import "JSONKit.h"
 
 @implementation ZWOperationDetailListReqModel
+-(id)init
+{
+    self = [super init];
+    self.timeOutNum = 5;
+    return self;
+}
 -(NSArray *)webRequestDataList
 {
     NSString * pageUrl = @"http://xyq-ios2.cbg.163.com/app2-cgi-bin/xyq_search.py?act=super_query&search_type=overall_role_search&platform=ios&app_version=2.2.8&device_name=iPhone&os_name=iPhone%20OS&os_version=9.1&device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8";
     //    &page=1
     
     NSMutableArray * urls = [NSMutableArray array];
-    for (NSInteger index = 0; index < 15; index ++)
+    NSInteger maxNum = 0;
+    for (NSInteger index = 0; index < maxNum; index ++)
     {
         NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",pageUrl,(long)index];
         [urls addObject:eve];

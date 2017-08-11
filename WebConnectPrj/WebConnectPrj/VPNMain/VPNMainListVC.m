@@ -16,6 +16,7 @@
 #import "ZWDetailCheckManager.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "SessionReqModel.h"
+#import "ZACompleteNameAndPWDVC.h"
 @interface VPNMainListVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSOperationQueue * queue;
@@ -89,6 +90,8 @@
 
     [self.view addSubview:self.tipsView];
     self.tipsView.hidden = YES;
+    
+//    [self submit];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -109,6 +112,10 @@
 }
 -(void)submit
 {
+//    ZACompleteNameAndPWDVC * pwd = [[ZACompleteNameAndPWDVC alloc] init];
+//    [[self rootNavigationController] pushViewController:pwd animated:YES];
+//    return;
+    
     //提供选择
     NSString * log = [NSString stringWithFormat:@"对刷新数据筛选？"];
     MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"提示" message:log preferredStyle:MSAlertControllerStyleActionSheet];
@@ -161,6 +168,9 @@
     total.proxyDicArr = dicArr;
     [total localSave];
     
+    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+    manager.proxyArrCache = self.vpnArr;
+    
     NSString * txt = @"保存成功";
     [self refreshVCTitleWithDetailText:txt];
 }
@@ -196,7 +206,14 @@
         VPNProxyModel * model = [preArr objectAtIndex:index];
         [editDic setObject:model forKey:model.idNum];
     }
-
+    
+    NSArray * remove = [VPNProxyModel localSaveProxyArray];
+    for (NSInteger index = 0;index < [remove count] ; index ++)
+    {
+        NSString * ipNum = [remove objectAtIndex:index];
+        [editDic removeObjectForKey:ipNum];
+    }
+    
     NSArray * proxyArr = [editDic allValues];
 
     NSString * txt = [NSString stringWithFormat:@"vpn:%ld",[proxyArr count]];
@@ -365,6 +382,8 @@ handleSignal( ZWGroupVPNTestReqModel, requestLoaded )
     
     self.vpnArr = array;
     [self.listTable reloadData];
+    
+    [self refreLocalSaveDetailVPNDicList];
 }
 
 

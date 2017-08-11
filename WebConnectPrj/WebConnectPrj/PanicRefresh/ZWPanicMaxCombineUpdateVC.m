@@ -17,6 +17,7 @@
 #import "MSAlertController.h"
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshSettingVC.h"
+#import "VPNProxyModel.h"
 //详情数据更新结束，但是列表数据仍未更新，增加延迟2分钟内仅刷新一次
 @interface ZWPanicMaxCombineUpdateVC ()<PanicListRequestTagUpdateListDelegate>
 {
@@ -36,6 +37,8 @@
 @property (nonatomic,strong) UIView * errorTips;
 @property (nonatomic,assign) NSInteger errorNum;
 @property (nonatomic,strong) NSLock * dataLock;
+@property (nonatomic,strong) NSDate * proxyRefreshDate;
+@property (nonatomic,assign) NSInteger proxyNum;
 @end
 
 @implementation ZWPanicMaxCombineUpdateVC
@@ -60,6 +63,7 @@
                                                      name:NOTIFICATION_ADD_REFRESH_WEBDETAIL_STATE
                                                    object:nil];
         
+        self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 2];
         
     }
     return self;
@@ -89,7 +93,50 @@
     [self.listTable reloadData];
     [self.dataLock unlock];
 }
-
+-(void)refreshProxyCacheArrayAndCacheSubArray
+{
+    self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 2];
+    self.proxyNum ++;
+    
+    if(self.proxyNum % 10 ==0)
+    {
+        ZWProxyRefreshManager * proxyManager =[ZWProxyRefreshManager sharedInstance];
+        NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
+        
+        NSInteger lineNum = [editProxy count] > 200?10:30;
+        
+        BOOL refresh = NO;
+        for (NSInteger index = 0; index < [editProxy count]; index++)
+        {
+            VPNProxyModel * eve = [editProxy objectAtIndex:index];
+            if(eve.errorNum >= lineNum)
+            {
+                refresh = YES;
+                [editProxy removeObject:eve];
+            }
+        }
+        
+        if([editProxy count] < 100)
+        {
+            refresh = NO;
+        }
+        
+        if(refresh)
+        {
+            proxyManager.proxyArrCache = editProxy;
+            
+            NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
+            
+            ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
+            localTotal.proxyDicArr = dicArr;
+            [localTotal localSave];
+        }
+    }
+    
+    
+    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+    [manager clearProxySubCache];
+}
 
 -(void)startPanicDetailArrayRequestRightNow
 {
@@ -158,8 +205,10 @@
         [model addSignalResponder:self];
         _detailListReqModel = model;
     }
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = manager.proxyArrCache;
+    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
     
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
@@ -349,7 +398,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
 //        totalNum = 2;
-        totalNum = 1;
+//        totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
@@ -427,6 +476,11 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     {
         if(!self.refreshState) return ;
      
+        if([self.proxyRefreshDate timeIntervalSinceNow] < 0)
+        {
+            [self refreshProxyCacheArrayAndCacheSubArray];
+        }
+        
         [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
                                    withObject:nil
                                 waitUntilDone:NO];
@@ -436,6 +490,8 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSArray * ingoreArr = [total.ingoreCombineSchool componentsSeparatedByString:@"|"];
         
         weakSelf.randNum ++;
+        
+        if(weakSelf.randNum < 20) return;
         
         NSArray * vcArr = weakSelf.baseVCArr;
         for (NSInteger index = 0;index < [vcArr count] ; index ++)
@@ -663,7 +719,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSString * eveTag = [self.panicTagArr objectAtIndex:index];
         ZWPanicUpdateListBaseRequestModel * eveModel = [[ZWPanicUpdateListBaseRequestModel alloc] init];
         eveModel.tagString = eveTag;
-        
         [eveModel prepareWebRequestParagramForListRequest];
         eveModel.requestDelegate = self;
         [vcArr addObject:eveModel];
