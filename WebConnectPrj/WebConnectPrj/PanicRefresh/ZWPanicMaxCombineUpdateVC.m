@@ -191,8 +191,8 @@
     if(listRequest.executing) return;
     
     
-    self.baseArr = base;
-    [self startEquipDetailAllRequestWithUrls:urls];
+//    self.baseArr = base;
+//    [self startEquipDetailAllRequestWithUrls:urls];
 }
 
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
@@ -691,8 +691,11 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 - (void)viewDidLoad {
     self.rightTitle = @"更多";
     self.showRightBtn = YES;
-    self.viewTtle = @"并发更新";
-
+    self.viewTtle = @"监听更新";
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy){
+        self.viewTtle = @"代理监听";
+    }
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -709,7 +712,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     NSInteger vcNum = [self.panicTagArr count];
     NSMutableArray * vcArr = [NSMutableArray array];
     //    scrollView.contentSize = CGSizeMake(rect.size.width * vcNum, rect.size.height);
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSArray * dataArr = [total.orderSnCache objectFromJSONString];
     NSDictionary * appDic = [self historyRequestDetailListFromOrderArray:dataArr];
     [detailModelDic addEntriesFromDictionary:appDic];

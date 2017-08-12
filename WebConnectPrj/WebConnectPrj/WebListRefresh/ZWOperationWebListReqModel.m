@@ -176,6 +176,7 @@
         NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",subStr,(long)1];
         [urls addObject:eve];
     }
+    
     return urls;
 }
 -(NSString *)replaceAutoNumberForRandomReplaceIndex:(NSInteger)index andBaseString:(NSString *)baseString
@@ -257,7 +258,7 @@
     RoleSearch * search = [[RoleSearch alloc] initWithDictionary:aDic];
     if([search.status integerValue] == 2 || search.msg)
     {//需要更换网络才行，暂未实现
-        NSLog(@"%s %@",__FUNCTION__,search.msg);
+        NSLog(@"%s %@ %@",__FUNCTION__,search.msg,self.baseUrls);
 //        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEED_REFRESH_WEB_ERROR_STATE object:[NSNumber numberWithBool:YES]];
         
         return nil;

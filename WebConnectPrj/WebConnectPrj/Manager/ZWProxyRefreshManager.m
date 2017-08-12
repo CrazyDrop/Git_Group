@@ -36,8 +36,8 @@
         }];
         
         NSArray * sub = nil;
-        if([edit count] > 100){
-           sub = [edit subarrayWithRange:NSMakeRange(0, 100)];
+        if([edit count] > 300){
+           sub = [edit subarrayWithRange:NSMakeRange(0, 300)];
         }else{
             sub = edit;
         }

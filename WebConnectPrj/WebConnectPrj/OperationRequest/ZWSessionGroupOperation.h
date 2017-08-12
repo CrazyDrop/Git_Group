@@ -20,6 +20,8 @@
 //每个组内并发，最大10个
 @interface ZWSessionGroupOperation : NSOperation
 
+
+@property (nonatomic, assign) NSInteger maxOperationNum;
 @property (nonatomic, assign) NSInteger timeOutNum;
 @property (nonatomic, strong) NSArray * reqModels;
 @property (nonatomic, assign) id<ZWSessionGroupDelegate> dataDelegate;

@@ -20,7 +20,7 @@
     self = [super init];
     if(self)
     {
-        self.timeOutNum = 5;
+        self.timeOutNum = 3;
         self.saveKookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
         //        &sum_exp_min=111
@@ -144,7 +144,11 @@
     NSInteger randMinExp = arc4random() % 111 + 1;
     NSInteger randQianneng = arc4random() % 50 + 1;
     NSInteger skill_qiang_shen = arc4random() % 50 + 1;
+    NSInteger randBad = arc4random() % 10 + 1;
+    NSInteger randChengjiu = arc4random() % 200 + 1;
     appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld",randMinExp,randQianneng,skill_qiang_shen];
+    appendStr = [appendStr stringByAppendingFormat:@"&badness=%ld&cheng_jiu=%ld",randBad,randChengjiu];
+
     appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
     
     NSString * result = [replaceStr stringByAppendingString:appendStr];
@@ -189,9 +193,9 @@
             eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
         }
         if(self.priceStatus == 1){
-            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=850000"];
+            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=680000"];
         }else if(self.priceStatus == 2){
-            eve = [eve stringByAppendingString:@"&price_min=850000&price_max=1000000"];
+            eve = [eve stringByAppendingString:@"&price_min=680000&price_max=1000000"];
         }else if(self.priceStatus == 3){
             eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=2500000"];
         }
@@ -232,19 +236,7 @@
 -(NSArray *)backObjectArrayFromBackDataDic:(NSDictionary *)aDic
 {
     RoleDataModel * listData = [[RoleDataModel alloc] initWithDictionary:aDic];
-    NSArray * array = listData.equip_list;
-    if(!array || ![array isKindOfClass:[NSArray class]])
-    {
-        //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
-        return nil;
-    }
-//    if([listData.num_per_page integerValue] == 1)
-//    {
-//        Equip_listModel * eve = [array firstObject];
-//        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
-//    }
-    
-    return array;
+    return @[listData];
 }
 
 

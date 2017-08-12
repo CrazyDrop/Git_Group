@@ -207,7 +207,7 @@
         [editDic setObject:model forKey:model.idNum];
     }
     
-    NSArray * remove = [VPNProxyModel localSaveProxyArray];
+    NSArray * remove = [VPNProxyModel localRemoveProxyIpNumberArray];
     for (NSInteger index = 0;index < [remove count] ; index ++)
     {
         NSString * ipNum = [remove objectAtIndex:index];

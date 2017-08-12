@@ -148,6 +148,8 @@
         NSString * webUrl = maxModel.detailWebUrl;
         NSString * urlString = webUrl;
         
+        [self copyToLocalForPasteWithString:webUrl];
+        
         NSString * param = [NSString stringWithFormat:@"rate=%ld&price=%ld",(NSInteger)maxModel.earnRate,[maxModel.price integerValue]/100];
         
         NSString * appUrlString = [NSString stringWithFormat:@"refreshPayApp://params?weburl=%@&%@",[urlString base64EncodedString],param];
@@ -184,6 +186,14 @@
     
     return maxModel;
 }
+-(void)copyToLocalForPasteWithString:(NSString *)url
+{
+    if(!url) return;
+    UIPasteboard * board = [UIPasteboard generalPasteboard];
+    board.string = url;
+}
+
+
 
 -(void)refreshTableViewWithLatestCacheArray:(NSArray *)cacheArr
 {

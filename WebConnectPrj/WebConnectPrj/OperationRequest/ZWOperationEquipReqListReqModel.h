@@ -7,7 +7,7 @@
 //
 
 #import "ZWDefaultOperationReqModel.h"
-
+//mobile监听列表请求使用
 @interface ZWOperationEquipReqListReqModel : ZWDefaultOperationReqModel
 
 

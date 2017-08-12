@@ -15,7 +15,6 @@
 #import "ZALocationLocalModel.h"
 #import "EquipListRequestModel.h"
 #import "Equip_listModel.h"
-#import "ZWOperationEquipReqListReqModel.h"
 #define MonthTimeIntervalConstant 60*60*24*(30)
 @interface ZWRefreshListController ()
 {
@@ -269,11 +268,9 @@
     NSLog(@"%s",__FUNCTION__);
     
     EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
-//    ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *)_dpModel;
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
         model = [[EquipListRequestModel alloc] init];
-//        model = [[ZWOperationEquipReqListReqModel alloc] init];
         [model addSignalResponder:self];
 //        model.saveKookie = YES;
         _dpModel = model;
@@ -290,104 +287,10 @@
         }
          */
     }
-//    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-//    model.proxyArr = manager.proxyArrCache;
+
     model.timerState = !model.timerState;
     [model sendRequest];
 }
-//#pragma mark ZWOperationEquipReqListReqModel
-//handleSignal( ZWOperationEquipReqListReqModel, requestError )
-//{
-//    self.tipsView.hidden = NO;
-//    [self hideLoading];
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//    
-//    
-//}
-//handleSignal( ZWOperationEquipReqListReqModel, requestLoading )
-//{
-//    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-//    if(state != UIApplicationStateActive){
-//        return;
-//    }
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    //    [self showLoading];
-//}
-//
-//
-//handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
-//{
-//    [self hideLoading];
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//    NSLog(@"%s",__FUNCTION__);
-//    
-//    ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *) _dpModel;
-//    NSArray * total  = model.listArray;
-//    
-//    //正常序列
-//    NSMutableArray * array = [NSMutableArray array];
-//    for (NSInteger index = 0; index < [total count]; index ++)
-//    {
-//        NSInteger backIndex = [total count] - index - 1;
-//        backIndex = index;
-//        id obj = [total objectAtIndex:backIndex];
-//        if([obj isKindOfClass:[NSArray class]])
-//        {
-//            [array addObjectsFromArray:obj];
-//        }
-//    }
-//    
-//    //列表数据排重
-//    NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
-//    for (NSInteger index = 0 ;index < [array count]; index ++ )
-//    {
-//        NSInteger backIndex = [array count] - index - 1;
-//        Equip_listModel * eveModel = [array objectAtIndex:backIndex];
-//        [modelsDic setObject:eveModel forKey:eveModel.detailCheckIdentifier];
-//    }
-//    NSArray * backArray = [modelsDic allValues];
-//    
-//    self.tipsView.hidden = [backArray count] != 0;
-//    
-//    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
-//    if(detailArr.executing) return;
-//    
-//    //服务器数据排列顺序，最新出现的在最前面
-//    //服务器返回的列表数据，需要进行详情请求
-//    //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
-//    //不检查本地存储、不检查队列是否存在，仅检查缓存数据
-//    ZWDetailCheckManager * checkManager = [ZWDetailCheckManager sharedInstance];
-//    NSArray * models = [checkManager checkLatestBackListDataModelsWithBackModelArray:backArray];
-//    NSArray * refreshArr = checkManager.refreshArr;
-//    if([refreshArr count] > 0)
-//    {
-//        NSLog(@"checkManager %lu ",(unsigned long)[refreshArr count]);
-//        [self refreshTableViewWithInputLatestListArray:refreshArr replace:NO];
-//    }
-//    
-//    if([models count] > 0)
-//    {
-//        //        [checkManager refreshLocalDBHistoryWithLatestBackModelArr:backArray];
-//        //数量大于0，发起请求
-//        NSLog(@"EquipListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[models count]);
-//        
-//        NSMutableArray * urls = [NSMutableArray array];
-//        for (NSInteger index = 0; index < [models count]; index++) {
-//            Equip_listModel * eveModel = [models objectAtIndex:index];
-//            [urls addObject:eveModel.detailDataUrl];
-//        }
-//        
-//        self.detailsArr = [NSArray arrayWithArray:models];
-//        [self startEquipDetailAllRequestWithUrls:urls];
-//    }else{
-//        
-//        //进行查询库表操作处理
-//        
-//        //为空，标识没有新url
-//        [requestLock unlock];
-//    }
-//    
-//}
 
 #pragma mark EquipListRequestModel
 handleSignal( EquipListRequestModel, requestError )

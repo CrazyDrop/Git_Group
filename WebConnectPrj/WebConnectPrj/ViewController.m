@@ -296,7 +296,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_WebRefresh],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedRefresh],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobilePage],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipPage],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
@@ -313,7 +313,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobilePage],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_DetailProxy],

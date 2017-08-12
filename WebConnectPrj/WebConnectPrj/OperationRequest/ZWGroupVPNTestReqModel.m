@@ -18,7 +18,6 @@
     }
     return self;
 }
-
 +(NSString *)replaceStringWithLatestWebString:(NSString *)webStr
 {
     if(!webStr) return nil;
@@ -100,22 +99,23 @@
     //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
     NSInteger index = arc4random()%10000 + randNum;
     NSString * replaceDeviceId = [[self class] replaceDeviceIdWithPageIndex:index];
-    NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)1];
+    NSString * eve = [NSString stringWithFormat:@"%@&school=1&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)1];
     return eve;
 }
 
 
 -(NSArray *)webRequestDataList
 {
-    NSString * baseUrl = MobileRefresh_ListRequest_Default_URLString;
-    NSString * pageUrl = [[self class] replaceStringWithLatestWebString:baseUrl];
-    
-    //增加设备号
-    //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
-    NSInteger index = arc4random()%10000;
-    NSString * replaceDeviceId = [[self class] replaceDeviceIdWithPageIndex:index];
-    NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)1];
-    return @[eve];
+    return @[];
+//    NSString * baseUrl = MobileRefresh_ListRequest_Default_URLString;
+//    NSString * pageUrl = [[self class] replaceStringWithLatestWebString:baseUrl];
+//    
+//    //增加设备号
+//    //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
+//    NSInteger index = arc4random()%10000;
+//    NSString * replaceDeviceId = [[self class] replaceDeviceIdWithPageIndex:index];
+//    NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)1];
+//    return @[eve];
 }
 
 -(NSArray *)backObjectArrayFromBackDataDic:(NSDictionary *)aDic
@@ -127,10 +127,15 @@
         //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
         return nil;
     }
-    if([listData.num_per_page integerValue] == 1)
+    
+    Equip_listModel * listModel = nil;
+    if([array count] > 0){
+        listModel = [array lastObject];
+    }
+    
+    if(![listModel.equip_name isEqualToString:@"大唐官府"])
     {
-        Equip_listModel * eve = [array firstObject];
-        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
+        return nil;
     }
     
     return array;

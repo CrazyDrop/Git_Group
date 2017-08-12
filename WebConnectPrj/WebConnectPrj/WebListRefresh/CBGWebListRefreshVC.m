@@ -45,7 +45,7 @@ RefreshCellCopyDelgate>{
 @property (nonatomic,assign) BOOL endRefresh;
 @property (nonatomic,strong) NSDate * finishDate;   //刷新截止时间
 @property (nonatomic,strong) NSDate * nextDate;     //刷新开始时间
-
+@property (nonatomic, assign) BOOL localReq;
 
 @end
 
@@ -62,6 +62,7 @@ RefreshCellCopyDelgate>{
         self.pageNum = 3;
         self.endEanble = NO;
         self.finishDate = [NSDate dateWithTimeIntervalSinceNow:10 * MINUTE];
+        self.localReq = NO;
     }
 
     return self;
@@ -217,6 +218,24 @@ RefreshCellCopyDelgate>{
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"屏蔽代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.localReq = YES;
+                  weakSelf.pageNum = 3;
+              }];
+    [alertController addAction:action];
+
+    
+    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.localReq = NO;
+                  weakSelf.pageNum = 3;
+              }];
+    [alertController addAction:action];
+
+    
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
     }];
@@ -318,41 +337,29 @@ RefreshCellCopyDelgate>{
 
     self.titleV.text = total;
 }
-
-
 -(void)startRefreshDataModelRequest
+{
+    if(self.localReq)
+    {
+        [self startWebLocalRefreshDataModelRequest];
+    }else
+    {
+        [self startWebRefreshDataModelRequest];
+    }
+    
+}
+
+-(void)startWebRefreshDataModelRequest
 {
     if(![DZUtils deviceWebConnectEnableCheck])
     {
         return;
     }
 
-    if(self.webCheckError){
-        return;
-    }
-    
-    
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
-    //当前已经停止刷新，且未到达下次开始时间
-    NSTimeInterval count = [self.nextDate timeIntervalSinceNow];
-//    NSTimeInterval finishLimit = [self.finishDate timeIntervalSinceNow];
-    if(self.endEanble)
-    {
-        if(self.endRefresh)
-        {
-            if(count > 0 && self.nextDate ){
-                //屏蔽刷新
-                return;
-            }else{
-                //开始1分钟刷新，重新指定下次时间
-                self.endRefresh = NO;
-                self.nextDate = nil;
-                self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
-            }
-        }
-    }
+
     
     
     NSLog(@"%s %@ %@",__FUNCTION__,[self.finishDate toString:@"HH:mm:ss"],[self.nextDate toString:@"HH:mm:ss"]);
@@ -374,6 +381,44 @@ RefreshCellCopyDelgate>{
     model.proxyArr = manager.proxySubCache;
     [model sendRequest];
 }
+
+-(void)startWebLocalRefreshDataModelRequest
+{
+    if(![DZUtils deviceWebConnectEnableCheck])
+    {
+        return;
+    }
+    
+    if(self.webCheckError){
+        return;
+    }
+    
+    
+    EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(detailArr.executing) return;
+    
+    
+    
+    
+    NSLog(@"%s %@ %@",__FUNCTION__,[self.finishDate toString:@"HH:mm:ss"],[self.nextDate toString:@"HH:mm:ss"]);
+    
+    
+    CBGWebListRequestModel * model = (CBGWebListRequestModel *)_dpModel;
+    
+    if(!model){
+        //model重建，仅界面消失时出现，执行时不处于请求中
+        model = [[CBGWebListRequestModel alloc] init];
+        [model addSignalResponder:self];
+        _dpModel = model;
+        
+    }
+    
+    model.pageNum = self.pageNum;
+    model.saveKookie = YES;
+    
+    [model sendRequest];
+}
+
 
 #pragma mark ZWOperationWebListReqModel
 handleSignal( ZWOperationWebListReqModel, requestError )

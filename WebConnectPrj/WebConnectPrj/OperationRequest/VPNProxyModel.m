@@ -102,14 +102,18 @@
 +(NSArray *)localRemoveProxyIpNumberArray
 {
     NSMutableArray * ingore = [NSMutableArray array];
-    [ingore addObject:@"106.46.132.2"];
     
+    //参数无效
+    [ingore addObject:@"106.46.132.2"];
     [ingore addObject:@"111.6.100.99"];
     [ingore addObject:@"61.54.25.34"];
     [ingore addObject:@"103.43.149.152"];
     [ingore addObject:@"103.43.149.155"];
     [ingore addObject:@"103.43.149.156"];
     [ingore addObject:@"103.43.149.158"];
+    
+    //需要密码
+    [ingore addObject:@"69.74.31.7"];
     
     return ingore;
 }

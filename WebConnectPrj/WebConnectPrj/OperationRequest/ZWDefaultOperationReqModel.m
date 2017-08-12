@@ -32,7 +32,7 @@
 }
 
 -(void)sendRequest
-{
+{//都是主线程进行
     if(self.executing)
     {
         return;

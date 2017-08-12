@@ -41,7 +41,7 @@
 
 
 -(void)prepareWebRequestParagramForListRequest;
--(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum;
+//-(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum;
 
 -(NSArray *)dbLocalSaveTotalList;
 -(void)localSaveDBUpdateEquipListWithArray:(NSArray *)arr;

@@ -129,11 +129,15 @@
     NSInteger randMinExp = arc4random() % 111 + 1;
     NSInteger randQianneng = arc4random() % 50 + 1;
     NSInteger skill_qiang_shen = arc4random() % 50 + 1;
+    NSInteger randBad = arc4random() % 10 + 1;
+    NSInteger randChengjiu = arc4random() % 200 + 1;
     appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld",randMinExp,randQianneng,skill_qiang_shen];
-    appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhoneOS&os_version=7.1"];
+    appendStr = [appendStr stringByAppendingFormat:@"&badness=%ld&cheng_jiu=%ld",randBad,randChengjiu];
+    
+    appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
     
     NSString * result = [replaceStr stringByAppendingString:appendStr];
-    
+
     
     return result;
 }

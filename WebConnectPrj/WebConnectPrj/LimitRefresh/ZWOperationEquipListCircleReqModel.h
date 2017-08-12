@@ -7,7 +7,7 @@
 //
 
 #import "ZWDefaultOperationReqModel.h"
-
+//单一mobile代理刷新使用
 @interface ZWOperationEquipListCircleReqModel : ZWDefaultOperationReqModel
 
 @property (nonatomic, assign) NSInteger repeatNum;

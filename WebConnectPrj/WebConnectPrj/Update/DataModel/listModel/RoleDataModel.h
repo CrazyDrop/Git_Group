@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *order_direction;
 @property (nonatomic, strong) NSString *advance_search_type;
 @property (nonatomic, strong) NSNumber *is_login;
+@property (nonatomic, strong) NSNumber *is_last_page;
 @property (nonatomic, strong) NSString *order_field;
 @property (nonatomic, strong) NSNumber *page;
 @property (nonatomic, strong) Keyword_argModel *keyword_arg;

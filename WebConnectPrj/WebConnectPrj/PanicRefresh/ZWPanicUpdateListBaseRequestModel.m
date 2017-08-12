@@ -13,6 +13,7 @@
 #import "VPNProxyModel.h"
 #import "DZUtils.h"
 #import "ZWSessionReqOperation.h"
+#import "RoleDataModel.h"
 @interface ZWPanicUpdateListBaseRequestModel ()
 {
     NSMutableArray * repeatCache;
@@ -31,6 +32,7 @@
 @property (nonatomic, assign) NSInteger errorTotal;
 
 @property (nonatomic, assign) NSInteger detailError;
+@property (nonatomic, strong) NSString * schoolName;
 @end
 
 @implementation ZWPanicUpdateListBaseRequestModel
@@ -67,6 +69,7 @@
     {
         self.schoolNum = [[tagArr firstObject] integerValue];
         self.priceStatus = [[tagArr lastObject] integerValue];
+        self.schoolName = [CBGListModel schoolNameFromSchoolNumber:self.schoolNum];
     }
     
     dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
@@ -105,6 +108,7 @@
     if(self){
         localCacheArr = [NSMutableArray array];
         repeatCache = [NSMutableArray array];
+        self.requestNum = 25;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(detailRefreshFinishedLocalUpdateAndRemoveWithBackNoti:)
                                                      name:NOTIFICATION_REMOVE_REFRESH_WEBDETAIL_STATE
@@ -185,6 +189,31 @@
     model.timerState = !model.timerState;
     [model sendRequest];
 }
+-(void)refreshProxyArrayWithFinishedListArray:(NSArray *)arr andObj:(ZWSessionReqOperation *)opt
+{
+    ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
+    NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
+
+    BOOL proxyCheck = NO;
+    NSString * compareName = self.schoolName;
+    
+    Equip_listModel * listModel = [arr firstObject];
+    if(compareName && ![compareName isEqualToString:listModel.equip_name])
+    {
+        proxyCheck = YES;
+    }
+    
+    if(proxyCheck)
+    {
+        VPNProxyModel * optModel = opt.proxyModel;
+        if([editProxy containsObject:optModel])
+        {
+            [editProxy removeObject:optModel];
+            proxyManager.proxyArrCache = editProxy;
+        }
+        NSLog(@"ingore ip  %@ %@ %@",optModel.idNum,listModel.equip_name,opt.reqUrl);
+    }
+}
 #pragma mark ZWOperationEquipReqListReqModel
 handleSignal( ZWOperationEquipReqListReqModel, requestError )
 {
@@ -207,43 +236,31 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
     NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
     
+    NSInteger minPageNum = 0;
+    NSInteger maxPageNum = 0;
     NSInteger errorNum = 0;
     //正常序列
     NSMutableArray * array = [NSMutableArray array];
     for (NSInteger index = 0; index < [total count]; index ++)
     {
-        NSInteger backIndex = [total count] - index - 1;
-        backIndex = index;
-        id obj = [total objectAtIndex:backIndex];
+        NSInteger backIndex = index;
+        NSArray * dataObj = [total objectAtIndex:backIndex];
+        RoleDataModel * roleObj = nil;
+        if([dataObj count] > 0){
+            roleObj = [dataObj lastObject];
+        }
+        id obj = roleObj.equip_list;
+        BOOL isLast = [roleObj.is_last_page boolValue];
+        if(maxPageNum == 0 && isLast)
+        {
+            maxPageNum = index;
+        }
+        
+        ZWSessionReqOperation * opt = [model.webReqArr objectAtIndex:index];
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
-            BOOL proxyCheck = NO;
-            NSString * schoolName = nil;
-            for (NSInteger subIndex = 0;subIndex < [obj count] ;subIndex ++ )
-            {
-                Equip_listModel * listModel = [obj objectAtIndex:subIndex];
-                if(!schoolName){
-                    schoolName = listModel.equip_name;
-                }
-                if(![schoolName isEqualToString:listModel.equip_name])
-                {
-                    proxyCheck = YES;
-                    break;
-                }
-            }
-            
-            if(proxyCheck)
-            {
-                ZWSessionReqOperation * opt = [model.webReqArr objectAtIndex:index];
-                VPNProxyModel * optModel = opt.proxyModel;
-                if([editProxy containsObject:optModel])
-                {
-                    [editProxy removeObject:optModel];
-                    proxyManager.proxyArrCache = editProxy;
-                }
-                NSLog(@"ingore ip  %@",optModel.idNum);
-            }
-            
+            minPageNum = index;
+            [self refreshProxyArrayWithFinishedListArray:obj andObj:opt];
             [array addObjectsFromArray:obj];
         }else{
             errorNum ++;
@@ -405,7 +422,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     [self checkUnSellingListArrayPostSubNotificationWithArray:[refreshDic allValues]];
 
     //有时候会因为部分请求失败，造成检索范围有误
-    [self autoRefreshListRequestNumberWithLatestBackNumber:[array count]];
+    [self autoRefreshListRequestNumberWithLatestMaxPageNumber:maxPageNum andMinPageNumber:minPageNum];
 }
 -(BOOL)lineDateEarlierThanSellDate:(NSDate *)sellDate
 {//不存在时，认为都
@@ -425,29 +442,20 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     self.requestNum = pageNum;
 }
 
--(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum
+-(void)autoRefreshListRequestNumberWithLatestMaxPageNumber:(NSInteger)maxNum andMinPageNumber:(NSInteger)minNumber
 {
     //请求参数自动调整
-    if(totalNum == 0) return;
-    
-    NSInteger prePage = self.requestNum;
-    NSInteger needNum = totalNum/15;
-    NSInteger refreshNum = needNum + 2;
-    
-    if(prePage > needNum && prePage < refreshNum)
-    {
-        return;
+    NSInteger refreshNum = 0;
+    if(maxNum == 0){
+        //最大值无效，最小值也可能无效
+        refreshNum = self.requestNum + 2;
+        refreshNum = MIN(refreshNum, 28);
+    }else{
+        refreshNum = maxNum;
     }
     
-    //当前的，大于需要的+5页时，进行调整
-    if(prePage > refreshNum)
-    {
-        [self refreshLatestMinRequestPageNumber:refreshNum];
-    }else
-    {//设定最大100页
-        refreshNum = MIN(refreshNum, 100);
-        [self refreshLatestMinRequestPageNumber:refreshNum];
-    }
+    
+    [self refreshLatestMinRequestPageNumber:refreshNum];
     
     
     EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;

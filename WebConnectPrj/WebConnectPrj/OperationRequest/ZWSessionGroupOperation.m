@@ -32,6 +32,11 @@
     }
     return self;
 }
+-(void)setMaxOperationNum:(NSInteger)maxOperationNum
+{
+    _maxOperationNum = maxOperationNum;
+    subQueue.maxConcurrentOperationCount = maxOperationNum;
+}
 -(void)cancel
 {
     [subQueue cancelAllOperations];

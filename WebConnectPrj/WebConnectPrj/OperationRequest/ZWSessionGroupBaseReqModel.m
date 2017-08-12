@@ -47,6 +47,7 @@
     {
         NSArray * subReq = [modelsArr objectAtIndex:index];
         ZWSessionGroupOperation * group = [[ZWSessionGroupOperation alloc] init];
+        group.maxOperationNum = 100;
         group.dataDelegate = self;
         group.reqModels = subReq;
         group.timeOutNum = self.timeOutCount;

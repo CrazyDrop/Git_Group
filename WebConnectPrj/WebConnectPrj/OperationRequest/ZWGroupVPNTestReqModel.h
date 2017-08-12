@@ -11,7 +11,6 @@
 @interface ZWGroupVPNTestReqModel : ZWSessionGroupBaseReqModel
 @property (nonatomic, assign) NSInteger pageNum;
 
-
 +(NSString *)randomTestFirstWebRequestWithIndex:(NSInteger)index;
 
 @end
