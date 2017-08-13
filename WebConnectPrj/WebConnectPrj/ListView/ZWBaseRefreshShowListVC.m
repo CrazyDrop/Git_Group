@@ -649,6 +649,11 @@ RefreshCellCopyDelgate>
     return interval;
     
 }
+-(void)refreshTitleWithTitleTxt:(NSString *)title{
+    self.titleV.text = title;
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

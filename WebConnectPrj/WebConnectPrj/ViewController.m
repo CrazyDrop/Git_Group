@@ -246,8 +246,8 @@
             name = @"递增页面";
         }
             break;
-        case CBGDetailTestFunctionStyle_MixedEquip:{
-            name = @"递增混合";
+        case CBGDetailTestFunctionStyle_MixedProxy:{
+            name = @"混合代理";
         }
             break;
         case CBGDetailTestFunctionStyle_MobilePage:{
@@ -302,7 +302,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryTotal],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedProxy],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MainHistory],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
@@ -715,7 +715,7 @@
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
-        case CBGDetailTestFunctionStyle_MixedEquip:{
+        case CBGDetailTestFunctionStyle_MixedProxy:{
             CBGMixedServerNormalRefreshVC * list = [[CBGMixedServerNormalRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
           

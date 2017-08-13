@@ -14,6 +14,9 @@
 @property (nonatomic, strong) NSArray * webReqArr;
 @property (nonatomic, strong)  NSLock *  lock;
 @property (nonatomic, strong) NSMutableDictionary * errorProxyDic;
+
+@property (nonatomic, strong) NSArray * baseUrls;
+@property (nonatomic, assign) BOOL executing;
 @end
 @implementation ZWDefaultOperationReqModel
 -(id)init
@@ -37,12 +40,12 @@
     {
         return;
     }
-    [self.lock lock];
+//    [self.lock lock];
     self.executing = YES;
     self.listArray = nil;
     self.errorProxy = nil;
     [self.errorProxyDic removeAllObjects];
-    [self.lock unlock];
+//    [self.lock unlock];
 
     NSArray * list = self.baseUrls;
     
@@ -96,7 +99,6 @@
 -(void)cancel
 {
     [defaultQueue cancelAllOperations];
-    self.resultArr = nil;
     [self.errorProxyDic removeAllObjects];
 }
 
@@ -139,28 +141,30 @@
         array = [NSArray array];
     }
     
-    @synchronized (self.resultArr)
+    VPNProxyModel * proxy = session.proxyModel;
+    if([DZUtils deviceWebConnectEnableCheck])
     {
-        VPNProxyModel * proxy = session.proxyModel;
-        
-        if([DZUtils deviceWebConnectEnableCheck])
+        if([backDic objectForKey:@"webError"] || [backDic objectForKey:@"noneError"])
         {
-            if([backDic objectForKey:@"webError"] || [backDic objectForKey:@"noneError"])
+            proxy.errorNum ++;
+            [self.errorProxyDic setObject:proxy forKey:proxy.idNum];
+        }else{
+            proxy.errorNum = 0;
+            if([self.errorProxyDic objectForKey:proxy.idNum])
             {
-                proxy.errorNum ++;
-                [self.errorProxyDic setObject:proxy forKey:proxy.idNum];
-            }else{
-                proxy.errorNum = 0;
-                if([self.errorProxyDic objectForKey:proxy.idNum])
-                {
-                    [self.errorProxyDic removeObjectForKey:proxy.idNum];
-                }
+                [self.errorProxyDic removeObjectForKey:proxy.idNum];
             }
         }
-        
+    }
+    
+    
+    [self.lock lock];
+    if([self.resultArr count] > index)
+    {
         [self.resultArr replaceObjectAtIndex:index withObject:array];
         [self checkSessionReqeustBackDataArray:self.resultArr];
     }
+    [self.lock unlock];
 }
 
 -(void)sessionRequestOperation:(ZWSessionReqOperation *)session doneWebRequestBackHeaderDic:(NSDictionary *)dic andStartUrl:(NSString *)url
@@ -185,14 +189,13 @@
     
     if(finished)
     {
-        [self.lock lock];
         self.listArray = arr;
         self.errorProxy = [self.errorProxyDic allValues];
-        self.executing = NO;
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
             [self sendSignal:self.requestLoaded];;
+            self.executing = NO;
         });
-        [self.lock unlock];
     }
 }
 

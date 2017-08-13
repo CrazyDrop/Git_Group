@@ -22,7 +22,7 @@
     {
         
         self.timeOutNum = 5;
-        self.saveKookie = NO;
+        self.saveCookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
 
     }
@@ -31,7 +31,7 @@
 
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
-    if(!self.saveKookie){
+    if(!self.saveCookie){
         return nil;
     }
     //    NSRange range = [url rangeOfString:@"server_id="];
@@ -54,7 +54,7 @@
 }
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr{
     //    NSLog(@"NSDictionary %@",fields);
-    if(!self.saveKookie)
+    if(!self.saveCookie)
     {
         return ;
     }

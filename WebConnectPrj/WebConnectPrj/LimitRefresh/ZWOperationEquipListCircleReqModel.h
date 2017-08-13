@@ -7,15 +7,16 @@
 //
 
 #import "ZWDefaultOperationReqModel.h"
+#import "ZWOperationGroupReqModel.h"
 //单一mobile代理刷新使用
-@interface ZWOperationEquipListCircleReqModel : ZWDefaultOperationReqModel
+@interface ZWOperationEquipListCircleReqModel : ZWOperationGroupReqModel
 
 @property (nonatomic, assign) NSInteger repeatNum;
 @property (nonatomic, assign) NSInteger selectSchool;
 @property (nonatomic, assign) NSInteger priceStatus;
 @property (nonatomic, assign) BOOL timerState;
 
-@property (nonatomic, assign) BOOL saveKookie;
+//@property (nonatomic, assign) BOOL saveCookie;
 
 
 @end

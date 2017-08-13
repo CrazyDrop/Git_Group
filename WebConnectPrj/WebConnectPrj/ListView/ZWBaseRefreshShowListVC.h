@@ -18,4 +18,8 @@
 @property (nonatomic,strong) NSArray * detailsArr;
 -(void)startRefreshDataModelRequest;
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace;
+
+-(void)refreshTitleWithTitleTxt:(NSString *)title;
+
+
 @end

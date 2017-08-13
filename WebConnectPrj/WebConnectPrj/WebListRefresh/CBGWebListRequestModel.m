@@ -35,7 +35,7 @@
 }
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr
 {
-    if(!self.saveKookie)
+    if(!self.saveCookie)
     {
         return ;
     }
@@ -88,7 +88,7 @@
 
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
-    if(!self.saveKookie){
+    if(!self.saveCookie){
         return nil;
     }
     NSRange range = [url rangeOfString:@"page="];

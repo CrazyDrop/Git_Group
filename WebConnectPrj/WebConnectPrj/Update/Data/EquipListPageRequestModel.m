@@ -19,7 +19,7 @@
     self = [super init];
     if(self)
     {
-        self.saveKookie = NO;
+        self.saveCookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
         //        &sum_exp_min=111
         //        &qian_neng_guo=33
@@ -30,7 +30,7 @@
 }
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
-    if(!self.saveKookie){
+    if(!self.saveCookie){
         return nil;
     }
     //    NSRange range = [url rangeOfString:@"server_id="];
@@ -53,7 +53,7 @@
 }
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr{
     //    NSLog(@"NSDictionary %@",fields);
-    if(!self.saveKookie)
+    if(!self.saveCookie)
     {
         return ;
     }

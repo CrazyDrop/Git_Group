@@ -14,7 +14,7 @@
 @property (nonatomic, strong, readonly) NSArray * requestArr;
 @property (nonatomic, assign) BOOL executing;
 @property (nonatomic, strong) NSURLSession * listSession;
-@property (nonatomic, assign) BOOL saveKookie;
+@property (nonatomic, assign) BOOL saveCookie;
 @property (nonatomic, assign) BOOL withHost;
 
 @property (nonatomic, assign) NSInteger errNum;

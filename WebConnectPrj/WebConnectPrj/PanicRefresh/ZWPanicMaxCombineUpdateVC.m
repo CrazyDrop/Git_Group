@@ -25,6 +25,7 @@
     NSMutableArray * combineArr;
     NSCache * refreshCache;
     NSMutableArray * orderCacheArr;//替代refreshCache，屏蔽重复
+    NSInteger partDetailNum;
 }
 @property (nonatomic, strong) NSArray * baseArr;
 @property (nonatomic,strong) NSArray * panicTagArr;
@@ -39,6 +40,8 @@
 @property (nonatomic,strong) NSLock * dataLock;
 @property (nonatomic,strong) NSDate * proxyRefreshDate;
 @property (nonatomic,assign) NSInteger proxyNum;
+@property (nonatomic,strong) NSArray * detailsArr;
+@property (nonatomic,assign) BOOL detailProxy;
 @end
 
 @implementation ZWPanicMaxCombineUpdateVC
@@ -52,7 +55,7 @@
 //        refreshCache = [[NSCache alloc] init];
 //        refreshCache.totalCostLimit = 1000;
 //        refreshCache.countLimit = 1000;
-        
+        partDetailNum = 30;
         self.dataLock = [[NSLock alloc] init];
         detailModelDic = [NSMutableDictionary dictionary];
         combineArr = [NSMutableArray array];
@@ -137,7 +140,6 @@
     ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
     [manager clearProxySubCache];
 }
-
 -(void)startPanicDetailArrayRequestRightNow
 {
     if(![DZUtils deviceWebConnectEnableCheck])
@@ -146,6 +148,9 @@
     }
     
     
+    EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(listRequest.executing) return;
+
     //以当前的detailArr  创建对应的model
     NSMutableArray * base = [NSMutableArray array];
     NSMutableArray * urls = [NSMutableArray array];
@@ -178,6 +183,13 @@
             [detailModelDic removeObjectForKey:removeKey];
         }
     }
+    
+    if([base count] > partDetailNum)
+    {
+        base = [NSMutableArray arrayWithArray:[base subarrayWithRange:NSMakeRange(0, partDetailNum)]];
+        urls = [NSMutableArray arrayWithArray:[urls subarrayWithRange:NSMakeRange(0, partDetailNum)]];
+    }
+    
     [self.dataLock unlock];
     
     NSLog(@"%s %ld",__FUNCTION__,[base count]);
@@ -186,13 +198,12 @@
         return;
     }
     
-   
-    EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
-    if(listRequest.executing) return;
+    EquipDetailArrayRequestModel * detailReq = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if(detailReq.executing) return;
+
     
-    
-//    self.baseArr = base;
-//    [self startEquipDetailAllRequestWithUrls:urls];
+    self.baseArr = base;
+    [self startEquipDetailAllRequestWithUrls:urls];
 }
 
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
@@ -209,6 +220,11 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
     model.proxyArr = total.isProxy?manager.proxySubCache:nil;
+    
+    if(!self.detailProxy)
+    {
+        model.proxyArr = nil;
+    }
     
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
@@ -658,6 +674,18 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
               }];
     [alertController addAction:action];
     
+    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.detailProxy = YES;
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"关闭代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  weakSelf.detailProxy = NO;
+              }];
+    [alertController addAction:action];
+    
     
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
@@ -697,17 +725,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         self.viewTtle = @"代理监听";
     }
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    //    UIView * bgView = self.view;
-    //    CGRect rect = [[UIScreen mainScreen] bounds];
-    
-    //    UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:rect];
-    //    [bgView addSubview:scrollView];
-    //    scrollView.pagingEnabled = YES;
-    //    scrollView.bounces = NO;
-    //    scrollView.scrollsToTop = NO;
-    //    self.coverScroll = scrollView;
     
     NSInteger vcNum = [self.panicTagArr count];
     NSMutableArray * vcArr = [NSMutableArray array];

@@ -7,12 +7,12 @@
 //
 
 #import "ZWDefaultOperationReqModel.h"
-
-@interface ZWOperationWebListReqModel : ZWDefaultOperationReqModel
+#import "ZWOperationGroupReqModel.h"
+@interface ZWOperationWebListReqModel : ZWOperationGroupReqModel
 
 @property (nonatomic, assign) NSInteger maxTimeNum;
 @property (nonatomic, assign) NSInteger repeatNum; //并发请求数量控制
 
-@property (nonatomic, assign) BOOL saveKookie;
+//@property (nonatomic, assign) BOOL saveCookie;
 
 @end

@@ -311,7 +311,7 @@
         //        model = [[EquipListRequestModel alloc] init];
         model = [[ZWGroupVPNTestReqModel alloc] init];
         [model addSignalResponder:self];
-        //        model.saveKookie = YES;
+        //        model.saveCookie = YES;
         _dpModel = model;
         
 //        model.pageNum = self.totalPageNum;

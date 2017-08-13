@@ -816,7 +816,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
 //         */
 //    }
 //    
-//    model.saveKookie = YES;
+//    model.saveCookie = YES;
 //    model.serverArr = server;
 //    model.timerState = !model.timerState;
 //    [model sendRequest];

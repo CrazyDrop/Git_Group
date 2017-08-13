@@ -18,7 +18,7 @@
 //-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model withListError:(NSError *)list;
 
 @end
-
+//数据处理切片
 @interface ZWPanicUpdateListBaseRequestModel : NSObject
 {
     ZALocalModelDBManager  * dbManager;

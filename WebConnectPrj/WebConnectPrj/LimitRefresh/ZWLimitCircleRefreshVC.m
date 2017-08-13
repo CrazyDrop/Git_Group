@@ -13,6 +13,7 @@
 #import "ZWDetailCheckManager.h"
 #import "Equip_listModel.h"
 #import "ZWOperationEquipListCircleReqModel.h"
+#import "ZWOperationDetailListReqModel.h"
 @interface ZWLimitCircleRefreshVC ()
 {
     NSInteger EquipListRequestWaitingTimeSep;
@@ -114,10 +115,6 @@
     
     _dpModel = nil;
     _detailListReqModel = nil;
-
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self startNextPageListModelRequest];
-//    });
 }
 
 -(void)startRefreshDataModelRequest
@@ -161,7 +158,7 @@
     
     model.repeatNum = self.maxPageNum;
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = manager.proxyArrCache;
+    model.proxyArr = manager.proxySubCache;
     
     model.timerState = !model.timerState;
     [model sendRequest];
@@ -197,19 +194,25 @@ handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
     
     ZWOperationEquipListCircleReqModel * model = (ZWOperationEquipListCircleReqModel *) _dpModel;
     NSArray * total  = model.listArray;
+    NSArray * proxyErr = model.errorProxy;
     
     //正常序列
+    NSInteger errorNum = 0;
     NSMutableArray * array = [NSMutableArray array];
     for (NSInteger index = 0; index < [total count]; index ++)
     {
         NSInteger backIndex = [total count] - index - 1;
         backIndex = index;
         id obj = [total objectAtIndex:backIndex];
-        if([obj isKindOfClass:[NSArray class]])
+        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             [array addObjectsFromArray:obj];
+        }else{
+            errorNum ++;
         }
     }
+//    NSLog(@"errorProxy %ld errorNum %ld total %ld",[proxyErr count],errorNum,[total count]);
+    [self refreshTitleWithTitleTxt:[NSString stringWithFormat:@"代理刷新 %ld(%ld)",[total count],[total count] -[proxyErr count]]];
     
     //列表数据排重
     NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
@@ -336,22 +339,25 @@ handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
 {
     NSLog(@"%s",__FUNCTION__);
     
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *)_detailListReqModel;
+    if(model.executing) return;
+
     if(!model){
-        model = [[EquipDetailArrayRequestModel alloc] init];
+        model = [[ZWOperationDetailListReqModel alloc] init];
         [model addSignalResponder:self];
         _detailListReqModel = model;
     }
     
-    if(model.executing) return;
-    
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    model.proxyArr = manager.proxySubCache;
+
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
     
 }
 
-#pragma mark EquipDetailArrayRequestModel
-handleSignal( EquipDetailArrayRequestModel, requestError )
+#pragma mark ZWOperationDetailListReqModel
+handleSignal( ZWOperationDetailListReqModel, requestError )
 {
 //    [self retryLatestDetailArrayRequest];
     [self clearWebRequestAndStartNextReqeustForError];
@@ -360,7 +366,7 @@ handleSignal( EquipDetailArrayRequestModel, requestError )
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 }
-handleSignal( EquipDetailArrayRequestModel, requestLoading )
+handleSignal( ZWOperationDetailListReqModel, requestLoading )
 {
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if(state != UIApplicationStateActive){
@@ -370,11 +376,11 @@ handleSignal( EquipDetailArrayRequestModel, requestLoading )
     
 }
 
-handleSignal( EquipDetailArrayRequestModel, requestLoaded )
+handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 {
     NSLog(@"%s",__FUNCTION__);
     //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
+    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *) _detailListReqModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];

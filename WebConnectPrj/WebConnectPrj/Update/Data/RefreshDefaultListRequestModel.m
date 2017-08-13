@@ -58,18 +58,18 @@
         //屏蔽所有缓存
         NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
         config.requestCachePolicy = NSURLRequestReloadIgnoringCacheData;
-        config.connectionProxyDictionary =@
-        {
-            (id)kCFNetworkProxiesHTTPEnable:@YES,
-            (id)kCFNetworkProxiesHTTPProxy:@"183.222.102.104",
-            (id)kCFNetworkProxiesHTTPPort:@8080
-//            @"HTTPEnable":@YES,
-//            (id)kCFStreamPropertyHTTPProxyHost:@"1.2.3.4",
-//            (id)kCFStreamPropertyHTTPProxyPort:@8080,
-//            @"HTTPSEnable":@YES,
-//            (id)kCFStreamPropertyHTTPSProxyHost:@"1.2.3.4",
-//            (id)kCFStreamPropertyHTTPSProxyPort:@8080
-        };
+//        config.connectionProxyDictionary =@
+//        {
+//            (id)kCFNetworkProxiesHTTPEnable:@YES,
+//            (id)kCFNetworkProxiesHTTPProxy:@"183.222.102.104",
+//            (id)kCFNetworkProxiesHTTPPort:@8080
+////            @"HTTPEnable":@YES,
+////            (id)kCFStreamPropertyHTTPProxyHost:@"1.2.3.4",
+////            (id)kCFStreamPropertyHTTPProxyPort:@8080,
+////            @"HTTPSEnable":@YES,
+////            (id)kCFStreamPropertyHTTPSProxyHost:@"1.2.3.4",
+////            (id)kCFStreamPropertyHTTPSProxyPort:@8080
+//        };
         
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config
                                                               delegate:nil
@@ -205,7 +205,7 @@
     
     void(^finishBlock)(NSData * data ,NSURLResponse * response ,NSError * error) = ^void(NSData * responseObject ,NSURLResponse * response ,NSError * error)
     {
-        if(weakSelf.saveKookie)
+        if(weakSelf.saveCookie)
         {
             if([response respondsToSelector:@selector(allHeaderFields)])
             {
@@ -299,7 +299,7 @@
     
     void(^finishBlock)(NSData * data ,NSURLResponse * response ,NSError * error) = ^void(NSData * responseObject ,NSURLResponse * response ,NSError * error)
     {
-        if(weakSelf.saveKookie)
+        if(weakSelf.saveCookie)
         {
             if([response respondsToSelector:@selector(allHeaderFields)])
             {

@@ -18,6 +18,9 @@ typedef enum : NSUInteger
     CBGHistoryMianFunctionStyle_MonthHistory,
     
     CBGHistoryMianFunctionStyle_RepeatHistory,
+    
+    CBGHistoryMianFunctionStyle_HistoryTotal,
+    
 } CBGHistoryMianFunctionStyle;
 
 @interface CBGHistoryMianListVC : DPWhiteTopController

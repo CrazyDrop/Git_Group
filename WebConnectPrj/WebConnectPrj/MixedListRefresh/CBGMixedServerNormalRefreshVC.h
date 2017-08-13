@@ -7,7 +7,7 @@
 //
 
 #import "DPWhiteTopController.h"
-
+//代理和非代理的混合刷新
 @interface CBGMixedServerNormalRefreshVC : DPWhiteTopController
 
 @end

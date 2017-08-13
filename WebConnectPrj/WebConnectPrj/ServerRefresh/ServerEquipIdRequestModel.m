@@ -21,7 +21,7 @@
 {
    self = [super init];
     if(self){
-        self.saveKookie = YES;
+        self.saveCookie = YES;
         self.cookieDic = [NSMutableDictionary dictionary];
         ZWDetailCheckManager * manager = [ZWDetailCheckManager sharedInstance];
         [self.cookieDic addEntriesFromDictionary:manager.cookieDic];
@@ -80,7 +80,7 @@
 
 -(NSDictionary *)cookieStateWithStartWebRequestWithUrl:(NSString *)url
 {
-    if(!self.saveKookie){
+    if(!self.saveCookie){
         return nil;
     }
     NSRange range = [url rangeOfString:@"server_id="];
@@ -101,7 +101,7 @@
 }
 -(void)doneWebRequestWithBackHeaderDic:(NSDictionary *)fields andStartUrl:(NSString *)urlStr{
 //    NSLog(@"NSDictionary %@",fields);
-    if(!self.saveKookie)
+    if(!self.saveCookie)
     {
         return ;
     }

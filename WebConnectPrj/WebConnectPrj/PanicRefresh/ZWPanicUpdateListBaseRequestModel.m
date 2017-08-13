@@ -14,6 +14,7 @@
 #import "DZUtils.h"
 #import "ZWSessionReqOperation.h"
 #import "RoleDataModel.h"
+#import "SessionReqModel.h"
 @interface ZWPanicUpdateListBaseRequestModel ()
 {
     NSMutableArray * repeatCache;
@@ -189,7 +190,7 @@
     model.timerState = !model.timerState;
     [model sendRequest];
 }
--(void)refreshProxyArrayWithFinishedListArray:(NSArray *)arr andObj:(ZWSessionReqOperation *)opt
+-(void)refreshProxyArrayWithFinishedListArray:(NSArray *)arr andObj:(SessionReqModel *)opt
 {
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
     NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
@@ -211,7 +212,7 @@
             [editProxy removeObject:optModel];
             proxyManager.proxyArrCache = editProxy;
         }
-        NSLog(@"ingore ip  %@ %@ %@",optModel.idNum,listModel.equip_name,opt.reqUrl);
+        NSLog(@"ingore ip  %@ %@ %@",optModel.idNum,listModel.equip_name,opt.url);
     }
 }
 #pragma mark ZWOperationEquipReqListReqModel
@@ -256,11 +257,11 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
             maxPageNum = index;
         }
         
-        ZWSessionReqOperation * opt = [model.webReqArr objectAtIndex:index];
+        SessionReqModel * vpnObj = [model.baseReqModels objectAtIndex:index];
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             minPageNum = index;
-            [self refreshProxyArrayWithFinishedListArray:obj andObj:opt];
+            [self refreshProxyArrayWithFinishedListArray:obj andObj:vpnObj];
             [array addObjectsFromArray:obj];
         }else{
             errorNum ++;

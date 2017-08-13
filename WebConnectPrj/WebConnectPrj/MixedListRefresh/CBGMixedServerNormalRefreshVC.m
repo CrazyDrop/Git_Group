@@ -9,8 +9,9 @@
 #import "CBGMixedServerNormalRefreshVC.h"
 #import "ZWRefreshListController.h"
 #import "ZWServerEquipListVC.h"
+#import "ZWLimitCircleRefreshVC.h"
 @interface CBGMixedServerNormalRefreshVC ()
-@property (nonatomic, strong) ZWServerEquipListVC * webVC;
+@property (nonatomic, strong) ZWLimitCircleRefreshVC * webVC;
 @property (nonatomic, strong) ZWRefreshListController * mobileVC;
 @end
 
@@ -44,16 +45,18 @@
     
 }
 
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(ZWServerEquipListVC *)webVC
+-(ZWLimitCircleRefreshVC *)webVC
 {
     if(!_webVC)
     {
-        ZWServerEquipListVC * aWeb = [[ZWServerEquipListVC alloc] init];
+        ZWLimitCircleRefreshVC * aWeb = [[ZWLimitCircleRefreshVC alloc] init];
         [self addChildViewController:aWeb];
         _webVC = aWeb;
     }

@@ -7,9 +7,10 @@
 //
 
 #import "ZWDefaultOperationReqModel.h"
+#import "ZWOperationGroupReqModel.h"
 @class EquipExtraModel;
 @class EquipModel;
-@interface ZWOperationDetailListReqModel : ZWDefaultOperationReqModel
+@interface ZWOperationDetailListReqModel : ZWOperationGroupReqModel
 @property (nonatomic, assign) BOOL ingoreExtra;
 
 -(EquipExtraModel *)extraModelFromLatestEquipDESC:(EquipModel *)detail;

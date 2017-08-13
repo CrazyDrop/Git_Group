@@ -688,7 +688,6 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     [self refreshTableViewWithInputLatestListArray:showArr cacheArray:cacheArr];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

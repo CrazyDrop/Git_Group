@@ -7,7 +7,7 @@
 //
 
 #import "BaseRequestModel.h"
-
+//内含数组请求，每一组一个分支
 @interface ZWSessionGroupBaseReqModel : BaseRequestModel
 {
     NSOperationQueue * defaultQueue;

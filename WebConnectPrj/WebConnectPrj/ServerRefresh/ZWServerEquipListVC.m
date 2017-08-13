@@ -721,7 +721,7 @@ RefreshCellCopyDelgate>
          */
     }
     
-    model.saveKookie = YES;
+    model.saveCookie = YES;
     model.serverArr = editArr;
     model.timerState = !model.timerState;
     [model sendRequest];

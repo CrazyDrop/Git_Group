@@ -13,6 +13,7 @@
 #import "ZALocationLocalModel.h"
 #import "CBGCombinedScrolledHandleVC.h"
 #import "CBGDaysDetailSortHistoryVC.h"
+#import "CBGTotalHistroySortVC.h"
 @interface CBGHistoryMianListVC ()
 
 @end
@@ -34,7 +35,8 @@
                              
                              [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_PartHistory],
 //                             [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_RepeatHistory],
-                             
+                             [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_HistoryTotal],
+
                              
                              nil];
     
@@ -91,6 +93,10 @@
         case CBGHistoryMianFunctionStyle_TodayHistory:
         {
             name = @"当天历史";
+        }
+            break;
+        case CBGHistoryMianFunctionStyle_HistoryTotal:{
+            name = @"全部历史";
         }
             break;
     }
@@ -189,6 +195,12 @@
             CBGPlanListDetailCheckVC * combine = [[CBGPlanListDetailCheckVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
             
+        }
+            break;
+        case CBGHistoryMianFunctionStyle_HistoryTotal:
+        {
+            CBGTotalHistroySortVC * combine = [[CBGTotalHistroySortVC alloc] init];
+            [[self rootNavigationController] pushViewController:combine animated:YES];
         }
             break;
 

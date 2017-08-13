@@ -95,7 +95,7 @@
             void(^finishBlock)(NSData * data ,NSURLResponse * response ,NSError * error) = ^void(NSData * responseObject ,NSURLResponse * response ,NSError * error)
             {
                 
-                if(weakSelf.saveKookie)
+                if(weakSelf.saveCookie)
                 {
                     if([response respondsToSelector:@selector(allHeaderFields)] && [weakSelf.dataDelegate respondsToSelector:@selector(sessionRequestOperation:doneWebRequestBackHeaderDic:andStartUrl:)])
                     {

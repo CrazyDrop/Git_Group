@@ -112,7 +112,6 @@
             self.sessionArr = secArr;
             
             [subQueue waitUntilAllOperationsAreFinished];
-            sleep(1);
             if(self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(sessionRequestOperation:finishResult:)])
             {
                 [self.dataDelegate sessionRequestOperation:self
@@ -130,8 +129,8 @@
 
 -(void)finishDetailWebRequestWithTotalFinished
 {
-    NSThread *thread = [NSThread currentThread];
-    NSLog(@"%@",thread);
+//    NSThread *thread = [NSThread currentThread];
+//    NSLog(@"%@",thread);
     
     //任务执行完成后要实现相应的KVO
     [self willChangeValueForKey:@"isFinished"];

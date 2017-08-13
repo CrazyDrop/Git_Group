@@ -7,8 +7,9 @@
 //
 
 #import "ZWDefaultOperationReqModel.h"
+#import "ZWOperationGroupReqModel.h"
 //mobile监听列表请求使用
-@interface ZWOperationEquipReqListReqModel : ZWDefaultOperationReqModel
+@interface ZWOperationEquipReqListReqModel : ZWOperationGroupReqModel
 
 
 @property (nonatomic, assign) NSInteger pageNum;
@@ -16,6 +17,6 @@
 @property (nonatomic, assign) NSInteger priceStatus;
 @property (nonatomic, assign) BOOL timerState;
 
-@property (nonatomic, assign) BOOL saveKookie;
+//@property (nonatomic, assign) BOOL saveCookie;
 
 @end
