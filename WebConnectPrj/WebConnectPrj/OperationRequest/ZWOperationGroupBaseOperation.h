@@ -41,7 +41,6 @@
 
 @property (nonatomic, assign) id<ZWOperationGroupBaseOperationDelegate> dataDelegate;
 
-@property (nonatomic, assign) NSInteger maxOperationNum;
 @property (nonatomic, strong) NSArray * reqModels;//也可以通过代理方法生成
 @property (nonatomic, assign) NSInteger timeOutNum;
 @property (nonatomic, assign) BOOL saveCookie;

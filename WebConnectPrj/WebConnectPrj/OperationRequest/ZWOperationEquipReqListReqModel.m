@@ -20,7 +20,7 @@
     self = [super init];
     if(self)
     {
-        self.timeOutNum = 3;
+        self.timeOutNum = 5;
         self.saveCookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
         //        &sum_exp_min=111
@@ -208,7 +208,7 @@
 }
 -(NSString *)replaceDeviceIdWithPageIndex:(NSInteger)index
 {
-    NSString * orderString = [NSString stringWithFormat:@"DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8%@%ld",[NSDate unixDate],index];
+    NSString * orderString = [NSString stringWithFormat:@"DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8%@%ld%@",[NSDate unixDate],index,[[NSThread currentThread] description]];
     NSString * md5Str = [orderString MD5String];
     
     orderString = [orderString stringByAppendingString:@"再来"];

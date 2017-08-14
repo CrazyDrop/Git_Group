@@ -78,6 +78,16 @@
     NSDate * startDate = [NSDate date];
     NSInteger count = [startDate timeIntervalSince1970] - 1;
     
+
+    NSURL * url = [NSURL URLWithString:@"www.baidu.com"];
+    NSURLSession * session = [NSURLSession sharedSession];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    NSURLSessionTask *task = [session dataTaskWithRequest:request
+                                        completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                            [self finishTask];
+                                        }];
+    [task resume];
+    
     
 //    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
@@ -117,6 +127,10 @@
     });
     
     return YES;
+}
+-(void)finishTask
+{
+    
 }
 -(void)startWebRequest
 {

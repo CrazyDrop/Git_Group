@@ -11,7 +11,13 @@
 #import "ZWSessionGroupOperation.h"
 #import "ZWOperationGroupBaseOperation.h"
 #import "VPNProxyModel.h"
+
+
+
 @interface ZWOperationGroupReqModel()<ZWOperationGroupBaseOperationDelegate>
+{
+    NSOperationQueue * groupQueue;
+}
 @property (nonatomic, strong)  NSLock *  lock;
 @property (nonatomic, strong) NSMutableArray * resultArr;
 @property (nonatomic, strong) NSArray * webReqArr;
@@ -22,6 +28,19 @@
 @end
 
 @implementation ZWOperationGroupReqModel
+
++ (NSOperationQueue *)zw_sharedGroupRequestOperationQueue
+{
+    static NSOperationQueue *_zw_sharedGroupRequestOperationQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _zw_sharedGroupRequestOperationQueue = [[NSOperationQueue alloc] init];
+        _zw_sharedGroupRequestOperationQueue.maxConcurrentOperationCount = 1;
+    });
+    
+    return _zw_sharedGroupRequestOperationQueue;
+}
+
 -(NSArray *)baseReqModels
 {
     ZWOperationGroupBaseOperation * group = nil;
@@ -33,11 +52,9 @@
 -(id)init
 {
     self = [super init];
-    if(self){
-        defaultQueue = [[NSOperationQueue alloc] init];
-        defaultQueue.name = @"group-request-model-queue";
-        defaultQueue.maxConcurrentOperationCount = 20;//支持20个组并发
-        
+    if(self)
+    {
+        groupQueue = [[self class] zw_sharedGroupRequestOperationQueue];
         self.cookieDic = [NSMutableDictionary dictionary];
         self.errorProxyDic = [NSMutableDictionary dictionary];
         self.lock = [[NSLock alloc] init];
@@ -63,7 +80,6 @@
     NSMutableArray * resArr = [NSMutableArray array];
     
     ZWOperationGroupBaseOperation * group = [[ZWOperationGroupBaseOperation alloc] init];
-//    group.maxOperationNum = 100;
     group.dataDelegate = self;
     group.timeOutNum = self.timeOutNum;
     [reqArr addObject:group];
@@ -73,7 +89,7 @@
     
     self.resultArr = resArr;
     self.webReqArr = reqArr;
-    [defaultQueue addOperations:reqArr waitUntilFinished:NO];
+    [groupQueue addOperations:reqArr waitUntilFinished:NO];
     
     [self sendSignal:self.requestLoading];
 }
@@ -122,7 +138,7 @@
 //取消请求，结束回调
 -(void)cancel
 {
-    [defaultQueue cancelAllOperations];
+    [groupQueue cancelAllOperations];
     [self.errorProxyDic removeAllObjects];
 }
 #pragma - mark ProxyDelegate
@@ -139,7 +155,10 @@
             if([backDic objectForKey:@"webError"] || [backDic objectForKey:@"noneError"])
             {
                 proxy.errorNum ++;
-                [self.errorProxyDic setObject:proxy forKey:proxy.idNum];
+                if(proxy)
+                {
+                    [self.errorProxyDic setObject:proxy forKey:proxy.idNum];
+                }
             }else{
                 proxy.errorNum = 0;
                 if([self.errorProxyDic objectForKey:proxy.idNum])
@@ -163,10 +182,10 @@
         array = [NSArray array];
     }
     
-    [self.lock lock];
+//    [self.lock lock];
     [self.resultArr replaceObjectAtIndex:index withObject:array];
     [self checkSessionReqeustBackDataArray:self.resultArr];
-    [self.lock unlock];
+//    [self.lock unlock];
 }
 
 -(void)groupBaseRequestOperation:(ZWOperationGroupBaseOperation *)session

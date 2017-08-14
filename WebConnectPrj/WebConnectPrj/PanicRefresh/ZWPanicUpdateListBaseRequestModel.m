@@ -179,9 +179,10 @@
             model.selectSchool = self.schoolNum;
         }
         model.priceStatus = self.priceStatus;
-        model.pageNum = self.requestNum;//刷新页数
     }
     
+    
+    model.pageNum = self.requestNum;//刷新页数
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
@@ -223,8 +224,6 @@ handleSignal( ZWOperationEquipReqListReqModel, requestError )
 handleSignal( ZWOperationEquipReqListReqModel, requestLoading )
 {
 }
-
-
 handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 {
     //    refreshLatestTotalArra
@@ -247,7 +246,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         NSInteger backIndex = index;
         NSArray * dataObj = [total objectAtIndex:backIndex];
         RoleDataModel * roleObj = nil;
-        if([dataObj count] > 0){
+        if([dataObj isKindOfClass:[NSArray class]] && [dataObj count] > 0){
             roleObj = [dataObj lastObject];
         }
         id obj = roleObj.equip_list;
@@ -268,7 +267,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         }
     }
     
-    NSLog(@"proxy %ld errorProxy %ld errorNum %ld total %ld",[editProxy count],[proxyErr count],errorNum,[total count]);
+    NSLog(@"proxy %ld errorProxy %ld errorNum %ld total %ld %@",[editProxy count],[proxyErr count],errorNum,[total count],self.tagString);
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
     NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];    //后期详情刷新dic
@@ -459,10 +458,10 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     [self refreshLatestMinRequestPageNumber:refreshNum];
     
     
-    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
-    [refresh cancel];
-    [refresh removeSignalResponder:self];
-    _dpModel = nil;
+//    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+//    [refresh cancel];
+//    [refresh removeSignalResponder:self];
+//    _dpModel = nil;
 }
 
 -(void)checkUnSellingListArrayPostSubNotificationWithArray:(NSArray *)array

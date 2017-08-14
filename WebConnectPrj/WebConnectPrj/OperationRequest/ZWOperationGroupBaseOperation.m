@@ -13,30 +13,40 @@
 {
     BOOL executing;
     BOOL finished;
-    NSOperationQueue * subQueue;
-//    NSThread * operationThread;
-//    NSOperationQueue * jsonQueue;
+    NSOperationQueue * jsonQueue;
 }
 @property (nonatomic, strong) NSMutableArray * resultArr;
 @property (nonatomic, strong) NSArray * sessionArr;
 @property (nonatomic, strong) NSString * resultTag;
 
+@property (nonatomic, strong) NSArray * taskArr;
 @property (nonatomic, strong) NSCondition * lockCondition;
+
 @end
 
 @implementation ZWOperationGroupBaseOperation
+
++ (NSOperationQueue *)zw_sharedDetailJsonRequestOperationQueue
+{
+    static NSOperationQueue *_zw_sharedDetailJsonRequestOperationQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _zw_sharedDetailJsonRequestOperationQueue = [[NSOperationQueue alloc] init];
+        _zw_sharedDetailJsonRequestOperationQueue.maxConcurrentOperationCount = 10;
+    });
+    
+    return _zw_sharedDetailJsonRequestOperationQueue;
+}
+
 - (id)init {
     if(self = [super init])
     {
         executing = NO;
         finished = NO;
         
+        jsonQueue = [[self class] zw_sharedDetailJsonRequestOperationQueue];
         self.resultTag = @"tag";
         self.lockCondition = [[NSCondition alloc] init];
-        
-        subQueue = [[NSOperationQueue alloc] init];
-        subQueue.maxConcurrentOperationCount = 30;
-        subQueue.name = @"group-operation-queue";
         
         [self addObserver:self forKeyPath:@"resultFinish" options:NSKeyValueObservingOptionNew context:NULL];
 
@@ -48,17 +58,18 @@
     [self removeObserver:self forKeyPath:@"resultFinish"];
 }
 
--(void)setMaxOperationNum:(NSInteger)maxOperationNum
-{
-    _maxOperationNum = maxOperationNum;
-    subQueue.maxConcurrentOperationCount = maxOperationNum;
-}
 -(void)cancel
 {
-    [subQueue cancelAllOperations];
+    self.dataDelegate = nil;
     
-    // 取消队列的挂起状态(只要是取消了队列的操作，我们就把队列处于一个启动状态，以便于后续的开始)
-    subQueue.suspended = NO;
+    for (NSInteger index = 0;index < [self.taskArr count] ;index ++ )
+    {
+        NSURLSessionTask * task = [self.taskArr objectAtIndex:index];
+        [task cancel];
+    }
+    self.taskArr = nil;
+    
+    
 }
 - (BOOL)isConcurrent {
     
@@ -103,9 +114,11 @@
     //如果没被取消，开始执行任务
     [self willChangeValueForKey:@"isExecuting"];
     
-    [NSThread detachNewThreadSelector:@selector(main) toTarget:self withObject:nil];
+//    [NSThread detachNewThreadSelector:@selector(main) toTarget:self withObject:nil];
     executing = YES;
     [self didChangeValueForKey:@"isExecuting"];
+    
+    [self startWebListRequest];
 }
 
 - (void)main
@@ -118,28 +131,6 @@
             //进行网络请求、数据解析、数据回传
             //进行operation创建，调用
             
-            NSArray * array = self.reqModels;
-            if(array && [array count] > 0)
-            {
-                for (NSInteger index = 0;index < [array count] ;index ++ )
-                {
-                    SessionReqModel * req = [array objectAtIndex:index];
-                    [self startWebRequestWithDetailReqSession:req];
-                }
-                
-                [self.lockCondition lock];
-                [self.lockCondition wait];
-                [self.lockCondition unlock];
-            }
-            
-            if(self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(groupBaseRequestOperation:finishReq:errorDic:)])
-            {
-                [self.dataDelegate groupBaseRequestOperation:self
-                                                   finishReq:self.resultArr
-                                                    errorDic:nil];
-            }
-            
-            [self finishDetailWebRequestWithTotalFinished];
         }
     }
     @catch (NSException *exception)
@@ -147,6 +138,26 @@
         NSLog(@"%s %@",__FUNCTION__,exception);
     }
 }
+-(void)startWebListRequest
+{
+    NSArray * array = self.reqModels;
+    if(array && [array count] > 0)
+    {
+        NSMutableArray * tasks = [NSMutableArray array];
+        for (NSInteger index = 0;index < [array count] ;index ++ )
+        {
+            SessionReqModel * req = [array objectAtIndex:index];
+            NSURLSessionTask *task = [self startWebRequestWithDetailReqSession:req];
+            [tasks addObject:task];
+        }
+        self.taskArr = tasks;
+    }
+    
+    
+    [self finishDetailWebRequestWithTotalFinished];
+
+}
+
 
 -(void)finishDetailWebRequestWithTotalFinished
 {
@@ -163,6 +174,8 @@
     [self didChangeValueForKey:@"isExecuting"];
     [self didChangeValueForKey:@"isFinished"];
     
+    
+    
 }
 -(NSInteger)unFinishedReqestNumber
 {
@@ -178,7 +191,7 @@
     }
     return countNum;
 }
--(void)startWebRequestWithDetailReqSession:(SessionReqModel *)reqModel
+-(NSURLSessionTask * )startWebRequestWithDetailReqSession:(SessionReqModel *)reqModel
 {
     //在这里定义自己的并发任务
     //进行网络请求、数据解析、数据回传
@@ -261,9 +274,7 @@
                                              sessionModel:reqModel];
         }
         
-        if(!subArr) subArr = [NSArray array];
         NSInteger index = [weakSelf.reqModels indexOfObject:reqModel];
-
         [weakSelf finishGroupRequestWithIndex:index
                                   andSubArray:subArr];
     };
@@ -278,7 +289,7 @@
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config
                                                           delegate:nil
-                                                     delegateQueue:nil];
+                                                     delegateQueue:jsonQueue];
     
     
     NSURLSessionTask *task = [session dataTaskWithRequest:request
@@ -286,19 +297,26 @@
     
     // 启动任务
     [task resume];
+    return task;
 }
 
 -(void)finishGroupRequestWithIndex:(NSInteger)index andSubArray:(NSArray * )array
 {
     @synchronized (self.resultArr)
     {
+        if(!array) array = [NSArray array];
+
         [self.resultArr replaceObjectAtIndex:index withObject:array];
         NSInteger limitNum = [self unFinishedReqestNumber];
         if(limitNum == 0)
         {
-            [self.lockCondition lock];
-            [self.lockCondition signal];
-            [self.lockCondition unlock];
+            //    NSLog(@"limitNum %ld",limitNum);
+            if(self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(groupBaseRequestOperation:finishReq:errorDic:)])
+            {
+                [self.dataDelegate groupBaseRequestOperation:self
+                                                   finishReq:self.resultArr
+                                                    errorDic:nil];
+            }
         }
     }
 }

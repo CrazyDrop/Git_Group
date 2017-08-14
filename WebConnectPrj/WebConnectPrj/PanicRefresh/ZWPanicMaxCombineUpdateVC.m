@@ -76,7 +76,7 @@
     Equip_listModel * listObj = (Equip_listModel *)[noti object];
     NSString * keyObj = [listObj listCombineIdfa];
     
-    [self.dataLock lock];
+//    [self.dataLock lock];
     if(![orderCacheArr containsObject:keyObj])
     {
         if([orderCacheArr count] > 80)
@@ -94,7 +94,7 @@
     [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
     [self refreshCombineNumberAndProxyCacheNumberForTitle];
     [self.listTable reloadData];
-    [self.dataLock unlock];
+//    [self.dataLock unlock];
 }
 -(void)refreshProxyCacheArrayAndCacheSubArray
 {
@@ -147,7 +147,6 @@
         return;
     }
     
-    
     EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(listRequest.executing) return;
 
@@ -156,7 +155,7 @@
     NSMutableArray * urls = [NSMutableArray array];
     
     //移除
-    [self.dataLock lock];
+//    [self.dataLock lock];
     //下次启动前进行清空检查
     NSMutableArray * removeArr = [NSMutableArray array];
     for (NSString * key in detailModelDic)
@@ -190,7 +189,7 @@
         urls = [NSMutableArray arrayWithArray:[urls subarrayWithRange:NSMakeRange(0, partDetailNum)]];
     }
     
-    [self.dataLock unlock];
+//    [self.dataLock unlock];
     
     NSLog(@"%s %ld",__FUNCTION__,[base count]);
     if([base count] == 0)
@@ -288,7 +287,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     }
 
     
-    [self.dataLock lock];
+//    [self.dataLock lock];
     BOOL forceRefresh = NO;
     NSMutableArray * removeArr = [NSMutableArray array];
     NSMutableArray * refreshArr = [NSMutableArray array];
@@ -345,7 +344,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
         [self.listTable reloadData];
     }
-    [self.dataLock unlock];
+//    [self.dataLock unlock];
 }
 -(void)finishDetailRefreshPostNotificationWithBaseDetailModel:(Equip_listModel *)listModel
 {
@@ -477,7 +476,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 }
 -(void)startOpenTimesRefreshTimer
 {
-    
     PanicRefreshManager * manager = [PanicRefreshManager sharedInstance];
     __weak typeof(self) weakSelf = self;
     //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -497,9 +495,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
             [self refreshProxyCacheArrayAndCacheSubArray];
         }
         
-        [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
-                                   withObject:nil
-                                waitUntilDone:NO];
+//        [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
+//                                   withObject:nil
+//                                waitUntilDone:NO];
         
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -535,35 +533,40 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 
 -(void)localSaveDetailRefreshEquipListArray
 {
-    [self.dataLock lock];
-    NSMutableArray * dbArr = [NSMutableArray array];
-    NSMutableArray *  detailArr = [NSMutableArray array];
-    for (NSString * eveKey in detailModelDic)
+//    [self.dataLock lock];
+    
+    if([detailModelDic count] < 30)
     {
-        Equip_listModel * eveModel = [detailModelDic objectForKey:eveKey];
-        [detailArr addObject:eveModel.game_ordersn];
-        
-        if(eveModel.equipModel)
+        NSMutableArray * dbArr = [NSMutableArray array];
+        NSMutableArray *  detailArr = [NSMutableArray array];
+        for (NSString * eveKey in detailModelDic)
         {
-            CBGListModel * list = eveModel.listSaveModel;
-            list.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-            [dbArr addObject:list];
+            Equip_listModel * eveModel = [detailModelDic objectForKey:eveKey];
+            [detailArr addObject:eveModel.game_ordersn];
+            
+            if(eveModel.equipModel)
+            {
+                CBGListModel * list = eveModel.listSaveModel;
+                list.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
+                [dbArr addObject:list];
+            }
         }
-    }
-    
-    if([dbArr count] > 0){
-        ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-        [manager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dbArr];
-    }
-    
-    
-    NSString * jsonStr = [[self class] convertToJsonData:detailArr];
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    total.orderSnCache = jsonStr;
-    [total localSave];
+        
+        if([dbArr count] > 0){
+            ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+            [manager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dbArr];
+        }
+        
+        
+        NSString * jsonStr = [[self class] convertToJsonData:detailArr];
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        total.orderSnCache = jsonStr;
+        [total localSave];
 
-    [self.dataLock unlock];
+    }
+    
+//    [self.dataLock unlock];
 }
 + (NSString *)convertToJsonData:(NSArray *)dict
 {
@@ -711,9 +714,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     }
     
     NSDictionary * appDic = [self historyRequestDetailListFromOrderArray:orderArr];
-    [self.dataLock lock];
+//    [self.dataLock lock];
     [detailModelDic addEntriesFromDictionary:appDic];
-    [self.dataLock unlock];
+//    [self.dataLock unlock];
 }
 
 - (void)viewDidLoad {
@@ -731,7 +734,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     //    scrollView.contentSize = CGSizeMake(rect.size.width * vcNum, rect.size.height);
     NSArray * dataArr = [total.orderSnCache objectFromJSONString];
     NSDictionary * appDic = [self historyRequestDetailListFromOrderArray:dataArr];
-    [detailModelDic addEntriesFromDictionary:appDic];
+    if([appDic count] < 30){
+        [detailModelDic addEntriesFromDictionary:appDic];   
+    }
     
     for (NSInteger index = 0; index < vcNum; index ++)
     {
@@ -801,7 +806,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     }else{
         self.countNum = 0;
         //列表刷新，数据清空
-        [self.dataLock lock];
+//        [self.dataLock lock];
         NSArray * showArr = [NSArray arrayWithArray:combineArr];
         [combineArr removeAllObjects];
         
@@ -810,7 +815,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 //        [self tapedOnExchangeTotalWithTapedBtn:nil];
         [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
         [self refreshTableViewWithInputLatestListArray:showArr cacheArray:nil];
-        [self.dataLock unlock];
+//        [self.dataLock unlock];
     }
 }
 -(void)refreshCombineNumberAndProxyCacheNumberForTitle
