@@ -6,9 +6,8 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWDefaultOperationReqModel.h"
-#import "ZWOperationGroupReqModel.h"
-@interface ZWOperationWebListReqModel : ZWOperationGroupReqModel
+#import "ZWQueueGroupRequestModel.h"
+@interface ZWOperationWebListReqModel : ZWQueueGroupRequestModel
 
 @property (nonatomic, assign) NSInteger maxTimeNum;
 @property (nonatomic, assign) NSInteger repeatNum; //并发请求数量控制

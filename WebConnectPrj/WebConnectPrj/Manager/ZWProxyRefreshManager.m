@@ -8,8 +8,10 @@
 
 #import "ZWProxyRefreshManager.h"
 #import "VPNProxyModel.h"
+#import "SessionReqModel.h"
 @interface ZWProxyRefreshManager()
 @property (nonatomic, strong) NSArray * proxySubCache;
+@property (nonatomic, strong) NSArray * sessionSubCache;
 @end
 @implementation ZWProxyRefreshManager
 
@@ -45,6 +47,37 @@
     }
     return _proxySubCache;
 }
+
+-(NSArray *)sessionSubCache
+{
+    if(!_sessionSubCache)
+    {
+        NSMutableArray * edit = [NSMutableArray arrayWithArray:self.sessionArrCache];
+        
+        
+        [edit sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2)
+         {
+             SessionReqModel * req1 = (SessionReqModel *)obj1;
+             SessionReqModel * req2 = (SessionReqModel *)obj2;
+             
+            NSNumber * number1 = [NSNumber numberWithInteger:[req1.proxyModel errorNum]];
+            NSNumber * number2 = [NSNumber numberWithInteger:[req2.proxyModel errorNum]];
+            
+            return [number1 compare:number2];
+        }];
+        
+        NSArray * sub = nil;
+        if([edit count] > 30){
+            sub = [edit subarrayWithRange:NSMakeRange(0, 30)];
+        }else{
+            sub = edit;
+        }
+        _sessionSubCache = edit;
+    }
+    return _sessionSubCache;
+}
+
+
 -(void)clearProxySubCache
 {
     self.proxySubCache = nil;

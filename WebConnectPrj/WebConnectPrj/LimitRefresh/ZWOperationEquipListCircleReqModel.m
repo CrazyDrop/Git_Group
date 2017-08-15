@@ -10,7 +10,6 @@
 #import "RoleDataModel.h"
 #import "VPNProxyModel.h"
 @interface ZWOperationEquipListCircleReqModel ()
-@property (nonatomic, assign) BOOL needUpdate;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
 @end
 @implementation ZWOperationEquipListCircleReqModel
@@ -82,16 +81,6 @@
         [self.cookieDic setObject:editDic forKey:subStr];
     }
 }
-
--(void)setTimerState:(BOOL)timerState
-{
-    if(_timerState != timerState)
-    {
-        self.needUpdate = YES;
-    }
-    _timerState = timerState;
-}
-
 -(NSString *)replaceStringWithLatestWebString:(NSString *)webStr
 {
     if(!webStr) return nil;
@@ -140,16 +129,6 @@
 
     
     return result;
-}
--(void)sendRequest
-{
-    if(!self.executing && self.needUpdate)
-    {
-        self.needUpdate = NO;
-        [self refreshWebRequestWithArray:[self webRequestDataList]];
-    }
-    
-    [super sendRequest];
 }
 
 

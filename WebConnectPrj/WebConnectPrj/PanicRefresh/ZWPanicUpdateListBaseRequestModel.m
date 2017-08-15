@@ -12,7 +12,6 @@
 #import "ZWOperationEquipReqListReqModel.h"
 #import "VPNProxyModel.h"
 #import "DZUtils.h"
-#import "ZWSessionReqOperation.h"
 #import "RoleDataModel.h"
 #import "SessionReqModel.h"
 @interface ZWPanicUpdateListBaseRequestModel ()
@@ -186,7 +185,8 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
+//    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
+    model.sessionArr = manager.sessionSubCache;
     
     model.timerState = !model.timerState;
     [model sendRequest];

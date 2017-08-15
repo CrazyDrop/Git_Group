@@ -14,10 +14,20 @@
     self =[super init];
     if(self)
     {
-        self.timeOutCount = 5;
+        self.timeOutNum = 5;
+        self.ingoreRandom = YES;
     }
     return self;
 }
+-(void)setPageNum:(NSInteger)pageNum
+{
+    if(_pageNum != pageNum)
+    {
+        self.timerState = !self.timerState;
+    }
+    _pageNum = pageNum;
+}
+
 +(NSString *)replaceStringWithLatestWebString:(NSString *)webStr
 {
     if(!webStr) return nil;
@@ -106,7 +116,13 @@
 
 -(NSArray *)webRequestDataList
 {
-    return @[];
+    NSMutableArray * arr = [NSMutableArray array];
+    for (NSInteger index = 0;index < self.pageNum ; index ++)
+    {
+        NSString * url = [ZWGroupVPNTestReqModel randomTestFirstWebRequestWithIndex:index];
+        [arr addObject:url];
+    }
+    return arr;
 //    NSString * baseUrl = MobileRefresh_ListRequest_Default_URLString;
 //    NSString * pageUrl = [[self class] replaceStringWithLatestWebString:baseUrl];
 //    

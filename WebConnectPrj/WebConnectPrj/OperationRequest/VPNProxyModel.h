@@ -16,6 +16,7 @@
 
 @property (nonatomic, assign) BOOL checked;
 @property (nonatomic, assign) BOOL errored;
+@property (nonatomic, assign) BOOL success;
 @property (nonatomic, assign) NSInteger errorNum;//失败次数
 
 -(id)initWithDetailDic:(NSDictionary *)dic;

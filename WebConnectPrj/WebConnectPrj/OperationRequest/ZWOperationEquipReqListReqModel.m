@@ -10,7 +10,6 @@
 #import "RoleDataModel.h"
 #import "VPNProxyModel.h"
 @interface ZWOperationEquipReqListReqModel ()
-@property (nonatomic, assign) BOOL needUpdate;
 @property (nonatomic, strong) NSMutableDictionary * cookieDic;
 @end
 @implementation ZWOperationEquipReqListReqModel
@@ -90,21 +89,9 @@
 {
     if(_pageNum != pageNum)
     {
-        self.needUpdate = YES;
-        if(pageNum < 5)
-        {
-            //            self.listSession.configuration.timeoutIntervalForRequest = 60;
-        }
+        self.timerState = !self.timerState;
     }
     _pageNum = pageNum;
-}
--(void)setTimerState:(BOOL)timerState
-{
-    if(_timerState != timerState)
-    {
-        self.needUpdate = YES;
-    }
-    _timerState = timerState;
 }
 
 -(NSString *)replaceStringWithLatestWebString:(NSString *)webStr
@@ -156,17 +143,6 @@
     
     return result;
 }
--(void)sendRequest
-{
-    if(!self.executing && self.needUpdate)
-    {
-        self.needUpdate = NO;
-        [self refreshWebRequestWithArray:[self webRequestDataList]];
-    }
-    
-    [super sendRequest];
-}
-
 
 -(NSArray *)webRequestDataList
 {

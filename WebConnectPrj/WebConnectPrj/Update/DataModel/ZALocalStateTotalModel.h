@@ -119,7 +119,7 @@
 
 @property (nonatomic, strong) NSArray * proxyDicArr;
 -(NSArray *)proxyModelArray;
-
+-(NSArray *)proxySessionModelArray;
 
 //针对退出登录清空数据
 +(void)clearLocalStateForLogout;

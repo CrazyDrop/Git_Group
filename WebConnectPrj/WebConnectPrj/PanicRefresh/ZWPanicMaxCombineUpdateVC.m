@@ -106,6 +106,8 @@
         ZWProxyRefreshManager * proxyManager =[ZWProxyRefreshManager sharedInstance];
         NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
         
+        
+        
         NSInteger lineNum = [editProxy count] > 200?10:30;
         
         BOOL refresh = NO;
@@ -218,7 +220,8 @@
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
+//    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
+    model.sessionArr = manager.sessionSubCache;
     
     if(!self.detailProxy)
     {

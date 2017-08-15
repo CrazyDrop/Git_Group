@@ -6,16 +6,14 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWDefaultOperationReqModel.h"
-#import "ZWOperationGroupReqModel.h"
+#import "ZWQueueGroupRequestModel.h"
 //mobile监听列表请求使用
-@interface ZWOperationEquipReqListReqModel : ZWOperationGroupReqModel
+@interface ZWOperationEquipReqListReqModel : ZWQueueGroupRequestModel
 
 
 @property (nonatomic, assign) NSInteger pageNum;
 @property (nonatomic, assign) NSInteger selectSchool;
 @property (nonatomic, assign) NSInteger priceStatus;
-@property (nonatomic, assign) BOOL timerState;
 
 //@property (nonatomic, assign) BOOL saveCookie;
 

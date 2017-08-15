@@ -6,11 +6,10 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWDefaultOperationReqModel.h"
-#import "ZWOperationGroupReqModel.h"
+#import "ZWQueueGroupRequestModel.h"
 @class EquipExtraModel;
 @class EquipModel;
-@interface ZWOperationDetailListReqModel : ZWOperationGroupReqModel
+@interface ZWOperationDetailListReqModel : ZWQueueGroupRequestModel
 @property (nonatomic, assign) BOOL ingoreExtra;
 
 -(EquipExtraModel *)extraModelFromLatestEquipDESC:(EquipModel *)detail;

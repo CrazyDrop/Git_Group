@@ -7,7 +7,6 @@
 //
 
 #import "VPNMainListVC.h"
-#import "ZWSessionGroupOperation.h"
 #import "MSAlertController.h"
 #import "VPNEditDataAddVC.h"
 #import "VPNProxyModel.h"
@@ -26,9 +25,21 @@
 @property (nonatomic, strong) NSArray * sessionArr;
 @property (nonatomic, strong) UIView * tipsView;
 
+@property (nonatomic, strong) NSArray * subVpnArr;
+@property (nonatomic, strong) NSArray * subSession;
+@property (nonatomic, assign) NSInteger startIndex;
 @end
 
 @implementation VPNMainListVC
+
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        self.startIndex = 0;
+    }
+    return self;
+}
 
 -(UIView *)tipsView{
     if(!_tipsView)
@@ -215,7 +226,9 @@
     }
     
     NSArray * proxyArr = [editDic allValues];
-
+//    NSArray * subProxy = [proxyArr subarrayWithRange:NSMakeRange(0, 177)];
+//    proxyArr = subProxy;
+    
     NSString * txt = [NSString stringWithFormat:@"vpn:%ld",[proxyArr count]];
     [self refreshVCTitleWithDetailText:txt];
     self.vpnArr = proxyArr;
@@ -232,17 +245,65 @@
     {
         VPNProxyModel * proxy = [self.vpnArr objectAtIndex:index];
         proxy.checked = NO;
-
         
-        SessionReqModel * req =[[SessionReqModel alloc] init];
+        SessionReqModel * req =[[SessionReqModel alloc] initWithProxyModel:proxy];
         req.url = [ZWGroupVPNTestReqModel randomTestFirstWebRequestWithIndex:index];
-        req.proxyDic = proxy.detailProxyDic;
         [arr addObject:req];
     }
+    
     self.sessionArr = arr;
     
-    [self startRefreshDataModelRequest];
+    self.startIndex = 0;
+    [self startCheckAndRefreshSubSessionArray];
 }
+-(void)startCheckAndRefreshSubSessionArray
+{
+    NSArray * subSession = nil;
+    NSArray * totalArr = self.sessionArr;
+    if(self.startIndex == [totalArr count])
+    {
+        //结束、刷新
+        [self refreshTotalMaxVpnListAndLocalSave];
+        return;
+    }
+    NSRange range = NSMakeRange(self.startIndex, 100);
+    if(range.location + range.length > [totalArr count])
+    {
+        range.length = [totalArr count] - range.location;
+    }
+    
+    NSString * txt = [NSString stringWithFormat:@"vpn%ld:%ld",range.location,range.length];
+    [self refreshVCTitleWithDetailText:txt];
+
+    
+    subSession = [totalArr subarrayWithRange:range];
+    self.subVpnArr = [self.vpnArr subarrayWithRange:range];
+    
+    [self startRefreshDataModelRequestWithSubArr:subSession];
+}
+-(void)refreshTotalMaxVpnListAndLocalSave
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSArray * vpn = self.vpnArr;
+    for (NSInteger index = 0; index < [vpn count]; index ++)
+    {
+        NSInteger backIndex = index;
+        VPNProxyModel * vpnModel = [vpn objectAtIndex:backIndex];
+        if(vpnModel.success)
+        {
+            [array addObject:vpnModel];
+        }
+    }
+
+    NSString * txt = [NSString stringWithFormat:@"vpn:%ld",[array count]];
+    [self refreshVCTitleWithDetailText:txt];
+    
+    self.vpnArr = array;
+    [self.listTable reloadData];
+    
+    [self refreLocalSaveDetailVPNDicList];
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [self.vpnArr count];
@@ -284,24 +345,9 @@
     
 }
 
--(void)startRefreshDataModelRequest
+-(void)startRefreshDataModelRequestWithSubArr:(NSArray *)subArr
 {
-    if(![DZUtils deviceWebConnectEnableCheck])
-    {
-        return;
-    }
-    
-    ZWGroupVPNTestReqModel * listRequest = (ZWGroupVPNTestReqModel *)_dpModel;
-    if(listRequest.executing) return;
-    
-    
-    //    if(self.inWebRequesting)
-    //    {
-    //        return;
-    //    }
-    //    self.inWebRequesting = YES;
-//    [requestLock lock];
-    
+
     NSLog(@"%s",__FUNCTION__);
     
     //    EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
@@ -327,8 +373,9 @@
          */
     }
     
-    
-    model.reqModels = @[self.sessionArr];
+    model.pageNum = [subArr count];
+    model.sessionArr = subArr;
+    model.timerState = !model.timerState;
     [model sendRequest];
 }
 #pragma mark ZWGroupVPNTestReqModel
@@ -358,32 +405,27 @@ handleSignal( ZWGroupVPNTestReqModel, requestLoaded )
     NSLog(@"%s",__FUNCTION__);
     
     ZWGroupVPNTestReqModel * model = (ZWGroupVPNTestReqModel *) _dpModel;
-    NSArray * total  = [model.listArray lastObject];
-    NSArray * vpn = self.vpnArr;
+    NSArray * total  = model.listArray;
+    NSArray * vpn = self.subVpnArr;
     
     //正常序列
-    NSMutableArray * array = [NSMutableArray array];
     for (NSInteger index = 0; index < [total count]; index ++)
     {
         NSInteger backIndex = index;
         VPNProxyModel * vpnModel = [vpn objectAtIndex:backIndex];
         vpnModel.checked = YES;
         
-        
         id obj = [total objectAtIndex:backIndex];
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
-            [array addObject:vpnModel];
+            vpnModel.success = YES;
         }
     }
     
-    NSString * txt = [NSString stringWithFormat:@"vpn:%ld",[array count]];
-    [self refreshVCTitleWithDetailText:txt];
-    
-    self.vpnArr = array;
-    [self.listTable reloadData];
-    
-    [self refreLocalSaveDetailVPNDicList];
+    self.startIndex += [vpn count];
+    [self performSelector:@selector(startCheckAndRefreshSubSessionArray)
+               withObject:nil
+               afterDelay:2];
 }
 
 

@@ -6,9 +6,10 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ZWSessionGroupBaseReqModel.h"
+#import "ZWQueueGroupRequestModel.h"
 
-@interface ZWGroupVPNTestReqModel : ZWSessionGroupBaseReqModel
+@interface ZWGroupVPNTestReqModel : ZWQueueGroupRequestModel
+
 @property (nonatomic, assign) NSInteger pageNum;
 
 +(NSString *)randomTestFirstWebRequestWithIndex:(NSInteger)index;

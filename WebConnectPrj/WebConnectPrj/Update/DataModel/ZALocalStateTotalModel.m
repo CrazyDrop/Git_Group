@@ -9,6 +9,7 @@
 #import "ZALocalStateTotalModel.h"
 #import "AutoCoding.h"
 #import "VPNProxyModel.h"
+#import "SessionReqModel.h"
 //#import "ContactsModel.h"
 @interface ZALocalStateTotalModel()
 {
@@ -248,5 +249,20 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
     }
     return models;
 }
-
+-(NSArray *)proxySessionModelArray
+{
+    NSMutableArray * models = [NSMutableArray array];
+    NSArray * dicArr = self.proxyDicArr;
+    if(dicArr)
+    {
+        for (NSInteger index =0; index < [dicArr count]; index ++)
+        {
+            NSDictionary * eve = [dicArr objectAtIndex:index];
+            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
+            SessionReqModel * req = [[SessionReqModel alloc] initWithProxyModel:model];
+            [models addObject:req];
+        }
+    }
+    return models;
+}
 @end

@@ -378,7 +378,7 @@ RefreshCellCopyDelgate>{
     model.repeatNum = self.pageNum;
     model.saveCookie = NO;
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = manager.proxySubCache;
+    model.sessionArr = manager.sessionSubCache;
     [model sendRequest];
 }
 

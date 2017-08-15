@@ -86,11 +86,13 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSMutableArray * edit = [NSMutableArray arrayWithArray:manager.proxyArrCache];
     [edit addObject:eve];
-    manager.proxyArrCache = edit;
-    
+
     NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:edit];
     total.proxyDicArr = dicArr ;
     [total localSave];
+    
+    manager.proxyArrCache = edit;
+    manager.sessionArrCache = total.proxySessionModelArray;
     
 }
 -(void)tapedOnRemoveSelectedBtn:(id)sender
@@ -115,13 +117,14 @@
     
     [edit removeAllObjects];
     [edit addObjectsFromArray:[editDic allValues]];
-    manager.proxyArrCache = edit;
     
     NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:edit];
     total.proxyDicArr = dicArr ;
     [total localSave];
 
-    
+    manager.proxyArrCache = edit;
+    manager.sessionArrCache = total.proxySessionModelArray;
+
     
 }
 

@@ -158,7 +158,7 @@
     
     model.repeatNum = self.maxPageNum;
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = manager.proxySubCache;
+    model.sessionArr = manager.sessionSubCache;
     
     model.timerState = !model.timerState;
     [model sendRequest];
@@ -349,8 +349,8 @@ handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
     }
     
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.proxyArr = manager.proxySubCache;
-
+    model.sessionArr = manager.sessionSubCache;
+    
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
     
