@@ -410,6 +410,12 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         Equip_listModel * obj = [models objectAtIndex:index];
         if(![detailEve isKindOfClass:[NSNull class]])
         {
+            if(![obj.game_ordersn isEqualToString:detailEve.game_ordersn])
+            {
+                NSLog(@"list %@ detail %@ %@",obj.detailWebUrl,detailEve.game_ordersn,detailEve.serverid);
+                continue;
+            }
+
             if(!detailEve.game_ordersn){
                 continue;
             }

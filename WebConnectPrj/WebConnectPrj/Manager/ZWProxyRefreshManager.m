@@ -62,11 +62,19 @@
             NSNumber * number1 = [NSNumber numberWithInteger:[req1.proxyModel errorNum]];
             NSNumber * number2 = [NSNumber numberWithInteger:[req2.proxyModel errorNum]];
             
+             if(req1.proxyModel.errored){
+                 number1 = [NSNumber numberWithInteger:NSIntegerMax - 100];
+             }
+             
+             if(req2.proxyModel.errored){
+                 number2 = [NSNumber numberWithInteger:NSIntegerMax - 100];
+             }
+             
             return [number1 compare:number2];
         }];
         
         NSArray * sub = nil;
-        NSInteger edintNum = 50;
+        NSInteger edintNum = 70;
         if([edit count] > edintNum){
             sub = [edit subarrayWithRange:NSMakeRange(0, edintNum)];
         }else{

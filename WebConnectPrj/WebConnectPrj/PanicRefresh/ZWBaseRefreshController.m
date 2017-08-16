@@ -144,7 +144,7 @@
             return NO;
         }
         
-        NSLog(@"%s %@",__FUNCTION__,maxModel.game_ordersn);
+        NSLog(@"%s %.2f %@",__FUNCTION__,maxModel.earnRate,maxModel.detailWebUrl);
         NSString * webUrl = maxModel.detailWebUrl;
         NSString * urlString = webUrl;
         

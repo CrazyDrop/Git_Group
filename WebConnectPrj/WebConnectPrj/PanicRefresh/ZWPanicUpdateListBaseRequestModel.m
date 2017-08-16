@@ -186,7 +186,7 @@
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
     model.sessionArr = manager.sessionSubCache;
     
-    model.timerState = !model.timerState;
+//    model.timerState = !model.timerState;
     [model sendRequest];
 }
 -(BOOL)checkDetailListEquipNameWithBackEquipListArray:(NSArray *)list

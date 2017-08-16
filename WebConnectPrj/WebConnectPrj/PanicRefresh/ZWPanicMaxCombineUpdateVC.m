@@ -60,6 +60,7 @@
         detailModelDic = [NSMutableDictionary dictionary];
         combineArr = [NSMutableArray array];
         
+        self.detailProxy = YES;
         self.refreshState = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(panicCombineUpdateAddMoreDetailRefreshNoti:)
@@ -234,7 +235,7 @@
     
     if(!self.detailProxy)
     {
-        model.proxyArr = nil;
+        model.sessionArr = nil;
     }
     
     model.timerState = !model.timerState;
@@ -268,14 +269,12 @@ handleSignal( ZWOperationDetailListReqModel, requestLoading )
 
 handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 {
-    NSLog(@"%s",__FUNCTION__);
-    
     
     //进行存储操作、展示
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
     ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *) _detailListReqModel;
-    NSArray * total  = model.listArray;
-    NSArray * list = self.baseArr;
+    NSArray * total  = [NSArray arrayWithArray:model.listArray];
+    NSArray * list = [NSArray arrayWithArray:self.baseArr];
 
     NSMutableArray * detailModels = [NSMutableArray array];
     NSInteger errorNum = 0;
@@ -293,6 +292,8 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         }
     }
     
+    NSLog(@"%s %ld",__FUNCTION__,errorNum);
+
     if([detailModels count] > 0)
     {
         BOOL showError = errorNum == [total count];
@@ -312,10 +313,16 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
             EquipModel * equip = [detailModels objectAtIndex:index];
             if([equip isKindOfClass:[EquipModel class]])
             {
+                if(![eveList.game_ordersn isEqualToString:equip.game_ordersn])
+                {
+                    NSLog(@"list %@ detail %@ %@",eveList.detailWebUrl,equip.game_ordersn,equip.serverid);
+                    continue;
+                }
                 if(!eveList.equipModel)
                 {
                     forceRefresh = YES;
                 }
+                
                 eveList.equipModel = equip;
                 CBGListModel * list = eveList.listSaveModel;
                 eveList.earnRate = list.plan_rate;
@@ -412,7 +419,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 {
     self.countNum = 0;
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
-    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.proxyArrCache count],[combineArr count]];
+    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.sessionArrCache count],[combineArr count]];
 
     [self refreshTitleViewTitleWithLatestTitleName:title];
 
@@ -426,7 +433,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
 //        totalNum = 2;
-        totalNum = 1;
+//        totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
@@ -508,9 +515,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
             [self refreshProxyCacheArrayAndCacheSubArray];
         }
         
-//        [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
-//                                   withObject:nil
-//                                waitUntilDone:NO];
+        [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
+                                   withObject:nil
+                                waitUntilDone:NO];
         
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -834,7 +841,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 -(void)refreshCombineNumberAndProxyCacheNumberForTitle
 {
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
-    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.proxyArrCache count],[combineArr count]];
+    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.sessionArrCache count],[combineArr count]];
     [self refreshTitleViewTitleWithLatestTitleName:title];
 
 }

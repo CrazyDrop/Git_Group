@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSArray * baseUrls;
 @property (nonatomic, strong) NSMutableArray * taskArr;
 @property (nonatomic, assign) BOOL needUpdate;
+@property (nonatomic, strong) NSArray * replaceArr;
+@property (nonatomic, strong) SessionReqModel * baseReq;
 @end
 
 @implementation ZWQueueGroupRequestModel
@@ -49,10 +51,21 @@
     }
     return self;
 }
+-(SessionReqModel *)baseReq
+{
+    if(!_baseReq)
+    {
+        SessionReqModel * aReq = [[SessionReqModel alloc] init];
+        _baseReq = aReq;
+    }
+    return _baseReq;
+}
+
 -(void)setTimerState:(BOOL)timerState
 {
     if(_timerState != timerState)
     {
+        self.baseUrls = nil;
         self.needUpdate = YES;
     }
     _timerState = timerState;
@@ -64,12 +77,12 @@
     {
         self.needUpdate = NO;
         
-        NSArray * urlArr = self.baseUrls;
+        NSArray * urlArr = self.replaceArr;
         if(!urlArr || [urlArr count] == 0)
         {
             urlArr = [self webRequestDataList];
-            [self refreshWebRequestWithArray:urlArr];
         }
+        [self refreshWebRequestRealUrlsWithArray:urlArr];
     }
     if(self.executing)
     {
@@ -87,7 +100,7 @@
         NSAssert([self.baseUrls count] == [self.sessionArr count], @"session无随机，sessionArr baseUrls数量需一致");
         ;
     }else{
-        NSAssert([self.sessionArr count] > 0, @"session随机，sessionArr 数量大于0");
+//        NSAssert([self.sessionArr count] > 0, @"session随机，sessionArr 数量大于0");
 
     }
     
@@ -100,9 +113,9 @@
     
     NSArray * sessionTotal = self.sessionArr;
     NSInteger sessionNum = [sessionTotal count];
-    SessionReqModel * sessionReq = nil;
+    SessionReqModel * sessionReq = self.baseReq;
     
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     for (NSInteger index = 0;index < [urlArray count] ;index ++ )
     {
         NSString * url = [urlArray objectAtIndex:index];
@@ -118,11 +131,13 @@
         
         if(!sessionReq) continue;
         
-        NSBlockOperation * opt = [NSBlockOperation blockOperationWithBlock:^
-                                  {
-                                      [weakSelf startWebRequestWithSubSessionReqModel:sessionReq andURLString:url];
-                                  }];
-        [optArr addObject:opt];
+//        NSBlockOperation * opt = [NSBlockOperation blockOperationWithBlock:^
+//                                  {
+//                                      [weakSelf startWebRequestWithSubSessionReqModel:sessionReq andURLString:url];
+//                                  }];
+//        [optArr addObject:opt];
+        [self startWebRequestWithSubSessionReqModel:sessionReq andURLString:url];
+        
         [reqArr addObject:sessionReq];
         
         NSString * randStr = [NSString stringWithFormat:@"%d %u",1,arc4random()%100];
@@ -133,8 +148,18 @@
     self.webReqArr = reqArr;
     [groupQueue addOperations:optArr waitUntilFinished:NO];
     
-    [self sendSignal:self.requestLoading];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sendSignal:self.requestLoading];;
+    });
+    
 }
+-(void)refreshWebRequestWithArray:(NSArray *)list
+{
+    if(self.executing) return;
+    self.replaceArr = list;
+    self.timerState = !self.timerState;
+}
+
 -(NSArray *)baseReqModels
 {
     return self.webReqArr;
@@ -257,7 +282,7 @@
         
         [self.resultArr replaceObjectAtIndex:index withObject:array];
         NSInteger limitNum = [self unFinishedReqestNumber];
-        NSLog(@"limitNum %ld %ld",limitNum,index);
+//        NSLog(@"limitNum %ld %ld",limitNum,index);
         if(limitNum == 0)
         {
             [self checkSessionReqeustBackDataArray:self.resultArr];
@@ -282,6 +307,7 @@
     if(finished)
     {
         self.listArray = [NSArray arrayWithArray:self.resultArr];
+        self.resultArr = nil;
         self.errorProxy = [self.errorProxyDic allValues];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self sendSignal:self.requestLoaded];
@@ -299,7 +325,7 @@
     return _baseUrls;
 }
 
--(void)refreshWebRequestWithArray:(NSArray *)list
+-(void)refreshWebRequestRealUrlsWithArray:(NSArray *)list
 {
     if(self.executing) return;
     self.baseUrls = list;

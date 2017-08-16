@@ -88,10 +88,6 @@
     if(_pageNum != pageNum)
     {
         self.needUpdate = YES;
-        if(pageNum < 5)
-        {
-//            self.listSession.configuration.timeoutIntervalForRequest = 60;
-        }
     }
     _pageNum = pageNum;
 }

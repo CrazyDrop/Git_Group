@@ -414,7 +414,7 @@ RefreshCellCopyDelgate>{
     }
     
     model.pageNum = self.pageNum;
-    model.saveCookie = YES;
+//    model.saveCookie = YES;
     
     [model sendRequest];
 }

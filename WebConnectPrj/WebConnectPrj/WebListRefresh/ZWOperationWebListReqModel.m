@@ -155,23 +155,19 @@
 }
 -(NSArray *)webRequestDataList
 {
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSString * pageUrl = WebRefresh_ListRequest_Default_URLString;
-    
-    if(total.localURL1)
-    {
-        pageUrl = total.localURL1 ;
-    }
-    
-    pageUrl = [self replaceStringWithLatestWebString:pageUrl];
+
     //启动数据请求
     NSMutableArray * urls = [NSMutableArray array];
     NSInteger totalNum = self.repeatNum;
     
     for (NSInteger index = 1; index <= totalNum; index ++)
     {
+        
+        NSString * eveUrl = [self replaceStringWithLatestWebString:pageUrl];
         //增加设备号
-        NSString * subStr = [self replaceAutoNumberForRandomReplaceIndex:index andBaseString:pageUrl];
+        NSString * subStr = [self replaceAutoNumberForRandomReplaceIndex:index andBaseString:eveUrl];
         
         NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",subStr,(long)1];
         [urls addObject:eve];
@@ -227,7 +223,6 @@
     if(!self.executing)
     {
         self.maxTimeNum = 0;
-        [self refreshWebRequestWithArray:[self webRequestDataList]];
     }
     [super sendRequest];
 }

@@ -159,7 +159,8 @@
     //        return YES;
     //    }
     
-    return NO;}
+    return NO;
+}
 
 -(CBGListModel *)listSaveModel
 {
