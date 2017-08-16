@@ -612,6 +612,11 @@ RefreshCellCopyDelgate>
          */
     }
     model.serverArr = editArr;
+    [model refreshWebRequestWithArray:[model webRequestDataList]];
+    
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    model.sessionArr = manager.sessionSubCache;
+    
     model.timerState = !model.timerState;
     [model sendRequest];
 }
@@ -644,7 +649,6 @@ handleSignal( ServerRefreshRequestModel, requestLoaded )
     
     ServerRefreshRequestModel * model = (ServerRefreshRequestModel *) _dpModel;
     NSArray * total  = model.listArray;
-    NSArray * requArr = model.requestArr;
     NSArray * server = model.serverArr;
     
     NSMutableDictionary *finishDic = [NSMutableDictionary dictionary];

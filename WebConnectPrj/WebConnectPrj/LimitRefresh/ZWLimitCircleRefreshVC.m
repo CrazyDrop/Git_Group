@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSDate * finishDate;
 @property (nonatomic, assign) NSInteger timeSep;
 @property (nonatomic, strong) NSDate * retryDate;
+@property (nonatomic, assign) NSInteger ingoreProxy;
 @end
 
 @implementation ZWLimitCircleRefreshVC
@@ -38,6 +39,7 @@
         self.maxPageNum = 10;
         self.requestIndex = 1;
         self.preIndex = 0;
+        self.ingoreProxy = YES;
     }
     return self;
 }
@@ -159,7 +161,10 @@
     model.repeatNum = self.maxPageNum;
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
     model.sessionArr = manager.sessionSubCache;
-    
+    if(self.ingoreProxy){
+        model.sessionArr = nil;
+    }
+
     model.timerState = !model.timerState;
     [model sendRequest];
 
@@ -350,6 +355,9 @@ handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
     
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
     model.sessionArr = manager.sessionSubCache;
+    if(self.ingoreProxy){
+        model.sessionArr = nil;
+    }
     
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
@@ -477,6 +485,21 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
                   weakSelf.maxPageNum = 20;
               }];
     [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"屏蔽代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.ingoreProxy = YES;
+              }];
+    [alertController addAction:action];
+
+    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+                  weakSelf.ingoreProxy = NO;
+              }];
+    [alertController addAction:action];
+
 
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {

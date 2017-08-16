@@ -6,12 +6,12 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "RefreshDefaultListRequestModel.h"
+#import "ZWQueueGroupRequestModel.h"
 //服务器刷新Model
-@interface ServerRefreshRequestModel : RefreshDefaultListRequestModel
+@interface ServerRefreshRequestModel : ZWQueueGroupRequestModel
 
 //数据刷新
-@property (nonatomic, assign) BOOL timerState;
+//@property (nonatomic, assign) BOOL timerState;
 
 //仅请求第一页数据
 @property (nonatomic, strong) NSArray * serverArr;

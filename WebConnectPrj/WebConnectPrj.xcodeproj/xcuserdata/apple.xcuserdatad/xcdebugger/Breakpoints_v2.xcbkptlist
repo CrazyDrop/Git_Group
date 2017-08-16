@@ -50,22 +50,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/LimitRefresh/ZWLimitCircleRefreshVC.m"
-            timestampString = "524555228.585899"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "-startRefreshDataModelRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/WebListRefresh/CBGWebListRequestModel.m"
             timestampString = "524555339.534345"
             startingColumnNumber = "9223372036854775807"
@@ -121,38 +105,6 @@
             startingLineNumber = "382"
             endingLineNumber = "382"
             landmarkName = "-startWebRefreshDataModelRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
-            timestampString = "524561646.094804"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
-            landmarkName = "-startEquipDetailAllRequestWithUrls:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
-            timestampString = "524561646.094804"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
-            landmarkName = "-startEquipDetailAllRequestWithUrls:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

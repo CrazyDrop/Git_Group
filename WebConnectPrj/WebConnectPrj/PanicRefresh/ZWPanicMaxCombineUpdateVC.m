@@ -183,7 +183,7 @@
         EquipModel * detail = eveBase.equipModel;
         CBGListModel * list = eveBase.listSaveModel;
         
-        if(detail && (detail.equipState != CBGEquipRoleState_unSelling || [eveBase isAutoStopSelling] || list.plan_total_price < 1000))
+        if(detail && (detail.equipState != CBGEquipRoleState_unSelling || [eveBase isAutoStopSelling] || list.plan_total_price < 0))
         {
             [removeArr addObject:key];
             
@@ -333,7 +333,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
                 eveList.earnRate = list.plan_rate;
                 eveList.earnPrice = [NSString stringWithFormat:@"%.0ld",list.price_earn_plan];
                 
-                if(equip.equipState != CBGEquipRoleState_unSelling || [eveList isAutoStopSelling] || list.plan_total_price < 1000)
+                if(equip.equipState != CBGEquipRoleState_unSelling || [eveList isAutoStopSelling] || list.plan_total_price < 0)
                 {
                     [removeArr addObject:eveList.listCombineIdfa];
                     [refreshArr addObject:eveList];

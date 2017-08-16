@@ -24,14 +24,6 @@
     }
     return self;
 }
--(void)setTimerState:(BOOL)timerState
-{
-    if(_timerState != timerState)
-    {
-        self.needUpdate = YES;
-    }
-    _timerState = timerState;
-}
 
 -(NSString *)replaceStringWithLatestWebString:(NSString *)webStr andServerId:(NSString *)server
 {
@@ -83,17 +75,6 @@
     
     return result;
 }
--(void)sendRequest
-{
-    if(!self.executing && self.needUpdate)
-    {
-        self.needUpdate = NO;
-        [self refreshWebRequestWithArray:[self webRequestDataList]];
-    }
-    
-    [super sendRequest];
-}
-
 
 -(NSArray *)webRequestDataList
 {

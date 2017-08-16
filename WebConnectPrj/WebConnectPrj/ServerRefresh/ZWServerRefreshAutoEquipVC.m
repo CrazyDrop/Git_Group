@@ -13,6 +13,7 @@
 #import "OpenTimesRefreshManager.h"
 #import "ServerEquipIdRequestModel.h"
 #import "EquipDetailArrayRequestModel.h"
+#import <WebKit/WKWebView.h>
 @interface ZWServerRefreshAutoEquipVC ()<UIWebViewDelegate>
 {
     BaseRequestModel * _detailListReqModel;
@@ -402,6 +403,7 @@
 {
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
+    
     [self.showWeb loadRequest:request];
 }
 -(void)checkAndRefreshMaxCheckNumber
