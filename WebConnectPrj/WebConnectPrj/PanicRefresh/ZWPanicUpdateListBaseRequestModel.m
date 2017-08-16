@@ -182,15 +182,27 @@
     
     
     model.pageNum = self.requestNum;//刷新页数
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-//    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
     model.sessionArr = manager.sessionSubCache;
     
     model.timerState = !model.timerState;
     [model sendRequest];
 }
+-(BOOL)checkDetailListEquipNameWithBackEquipListArray:(NSArray *)list
+{
+    BOOL compareEqual = YES;
+    for (NSInteger index = 0; index < [list count]; index ++) {
+        Equip_listModel * eve = [list objectAtIndex:index];
+        if(![eve.equip_name isEqualToString:self.schoolName])
+        {
+            compareEqual = NO;
+            break;
+        }
+    }
+    return compareEqual;
+}
+
 -(void)refreshProxyArrayWithFinishedListArray:(NSArray *)arr andObj:(SessionReqModel *)opt
 {
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
@@ -200,6 +212,7 @@
     NSString * compareName = self.schoolName;
     
     Equip_listModel * listModel = [arr firstObject];
+    Equip_listModel * lastModel = [arr lastObject];
     if(compareName && ![compareName isEqualToString:listModel.equip_name])
     {
         proxyCheck = YES;
@@ -240,7 +253,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     NSInteger maxPageNum = 0;
     NSInteger errorNum = 0;
     //正常序列
-    NSMutableArray * array = [NSMutableArray array];
+    NSMutableDictionary * dataObjDic = [NSMutableDictionary dictionary];
     for (NSInteger index = 0; index < [total count]; index ++)
     {
         NSInteger backIndex = index;
@@ -260,12 +273,24 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             minPageNum = index;
-            [self refreshProxyArrayWithFinishedListArray:obj andObj:vpnObj];
-            [array addObjectsFromArray:obj];
+            BOOL effective = [self checkDetailListEquipNameWithBackEquipListArray:obj];
+            if(effective)
+            {
+                for (Equip_listModel * eveObj in obj)
+                {
+                    [dataObjDic setObject:eveObj forKey:eveObj.game_ordersn];
+                }
+            }else{
+                //进行异常处理
+                vpnObj.proxyModel.errored = YES;//定期移除
+            }
         }else{
             errorNum ++;
         }
     }
+    
+    NSArray * array = [dataObjDic allValues];
+
     
     NSLog(@"proxy %ld errorProxy %ld errorNum %ld total %ld %@",[editProxy count],[proxyErr count],errorNum,[total count],self.tagString);
     //检查得出未上架的数据

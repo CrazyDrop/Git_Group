@@ -247,7 +247,6 @@
         proxy.checked = NO;
         
         SessionReqModel * req =[[SessionReqModel alloc] initWithProxyModel:proxy];
-        req.url = [ZWGroupVPNTestReqModel randomTestFirstWebRequestWithIndex:index];
         [arr addObject:req];
     }
     

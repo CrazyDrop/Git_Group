@@ -54,7 +54,6 @@
     {
         NSMutableArray * edit = [NSMutableArray arrayWithArray:self.sessionArrCache];
         
-        
         [edit sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2)
          {
              SessionReqModel * req1 = (SessionReqModel *)obj1;
@@ -67,20 +66,46 @@
         }];
         
         NSArray * sub = nil;
-        if([edit count] > 30){
-            sub = [edit subarrayWithRange:NSMakeRange(0, 30)];
+        NSInteger edintNum = 50;
+        if([edit count] > edintNum){
+            sub = [edit subarrayWithRange:NSMakeRange(0, edintNum)];
         }else{
             sub = edit;
         }
-        _sessionSubCache = edit;
+        _sessionSubCache = sub;
     }
     return _sessionSubCache;
 }
-
+-(void)refreshLatestSessionArrayWithCurrentProxyArr
+{
+    [self clearProxySubCache];
+    
+    NSMutableDictionary * editDic = [NSMutableDictionary dictionary];
+    NSArray * current = self.sessionArrCache;
+    for (NSInteger index = 0;index < [current count] ;index ++ )
+    {
+        SessionReqModel * req = [current objectAtIndex:index];
+        [editDic setObject:req forKey:req.proxyModel.idNum];
+    }
+    
+    NSArray * proArr = self.proxyArrCache;
+    for (NSInteger index = 0;index < [proArr count] ;index ++ )
+    {
+        VPNProxyModel * model = [proArr objectAtIndex:index];
+        SessionReqModel * req = [editDic objectForKey:model.idNum];
+        if(!req)
+        {
+            SessionReqModel * reqModel = [[SessionReqModel alloc] initWithProxyModel:model];
+            [editDic setObject:reqModel forKey:model.idNum];
+        }
+    }
+    self.sessionArrCache = [editDic allValues];
+}
 
 -(void)clearProxySubCache
 {
     self.proxySubCache = nil;
+    self.sessionSubCache = nil;
 }
 
 

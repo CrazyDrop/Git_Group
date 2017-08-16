@@ -60,19 +60,22 @@
 
 -(void)sendRequest
 {
-    
     if(self.needUpdate)
     {
         self.needUpdate = NO;
-        [self refreshWebRequestWithArray:[self webRequestDataList]];
+        
+        NSArray * urlArr = self.baseUrls;
+        if(!urlArr || [urlArr count] == 0)
+        {
+            urlArr = [self webRequestDataList];
+            [self refreshWebRequestWithArray:urlArr];
+        }
     }
     if(self.executing)
     {
         return;
     }
-    
     self.executing = YES;
-    //    [self.lock lock];//主线程上的条件锁
     self.listArray = nil;
     self.errorProxy = nil;
     [self.errorProxyDic removeAllObjects];
@@ -113,7 +116,6 @@
             sessionReq = [sessionTotal objectAtIndex:randIndex];
         }
         
-        
         if(!sessionReq) continue;
         
         NSBlockOperation * opt = [NSBlockOperation blockOperationWithBlock:^
@@ -133,6 +135,11 @@
     
     [self sendSignal:self.requestLoading];
 }
+-(NSArray *)baseReqModels
+{
+    return self.webReqArr;
+}
+
 -(void)startWebRequestWithSubSessionReqModel:(SessionReqModel *)reqModel andURLString:(NSString *)urlStr
 {
     NSDictionary * cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];

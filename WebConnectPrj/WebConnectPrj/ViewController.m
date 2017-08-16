@@ -282,7 +282,6 @@
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
-    manager.proxyArrCache = total.proxyModelArray;
     manager.sessionArrCache = total.proxySessionModelArray;
     
     //增加监听
@@ -439,6 +438,8 @@
 {
     NSLog(@"%s %@",__FUNCTION__,title);
     [self refreshLastestServerNameDictionary];
+    [self refreshLatestSessionCacheArray];
+    
     
     switch (indexNum)
     {
@@ -741,6 +742,11 @@
 
             
     }
+}
+-(void)refreshLatestSessionCacheArray
+{
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    [manager refreshLatestSessionArrayWithCurrentProxyArr];
 }
 -(void)refreshLastestServerNameDictionary
 {

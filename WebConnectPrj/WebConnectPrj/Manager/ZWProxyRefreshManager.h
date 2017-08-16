@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSArray * sessionArrCache;
 @property (nonatomic, strong, readonly) NSArray * sessionSubCache;
 
-//@property (nonatomic, strong) 
+-(void)refreshLatestSessionArrayWithCurrentProxyArr;
 -(void)clearProxySubCache;
 
 @end

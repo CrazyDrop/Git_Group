@@ -98,15 +98,13 @@
 }
 -(void)refreshProxyCacheArrayAndCacheSubArray
 {
-    self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 2];
+    self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
     self.proxyNum ++;
     
     if(self.proxyNum % 10 ==0)
     {
         ZWProxyRefreshManager * proxyManager =[ZWProxyRefreshManager sharedInstance];
         NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
-        
-        
         
         NSInteger lineNum = [editProxy count] > 200?10:30;
         
@@ -124,21 +122,34 @@
         if([editProxy count] < 100)
         {
             refresh = NO;
+            editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
         }
+        
+        for (NSInteger index = 0; index < [editProxy count]; index++)
+        {
+            VPNProxyModel * eve = [editProxy objectAtIndex:index];
+            if(eve.errored)
+            {
+                refresh = YES;
+                [editProxy removeObject:eve];
+            }
+        }
+
         
         if(refresh)
         {
             proxyManager.proxyArrCache = editProxy;
             
             NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
-            
             ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
             localTotal.proxyDicArr = dicArr;
             [localTotal localSave];
+            
+            [proxyManager refreshLatestSessionArrayWithCurrentProxyArr];
         }
     }
     
-    
+    //没2分钟，刷新一次vpn列表
     ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
     [manager clearProxySubCache];
 }
@@ -209,7 +220,7 @@
 
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
 {
-    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"%s %ld",__FUNCTION__,[array count]);
     
     ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *)_detailListReqModel;
     if(!model){
@@ -218,9 +229,7 @@
         _detailListReqModel = model;
     }
     
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-//    model.proxyArr = total.isProxy?manager.proxySubCache:nil;
     model.sessionArr = manager.sessionSubCache;
     
     if(!self.detailProxy)
@@ -228,6 +237,7 @@
         model.proxyArr = nil;
     }
     
+    model.timerState = !model.timerState;
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
     
@@ -416,7 +426,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
 //        totalNum = 2;
-//        totalNum = 1;
+        totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {

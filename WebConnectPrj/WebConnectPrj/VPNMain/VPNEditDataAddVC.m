@@ -92,8 +92,6 @@
     [total localSave];
     
     manager.proxyArrCache = edit;
-    manager.sessionArrCache = total.proxySessionModelArray;
-    
 }
 -(void)tapedOnRemoveSelectedBtn:(id)sender
 {
@@ -123,7 +121,6 @@
     [total localSave];
 
     manager.proxyArrCache = edit;
-    manager.sessionArrCache = total.proxySessionModelArray;
 
     
 }
