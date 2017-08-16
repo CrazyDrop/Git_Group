@@ -131,11 +131,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
-            timestampString = "524556411.683137"
+            timestampString = "524561646.094804"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "-startEquipDetailAllRequestWithUrls:"
             landmarkType = "7">
          </BreakpointContent>
@@ -147,11 +147,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/PanicRefresh/ZWPanicMaxCombineUpdateVC.m"
-            timestampString = "524556411.683137"
+            timestampString = "524561646.094804"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "-startEquipDetailAllRequestWithUrls:"
             landmarkType = "7">
          </BreakpointContent>

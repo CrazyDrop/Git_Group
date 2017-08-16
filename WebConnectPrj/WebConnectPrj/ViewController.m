@@ -282,6 +282,7 @@
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+    manager.proxyArrCache = total.proxyModelArray;
     manager.sessionArrCache = total.proxySessionModelArray;
     
     //增加监听

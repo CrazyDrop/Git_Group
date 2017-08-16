@@ -325,6 +325,11 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                     pre.equip_price = [eveModel.price integerValue];
                     pre.plan_rate = pre.price_rate_latest_plan;
                 }
+                
+                if(pre.plan_total_price < 0)
+                {//估值太低的，不计入范围
+                    [refreshDic removeObjectForKey:orderSN];
+                }
             }
         }else if(eveModel.equipState == CBGEquipRoleState_Backing)
         {//取回，仅做状态刷新、界面展示

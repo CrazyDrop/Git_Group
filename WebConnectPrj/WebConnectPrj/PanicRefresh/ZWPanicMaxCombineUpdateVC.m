@@ -78,6 +78,11 @@
     NSString * keyObj = [listObj listCombineIdfa];
     
 //    [self.dataLock lock];
+//    if([orderCacheArr containsObject:keyObj])
+//    {
+//        return;
+//    }
+    
     if(![orderCacheArr containsObject:keyObj])
     {
         if([orderCacheArr count] > 80)
@@ -146,7 +151,7 @@
             localTotal.proxyDicArr = dicArr;
             [localTotal localSave];
             
-            [proxyManager refreshLatestSessionArrayWithCurrentProxyArr];
+//            [proxyManager refreshLatestSessionArrayWithCurrentProxyArr];
         }
     }
     

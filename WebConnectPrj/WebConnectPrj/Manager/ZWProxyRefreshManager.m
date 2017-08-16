@@ -74,7 +74,7 @@
         }];
         
         NSArray * sub = nil;
-        NSInteger edintNum = 70;
+        NSInteger edintNum = 80;
         if([edit count] > edintNum){
             sub = [edit subarrayWithRange:NSMakeRange(0, edintNum)];
         }else{
