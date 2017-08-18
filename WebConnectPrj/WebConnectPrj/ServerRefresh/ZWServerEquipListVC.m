@@ -78,7 +78,8 @@ RefreshCellCopyDelgate>
         
         ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         NSArray * baseArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
-        NSInteger subLength = 3;
+        NSInteger subLength = [baseArr count];
+        subLength = 1;
         self.totalArr = [baseArr subarrayWithRange:NSMakeRange(0, subLength)];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];

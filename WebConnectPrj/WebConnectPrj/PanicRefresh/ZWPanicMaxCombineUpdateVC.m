@@ -72,16 +72,46 @@
     }
     return self;
 }
+
+-(NSArray *)panicTagArr
+{
+    if(!_panicTagArr){
+        NSMutableArray * tag = [NSMutableArray array];
+        NSInteger totalNum  = 15;
+        //        totalNum = 2;
+//                totalNum = 1;
+        NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
+        for (NSInteger index = 1 ; index <= totalNum ; index ++)
+        {
+            NSNumber * num = [NSNumber numberWithInteger:index];
+            if([sepArr containsObject:num])
+            {
+                NSString * eve1 = [NSString  stringWithFormat:@"%ld_1",(long)index];
+                NSString * eve2 = [NSString  stringWithFormat:@"%ld_2",(long)index];
+                NSString * eve3 = [NSString  stringWithFormat:@"%ld_3",(long)index];
+                [tag addObject:eve1];
+                [tag addObject:eve2];
+                [tag addObject:eve3];
+            }else{
+                NSString * eve = [NSString  stringWithFormat:@"%ld_0",(long)index];
+                [tag addObject:eve];
+            }
+        }
+        self.panicTagArr = tag;
+    }
+    return _panicTagArr;
+}
+
 -(void)panicCombineUpdateAddMoreDetailRefreshNoti:(NSNotification *)noti
 {
     Equip_listModel * listObj = (Equip_listModel *)[noti object];
     NSString * keyObj = [listObj listCombineIdfa];
     
 //    [self.dataLock lock];
-//    if([orderCacheArr containsObject:keyObj])
-//    {
-//        return;
-//    }
+    if([orderCacheArr containsObject:keyObj])
+    {
+        return;
+    }
     
     if(![orderCacheArr containsObject:keyObj])
     {
@@ -107,14 +137,14 @@
     self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
     self.proxyNum ++;
     
-    if(self.proxyNum % 10 ==0)
+    if(self.proxyNum % 5 ==0)
     {
         ZWProxyRefreshManager * proxyManager =[ZWProxyRefreshManager sharedInstance];
         NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
         
-        NSInteger lineNum = [editProxy count] > 200?10:30;
-        
         BOOL refresh = NO;
+
+        NSInteger lineNum = [editProxy count] > 200?15:50;
         for (NSInteger index = 0; index < [editProxy count]; index++)
         {
             VPNProxyModel * eve = [editProxy objectAtIndex:index];
@@ -424,41 +454,11 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 {
     self.countNum = 0;
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
-    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.sessionArrCache count],[combineArr count]];
+    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.proxyArrCache count],[combineArr count]];
 
     [self refreshTitleViewTitleWithLatestTitleName:title];
 
     [self stopPanicListRequestModelArray];
-}
-
-
--(NSArray *)panicTagArr
-{
-    if(!_panicTagArr){
-        NSMutableArray * tag = [NSMutableArray array];
-        NSInteger totalNum  = 15;
-//        totalNum = 2;
-//        totalNum = 1;
-        NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
-        for (NSInteger index = 1 ; index <= totalNum ; index ++)
-        {
-            NSNumber * num = [NSNumber numberWithInteger:index];
-            if([sepArr containsObject:num])
-            {
-                NSString * eve1 = [NSString  stringWithFormat:@"%ld_1",(long)index];
-                NSString * eve2 = [NSString  stringWithFormat:@"%ld_2",(long)index];
-                NSString * eve3 = [NSString  stringWithFormat:@"%ld_3",(long)index];
-                [tag addObject:eve1];
-                [tag addObject:eve2];
-                [tag addObject:eve3];
-            }else{
-                NSString * eve = [NSString  stringWithFormat:@"%ld_0",(long)index];
-                [tag addObject:eve];
-            }
-        }
-        self.panicTagArr = tag;
-    }
-    return _panicTagArr;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -846,7 +846,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 -(void)refreshCombineNumberAndProxyCacheNumberForTitle
 {
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
-    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.sessionArrCache count],[combineArr count]];
+    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.proxyArrCache count],[combineArr count]];
     [self refreshTitleViewTitleWithLatestTitleName:title];
 
 }

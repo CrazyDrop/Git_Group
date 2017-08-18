@@ -25,7 +25,7 @@
 @property (nonatomic,strong) NSArray * dataArr;
 
 
-@property (nonatomic,strong,readonly) UIView * tipsView;
+@property (nonatomic, strong, readonly) UIView * tipsView;
 
 -(void)refreshTableViewWithLatestCacheArray:(NSArray *)cacheArr;
 -(void)refreshTitleViewTitleWithLatestTitleName:(NSString *)title;

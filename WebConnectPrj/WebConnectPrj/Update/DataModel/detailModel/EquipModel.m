@@ -451,6 +451,23 @@
     return statusDes;
 }
 
+-(BOOL)isFirstInSelling
+{
+    EquipModel * detail = self;
+    NSDate * createDate = [NSDate fromString:detail.create_time];
+    NSDate * sellDate = [NSDate fromString:detail.selling_time];
+    
+    NSTimeInterval interval = [sellDate timeIntervalSinceDate:createDate];
+    if(interval < 60 * 60 * 24 )
+    {
+        
+    }
+    if(interval < 60 * 5){
+        return YES;
+    }
+    
+    return NO;
+}
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     
     if ([dictionary isKindOfClass:[NSDictionary class]]) {

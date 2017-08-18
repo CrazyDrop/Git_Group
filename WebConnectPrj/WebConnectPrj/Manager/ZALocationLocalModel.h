@@ -97,7 +97,7 @@
 -(NSArray *)localSaveEquipHistoryModelListRepeatSoldTimesMore:(BOOL)more;
 -(NSArray *)localSaveEquipHistoryModelListOwnerList;
 -(void)refreshLocalSaveEquipHistoryModelServerId:(NSString *)preId withLatest:(NSString *)latestId;
-
+-(NSArray *)localSaveEquipHistoryModelListMaxedEquipID;
 
 //读取最新的服务器列表、库表最大id
 -(NSArray *)localSaveEquipServerMaxEquipIdAndServerIdList;

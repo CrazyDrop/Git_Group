@@ -110,7 +110,7 @@
 -(NSDictionary *)detailDesDicFromCurrentDesc;
 
 -(NSString *)detailStatusDes;
-
+-(BOOL)isFirstInSelling;
 
 /**
  *  Init the model with dictionary

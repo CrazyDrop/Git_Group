@@ -28,6 +28,7 @@
 @property (nonatomic,strong) UIButton * preEquipBtn;
 @property (nonatomic,strong) UIButton * nextEquipBtn;
 @property (nonatomic,strong) UIButton * copyBtn;
+@property (nonatomic,strong) UIButton * copyOutBtn;
 @property (nonatomic,assign) BOOL autoRefresh;
 @property (nonatomic,assign) BOOL autoChecking;
 @property (nonatomic,assign) NSInteger checkMaxNum; //作为检查目标
@@ -49,6 +50,23 @@
     }
     return self;
 }
+-(UIButton *)copyOutBtn
+{
+    if(!_copyOutBtn)
+    {
+        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setTitle:@"导出" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [btn setBackgroundColor:[UIColor greenColor]];
+        CGFloat btnWidth = 80;
+        btn.frame = CGRectMake(0, 0, btnWidth, btnWidth);
+        [btn addTarget:self
+                action:@selector(tapedOnCopyOutWithSender:) forControlEvents:UIControlEventTouchUpInside];
+        self.copyOutBtn = btn;
+    }
+    return _copyOutBtn;
+}
+
 -(UIButton *)copyBtn
 {
     if(!_copyBtn)
@@ -97,6 +115,21 @@
         self.nextEquipBtn = btn;
     }
     return _nextEquipBtn;
+}
+-(void)tapedOnCopyOutWithSender:(id)sender
+{
+    if(!self.serverEquip.orderSN)
+    {
+        [DZUtils noticeCustomerWithShowText:@"未获取编号"];
+        [self tapedOnLocalDBSaveBtn:nil];
+        return;
+    }
+    
+    NSString * nextUrl = self.serverEquip.detailDataUrl;
+
+    if(!nextUrl) return;
+    UIPasteboard * board = [UIPasteboard generalPasteboard];
+    board.string = nextUrl;
 }
 -(void)tapedOnCopyEquipPageWithSender:(id)sender
 {
@@ -206,6 +239,7 @@
     {
         [[UIApplication sharedApplication] openURL:appPayUrl];
     }
+    
 }
 -(void)startLocationDataRequest
 {

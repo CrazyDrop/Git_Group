@@ -75,7 +75,9 @@
 //    total.orderSnCache = [arr componentsJoinedByString:@"|"];
 //    [total localSave];
     
+    
     NSDate * startDate = [NSDate date];
+    startDate = [NSDate fromString:@"2017-08-04 23:24:07"];
     NSInteger count = [startDate timeIntervalSince1970] - 1;
     
 
@@ -89,7 +91,7 @@
     [task resume];
     
     
-    [self writeLogToFile];
+//    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];
 #endif
@@ -102,14 +104,7 @@
 //    NSString * localUrl = @"refreshPayApp://params?weburl=http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=9&ordersn=22_1495613221_25411429&equip_refer=1|rate=0|price=33800";
 //    NSDictionary * arr = [self paramDicFromLatestUrlString:localUrl];
     
-    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
-    [dataDic setObject:@"481_1495550722_483072426" forKey:@"4_2"];
-    
-    NSString * jsonStr = [dataDic JSONString];
-    
-    
-    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
-    
+  
     ViewController * vc = [[ViewController alloc] init];
     UINavigationController * navc = [[UINavigationController alloc] initWithRootViewController:vc];
     navc.navigationBar.hidden = YES;

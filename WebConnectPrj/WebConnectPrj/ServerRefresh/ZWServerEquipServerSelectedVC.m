@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
     self.showRightBtn = YES;
-    self.rightTitle = @"蓬莱岛";
+    self.rightTitle = @"选择";
     
     self.viewTtle = @"选择服务器";
     [super viewDidLoad];

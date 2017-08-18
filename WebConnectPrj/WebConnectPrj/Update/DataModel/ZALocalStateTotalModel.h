@@ -117,6 +117,8 @@
 @property (nonatomic, strong) NSString * specialHistory;
 @property (nonatomic, strong) NSString * orderSnCache;
 
+@property (nonatomic, strong) NSString * serverIDCache;
+
 @property (nonatomic, strong) NSArray * proxyDicArr;
 -(NSArray *)proxyModelArray;
 -(NSArray *)proxySessionModelArray;

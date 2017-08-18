@@ -10,4 +10,6 @@
 
 @interface ZWBaseRefreshTimerListVC : ZWBaseRefreshShowListVC
 
+-(void)startRefreshDataModelRequest;
+
 @end

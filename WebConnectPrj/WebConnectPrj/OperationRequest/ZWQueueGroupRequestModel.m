@@ -65,7 +65,6 @@
 {
     if(_timerState != timerState)
     {
-        self.baseUrls = nil;
         self.needUpdate = YES;
     }
     _timerState = timerState;
@@ -73,9 +72,15 @@
 
 -(void)sendRequest
 {
+    if(self.executing)
+    {
+        return;
+    }
+    self.executing = YES;
     if(self.needUpdate)
     {
         self.needUpdate = NO;
+        [self refreshWebRequestRealUrlsWithArray:nil];
         
         NSArray * urlArr = self.replaceArr;
         if(!urlArr || [urlArr count] == 0)
@@ -84,11 +89,6 @@
         }
         [self refreshWebRequestRealUrlsWithArray:urlArr];
     }
-    if(self.executing)
-    {
-        return;
-    }
-    self.executing = YES;
     self.listArray = nil;
     self.errorProxy = nil;
     [self.errorProxyDic removeAllObjects];
@@ -98,19 +98,18 @@
     if(self.ingoreRandom)
     {
         NSAssert([self.baseUrls count] == [self.sessionArr count], @"session无随机，sessionArr baseUrls数量需一致");
-        ;
     }else{
 //        NSAssert([self.sessionArr count] > 0, @"session随机，sessionArr 数量大于0");
-
     }
     
-    
     NSArray * urlArray = self.baseUrls;
-    NSMutableArray * optArr = [NSMutableArray array];
+    
+    //网络请求结果返回很快，结果数组未创建即
+    NSMutableArray * resArr = [NSMutableArray array];
+    [resArr addObjectsFromArray:urlArray];
+    self.resultArr = resArr;
     
     NSMutableArray * reqArr = [NSMutableArray array];
-    NSMutableArray * resArr = [NSMutableArray array];
-    
     NSArray * sessionTotal = self.sessionArr;
     NSInteger sessionNum = [sessionTotal count];
     SessionReqModel * sessionReq = self.baseReq;
@@ -136,17 +135,18 @@
 //                                      [weakSelf startWebRequestWithSubSessionReqModel:sessionReq andURLString:url];
 //                                  }];
 //        [optArr addObject:opt];
-        [self startWebRequestWithSubSessionReqModel:sessionReq andURLString:url];
+        [self startWebRequestWithSubSessionReqModel:sessionReq andURLString:url andIndex:index];
         
         [reqArr addObject:sessionReq];
-        
-        NSString * randStr = [NSString stringWithFormat:@"%d %u",1,arc4random()%100];
-        [resArr addObject:randStr];
     }
 
-    self.resultArr = resArr;
     self.webReqArr = reqArr;
-    [groupQueue addOperations:optArr waitUntilFinished:NO];
+    
+    //发起请求
+    for (NSURLSessionTask * task in self.taskArr)
+    {
+        [task resume];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self sendSignal:self.requestLoading];;
@@ -165,7 +165,7 @@
     return self.webReqArr;
 }
 
--(void)startWebRequestWithSubSessionReqModel:(SessionReqModel *)reqModel andURLString:(NSString *)urlStr
+-(void)startWebRequestWithSubSessionReqModel:(SessionReqModel *)reqModel andURLString:(NSString *)urlStr andIndex:(NSInteger)urlIndex
 {
     NSDictionary * cookie = [self cookieStateWithStartWebRequestWithUrl:urlStr];
     NSURL * url = [NSURL URLWithString:urlStr];
@@ -240,14 +240,20 @@
             dic = @{@"noneError":@"none"};
         }
         
+        
         NSArray * subArr = nil;
         if([weakSelf respondsToSelector:@selector(sessionGroupRequestFinishWithDic:andSessionModel:)])
         {
             subArr = [self sessionGroupRequestFinishWithDic:dic andSessionModel:reqModel];
         }
         
-        NSInteger index = [weakSelf.baseUrls indexOfObject:urlStr];
-        [weakSelf finishGroupRequestWithIndex:index
+//        NSString * checkUrl = [weakSelf.baseUrls objectAtIndex:urlIndex];
+//        NSInteger index = [weakSelf.baseUrls indexOfObject:urlStr];
+//        if(index == NSNotFound || ![checkUrl isEqualToString:urlStr]){
+//            NSLog(@"%ld %ld %@",index,urlIndex,checkUrl);
+//            NSLog(@"weakSelf.baseUrls %@",weakSelf.baseUrls);
+//        }
+        [weakSelf finishGroupRequestWithIndex:urlIndex
                                   andSubArray:subArr];
     };
     
@@ -255,14 +261,11 @@
                                         completionHandler:finishBlock];
     
     [self.taskArr addObject:task];
-    // 启动任务
-    [task resume];
-
 }
--(NSInteger)unFinishedReqestNumber
+-(NSInteger)unFinishedReqestNumberWithArray:(NSArray *)result
 {
     NSInteger countNum = 0;
-    NSArray * arr = self.resultArr;
+    NSArray * arr = result;
     for (NSInteger index = 0;index < [arr count] ;index++ )
     {
         NSString * eve = [arr objectAtIndex:index];
@@ -281,8 +284,10 @@
 //        NSMutableArray * editArr = [NSMutableArray arrayWithArray:self.resultArr];
         
         [self.resultArr replaceObjectAtIndex:index withObject:array];
-        NSInteger limitNum = [self unFinishedReqestNumber];
-//        NSLog(@"limitNum %ld %ld",limitNum,index);
+        
+        NSInteger limitNum = [self unFinishedReqestNumberWithArray:self.resultArr];
+//        NSString * url = [self.baseUrls objectAtIndex:index];
+//        NSLog(@"limitNum %ld %ld %@",limitNum,index,url);
         if(limitNum == 0)
         {
             [self checkSessionReqeustBackDataArray:self.resultArr];
@@ -291,12 +296,12 @@
 }
 
 
--(void)checkSessionReqeustBackDataArray:(NSArray *)arr
+-(void)checkSessionReqeustBackDataArray:(NSArray *)array
 {
     BOOL finished = YES;
-    for (NSInteger index = 0;index < [arr count] ;index ++ )
+    for (NSInteger index = 0;index < [array count] ;index ++ )
     {
-        NSString * eve = [arr objectAtIndex:index];
+        NSString * eve = [array objectAtIndex:index];
         if([eve isKindOfClass:[NSString class]])
         {
             finished = NO;
@@ -306,8 +311,7 @@
     
     if(finished)
     {
-        self.listArray = [NSArray arrayWithArray:self.resultArr];
-        self.resultArr = nil;
+        self.listArray = [NSArray arrayWithArray:array];
         self.errorProxy = [self.errorProxyDic allValues];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self sendSignal:self.requestLoaded];
@@ -316,18 +320,9 @@
     }
 }
 
--(NSArray * )baseUrls
-{
-    if(!_baseUrls)
-    {
-        _baseUrls = [self webRequestDataList];
-    }
-    return _baseUrls;
-}
 
 -(void)refreshWebRequestRealUrlsWithArray:(NSArray *)list
 {
-    if(self.executing) return;
     self.baseUrls = list;
 }
 

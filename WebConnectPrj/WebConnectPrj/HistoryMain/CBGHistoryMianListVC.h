@@ -19,7 +19,6 @@ typedef enum : NSUInteger
     
     CBGHistoryMianFunctionStyle_RepeatHistory,
     
-    CBGHistoryMianFunctionStyle_HistoryTotal,
     
 } CBGHistoryMianFunctionStyle;
 

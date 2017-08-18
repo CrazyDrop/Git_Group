@@ -39,7 +39,7 @@
         self.maxPageNum = 10;
         self.requestIndex = 1;
         self.preIndex = 0;
-        self.ingoreProxy = YES;
+        self.ingoreProxy = NO;
     }
     return self;
 }

@@ -413,10 +413,15 @@
             historyModel.historyPrice = histroyPrice;
         }
         
-        //状态刷新
         if([contact.price integerValue] > 0){
             historyModel.style = CBGEquipPlanStyle_None;
             historyModel.equip_price = [contact.price integerValue];
+        }
+        
+        //状态刷新
+        if([detail.price integerValue] > 0){
+            historyModel.style = CBGEquipPlanStyle_None;
+            historyModel.equip_price = [detail.price integerValue];
         }
 //        historyModel.equip_price = listModel.equip_price;
         historyModel.equip_accept = contact.accept_bargain;

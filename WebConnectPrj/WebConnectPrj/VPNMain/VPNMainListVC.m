@@ -16,18 +16,28 @@
 #import "EquipDetailArrayRequestModel.h"
 #import "SessionReqModel.h"
 #import "ZACompleteNameAndPWDVC.h"
+#import "ZWDetailVPNTestReqModel.h"
+#import "ZALocationLocalModel.h"
+
 @interface VPNMainListVC ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSOperationQueue * queue;
+    BaseRequestModel * _detailModel;
 }
 @property (nonatomic, strong) UITableView * listTable;
 @property (nonatomic, strong) NSArray * vpnArr;
 @property (nonatomic, strong) NSArray * sessionArr;
-@property (nonatomic, strong) UIView * tipsView;
+//@property (nonatomic, strong) UIView * tipsView;
 
 @property (nonatomic, strong) NSArray * subVpnArr;
 @property (nonatomic, strong) NSArray * subSession;
 @property (nonatomic, assign) NSInteger startIndex;
+
+@property (nonatomic, assign) BOOL runUpdate;
+@property (nonatomic, assign) BOOL finished;
+@property (nonatomic, assign) BOOL detailUpdate;
+
+@property (nonatomic, strong) CBGListModel * tagModel;
 @end
 
 @implementation VPNMainListVC
@@ -39,35 +49,6 @@
         self.startIndex = 0;
     }
     return self;
-}
-
--(UIView *)tipsView{
-    if(!_tipsView)
-    {
-        CGFloat btnWidth = 100;
-        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
-        aView.backgroundColor = [UIColor redColor];
-        
-        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
-        albl.text = @"错误(刷新)";
-        [albl sizeToFit];
-        [aView addSubview:albl];
-        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
-        
-        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedRefreshGesture:)];
-        [aView addGestureRecognizer:tapGes];
-        self.tipsView = aView;
-    }
-    return _tipsView;
-}
-
--(void)tapedRefreshGesture:(id)sender
-{
-    //    [SFHFKeychainUtils exchangeLocalCreatedDeviceNum];
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    total.randomAgent = [[DZUtils currentDeviceIdentifer] MD5String];
-    [total localSave];
 }
 
 - (void)viewDidLoad
@@ -96,6 +77,13 @@
 //        total.proxyDicArr = [VPNProxyModel localSaveProxyArray];
 //        [total localSave];
 //    }
+    
+    
+    ZALocationLocalModelManager * manager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * arr = [manager localSaveEquipHistoryModelListMaxedEquipID];
+    if([arr count] > 0){
+        self.tagModel = [arr lastObject];
+    }
     
     [self readFromLocalSaveDataArray];
 
@@ -142,10 +130,16 @@
                              }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"刷新VPN" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"刷新VPN-列表" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                              {
-                                 [weakSelf startWebDataRefreshWithSelectedProxyId];
+                                 [weakSelf startWebDataRefreshWithSelectedProxyIdForDetailRefresh:NO];
                              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"刷新VPN-详情" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf startWebDataRefreshWithSelectedProxyIdForDetailRefresh:YES];
+              }];
     [alertController addAction:action];
     
     action = [MSAlertAction actionWithTitle:@"保存VPN" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
@@ -184,6 +178,27 @@
     
     NSString * txt = @"保存成功";
     [self refreshVCTitleWithDetailText:txt];
+}
+-(void)startRefreshDataModelRequest
+{
+    if(self.runUpdate)
+    {//开启更新
+        if(self.detailUpdate)
+        {
+            if(self.finished)
+            {//上次已经结束
+                self.finished = NO;
+                [self startCheckAndRefreshDetailSubSessionArray];
+            }
+        }else{
+            if(self.finished)
+            {//上次已经结束
+                self.finished = NO;
+                [self startCheckAndRefreshSubSessionArray];
+            }
+
+        }
+    }
 }
 
 -(void)startLoadTotalSaveVPNListWithTxtStart
@@ -237,8 +252,18 @@
 
 
 
--(void)startWebDataRefreshWithSelectedProxyId
+-(void)startWebDataRefreshWithSelectedProxyIdForDetailRefresh:(BOOL)detail
 {
+    if(detail && !self.tagModel)
+    {
+        [DZUtils noticeCustomerWithShowText:@"当前无特定历史数据"];
+        return;
+    }
+    if(self.runUpdate)
+    {
+        [DZUtils noticeCustomerWithShowText:@"当前刷新未结束"];
+        return;
+    }
     //重置未未读
     NSMutableArray * arr = [NSMutableArray array];
     for (NSInteger index = 0;index < [self.vpnArr count] ;index ++ )
@@ -252,20 +277,68 @@
     
     self.sessionArr = arr;
     
+    self.detailUpdate = detail;
     self.startIndex = 0;
-    [self startCheckAndRefreshSubSessionArray];
+    self.runUpdate = YES;
+    self.finished = YES;
+    
 }
--(void)startCheckAndRefreshSubSessionArray
+-(void)startCheckAndRefreshDetailSubSessionArray
 {
+    ZWDetailVPNTestReqModel * model = (ZWDetailVPNTestReqModel *)_detailModel;
+    if(model.executing) return;
+    
     NSArray * subSession = nil;
     NSArray * totalArr = self.sessionArr;
     if(self.startIndex == [totalArr count])
     {
         //结束、刷新
         [self refreshTotalMaxVpnListAndLocalSave];
+        self.runUpdate = NO;
         return;
     }
-    NSRange range = NSMakeRange(self.startIndex, 100);
+    NSInteger sepNumber = 30;
+    if([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground){
+        sepNumber = 10;
+    }
+    
+    NSRange range = NSMakeRange(self.startIndex, sepNumber);
+    if(range.location + range.length > [totalArr count])
+    {
+        range.length = [totalArr count] - range.location;
+    }
+    
+    NSString * txt = [NSString stringWithFormat:@"vpn%ld:%ld",range.location,range.length];
+    [self refreshVCTitleWithDetailText:txt];
+    
+    
+    subSession = [totalArr subarrayWithRange:range];
+    self.subVpnArr = [self.vpnArr subarrayWithRange:range];
+    
+    [self startDetailRefreshDataModelRequestWithSubArr:subSession];
+}
+
+
+-(void)startCheckAndRefreshSubSessionArray
+{
+    ZWGroupVPNTestReqModel * model = (ZWGroupVPNTestReqModel *)_dpModel;
+    if(model.executing) return;
+    
+    NSArray * subSession = nil;
+    NSArray * totalArr = self.sessionArr;
+    if(self.startIndex == [totalArr count])
+    {
+        //结束、刷新
+        [self refreshTotalMaxVpnListAndLocalSave];
+        self.runUpdate = NO;
+        return;
+    }
+    NSInteger sepNumber = 100;
+    if([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground){
+        sepNumber = 30;
+    }
+    
+    NSRange range = NSMakeRange(self.startIndex, sepNumber);
     if(range.location + range.length > [totalArr count])
     {
         range.length = [totalArr count] - range.location;
@@ -358,18 +431,6 @@
         [model addSignalResponder:self];
         //        model.saveCookie = YES;
         _dpModel = model;
-        
-//        model.pageNum = self.totalPageNum;
-        /*
-         if(self.totalPageNum >= 3)
-         {
-         [self refreshLatestListRequestModelWithSmallList:YES];
-         }
-         if(self.maxRefresh)
-         {
-         model.pageNum = 100;
-         }
-         */
     }
     
     model.pageNum = [subArr count];
@@ -425,9 +486,89 @@ handleSignal( ZWGroupVPNTestReqModel, requestLoaded )
 //    [self performSelector:@selector(startCheckAndRefreshSubSessionArray)
 //               withObject:nil
 //               afterDelay:2];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self startCheckAndRefreshSubSessionArray];
-    });
+    
+    self.finished = YES;
+}
+-(void)startDetailRefreshDataModelRequestWithSubArr:(NSArray *)subArr
+{
+    NSMutableArray * details = [NSMutableArray array];
+    NSString * detailUrl = self.tagModel.detailDataUrl;
+    for (NSInteger index = 0;index < [subArr count] ;index ++ )
+    {
+        [details addObject:detailUrl];
+    }
+    
+    NSLog(@"%s",__FUNCTION__);
+    
+    //    EquipListRequestModel * model = (EquipListRequestModel *)_dpModel;
+    ZWDetailVPNTestReqModel * model = (ZWDetailVPNTestReqModel *)_detailModel;
+    if(!model){
+        //model重建，仅界面消失时出现，执行时不处于请求中
+        //        model = [[EquipListRequestModel alloc] init];
+        model = [[ZWDetailVPNTestReqModel alloc] init];
+        [model addSignalResponder:self];
+        //        model.saveCookie = YES;
+        _detailModel = model;
+    }
+    
+//    model.pageNum = [subArr count];
+//    model.timerState = !model.timerState;
+    
+    model.sessionArr = subArr;
+    [model refreshWebRequestWithArray:details];
+    model.timerState = !model.timerState;
+    
+    [model sendRequest];
+}
+#pragma mark ZWDetailVPNTestReqModel
+handleSignal( ZWDetailVPNTestReqModel, requestError )
+{
+    self.tipsView.hidden = NO;
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+}
+handleSignal( ZWDetailVPNTestReqModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [self showLoading];
+}
+
+
+handleSignal( ZWDetailVPNTestReqModel, requestLoaded )
+{
+    [self hideLoading];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    NSLog(@"%s",__FUNCTION__);
+    
+    ZWDetailVPNTestReqModel * model = (ZWDetailVPNTestReqModel *) _detailModel;
+    NSArray * total  = model.listArray;
+    NSArray * vpn = self.subVpnArr;
+    
+    //正常序列
+    for (NSInteger index = 0; index < [total count]; index ++)
+    {
+        NSInteger backIndex = index;
+        VPNProxyModel * vpnModel = [vpn objectAtIndex:backIndex];
+        vpnModel.checked = YES;
+        
+        id obj = [total objectAtIndex:backIndex];
+        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+        {
+            EquipModel * detail = [obj lastObject];
+            if([detail.equipid integerValue] == self.tagModel.equip_id){
+                vpnModel.success = YES;
+            }
+        }
+    }
+    
+    self.startIndex += [vpn count];
+    self.finished = YES;
 }
 
 

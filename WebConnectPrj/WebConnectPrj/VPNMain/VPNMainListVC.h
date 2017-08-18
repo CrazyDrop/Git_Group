@@ -6,11 +6,11 @@
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "DPWhiteTopController.h"
+#import "ZWBaseRefreshShowListVC.h"
 
 //实现vpn的添加，校验检查、刷新
 
-@interface VPNMainListVC : DPWhiteTopController
+@interface VPNMainListVC : ZWBaseRefreshShowListVC
 
 
 

@@ -50,6 +50,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_VPNList,//vpn列表
     CBGDetailTestFunctionStyle_MainHistory,
     CBGDetailTestFunctionStyle_DetailProxy,
+    CBGDetailTestFunctionStyle_ServerDetail,
 } CBGDetailTestFunctionStyle;
 
 

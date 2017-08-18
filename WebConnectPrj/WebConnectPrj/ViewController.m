@@ -56,6 +56,7 @@
 #import "VPNMainListVC.h"
 #import "CBGHistoryMianListVC.h"
 #import "ZWDetailCheckManager.h"
+#import "ZWServerDetailListRefreshVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -266,6 +267,10 @@
             name = @"代理状态";
         }
             break;
+        case CBGDetailTestFunctionStyle_ServerDetail:{
+            name = @"时间递增";
+        }
+            break;
             
         default:
             break;
@@ -279,11 +284,6 @@
     self.viewTtle = @"测试";
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
-    manager.proxyArrCache = total.proxyModelArray;
-    manager.sessionArrCache = total.proxySessionModelArray;
     
     //增加监听
 //    CBGDetailWebView * detail = [[CBGDetailWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -318,6 +318,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_DetailProxy],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_ServerDetail],
                              
                              nil];
     
@@ -740,13 +741,21 @@
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;
+        case CBGDetailTestFunctionStyle_ServerDetail:{
+            ZWServerDetailListRefreshVC * list = [[ZWServerDetailListRefreshVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
 
             
     }
 }
 -(void)refreshLatestSessionCacheArray
 {
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+    manager.proxyArrCache = total.proxyModelArray;
+    
     [manager refreshLatestSessionArrayWithCurrentProxyArr];
 }
 -(void)refreshLastestServerNameDictionary
