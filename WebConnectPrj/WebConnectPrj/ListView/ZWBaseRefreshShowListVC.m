@@ -175,13 +175,12 @@ RefreshCellCopyDelgate>
 
 -(void)tapedRefreshGesture:(id)sender
 {
-    //    [SFHFKeychainUtils exchangeLocalCreatedDeviceNum];
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    total.randomAgent = [[DZUtils currentDeviceIdentifer] MD5String];
-    [total localSave];
+    [self checkDetailErrorForTipsError];
 }
-
+-(void)checkDetailErrorForTipsError
+{
+    
+}
 
 -(void)checkListInputForNoticeWithArray:(NSArray *)array
 {

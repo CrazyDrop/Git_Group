@@ -677,12 +677,12 @@ RefreshCellCopyDelgate>
         [editArr addObject:eveObj];
         if(eveObj.checkMaxNum == 0)
         {
-            eveObj.waitingNum = 12;
-            eveObj.checkMaxNum = eveObj.equipId + eveObj.waitingNum;
+            eveObj.partSepNum = 12;
+            eveObj.checkMaxNum = eveObj.equipId + eveObj.partSepNum;
             eveObj.equipId = eveObj.checkMaxNum;
-        }else if(eveObj.equipId < (eveObj.checkMaxNum - eveObj.waitingNum))
+        }else if(eveObj.equipId < (eveObj.checkMaxNum - eveObj.partSepNum))
         {//开始新的检查
-            eveObj.checkMaxNum += eveObj.waitingNum;//重置检查目标
+            eveObj.checkMaxNum += eveObj.partSepNum;//重置检查目标
             eveObj.equipId = eveObj.checkMaxNum;
 //        }else if(eveObj.detail.resultType == ServerResultCheckType_Success)
 //        {//不需要处理，尽早的清空detail，在请求结束后清空

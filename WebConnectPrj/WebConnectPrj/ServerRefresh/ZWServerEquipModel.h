@@ -18,8 +18,9 @@
 
 @property (nonatomic, strong) NSString * orderSN;
 
-@property (nonatomic, assign) NSInteger waitingNum;
-@property (nonatomic, assign) NSInteger checkMaxNum;
+@property (nonatomic, assign) BOOL detailCheck;  //最新请求的id
+@property (nonatomic, assign) NSInteger partSepNum;     //分段间隔数量
+@property (nonatomic, assign) NSInteger checkMaxNum;    //当前检查id
 @property (nonatomic, assign) BOOL cookieClear;
 
 - (NSString * )mobileAppDetailShowUrl;

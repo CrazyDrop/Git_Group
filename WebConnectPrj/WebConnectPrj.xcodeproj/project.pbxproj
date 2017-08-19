@@ -23,6 +23,10 @@
 		180E84341F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84321F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m */; };
 		180E84371F46EBC90003A8F9 /* ZWDetailVPNTestReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84361F46EBC90003A8F9 /* ZWDetailVPNTestReqModel.m */; };
 		180E84381F46EBC90003A8F9 /* ZWDetailVPNTestReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84361F46EBC90003A8F9 /* ZWDetailVPNTestReqModel.m */; };
+		180E843B1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843A1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m */; };
+		180E843C1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843A1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m */; };
+		180E843F1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */; };
+		180E84401F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */; };
 		180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
 		180F7F461A1DCACC0039E222 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F441A1DCACC0039E222 /* jquery.js */; };
 		18130E0919E8FDA000526957 /* OLNameListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18130E0819E8FDA000526957 /* OLNameListTableView.m */; };
@@ -1464,6 +1468,10 @@
 		180E84321F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerRefreshReSelectVC.m; sourceTree = "<group>"; };
 		180E84351F46EBC90003A8F9 /* ZWDetailVPNTestReqModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWDetailVPNTestReqModel.h; sourceTree = "<group>"; };
 		180E84361F46EBC90003A8F9 /* ZWDetailVPNTestReqModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWDetailVPNTestReqModel.m; sourceTree = "<group>"; };
+		180E84391F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerDetailRefreshUpdateModel.h; sourceTree = "<group>"; };
+		180E843A1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerDetailRefreshUpdateModel.m; sourceTree = "<group>"; };
+		180E843D1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerMoneyReqModel.h; sourceTree = "<group>"; };
+		180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerMoneyReqModel.m; sourceTree = "<group>"; };
 		180F7F431A1DCACC0039E222 /* blogDetail.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = blogDetail.js; sourceTree = "<group>"; };
 		180F7F441A1DCACC0039E222 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		18130E0719E8FDA000526957 /* OLNameListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLNameListTableView.h; sourceTree = "<group>"; };
@@ -3182,10 +3190,14 @@
 				188EA8151F455F84008537DA /* ZWServerDetailListRefreshVC.m */,
 				188EA8241F458370008537DA /* ZWOperationAutoDetailListReqModel.h */,
 				188EA8251F458370008537DA /* ZWOperationAutoDetailListReqModel.m */,
+				180E843D1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.h */,
+				180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */,
 				188EA81C1F456DE5008537DA /* EquipSNAutoModel.h */,
 				188EA81D1F456DE5008537DA /* EquipSNAutoModel.m */,
 				188EA8181F455FEE008537DA /* ServerDetailRefreshModel.h */,
 				188EA8191F455FEE008537DA /* ServerDetailRefreshModel.m */,
+				180E84391F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.h */,
+				180E843A1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m */,
 				180E84311F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.h */,
 				180E84321F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m */,
 			);
@@ -5401,6 +5413,7 @@
 				18A975591E7FDDD400B48E3C /* Samurai_ServiceInstance.m in Sources */,
 				18A976111E7FDDD500B48E3C /* JBLineChartView.m in Sources */,
 				18A975B71E7FDDD400B48E3C /* Samurai_UILabel.m in Sources */,
+				180E843F1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m in Sources */,
 				18A975D51E7FDDD500B48E3C /* Samurai_Image.m in Sources */,
 				18A971E81E7FC6B300B48E3C /* MSAlertController.m in Sources */,
 				18A96D941E7FC24700B48E3C /* ZWDetailListController.m in Sources */,
@@ -5741,6 +5754,7 @@
 				18A9763A1E7FDDD500B48E3C /* OLEGOPageListTableView.m in Sources */,
 				1820911A1E9F555D0015E393 /* AAPlotLinesElement.m in Sources */,
 				18A975F61E7FDDD500B48E3C /* vector.c in Sources */,
+				180E843B1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */,
 				18809DFA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m in Sources */,
 				18A96E191E7FC2C500B48E3C /* HighlightModel.m in Sources */,
 				182091231E9F555D0015E393 /* AAXAxis.m in Sources */,
@@ -6105,6 +6119,7 @@
 				183323441ED6B10D00B1ECEA /* JBLineChartView.m in Sources */,
 				183323451ED6B10D00B1ECEA /* Samurai_UILabel.m in Sources */,
 				183323461ED6B10D00B1ECEA /* Samurai_Image.m in Sources */,
+				180E84401F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m in Sources */,
 				183323471ED6B10D00B1ECEA /* MSAlertController.m in Sources */,
 				183323481ED6B10D00B1ECEA /* ZWDetailListController.m in Sources */,
 				183323491ED6B10D00B1ECEA /* ZAHTTPResponse.m in Sources */,
@@ -6445,6 +6460,7 @@
 				183324711ED6B10D00B1ECEA /* AAPlotLinesElement.m in Sources */,
 				183324721ED6B10D00B1ECEA /* vector.c in Sources */,
 				183324731ED6B10D00B1ECEA /* UIView+WebCacheOperation.m in Sources */,
+				180E843C1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */,
 				183324741ED6B10D00B1ECEA /* HighlightModel.m in Sources */,
 				183324751ED6B10D00B1ECEA /* AAXAxis.m in Sources */,
 				183324761ED6B10D00B1ECEA /* OLEGOFooterAndHeaderNoneControl.m in Sources */,
@@ -6828,7 +6844,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6846,7 +6862,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

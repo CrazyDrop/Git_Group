@@ -32,8 +32,8 @@
 @property (nonatomic,assign) BOOL autoRefresh;
 @property (nonatomic,assign) BOOL autoChecking;
 @property (nonatomic,assign) NSInteger checkMaxNum; //作为检查目标
-@property (nonatomic,assign) NSInteger waitingNum;
-//检查出结果后，检查waitingNum区间内的商品，依次递减，当不在区间内，改变checkMaxNum，重新检查
+@property (nonatomic,assign) NSInteger partSepNum;
+//检查出结果后，检查partSepNum区间内的商品，依次递减，当不在区间内，改变checkMaxNum，重新检查
 @property (nonatomic,assign) NSInteger repeatNum;
 @property (nonatomic,strong) NSDate * retryDate;//自动刷新时间倒计时   5s后自动刷新
 @property (nonatomic,assign) BOOL timerRefresh;
@@ -45,7 +45,7 @@
     self =[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self)
     {
-        self.waitingNum = 20;
+        self.partSepNum = 20;
         self.checkMaxNum = 0;
     }
     return self;
@@ -296,7 +296,7 @@
 {
     if(self.autoRefresh && self.checkMaxNum > 0 ){
         NSInteger equipId = self.serverEquip.equipId ;
-        if(equipId > self.checkMaxNum - self.waitingNum && equipId < self.checkMaxNum)
+        if(equipId > self.checkMaxNum - self.partSepNum && equipId < self.checkMaxNum)
         {
             NSTimeInterval count = [self.retryDate timeIntervalSinceNow];
             if(count < 0 )
@@ -447,9 +447,9 @@
     {
         self.checkMaxNum = server.equipId + 1;
         server.equipId = self.checkMaxNum;
-    }else if(server.equipId < (self.checkMaxNum - self.waitingNum))
+    }else if(server.equipId < (self.checkMaxNum - self.partSepNum))
     {//开心新的检查
-        self.checkMaxNum += self.waitingNum;//重置检查目标
+        self.checkMaxNum += self.partSepNum;//重置检查目标
         server.equipId = self.checkMaxNum;
     }
 }
@@ -700,9 +700,9 @@
 {
     ZWServerEquipModel * server = self.serverEquip;
     NSInteger equipId = server.equipId;
-    if(equipId <= self.checkMaxNum - self.waitingNum)
+    if(equipId <= self.checkMaxNum - self.partSepNum)
     {//到达最后一个检查标识
-        self.checkMaxNum += self.waitingNum;//重置检查目标
+        self.checkMaxNum += self.partSepNum;//重置检查目标
         server.equipId = self.checkMaxNum;
         equipId = server.equipId;
     }else if(equipId <= self.checkMaxNum)

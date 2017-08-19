@@ -12,15 +12,16 @@
 @protocol ServerDetailRefreshDelegate <NSObject>
 
 -(void)serverDetailListRequestFinishWithUpdateModel:(ServerDetailRefreshModel *)model listArray:(NSArray *)array;
+-(void)serverDetailRequestErroredWithUpdateModel:(ServerDetailRefreshModel *)model;
 
 @end
 
 @interface ServerDetailRefreshModel : NSObject
 
+@property (nonatomic, assign) BOOL endRefresh;
 @property (nonatomic, assign) BOOL proxyEnable;
 @property (nonatomic, strong) NSString * serverTag;
 @property (nonatomic, assign) id<ServerDetailRefreshDelegate> requestDelegate;
-
 
 -(void)prepareWebRequestParagramForListRequest;
 //-(void)autoRefreshListRequestNumberWithLatestBackNumber:(NSInteger)totalNum;

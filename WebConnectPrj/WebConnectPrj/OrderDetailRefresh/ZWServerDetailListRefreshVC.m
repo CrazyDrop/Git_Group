@@ -10,7 +10,9 @@
 #import "ServerDetailRefreshModel.h"
 #import "MSAlertController.h"
 #import "ZWServerRefreshReSelectVC.h"
-@interface ZWServerDetailListRefreshVC ()<ServerDetailRefreshDelegate>
+#import "ServerDetailRefreshUpdateModel.h"
+#import "ZWServerURLCheckVC.h"
+@interface ZWServerDetailListRefreshVC ()<ServerDetailUpdateRefreshDelegate>
 {
     
 }
@@ -21,7 +23,9 @@
 @property (nonatomic, strong) NSArray * serverReqArray;
 @property (nonatomic, strong) NSArray * serverIdArray;
 
-
+@property (nonatomic, strong) NSDictionary * serNameDic;
+@property (nonatomic, strong) NSDate * proxyRefreshDate;
+@property (nonatomic, assign) NSInteger proxyNum;
 @end
 
 @implementation ZWServerDetailListRefreshVC
@@ -32,16 +36,45 @@
     ZALocalStateTotalModel * total  = [ZALocalStateTotalModel currentLocalStateModel];
     NSArray * arr = [total.serverIDCache componentsSeparatedByString:@","];
     self.serverIdArray = arr;
+    NSDictionary * serDic = total.serverNameDic;
+    self.serNameDic = serDic;
     
     self.rightTitle = @"更多";
     self.showRightBtn = YES;
     self.viewTtle = [NSString stringWithFormat:@"时间递增 %ld",[arr count]];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.detailProxy = YES;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshEquipRequestWithWebRequestNeedRefreshError:)
+                                                 name:NOTIFICATION_NEED_REFRESH_EQUIP_ERROR_STATE
+                                               object:nil];
+
+
     [self prepareForServerRequestModel];
     
 }
+-(void)checkDetailErrorForTipsError
+{
+    ZWServerURLCheckVC * check = [[ZWServerURLCheckVC  alloc] init];
+    [[self rootNavigationController] pushViewController:check animated:YES];
+}
+-(void)refreshEquipRequestWithWebRequestNeedRefreshError:(NSNotification *)noti
+{
+    BOOL webCheck = [noti.object boolValue];//屏蔽自身网络请求
+    if(webCheck)
+    {
+        NSArray * reqArr = self.serverReqArray;
+        for (NSInteger index = 0; index < [reqArr count]; index ++)
+        {
+            ServerDetailRefreshUpdateModel * reqModel = [reqArr objectAtIndex:index];
+            reqModel.endRefresh = NO;
+//            reqModel.equipEnable = YES;//暂不使用
+        }
+    }
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -50,6 +83,16 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self finishAndStopBaseRequest];
+}
+-(void)finishAndStopBaseRequest
+{
+    NSArray * reqArr = self.serverReqArray;
+    for (NSInteger index = 0; index < [reqArr count]; index ++)
+    {
+        ServerDetailRefreshUpdateModel * reqModel = [reqArr objectAtIndex:index];
+        [reqModel stopRefreshRequestAndClearRequestModel];
+    }
 }
 -(void)prepareForServerRequestModel
 {
@@ -58,12 +101,15 @@
     for (NSInteger index = 0; index < [numArr count]; index ++)
     {
         NSString * tag = [numArr objectAtIndex:index];
-        ServerDetailRefreshModel * reqModel = [[ServerDetailRefreshModel alloc] init];
+        ServerDetailRefreshUpdateModel * reqModel = [[ServerDetailRefreshUpdateModel alloc] init];
         reqModel.requestDelegate = self;
         reqModel.serverTag = tag;
-        [reqModel prepareWebRequestParagramForListRequest];
+        reqModel.serverName = [self.serNameDic objectForKey:[NSNumber numberWithInteger:[tag integerValue]]];
         
+        [reqModel prepareWebRequestParagramForListRequest];
         [reqArr addObject:reqModel];
+
+        
     }
     self.serverReqArray = reqArr;
 }
@@ -79,16 +125,32 @@
     if(self.refreshStop){
         return;
     }
+    
+    if([self.proxyRefreshDate timeIntervalSinceNow] < 0 || !self.proxyRefreshDate)
+    {
+        [self refreshProxyCacheArrayAndCacheSubArray];
+    }
+
 
     NSArray * reqArr = self.serverReqArray;
     for (NSInteger index = 0; index < [reqArr count]; index ++)
     {
-        ServerDetailRefreshModel * reqModel = [reqArr objectAtIndex:index];
+        ServerDetailRefreshUpdateModel * reqModel = [reqArr objectAtIndex:index];
         reqModel.proxyEnable = self.detailProxy;
         [reqModel startRefreshDataModelRequest];
     }
-    
 }
+-(void)refreshProxyCacheArrayAndCacheSubArray
+{
+    self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
+    self.proxyNum ++;
+    
+    //没2分钟，刷新一次vpn列表
+    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+    [manager clearProxySubCache];
+
+}
+
 -(void)showDetailServerSelectedArr
 {
     ZWServerRefreshReSelectVC * list = [[ZWServerRefreshReSelectVC alloc] init];
@@ -156,9 +218,12 @@
                      completion:nil];
     
 }
+-(void)serverDetailUpdateRequestErroredWithUpdateModel:(ServerDetailRefreshModel *)model
+{
+    self.tipsView.hidden = NO;
+}
 
-
--(void)serverDetailListRequestFinishWithUpdateModel:(ServerDetailRefreshModel *)model listArray:(NSArray *)array
+-(void)serverDetailListUpdateRequestFinishWithUpdateModel:(ServerDetailRefreshUpdateModel *)model listArray:(NSArray *)array
 {
     [self refreshTableViewWithInputLatestListArray:array replace:NO];
 }

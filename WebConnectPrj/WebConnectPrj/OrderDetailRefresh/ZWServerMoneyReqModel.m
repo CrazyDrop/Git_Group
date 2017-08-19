@@ -1,17 +1,17 @@
 //
-//  ServerRefreshRequestModel.m
+//  ZWServerMoneyReqModel.m
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/7/28.
+//  Created by Apple on 2017/8/19.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "ServerRefreshRequestModel.h"
+#import "ZWServerMoneyReqModel.h"
 #import "RoleDataModel.h"
-@interface ServerRefreshRequestModel ()
+@interface ZWServerMoneyReqModel ()
 @property (nonatomic, assign) BOOL needUpdate;
 @end
-@implementation ServerRefreshRequestModel
+@implementation ZWServerMoneyReqModel
 
 -(instancetype)init
 {
@@ -64,11 +64,11 @@
     NSInteger randMinExp = arc4random() % 10 + 1;
     NSInteger randQianneng = arc4random() % 50 + 1;
     NSInteger skill_qiang_shen = arc4random() % 20 + 1;
-//    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&skill_qiang_shen=%ld",randMinExp,skill_qiang_shen];
+    //    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&skill_qiang_shen=%ld",randMinExp,skill_qiang_shen];
     appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
-    appendStr = [appendStr stringByAppendingFormat:@"&act=super_query&search_type=overall_role_search&serverid=%@&app_version=2.2.9",server];
+    appendStr = [appendStr stringByAppendingFormat:@"&act=super_query&search_type=query&kindid=23&serverid=%@&app_version=2.2.9",server];
     appendStr = [appendStr stringByAppendingString:@"&page=1"];
-
+    
     
     
     NSString * result = [replaceStr stringByAppendingString:appendStr];

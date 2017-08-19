@@ -28,5 +28,8 @@
 - (NSString * )nextOrderSN;
 - (NSString * )nextTryDetailDataUrl;
 
+- (NSString * )next2OrderSN;
+- (NSString * )next2TryDetailDataUrl;
+
 
 @end

@@ -42,7 +42,7 @@
 #define WebRefresh_ListRequest_Default_URLString  @"http://xyq.cbg.163.com/cgi-bin/xyq_overall_search.py?j0orjdhr&act=overall_search_role&order_by=expire_time%20DESC&level_min=173&level_max=200&page=0"
 
 
-
+#define NOTIFICATION_NEED_REFRESH_EQUIP_ERROR_STATE        @"NOTIFICATION_NEED_REFRESH_EQUIP_ERROR_STATE"
 #define NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE           @"NOTIFICATION_NEED_PLAN_BUY_REFRESH_STATE"
 #define NOTIFICATION_NEED_REFRESH_WEB_ERROR_STATE          @"NOTIFICATION_NEED_REFRESH_WEB_ERROR_STATE"
 
