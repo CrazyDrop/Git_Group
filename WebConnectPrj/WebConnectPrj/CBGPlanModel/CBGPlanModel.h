@@ -10,6 +10,21 @@
 #import "EquipModel.h"
 #import "CBGPlanZhaohuanModel.h"
 #import "CBGPlanZhuangbeiModel.h"
+
+typedef enum : NSUInteger {
+    CBGPlanModelPlanLevelStyle_None,
+    CBGPlanModelPlanLevelStyle_175_175, //化圣
+    CBGPlanModelPlanLevelStyle_173_175,
+    CBGPlanModelPlanLevelStyle_168_172,
+    CBGPlanModelPlanLevelStyle_160_168,
+    CBGPlanModelPlanLevelStyle_120_159, //飞升
+    CBGPlanModelPlanLevelStyle_120_145, //未飞升
+    CBGPlanModelPlanLevelStyle_110_120,
+    CBGPlanModelPlanLevelStyle_90_109,
+    CBGPlanModelPlanLevelStyle_70_89,
+    CBGPlanModelPlanLevelStyle_69_69,
+} CBGPlanModelPlanLevelStyle;
+
 //修改估价算法，实现相关的数据计算处理，后续进行统一库表修改
 @interface CBGPlanModel : BaseDataModel
 

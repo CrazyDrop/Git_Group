@@ -23,7 +23,8 @@
 #import "PetModel.h"
 #import "AllSummonModel.h"
 #import "Idbid_descModel.h"
-
+#import "LevelPlanModelBaseDelegate.h"
+//实现代理
 @interface EquipExtraModel : BaseDataModel
 
 @property (nonatomic, strong) NSNumber *iTotalMagDam_all;
@@ -136,21 +137,15 @@
 //@property (nonatomic, strong) NSString * detailPrePrice;
 
 //totalMoney = xiulian + chongxiu + qianyuandan + jineng + jingyan + youxibi + zhaohuanshou;
-@property (nonatomic, assign) CGFloat xiulianPrice;
-@property (nonatomic, assign) CGFloat chongxiuPrice;
-@property (nonatomic, assign) CGFloat qianyuandanPrice;
-@property (nonatomic, assign) CGFloat jinengPrice;
-@property (nonatomic, assign) CGFloat jingyanPrice;
-@property (nonatomic, assign) CGFloat youxibiPrice;
-@property (nonatomic, assign) CGFloat zhaohuanPrice;
-@property (nonatomic, assign) CGFloat zhuangbeiPrice;
-@property (nonatomic, assign) CGFloat totalPrice;
 
--(NSString *)createExtraPrice;
+
+@property (nonatomic, assign) id<LevelPlanPriceBackDelegate> priceDelegate;
+//-(NSString *)createExtraPrice;
 -(NSString *)extraDes;
 //化圣标识，通过修炼、等级、技能、宠修  综合判定
--(NSInteger)furtureMaxStatus;
+//-(NSInteger)furtureMaxStatus;
 
+@property (nonatomic, assign) CGFloat totalPrice;
 
 -(CGFloat)price_xiulian;
 -(CGFloat)price_chongxiu;

@@ -27,6 +27,8 @@
 		180E843C1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843A1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m */; };
 		180E843F1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */; };
 		180E84401F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */; };
+		180E84451F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84441F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m */; };
+		180E84461F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84441F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m */; };
 		180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
 		180F7F461A1DCACC0039E222 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F441A1DCACC0039E222 /* jquery.js */; };
 		18130E0919E8FDA000526957 /* OLNameListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18130E0819E8FDA000526957 /* OLNameListTableView.m */; };
@@ -1472,6 +1474,8 @@
 		180E843A1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerDetailRefreshUpdateModel.m; sourceTree = "<group>"; };
 		180E843D1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWServerMoneyReqModel.h; sourceTree = "<group>"; };
 		180E843E1F47ED2D0003A8F9 /* ZWServerMoneyReqModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWServerMoneyReqModel.m; sourceTree = "<group>"; };
+		180E84431F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelPlanModelBaseDelegate.h; sourceTree = "<group>"; };
+		180E84441F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelPlanModelBaseDelegate.m; sourceTree = "<group>"; };
 		180F7F431A1DCACC0039E222 /* blogDetail.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = blogDetail.js; sourceTree = "<group>"; };
 		180F7F441A1DCACC0039E222 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		18130E0719E8FDA000526957 /* OLNameListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLNameListTableView.h; sourceTree = "<group>"; };
@@ -2916,6 +2920,15 @@
 			path = OtherTools;
 			sourceTree = "<group>";
 		};
+		180E84421F4824FD0003A8F9 /* LevelPlanModels */ = {
+			isa = PBXGroup;
+			children = (
+				180E84431F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.h */,
+				180E84441F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m */,
+			);
+			path = LevelPlanModels;
+			sourceTree = "<group>";
+		};
 		180F7F421A1DCACC0039E222 /* LocalJS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3098,6 +3111,7 @@
 		18227A8F1F04F52200A6291B /* CBGPlanModel */ = {
 			isa = PBXGroup;
 			children = (
+				180E84421F4824FD0003A8F9 /* LevelPlanModels */,
 				18227A901F04F55200A6291B /* CBGPlanModel.h */,
 				18227A911F04F55200A6291B /* CBGPlanModel.m */,
 				18227A941F05E52E00A6291B /* CBGPlanZhaohuanModel.h */,
@@ -5544,6 +5558,7 @@
 				18A975A61E7FDDD400B48E3C /* UIPageControl+Html.m in Sources */,
 				18A975D31E7FDDD500B48E3C /* Samurai_EventTapGesture.m in Sources */,
 				18A9752B1E7FDDD400B48E3C /* Samurai_Namespace.m in Sources */,
+				180E84451F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m in Sources */,
 				182090AF1E9E2FA60015E393 /* CancelWarningRefreshManager.m in Sources */,
 				18A9723C1E7FCA5C00B48E3C /* MJPropertyKey.m in Sources */,
 				18A975781E7FDDD400B48E3C /* Samurai_HtmlMediaQuery.m in Sources */,
@@ -6250,6 +6265,7 @@
 				183323B01ED6B10D00B1ECEA /* UIPageControl+Html.m in Sources */,
 				183323B11ED6B10D00B1ECEA /* Samurai_EventTapGesture.m in Sources */,
 				183323B21ED6B10D00B1ECEA /* Samurai_Namespace.m in Sources */,
+				180E84461F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m in Sources */,
 				183323B31ED6B10D00B1ECEA /* CancelWarningRefreshManager.m in Sources */,
 				183323B41ED6B10D00B1ECEA /* MJPropertyKey.m in Sources */,
 				183323B51ED6B10D00B1ECEA /* Samurai_HtmlMediaQuery.m in Sources */,

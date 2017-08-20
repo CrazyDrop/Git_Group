@@ -7,7 +7,6 @@
 //
 
 #import "CBGPlanModel.h"
-
 @interface CBGPlanModel()
 
 @property (nonatomic,strong) CBGPlanZhaohuanModel * zhaohuanModel;
@@ -36,8 +35,9 @@
         planModel.server_check = YES;
     }
     
-    
+    //根据等级、区分实现
     EquipExtraModel * extra = detailModel.equipExtra;
+    extra.priceDelegate =
     
     CBGPlanZhaohuanModel * zhaohuan = [CBGPlanZhaohuanModel planZhaohuanPriceModelFromEquipModelSummonArr:extra.AllSummon];
     planModel.zhaohuanModel = zhaohuan;
@@ -48,9 +48,6 @@
     planModel.zhuangbei_plan_price  = zhuangbei.total_price;
 
     planModel.xiulian_plan_price = extra.price_xiulian;
-//    if([detailModel.game_ordersn isEqualToString:@"127_1500208415_128645420"]){
-//        planModel.xiulian_plan_price = 10000;
-//    }
     planModel.chongxiu_plan_price = extra.price_chongxiu;
     planModel.jineng_plan_price = extra.price_jineng;
     planModel.jingyan_plan_price = extra.price_jingyan;
