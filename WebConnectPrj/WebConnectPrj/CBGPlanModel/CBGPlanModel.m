@@ -7,6 +7,7 @@
 //
 
 #import "CBGPlanModel.h"
+#import "LevelPlanModelBaseDelegate.h"
 @interface CBGPlanModel()
 
 @property (nonatomic,strong) CBGPlanZhaohuanModel * zhaohuanModel;
@@ -35,9 +36,10 @@
         planModel.server_check = YES;
     }
     
-    //根据等级、区分实现
+    //根据筛选不同的代理 //根据等级、区分实现
     EquipExtraModel * extra = detailModel.equipExtra;
-    extra.priceDelegate =
+    id<LevelPlanPriceBackDelegate> del = [LevelPlanModelBaseDelegate selectPlanModelFromExtraModel:extra];
+    extra.priceDelegate = del;
     
     CBGPlanZhaohuanModel * zhaohuan = [CBGPlanZhaohuanModel planZhaohuanPriceModelFromEquipModelSummonArr:extra.AllSummon];
     planModel.zhaohuanModel = zhaohuan;

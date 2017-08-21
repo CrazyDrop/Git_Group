@@ -68,7 +68,7 @@ RefreshCellCopyDelgate>
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        self.serverNum = 10;
+        self.serverNum = 1;
         [self appendNotificationForRestartTimerRefreshWithActive];
         
         self.serverReqDic = [NSMutableDictionary dictionary];

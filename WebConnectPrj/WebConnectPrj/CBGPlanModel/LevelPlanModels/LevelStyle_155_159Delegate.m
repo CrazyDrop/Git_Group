@@ -1,29 +1,17 @@
 //
-//  LevelPlanModelBaseDelegate.m
+//  LevelStyle_155_159Delegate.m
 //  WebConnectPrj
 //
 //  Created by Apple on 2017/8/20.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "LevelPlanModelBaseDelegate.h"
-#import "EquipExtraModel.h"
-#import "LevelStyle_69_69Delegate.h"
-#import "LevelStyle_70_89Delegate.h"
-#import "LevelStyle_90_109Delegate.h"
-#import "LevelStyle_110_120Delegate.h"
-#import "LevelStyle_120_145Delegate.h"
-#import "LevelStyle_120_154Delegate.h"
 #import "LevelStyle_155_159Delegate.h"
-#import "LevelStyle_160_168Delegate.h"
-#import "LevelStyle_168_172Delegate.h"
-#import "LevelStyle_173_175Delegate.h"
-#import "LevelStyle_175_175Delegate.h"
-
-@interface LevelPlanModelBaseDelegate()
+#import "EquipExtraModel.h"
+@interface LevelStyle_155_159Delegate ()
 @property (nonatomic, strong) EquipExtraModel * extraObj;
 @end
-@implementation LevelPlanModelBaseDelegate
+@implementation LevelStyle_155_159Delegate
 
 -(CGFloat)price_qianyuandan
 {
@@ -64,34 +52,11 @@
     CGFloat price = 0;
     //    sum_exp总经验
     NSInteger sup_total = [self.extraObj.sum_exp integerValue];
-    if(sup_total > 750 && sup_total < 1000){
-        price += 4000;
-        NSInteger more = sup_total - 750;
-        price += (more * 15);
-    }else if(sup_total > 600)
-    {
-        price += 2000;
-        NSInteger more = sup_total - 600;
-        price += (more * 10);
-    }else if(sup_total > 500){
-        price += 1000;
-        NSInteger more = sup_total - 500;
-        price += (more * 8);
-    }else if(sup_total > 300){
-        price += 200;
-        NSInteger more = sup_total - 300;
-        price += (more * 5);
-    }else if(sup_total > 200){
-        price += 50;
-    }else if(sup_total > 160){
-        price -= 500;
-    }else if(sup_total > 100){
-        price -= 800;
-    }else
-    {
-        price -= 1200;
+    if(sup_total < 180 ){
+        price -= 200;
+    }else {
+        price = 0;
     }
-    
     return price;
 }
 
@@ -380,16 +345,6 @@
 {
     CGFloat price = 0;
     NSInteger level = [self.extraObj.iGrade integerValue];
-    if(level >= 175)
-    {
-        price += 200;
-    }else if(level == 174)
-    {
-        
-    }else
-    {
-        price -= 200;
-    }
     
     return price;
 }
@@ -920,21 +875,16 @@
 {
     CGFloat price = 0;
     
-    if(number > 155)
+    if(number >= 160)
     {
         //技能正向加法
-        CGFloat addPrice = [self jineng_price_addConstPriceForEveNum:number];
-        CGFloat appendPrice = [self jineng_price_appendLetfPriceForEveNum:number];
-        price = MIN(addPrice, appendPrice);
+        price += 350;
         //        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
-    }else
+    }else if(number < 140)
     {
-        if(number < 150)
-        {
-            price = - 300.0;
-        }
-        
+        price -= 150;
     }
+
     return price;
 }
 -(CGFloat)jineng_price_addConstPriceForEveNum:(NSInteger)number
@@ -1116,37 +1066,6 @@
     self.extraObj = extraModel;
     return [self price_fabao];
     return 0;
-}
-+(id <LevelPlanPriceBackDelegate>)selectPlanModelFromExtraModel:(EquipExtraModel *)model
-{
-    id<LevelPlanPriceBackDelegate>  levelModel = nil;
-    NSInteger level = model.iGrade.integerValue;
-    NSInteger huashengLevel = model.i3FlyLv.integerValue;
-    NSInteger flyLevel = model.iZhuanZhi.integerValue;
-    if(level <= 69){
-        levelModel = [[LevelStyle_69_69Delegate alloc] init];
-    }else if(level <= 89){
-        levelModel = [[LevelStyle_70_89Delegate alloc] init];
-    }else if(level <= 109){
-        levelModel = [[LevelStyle_90_109Delegate alloc] init];
-    }else if(level < 120){
-        levelModel = [[LevelStyle_110_120Delegate alloc] init];
-    }else if(huashengLevel == 0 && level <= 145){
-        levelModel = [[LevelStyle_120_145Delegate alloc] init];
-    }else if(huashengLevel == 1 && level <= 155){
-        levelModel = [[LevelStyle_120_154Delegate alloc] init];
-    }else if(huashengLevel == 2 && level <= 159){
-        levelModel = [[LevelStyle_155_159Delegate alloc] init];
-    }else if(level <= 168){
-        levelModel = [[LevelStyle_160_168Delegate alloc] init];
-    }else if(level <= 172){
-        levelModel = [[LevelStyle_168_172Delegate alloc] init];
-    }else if(level <= 175 && flyLevel == 0){
-        levelModel = [[LevelStyle_173_175Delegate alloc] init];
-    }else if(flyLevel > 0){
-        levelModel = [[LevelStyle_175_175Delegate alloc] init];
-    }
-    return levelModel;
 }
 
 @end

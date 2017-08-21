@@ -65,45 +65,45 @@
 //点一个师门技能 150-180  1.74亿钱   1000块钱
 -(NSString *)createExtraPrice
 {
-    
-    CGFloat totalMoney = 0;
-    //修炼
-    CGFloat xiulian = [self price_xiulian];
-    CGFloat chongxiu = [self price_chongxiu];
-    CGFloat qianyuandan = [self price_qianyuandan];
-    CGFloat jingyan = [self price_jingyan];
-    CGFloat jineng = [self price_jineng];
-    CGFloat youxibi = [self price_youxibi];
-    CGFloat zhaohuanshou = [self price_zhaohuanshou];
-    CGFloat zhuangbei = [self price_zhuangbei];
-
-    //法系赚钱账号，不计算经验扣减
-    if(jingyan < 0 && xiulian > 1500 && ([self.iSchool integerValue] == 7)){
-        jingyan = 0;//仅高修炼LG，不计算经验
-    }
-    
-    self.xiulianPrice = xiulian;
-    self.chongxiuPrice = chongxiu;
-    self.qianyuandanPrice = qianyuandan;
-    self.jingyanPrice = jingyan;
-    self.jinengPrice = jineng;
-    self.youxibiPrice = youxibi;
-    self.zhaohuanPrice = zhaohuanshou;
-    self.zhuangbeiPrice = zhuangbei;
-    
-    totalMoney = (int)xiulian + (int)chongxiu + (int)qianyuandan + (int)jineng + (int)jingyan + (int)youxibi + (int)zhaohuanshou + (int)zhuangbei;
-    if(totalMoney == 0)
-    {
-        totalMoney = -1;
-    }
-    
-    
-//    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f 装备:%.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,zhuangbei,totalMoney];
-
-    self.zhaohuanPrice = zhaohuanshou;
-    self.totalPrice = totalMoney;
-    
-    return [NSString stringWithFormat:@"%.0f",totalMoney];
+    return nil;
+//    CGFloat totalMoney = 0;
+//    //修炼
+//    CGFloat xiulian = [self price_xiulian];
+//    CGFloat chongxiu = [self price_chongxiu];
+//    CGFloat qianyuandan = [self price_qianyuandan];
+//    CGFloat jingyan = [self price_jingyan];
+//    CGFloat jineng = [self price_jineng];
+//    CGFloat youxibi = [self price_youxibi];
+//    CGFloat zhaohuanshou = [self price_zhaohuanshou];
+//    CGFloat zhuangbei = [self price_zhuangbei];
+//
+//    //法系赚钱账号，不计算经验扣减
+//    if(jingyan < 0 && xiulian > 1500 && ([self.iSchool integerValue] == 7)){
+//        jingyan = 0;//仅高修炼LG，不计算经验
+//    }
+//    
+//    self.xiulianPrice = xiulian;
+//    self.chongxiuPrice = chongxiu;
+//    self.qianyuandanPrice = qianyuandan;
+//    self.jingyanPrice = jingyan;
+//    self.jinengPrice = jineng;
+//    self.youxibiPrice = youxibi;
+//    self.zhaohuanPrice = zhaohuanshou;
+//    self.zhuangbeiPrice = zhuangbei;
+//    
+//    totalMoney = (int)xiulian + (int)chongxiu + (int)qianyuandan + (int)jineng + (int)jingyan + (int)youxibi + (int)zhaohuanshou + (int)zhuangbei;
+//    if(totalMoney == 0)
+//    {
+//        totalMoney = -1;
+//    }
+//    
+//    
+////    NSString * detaiMoney = [NSString stringWithFormat:@"修炼:%.0f 宠修%.0f 储备:%.0f 召唤兽:%.0f \n乾元丹:%.0f 技能:%.0f 经验 %.0f 装备:%.0f \n总价:%.0f",xiulian,chongxiu,youxibi,zhaohuanshou,qianyuandan,jineng,jingyan,zhuangbei,totalMoney];
+//
+//    self.zhaohuanPrice = zhaohuanshou;
+//    self.totalPrice = totalMoney;
+//    
+//    return [NSString stringWithFormat:@"%.0f",totalMoney];
 }
 -(CGFloat)price_xiulian{
     return [self.priceDelegate price_xiulianWithExtraModel:self];

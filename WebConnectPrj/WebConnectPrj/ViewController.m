@@ -300,7 +300,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobilePage],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipPage],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_ServerDetail],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileAndUpdate],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedProxy],
@@ -318,8 +318,9 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_URLCheck],
 
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_DetailProxy],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_ServerDetail],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
                              
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
                              nil];
     
     UIView * bgView = self.view;

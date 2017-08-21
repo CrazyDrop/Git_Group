@@ -50,22 +50,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/ServerRefresh/ServerRefreshRequestModel.m"
-            timestampString = "524806308.00139"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-replaceStringWithLatestWebString:andServerId:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/OrderDetailRefresh/ServerDetailRefreshUpdateModel.m"
             timestampString = "524812475.188804"
             startingColumnNumber = "9223372036854775807"
@@ -89,6 +73,22 @@
             startingLineNumber = "349"
             endingLineNumber = "349"
             landmarkName = "-startEquipDetailAllRequestWithUrls:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/CBGPlanModel/CBGPlanModel.m"
+            timestampString = "524888324.213721"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "+planModelForDetailEquipModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

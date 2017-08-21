@@ -31,7 +31,7 @@
 @property (nonatomic, strong) NSNumber *addPoint;//粽子数量
 @property (nonatomic, strong) NSString *cOrg;//帮派名字
 @property (nonatomic, strong) NSNumber *iRes_All;
-@property (nonatomic, strong) NSNumber *i3FlyLv;
+@property (nonatomic, strong) NSNumber *i3FlyLv;  //飞升等级
 @property (nonatomic, strong) NSNumber *iSchool;
 @property (nonatomic, strong) NSNumber *total_avatar;
 @property (nonatomic, strong) NSNumber *usernum;
@@ -103,7 +103,7 @@
 @property (nonatomic, strong) NSNumber *TA_iAllNewPoint;
 @property (nonatomic, strong) NSNumber *iCor_All;
 @property (nonatomic, strong) NSNumber *xianyu;
-@property (nonatomic, strong) NSNumber *iSmithski;
+@property (nonatomic, strong) NSNumber *iSmithski;//未知
 @property (nonatomic, strong) NSNumber *iExptSki2;
 @property (nonatomic, strong) NSNumber *iRace;
 @property (nonatomic, strong) NSNumber *iBeastSki2;
@@ -117,7 +117,7 @@
 @property (nonatomic, strong) NSNumber *iSkiPoint;
 @property (nonatomic, strong) NSNumber *ExpJwBase;
 @property (nonatomic, strong) NSNumber *iMaxExpt3;
-@property (nonatomic, strong) NSNumber *iZhuanZhi;//专制
+@property (nonatomic, strong) NSNumber *iZhuanZhi;//飞升1、渡劫2、
 @property (nonatomic, strong) FabaoModel *fabao;
 @property (nonatomic, strong) AllEquipModel *AllEquip;
 @property (nonatomic, strong) ExAvtModel *ExAvt;

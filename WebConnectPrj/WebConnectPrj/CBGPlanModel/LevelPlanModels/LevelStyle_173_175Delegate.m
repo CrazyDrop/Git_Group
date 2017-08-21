@@ -1,29 +1,17 @@
 //
-//  LevelPlanModelBaseDelegate.m
+//  LevelStyle_173_175Delegate.m
 //  WebConnectPrj
 //
 //  Created by Apple on 2017/8/20.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
-#import "LevelPlanModelBaseDelegate.h"
-#import "EquipExtraModel.h"
-#import "LevelStyle_69_69Delegate.h"
-#import "LevelStyle_70_89Delegate.h"
-#import "LevelStyle_90_109Delegate.h"
-#import "LevelStyle_110_120Delegate.h"
-#import "LevelStyle_120_145Delegate.h"
-#import "LevelStyle_120_154Delegate.h"
-#import "LevelStyle_155_159Delegate.h"
-#import "LevelStyle_160_168Delegate.h"
-#import "LevelStyle_168_172Delegate.h"
 #import "LevelStyle_173_175Delegate.h"
-#import "LevelStyle_175_175Delegate.h"
-
-@interface LevelPlanModelBaseDelegate()
+#import "EquipExtraModel.h"
+@interface LevelStyle_173_175Delegate ()
 @property (nonatomic, strong) EquipExtraModel * extraObj;
 @end
-@implementation LevelPlanModelBaseDelegate
+@implementation LevelStyle_173_175Delegate
 
 -(CGFloat)price_qianyuandan
 {
@@ -1116,37 +1104,6 @@
     self.extraObj = extraModel;
     return [self price_fabao];
     return 0;
-}
-+(id <LevelPlanPriceBackDelegate>)selectPlanModelFromExtraModel:(EquipExtraModel *)model
-{
-    id<LevelPlanPriceBackDelegate>  levelModel = nil;
-    NSInteger level = model.iGrade.integerValue;
-    NSInteger huashengLevel = model.i3FlyLv.integerValue;
-    NSInteger flyLevel = model.iZhuanZhi.integerValue;
-    if(level <= 69){
-        levelModel = [[LevelStyle_69_69Delegate alloc] init];
-    }else if(level <= 89){
-        levelModel = [[LevelStyle_70_89Delegate alloc] init];
-    }else if(level <= 109){
-        levelModel = [[LevelStyle_90_109Delegate alloc] init];
-    }else if(level < 120){
-        levelModel = [[LevelStyle_110_120Delegate alloc] init];
-    }else if(huashengLevel == 0 && level <= 145){
-        levelModel = [[LevelStyle_120_145Delegate alloc] init];
-    }else if(huashengLevel == 1 && level <= 155){
-        levelModel = [[LevelStyle_120_154Delegate alloc] init];
-    }else if(huashengLevel == 2 && level <= 159){
-        levelModel = [[LevelStyle_155_159Delegate alloc] init];
-    }else if(level <= 168){
-        levelModel = [[LevelStyle_160_168Delegate alloc] init];
-    }else if(level <= 172){
-        levelModel = [[LevelStyle_168_172Delegate alloc] init];
-    }else if(level <= 175 && flyLevel == 0){
-        levelModel = [[LevelStyle_173_175Delegate alloc] init];
-    }else if(flyLevel > 0){
-        levelModel = [[LevelStyle_175_175Delegate alloc] init];
-    }
-    return levelModel;
 }
 
 @end

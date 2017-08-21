@@ -778,6 +778,28 @@
 		183325631ED6B93500B1ECEA /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 183325621ED6B93500B1ECEA /* NSString+Base64.m */; };
 		183325641ED6B93500B1ECEA /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 183325621ED6B93500B1ECEA /* NSString+Base64.m */; };
 		183C56BC1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */; };
+		1840EF6B1F49306600AD227C /* LevelStyle_175_175Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF6A1F49306600AD227C /* LevelStyle_175_175Delegate.m */; };
+		1840EF6C1F49306600AD227C /* LevelStyle_175_175Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF6A1F49306600AD227C /* LevelStyle_175_175Delegate.m */; };
+		1840EF6F1F4930BD00AD227C /* LevelStyle_173_175Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF6E1F4930BD00AD227C /* LevelStyle_173_175Delegate.m */; };
+		1840EF701F4930BD00AD227C /* LevelStyle_173_175Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF6E1F4930BD00AD227C /* LevelStyle_173_175Delegate.m */; };
+		1840EF771F49310200AD227C /* LevelStyle_168_172Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF761F49310200AD227C /* LevelStyle_168_172Delegate.m */; };
+		1840EF781F49310200AD227C /* LevelStyle_168_172Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF761F49310200AD227C /* LevelStyle_168_172Delegate.m */; };
+		1840EF7F1F49312300AD227C /* LevelStyle_160_168Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF7E1F49312300AD227C /* LevelStyle_160_168Delegate.m */; };
+		1840EF801F49312300AD227C /* LevelStyle_160_168Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF7E1F49312300AD227C /* LevelStyle_160_168Delegate.m */; };
+		1840EF871F49314400AD227C /* LevelStyle_120_145Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF861F49314400AD227C /* LevelStyle_120_145Delegate.m */; };
+		1840EF881F49314400AD227C /* LevelStyle_120_145Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF861F49314400AD227C /* LevelStyle_120_145Delegate.m */; };
+		1840EF8B1F49315400AD227C /* LevelStyle_110_120Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF8A1F49315400AD227C /* LevelStyle_110_120Delegate.m */; };
+		1840EF8C1F49315400AD227C /* LevelStyle_110_120Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF8A1F49315400AD227C /* LevelStyle_110_120Delegate.m */; };
+		1840EF8F1F49316400AD227C /* LevelStyle_90_109Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF8E1F49316400AD227C /* LevelStyle_90_109Delegate.m */; };
+		1840EF901F49316400AD227C /* LevelStyle_90_109Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF8E1F49316400AD227C /* LevelStyle_90_109Delegate.m */; };
+		1840EF971F49319900AD227C /* LevelStyle_70_89Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF961F49319900AD227C /* LevelStyle_70_89Delegate.m */; };
+		1840EF981F49319900AD227C /* LevelStyle_70_89Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF961F49319900AD227C /* LevelStyle_70_89Delegate.m */; };
+		1840EF9B1F4931AF00AD227C /* LevelStyle_69_69Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF9A1F4931AF00AD227C /* LevelStyle_69_69Delegate.m */; };
+		1840EF9C1F4931AF00AD227C /* LevelStyle_69_69Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF9A1F4931AF00AD227C /* LevelStyle_69_69Delegate.m */; };
+		1840EF9F1F49672F00AD227C /* LevelStyle_120_154Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF9E1F49672F00AD227C /* LevelStyle_120_154Delegate.m */; };
+		1840EFA01F49672F00AD227C /* LevelStyle_120_154Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EF9E1F49672F00AD227C /* LevelStyle_120_154Delegate.m */; };
+		1840EFA31F49674C00AD227C /* LevelStyle_155_159Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EFA21F49674C00AD227C /* LevelStyle_155_159Delegate.m */; };
+		1840EFA41F49674C00AD227C /* LevelStyle_155_159Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840EFA21F49674C00AD227C /* LevelStyle_155_159Delegate.m */; };
 		184616551EB2DA2800505B7C /* CBGFutureStatusSortVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */; };
 		184F70CB1F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F70CA1F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.m */; };
 		184F70CC1F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F70CA1F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.m */; };
@@ -1605,6 +1627,28 @@
 		183325621ED6B93500B1ECEA /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		183C56BA1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGSortHistoryBaseStyleVC.h; sourceTree = "<group>"; };
 		183C56BB1EBAED2300E2F74D /* CBGSortHistoryBaseStyleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGSortHistoryBaseStyleVC.m; sourceTree = "<group>"; };
+		1840EF691F49306600AD227C /* LevelStyle_175_175Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_175_175Delegate.h; sourceTree = "<group>"; };
+		1840EF6A1F49306600AD227C /* LevelStyle_175_175Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_175_175Delegate.m; sourceTree = "<group>"; };
+		1840EF6D1F4930BD00AD227C /* LevelStyle_173_175Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_173_175Delegate.h; sourceTree = "<group>"; };
+		1840EF6E1F4930BD00AD227C /* LevelStyle_173_175Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_173_175Delegate.m; sourceTree = "<group>"; };
+		1840EF751F49310200AD227C /* LevelStyle_168_172Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_168_172Delegate.h; sourceTree = "<group>"; };
+		1840EF761F49310200AD227C /* LevelStyle_168_172Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_168_172Delegate.m; sourceTree = "<group>"; };
+		1840EF7D1F49312300AD227C /* LevelStyle_160_168Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_160_168Delegate.h; sourceTree = "<group>"; };
+		1840EF7E1F49312300AD227C /* LevelStyle_160_168Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_160_168Delegate.m; sourceTree = "<group>"; };
+		1840EF851F49314400AD227C /* LevelStyle_120_145Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_120_145Delegate.h; sourceTree = "<group>"; };
+		1840EF861F49314400AD227C /* LevelStyle_120_145Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_120_145Delegate.m; sourceTree = "<group>"; };
+		1840EF891F49315400AD227C /* LevelStyle_110_120Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_110_120Delegate.h; sourceTree = "<group>"; };
+		1840EF8A1F49315400AD227C /* LevelStyle_110_120Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_110_120Delegate.m; sourceTree = "<group>"; };
+		1840EF8D1F49316400AD227C /* LevelStyle_90_109Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_90_109Delegate.h; sourceTree = "<group>"; };
+		1840EF8E1F49316400AD227C /* LevelStyle_90_109Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_90_109Delegate.m; sourceTree = "<group>"; };
+		1840EF951F49319900AD227C /* LevelStyle_70_89Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_70_89Delegate.h; sourceTree = "<group>"; };
+		1840EF961F49319900AD227C /* LevelStyle_70_89Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_70_89Delegate.m; sourceTree = "<group>"; };
+		1840EF991F4931AF00AD227C /* LevelStyle_69_69Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_69_69Delegate.h; sourceTree = "<group>"; };
+		1840EF9A1F4931AF00AD227C /* LevelStyle_69_69Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_69_69Delegate.m; sourceTree = "<group>"; };
+		1840EF9D1F49672F00AD227C /* LevelStyle_120_154Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_120_154Delegate.h; sourceTree = "<group>"; };
+		1840EF9E1F49672F00AD227C /* LevelStyle_120_154Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_120_154Delegate.m; sourceTree = "<group>"; };
+		1840EFA11F49674C00AD227C /* LevelStyle_155_159Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelStyle_155_159Delegate.h; sourceTree = "<group>"; };
+		1840EFA21F49674C00AD227C /* LevelStyle_155_159Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelStyle_155_159Delegate.m; sourceTree = "<group>"; };
 		184616531EB2DA2800505B7C /* CBGFutureStatusSortVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGFutureStatusSortVC.h; sourceTree = "<group>"; };
 		184616541EB2DA2800505B7C /* CBGFutureStatusSortVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGFutureStatusSortVC.m; sourceTree = "<group>"; };
 		184F70C91F2EDFCF00C4BB92 /* ServerEquipIdRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerEquipIdRequestModel.h; sourceTree = "<group>"; };
@@ -2925,6 +2969,28 @@
 			children = (
 				180E84431F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.h */,
 				180E84441F48F10B0003A8F9 /* LevelPlanModelBaseDelegate.m */,
+				1840EF691F49306600AD227C /* LevelStyle_175_175Delegate.h */,
+				1840EF6A1F49306600AD227C /* LevelStyle_175_175Delegate.m */,
+				1840EF6D1F4930BD00AD227C /* LevelStyle_173_175Delegate.h */,
+				1840EF6E1F4930BD00AD227C /* LevelStyle_173_175Delegate.m */,
+				1840EF751F49310200AD227C /* LevelStyle_168_172Delegate.h */,
+				1840EF761F49310200AD227C /* LevelStyle_168_172Delegate.m */,
+				1840EF7D1F49312300AD227C /* LevelStyle_160_168Delegate.h */,
+				1840EF7E1F49312300AD227C /* LevelStyle_160_168Delegate.m */,
+				1840EFA11F49674C00AD227C /* LevelStyle_155_159Delegate.h */,
+				1840EFA21F49674C00AD227C /* LevelStyle_155_159Delegate.m */,
+				1840EF9D1F49672F00AD227C /* LevelStyle_120_154Delegate.h */,
+				1840EF9E1F49672F00AD227C /* LevelStyle_120_154Delegate.m */,
+				1840EF851F49314400AD227C /* LevelStyle_120_145Delegate.h */,
+				1840EF861F49314400AD227C /* LevelStyle_120_145Delegate.m */,
+				1840EF891F49315400AD227C /* LevelStyle_110_120Delegate.h */,
+				1840EF8A1F49315400AD227C /* LevelStyle_110_120Delegate.m */,
+				1840EF8D1F49316400AD227C /* LevelStyle_90_109Delegate.h */,
+				1840EF8E1F49316400AD227C /* LevelStyle_90_109Delegate.m */,
+				1840EF951F49319900AD227C /* LevelStyle_70_89Delegate.h */,
+				1840EF961F49319900AD227C /* LevelStyle_70_89Delegate.m */,
+				1840EF991F4931AF00AD227C /* LevelStyle_69_69Delegate.h */,
+				1840EF9A1F4931AF00AD227C /* LevelStyle_69_69Delegate.m */,
 			);
 			path = LevelPlanModels;
 			sourceTree = "<group>";
@@ -5473,6 +5539,7 @@
 				182091331EA4BF460015E393 /* CBGPlanCommonCheckListVC.m in Sources */,
 				18A9761F1E7FDDD500B48E3C /* OLEGORefreshView.m in Sources */,
 				18A975F31E7FDDD500B48E3C /* tokenizer.c in Sources */,
+				1840EF6B1F49306600AD227C /* LevelStyle_175_175Delegate.m in Sources */,
 				18AF91FE1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */,
 				18A96E271E7FC2C500B48E3C /* ExtraModel.m in Sources */,
 				18A976281E7FDDD500B48E3C /* OLEGOCustomFooterView.m in Sources */,
@@ -5538,6 +5605,7 @@
 				18A975EC1E7FDDD500B48E3C /* attribute.c in Sources */,
 				18A975771E7FDDD400B48E3C /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */,
 				18A971EE1E7FC6E100B48E3C /* CBGEquipDetailRequestManager.m in Sources */,
+				1840EF9B1F4931AF00AD227C /* LevelStyle_69_69Delegate.m in Sources */,
 				18A9761B1E7FDDD500B48E3C /* ServiceTapspotView.m in Sources */,
 				18C882101F3963E400D01A37 /* EquipListPageRequestModel.m in Sources */,
 				18A9759C1E7FDDD400B48E3C /* Samurai_HtmlValue.m in Sources */,
@@ -5604,6 +5672,7 @@
 				18A9758C1E7FDDD400B48E3C /* Samurai_HtmlStyle.m in Sources */,
 				18A975E21E7FDDD500B48E3C /* Samurai_ViewTemplate.m in Sources */,
 				1820910D1E9F555D0015E393 /* AAAreaspline.m in Sources */,
+				1840EF8B1F49315400AD227C /* LevelStyle_110_120Delegate.m in Sources */,
 				18A975431E7FDDD400B48E3C /* Samurai_Trigger.m in Sources */,
 				18A976641E7FDE1500B48E3C /* ZAHTTPClient.m in Sources */,
 				18A971931E7FC4FA00B48E3C /* BaseActivity.m in Sources */,
@@ -5654,8 +5723,10 @@
 				18A975AA1E7FDDD400B48E3C /* UISwitch+Html.m in Sources */,
 				18A976711E8145DF00B48E3C /* CBGNearHistoryVC.m in Sources */,
 				18A975511E7FDDD400B48E3C /* Samurai_ModelInstance.m in Sources */,
+				1840EF9F1F49672F00AD227C /* LevelStyle_120_154Delegate.m in Sources */,
 				182091361EA4C49E0015E393 /* CBGPlanCompareBaseListVC.m in Sources */,
 				18809DF61A0B5B0200B66A59 /* UIImage+MultiFormat.m in Sources */,
+				1840EF6F1F4930BD00AD227C /* LevelStyle_173_175Delegate.m in Sources */,
 				18A96E291E7FC2C500B48E3C /* HugeHorseModel.m in Sources */,
 				18A975D91E7FDDD500B48E3C /* Samurai_RenderStoreNode.m in Sources */,
 				188BE51A1F2ECE7600DBBF09 /* ZWServerEquipListVC.m in Sources */,
@@ -5664,6 +5735,7 @@
 				18A9753A1E7FDDD400B48E3C /* Samurai_Handler.m in Sources */,
 				18A9753F1E7FDDD400B48E3C /* Samurai_Sandbox.m in Sources */,
 				18A975DF1E7FDDD500B48E3C /* Samurai_StyleSheet.m in Sources */,
+				1840EF871F49314400AD227C /* LevelStyle_120_145Delegate.m in Sources */,
 				18F8DAE51F2C20A800530041 /* BBEquip_listModel.m in Sources */,
 				18A975B81E7FDDD400B48E3C /* Samurai_UIPageControl.m in Sources */,
 				18A9755D1E7FDDD400B48E3C /* Signal+View.m in Sources */,
@@ -5720,6 +5792,8 @@
 				182091151E9F555D0015E393 /* AALine.m in Sources */,
 				18A96D8A1E7FC24700B48E3C /* ZWSellOthersListClearModel.m in Sources */,
 				182090B21E9E2FA60015E393 /* LocationTimeRefreshManager.m in Sources */,
+				1840EF7F1F49312300AD227C /* LevelStyle_160_168Delegate.m in Sources */,
+				1840EFA31F49674C00AD227C /* LevelStyle_155_159Delegate.m in Sources */,
 				18A975121E7FDDD400B48E3C /* OLBasicDataModel.m in Sources */,
 				18A96E401E7FC2C500B48E3C /* ZWBGRefreshManager.m in Sources */,
 				18A96E411E7FC2C500B48E3C /* ZWDataDetailModel.m in Sources */,
@@ -5772,6 +5846,7 @@
 				180E843B1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */,
 				18809DFA1A0B5B0200B66A59 /* UIView+WebCacheOperation.m in Sources */,
 				18A96E191E7FC2C500B48E3C /* HighlightModel.m in Sources */,
+				1840EF771F49310200AD227C /* LevelStyle_168_172Delegate.m in Sources */,
 				182091231E9F555D0015E393 /* AAXAxis.m in Sources */,
 				1801FA541EEA634900D22E75 /* ZALocalModelDBManager.m in Sources */,
 				18A9761E1E7FDDD500B48E3C /* OLEGOFooterAndHeaderNoneControl.m in Sources */,
@@ -5818,6 +5893,7 @@
 				18A976681E7FDE1500B48E3C /* ZAWKConnectDelegate.m in Sources */,
 				18A975D61E7FDDD500B48E3C /* Samurai_Metric.m in Sources */,
 				18A9759B1E7FDDD400B48E3C /* Samurai_HtmlUrl.m in Sources */,
+				1840EF971F49319900AD227C /* LevelStyle_70_89Delegate.m in Sources */,
 				189F789D1EFD007C0048AC11 /* AFURLSessionManager.m in Sources */,
 				18A9765D1E7FDE1500B48E3C /* NSObject+AutoCoding.m in Sources */,
 				18A9752F1E7FDDD400B48E3C /* NSData+Extension.m in Sources */,
@@ -5939,6 +6015,7 @@
 				18A975ED1E7FDDD500B48E3C /* char_ref.c in Sources */,
 				18A975BD1E7FDDD400B48E3C /* Samurai_UITableView.m in Sources */,
 				18A971D41E7FC67400B48E3C /* EquipListRequestModel.m in Sources */,
+				1840EF8F1F49316400AD227C /* LevelStyle_90_109Delegate.m in Sources */,
 				18A975241E7FDDD400B48E3C /* OLMainTopicListViewController.m in Sources */,
 				18A9754D1E7FDDD400B48E3C /* Samurai_SignalKVO.m in Sources */,
 				18A96E371E7FC2C500B48E3C /* RoleDataModel.m in Sources */,
@@ -6180,6 +6257,7 @@
 				183323681ED6B10D00B1ECEA /* OLEGORefreshView.m in Sources */,
 				183323691ED6B10D00B1ECEA /* tokenizer.c in Sources */,
 				1833236A1ED6B10D00B1ECEA /* ExtraModel.m in Sources */,
+				1840EF6C1F49306600AD227C /* LevelStyle_175_175Delegate.m in Sources */,
 				18AF91FF1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m in Sources */,
 				1833236B1ED6B10D00B1ECEA /* OLEGOCustomFooterView.m in Sources */,
 				1833236C1ED6B10D00B1ECEA /* OLEGOHeaderNormalControl.m in Sources */,
@@ -6245,6 +6323,7 @@
 				183323A11ED6B10D00B1ECEA /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */,
 				183323A21ED6B10D00B1ECEA /* CBGEquipDetailRequestManager.m in Sources */,
 				183323A31ED6B10D00B1ECEA /* ServiceTapspotView.m in Sources */,
+				1840EF9C1F4931AF00AD227C /* LevelStyle_69_69Delegate.m in Sources */,
 				183323A41ED6B10D00B1ECEA /* Samurai_HtmlValue.m in Sources */,
 				18C882111F3963E400D01A37 /* EquipListPageRequestModel.m in Sources */,
 				183323A51ED6B10D00B1ECEA /* Samurai_Singleton.m in Sources */,
@@ -6311,6 +6390,7 @@
 				183323D81ED6B10D00B1ECEA /* Samurai_ViewTemplate.m in Sources */,
 				183323D91ED6B10D00B1ECEA /* AAAreaspline.m in Sources */,
 				183323DA1ED6B10D00B1ECEA /* Samurai_Trigger.m in Sources */,
+				1840EF8C1F49315400AD227C /* LevelStyle_110_120Delegate.m in Sources */,
 				183323DB1ED6B10D00B1ECEA /* ZAHTTPClient.m in Sources */,
 				183323DC1ED6B10D00B1ECEA /* BaseActivity.m in Sources */,
 				183323DD1ED6B10D00B1ECEA /* WebEquip_listModel.m in Sources */,
@@ -6361,8 +6441,10 @@
 				183324041ED6B10D00B1ECEA /* CBGNearHistoryVC.m in Sources */,
 				183324051ED6B10D00B1ECEA /* Samurai_ModelInstance.m in Sources */,
 				183324061ED6B10D00B1ECEA /* CBGPlanCompareBaseListVC.m in Sources */,
+				1840EFA01F49672F00AD227C /* LevelStyle_120_154Delegate.m in Sources */,
 				183324071ED6B10D00B1ECEA /* UIImage+MultiFormat.m in Sources */,
 				183324081ED6B10D00B1ECEA /* HugeHorseModel.m in Sources */,
+				1840EF701F4930BD00AD227C /* LevelStyle_173_175Delegate.m in Sources */,
 				183324091ED6B10D00B1ECEA /* Samurai_RenderStoreNode.m in Sources */,
 				1833240A1ED6B10D00B1ECEA /* RefreshDataModel.m in Sources */,
 				188BE51B1F2ECE7600DBBF09 /* ZWServerEquipListVC.m in Sources */,
@@ -6371,6 +6453,7 @@
 				1833240C1ED6B10D00B1ECEA /* Samurai_Sandbox.m in Sources */,
 				1833240D1ED6B10D00B1ECEA /* Samurai_StyleSheet.m in Sources */,
 				1833240E1ED6B10D00B1ECEA /* Samurai_UIPageControl.m in Sources */,
+				1840EF881F49314400AD227C /* LevelStyle_120_145Delegate.m in Sources */,
 				18F8DAE61F2C20A800530041 /* BBEquip_listModel.m in Sources */,
 				1833240F1ED6B10D00B1ECEA /* Signal+View.m in Sources */,
 				183324101ED6B10D00B1ECEA /* ZAAutoBuySettingVC.m in Sources */,
@@ -6427,6 +6510,8 @@
 				183324431ED6B10D00B1ECEA /* ZWSellOthersListClearModel.m in Sources */,
 				183324441ED6B10D00B1ECEA /* LocationTimeRefreshManager.m in Sources */,
 				183324451ED6B10D00B1ECEA /* OLBasicDataModel.m in Sources */,
+				1840EF801F49312300AD227C /* LevelStyle_160_168Delegate.m in Sources */,
+				1840EFA41F49674C00AD227C /* LevelStyle_155_159Delegate.m in Sources */,
 				183324461ED6B10D00B1ECEA /* ZWBGRefreshManager.m in Sources */,
 				183324471ED6B10D00B1ECEA /* ZWDataDetailModel.m in Sources */,
 				183324491ED6B10D00B1ECEA /* ZWRateEditController.m in Sources */,
@@ -6479,6 +6564,7 @@
 				180E843C1F47A5A60003A8F9 /* ServerDetailRefreshUpdateModel.m in Sources */,
 				183324741ED6B10D00B1ECEA /* HighlightModel.m in Sources */,
 				183324751ED6B10D00B1ECEA /* AAXAxis.m in Sources */,
+				1840EF781F49310200AD227C /* LevelStyle_168_172Delegate.m in Sources */,
 				183324761ED6B10D00B1ECEA /* OLEGOFooterAndHeaderNoneControl.m in Sources */,
 				1801FA551EEA634900D22E75 /* ZALocalModelDBManager.m in Sources */,
 				183324771ED6B10D00B1ECEA /* Samurai_HtmlRenderObjectElement.m in Sources */,
@@ -6525,6 +6611,7 @@
 				1833249B1ED6B10D00B1ECEA /* Samurai_Metric.m in Sources */,
 				1833249C1ED6B10D00B1ECEA /* Samurai_HtmlUrl.m in Sources */,
 				1833249D1ED6B10D00B1ECEA /* NSObject+AutoCoding.m in Sources */,
+				1840EF981F49319900AD227C /* LevelStyle_70_89Delegate.m in Sources */,
 				189F789E1EFD007C0048AC11 /* AFURLSessionManager.m in Sources */,
 				1833249E1ED6B10D00B1ECEA /* NSData+Extension.m in Sources */,
 				183324A01ED6B10D00B1ECEA /* Samurai_HtmlRenderWorkflow.m in Sources */,
@@ -6646,6 +6733,7 @@
 				183325061ED6B10D00B1ECEA /* char_ref.c in Sources */,
 				183325071ED6B10D00B1ECEA /* Samurai_UITableView.m in Sources */,
 				183325081ED6B10D00B1ECEA /* EquipListRequestModel.m in Sources */,
+				1840EF901F49316400AD227C /* LevelStyle_90_109Delegate.m in Sources */,
 				183325091ED6B10D00B1ECEA /* OLMainTopicListViewController.m in Sources */,
 				1833250A1ED6B10D00B1ECEA /* Samurai_SignalKVO.m in Sources */,
 				1833250B1ED6B10D00B1ECEA /* RoleDataModel.m in Sources */,

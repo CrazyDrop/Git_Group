@@ -17,7 +17,8 @@ typedef enum : NSUInteger {
     CBGPlanModelPlanLevelStyle_173_175,
     CBGPlanModelPlanLevelStyle_168_172,
     CBGPlanModelPlanLevelStyle_160_168,
-    CBGPlanModelPlanLevelStyle_120_159, //飞升
+    CBGPlanModelPlanLevelStyle_155_159, //渡劫
+    CBGPlanModelPlanLevelStyle_120_154, //飞升
     CBGPlanModelPlanLevelStyle_120_145, //未飞升
     CBGPlanModelPlanLevelStyle_110_120,
     CBGPlanModelPlanLevelStyle_90_109,
@@ -74,5 +75,7 @@ typedef enum : NSUInteger {
 
 
 +(CBGPlanModel *)planModelForDetailEquipModel:(EquipModel *)detailModel;
+
+
 
 @end
