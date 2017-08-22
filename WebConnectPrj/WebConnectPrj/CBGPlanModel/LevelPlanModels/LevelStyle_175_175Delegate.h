@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "LevelPlanModelBaseDelegate.h"
+//化圣的号估价方案
+//化圣号最低标准   人修3个25   宠修4个20  技能7个180
 @interface LevelStyle_175_175Delegate : NSObject <LevelPlanPriceBackDelegate>
 
 

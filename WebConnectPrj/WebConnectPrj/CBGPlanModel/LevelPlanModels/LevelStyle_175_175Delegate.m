@@ -58,7 +58,7 @@
         price += (more * 15);
     }else if(sup_total > 600)
     {
-        price += 2000;
+        price += 2500;
         NSInteger more = sup_total - 600;
         price += (more * 10);
     }else if(sup_total > 500){
@@ -67,10 +67,10 @@
         price += (more * 8);
     }else if(sup_total > 300){
         price += 200;
-        NSInteger more = sup_total - 300;
-        price += (more * 5);
+//        NSInteger more = sup_total - 300;
+//        price += (more * 5);
     }else if(sup_total > 200){
-        price += 50;
+//        price += 50;
     }else if(sup_total > 160){
         price -= 500;
     }else if(sup_total > 100){
@@ -212,6 +212,7 @@
     
     money = wuli + wukang + fashu + fakang;
     
+    
     return money;
 }
 
@@ -342,8 +343,8 @@
 {
     CGFloat price = 0;
     NSInteger sup_total = [self.extraObj.sum_exp integerValue];
-    if(sup_total > 300)
-    {
+    if(sup_total > 300)//经验总数
+    {//经验太少，潜能果不计价格
         NSInteger qiannengguo = [self.extraObj.iNutsNum integerValue];
         if(qiannengguo < 80){
             price -= 1000;
@@ -365,19 +366,12 @@
     return price;
 }
 -(CGFloat)price_dengji
-{
+{//化圣等级加钱
     CGFloat price = 0;
-    NSInteger level = [self.extraObj.iGrade integerValue];
-    if(level >= 175)
-    {
-        price += 200;
-    }else if(level == 174)
-    {
-        
-    }else
-    {
-        price -= 200;
-    }
+    
+    NSInteger fly = [self.extraObj.i3FlyLv integerValue];//化圣等级
+    price += (fly - 1) * 500;
+//    price += 14500;//最低化圣号价格
     
     return price;
 }
@@ -388,18 +382,26 @@
     NSInteger maxNum = 36;
     NSInteger totalAdd = [self.extraObj.jiyuan integerValue] + [self.extraObj.addPoint integerValue];
     NSInteger needAdd = maxNum - totalAdd;
+    //宠修太低，机缘不做减扣
     
-    if(needAdd > 10)
+    //经验高、或者宠修高  考虑机缘问题
+    NSInteger sup_total = [self.extraObj.sum_exp integerValue];
+    if(sup_total > 300 || [self price_chongxiu] > 4000)//经验总数
     {
-        price -= (needAdd * 50);
-    }else if(needAdd > 3){
-        price -= (needAdd * 30);
-    }else if(needAdd < 0){
-        NSInteger moreNum = ABS(needAdd);
-        if(moreNum > 3){
-            price += (50) * (moreNum - 3);
+        //潜能减扣
+        if(needAdd > 10)
+        {
+            price -= (needAdd * 50);
+        }else if(needAdd > 3){
+            price -= (needAdd * 30);
+        }else if(needAdd < 0){
+            NSInteger moreNum = ABS(needAdd);
+            if(moreNum > 3){
+                price += (50) * (moreNum - 3);
+            }
         }
     }
+    
     return price;
 }
 -(CGFloat)price_menpai
@@ -581,7 +583,7 @@
         }
     }
     
-    if(addNum > 6000){
+    if(addNum > 6500){
         special *= 0.35;
     }else if(addNum > 5000){
         special *= 0.5;

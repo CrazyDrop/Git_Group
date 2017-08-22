@@ -13,6 +13,17 @@
 @end
 @implementation LevelStyle_173_175Delegate
 
+-(BOOL)effectiveForLowTakeOff
+{//经验较多、或者宠修较高，需要进行机缘和潜能果减扣
+    //不满足条件时不进行减扣、不减扣时，
+    NSInteger sup_total = [self.extraObj.sum_exp integerValue];
+    if(sup_total > 300 || [self price_chongxiu] > 3200)
+    {
+        return YES;
+    }
+    return NO;
+}
+
 -(CGFloat)price_qianyuandan
 {
     //    TA_iAllNewPoint新版乾元丹 5个以上算钱
@@ -71,13 +82,6 @@
         price += (more * 5);
     }else if(sup_total > 200){
         price += 50;
-    }else if(sup_total > 160){
-        price -= 500;
-    }else if(sup_total > 100){
-        price -= 800;
-    }else
-    {
-        price -= 1200;
     }
     
     return price;
@@ -341,8 +345,8 @@
 -(CGFloat)price_qiannengguo
 {
     CGFloat price = 0;
-    NSInteger sup_total = [self.extraObj.sum_exp integerValue];
-    if(sup_total > 300)
+    
+    if([self effectiveForLowTakeOff])
     {
         NSInteger qiannengguo = [self.extraObj.iNutsNum integerValue];
         if(qiannengguo < 80){
@@ -389,15 +393,18 @@
     NSInteger totalAdd = [self.extraObj.jiyuan integerValue] + [self.extraObj.addPoint integerValue];
     NSInteger needAdd = maxNum - totalAdd;
     
-    if(needAdd > 10)
+    if([self effectiveForLowTakeOff])
     {
-        price -= (needAdd * 50);
-    }else if(needAdd > 3){
-        price -= (needAdd * 30);
-    }else if(needAdd < 0){
-        NSInteger moreNum = ABS(needAdd);
-        if(moreNum > 3){
-            price += (50) * (moreNum - 3);
+        if(needAdd > 10)
+        {
+            price -= (needAdd * 50);
+        }else if(needAdd > 3){
+            price -= (needAdd * 30);
+        }else if(needAdd < 0){
+            NSInteger moreNum = ABS(needAdd);
+            if(moreNum > 3){
+                price += (50) * (moreNum - 3);
+            }
         }
     }
     return price;
@@ -405,6 +412,8 @@
 -(CGFloat)price_menpai
 {
     CGFloat price = 0;
+    
+    
     NSInteger school = [self.extraObj.iSchool integerValue];
     price = [self countSchoolPriceForSchoolNum:school];
     
@@ -427,6 +436,10 @@
     }
     
     price = MAX(price, maxHistory - 200);
+    if(![self effectiveForLowTakeOff])
+    {//不值得减扣时，不进行门派减扣
+        price = MAX(0, price);
+    }
     
     return price;
 }

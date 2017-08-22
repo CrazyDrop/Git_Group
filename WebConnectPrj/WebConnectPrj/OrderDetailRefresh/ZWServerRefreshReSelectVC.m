@@ -89,7 +89,7 @@
     
     [self.selectedArr removeAllObjects];
     NSArray * normalArr = @[
-//                            @"蓬莱岛",
+                            @"蓬莱岛",
                             @"蝴蝶泉",
                             @"紫禁城",
                             @"钱塘江",
