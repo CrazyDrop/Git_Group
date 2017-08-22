@@ -106,6 +106,16 @@
         reqModel.serverTag = tag;
         reqModel.serverName = [self.serNameDic objectForKey:[NSNumber numberWithInteger:[tag integerValue]]];
         
+        
+//        if(index == 0)
+//        {
+//            NSString * tag = @"159";
+//            reqModel.serverTag = tag;
+//            reqModel.serverName = [self.serNameDic objectForKey:[NSNumber numberWithInteger:[tag integerValue]]];
+//            [reqModel prepareWebRequestParagramForListRequest];
+//            [reqArr addObject:reqModel];
+//        }
+        
         [reqModel prepareWebRequestParagramForListRequest];
         [reqArr addObject:reqModel];
 

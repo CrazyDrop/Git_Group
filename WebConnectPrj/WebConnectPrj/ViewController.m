@@ -766,6 +766,7 @@
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
     manager.proxyArrCache = total.proxyModelArray;
+    manager.sessionArrCache = nil;
     
     [manager refreshLatestSessionArrayWithCurrentProxyArr];
 }

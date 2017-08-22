@@ -582,7 +582,8 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
     ZWOperationAutoDetailListReqModel * model = (ZWOperationAutoDetailListReqModel *) _detailAutoReqModel;
     NSArray * total  = [NSArray arrayWithArray:model.listArray];
-    
+    NSArray * sessionArr  = model.baseReqModels;
+
     NSMutableArray * detailModels = [NSMutableArray array];
     NSInteger errorNum = 0;
     for (NSInteger index = 0; index < [total count]; index ++)
@@ -590,7 +591,7 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
         NSInteger backIndex = [total count] - index - 1;
         backIndex = index;
         id obj = [total objectAtIndex:backIndex];
-        SessionReqModel * vpnObj = [model.baseReqModels objectAtIndex:index];
+        SessionReqModel * vpnObj = [sessionArr objectAtIndex:index];
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             vpnObj.proxyModel.errored = YES;

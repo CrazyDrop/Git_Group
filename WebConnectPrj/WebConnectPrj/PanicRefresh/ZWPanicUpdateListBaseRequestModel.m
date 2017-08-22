@@ -244,10 +244,8 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     
     ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *) _dpModel;
     NSArray * total  = [NSArray arrayWithArray:model.listArray];
+    NSArray * sessionArr = model.baseReqModels;
     NSArray * proxyErr = model.errorProxy;
-    
-    ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
-    NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
     
     NSInteger minPageNum = 0;
     NSInteger maxPageNum = 0;
@@ -269,7 +267,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
             maxPageNum = index;
         }
         
-        SessionReqModel * vpnObj = [model.baseReqModels objectAtIndex:index];
+        SessionReqModel * vpnObj = [sessionArr objectAtIndex:index];
         if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             minPageNum = index;
@@ -292,7 +290,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
     NSArray * array = [dataObjDic allValues];
 
     
-    NSLog(@"proxy %ld errorProxy %ld errorNum %ld total %ld %@",[editProxy count],[proxyErr count],errorNum,[total count],self.tagString);
+    NSLog(@"errorProxy %ld errorNum %ld total %ld %@",[proxyErr count],errorNum,[total count],self.tagString);
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
     NSMutableDictionary * refreshDic = [NSMutableDictionary dictionary];    //后期详情刷新dic

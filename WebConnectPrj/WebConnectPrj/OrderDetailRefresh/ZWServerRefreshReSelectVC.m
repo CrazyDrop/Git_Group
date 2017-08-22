@@ -86,8 +86,8 @@
 -(void)submit
 {
     [DZUtils noticeCustomerWithShowText:@"使用默认"];
-    
-    [self.selectedArr removeAllObjects];
+
+    NSMutableArray * editArr = [NSMutableArray array];
     NSArray * normalArr = @[
                             @"蓬莱岛",
                             @"蝴蝶泉",
@@ -122,15 +122,15 @@
             NSArray * arr = [subName componentsSeparatedByString:@","];
             NSInteger keyIndex = [arr count] - 1;
             NSString * keyStr = [idArr objectAtIndex:keyIndex];
-            [self.selectedArr addObject:keyStr];
+            [editArr addObject:keyStr];
         }
     }
     
     
+    self.selectedArr = editArr;
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     total.serverIDCache = [self.selectedArr componentsJoinedByString:@","];
     [total localSave];
-
     
     [self.listTable reloadData];
 }

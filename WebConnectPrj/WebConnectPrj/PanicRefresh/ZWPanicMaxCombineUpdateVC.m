@@ -79,7 +79,7 @@
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
         //        totalNum = 2;
-                totalNum = 1;
+        //        totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
@@ -180,14 +180,13 @@
             ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
             localTotal.proxyDicArr = dicArr;
             [localTotal localSave];
-            
-//            [proxyManager refreshLatestSessionArrayWithCurrentProxyArr];
         }
+    }else{
+        //每2分钟，刷新一次vpn列表
+        ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
+        [manager clearProxySubCache];
     }
     
-    //没2分钟，刷新一次vpn列表
-    ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
-    [manager clearProxySubCache];
 }
 -(void)startPanicDetailArrayRequestRightNow
 {

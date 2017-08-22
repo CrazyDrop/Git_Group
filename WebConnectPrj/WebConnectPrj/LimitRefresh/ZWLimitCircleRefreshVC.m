@@ -160,10 +160,13 @@
     
     model.repeatNum = self.maxPageNum;
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
-    if(self.ingoreProxy){
-        model.sessionArr = nil;
+    NSArray * proArr = nil;
+    if(!self.ingoreProxy)
+    {
+        [manager clearProxySubCache];
+        proArr = manager.sessionSubCache;
     }
+    model.sessionArr = proArr;
 
     model.timerState = !model.timerState;
     [model sendRequest];
