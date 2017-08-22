@@ -57,6 +57,7 @@
 #import "CBGHistoryMianListVC.h"
 #import "ZWDetailCheckManager.h"
 #import "ZWServerDetailListRefreshVC.h"
+#import "ServerCheckMainVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -271,6 +272,10 @@
             name = @"时间递增";
         }
             break;
+        case CBGDetailTestFunctionStyle_ServerCheck:{
+            name = @"估价测试";
+        }
+            break;
             
         default:
             break;
@@ -320,7 +325,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_DetailProxy],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_ServerCheck],
                              nil];
     
     UIView * bgView = self.view;
@@ -744,6 +749,11 @@
             break;
         case CBGDetailTestFunctionStyle_ServerDetail:{
             ZWServerDetailListRefreshVC * list = [[ZWServerDetailListRefreshVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
+        case CBGDetailTestFunctionStyle_ServerCheck:{
+            ServerCheckMainVC * list = [[ServerCheckMainVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;

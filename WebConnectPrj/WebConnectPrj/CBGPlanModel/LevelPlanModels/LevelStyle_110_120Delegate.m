@@ -362,6 +362,7 @@
 -(CGFloat)price_jiyuan
 {
     CGFloat price = 0;
+
     //机缘、减扣    //总数33，不用
     NSInteger maxNum = 36;
     NSInteger totalAdd = [self.extraObj.jiyuan integerValue] + [self.extraObj.addPoint integerValue];
@@ -378,6 +379,12 @@
             price += (50) * (moreNum - 3);
         }
     }
+    
+    if(price < 0){
+        price = -100;
+    }
+
+    
     return price;
 }
 -(CGFloat)price_menpai
@@ -829,12 +836,15 @@
 //25级各级需要修炼点 13级以上计算价格
 -(CGFloat)jineng_price_countForEveShiMenNum:(NSInteger)number
 {
+    NSInteger level = [self.extraObj.iGrade integerValue];
     CGFloat price = 0;
     
-    if(number >= 130)
+    if(number >= level)
     {
         //技能正向加法
-        price += 150;
+        if(level >= 105){
+            price += 150;
+        }
         //        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
     }else
     {

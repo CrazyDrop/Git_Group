@@ -233,21 +233,6 @@ handleSignal( ZWServerMoneyReqModel, requestError )
 handleSignal( ZWServerMoneyReqModel, requestLoading )
 {
 }
--(BOOL)equipListServerNameCheckWithEquipListArray:(NSArray *)arr
-{
-    BOOL effective = YES;
-    for (NSInteger index = 0;index < [arr count] ;index ++ )
-    {
-        Equip_listModel * list = [arr objectAtIndex:index];
-        NSString * name = list.server_name;
-        if(![self.serverName containsString:name])
-        {
-            effective = NO;
-            break;
-        }
-    }
-    return effective;
-}
 handleSignal( ZWServerMoneyReqModel, requestLoaded )
 {
 //    NSLog(@"%s %@",__FUNCTION__,self.serverNum);
@@ -317,7 +302,21 @@ handleSignal( ZWServerMoneyReqModel, requestLoaded )
         self.listCheck = NO;
     }
 }
-
+-(BOOL)equipListServerNameCheckWithEquipListArray:(NSArray *)arr
+{
+    BOOL effective = YES;
+    for (NSInteger index = 0;index < [arr count] ;index ++ )
+    {
+        Equip_listModel * list = [arr objectAtIndex:index];
+        NSString * name = list.server_name;
+        if(![self.serverName containsString:name])
+        {
+            effective = NO;
+            break;
+        }
+    }
+    return effective;
+}
 -(void)startServerListBackDetailRequestWithEquipModels:(NSArray *)models
 {
     ServerEquipIdRequestModel * equipRefresh = (ServerEquipIdRequestModel *)_equipReqModel;

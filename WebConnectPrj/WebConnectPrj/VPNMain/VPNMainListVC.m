@@ -15,7 +15,6 @@
 #import "ZWDetailCheckManager.h"
 #import "EquipDetailArrayRequestModel.h"
 #import "SessionReqModel.h"
-#import "ZACompleteNameAndPWDVC.h"
 #import "ZWDetailVPNTestReqModel.h"
 #import "ZALocationLocalModel.h"
 

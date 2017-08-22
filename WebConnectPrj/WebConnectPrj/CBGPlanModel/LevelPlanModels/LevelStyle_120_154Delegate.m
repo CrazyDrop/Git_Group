@@ -378,13 +378,15 @@
         price += 200;
     }
     
+    price += 500;
+    
     return price;
 }
 -(CGFloat)price_jiyuan
 {
     CGFloat price = 0;
     //机缘、减扣    //总数33，不用
-    NSInteger maxNum = 36;
+    NSInteger maxNum = 30;
     NSInteger totalAdd = [self.extraObj.jiyuan integerValue] + [self.extraObj.addPoint integerValue];
     NSInteger needAdd = maxNum - totalAdd;
     
@@ -399,6 +401,11 @@
             price += (50) * (moreNum - 3);
         }
     }
+    if(price < 0){
+        price = -100;
+    }
+
+    
     return price;
 }
 -(CGFloat)price_menpai
@@ -614,6 +621,7 @@
 //抵扣乾元丹的钱
 -(CGFloat)price_fabao{
     CGFloat price = 0;
+    return price;
     //    self.extraObj.fabao;
     //17笛子  23附灵玉
     //物理 4级物理法宝

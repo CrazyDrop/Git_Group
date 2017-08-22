@@ -381,6 +381,11 @@
             price += (50) * (moreNum - 3);
         }
     }
+    
+    if(price < 0){
+        price = -100;
+    }
+    
     return price;
 }
 -(CGFloat)price_menpai

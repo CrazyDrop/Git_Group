@@ -352,7 +352,7 @@
 {
     CGFloat price = 0;
     //机缘、减扣    //总数33，不用
-    NSInteger maxNum = 36;
+    NSInteger maxNum = 33;
     NSInteger totalAdd = [self.extraObj.jiyuan integerValue] + [self.extraObj.addPoint integerValue];
     NSInteger needAdd = maxNum - totalAdd;
     
@@ -367,6 +367,10 @@
             price += (50) * (moreNum - 3);
         }
     }
+    if(price < 0){
+        price = -100;
+    }
+    
     return price;
 }
 -(CGFloat)price_menpai

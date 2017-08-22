@@ -79,7 +79,7 @@
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
         //        totalNum = 2;
-//                totalNum = 1;
+                totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
@@ -327,7 +327,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         }
     }
     
-    NSLog(@"%s %ld",__FUNCTION__,errorNum);
+    NSLog(@"%s error%ld/%ld",__FUNCTION__,errorNum,[total count]);
 
     if([detailModels count] > 0)
     {
@@ -453,11 +453,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 -(void)tapedOnExchangeTotalWithTapedBtn:(id)sender
 {
     self.countNum = 0;
-    ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
-    NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.proxyArrCache count],[combineArr count]];
-
-    [self refreshTitleViewTitleWithLatestTitleName:title];
-
+    
+    [self refreshProxyCacheArrayAndCacheSubArray];
+    [self refreshCombineNumberAndProxyCacheNumberForTitle];
     [self stopPanicListRequestModelArray];
 }
 
@@ -702,13 +700,13 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"开启详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   weakSelf.detailProxy = YES;
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"关闭代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+    action = [MSAlertAction actionWithTitle:@"关闭详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
               {
                   weakSelf.detailProxy = NO;
               }];

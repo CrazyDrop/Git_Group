@@ -14,7 +14,7 @@
 -(id)init
 {
     self = [super init];
-    self.timeOutNum = 5;
+    self.timeOutNum = 10;
     return self;
 }
 -(NSArray *)webRequestDataList
