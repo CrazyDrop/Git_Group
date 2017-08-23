@@ -1121,8 +1121,8 @@
 {
     id<LevelPlanPriceBackDelegate>  levelModel = nil;
     NSInteger level = model.iGrade.integerValue;
-    NSInteger huashengLevel = model.i3FlyLv.integerValue;
     NSInteger flyLevel = model.iZhuanZhi.integerValue;
+    NSInteger huashengLevel = model.i3FlyLv.integerValue;
     if(level <= 69){
         levelModel = [[LevelStyle_69_69Delegate alloc] init];
     }else if(level <= 89){
@@ -1131,19 +1131,19 @@
         levelModel = [[LevelStyle_90_109Delegate alloc] init];
     }else if(level < 120){
         levelModel = [[LevelStyle_110_120Delegate alloc] init];
-    }else if(huashengLevel == 0 && level <= 145){
+    }else if(flyLevel == 0 && level <= 145){
         levelModel = [[LevelStyle_120_145Delegate alloc] init];
-    }else if(huashengLevel == 1 && level <= 155){
+    }else if(flyLevel == 1 && level <= 155){
         levelModel = [[LevelStyle_120_154Delegate alloc] init];
-    }else if(huashengLevel == 2 && level <= 159){
+    }else if(flyLevel == 2 && level <= 159){
         levelModel = [[LevelStyle_155_159Delegate alloc] init];
     }else if(level <= 168){
         levelModel = [[LevelStyle_160_168Delegate alloc] init];
     }else if(level <= 172){
         levelModel = [[LevelStyle_168_172Delegate alloc] init];
-    }else if(level <= 175 && flyLevel == 0){
+    }else if(level <= 175 && huashengLevel == 0){
         levelModel = [[LevelStyle_173_175Delegate alloc] init];
-    }else if(flyLevel > 0){
+    }else if(huashengLevel > 0){
         levelModel = [[LevelStyle_175_175Delegate alloc] init];
     }
     return levelModel;

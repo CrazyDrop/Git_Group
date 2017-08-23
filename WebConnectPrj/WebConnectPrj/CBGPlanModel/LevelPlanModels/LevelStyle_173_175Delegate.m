@@ -9,7 +9,14 @@
 #import "LevelStyle_173_175Delegate.h"
 #import "EquipExtraModel.h"
 @interface LevelStyle_173_175Delegate ()
+{//特别关注3数值，相加最低时，取最低等级值
+    NSInteger _xiulian;
+    NSInteger _chongxiu;
+    NSInteger _jineng;
+}
 @property (nonatomic, strong) EquipExtraModel * extraObj;
+@property (nonatomic, assign) NSInteger removePrice;
+
 @end
 @implementation LevelStyle_173_175Delegate
 
@@ -17,7 +24,7 @@
 {//经验较多、或者宠修较高，需要进行机缘和潜能果减扣
     //不满足条件时不进行减扣、不减扣时，
     NSInteger sup_total = [self.extraObj.sum_exp integerValue];
-    if(sup_total > 300 || [self price_chongxiu] > 3200)
+    if(sup_total > 300 || [self price_chongxiu] > 3000)
     {
         return YES;
     }
@@ -215,7 +222,7 @@
     }
     
     money = wuli + wukang + fashu + fakang;
-    
+    _xiulian = money;
     return money;
 }
 
@@ -267,6 +274,7 @@
     //        money *= 0.9;
     //    }
     //
+    _chongxiu = money;
     
     return money;
 }
@@ -330,7 +338,7 @@
     }
     
     money += mainSkill;
-    
+    _jineng = mainSkill;
     
     CGFloat othersPrice = 0;
     for (ExtraModel * model in othersArr)
@@ -370,19 +378,27 @@
 }
 -(CGFloat)price_dengji
 {
+    //指定等级最低价格  2500 2700  3000
     CGFloat price = 0;
     NSInteger level = [self.extraObj.iGrade integerValue];
-    if(level >= 175)
+    if([self effectiveForLowTakeOff])
     {
-        price += 200;
-    }else if(level == 174)
-    {
+        CGFloat basePrice = 2500;
+        basePrice += (level - 174) * 200;
         
-    }else
-    {
-        price -= 200;
+        //基础价格
+        NSInteger subTotal = _xiulian + _chongxiu + _jineng;
+        if(subTotal < basePrice)
+        {
+            price += (basePrice - subTotal) ;
+        }else{
+            price += (level - 174) * 200;
+        }
+    }else{
+        price += (level - 174) * 200;
     }
     
+
     return price;
 }
 -(CGFloat)price_jiyuan
@@ -438,6 +454,7 @@
     price = MAX(price, maxHistory - 200);
     if(![self effectiveForLowTakeOff])
     {//不值得减扣时，不进行门派减扣
+        price *= 0.5;
         price = MAX(0, price);
     }
     

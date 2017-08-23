@@ -341,9 +341,7 @@
 {
     CGFloat price = 0;
     NSInteger level = [self.extraObj.iGrade integerValue];
-//    if(level == 120 || level == 155){
-//        price += 200;
-//    }
+
     price -= 200;
     
     return price;

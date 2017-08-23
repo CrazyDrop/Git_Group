@@ -64,7 +64,7 @@
     self = [super init];
     if (self)
     {
-        self.minuteNum = 3;
+        self.minuteNum = 2;
         self.maxTestNum = 30;
         self.proxyEnable = NO;
         self.listCheck = YES;
@@ -283,6 +283,19 @@ handleSignal( ZWServerMoneyReqModel, requestLoaded )
     if(maxEquipId == 0) return;
     
     NSArray * backArray = [modelsDic allValues];
+
+    //当最大商品时间差过大时，使用equipid递增查找
+    NSDate * latestDate = [NSDate fromString:maxModel.selling_time];
+    latestDate = [latestDate dateByAddingTimeInterval:1.5 * MINUTE];
+    if([latestDate timeIntervalSinceNow] < 0 && [backArray count] > 0)
+    {
+//        //触发equipid检查
+//        [self refreshLatestFinishModelWithFinishedMoneyList:maxModel];
+//        self.equipRequest = YES;
+//        self.listCheck = NO;
+        return;
+    }
+    
     if([backArray count] > 0)
     {//有新发现的数据，直接使用
         self.listCheck = NO;
@@ -549,7 +562,19 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     NSInteger maxTestNum = [[NSDate date] timeIntervalSince1970];
     EquipSNAutoModel * equiModel = self.finishModel;
     NSInteger addNum = self.maxTestNum - [self.erroredArr count];
-    addNum = addNum/2;
+    
+//    addNum = addNum/2;
+//    NSInteger countNum = 0;
+//    for (NSInteger index = 0;index < addNum ;index ++ )
+//    {
+//        if(equiModel.timeNum < maxTestNum)
+//        {
+//            countNum ++;
+//            equiModel.timeNum ++;
+//            [editArr addObject:equiModel.nextTryDetailDataUrl];
+//            [editArr addObject:equiModel.next2TryDetailDataUrl];
+//        }
+//    }
     
     NSInteger countNum = 0;
     for (NSInteger index = 0;index < addNum ;index ++ )
@@ -559,9 +584,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
             countNum ++;
             equiModel.timeNum ++;
             [editArr addObject:equiModel.nextTryDetailDataUrl];
-            [editArr addObject:equiModel.next2TryDetailDataUrl];
         }
     }
+    
     self.tryNumbers += countNum;
     self.finishTimeNum = equiModel.timeNum;
     return editArr;
@@ -646,6 +671,7 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
                 }
                 
                 Equip_listModel * obj = [[Equip_listModel alloc] init];
+                endListModel = obj;
                 obj.game_ordersn = detailEve.game_ordersn;
                 obj.serverid = detailEve.serverid;
                 
@@ -668,21 +694,29 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
     }
     self.erroredArr = err;
     
+    NSDate * createDate = [NSDate fromString:endDetail.create_time];
+    NSTimeInterval sepNum = [[NSDate date] timeIntervalSinceDate:createDate];
+    
     if([localArr count] > 0)
     {
-        NSLog(@"%s success %@ %@",__FUNCTION__,self.serverNum,endDetail.game_ordersn);
+        NSLog(@"%s success %@ %@ %fs",__FUNCTION__,endDetail.serverid,endDetail.game_ordersn,sepNum);
     }else{
         NSDate * endDate = [NSDate dateWithTimeIntervalSince1970:self.finishTimeNum];
         NSLog(@"%s %@(error tryNum %ld %@)",__FUNCTION__,self.serverNum,self.tryNumbers,[endDate toString:@"HH:mm:ss"]);
     }
     
-    if(totalEndDate)
+    if(sepNum > 1 * MINUTE)
+    {
+        self.listCheck = YES;
+        self.equipRequest = NO;
+    }else if(totalEndDate)
     {//进行替换
         if(!self.latestDate || ([totalEndDate timeIntervalSinceDate:self.latestDate] > 0))
         {//开启下一个请求
             [self refreshLatestFinishModelWithFinishedDetail:endDetail];
         }
-    }else if((self.latestCheckDate && [self.latestCheckDate timeIntervalSinceNow] < 0))
+    }
+    else  if((self.latestCheckDate && [self.latestCheckDate timeIntervalSinceNow] < 0))
     {//尝试的次数过多时，时间差达到20分钟，5分钟内没上架的产品，重新检查列表
         self.listCheck = YES;
         self.equipRequest = NO;

@@ -66,7 +66,7 @@
     NSInteger skill_qiang_shen = arc4random() % 20 + 1;
     //    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&skill_qiang_shen=%ld",randMinExp,skill_qiang_shen];
     appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
-    appendStr = [appendStr stringByAppendingFormat:@"&act=super_query&search_type=query&kindid=23&serverid=%@&app_version=2.2.9",server];
+    appendStr = [appendStr stringByAppendingFormat:@"&act=super_query&search_type=query&serverid=%@&app_version=2.2.9",server];
     appendStr = [appendStr stringByAppendingString:@"&page=1"];
     
     
