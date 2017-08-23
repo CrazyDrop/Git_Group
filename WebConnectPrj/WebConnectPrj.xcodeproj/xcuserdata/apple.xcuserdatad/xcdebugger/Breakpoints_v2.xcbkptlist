@@ -226,22 +226,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/CBGPlanModel/CBGPlanModel.m"
-            timestampString = "525145854.729083"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "+planModelForDetailEquipModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WebConnectPrj/CBGPlanModel/LevelPlanModels/LevelStyle_173_175Delegate.m"
             timestampString = "525148273.985726"
             startingColumnNumber = "9223372036854775807"
@@ -258,13 +242,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/Update/DataModel/EquipDESCModel/EquipExtraModel.m"
-            timestampString = "525145909.063925"
+            filePath = "WebConnectPrj/OrderDetailRefresh/ZWServerMoneyReqModel.m"
+            timestampString = "525166419.916651"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-price_xiulian"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "-replaceStringWithLatestWebString:andServerId:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -274,13 +258,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WebConnectPrj/CBGPlanModel/LevelPlanModels/LevelPlanModelBaseDelegate.m"
-            timestampString = "525145959.97844"
+            filePath = "WebConnectPrj/ServerRefresh/ServerEquipIdRequestModel.m"
+            timestampString = "525167318.895863"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1122"
-            endingLineNumber = "1122"
-            landmarkName = "+selectPlanModelFromExtraModel:"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "-checkAndRefreshLocalWebCookieArray:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/ServerRefresh/ServerEquipIdRequestModel.m"
+            timestampString = "525167592.148809"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-checkAndRefreshLocalWebCookieArray:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WebConnectPrj/ServerRefresh/ZWServerEquipListVC.m"
+            timestampString = "525169767.345949"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
+            landmarkName = "-tapedRefreshRandNumGesture:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

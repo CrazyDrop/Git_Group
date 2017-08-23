@@ -34,6 +34,7 @@
 #import "CBGPlanDetailPreShowWebVC.h"
 #import "ZWServerEquipModel.h"
 #import "ZWServerURLCheckVC.h"
+#import "ZWServerMoneyReqModel.h"
 #define MonthTimeIntervalConstant 60*60*24*(30)
 @interface ZWServerEquipListVC ()<UITableViewDataSource,UITableViewDelegate,
 RefreshCellCopyDelgate>
@@ -79,7 +80,6 @@ RefreshCellCopyDelgate>
         ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
         NSArray * baseArr = [dbManager localSaveEquipServerMaxEquipIdAndServerIdList];
         NSInteger subLength = [baseArr count];
-        subLength = 1;
         self.totalArr = [baseArr subarrayWithRange:NSMakeRange(0, subLength)];
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -650,7 +650,152 @@ RefreshCellCopyDelgate>
     
     
 }
+//-(void)startMobileServerListRequest
+//{
+//    ServerEquipIdRequestModel * equipRefresh = (ServerEquipIdRequestModel *)_equipReqModel;
+//    if(equipRefresh.executing) return;
+//    
+//    ServerRefreshRequestModel * listRequest = (ServerRefreshRequestModel *)_dpModel;
+//    if(listRequest.executing) return;
+//    
+//    
+//    ZWOperationDetailListReqModel * detailRequest = (ZWOperationDetailListReqModel *)_detailListReqModel;
+//    if(detailRequest.executing) return;
+//    
+//    
+//    ZWOperationAutoDetailListReqModel * autoRequest = (ZWOperationAutoDetailListReqModel *)_detailAutoReqModel;
+//    if(autoRequest.executing) return;
+//    
+//    
+//    //    [requestLock lock];
+//    //    NSLog(@"%s %@",__FUNCTION__,self.serverTag);
+//    
+//    ZWServerMoneyReqModel * model = (ZWServerMoneyReqModel *)_dpModel;
+//    //仅做数据刷新，不做展示   详情数据请求中时，列表数据也需要刷新
+//    if(!model){
+//        //model重建，仅界面消失时出现，执行时不处于请求中
+//        model = [[ZWServerMoneyReqModel alloc] init];
+//        [model addSignalResponder:self];
+//        _dpModel = model;
+//    }
+//    
+//    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+//    model.sessionArr = manager.sessionSubCache;
+//    if(!self.proxyEnable){
+//        model.sessionArr = nil;
+//    }
+//    model.serverArr = @[self.serverNum];
+//    
+//    model.timerState = !model.timerState;
+//    [model sendRequest];
+//}
+
+#pragma mark ZWServerMoneyReqModel
+handleSignal( ZWServerMoneyReqModel, requestError )
+{
     
+}
+handleSignal( ZWServerMoneyReqModel, requestLoading )
+{
+}
+handleSignal( ZWServerMoneyReqModel, requestLoaded )
+{
+    //    NSLog(@"%s %@",__FUNCTION__,self.serverNum);
+    
+//    ServerRefreshRequestModel * model = (ServerRefreshRequestModel *) _dpModel;
+//    NSArray * total  = model.listArray;
+//    
+//    //正常序列
+//    NSMutableArray * array = [NSMutableArray array];
+//    for (NSInteger index = 0; index < [total count]; index ++)
+//    {
+//        NSInteger backIndex = [total count] - index - 1;
+//        backIndex = index;
+//        NSArray * obj = [total objectAtIndex:backIndex];
+//        SessionReqModel * vpnObj = [model.baseReqModels objectAtIndex:index];
+//        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+//        {
+//            BOOL effective = [self equipListServerNameCheckWithEquipListArray:obj];
+//            if(effective){
+//                [array addObjectsFromArray:obj];
+//            }else{
+//                vpnObj.proxyModel.errored = YES;
+//            }
+//        }
+//    }
+//    
+//    
+//    //列表数据排重
+//    NSInteger maxEquipId = 0;
+//    Equip_listModel * maxModel = nil;
+//    NSMutableDictionary * modelsDic = [NSMutableDictionary dictionary];
+//    for (NSInteger index = 0 ;index < [array count]; index ++ )
+//    {
+//        NSInteger backIndex = [array count] - index - 1;
+//        Equip_listModel * eveModel = [array objectAtIndex:backIndex];
+//        if(maxEquipId == 0 || maxEquipId < [eveModel.equipid integerValue]){
+//            maxEquipId = [eveModel.equipid integerValue];
+//            maxModel = eveModel;
+//        }
+//        
+//        NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:eveModel.game_ordersn];
+//        if(!dbArr || [dbArr count] == 0)
+//        {
+//            [modelsDic setObject:eveModel forKey:eveModel.detailCheckIdentifier];
+//        }
+//    }
+//    
+//    if(maxEquipId == 0) return;
+//    
+//    NSArray * backArray = [modelsDic allValues];
+//    
+//    //当最大商品时间差过大时，使用equipid递增查找
+//    NSDate * latestDate = [NSDate fromString:maxModel.selling_time];
+//    latestDate = [latestDate dateByAddingTimeInterval:1.5 * MINUTE];
+//    if([latestDate timeIntervalSinceNow] < 0 && [backArray count] > 0)
+//    {
+//        //        //触发equipid检查
+//        //        [self refreshLatestFinishModelWithFinishedMoneyList:maxModel];
+//        //        self.equipRequest = YES;
+//        //        self.listCheck = NO;
+//        return;
+//    }
+//    
+//    if([backArray count] > 0)
+//    {//有新发现的数据，直接使用
+//        self.listCheck = NO;
+//        [self refreshLatestFinishModelWithFinishedMoneyList:maxModel];
+//        
+//        if(self.equipEnable)
+//        {
+//            self.equipRequest = YES;
+//        }else{
+//            self.equipRequest = NO;
+//        }
+//    }else if(self.latestDate)
+//    {//修改倒计时时间、计数 统计量
+//        NSLog(@"无最新 继续时间递增");
+//        self.tryNumbers = 0;
+//        self.latestCheckDate = [NSDate dateWithTimeIntervalSinceNow:self.minuteNum * MINUTE];
+//        self.listCheck = NO;
+//    }
+}
+//-(BOOL)equipListServerNameCheckWithEquipListArray:(NSArray *)arr
+//{
+//    BOOL effective = YES;
+//    for (NSInteger index = 0;index < [arr count] ;index ++ )
+//    {
+//        Equip_listModel * list = [arr objectAtIndex:index];
+//        NSString * name = list.server_name;
+//        if(![self.serverName containsString:name])
+//        {
+//            effective = NO;
+//            break;
+//        }
+//    }
+//    return effective;
+//}
+
 -(void)startRefreshDataModelRequest
 {
     if(![DZUtils deviceWebConnectEnableCheck])
@@ -689,6 +834,22 @@ RefreshCellCopyDelgate>
 //            eveObj.equipId --;
         }
     }
+//    for (NSInteger index = 0;index < [server count] ;index ++ )
+//    {
+//        ZWServerEquipModel * eveObj = [server objectAtIndex:index];
+//        [editArr addObject:eveObj];
+//        if(eveObj.checkMaxNum == 0)
+//        {
+//            eveObj.partSepNum = 12;
+//            eveObj.checkMaxNum = eveObj.equipId + eveObj.partSepNum;
+//            eveObj.equipId = eveObj.equipId;
+//        }else if(eveObj.equipId < (eveObj.checkMaxNum - eveObj.partSepNum))
+//        {//开始新的检查
+////            eveObj.checkMaxNum += eveObj.partSepNum;//重置检查目标
+////            eveObj.equipId = eveObj.checkMaxNum;
+//        }
+//    }
+
     
     if([editArr count] == 0) return;
     
@@ -861,8 +1022,13 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
             case ServerResultCheckType_Success:
             {
                 server.cookieClear = NO;
-                [moreReq appendFormat:@"%ld(%ld)-  ",server.serverId,server.equipId];
+                NSTimeInterval sepNum = [[NSDate date] timeIntervalSinceDate:[NSDate fromString:server.detail.create_time]];
+//                [moreReq appendFormat:@"%ld(%ld)+  %@ %.1f",server.serverId,server.equipId,server.detail.create_time,sepNum];
+//                server.equipId ++;
+                
+                [moreReq appendFormat:@"%ld(%ld)-  %@ %.1f",server.serverId,server.equipId,server.detail.create_time,sepNum];
                 server.equipId --;
+
                 
                 server.detail = nil;
                 server.equipDesc = nil;
@@ -873,10 +1039,19 @@ handleSignal( ServerEquipIdRequestModel, requestLoaded )
             case ServerResultCheckType_NoneProduct:
             {
                 server.cookieClear = YES;
+//                server.cookieClear = NO;
+                [moreReq appendFormat:@"%ld(%ld) wait  ",server.serverId,server.equipId];
                 [waitDic setObject:@"wait" forKey:[NSString stringWithFormat:@"%ld",server.serverId]];
             }
                 break;
-                
+            case ServerResultCheckType_Error:
+            {
+                //                server.cookieClear = YES;
+                server.cookieClear = NO;
+                [moreReq appendFormat:@"%ld(%ld) checkError  ",server.serverId,server.equipId];
+            }
+                break;
+  
                 
             default:
                 break;

@@ -58,10 +58,16 @@
     {
         NSString * editValue = editCookie.value;
         NSArray * arr = [editValue componentsSeparatedByString:@"-"];
-        if([arr count] >1)
+        if([arr count] >= 1)
         {
-            NSString * editRefresh = [arr lastObject];
+            NSString * latestObj = [arr lastObject];
+            NSInteger randNum = arc4random()%300 + 20;
+            NSString * editRefresh = nil;
+            if([latestObj intValue] > randNum){
+                randNum = arc4random()%20 + 10;
+            }
             
+            editRefresh = [NSString stringWithFormat:@"%ld",[latestObj intValue] - randNum];
             NSDictionary * preDic = [editCookie properties];
             NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
             [cookieProperties addEntriesFromDictionary:preDic];
@@ -387,23 +393,19 @@
         {
             //请求成功
             NSString * equipName = [self subDetailEquipNameFromDetailHTMl:aDic];
-            if([equipName integerValue] != 0)
-            {
+            if([equipName length] > 0){
                 detail.equip_name = equipName;
                 [self refreshEquipModelWithDetailBackDic:aDic andEquipModel:detail];
                 NSString * extra = [self replaceWebHtmlWithLatestBackHtmlDic:aDic];
                 detail.equip_desc = extra;
                 
-                EquipExtraModel * model = [self extraModelFromLatestEquipDESC:detail];
-                detail.equipExtra = model;
-                
-                
-            }else
-            {
-                NSString * extra = [self replaceWebHtmlWithLatestBackHtmlDic:aDic];
-                detail.equip_desc = extra;
+                if([equipName integerValue] != 0)
+                {
+                    EquipExtraModel * model = [self extraModelFromLatestEquipDESC:detail];
+                    detail.equipExtra = model;
+                }
             }
-
+            
         }
             break;
          

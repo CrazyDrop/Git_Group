@@ -7,7 +7,7 @@
 //
 
 #import "DPWhiteTopController.h"
-//商品id查询准备
+//商品id查询准备，普通服务器查询
 @interface ZWServerRefreshListVC : DPWhiteTopController
 
 

@@ -7,7 +7,7 @@
 //
 
 #import "DPWhiteTopController.h"
-//商品id递增查询
+//商品id递增查询，需要前置服务器商品id查询
 @interface ZWServerEquipListVC : DPWhiteTopController
 
 

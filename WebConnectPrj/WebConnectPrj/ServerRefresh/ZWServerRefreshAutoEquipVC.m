@@ -700,15 +700,16 @@
 {
     ZWServerEquipModel * server = self.serverEquip;
     NSInteger equipId = server.equipId;
-    if(equipId <= self.checkMaxNum - self.partSepNum)
-    {//到达最后一个检查标识
-        self.checkMaxNum += self.partSepNum;//重置检查目标
-        server.equipId = self.checkMaxNum;
-        equipId = server.equipId;
-    }else if(equipId <= self.checkMaxNum)
-    {
-        equipId --;
-    }
+    equipId += 10;
+//    if(equipId <= self.checkMaxNum - self.partSepNum)
+//    {//到达最后一个检查标识
+//        self.checkMaxNum += self.partSepNum;//重置检查目标
+//        server.equipId = self.checkMaxNum;
+//        equipId = server.equipId;
+//    }else if(equipId <= self.checkMaxNum)
+//    {
+//        equipId --;
+//    }
 
     server.equipId =  equipId;
     server.detail = nil;

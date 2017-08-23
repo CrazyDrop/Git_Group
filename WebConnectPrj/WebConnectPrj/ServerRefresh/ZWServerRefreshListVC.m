@@ -77,6 +77,7 @@ RefreshCellCopyDelgate>
         NSMutableArray * serverEdit = [NSMutableArray arrayWithArray:[total.serverNameDic allKeys]];
         [serverEdit removeObject:[NSNumber numberWithInt:45]];
         self.totalArr = serverEdit;
+//        self.totalArr = @[@33];
 
         self.inWebRequesting = NO;
         requestLock = [[NSLock alloc] init];

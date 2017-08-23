@@ -21,6 +21,7 @@
         //        &sum_exp_min=111
         //        &qian_neng_guo=33
         //        &skill_qiang_shen=22
+        //示例//        http://xyq-ios2.cbg.163.com/app2-cgi-bin//xyq_search.py?act=super_query&search_type=overall_role_search&orderby=selling_time%20DESC&level_max=200&platform=ios&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1&act=super_query&search_type=query&serverid=33&app_version=2.2.9&page=1
     }
     return self;
 }
@@ -69,7 +70,8 @@
     appendStr = [appendStr stringByAppendingFormat:@"&act=super_query&search_type=query&serverid=%@&app_version=2.2.9",server];
     appendStr = [appendStr stringByAppendingString:@"&page=1"];
     
-    
+
+
     
     NSString * result = [replaceStr stringByAppendingString:appendStr];
     

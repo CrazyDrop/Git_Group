@@ -326,6 +326,11 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_VPNList],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_ServerCheck],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_EquipServer],
+                             
+//                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MobileServer],
+                             
+
                              nil];
     
     UIView * bgView = self.view;
