@@ -23,8 +23,8 @@
 -(BOOL)effectiveForLowTakeOff
 {//经验较多、或者宠修较高，需要进行机缘和潜能果减扣
     //不满足条件时不进行减扣、不减扣时，
-    NSInteger sup_total = [self.extraObj.sum_exp integerValue];
-    if(sup_total > 300 || [self price_chongxiu] > 3000)
+    NSInteger sup_total = _xiulian + _chongxiu + _jineng;
+    if(sup_total > 7000)
     {
         return YES;
     }
@@ -338,7 +338,6 @@
     }
     
     money += mainSkill;
-    _jineng = mainSkill;
     
     CGFloat othersPrice = 0;
     for (ExtraModel * model in othersArr)
@@ -348,6 +347,7 @@
     }
     money += othersPrice;
     
+    _jineng = money;
     return money;
 }
 -(CGFloat)price_qiannengguo
@@ -381,23 +381,53 @@
     //指定等级最低价格  2500 2700  3000
     CGFloat price = 0;
     NSInteger level = [self.extraObj.iGrade integerValue];
-    if([self effectiveForLowTakeOff])
-    {
-        CGFloat basePrice = 2500;
-        basePrice += (level - 174) * 200;
-        
-        //基础价格
-        NSInteger subTotal = _xiulian + _chongxiu + _jineng;
-        if(subTotal < basePrice)
-        {
-            price += (basePrice - subTotal) ;
-        }else{
-            price += (level - 174) * 200;
-        }
-    }else{
-        price += (level - 174) * 200;
-    }
     
+    CGFloat levelMoney = (level - 174) * 200;;
+    price += levelMoney;
+    
+    if(![self effectiveForLowTakeOff])
+    {//不值得减扣的，补足最低价差值
+        CGFloat basePrice = 2500;
+        //基础价格
+        
+        NSInteger subTotal = _xiulian + _jineng + _chongxiu;
+        if(_xiulian < 1000 && _jineng < 1000 && _chongxiu < 1000){//垃圾号
+            price += MAX((basePrice - subTotal), 0);
+        }
+        else if(_xiulian > 2800 || _jineng > 3000 || _chongxiu > 3000)
+        {//有特色，其他项很差，则追加基础价、其他项还可以少追加
+            NSInteger maxMoney = MAX(MAX(_xiulian, _jineng), _chongxiu);
+            CGFloat scale = maxMoney/ 3500.0;
+            CGFloat extendMoney = 1000.0 * MIN(scale, 1);
+            NSInteger leftMoney = subTotal - extendMoney;
+            if(leftMoney > 3000)
+            {//此档次为最接近需要减扣的，不再追加
+//                price += (levelMoney + 300);
+            }else if(leftMoney > 2000){
+                price += (200);
+            }else if(leftMoney > 1000){//其他也能计价，价格很低 1000 - 2000之间
+                                        //3500  1500  500以内
+                price += (extendMoney * 0.5 );
+            }else{//只有1个特色，其他很垃圾，基础价格补充较多
+                price += extendMoney;
+            }
+        }else if(_xiulian > 2000 && _jineng > 1500 && _chongxiu > 1500)
+        {//较均衡，满足最低限，没特色  5000-7000之间   250 - 500之间
+            price += MAX((500 - (subTotal - basePrice) * 0.1), 0);
+        }else if(subTotal > basePrice)
+        {//特长较低的  2700   2900  2900
+                    //2700   1400  2900
+            if(subTotal > 5000){
+                price += 300;
+            }else{//3000 - 5000之间时
+                price += (300 + (subTotal - basePrice) * 0.1);
+            }
+        }else{
+            price += MAX((basePrice - subTotal), 0);
+            price += subTotal * 0.1;
+        }
+        
+    }
 
     return price;
 }
@@ -697,6 +727,12 @@
     {
         price -= 500;
     }
+    
+    if(![self effectiveForLowTakeOff])
+    {
+        price = MAX(-100, price);
+    }
+    
     
     return price;
 }
