@@ -183,10 +183,14 @@
     
     model.pageNum = self.requestNum;//刷新页数
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
+    {
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
+    }
     
-//    model.timerState = !model.timerState;
+    model.timerState = !model.timerState;
     [model sendRequest];
 }
 -(BOOL)checkDetailListEquipNameWithBackEquipListArray:(NSArray *)list

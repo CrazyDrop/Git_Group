@@ -63,7 +63,7 @@
     if(!self.onlyList){
         self.viewTtle = [NSString stringWithFormat:@"当前(%@) %@",str,select];
     }else{
-        self.viewTtle = @"屏蔽部分";
+        self.viewTtle = @"mobile刷新";
     }
     
     

@@ -76,19 +76,19 @@
 //    [total localSave];
     
     
-    NSDate * startDate = [NSDate date];
-    startDate = [NSDate fromString:@"2017-08-04 23:24:07"];
-    NSInteger count = [startDate timeIntervalSince1970] - 1;
-    
-
-    NSURL * url = [NSURL URLWithString:@"www.baidu.com"];
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
-    NSURLSessionTask *task = [session dataTaskWithRequest:request
-                                        completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                                            [self finishTask];
-                                        }];
-    [task resume];
+//    NSDate * startDate = [NSDate date];
+//    startDate = [NSDate fromString:@"2017-08-04 23:24:07"];
+//    NSInteger count = [startDate timeIntervalSince1970] - 1;
+//    
+//
+//    NSURL * url = [NSURL URLWithString:@"www.baidu.com"];
+//    NSURLSession * session = [NSURLSession sharedSession];
+//    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+//    NSURLSessionTask *task = [session dataTaskWithRequest:request
+//                                        completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//                                            [self finishTask];
+//                                        }];
+//    [task resume];
     
     
 //    [self writeLogToFile];

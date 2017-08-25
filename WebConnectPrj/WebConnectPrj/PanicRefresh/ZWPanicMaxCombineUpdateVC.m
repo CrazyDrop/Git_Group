@@ -264,14 +264,12 @@
         _detailListReqModel = model;
     }
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
-    
-    if(!self.detailProxy)
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
     {
-        model.sessionArr = nil;
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
     }
-    
     model.timerState = !model.timerState;
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
@@ -699,17 +697,17 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"开启详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.detailProxy = YES;
-              }];
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"关闭详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.detailProxy = NO;
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"开启详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  weakSelf.detailProxy = YES;
+//              }];
+//    [alertController addAction:action];
+//    
+//    action = [MSAlertAction actionWithTitle:@"关闭详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  weakSelf.detailProxy = NO;
+//              }];
+//    [alertController addAction:action];
     
     
     NSString * rightTxt = @"取消";
@@ -746,7 +744,8 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     self.showRightBtn = YES;
     self.viewTtle = @"监听更新";
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    if(total.isProxy){
+    if(total.isProxy)
+    {
         self.viewTtle = @"代理监听";
     }
     [super viewDidLoad];

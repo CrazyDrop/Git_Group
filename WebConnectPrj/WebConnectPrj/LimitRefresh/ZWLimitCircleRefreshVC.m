@@ -90,8 +90,11 @@
 - (void)viewDidLoad {
     self.rightTitle = @"筛选";
     self.showRightBtn = YES;
-    self.viewTtle = @"代理刷新";
-
+    self.viewTtle = @"单页刷新";
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy){
+        self.viewTtle = @"单页刷新(代)";
+    }
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -159,14 +162,13 @@
     }
     
     model.repeatNum = self.maxPageNum;
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    NSArray * proArr = nil;
-    if(!self.ingoreProxy)
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
     {
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
         [manager clearProxySubCache];
-        proArr = manager.sessionSubCache;
+        model.sessionArr = manager.sessionSubCache;
     }
-    model.sessionArr = proArr;
 
     model.timerState = !model.timerState;
     [model sendRequest];
@@ -356,10 +358,11 @@ handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
         _detailListReqModel = model;
     }
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
-    if(self.ingoreProxy){
-        model.sessionArr = nil;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
+    {
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
     }
     
     [model refreshWebRequestWithArray:array];
@@ -489,19 +492,19 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"屏蔽代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
-                  weakSelf.ingoreProxy = YES;
-              }];
-    [alertController addAction:action];
-
-    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
-                  weakSelf.ingoreProxy = NO;
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"屏蔽代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+//                  weakSelf.ingoreProxy = YES;
+//              }];
+//    [alertController addAction:action];
+//
+//    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+//                  weakSelf.ingoreProxy = NO;
+//              }];
+//    [alertController addAction:action];
 
 
     NSString * rightTxt = @"取消";

@@ -41,7 +41,12 @@
     
     self.rightTitle = @"更多";
     self.showRightBtn = YES;
-    self.viewTtle = [NSString stringWithFormat:@"时间递增 %ld",[arr count]];
+//    self.viewTtle = [NSString stringWithFormat:@"时间递增 %ld",[arr count]];
+    self.viewTtle = @"时间递增";
+    if(total.isProxy)
+    {
+        self.viewTtle = @"时间递增(代)";
+    }
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.detailProxy = YES;
@@ -207,17 +212,17 @@
     [alertController addAction:action];
     
     
-    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.detailProxy = YES;
-              }];
-    [alertController addAction:action];
-    
-    action = [MSAlertAction actionWithTitle:@"关闭代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  weakSelf.detailProxy = NO;
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  weakSelf.detailProxy = YES;
+//              }];
+//    [alertController addAction:action];
+//    
+//    action = [MSAlertAction actionWithTitle:@"关闭代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  weakSelf.detailProxy = NO;
+//              }];
+//    [alertController addAction:action];
     
     
     NSString * rightTxt = @"取消";

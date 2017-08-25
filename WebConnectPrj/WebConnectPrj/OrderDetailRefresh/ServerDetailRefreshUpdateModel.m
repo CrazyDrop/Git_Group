@@ -223,10 +223,11 @@
         _dpModel = model;
     }
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
-    if(!self.proxyEnable){
-        model.sessionArr = nil;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
+    {
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
     }
     model.serverArr = @[self.serverNum];
     
@@ -383,11 +384,11 @@ handleSignal( ZWServerMoneyReqModel, requestLoaded )
         _detailListReqModel = model;
     }
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
-    if(!self.proxyEnable)
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
     {
-        model.sessionArr = nil;
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
     }
     
     [model refreshWebRequestWithArray:array];
@@ -554,12 +555,13 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         _detailAutoReqModel = model;
     }
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
-    if(!self.proxyEnable)
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
     {
-        model.sessionArr = nil;
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
     }
+
     
     NSArray * array = [self latestDetailRequestTestUrls];
 //    NSDate * endDate = [NSDate dateWithTimeIntervalSince1970:self.finishTimeNum];

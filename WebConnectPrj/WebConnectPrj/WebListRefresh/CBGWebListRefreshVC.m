@@ -26,6 +26,7 @@
 RefreshCellCopyDelgate>{
     BaseRequestModel * _detailListReqModel;
     NSInteger circleTotal;
+    BaseRequestModel * _proxyReqModel;
 }
 @property (nonatomic,strong) UITableView * listTable;
 @property (nonatomic,copy) NSArray * dataArr;
@@ -110,8 +111,12 @@ RefreshCellCopyDelgate>{
 //    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
 //    NSString * str = [NSString stringWithFormat:@"%ds",[total.refreshTime intValue]];
     
-    self.viewTtle = @"WEB代理刷新";
-    
+    self.viewTtle = @"WEB刷新";
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy){
+        self.viewTtle = @"WEB刷新(代)";
+    }
+
     self.rightTitle = @"方案";
     self.showRightBtn = YES;
     [super viewDidLoad];
@@ -176,10 +181,10 @@ RefreshCellCopyDelgate>{
     [detailRefresh removeSignalResponder:self];
     _detailListReqModel = nil;
     
-    EquipListRequestModel * refresh = (EquipListRequestModel *)_dpModel;
+    EquipListRequestModel * refresh = (EquipListRequestModel *)_proxyReqModel;
     [refresh cancel];
     [refresh removeSignalResponder:self];
-    _dpModel = nil;
+    _proxyReqModel = nil;
 }
 -(void)submit
 {
@@ -218,22 +223,22 @@ RefreshCellCopyDelgate>{
               }];
     [alertController addAction:action];
     
-    action = [MSAlertAction actionWithTitle:@"屏蔽代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
-                  weakSelf.localReq = YES;
-                  weakSelf.pageNum = 3;
-              }];
-    [alertController addAction:action];
-
-    
-    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
-                  weakSelf.localReq = NO;
-                  weakSelf.pageNum = 3;
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"屏蔽代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+//                  weakSelf.localReq = YES;
+//                  weakSelf.pageNum = 3;
+//              }];
+//    [alertController addAction:action];
+//
+//    
+//    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  //                  [weakSelf refreshLocalShowLatestCountPagesRequest];
+//                  weakSelf.localReq = NO;
+//                  weakSelf.pageNum = 3;
+//              }];
+//    [alertController addAction:action];
 
     
     NSString * rightTxt = @"取消";
@@ -339,14 +344,7 @@ RefreshCellCopyDelgate>{
 }
 -(void)startRefreshDataModelRequest
 {
-    if(self.localReq)
-    {
-        [self startWebLocalRefreshDataModelRequest];
-    }else
-    {
-        [self startWebRefreshDataModelRequest];
-    }
-    
+    [self startWebRefreshDataModelRequest];
 }
 
 -(void)startWebRefreshDataModelRequest
@@ -359,26 +357,33 @@ RefreshCellCopyDelgate>{
     EquipDetailArrayRequestModel * detailArr = (EquipDetailArrayRequestModel *)_detailListReqModel;
     if(detailArr.executing) return;
     
-
     
+    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *)_proxyReqModel;
+    if(model.executing) return;
     
     NSLog(@"%s %@ %@",__FUNCTION__,[self.finishDate toString:@"HH:mm:ss"],[self.nextDate toString:@"HH:mm:ss"]);
     
     
-    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *)_dpModel;
     
     if(!model){
         //model重建，仅界面消失时出现，执行时不处于请求中
         model = [[ZWOperationWebListReqModel alloc] init];
         [model addSignalResponder:self];
-        _dpModel = model;
+        _proxyReqModel = model;
         
     }
     
     model.repeatNum = self.pageNum;
     model.saveCookie = NO;
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
+    {
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
+    }
+
+    model.timerState = !model.timerState;
     [model sendRequest];
 }
 
@@ -415,7 +420,6 @@ RefreshCellCopyDelgate>{
     
     model.pageNum = self.pageNum;
 //    model.saveCookie = YES;
-    
     [model sendRequest];
 }
 
@@ -446,11 +450,11 @@ handleSignal( ZWOperationWebListReqModel, requestLoaded )
     //    refreshLatestTotalArray
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *) _dpModel;
+    ZWOperationWebListReqModel * model = (ZWOperationWebListReqModel *) _proxyReqModel;
     NSArray * total  = model.listArray;
     
     //正常序列
-    NSMutableArray * array = [NSMutableArray array];
+    NSMutableDictionary * objDic = [NSMutableDictionary dictionary];
     for (NSInteger index = 0; index < [total count]; index ++)
     {
         NSInteger backIndex = [total count] - index - 1;
@@ -458,10 +462,14 @@ handleSignal( ZWOperationWebListReqModel, requestLoaded )
         id obj = [total objectAtIndex:backIndex];
         if([obj isKindOfClass:[NSArray class]])
         {
-            [array addObjectsFromArray:obj];
+            for (WebEquip_listModel * eveObj in obj)
+            {
+                [objDic setObject:eveObj forKey:eveObj.detailCheckIdentifier];
+            }
         }
     }
     
+    NSArray * array = [objDic allValues];
     self.tipsView.hidden = [array count] != 0;
     
     //    NSLog(@"CBGWebListRequestModel %lu %lu",(unsigned long)[array count],(unsigned long)[total count]);

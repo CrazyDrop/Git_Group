@@ -679,11 +679,12 @@ RefreshCellCopyDelgate>
 //        _dpModel = model;
 //    }
 //    
+//ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//if(total.isProxy)
+//{
 //    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
 //    model.sessionArr = manager.sessionSubCache;
-//    if(!self.proxyEnable){
-//        model.sessionArr = nil;
-//    }
+//}
 //    model.serverArr = @[self.serverNum];
 //    
 //    model.timerState = !model.timerState;

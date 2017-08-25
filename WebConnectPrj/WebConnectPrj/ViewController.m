@@ -253,7 +253,7 @@
         }
             break;
         case CBGDetailTestFunctionStyle_MobilePage:{
-            name = @"mobile代理";
+            name = @"mobile单页";
         }
             break;
         case CBGDetailTestFunctionStyle_VPNList:{

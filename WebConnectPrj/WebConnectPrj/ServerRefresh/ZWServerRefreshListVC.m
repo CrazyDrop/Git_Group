@@ -615,8 +615,12 @@ RefreshCellCopyDelgate>
     model.serverArr = editArr;
     [model refreshWebRequestWithArray:[model webRequestDataList]];
     
-    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-    model.sessionArr = manager.sessionSubCache;
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(total.isProxy)
+    {
+        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+        model.sessionArr = manager.sessionSubCache;
+    }
     
     model.timerState = !model.timerState;
     [model sendRequest];

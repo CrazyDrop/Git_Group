@@ -174,6 +174,7 @@
 @property (nonatomic, strong) NSNumber *sum_exp;
 @property (nonatomic, strong) NSNumber *skill_shensu;
 @property (nonatomic, strong) NSArray *limit_clothes;
+@property (nonatomic, strong) NSNumber * special_equip_max_level;
 
 @property (nonatomic, assign) CGFloat earnPrice;
 @property (nonatomic, assign) CGFloat planPrice;
