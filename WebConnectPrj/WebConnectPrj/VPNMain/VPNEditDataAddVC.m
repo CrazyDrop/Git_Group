@@ -20,8 +20,8 @@
 
 - (void)viewDidLoad {
     self.viewTtle = @"代理编辑";
-//    self.rightTitle = @"删除";
-//    self.showRightBtn = YES;
+    self.rightTitle = @"清空";
+    self.showRightBtn = YES;
 
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -64,7 +64,8 @@
     [btn addTarget:self action:@selector(tapedOnRemoveSelectedBtn:) forControlEvents:UIControlEventTouchUpInside];
     [btn  setBackgroundColor:[UIColor greenColor]];
     [btn  setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-
+    
+    
     if(self.dataObj)
     {
         VPNProxyModel * model = (VPNProxyModel *)self.dataObj;
@@ -73,6 +74,25 @@
     }
     
 }
+-(void)submit
+{
+    [self clearTotalVPNList];
+}
+-(void)clearTotalVPNList
+{
+    ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+    
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    
+    total.proxyDicArr = nil;
+    [total localSave];
+    
+    manager.proxyArrCache = nil;
+
+    //清空vpn列表
+    [DZUtils noticeCustomerWithShowText:@"清空vpn列表"];
+}
+
 -(void)tapedOnAddMoreBtn:(id)sender
 {
     VPNProxyModel * eve = nil;

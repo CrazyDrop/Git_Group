@@ -311,10 +311,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MixedProxy],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MainHistory],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_HistoryMonthPlan],
-
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_LatestPlan],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],

@@ -14,6 +14,7 @@
 #import "CBGCombinedScrolledHandleVC.h"
 #import "CBGDaysDetailSortHistoryVC.h"
 #import "CBGTotalHistroySortVC.h"
+#import "CBGLatestPlanBuyVC.h"
 @interface CBGHistoryMianListVC ()
 
 @end
@@ -34,7 +35,7 @@
                              [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_MonthHistory],
                              
                              [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_PartHistory],
-//                             [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_RepeatHistory],
+                             [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_LatestPlan],
 
                              
                              nil];
@@ -94,6 +95,11 @@
             name = @"当天历史";
         }
             break;
+        case CBGHistoryMianFunctionStyle_LatestPlan:{
+            name = @"近期估价";
+        }
+            break;
+            
     }
     
     return name;
@@ -188,6 +194,13 @@
         case CBGHistoryMianFunctionStyle_RepeatHistory:
         {
             CBGPlanListDetailCheckVC * combine = [[CBGPlanListDetailCheckVC alloc] init];
+            [[self rootNavigationController] pushViewController:combine animated:YES];
+            
+        }
+            break;
+        case CBGHistoryMianFunctionStyle_LatestPlan:
+        {
+            CBGLatestPlanBuyVC * combine = [[CBGLatestPlanBuyVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
             
         }

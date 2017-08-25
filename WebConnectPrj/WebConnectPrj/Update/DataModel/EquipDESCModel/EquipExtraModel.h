@@ -26,7 +26,7 @@
 #import "LevelPlanModelBaseDelegate.h"
 //实现代理
 @interface EquipExtraModel : BaseDataModel
-
+@property (nonatomic, strong) NSString *equipType;
 @property (nonatomic, strong) NSNumber *iTotalMagDam_all;
 @property (nonatomic, strong) NSNumber *addPoint;//粽子数量
 @property (nonatomic, strong) NSString *cOrg;//帮派名字
@@ -94,7 +94,7 @@
 @property (nonatomic, strong) NSNumber *iSumAmount;
 @property (nonatomic, strong) NSNumber *jiyuan;
 @property (nonatomic, strong) NSNumber *iIcon;
-@property (nonatomic, strong) NSNumber *ori_race;
+@property (nonatomic, strong) NSNumber *ori_race;   //人物角色
 @property (nonatomic, strong) NSNumber *iSpe_All;
 @property (nonatomic, strong) NSNumber *iHp_Max;
 @property (nonatomic, strong) NSNumber *iMarry2;
@@ -105,7 +105,7 @@
 @property (nonatomic, strong) NSNumber *xianyu;
 @property (nonatomic, strong) NSNumber *iSmithski;//未知
 @property (nonatomic, strong) NSNumber *iExptSki2;
-@property (nonatomic, strong) NSNumber *iRace;
+@property (nonatomic, strong) NSNumber *iRace;      //人物角色
 @property (nonatomic, strong) NSNumber *iBeastSki2;
 @property (nonatomic, strong) NSNumber *iMp_Max;
 @property (nonatomic, strong) NSNumber *iMagDef_All;
@@ -138,7 +138,7 @@
 
 //totalMoney = xiulian + chongxiu + qianyuandan + jineng + jingyan + youxibi + zhaohuanshou;
 
-
++(NSInteger)effectiveRoleTypeNumberFromExtraiIconNum:(NSNumber *)num;
 @property (nonatomic, assign) id<LevelPlanPriceBackDelegate> priceDelegate;
 //-(NSString *)createExtraPrice;
 -(NSString *)extraDes;

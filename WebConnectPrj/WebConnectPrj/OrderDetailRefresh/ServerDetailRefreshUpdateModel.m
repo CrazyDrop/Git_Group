@@ -34,6 +34,9 @@
 @property (nonatomic, assign) BOOL  detailRequest;
 @property (nonatomic, copy) NSString * serverNum;
 
+@property (nonatomic, assign) BOOL  listWait;
+@property (nonatomic, assign) NSInteger  waitNum;
+
 //每次请求成功，修改finishModel、latestDate
 @property (nonatomic, strong) EquipSNAutoModel * finishModel;
 @property (nonatomic, strong) NSDate * latestDate;
@@ -150,6 +153,12 @@
     
     if(self.listCheck)
     {//列表检查
+        if(self.listWait && self.waitNum <= 5)
+        {
+            self.waitNum ++;
+            return;
+        }
+        self.listWait = NO;
         [self startMobileServerListRequest];
     }else if(self.detailRequest)
     {//详情请求
@@ -286,9 +295,15 @@ handleSignal( ZWServerMoneyReqModel, requestLoaded )
 
     //当最大商品时间差过大时，使用equipid递增查找
     NSDate * latestDate = [NSDate fromString:maxModel.selling_time];
-    latestDate = [latestDate dateByAddingTimeInterval:1.5 * MINUTE];
+    latestDate = [latestDate dateByAddingTimeInterval:2 * MINUTE];
     if([latestDate timeIntervalSinceNow] < 0 && [backArray count] > 0)
     {
+        if(!self.listWait)
+        {
+            NSLog(@"limit%@ id:%ld listWait %@",self.serverNum,maxEquipId,maxModel.selling_time);
+            self.listWait = YES;
+            self.waitNum = 0;
+        }
 //        //触发equipid检查
 //        [self refreshLatestFinishModelWithFinishedMoneyList:maxModel];
 //        self.equipRequest = YES;
@@ -688,10 +703,7 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
         }
     }
     
-    if([localArr count] > 0)
-    {
-        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:localArr];
-    }
+    
     self.erroredArr = err;
     
     NSDate * createDate = [NSDate fromString:endDetail.create_time];
@@ -705,7 +717,7 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
         NSLog(@"%s %@(error tryNum %ld %@)",__FUNCTION__,self.serverNum,self.tryNumbers,[endDate toString:@"HH:mm:ss"]);
     }
     
-    if(sepNum > 1 * MINUTE)
+    if(sepNum > (self.minuteNum + 1) * MINUTE)
     {
         self.listCheck = YES;
         self.equipRequest = NO;
@@ -724,7 +736,15 @@ handleSignal( ZWOperationAutoDetailListReqModel, requestLoaded )
     
     if(endListModel)
     {
-        [self doneServerRequestWithFinishedArray:@[endListModel]];
+        if([localArr count] > 0)
+        {
+            NSArray * dbArr = [dbManager localSaveEquipHistoryModelListForOrderSN:endListModel.game_ordersn];
+            if(!dbArr || [dbArr count] == 0)
+            {
+                [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:localArr];
+                [self doneServerRequestWithFinishedArray:@[endListModel]];
+            }
+        }
     }
     
 }

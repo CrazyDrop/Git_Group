@@ -1394,6 +1394,33 @@
     
     return self;
 }
++(NSInteger)effectiveRoleTypeNumberFromExtraiIconNum:(NSNumber *)num
+{
+    NSInteger type_id = [num integerValue];
+    NSArray * need_fix_range=@[@13,@37,@61,@213,@237,@261];
+    //    13-24
+    for(NSInteger i=0;i<[need_fix_range count];i++)
+    {
+        NSInteger start = [need_fix_range[i] integerValue];
+        NSInteger end = start + 11;
+        
+        if(type_id>=start&&type_id<=end)
+        {
+            type_id=type_id-12;
+            break;
+        }
+    }
+    
+    NSInteger icon = type_id;
+    NSInteger kindid=icon;
+    if(icon>200){
+        kindid=((icon-200-1)%12+1)+200;
+    }else{
+        kindid=((icon-1)%12+1);
+    }
+    return kindid;
+}
+
 
 @end
 

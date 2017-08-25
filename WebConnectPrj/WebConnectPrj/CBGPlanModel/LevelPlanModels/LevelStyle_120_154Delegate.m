@@ -374,11 +374,13 @@
 {
     CGFloat price = 0;
     NSInteger level = [self.extraObj.iGrade integerValue];
-    if(level == 120 || level == 155){
+    if(level == 120 || level == 155)
+    {
         price += 200;
+    }else
+    {
+        price += 100;
     }
-    
-    price += 500;
     
     return price;
 }
@@ -433,6 +435,10 @@
     }
     
     price = MAX(price, maxHistory - 200);
+    if(price > 0)
+    {
+        price *= 0.5;
+    }
     
     return price;
 }
@@ -915,11 +921,13 @@
 {
     CGFloat price = 0;
     
-    if(number >= 140)
+    if(number >= 150)
     {
         //技能正向加法
-        price += 250;
+        price += 200;
         //        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
+    }else if(number > 140){
+        
     }else
     {
         price -= 100;

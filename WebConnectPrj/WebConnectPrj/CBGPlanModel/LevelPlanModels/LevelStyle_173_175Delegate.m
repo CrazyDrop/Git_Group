@@ -487,8 +487,20 @@
         price *= 0.5;
         price = MAX(0, price);
     }
+ 
+    if([self checkExtraRoleTypeSpecialStyleWithIconNum]){
+        price += 500;
+    }
     
     return price;
+}
+-(BOOL)checkExtraRoleTypeSpecialStyleWithIconNum
+{
+    NSNumber * num = self.extraObj.iIcon;
+    NSInteger kindId = [EquipExtraModel effectiveRoleTypeNumberFromExtraiIconNum:num];
+    
+    BOOL result = kindId == 7 || kindId == 8 || kindId == 207;
+    return result;
 }
 -(CGFloat)price_fangwu
 {

@@ -644,6 +644,10 @@
     NSString * equipNameJS =@"equip.equip_name;";
     NSString * equipName = [self.showWeb stringByEvaluatingJavaScriptFromString:equipNameJS];
 
+    NSString * roleNameJS =@"RoleKindNameInfo[1];";
+    NSString * roleName = [self.showWeb stringByEvaluatingJavaScriptFromString:roleNameJS];
+
+    
     
     if([orderSN length] > 0)
     {

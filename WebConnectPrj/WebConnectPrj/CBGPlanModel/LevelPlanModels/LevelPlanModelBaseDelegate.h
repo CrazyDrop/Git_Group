@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 #define  LevelPlanModelBaseYouxibiRateForMoney  1300.0*100
 @class EquipExtraModel;
 @protocol LevelPlanPriceBackDelegate <NSObject>

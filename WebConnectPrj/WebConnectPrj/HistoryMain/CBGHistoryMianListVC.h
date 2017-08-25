@@ -17,6 +17,9 @@ typedef enum : NSUInteger
     CBGHistoryMianFunctionStyle_TodayHistory,
     CBGHistoryMianFunctionStyle_MonthHistory,
     
+    CBGHistoryMianFunctionStyle_LatestPlan,
+    CBGHistoryMianFunctionStyle_HistoryMonthPlan,
+
     CBGHistoryMianFunctionStyle_RepeatHistory,
     
 } CBGHistoryMianFunctionStyle;

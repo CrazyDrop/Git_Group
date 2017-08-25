@@ -116,9 +116,11 @@
 //            [reqArr addObject:reqModel];
 //        }
         
-        [reqModel prepareWebRequestParagramForListRequest];
-        [reqArr addObject:reqModel];
-
+//        if([tag integerValue] == 377)
+        {
+            [reqModel prepareWebRequestParagramForListRequest];
+            [reqArr addObject:reqModel];
+        }
         
     }
     self.serverReqArray = reqArr;

@@ -400,7 +400,9 @@
     }
     
     price = MAX(price, maxHistory - 200);
-    
+    if(price > 0){
+        price *= 0.5;
+    }
     return price;
 }
 -(CGFloat)price_fangwu
@@ -882,16 +884,19 @@
 {
     CGFloat price = 0;
     
-    if(number >= 140)
+    if(number >= [self.extraObj.iGrade integerValue] + 10)
     {
         //技能正向加法
-        price += 200;
+        price += 150;
         //        NSLog(@"skillLevel %ld %.0f add %.0f append %.0f",number,price,addPrice,appendPrice);
+    }else if(number > 130){
+        
     }else
     {
         price -= 100;
     }
     return price;
+
 }
 -(CGFloat)jineng_price_addConstPriceForEveNum:(NSInteger)number
 {

@@ -18,6 +18,75 @@
 
 @implementation CBGPlanModel
 
+//{1: "逍遥生", 2: "剑侠客", 3: "飞燕女", 4: "英女侠", 5: "巨魔王", 6: "虎头怪", 7: "狐美人", 8: "骨精灵", 9: "神天兵", 10: "龙太子", 11: "舞天姬", 12: "玄彩娥", 201: "偃无师", 203: "巫蛮儿", 205: "杀破狼", 207: "鬼潇潇", 209: "羽灵神", 211: "桃夭夭"}
++(NSString *)equipRoleTypeNameFromNumberId:(NSString *)idNum
+{
+    NSDictionary * nameDic = @{
+                               @"1":@"逍遥生",
+                               @"2":@"剑侠客",
+                               @"3":@"飞燕女",
+                               @"4":@"英女侠",
+                               @"5":@"巨魔王",
+                               @"6":@"虎头怪",
+                               @"7":@"狐美人",
+                               @"8":@"骨精灵",
+                               @"9":@"神天兵",
+                               @"10":@"龙太子",
+                               @"11":@"舞天姬",
+                               @"12":@"玄彩娥",
+                               @"201":@"偃无师",
+                               @"203":@"巫蛮儿",
+                               @"205":@"杀破狼",
+                               @"207":@"鬼潇潇",
+                               @"209":@"羽灵神",
+                               @"211":@"桃夭夭"};
+    
+    return [nameDic objectForKey:idNum];
+}
+//function get_role_iconid(type_id){var need_fix_range=[[13,24],[37,48],[61,72],[213,224],[237,248],[261,272]];for(var i=0;i<need_fix_range.length;i++){var range=need_fix_range[i];if(type_id>=range[0]&&type_id<=range[1]){type_id=type_id-12
+//    break;}}
+//    return type_id;}
++(NSInteger)get_role_iconid:(NSInteger)type_id
+{
+    NSArray * need_fix_range=@[@13,@37,@61,@213,@237,@261];
+//    13-24
+    
+    for(NSInteger i=0;i<[need_fix_range count];i++)
+    {
+        NSInteger start = [need_fix_range[i] integerValue];
+        NSInteger end = start + 11;
+        
+        if(type_id>=start&&type_id<=end)
+        {
+            type_id=type_id-12;
+            break;
+        }
+    }
+    return type_id;
+}
+
+//function get_role_kind_name(icon){var kindid=icon;if(icon>200){kindid=((icon-200-1)%12+1)+200;}else{kindid=((icon-1)%12+1);}
+//    return RoleKindNameInfo[kindid];}
++(NSString *)get_role_kind_name:(NSInteger)icon
+{
+    NSInteger kindid=icon;
+    if(icon>200){
+        kindid=((icon-200-1)%12+1)+200;
+    }else{
+        kindid=((icon-1)%12+1);
+    }
+    NSString * num = [NSString stringWithFormat:@"%ld",kindid];
+    return [CBGPlanModel equipRoleTypeNameFromNumberId:num];
+}
+
+
+//parse_role_kind_name:function(icon_id){var icon_id=get_role_iconid(icon_id);return get_role_kind_name(icon_id)}
++(NSString *)parse_role_kind_name:(NSInteger)icon_id
+{
+    icon_id=[CBGPlanModel get_role_iconid:icon_id];
+    return [[CBGPlanModel class] get_role_kind_name:icon_id];
+}
+
 
 +(CBGPlanModel *)planModelForDetailEquipModel:(EquipModel *)detailModel
 {
@@ -38,6 +107,8 @@
     
     //根据筛选不同的代理 //根据等级、区分实现
     EquipExtraModel * extra = detailModel.equipExtra;
+    extra.equipType = detailModel.equip_type;
+    
     id<LevelPlanPriceBackDelegate> del = [LevelPlanModelBaseDelegate selectPlanModelFromExtraModel:extra];
     extra.priceDelegate = del;
     

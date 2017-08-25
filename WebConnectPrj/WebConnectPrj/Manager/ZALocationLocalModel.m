@@ -3171,26 +3171,27 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 
 -(NSArray *)localSaveEquipServerMaxEquipIdAndServerIdList
 {
-//    NSMutableArray * txtArr = [NSMutableArray array];
-//    ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
-//    eve1.equipId = 2311808;
-//    eve1.serverId = 33;
-//    [txtArr addObject:eve1];
-////
-////    ZWServerEquipModel * eve2 = [[ZWServerEquipModel alloc] init];
-////    eve2.equipId = 1499977;
-////    eve2.serverId = 11;
-////    [txtArr addObject:eve2];
+    NSMutableArray * txtArr = [NSMutableArray array];
+    ZWServerEquipModel * eve1 = [[ZWServerEquipModel alloc] init];
+    eve1.equipId = 2311808;
+    eve1.serverId = 33;
+    [txtArr addObject:eve1];
+    
 //
-////  http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=buy_show_equip_info&equip_id=1079107&server_id=60&from=game
-//
-//
-////    ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
-////    eve.equipId = 1079107;
-////    eve.serverId = 60;
-////    [txtArr addObject:eve];
-//    
-//    return txtArr;
+//    ZWServerEquipModel * eve2 = [[ZWServerEquipModel alloc] init];
+//    eve2.equipId = 1499977;
+//    eve2.serverId = 11;
+//    [txtArr addObject:eve2];
+
+//  http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=buy_show_equip_info&equip_id=1079107&server_id=60&from=game
+
+
+//    ZWServerEquipModel * eve = [[ZWServerEquipModel alloc] init];
+//    eve.equipId = 1079107;
+//    eve.serverId = 60;
+//    [txtArr addObject:eve];
+    
+    return txtArr;
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     NSInteger maxNum = total.minServerId;
     

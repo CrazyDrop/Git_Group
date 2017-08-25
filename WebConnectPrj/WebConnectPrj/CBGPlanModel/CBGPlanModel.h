@@ -29,6 +29,10 @@ typedef enum : NSUInteger {
 //修改估价算法，实现相关的数据计算处理，后续进行统一库表修改
 @interface CBGPlanModel : BaseDataModel
 
+//{1: "逍遥生", 2: "剑侠客", 3: "飞燕女", 4: "英女侠", 5: "巨魔王", 6: "虎头怪", 7: "狐美人", 8: "骨精灵", 9: "神天兵", 10: "龙太子", 11: "舞天姬", 12: "玄彩娥", 201: "偃无师", 203: "巫蛮儿", 205: "杀破狼", 207: "鬼潇潇", 209: "羽灵神", 211: "桃夭夭"}
++(NSString *)equipRoleTypeNameFromNumberId:(NSString *)idNum;
+
+
 //账号相关信息
 @property (nonatomic, strong) NSString * orderSn;
 @property (nonatomic, strong) NSString * serverId;

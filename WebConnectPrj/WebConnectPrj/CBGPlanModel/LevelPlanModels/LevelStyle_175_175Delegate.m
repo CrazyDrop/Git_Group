@@ -430,8 +430,21 @@
     
     price = MAX(price, maxHistory - 200);
     
+    if([self checkExtraRoleTypeSpecialStyleWithIconNum]){
+        price += 500;
+    }
+    
     return price;
 }
+-(BOOL)checkExtraRoleTypeSpecialStyleWithIconNum
+{
+    NSNumber * num = self.extraObj.iIcon;
+    NSInteger kindId = [EquipExtraModel effectiveRoleTypeNumberFromExtraiIconNum:num];
+    
+    BOOL result = kindId == 7 || kindId == 8 || kindId == 207;
+    return result;
+}
+
 -(CGFloat)price_fangwu
 {
     CGFloat price = 0;
