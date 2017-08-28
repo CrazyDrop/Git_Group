@@ -272,7 +272,6 @@
         //model重建，仅界面消失时出现，执行时不处于请求中
         model = [[EquipListRequestModel alloc] init];
         [model addSignalResponder:self];
-//        model.saveCookie = YES;
         _dpModel = model;
         
         model.pageNum = self.totalPageNum;

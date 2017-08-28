@@ -361,6 +361,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
         NSFileManager * fm = [NSFileManager defaultManager];
         if(![fm fileExistsAtPath:path])
         {
+            NSLog(@"create new db:%@",path);
             NSError * error;
             if([fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error])
             {

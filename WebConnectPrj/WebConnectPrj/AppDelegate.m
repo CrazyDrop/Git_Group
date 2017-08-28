@@ -91,7 +91,7 @@
 //    [task resume];
     
     
-//    [self writeLogToFile];
+    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];
 #endif

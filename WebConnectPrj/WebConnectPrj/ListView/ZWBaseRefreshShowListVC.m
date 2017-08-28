@@ -42,7 +42,7 @@ RefreshCellCopyDelgate>
 @property (nonatomic,copy) NSArray * dataArr2;
 @property (nonatomic,assign) BOOL latestContain;
 @property (nonatomic,strong) id latest;
-
+//@property (nonatomic,strong) NSDictionary * serNameDic;
 @end
 
 @implementation ZWBaseRefreshShowListVC
@@ -53,6 +53,10 @@ RefreshCellCopyDelgate>
     if(self){
         requestLock = [[NSLock alloc] init];
         [self appendNotificationForRestartTimerRefreshWithActive];
+        
+//        ZALocalStateTotalModel * total  = [ZALocalStateTotalModel currentLocalStateModel];
+//        NSDictionary * serDic = total.serverNameDic;
+//        self.serNameDic = serDic;
 
     }
     return self;
@@ -463,9 +467,19 @@ RefreshCellCopyDelgate>
     if(contact.appendHistory){
         listModel = contact.appendHistory;
     }
-    //仅无详情时有效，此时数据为库表数据补全
     
-    if(listModel.plan_total_price != 0)
+    if(!contact.area_name && detail)
+    {
+        sellTxt = [NSString stringWithFormat:@"%@-%@",detail.area_name,detail.server_name];
+        equipName = [NSString stringWithFormat:@"%@  -  %@",detail.equip_name,detail.level_desc];
+    }
+    
+
+    //仅无详情时有效，此时数据为库表数据补全
+    if(listModel.plan_total_price == -1)
+    {
+        centerDetailTxt = detail.share_title;
+    }else if(listModel.plan_total_price != 0)
     {
         centerDetailTxt = [NSString stringWithFormat:@"%ld (%ld) %d",listModel.plan_total_price,listModel.plan_zhaohuanshou_price + listModel.plan_zhuangbei_price,(int)listModel.price_base_equip];
     }

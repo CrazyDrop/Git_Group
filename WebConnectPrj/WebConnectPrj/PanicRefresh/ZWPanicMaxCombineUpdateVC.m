@@ -42,6 +42,9 @@
 @property (nonatomic,assign) NSInteger proxyNum;
 @property (nonatomic,strong) NSArray * detailsArr;
 @property (nonatomic,assign) BOOL detailProxy;
+//@property (nonatomic,strong) NSDictionary * combineDic;  // 有30个tag，model，30组请求，每次单摘一组展示，最后监听到的数据
+@property (nonatomic,strong) NSString * webNum;
+@property (nonatomic,strong) UILabel * numLbl;
 @end
 
 @implementation ZWPanicMaxCombineUpdateVC
@@ -59,7 +62,6 @@
         self.dataLock = [[NSLock alloc] init];
         detailModelDic = [NSMutableDictionary dictionary];
         combineArr = [NSMutableArray array];
-        
         self.detailProxy = YES;
         self.refreshState = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -79,7 +81,7 @@
         NSMutableArray * tag = [NSMutableArray array];
         NSInteger totalNum  = 15;
         //        totalNum = 2;
-        //        totalNum = 1;
+//                totalNum = 1;
         NSArray * sepArr = @[@1,@2,@6,@7,@4,@10,@11];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
@@ -144,7 +146,7 @@
         
         BOOL refresh = NO;
 
-        NSInteger lineNum = [editProxy count] > 200?15:50;
+        NSInteger lineNum = [editProxy count] > 200?30:60;
         for (NSInteger index = 0; index < [editProxy count]; index++)
         {
             VPNProxyModel * eve = [editProxy objectAtIndex:index];
@@ -415,7 +417,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         
         UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
         albl.text = @"重置统计";
-        [albl sizeToFit];
+        albl.textAlignment = NSTextAlignmentCenter;
+        self.numLbl = albl;
+//        [albl sizeToFit];
         [aView addSubview:albl];
         albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
         
@@ -425,6 +429,12 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     }
     return _tipsErrorView;
 }
+-(void)refreshTipsErrorWithErrorNumberString
+{
+    NSString * num = self.webNum;
+    self.numLbl.text = num;
+}
+
 -(UIView *)errorTips
 {
     if(!_errorTips)
@@ -803,6 +813,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 }
 -(void)panicListRequestFinishWithUpdateModel:(ZWPanicUpdateListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
+    self.webNum = [NSString stringWithFormat:@"%ld/%ld (%@)",model.errorTotal,model.requestNum,model.tagString];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     for (NSInteger index = 0;index < [array count] ;index ++ )
@@ -821,7 +832,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     //进行数据缓存，达到5条时，进行刷新
     if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 5)
     {//不进行刷新
-
+        [self refreshTipsErrorWithErrorNumberString];
         [self refreshCombineNumberAndProxyCacheNumberForTitle];
         return;
     }else{
@@ -831,6 +842,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSArray * showArr = [NSArray arrayWithArray:combineArr];
         [combineArr removeAllObjects];
         
+        [self refreshTipsErrorWithErrorNumberString];
         [self refreshCombineNumberAndProxyCacheNumberForTitle];
         
 //        [self tapedOnExchangeTotalWithTapedBtn:nil];
@@ -844,7 +856,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
     NSString * title = [NSString stringWithFormat:@"改价更新 %ld-%ld",[proxyManager.proxyArrCache count],[combineArr count]];
     [self refreshTitleViewTitleWithLatestTitleName:title];
-
 }
 
 //-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model withListError:(NSError *)error

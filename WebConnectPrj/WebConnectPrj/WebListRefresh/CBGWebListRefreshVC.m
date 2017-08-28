@@ -374,13 +374,16 @@ RefreshCellCopyDelgate>{
     }
     
     model.repeatNum = self.pageNum;
-    model.saveCookie = NO;
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
     if(total.isProxy)
     {
+        model.saveCookie = NO;
         ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
         model.sessionArr = manager.sessionSubCache;
+    }else
+    {
+        model.saveCookie = YES;
     }
 
     model.timerState = !model.timerState;
@@ -481,17 +484,18 @@ handleSignal( ZWOperationWebListReqModel, requestLoaded )
     
     
     //停止刷新为NO时  endRefresh
-    NSTimeInterval count = [self.finishDate timeIntervalSinceNow];
-    NSTimeInterval nextCount = [self.nextDate timeIntervalSinceNow];
-    if(count < 0 && self.nextDate)
-    {//没有停止之前，已经刷新到数据
-        if(nextCount > 0){
-            self.endRefresh = YES;
-        }else{
-            NSLog(@"延迟1分钟");
-            self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
-        }
-    }
+//    NSTimeInterval count = [self.finishDate timeIntervalSinceNow];
+//    NSTimeInterval nextCount = [self.nextDate timeIntervalSinceNow];
+//    if(count < 0 && self.nextDate)
+//    {//没有停止之前，已经刷新到数据
+//        if(nextCount > 0){
+//            self.endRefresh = YES;
+//        }else{
+//            NSLog(@"延迟1分钟");
+//            self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
+//        }
+//    }
+    
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中
@@ -595,6 +599,7 @@ handleSignal( CBGWebListRequestModel, requestLoaded )
             self.finishDate = [NSDate dateWithTimeIntervalSinceNow:1 * MINUTE];
         }
     }
+    
     //服务器数据排列顺序，最新出现的在最前面
     //服务器返回的列表数据，需要进行详情请求
     //详情请求需要检查，1、本地是否已有存储 2、是否存储于请求队列中

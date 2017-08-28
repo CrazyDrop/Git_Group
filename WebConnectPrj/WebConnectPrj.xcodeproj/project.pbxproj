@@ -3522,14 +3522,14 @@
 		18A96D6D1E7FC24700B48E3C /* ListView */ = {
 			isa = PBXGroup;
 			children = (
-				18C8821B1F3983D000D01A37 /* ZWBaseRefreshShowListVC.h */,
-				18C8821C1F3983D000D01A37 /* ZWBaseRefreshShowListVC.m */,
-				18AC77111F3F55D300F325DA /* ZWBaseRefreshTimerListVC.h */,
-				18AC77121F3F55D300F325DA /* ZWBaseRefreshTimerListVC.m */,
 				18A96D7E1E7FC24700B48E3C /* ZWRefreshListController.h */,
 				18A96D7F1E7FC24700B48E3C /* ZWRefreshListController.m */,
 				18CBBBC81F20A99A00E8C226 /* ZWAutoRefreshListController.h */,
 				18CBBBC91F20A99A00E8C226 /* ZWAutoRefreshListController.m */,
+				18C8821B1F3983D000D01A37 /* ZWBaseRefreshShowListVC.h */,
+				18C8821C1F3983D000D01A37 /* ZWBaseRefreshShowListVC.m */,
+				18AC77111F3F55D300F325DA /* ZWBaseRefreshTimerListVC.h */,
+				18AC77121F3F55D300F325DA /* ZWBaseRefreshTimerListVC.m */,
 				18CBBBC41F20A86100E8C226 /* ZWAutoRefreshListModel.h */,
 				18CBBBC51F20A86100E8C226 /* ZWAutoRefreshListModel.m */,
 				18A96D711E7FC24700B48E3C /* ZACBGDetailWebVC.h */,
@@ -7012,7 +7012,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7030,7 +7030,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

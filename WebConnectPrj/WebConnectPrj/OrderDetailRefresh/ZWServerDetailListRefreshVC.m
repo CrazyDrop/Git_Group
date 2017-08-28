@@ -23,7 +23,6 @@
 @property (nonatomic, strong) NSArray * serverReqArray;
 @property (nonatomic, strong) NSArray * serverIdArray;
 
-@property (nonatomic, strong) NSDictionary * serNameDic;
 @property (nonatomic, strong) NSDate * proxyRefreshDate;
 @property (nonatomic, assign) NSInteger proxyNum;
 @end
@@ -36,9 +35,7 @@
     ZALocalStateTotalModel * total  = [ZALocalStateTotalModel currentLocalStateModel];
     NSArray * arr = [total.serverIDCache componentsSeparatedByString:@","];
     self.serverIdArray = arr;
-    NSDictionary * serDic = total.serverNameDic;
-    self.serNameDic = serDic;
-    
+
     self.rightTitle = @"更多";
     self.showRightBtn = YES;
 //    self.viewTtle = [NSString stringWithFormat:@"时间递增 %ld",[arr count]];
@@ -101,6 +98,9 @@
 }
 -(void)prepareForServerRequestModel
 {
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSDictionary * nameDic = total.serverNameDic;
+    
     NSMutableArray * reqArr = [NSMutableArray array];
     NSArray * numArr = self.serverIdArray;
     for (NSInteger index = 0; index < [numArr count]; index ++)
@@ -109,7 +109,7 @@
         ServerDetailRefreshUpdateModel * reqModel = [[ServerDetailRefreshUpdateModel alloc] init];
         reqModel.requestDelegate = self;
         reqModel.serverTag = tag;
-        reqModel.serverName = [self.serNameDic objectForKey:[NSNumber numberWithInteger:[tag integerValue]]];
+        reqModel.serverName = [nameDic objectForKey:[NSNumber numberWithInteger:[tag integerValue]]];
         
         
 //        if(index == 0)

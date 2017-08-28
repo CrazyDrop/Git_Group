@@ -33,6 +33,9 @@
 
 @property (nonatomic, assign) NSInteger detailError;
 @property (nonatomic, strong) NSString * schoolName;
+
+@property (nonatomic, strong) NSMutableDictionary * finishDic;
+@property (nonatomic, strong) NSMutableArray * finishArr;
 @end
 
 @implementation ZWPanicUpdateListBaseRequestModel
@@ -108,6 +111,8 @@
     if(self){
         localCacheArr = [NSMutableArray array];
         repeatCache = [NSMutableArray array];
+        self.finishDic = [NSMutableDictionary dictionary];
+        
         self.requestNum = 25;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(detailRefreshFinishedLocalUpdateAndRemoveWithBackNoti:)
@@ -122,9 +127,9 @@
     NSString * keyStr = list.listCombineIdfa;
     keyStr = list.game_ordersn;
     
-    @synchronized (localCacheArr)
+    @synchronized (self.finishDic)
     {
-        if(![localCacheArr containsObject:keyStr])
+        if(![self.finishDic objectForKey:keyStr])
         {
             return;
         }
@@ -142,15 +147,27 @@
         
         CBGListModel * cbgModel = [list listSaveModel];
         cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:@[cbgModel]];
+        [self.finishDic setObject:cbgModel forKey:keyStr];
+    }
+}
+-(void)refreshDBManagerWithLatestFinishDic
+{
+    @synchronized (self.finishDic)
+    {
+        NSArray * dataArr = [self.finishDic allValues];
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dataArr];
         
-
-        if([localCacheArr containsObject:keyStr])
+        NSArray * keyArr = [self.finishDic allKeys];
+        for(NSInteger index = 0;index < [keyArr count]; index ++)
         {
-            [localCacheArr removeObject:keyStr];
+            NSString * key = [keyArr objectAtIndex:index];
+            
+            [self.finishDic removeObjectForKey:key];
+            [localCacheArr removeObject:key];
         }
     }
 }
+
 //启动请求
 -(void)startRefreshDataModelRequest
 {
@@ -165,6 +182,10 @@
     //    [requestLock lock];
     self.errorTotal = 0;
     NSLog(@"%s %@",__FUNCTION__,self.tagString);
+    
+    //本地保存，子线程内批量保存造成失败，移动位置
+    [self refreshDBManagerWithLatestFinishDic];
+    
     
     ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *)_dpModel;
     //仅做数据刷新，不做展示   详情数据请求中时，列表数据也需要刷新
@@ -216,7 +237,7 @@
     NSString * compareName = self.schoolName;
     
     Equip_listModel * listModel = [arr firstObject];
-    Equip_listModel * lastModel = [arr lastObject];
+//    Equip_listModel * lastModel = [arr lastObject];
     if(compareName && ![compareName isEqualToString:listModel.equip_name])
     {
         proxyCheck = YES;
@@ -290,10 +311,9 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
             errorNum ++;
         }
     }
-    
+    self.errorTotal = errorNum;
     NSArray * array = [dataObjDic allValues];
 
-    
     NSLog(@"errorProxy %ld errorNum %ld total %ld %@",[proxyErr count],errorNum,[total count],self.tagString);
     //检查得出未上架的数据
     //列表数据排重，区分未上架数据、价格变动数据
@@ -507,7 +527,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 //        [repeatCache removeObjectsInRange:range];
 //    }
     
-    @synchronized (localCacheArr)
+//    @synchronized (localCacheArr)
     {
         if([array count] == 0) return;
         
@@ -528,7 +548,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 //                }
 //            }
             if(![localCacheArr containsObject:combine])
-            {
+            {//主线程数组
                 [localCacheArr addObject:combine];
                 [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ADD_REFRESH_WEBDETAIL_STATE
                                                                     object:eve];
