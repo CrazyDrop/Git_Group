@@ -11,8 +11,8 @@
 @interface EquipListRequestModel : RefreshDefaultListRequestModel
 
 @property (nonatomic, assign) NSInteger pageNum;
-@property (nonatomic, assign) NSInteger selectSchool;
-@property (nonatomic, assign) NSInteger priceStatus;
+//@property (nonatomic, assign) NSInteger selectSchool;
+//@property (nonatomic, assign) NSInteger priceStatus;
 @property (nonatomic, assign) BOOL timerState;
 
 @end

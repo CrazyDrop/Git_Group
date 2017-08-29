@@ -8,6 +8,11 @@
 
 #import "ZWGroupVPNTestReqModel.h"
 #import "RoleDataModel.h"
+#import "CBGListModel.h"
+@interface ZWGroupVPNTestReqModel()
+@property (nonatomic,assign) NSInteger schoolIndex;
+@property (nonatomic,strong) NSString * reqName;
+@end
 @implementation ZWGroupVPNTestReqModel
 -(id)init
 {
@@ -15,6 +20,8 @@
     if(self)
     {
         self.timeOutNum = 5;
+        self.schoolIndex = arc4random()%12 + 1;
+        self.reqName = [CBGListModel schoolNameFromSchoolNumber:self.schoolIndex];
         self.ingoreRandom = YES;
     }
     return self;
@@ -109,7 +116,7 @@
     //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
     NSInteger index = arc4random()%10000 + randNum;
     NSString * replaceDeviceId = [[self class] replaceDeviceIdWithPageIndex:index];
-    NSString * eve = [NSString stringWithFormat:@"%@&school=1&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)1];
+    NSString * eve = [NSString stringWithFormat:@"%@&device_id=%@&page=%ld",pageUrl,replaceDeviceId,(long)1];
     return eve;
 }
 
@@ -120,6 +127,7 @@
     for (NSInteger index = 0;index < self.pageNum ; index ++)
     {
         NSString * url = [ZWGroupVPNTestReqModel randomTestFirstWebRequestWithIndex:index];
+        url = [url stringByAppendingFormat:@"&school=%ld",self.schoolIndex];
         [arr addObject:url];
     }
     return arr;
@@ -149,7 +157,7 @@
         listModel = [array lastObject];
     }
     
-    if(![listModel.equip_name isEqualToString:@"大唐官府"])
+    if(![listModel.equip_name isEqualToString:self.reqName])
     {
         return nil;
     }

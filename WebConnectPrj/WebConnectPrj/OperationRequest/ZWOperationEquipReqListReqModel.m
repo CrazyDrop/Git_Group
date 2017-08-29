@@ -164,17 +164,17 @@
         //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
         NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
         NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",pageUrl,(long)index];
-//        if(self.selectSchool > 0)
-//        {
-//            eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
-//        }
-//        if(self.priceStatus == 1){
-//            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=680000"];
-//        }else if(self.priceStatus == 2){
-//            eve = [eve stringByAppendingString:@"&price_min=680000&price_max=1000000"];
-//        }else if(self.priceStatus == 3){
-//            eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=5000000"];
-//        }
+        if(self.selectSchool > 0)
+        {
+            eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
+        }
+        if(self.priceStatus == 1){
+            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=680000"];
+        }else if(self.priceStatus == 2){
+            eve = [eve stringByAppendingString:@"&price_min=680000&price_max=1000000"];
+        }else if(self.priceStatus == 3){
+            eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=5000000"];
+        }
         eve = [NSString stringWithFormat:@"%@&device_id=%@",eve,replaceDeviceId];
         
         [urls addObject:eve];

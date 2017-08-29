@@ -353,10 +353,10 @@
         [model addSignalResponder:self];
         _dpModel = model;
 
-        if(self.schoolNum > 0){
-         model.selectSchool = self.schoolNum;
-        }
-        model.priceStatus = self.priceStatus;
+//        if(self.schoolNum > 0){
+//         model.selectSchool = self.schoolNum;
+//        }
+//        model.priceStatus = self.priceStatus;
         model.pageNum = self.requestNum;//刷新页数
     }
     

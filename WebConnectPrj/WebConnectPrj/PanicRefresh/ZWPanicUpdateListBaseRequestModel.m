@@ -496,6 +496,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 
 -(void)autoRefreshListRequestNumberWithLatestMaxPageNumber:(NSInteger)maxNum andMinPageNumber:(NSInteger)minNumber
 {
+//    return;
     //请求参数自动调整
     NSInteger refreshNum = 0;
     if(maxNum == 0){

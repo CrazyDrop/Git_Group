@@ -81,7 +81,7 @@
     
     
     NSArray * arr = @[
-                     @"http://xyq-ios2.cbg.163.com/app2-cgi-bin//xyq_search.py?act=super_query&search_type=overall_role_search&page=1&platform=ios&app_version=2.2.8&device_name=%E5%BC%A0%E8%B6%85%E7%BE%A4%E7%9A%84%20iPhone&os_name=iPhone%20OS&os_version=9.1&device_id=AC3A0755-1BFF-4B8E-9970-9097A296E519"
+                     @"http://xyq-ios2.cbg.163.com/app2-cgi-bin//xyq_search.py?act=super_query&search_type=overall_role_search&page=1&platform=ios&app_version=2.2.9&device_name=%E5%BC%A0%E8%B6%85%E7%BE%A4%E7%9A%84%20iPhone&os_name=iPhone%20OS&os_version=9.1&device_id=AC3A0755-1BFF-4B8E-9970-9097A296E519"
                       ];;
     return arr;
 

@@ -372,11 +372,11 @@
         
         ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
         NSInteger school = total.refreshSchool;
-        if(school > 0)
-        {
-            model.selectSchool = school;
-        }
-        model.priceStatus = total.refreshPriceStatus;
+//        if(school > 0)
+//        {
+//            model.selectSchool = school;
+//        }
+//        model.priceStatus = total.refreshPriceStatus;
         model.pageNum = self.requestNum;//刷新页数
     }
     

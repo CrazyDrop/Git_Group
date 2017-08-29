@@ -13,8 +13,8 @@
 @property (nonatomic, assign) NSInteger repeatNum;
 
 //废弃参数
-@property (nonatomic, assign) NSInteger selectSchool;
-@property (nonatomic, assign) NSInteger priceStatus;
+//@property (nonatomic, assign) NSInteger selectSchool;
+//@property (nonatomic, assign) NSInteger priceStatus;
 
 //@property (nonatomic, assign) BOOL saveCookie;
 
