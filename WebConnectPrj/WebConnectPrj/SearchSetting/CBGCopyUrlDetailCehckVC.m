@@ -29,6 +29,7 @@
 @property (nonatomic,strong) UITextView * textView;
 @property (nonatomic,strong) NSArray * combineArr;
 @property (nonatomic,strong) EquipModel * detailModel;
+@property (nonatomic,strong) NSArray * planArr;
 @end
 
 @implementation CBGCopyUrlDetailCehckVC
@@ -63,12 +64,42 @@
                             @"十里霓虹、五道口	",
                             @"黄浦江、逍遥三届	",
                             @"凌云殿、八闽游		",
-                            @""
+                            @"天马山、晚芳亭",
+                            @"菩提岛、燕塞湖",
+                            @"丹山赤水、文澜阁",
+                            @"卧龙岗、南阳府",
+                            @"胶东半岛、威海卫",
+
                             ];
         _combineArr = names;
     }
     return _combineArr;
 }
+-(NSArray *)planArr
+{
+    if(!_planArr)
+    {
+        NSArray * orderSnArr = @[
+                                 @"131_1503923729_131794456",
+                                 @"131_1501116053_131788983",
+                                 @"407_1503948225_407653688",
+                                 @"1191_1503930640_1192421317",
+                                 @"1248_1503755988_1248773915",
+                                 @"1249_1503928466_1249566181",
+                                 @"567_1503932534_567916782",
+                                 @"37_1503061167_37544176",
+                                 @"1248_1503887224_1248774682",
+                                 @"1234_1503883242_1235196310",
+                                 @"37_1503932417_37545788",
+                                 @"37_1503054260_37544159",
+                                 @"131_1503367529_131793380",
+                                 @""
+                                 ];
+        _planArr = orderSnArr;
+    }
+    return _planArr;
+}
+
 -(NSString *)functionNamesForDetailFunctionStyle:(CBGDetailTestURLFunctionStyle)style
 {
     NSString * name = @"未知";
@@ -640,7 +671,7 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
     {
         NSString * preId = [preArr objectAtIndex:index];
         NSString * nextId = [latestArr objectAtIndex:index];
-        [dbManager refreshLocalSaveEquipHistoryModelServerId:preId withLatest:nextId];
+//        [dbManager refreshLocalSaveEquipHistoryModelServerId:preId withLatest:nextId];
     }
     
     [self ingoreUpdateListWithPreIdArr:preArr andLastestArr:latestArr];
@@ -655,58 +686,7 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
 -(void)ingoreUpdateListWithPreIdArr:(NSArray *)preArr andLastestArr:(NSArray *)latestArr
 {
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
-    NSArray * orderSnArr = @[
-                             @"60_1493129170_60644993",
-                             @"60_1493128891_60644992",
-                             @"60_1493123430_60644981",
-                             @"60_1493022191_60644887",
-                             @"60_1492573791_60644366",
-                             @"1316_1492340623_1316256359",
-                             @"60_1492270530_60643953",
-                             @"60_1492252047_60643920",
-                             @"60_1492092055_60643766",
-                             @"60_1491912284_60643516",
-                             @"60_1491911867_60643514",
-                             @"60_1491911603_60643513",
-                             @"1316_1491895608_1316255614",
-                             @"1316_1491571555_1316254901",
-                             @"60_1491564675_60643057",
-                             @"60_1491319517_60642682",
-                             @"1316_1491316615_1316254306",
-                             @"60_1491198464_60642455",
-                             @"280_1491157052_281885144",
-                             @"1316_1491137608_1316253898",
-                             @"60_1491041876_60642192",
-                             @"60_1490959281_60642064",
-                             @"60_1490858922_60641895",
-                             @"1265_1484233917_1265862515",
-                             @"60_1490716780_60641710",
-                             @"1316_1490691181_1316252890",
-                             @"60_1480404387_60624841",
-                             @"1316_1490364166_1316252155",
-                             @"60_1490361412_60641101",
-                             @"330_1490198728_331479340",
-                             @"60_1490197053_60640926",
-                             @"60_1490012062_60640614",
-                             @"60_1489989091_60640568",
-                             @"60_1489982099_60640566",
-                             @"1316_1489978292_1316251314",
-                             @"482_1489853079_483936717",
-                             @"60_1489846567_60640383",
-                             @"60_1489814122_60640327",
-                             @"60_1489068080_60639061",
-                             @"60_1488284600_60637743",
-                             @"1316_1487757546_1316246334",
-                             @"60_1487604290_60636085",
-                             @"60_1487571357_60635937",
-                             @"60_1487426075_60635615",
-                             @"60_1487424512_60635605",
-                             @"60_1486712718_60633991",
-                             @"60_1484669869_60631316",
-                             @"60_1479633568_60623624",
-                             @"1316_1476332632_1316214482",
-                             @""
-                             ];
+    NSArray * orderSnArr = self.planArr;
     
     NSMutableArray * updateArr = [NSMutableArray array];
 
@@ -727,9 +707,12 @@ handleSignal( CBGWebDBRemoveModel, requestLoaded )
             }else
             {
                 latestIndex = [preArr indexOfObject:[NSNumber numberWithInteger:serverId]];
-                eveList.dbStyle = CBGLocalDataBaseListUpdateStyle_CopyRefresh;
-                eveList.server_id = [[preArr objectAtIndex:latestIndex] integerValue];
-                [updateArr addObject:eveList];
+                if(latestIndex!=NSNotFound)
+                {
+                    eveList.dbStyle = CBGLocalDataBaseListUpdateStyle_CopyRefresh;
+                    eveList.server_id = [[preArr objectAtIndex:latestIndex] integerValue];
+                    [updateArr addObject:eveList];
+                }
             }
 
         }

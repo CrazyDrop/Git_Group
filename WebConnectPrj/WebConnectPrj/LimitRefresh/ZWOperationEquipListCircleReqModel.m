@@ -142,26 +142,30 @@
     
     for (NSInteger index = 1; index <= totalNum; index ++)
     {
-        NSString * pageUrl = [self replaceStringWithLatestWebString:baseUrl];
-        
-        //增加设备号
-        //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
-        NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
-        NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",pageUrl,(long)1];
-        if(self.selectSchool > 0)
+        NSInteger pageNum = 3;
+        for(NSInteger evePage = 1 ;evePage <= pageNum ;evePage ++)
         {
-            eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
+            NSString * pageUrl = [self replaceStringWithLatestWebString:baseUrl];
+            
+            //增加设备号
+            //        &device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8
+            NSString * replaceDeviceId = [self replaceDeviceIdWithPageIndex:index];
+            NSString * eve = [NSString stringWithFormat:@"%@&page=%ld",pageUrl,(long)evePage];
+            
+            //        if(self.selectSchool > 0)
+            //        {
+            //            eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
+            //        }
+            //        if(self.priceStatus == 1){
+            //            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=850000"];
+            //        }else if(self.priceStatus == 2){
+            //            eve = [eve stringByAppendingString:@"&price_min=850000&price_max=1000000"];
+            //        }else if(self.priceStatus == 3){
+            //            eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=2500000"];
+            //        }
+            eve = [NSString stringWithFormat:@"%@&device_id=%@",eve,replaceDeviceId];
+            [urls addObject:eve];
         }
-        if(self.priceStatus == 1){
-            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=850000"];
-        }else if(self.priceStatus == 2){
-            eve = [eve stringByAppendingString:@"&price_min=850000&price_max=1000000"];
-        }else if(self.priceStatus == 3){
-            eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=2500000"];
-        }
-        eve = [NSString stringWithFormat:@"%@&device_id=%@",eve,replaceDeviceId];
-        
-        [urls addObject:eve];
     }
     
     return urls;

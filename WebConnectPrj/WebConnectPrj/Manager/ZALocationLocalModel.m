@@ -3125,11 +3125,13 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              FMResultSet *resultSet = nil;
              NSMutableString *sqlMutableString=[NSMutableString string];
              
-             [sqlMutableString appendFormat:@"update %@ set %@ = %@ WHERE %@ = %@",ZADATABASE_TABLE_EQUIP_TOTAL,
+             [sqlMutableString appendFormat:@"update %@ set %@ = %@ WHERE %@ = %@ and %@ = '' and %@ = '' ",ZADATABASE_TABLE_EQUIP_TOTAL,
               ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
               latestId,
               ZADATABASE_TABLE_EQUIP_KEY_SERVER_ID,
-              preId];
+              preId,
+              ZADATABASE_TABLE_EQUIP_KEY_SELL_SOLD,
+              ZADATABASE_TABLE_EQUIP_KEY_SELL_BACK];
              
              resultSet=[fmdatabase executeQuery:sqlMutableString];
              while ([resultSet next])

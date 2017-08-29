@@ -34,9 +34,11 @@
 @property (nonatomic,assign) BOOL refreshState;
 @property (nonatomic,strong) UIView * tipsErrorView;
 @property (nonatomic,assign) NSInteger countNum;
+@property (nonatomic,assign) NSInteger countError;
+
+@property (nonatomic,assign) NSInteger errorNum;
 @property (nonatomic,assign) NSInteger randNum;
 @property (nonatomic,strong) UIView * errorTips;
-@property (nonatomic,assign) NSInteger errorNum;
 @property (nonatomic,strong) NSLock * dataLock;
 @property (nonatomic,strong) NSDate * proxyRefreshDate;
 @property (nonatomic,assign) NSInteger proxyNum;
@@ -294,16 +296,19 @@
 handleSignal( ZWOperationDetailListReqModel, requestError )
 {
     NSLog(@"%s",__FUNCTION__);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
     //修改文本，提示网络异常
     [self refreshTipStateWithError:YES];
 }
 handleSignal( ZWOperationDetailListReqModel, requestLoading )
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 {
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //进行存储操作、展示
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
     ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *) _detailListReqModel;
@@ -813,7 +818,10 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 }
 -(void)panicListRequestFinishWithUpdateModel:(ZWPanicUpdateListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr
 {
-    self.webNum = [NSString stringWithFormat:@"%ld/%ld (%@)",model.errorTotal,model.requestNum,model.tagString];
+    self.countNum += model.requestNum;
+    self.countError += model.errorTotal;
+    self.webNum = [NSString stringWithFormat:@"%ld/%ld (%@)",self.countError,self.countNum,model.tagString];
+    
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     for (NSInteger index = 0;index < [array count] ;index ++ )
@@ -837,6 +845,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         return;
     }else{
         self.countNum = 0;
+        self.countError = 0;
         //列表刷新，数据清空
 //        [self.dataLock lock];
         NSArray * showArr = [NSArray arrayWithArray:combineArr];
