@@ -123,47 +123,67 @@
 }
 -(void)detailRefreshFinishedLocalUpdateAndRemoveWithBackNoti:(NSNotification *)noti
 {
-    Equip_listModel * list = (Equip_listModel *)[noti object];
-    NSString * keyStr = list.listCombineIdfa;
-    keyStr = list.game_ordersn;
+    NSArray * listArr = (NSArray *)[noti object];
+    NSMutableArray * editArr = [NSMutableArray array];
+    
+    //筛选自己发起的请求
+    for (Equip_listModel * list in listArr)
+    {
+        NSString * keyStr = list.listCombineIdfa;
+        keyStr = list.game_ordersn;
+        if([localCacheArr containsObject:keyStr])
+        {
+            [editArr addObject:list];
+        }
+    }
     
     @synchronized (self.finishDic)
     {
-        if(![self.finishDic objectForKey:keyStr])
+        for(NSInteger index = 0;index < [editArr count]; index ++)
         {
-            return;
+            Equip_listModel * list = [editArr objectAtIndex:index];
+            NSString * keyStr = list.listCombineIdfa;
+            keyStr = list.game_ordersn;
+//            
+//            if(![self.finishDic objectForKey:keyStr])
+//            {
+//                return;
+//            }
+            
+            //进行库表存储
+            CBGEquipRoleState state = list.equipModel.equipState;
+            if(state == CBGEquipRoleState_unSelling){
+                list.listSaveModel = nil;
+            }
+            
+            if(state == CBGEquipRoleState_PayFinish || state == CBGEquipRoleState_BuyFinish){
+                list.listSaveModel = nil;
+            }
+            
+            CBGListModel * cbgModel = [list listSaveModel];
+            cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
+            [self.finishDic setObject:cbgModel forKey:keyStr];
         }
         
-        //进行库表存储
-    //    list.listSaveModel = nil;
-        CBGEquipRoleState state = list.equipModel.equipState;
-        if(state == CBGEquipRoleState_unSelling){
-            list.listSaveModel = nil;
-        }
-        
-        if(state == CBGEquipRoleState_PayFinish || state == CBGEquipRoleState_BuyFinish){
-            list.listSaveModel = nil;
-        }
-        
-        CBGListModel * cbgModel = [list listSaveModel];
-        cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-        [self.finishDic setObject:cbgModel forKey:keyStr];
     }
 }
 -(void)refreshDBManagerWithLatestFinishDic
 {
     @synchronized (self.finishDic)
     {
-        NSArray * dataArr = [self.finishDic allValues];
-        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dataArr];
-        
-        NSArray * keyArr = [self.finishDic allKeys];
-        for(NSInteger index = 0;index < [keyArr count]; index ++)
+        if([self.finishDic count] > 0)
         {
-            NSString * key = [keyArr objectAtIndex:index];
+            NSArray * dataArr = [self.finishDic allValues];
+            [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dataArr];
             
-            [self.finishDic removeObjectForKey:key];
-            [localCacheArr removeObject:key];
+            NSArray * keyArr = [self.finishDic allKeys];
+            for(NSInteger index = 0;index < [keyArr count]; index ++)
+            {
+                NSString * key = [keyArr objectAtIndex:index];
+                
+                [self.finishDic removeObjectForKey:key];
+                [localCacheArr removeObject:key];
+            }
         }
     }
 }
@@ -250,6 +270,7 @@
         {
             [editProxy removeObject:optModel];
             proxyManager.proxyArrCache = editProxy;
+            [proxyManager localRefreshListFileWithLatestProxyList];
         }
         NSLog(@"ingore ip  %@ %@ %@",optModel.idNum,listModel.equip_name,opt.url);
     }
@@ -307,6 +328,9 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                 //进行异常处理
                 vpnObj.proxyModel.errored = YES;//定期移除
             }
+        }else if(isLast)
+        {
+            
         }else{
             errorNum ++;
         }
@@ -408,12 +432,8 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
             }
         }else{
             
-            BOOL compareDate = NO;
-            if(self.lineDate){
-                compareDate = YES;
-            }
             
-            if(!compareDate || (compareDate && [self lineDateEarlierThanSellDate:sellDate]))
+//            if(!self.lineDate || (self.lineDate && [self lineDateEarlierThanSellDate:sellDate]))
             {
                 //检查价格变动、价格有变动的，进行更新
                 NSArray * orderArr = [dbManager localSaveEquipHistoryModelListForOrderSN:orderSN];
@@ -444,7 +464,8 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         
         
         if(latestDate)
-        {
+        {//每次找出最后更新时间，下次比对使用
+            //由于代理返回，失败的情况较多，放弃时间比对
             NSTimeInterval count = [sellDate timeIntervalSinceDate:latestDate];
             if(count > 0){
                 latestDate = sellDate;
@@ -499,10 +520,15 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 //    return;
     //请求参数自动调整
     NSInteger refreshNum = 0;
-    if(maxNum == 0){
+    if(maxNum == 0 && minNumber > 0){
         //最大值无效，最小值也可能无效
         refreshNum = self.requestNum + 2;
-        refreshNum = MIN(refreshNum, 28);
+        
+        if(minNumber > 25){
+            refreshNum = MIN(refreshNum, 35);
+        }else{
+            refreshNum = MIN(refreshNum, 30);
+        }
     }else{
         refreshNum = maxNum;
     }

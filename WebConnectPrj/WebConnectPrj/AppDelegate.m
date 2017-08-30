@@ -51,6 +51,8 @@
     
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//    total.proxyDicArr = nil;
+//    [total localSave];
     if(!total.localURL1)
     {
         total.localURL1 = WebRefresh_ListRequest_Default_URLString;
@@ -91,7 +93,7 @@
 //    [task resume];
     
     
-    [self writeLogToFile];
+//    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];
 #endif

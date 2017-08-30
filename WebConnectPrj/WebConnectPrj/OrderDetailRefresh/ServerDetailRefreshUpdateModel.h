@@ -20,7 +20,8 @@
 
 @property (nonatomic, assign) BOOL endRefresh;
 @property (nonatomic, assign) BOOL equipEnable;
-@property (nonatomic, assign) BOOL proxyEnable;
+@property (nonatomic, assign) BOOL timeEnable;  //递增生效中
+
 @property (nonatomic, strong) NSString * serverTag;
 @property (nonatomic, strong) NSString * serverName;
 @property (nonatomic, assign) id<ServerDetailUpdateRefreshDelegate> requestDelegate;

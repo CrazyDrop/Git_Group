@@ -82,13 +82,12 @@
 {
     ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
     
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    
-    total.proxyDicArr = nil;
-    [total localSave];
+//    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+//    total.proxyDicArr = nil;
+//    [total localSave];
     
     manager.proxyArrCache = nil;
-
+    [manager localRefreshListFileWithLatestProxyList];
     //清空vpn列表
     [DZUtils noticeCustomerWithShowText:@"清空vpn列表"];
 }
@@ -107,11 +106,12 @@
     NSMutableArray * edit = [NSMutableArray arrayWithArray:manager.proxyArrCache];
     [edit addObject:eve];
 
-    NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:edit];
-    total.proxyDicArr = dicArr ;
-    [total localSave];
+//    NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:edit];
+//    total.proxyDicArr = dicArr ;
+//    [total localSave];
     
     manager.proxyArrCache = edit;
+    [manager localRefreshListFileWithLatestProxyList];
 }
 -(void)tapedOnRemoveSelectedBtn:(id)sender
 {
@@ -136,12 +136,12 @@
     [edit removeAllObjects];
     [edit addObjectsFromArray:[editDic allValues]];
     
-    NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:edit];
-    total.proxyDicArr = dicArr ;
-    [total localSave];
+//    NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:edit];
+//    total.proxyDicArr = dicArr ;
+//    [total localSave];
 
     manager.proxyArrCache = edit;
-
+    [manager localRefreshListFileWithLatestProxyList];
     
 }
 

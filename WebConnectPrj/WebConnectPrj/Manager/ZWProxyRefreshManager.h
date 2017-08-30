@@ -21,4 +21,9 @@
 -(void)refreshLatestSessionArrayWithCurrentProxyArr;
 -(void)clearProxySubCache;
 
+-(NSArray *)readLocalFileProxyList;
+-(NSArray *)proxySessionModelArray;
+-(void)localRefreshListFileWithLatestProxyList;
+
+
 @end

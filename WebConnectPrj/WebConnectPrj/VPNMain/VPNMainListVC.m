@@ -165,15 +165,10 @@
 }
 -(void)refreLocalSaveDetailVPNDicList
 {
-    NSArray * showArr = self.vpnArr;
-    NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:showArr];
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    total.proxyDicArr = dicArr;
-    [total localSave];
     
     ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
     manager.proxyArrCache = self.vpnArr;
+    [manager localRefreshListFileWithLatestProxyList];
     
     NSString * txt = @"保存成功";
     [self refreshVCTitleWithDetailText:txt];

@@ -168,13 +168,42 @@
         {
             eve = [eve stringByAppendingFormat:@"&school=%ld",self.selectSchool];
         }
-        if(self.priceStatus == 1){
-            eve = [eve stringByAppendingString:@"&price_min=300000&price_max=680000"];
-        }else if(self.priceStatus == 2){
-            eve = [eve stringByAppendingString:@"&price_min=680000&price_max=1000000"];
-        }else if(self.priceStatus == 3){
-            eve = [eve stringByAppendingString:@"&price_min=1000000&price_max=5000000"];
+
+        switch (self.priceStatus) {
+            case 0:
+            {
+                
+            }
+                break;
+            case 1:{
+                eve = [eve stringByAppendingString:@"&price_min=0&price_max=690000"];//17
+            }
+                break;
+            case 2:{
+                eve = [eve stringByAppendingString:@"&price_min=690000&price_max=950000"];//22
+            }
+                break;
+            case 3:{
+                eve = [eve stringByAppendingString:@"&price_min=950000&price_max=1600000"];//26
+            }
+                break;
+            case 4:{
+                eve = [eve stringByAppendingString:@"&price_min=1600000&price_max=3000000"];//28
+            }
+                break;
+            case 11:{
+                eve = [eve stringByAppendingString:@"&price_min=0&price_max=900000"];
+            }
+                break;
+            case 12:{
+                eve = [eve stringByAppendingString:@"&price_min=900000&price_max=3000000"];
+            }
+                break;
+                
+            default:
+                break;
         }
+        
         eve = [NSString stringWithFormat:@"%@&device_id=%@",eve,replaceDeviceId];
         
         [urls addObject:eve];

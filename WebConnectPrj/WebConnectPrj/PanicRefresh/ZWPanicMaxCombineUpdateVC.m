@@ -84,11 +84,13 @@
         NSInteger totalNum  = 15;
         //        totalNum = 2;
 //                totalNum = 1;
-        NSArray * sepArr = @[@1,@2,@7,@6,@9,@10,@11];
+        NSArray * sepArr = @[@1,@2,@7,@6];
+        NSArray * secondArr = @[@9,@10,@11,@4,@15,@8];
         for (NSInteger index = 1 ; index <= totalNum ; index ++)
         {
             
-//            if(index == 8)
+//            if(index == 7)
+//            if(index == 14)
             {
                 NSNumber * num = [NSNumber numberWithInteger:index];
                 if([sepArr containsObject:num])
@@ -96,9 +98,18 @@
                     NSString * eve1 = [NSString  stringWithFormat:@"%ld_1",(long)index];
                     NSString * eve2 = [NSString  stringWithFormat:@"%ld_2",(long)index];
                     NSString * eve3 = [NSString  stringWithFormat:@"%ld_3",(long)index];
+                    NSString * eve4 = [NSString  stringWithFormat:@"%ld_4",(long)index];
                     [tag addObject:eve1];
                     [tag addObject:eve2];
                     [tag addObject:eve3];
+                    [tag addObject:eve4];
+                }else if([secondArr containsObject:num])
+                {
+                    NSString * eve1 = [NSString  stringWithFormat:@"%ld_11",(long)index];
+                    NSString * eve2 = [NSString  stringWithFormat:@"%ld_12",(long)index];
+                    [tag addObject:eve1];
+                    [tag addObject:eve2];
+
                 }else{
                     NSString * eve = [NSString  stringWithFormat:@"%ld_0",(long)index];
                     [tag addObject:eve];
@@ -143,6 +154,9 @@
 }
 -(void)refreshProxyCacheArrayAndCacheSubArray
 {
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!total.isProxy) return;
+    
     self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
     self.proxyNum ++;
     
@@ -184,11 +198,12 @@
         if(refresh)
         {
             proxyManager.proxyArrCache = editProxy;
-            
-            NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
-            ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
-            localTotal.proxyDicArr = dicArr;
-            [localTotal localSave];
+            [proxyManager localRefreshListFileWithLatestProxyList];
+//            NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
+//            
+//            ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
+//            localTotal.proxyDicArr = dicArr;
+//            [localTotal localSave];
         }
     }else{
         //每2分钟，刷新一次vpn列表
@@ -391,11 +406,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     
     if([refreshArr count] > 0)
     {
-        for (NSInteger index = 0;index < [refreshArr count] ;index ++ )
-        {
-            Equip_listModel * eveList = [refreshArr objectAtIndex:index];
-            [self finishDetailRefreshPostNotificationWithBaseDetailModel:eveList];
-        }
+        
+        [self finishDetailRefreshPostNotificationWithBaseDetailModel:refreshArr];
+
         
         [self checkListInputForNoticeWithArray:refreshArr];
         [self refreshCombineNumberAndProxyCacheNumberForTitle];
@@ -410,10 +423,10 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     }
 //    [self.dataLock unlock];
 }
--(void)finishDetailRefreshPostNotificationWithBaseDetailModel:(Equip_listModel *)listModel
+-(void)finishDetailRefreshPostNotificationWithBaseDetailModel:(NSArray *)listArr
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REMOVE_REFRESH_WEBDETAIL_STATE
-                                                        object:listModel];
+                                                        object:listArr];
 }
 
 

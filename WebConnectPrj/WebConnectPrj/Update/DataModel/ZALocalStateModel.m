@@ -41,7 +41,8 @@ static ZALocalStateModel *shareZALocalStateModelInstance = nil;
 //本地统一存储的数据
 +(instancetype)createInstanceModel
 {
-    NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+//    NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+    NSUserDefaults * stand = [NSUserDefaults standardUserDefaults];
     NSData * data  = [stand objectForKey:Local_File_ZALocalStateModel_Model];
     
     ZALocalStateModel * model = [ZALocalStateModel objectWithContentsOfData:data];
@@ -57,7 +58,8 @@ static ZALocalStateModel *shareZALocalStateModelInstance = nil;
 -(void)localSave
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
-    NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+//    NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+    NSUserDefaults * stand = [NSUserDefaults standardUserDefaults];
     [stand setObject:data forKey:Local_File_ZALocalStateModel_Model];
     [stand synchronize];
 }

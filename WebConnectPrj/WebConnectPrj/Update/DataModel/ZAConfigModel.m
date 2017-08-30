@@ -26,6 +26,7 @@
 +(instancetype)createInstanceModel
 {
     NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+    stand = [NSUserDefaults standardUserDefaults];
     NSData * data  = [stand objectForKey:Local_File_ZAConfigModel_Model];
     
     ZAConfigModel * model = [ZAConfigModel objectWithContentsOfData:data];
@@ -47,6 +48,7 @@
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
     NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
+    stand = [NSUserDefaults standardUserDefaults];
     [stand setObject:data forKey:Local_File_ZAConfigModel_Model];
     [stand synchronize];
 }

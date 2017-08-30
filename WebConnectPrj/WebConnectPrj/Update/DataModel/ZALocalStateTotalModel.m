@@ -166,8 +166,8 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
 //本地统一存储的数据
 +(instancetype)createInstanceModel
 {
-    NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
-    stand = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults * stand = [NSUserDefaults standardUserDefaults];
+//    stand = [NSUserDefaults standardUserDefaults];
     NSData * data  = [stand objectForKey:Local_File_ZALocalStateTotalModel_Model];
     
     ZALocalStateTotalModel * model = [ZALocalStateTotalModel objectWithContentsOfData:data];
@@ -192,8 +192,7 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
     [model localSave];
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
-    NSUserDefaults * stand = [[NSUserDefaults alloc] initWithSuiteName:USERDEFAULT_SUIT_NAME_PAPA];
-    stand = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults * stand = [NSUserDefaults standardUserDefaults];
     [stand setObject:data forKey:Local_File_ZALocalStateTotalModel_Model];
     [stand synchronize];
 }
@@ -234,35 +233,5 @@ static ZALocalStateTotalModel *shareZALocalStateTotalModelInstance = nil;
     
     [current refreshLocalSaveStateDataWithCurrentData];
 }
--(NSArray *)proxyModelArray
-{
-    NSMutableArray * models = [NSMutableArray array];
-    NSArray * dicArr = self.proxyDicArr;
-    if(dicArr)
-    {
-        for (NSInteger index =0; index < [dicArr count]; index ++)
-        {
-            NSDictionary * eve = [dicArr objectAtIndex:index];
-            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
-            [models addObject:model];
-        }
-    }
-    return models;
-}
--(NSArray *)proxySessionModelArray
-{
-    NSMutableArray * models = [NSMutableArray array];
-    NSArray * dicArr = self.proxyDicArr;
-    if(dicArr)
-    {
-        for (NSInteger index =0; index < [dicArr count]; index ++)
-        {
-            NSDictionary * eve = [dicArr objectAtIndex:index];
-            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
-            SessionReqModel * req = [[SessionReqModel alloc] initWithProxyModel:model];
-            [models addObject:req];
-        }
-    }
-    return models;
-}
+
 @end

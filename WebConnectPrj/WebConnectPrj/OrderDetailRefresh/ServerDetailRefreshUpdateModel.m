@@ -69,7 +69,7 @@
     {
         self.minuteNum = 2;
         self.maxTestNum = 30;
-        self.proxyEnable = NO;
+//        self.proxyEnable = NO;
         self.listCheck = YES;
     }
     return self;
@@ -151,6 +151,7 @@
 {
     if(self.endRefresh) return;
     
+    
     if(self.listCheck)
     {//列表检查
         if(self.listWait && self.waitNum <= 5)
@@ -159,6 +160,7 @@
             return;
         }
         self.listWait = NO;
+        self.timeEnable = NO;
         [self startMobileServerListRequest];
     }else if(self.detailRequest)
     {//详情请求
@@ -168,6 +170,7 @@
         [self startLatestEquipIdRefreshAndCheck];
     }else
     {//时间递增
+        self.timeEnable = YES;
         [self startDetailArrayListRequest];
     }
 }

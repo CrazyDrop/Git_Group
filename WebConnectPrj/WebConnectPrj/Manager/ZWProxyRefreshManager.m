@@ -115,6 +115,62 @@
     self.proxySubCache = nil;
     self.sessionSubCache = nil;
 }
+-(NSArray *)proxySessionModelArray
+{
+    NSMutableArray * models = [NSMutableArray array];
+    NSArray * dicArr = self.proxyArrCache;
+    if(dicArr)
+    {
+        for (NSInteger index =0; index < [dicArr count]; index ++)
+        {
+            NSDictionary * eve = [dicArr objectAtIndex:index];
+            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
+            SessionReqModel * req = [[SessionReqModel alloc] initWithProxyModel:model];
+            [models addObject:req];
+        }
+    }
+    return models;
+}
 
+
+-(NSString *)proxyFilePath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString * proxyPath = [documentsDirectory stringByAppendingPathComponent:@"localProxy.plist"];
+    return proxyPath;
+}
+-(NSArray *)readLocalFileProxyList
+{
+    NSString * proxyPath = [self proxyFilePath];
+    NSArray * array = [NSArray arrayWithContentsOfFile:proxyPath];
+    
+    NSMutableArray * editArr = [NSMutableArray array];
+    NSArray * dicArr = array;
+    if(dicArr)
+    {
+        for (NSInteger index =0; index < [dicArr count]; index ++)
+        {
+            NSDictionary * eve = [dicArr objectAtIndex:index];
+            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
+            [editArr addObject:model];
+        }
+    }
+    return editArr;
+}
+-(void)localRefreshListFileWithLatestProxyList
+{
+    NSString * proxyPath = [self proxyFilePath];
+    NSFileManager *defaultFileManager=[NSFileManager defaultManager];
+    BOOL isExit=[defaultFileManager fileExistsAtPath:proxyPath];
+    if (!isExit)
+    {
+        [defaultFileManager createFileAtPath:proxyPath contents:nil attributes:nil];
+    }
+    
+    NSArray * data = self.proxyArrCache;
+    NSArray * fileArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:data];
+    [fileArr writeToFile:proxyPath atomically:YES];
+}
 
 @end

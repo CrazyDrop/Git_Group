@@ -25,6 +25,9 @@
 
 @property (nonatomic, strong) NSDate * proxyRefreshDate;
 @property (nonatomic, assign) NSInteger proxyNum;
+
+@property (nonatomic,strong) UILabel * numLbl;
+@property (nonatomic,strong) UIButton * tipsErrorView;
 @end
 
 @implementation ZWServerDetailListRefreshVC
@@ -47,6 +50,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.detailProxy = YES;
+    [self.view addSubview:self.tipsErrorView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshEquipRequestWithWebRequestNeedRefreshError:)
@@ -56,6 +60,29 @@
 
     [self prepareForServerRequestModel];
     
+}
+
+-(UIView *)tipsErrorView
+{
+    if(!_tipsErrorView)
+    {
+        CGFloat btnWidth = 100;
+        UIView * aView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - btnWidth)/2.0, CGRectGetMaxY(self.titleBar.frame), btnWidth, 40)];
+        aView.backgroundColor = [UIColor greenColor];
+        
+        UILabel * albl = [[UILabel alloc] initWithFrame:aView.bounds];
+        albl.text = @"重置统计";
+        albl.textAlignment = NSTextAlignmentCenter;
+        self.numLbl = albl;
+        //        [albl sizeToFit];
+        [aView addSubview:albl];
+        albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
+        
+//        UITapGestureRecognizer * tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedOnExchangeTotalWithTapedBtn:)];
+//        [aView addGestureRecognizer:tapGes];
+        self.tipsErrorView = aView;
+    }
+    return _tipsErrorView;
 }
 -(void)checkDetailErrorForTipsError
 {
@@ -71,8 +98,8 @@
         for (NSInteger index = 0; index < [reqArr count]; index ++)
         {
             ServerDetailRefreshUpdateModel * reqModel = [reqArr objectAtIndex:index];
-            reqModel.endRefresh = NO;
-//            reqModel.equipEnable = YES;//暂不使用
+            reqModel.endRefresh = YES;
+//            reqModel.equipEnable = NO;
         }
     }
 }
@@ -150,15 +177,25 @@
 
 
     NSArray * reqArr = self.serverReqArray;
+    NSInteger countNum = 0;
     for (NSInteger index = 0; index < [reqArr count]; index ++)
     {
         ServerDetailRefreshUpdateModel * reqModel = [reqArr objectAtIndex:index];
-        reqModel.proxyEnable = self.detailProxy;
+        if(reqModel.timeEnable){
+            countNum ++;
+        }
         [reqModel startRefreshDataModelRequest];
     }
+    
+    self.numLbl.text = [NSString stringWithFormat:@"%ld/%ld",countNum,[reqArr count]];
 }
 -(void)refreshProxyCacheArrayAndCacheSubArray
 {
+    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    if(!total.isProxy)
+    {
+        return;
+    }
     self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
     self.proxyNum ++;
     
@@ -204,12 +241,12 @@
     [alertController addAction:action];
 
     
-    action = [MSAlertAction actionWithTitle:@"拆分历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
-              {
-                  [weakSelf refreshLocalServerDBWithLatestTotalDBList];
-                  
-              }];
-    [alertController addAction:action];
+//    action = [MSAlertAction actionWithTitle:@"拆分历史" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+//              {
+//                  [weakSelf refreshLocalServerDBWithLatestTotalDBList];
+//                  
+//              }];
+//    [alertController addAction:action];
     
     
 //    action = [MSAlertAction actionWithTitle:@"开启代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
