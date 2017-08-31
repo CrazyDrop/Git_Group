@@ -20,7 +20,7 @@
     if(self)
     {
         
-        self.timeOutNum = 5;
+//        self.timeOutNum = 5;
         self.saveCookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
 

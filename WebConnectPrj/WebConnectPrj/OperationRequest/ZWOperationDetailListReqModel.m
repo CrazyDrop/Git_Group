@@ -11,12 +11,7 @@
 #import "JSONKit.h"
 
 @implementation ZWOperationDetailListReqModel
--(id)init
-{
-    self = [super init];
-    self.timeOutNum = 10;
-    return self;
-}
+
 -(NSArray *)webRequestDataList
 {
     NSString * pageUrl = @"http://xyq-ios2.cbg.163.com/app2-cgi-bin/xyq_search.py?act=super_query&search_type=overall_role_search&platform=ios&app_version=2.2.9&device_name=iPhone&os_name=iPhone%20OS&os_version=9.1&device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8";

@@ -94,6 +94,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled=YES;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled=NO;
 }
 -(void)readFromLocalSaveDataArray
 {

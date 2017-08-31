@@ -44,6 +44,7 @@
     self = [super init];
     if(self)
     {
+        self.timeOutNum = 5;
         groupQueue = [[self class] zw_sharedGroupRequestOperationQueue];
         self.cookieDic = [NSMutableDictionary dictionary];
         self.errorProxyDic = [NSMutableDictionary dictionary];
@@ -103,6 +104,12 @@
     }
     
     NSArray * urlArray = self.baseUrls;
+    if(!urlArray || [urlArray count] == 0)
+    {
+        self.executing = NO;
+        return;
+    }
+    
     
     //网络请求结果返回很快，结果数组未创建即
     NSMutableArray * resArr = [NSMutableArray array];

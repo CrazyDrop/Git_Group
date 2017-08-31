@@ -134,21 +134,18 @@
         if([localCacheArr containsObject:keyStr])
         {
             [editArr addObject:list];
+            [localCacheArr removeObject:keyStr];
         }
     }
     
-    @synchronized (self.finishDic)
+    if([editArr count] > 0)
     {
+        NSMutableDictionary * editDic = [NSMutableDictionary dictionary];
         for(NSInteger index = 0;index < [editArr count]; index ++)
         {
             Equip_listModel * list = [editArr objectAtIndex:index];
             NSString * keyStr = list.listCombineIdfa;
             keyStr = list.game_ordersn;
-//            
-//            if(![self.finishDic objectForKey:keyStr])
-//            {
-//                return;
-//            }
             
             //进行库表存储
             CBGEquipRoleState state = list.equipModel.equipState;
@@ -162,21 +159,26 @@
             
             CBGListModel * cbgModel = [list listSaveModel];
             cbgModel.dbStyle = CBGLocalDataBaseListUpdateStyle_TimeAndPlan;
-            [self.finishDic setObject:cbgModel forKey:keyStr];
+            [editDic setObject:cbgModel forKey:keyStr];
         }
         
+        //本地保存，子线程内批量保存造成失败，移动位置，移动位置，详情结束后处理
+        NSArray * dataArr = [editDic allValues];
+        [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dataArr];
     }
 }
 -(void)refreshDBManagerWithLatestFinishDic
 {
-    @synchronized (self.finishDic)
+//    @synchronized (self.finishDic)
     {
         if([self.finishDic count] > 0)
         {
-            NSArray * dataArr = [self.finishDic allValues];
+            NSDictionary * readDic = [NSDictionary dictionaryWithDictionary:self.finishDic];
+            
+            NSArray * dataArr = [readDic allValues];
             [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:dataArr];
             
-            NSArray * keyArr = [self.finishDic allKeys];
+            NSArray * keyArr = [readDic allKeys];
             for(NSInteger index = 0;index < [keyArr count]; index ++)
             {
                 NSString * key = [keyArr objectAtIndex:index];
@@ -203,9 +205,6 @@
     self.errorTotal = 0;
     NSLog(@"%s %@",__FUNCTION__,self.tagString);
     
-    //本地保存，子线程内批量保存造成失败，移动位置
-    [self refreshDBManagerWithLatestFinishDic];
-    
     
     ZWOperationEquipReqListReqModel * model = (ZWOperationEquipReqListReqModel *)_dpModel;
     //仅做数据刷新，不做展示   详情数据请求中时，列表数据也需要刷新
@@ -214,14 +213,12 @@
         model = [[ZWOperationEquipReqListReqModel alloc] init];
         [model addSignalResponder:self];
         _dpModel = model;
-        
-        if(self.schoolNum > 0){
-            model.selectSchool = self.schoolNum;
-        }
-        model.priceStatus = self.priceStatus;
     }
     
-    
+    if(self.schoolNum > 0){
+        model.selectSchool = self.schoolNum;
+    }
+    model.priceStatus = self.priceStatus;
     model.pageNum = self.requestNum;//刷新页数
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -313,8 +310,14 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
             maxPageNum = index;
         }
         
+        NSDate * backDate = [NSDate fromString:roleObj.now_time];
+        NSTimeInterval count = [[NSDate date] timeIntervalSinceDate:backDate];
+        
         SessionReqModel * vpnObj = [sessionArr objectAtIndex:index];
-        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+        if(backDate && count > 2*MINUTE)
+        {
+            vpnObj.proxyModel.errored = YES;//定期移除
+        }else if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
         {
             minPageNum = index;
             BOOL effective = [self checkDetailListEquipNameWithBackEquipListArray:obj];
@@ -423,6 +426,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                     
                     eveModel.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
                     eveModel.earnRate = pre.plan_rate;
+                    eveModel.appendHistory = pre;
                     
                     [refreshDic setObject:eveModel forKey:orderSN];
                 }
@@ -520,19 +524,24 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 //    return;
     //请求参数自动调整
     NSInteger refreshNum = 0;
-    if(maxNum == 0 && minNumber > 0){
-        //最大值无效，最小值也可能无效
-        refreshNum = self.requestNum + 2;
-        
-        if(minNumber > 25){
-            refreshNum = MIN(refreshNum, 35);
-        }else{
-            refreshNum = MIN(refreshNum, 30);
-        }
-    }else{
+    if(minNumber == 0 && maxNum == 0)
+    {//均为0，不变化
+        refreshNum = self.requestNum;
+    }else if(maxNum > 0)
+    {//最大值存在，使用最大值
         refreshNum = maxNum;
+    }else
+    {//最大值为0   minNumber不为0
+        if(minNumber > self.requestNum - 3)
+        {//有成功的数量，慎重的增加数量
+            //最大值无效，最小值也可能无效
+            refreshNum = self.requestNum + 2;
+        }else{
+            refreshNum = self.requestNum;
+        }
+        
+        refreshNum = MIN(refreshNum, 35);
     }
-    
     
     [self refreshLatestMinRequestPageNumber:refreshNum];
     

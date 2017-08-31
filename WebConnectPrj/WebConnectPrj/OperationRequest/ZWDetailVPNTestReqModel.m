@@ -19,7 +19,7 @@
     self =[super init];
     if(self)
     {
-        self.timeOutNum = 5;
+//        self.timeOutNum = 5;
         self.ingoreRandom = YES;
     }
     return self;

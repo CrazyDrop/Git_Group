@@ -15,6 +15,7 @@
 
 @interface RoleDataModel : NSObject
 
+@property (nonatomic, strong) NSString * now_time;
 @property (nonatomic, strong) NSNumber *status;
 @property (nonatomic, strong) NSNumber *num_per_page;
 @property (nonatomic, strong) NSString *order_direction;

@@ -19,7 +19,7 @@
     self = [super init];
     if(self)
     {
-        self.timeOutNum = 5;
+//        self.timeOutNum = 5;
         self.saveCookie = NO;
         self.cookieDic = [NSMutableDictionary dictionary];
         //        &sum_exp_min=111
@@ -128,13 +128,13 @@
     //        &sum_exp_min=111
     //        &qian_neng_guo=33
     //        &skill_qiang_shen=22
-    NSInteger randMinExp = arc4random() % 111 + 1;
-    NSInteger randQianneng = arc4random() % 50 + 1;
-    NSInteger skill_qiang_shen = arc4random() % 50 + 1;
+    NSInteger randQianneng = arc4random() % 30 + 1;
     NSInteger randBad = arc4random() % 10 + 1;
-    NSInteger randChengjiu = arc4random() % 200 + 1;
-    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&qian_neng_guo=%ld&skill_qiang_shen=%ld",randMinExp,randQianneng,skill_qiang_shen];
-    appendStr = [appendStr stringByAppendingFormat:@"&badness=%ld&cheng_jiu=%ld",randBad,randChengjiu];
+    NSInteger randMinExp = arc4random() % 111 + 1;
+    NSInteger skill_qiang_shen = arc4random() % 30 + 1;
+    NSInteger randChengjiu = arc4random() % 500 + 1;
+    appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&skill_qiang_shen=%ld",randMinExp,skill_qiang_shen];
+    appendStr = [appendStr stringByAppendingFormat:@"&cheng_jiu=%ld",randChengjiu];
 
     appendStr = [appendStr stringByAppendingString:@"&device_name=iPhone&os_name=iPhone%20OS&os_version=7.1"];
     

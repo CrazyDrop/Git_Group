@@ -18,6 +18,7 @@
 #import "ZALocationLocalModel.h"
 #import "ZWPanicRefreshSettingVC.h"
 #import "VPNProxyModel.h"
+#import "SessionReqModel.h"
 //详情数据更新结束，但是列表数据仍未更新，增加延迟2分钟内仅刷新一次
 @interface ZWPanicMaxCombineUpdateVC ()<PanicListRequestTagUpdateListDelegate>
 {
@@ -94,7 +95,7 @@
             {
                 NSNumber * num = [NSNumber numberWithInteger:index];
                 if([sepArr containsObject:num])
-                {
+                {//16 +12 + 5
                     NSString * eve1 = [NSString  stringWithFormat:@"%ld_1",(long)index];
                     NSString * eve2 = [NSString  stringWithFormat:@"%ld_2",(long)index];
                     NSString * eve3 = [NSString  stringWithFormat:@"%ld_3",(long)index];
@@ -193,7 +194,9 @@
                 [editProxy removeObject:eve];
             }
         }
-
+        if([editProxy count] < 50){
+            [self refreshLocalPanicRefreshState:NO];
+        }
         
         if(refresh)
         {
@@ -334,7 +337,8 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *) _detailListReqModel;
     NSArray * total  = [NSArray arrayWithArray:model.listArray];
     NSArray * list = [NSArray arrayWithArray:self.baseArr];
-
+    NSArray * sessionArr = model.baseReqModels;
+    
     NSMutableArray * detailModels = [NSMutableArray array];
     NSInteger errorNum = 0;
     for (NSInteger index = 0; index < [total count]; index ++)
@@ -374,6 +378,11 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
             {
                 if(![eveList.game_ordersn isEqualToString:equip.game_ordersn])
                 {
+                    if([eveList.game_ordersn length] > 0 && [equip.game_ordersn length] > 0)
+                    {
+                        SessionReqModel * aReq = [sessionArr objectAtIndex:index];
+                        [self refreshDetailErroredProxyWithRequestSession:aReq];
+                    }
                     NSLog(@"list %@ detail %@ %@",eveList.detailWebUrl,equip.game_ordersn,equip.serverid);
                     continue;
                 }
@@ -423,6 +432,22 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     }
 //    [self.dataLock unlock];
 }
+-(void)refreshDetailErroredProxyWithRequestSession:(SessionReqModel *)opt
+{
+    ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
+    NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
+    
+    {
+        VPNProxyModel * optModel = opt.proxyModel;
+        if([editProxy containsObject:optModel])
+        {
+            [editProxy removeObject:optModel];
+            optModel.errored = YES;
+//            proxyManager.proxyArrCache = editProxy;
+//            [proxyManager localRefreshListFileWithLatestProxyList];
+        }
+    }
+}
 -(void)finishDetailRefreshPostNotificationWithBaseDetailModel:(NSArray *)listArr
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_REMOVE_REFRESH_WEBDETAIL_STATE
@@ -442,6 +467,8 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         albl.text = @"重置统计";
         albl.textAlignment = NSTextAlignmentCenter;
         self.numLbl = albl;
+        albl.adjustsFontSizeToFitWidth = YES;
+        
 //        [albl sizeToFit];
         [aView addSubview:albl];
         albl.center = CGPointMake(CGRectGetMidX(aView.bounds), CGRectGetMidY(aView.bounds));
@@ -847,9 +874,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         NSInteger backIndex = [array count] - 1 - index;
         backIndex = index;
         Equip_listModel * eveObj = [array objectAtIndex:backIndex];
-        if(![eveObj.equip_name isEqualToString:@"大唐官府"]){
-            
-        }
         NSLog(@"panicListRequestFinishWithUpdateModel %@ %@",model.tagString, eveObj.listCombineIdfa);
         [combineArr addObject:eveObj];
     }

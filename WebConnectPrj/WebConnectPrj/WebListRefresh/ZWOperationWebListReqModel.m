@@ -26,7 +26,7 @@
     self = [super init];
     if(self)
     {
-        self.timeOutNum = 10;
+//        self.timeOutNum = 10;
         self.cookieDic = [NSMutableDictionary dictionary];
         //        self.orderSNDic = [NSMutableDictionary dictionary]
     }

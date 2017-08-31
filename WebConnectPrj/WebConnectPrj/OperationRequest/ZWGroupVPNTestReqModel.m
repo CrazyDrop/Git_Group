@@ -19,7 +19,7 @@
     self =[super init];
     if(self)
     {
-        self.timeOutNum = 5;
+//        self.timeOutNum = 5;
         self.schoolIndex = arc4random()%12 + 1;
         self.reqName = [CBGListModel schoolNameFromSchoolNumber:self.schoolIndex];
         self.ingoreRandom = YES;

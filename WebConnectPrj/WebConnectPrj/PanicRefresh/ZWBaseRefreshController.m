@@ -488,14 +488,16 @@
         }
         
         NSInteger priceChange = histroyPrice/100 - [contact.price integerValue]/100;
-    
+        if(detail){
+            priceChange = histroyPrice/100 - [detail.price integerValue]/100;
+        }
         
         if([contact preBuyEquipStatusWithCurrentExtraEquip])
         {
             sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
             equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
             
-        }else if(histroyPrice > 0 && priceChange != 0 && [contact.price integerValue] > 0)
+        }else if(histroyPrice > 0 && priceChange != 0 && ([contact.price integerValue] > 0 || [detail.price integerValue]> 0))
         {
             if(priceChange >0)
             {
@@ -590,19 +592,24 @@
     
     if(contact)
     {
-        NSString * planUrl = self.planWeb.showUrl;
-        if([planUrl isEqualToString:contact.detailWebUrl])
+//        NSString * planUrl = self.planWeb.showUrl;
+//        if([planUrl isEqualToString:contact.detailWebUrl])
+//        {
+//            CBGPlanDetailPreShowWebVC * detail = [[CBGPlanDetailPreShowWebVC alloc] init];
+//            detail.planWebView = self.planWeb;
+//            detail.cbgList = [contact listSaveModel];
+//            detail.detailModel = contact.equipModel;
+//            [[self rootNavigationController] pushViewController:detail animated:YES];
+//        }else
         {
-            CBGPlanDetailPreShowWebVC * detail = [[CBGPlanDetailPreShowWebVC alloc] init];
-            detail.planWebView = self.planWeb;
-            detail.cbgList = [contact listSaveModel];
-            detail.detailModel = contact.equipModel;
-            [[self rootNavigationController] pushViewController:detail animated:YES];
-        }else
-        {
-            
+            CBGListModel * hisCBG = contact.appendHistory;
+            if(contact.equipModel)
+            {
+                contact.listSaveModel = nil;
+                hisCBG = [contact listSaveModel];
+            }
             ZACBGDetailWebVC * detail = [[ZACBGDetailWebVC alloc] init];
-            detail.cbgList = [contact listSaveModel];
+            detail.cbgList = hisCBG;
             detail.detailModel = contact.equipModel;
             [[self rootNavigationController] pushViewController:detail animated:YES];
         }

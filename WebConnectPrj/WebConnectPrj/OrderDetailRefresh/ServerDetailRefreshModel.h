@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-//服务器单体刷新控制中心
+//服务器单体刷新控制中心，规则、服务器列表、详情列表、递增订单号
 @class ServerDetailRefreshModel;
 @protocol ServerDetailRefreshDelegate <NSObject>
 
