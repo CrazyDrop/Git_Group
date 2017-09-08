@@ -27,17 +27,6 @@
 
 @implementation ZWQueueGroupRequestModel
 
-+ (NSOperationQueue *)zw_sharedGroupRequestOperationQueue
-{
-    static NSOperationQueue *_zw_sharedGroupRequestOperationQueue = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _zw_sharedGroupRequestOperationQueue = [[NSOperationQueue alloc] init];
-        _zw_sharedGroupRequestOperationQueue.maxConcurrentOperationCount = 50;
-    });
-    
-    return _zw_sharedGroupRequestOperationQueue;
-}
 
 -(id)init
 {
@@ -45,7 +34,7 @@
     if(self)
     {
         self.timeOutNum = 5;
-        groupQueue = [[self class] zw_sharedGroupRequestOperationQueue];
+//        groupQueue = [[self class] zw_sharedGroupRequestOperationQueue];
         self.cookieDic = [NSMutableDictionary dictionary];
         self.errorProxyDic = [NSMutableDictionary dictionary];
         self.taskArr = [NSMutableArray array];
@@ -121,7 +110,6 @@
     NSInteger sessionNum = [sessionTotal count];
     SessionReqModel * sessionReq = self.baseReq;
     
-//    __weak typeof(self) weakSelf = self;
     for (NSInteger index = 0;index < [urlArray count] ;index ++ )
     {
         NSString * url = [urlArray objectAtIndex:index];
@@ -130,9 +118,13 @@
         {
             randIndex = index;
         }
-        if(sessionNum > randIndex)
+        
+        if(sessionNum > 0)
         {
-            sessionReq = [sessionTotal objectAtIndex:randIndex];
+            if(sessionNum > randIndex)
+            {
+                sessionReq = [sessionTotal objectAtIndex:randIndex];
+            }
         }
         
         if(!sessionReq) continue;
@@ -380,7 +372,7 @@
     }
     [self.taskArr removeAllObjects];
 
-    [groupQueue cancelAllOperations];
+//    [groupQueue cancelAllOperations];
     [self.errorProxyDic removeAllObjects];
 }
 #pragma - mark ProxyDelegate

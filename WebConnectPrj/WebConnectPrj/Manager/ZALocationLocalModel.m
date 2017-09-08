@@ -509,7 +509,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          }
          //卖方修改列表 7个
          if(![fmdatabase tableExists:ZADATABASE_TABLE_EQUIP_CHANGE])
-         {
+         {//接收与否
              NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text,%@ text,%@ int,%@ text,%@ int,%@ int);",ZADATABASE_TABLE_EQUIP_CHANGE,
                                   ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN_SELL_TIME,//change表用selltime
                                   ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,
@@ -1637,6 +1637,15 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     
     BOOL isAlreadyIn = NO;
     NSString * changeKey = [NSString stringWithFormat:@"%@-%@",model.game_ordersn,model.sell_start_time];
+    NSNumber * acceptNum = [NSNumber numberWithInteger:model.equip_accept];
+    NSString * roleIdStr = model.owner_roleid;
+    if(self.panicSpecial)
+    {
+        changeKey = model.game_ordersn;
+        acceptNum = [NSNumber numberWithInteger:model.listRefresh];
+        roleIdStr = [NSString stringWithFormat:@"%ld",model.equip_status];
+    }
+    
     NSString *sqlGetArticle=[NSString stringWithFormat:@"select * from %@ where %@ = '%@';",ZADATABASE_TABLE_EQUIP_CHANGE,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN_SELL_TIME,changeKey];
     FMResultSet *resultSet=[fmdatabase executeQuery:sqlGetArticle];
     if ([resultSet next])
@@ -1647,11 +1656,19 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     NSString * sqlString = nil;
     if(isAlreadyIn)
     {
-        sqlString=[NSString stringWithFormat:@"update %@ set %@=? , %@=? where %@=?;",ZADATABASE_TABLE_EQUIP_CHANGE,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN_SELL_TIME,nil];
+        sqlString=[NSString stringWithFormat:@"update %@ set %@=? ,%@=? , %@=?,%@=? where %@=?;",ZADATABASE_TABLE_EQUIP_CHANGE,
+                   ZADATABASE_TABLE_EQUIP_KEY_SELL_START,
+                   ZADATABASE_TABLE_EQUIP_KEY_EQUIP_PRICE,
+                   ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,
+                   ZADATABASE_TABLE_EQUIP_KEY_ROLE_ID,
+                   ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN_SELL_TIME,
+                   nil];
         
         NSArray *sqlarray=[NSArray arrayWithObjects:
+                           model.sell_start_time,
                            [NSNumber numberWithInteger:model.equip_price],
-                           [NSNumber numberWithInteger:model.equip_accept],
+                           acceptNum,
+                           roleIdStr,
                            changeKey,
                            nil];
         //NSLog(@"sqlarray %@ ",sqlarray);
@@ -1664,9 +1681,9 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
                            model.game_ordersn,
                            model.sell_start_time,
                            [NSNumber numberWithInteger:model.equip_price],
-                           model.owner_roleid,
+                           roleIdStr,
                            [NSNumber numberWithInteger:model.server_id],
-                           [NSNumber numberWithInteger:model.equip_accept],
+                           acceptNum,
                            nil];
         success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
     }
@@ -1731,6 +1748,38 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
      }];
     return totalArray;
     return nil;
+}
+
+-(NSArray *)localSavePanicListHistoryArray
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         //列表刷新的进行取出，即listrefresh为YES的
+         [sqlMutableString appendFormat:@"select * from %@ where %@ = 1 ORDER BY %@ DESC;",ZADATABASE_TABLE_EQUIP_CHANGE,
+          ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT,
+          ZADATABASE_TABLE_EQUIP_KEY_SELL_START];
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             //             location.equip_status = 2;
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+
 }
 
 -(void)localSaveEquipHistoryArrayListWithDetailCBGModelArray:(NSArray *)objArray
@@ -3296,6 +3345,7 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 
     list.fav_or_ingore = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_FAV_OR_INGORE];
     list.equip_status = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_STATUS];
+    list.listRefresh = [resultSet intForColumn:ZADATABASE_TABLE_EQUIP_KEY_EQUIP_ACCEPT];
     
     if(!list.equip_more_append || [list.equip_more_append length] == 0)
     {

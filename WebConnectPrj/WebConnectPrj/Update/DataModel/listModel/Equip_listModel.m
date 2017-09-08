@@ -162,6 +162,32 @@
     return NO;
 }
 
+-(CBGListModel *)listCompareModel
+{
+    //判定是否需要清空
+    if(self.equipModel)
+    {
+        CBGListModel * list = self.listSaveModel;
+        list.listRefresh = NO;
+        return list;
+    }
+    
+    if(!_listCompareModel)
+    {
+        CBGListModel * list = [[CBGListModel alloc] init];
+        
+        list.game_ordersn = self.game_ordersn;
+        list.owner_roleid = @"none";
+        list.server_id = [self.serverid intValue];
+        list.sell_start_time = self.selling_time;
+        list.listRefresh = YES;
+        list.equip_status = [self.equip_status integerValue];
+        list.equip_price = [self.price integerValue];
+        _listCompareModel = list;
+    }
+    
+    return _listCompareModel;
+}
 -(CBGListModel *)listSaveModel
 {
     //判定是否需要清空

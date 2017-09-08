@@ -1,28 +1,22 @@
 //
-//  ZWPanicUpdateListBaseRequestModel.h
+//  ZWPanicUpdateLatestModel.h
 //  WebConnectPrj
 //
-//  Created by Apple on 2017/7/5.
+//  Created by Apple on 2017/9/5.
 //  Copyright © 2017年 zhangchaoqun. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "ZWPanicListBaseRequestModel.h"
+#import "ZWPanicUpdateListBaseRequestModel.h"
 //进行列表数据刷新
 //刷新到未上架的数据，发送消息通知，中心处理详情扫描
 //刷新结束后，接收消息通知，进行数据回写操作
 @class ZWPanicUpdateListBaseRequestModel;
 @class ZWOperationEquipReqListReqModel;
-@protocol PanicListRequestTagUpdateListDelegate <NSObject>
 
--(void)panicListRequestFinishWithUpdateModel:(id)model listArray:(NSArray *)array
-                                  cacheArray:(NSArray *)cacheArr
-                                 totalReqNum:(NSInteger)total
-                                 andErrorNum:(NSInteger)errorNum;
-//-(void)panicListRequestFinishWithModel:(ZWPanicListBaseRequestModel *)model withListError:(NSError *)list;
-
-@end
 //数据处理切片
-@interface ZWPanicUpdateListBaseRequestModel : NSObject
+@interface ZWPanicUpdateLatestModel : NSObject
 {
     ZALocalModelDBManager  * dbManager;
     NSMutableDictionary * cacheDic;//以时间为key  model为value
@@ -53,7 +47,5 @@
 //-(void)startRefreshLatestDetailModelRequest;
 
 -(void)stopRefreshRequestAndClearRequestModel;
-
-
 
 @end

@@ -32,6 +32,10 @@
 		180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
 		180F7F461A1DCACC0039E222 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F441A1DCACC0039E222 /* jquery.js */; };
 		18130E0919E8FDA000526957 /* OLNameListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18130E0819E8FDA000526957 /* OLNameListTableView.m */; };
+		181B08AA1F5E8165005606AA /* ZWPanicCombineLatestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */; };
+		181B08AB1F5E8165005606AA /* ZWPanicCombineLatestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */; };
+		181B08AE1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */; };
+		181B08AF1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */; };
 		181B5ED91F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */; };
 		181B5EDA1F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */; };
 		182090AF1E9E2FA60015E393 /* CancelWarningRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820909C1E9E2FA60015E393 /* CancelWarningRefreshManager.m */; };
@@ -1516,6 +1520,10 @@
 		180F7F441A1DCACC0039E222 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		18130E0719E8FDA000526957 /* OLNameListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLNameListTableView.h; sourceTree = "<group>"; };
 		18130E0819E8FDA000526957 /* OLNameListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLNameListTableView.m; sourceTree = "<group>"; };
+		181B08A81F5E8165005606AA /* ZWPanicCombineLatestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicCombineLatestVC.h; sourceTree = "<group>"; };
+		181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicCombineLatestVC.m; sourceTree = "<group>"; };
+		181B08AC1F5E81B4005606AA /* ZWPanicUpdateLatestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicUpdateLatestModel.h; sourceTree = "<group>"; };
+		181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicUpdateLatestModel.m; sourceTree = "<group>"; };
 		181B5ED71F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMixedUpdateAndRefreshVC.h; sourceTree = "<group>"; };
 		181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGMixedUpdateAndRefreshVC.m; sourceTree = "<group>"; };
 		1820909B1E9E2FA60015E393 /* CancelWarningRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelWarningRefreshManager.h; sourceTree = "<group>"; };
@@ -3366,6 +3374,10 @@
 				18AF91FD1F0CEAC0004D07FF /* ZWPanicUpdateListBaseRequestModel.m */,
 				18AF91F81F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.h */,
 				18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */,
+				181B08AC1F5E81B4005606AA /* ZWPanicUpdateLatestModel.h */,
+				181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */,
+				181B08A81F5E8165005606AA /* ZWPanicCombineLatestVC.h */,
+				181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */,
 			);
 			path = PanicRefresh;
 			sourceTree = "<group>";
@@ -5570,6 +5582,7 @@
 				1833209D1ED5279600B1ECEA /* ZAAutoBuyHomeVC.m in Sources */,
 				18A9721D1E7FCA2B00B48E3C /* FMResultSet.m in Sources */,
 				184F70CF1F2F2CAA00C4BB92 /* ZWServerEquipModel.m in Sources */,
+				181B08AA1F5E8165005606AA /* ZWPanicCombineLatestVC.m in Sources */,
 				18809DEB1A0B5B0200B66A59 /* MKAnnotationView+WebCache.m in Sources */,
 				18A975A41E7FDDD400B48E3C /* UIImageView+Html.m in Sources */,
 				18C882081F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */,
@@ -5871,6 +5884,7 @@
 				18C882271F3AA62100D01A37 /* CBGHistoryMianListVC.m in Sources */,
 				18CFB79C1E8F376200F18440 /* CBGCombinedHistoryHandleVC.m in Sources */,
 				1892CA491EC9B125006AA762 /* ZWBaseRefreshController.m in Sources */,
+				181B08AE1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m in Sources */,
 				18A975AE1E7FDDD400B48E3C /* UITextView+Html.m in Sources */,
 				18A976651E7FDE1500B48E3C /* ZAHTTPRequest.m in Sources */,
 				18F8DAE71F2C20A800530041 /* BBListModel.m in Sources */,
@@ -6295,6 +6309,7 @@
 				1833235A1ED6B10D00B1ECEA /* FMResultSet.m in Sources */,
 				1833235C1ED6B10D00B1ECEA /* MKAnnotationView+WebCache.m in Sources */,
 				184F70D01F2F2CAA00C4BB92 /* ZWServerEquipModel.m in Sources */,
+				181B08AB1F5E8165005606AA /* ZWPanicCombineLatestVC.m in Sources */,
 				1833235D1ED6B10D00B1ECEA /* UIImageView+Html.m in Sources */,
 				1833235E1ED6B10D00B1ECEA /* ZAAutoBuyWebView.m in Sources */,
 				18C882091F34420100D01A37 /* ZWServerEquipServerSelectedVC.m in Sources */,
@@ -6596,6 +6611,7 @@
 				18C882281F3AA62100D01A37 /* CBGHistoryMianListVC.m in Sources */,
 				1833245A1ED6B10D00B1ECEA /* ZWBaseRefreshController.m in Sources */,
 				1833245B1ED6B10D00B1ECEA /* UITextView+Html.m in Sources */,
+				181B08AF1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m in Sources */,
 				1833245C1ED6B10D00B1ECEA /* ZAHTTPRequest.m in Sources */,
 				1833245D1ED6B10D00B1ECEA /* All_skillsModel.m in Sources */,
 				18F8DAE81F2C20A800530041 /* BBListModel.m in Sources */,

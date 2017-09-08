@@ -65,7 +65,8 @@ typedef enum : NSUInteger
 
 //可能刷新信息
 @property (nonatomic, assign) NSInteger  equip_price;
-@property (nonatomic, assign) NSInteger  equip_accept;          //修改字段意义，标识是否可以还价
+@property (nonatomic, assign) NSInteger  equip_accept;
+//修改字段意义，标识是否可以还价，字段意义兼容，在改价监听库表内，充当列表状态标识  1为详情刷新  0位列表刷新到
 @property (nonatomic, assign) NSInteger  equip_start_price; //起始价格  主表中存储
 @property (nonatomic, strong) NSString * equip_more_append; //方便后续追加
 @property (nonatomic, assign) NSInteger  equip_eval_price;
@@ -119,6 +120,7 @@ typedef enum : NSUInteger
 //4为服务器失效  服务器合并，serverID无效//备用
 @property (nonatomic, strong) NSString * serverName;
 @property (nonatomic, assign) NSInteger  historyPrice;//上一次的价格信息
+@property (nonatomic, assign) BOOL  listRefresh;
 
 -(BOOL)planMore_zhaohuan;
 -(BOOL)planMore_Equip;

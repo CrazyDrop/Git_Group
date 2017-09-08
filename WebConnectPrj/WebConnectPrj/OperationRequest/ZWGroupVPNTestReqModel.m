@@ -152,6 +152,14 @@
         return nil;
     }
     
+    NSDate * backDate = [NSDate fromString:listData.now_time];
+    NSTimeInterval count = [[NSDate date] timeIntervalSinceDate:backDate];
+    
+    if(backDate && count > 1*MINUTE)
+    {
+        return nil;
+    }
+    
     Equip_listModel * listModel = nil;
     if([array count] > 0){
         listModel = [array lastObject];

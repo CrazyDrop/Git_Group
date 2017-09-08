@@ -14,6 +14,9 @@
 #import "Equip_listModel.h"
 #import "ZWOperationEquipListCircleReqModel.h"
 #import "ZWOperationDetailListReqModel.h"
+#import "RoleDataModel.h"
+#import "SessionReqModel.h"
+#import "VPNProxyModel.h"
 @interface ZWLimitCircleRefreshVC ()
 {
     NSInteger EquipListRequestWaitingTimeSep;
@@ -205,22 +208,39 @@ handleSignal( ZWOperationEquipListCircleReqModel, requestLoaded )
     ZWOperationEquipListCircleReqModel * model = (ZWOperationEquipListCircleReqModel *) _dpModel;
     NSArray * total  = model.listArray;
     NSArray * proxyErr = model.errorProxy;
+    NSArray * sessionArr = model.sessionArr;
     
     //正常序列
-    NSInteger errorNum = 0;
+
     NSMutableArray * array = [NSMutableArray array];
+    
+    
     for (NSInteger index = 0; index < [total count]; index ++)
     {
-        NSInteger backIndex = [total count] - index - 1;
-        backIndex = index;
-        id obj = [total objectAtIndex:backIndex];
-        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+        NSInteger backIndex = index;
+        NSArray * dataObj = [total objectAtIndex:backIndex];
+        RoleDataModel * roleObj = nil;
+        if([dataObj isKindOfClass:[NSArray class]] && [dataObj count] > 0){
+            roleObj = [dataObj lastObject];
+        }
+        id obj = roleObj.equip_list;
+        
+        NSDate * backDate = [NSDate fromString:roleObj.now_time];
+        NSTimeInterval count = [[NSDate date] timeIntervalSinceDate:backDate];
+        
+        SessionReqModel * vpnObj = nil;
+        if([sessionArr count] > index)
         {
-            [array addObjectsFromArray:obj];
+            vpnObj = [sessionArr objectAtIndex:index];
+        }
+        if(backDate && count > 1*MINUTE)
+        {
+            vpnObj.proxyModel.errored = YES;//定期移除
         }else{
-            errorNum ++;
+            [array addObjectsFromArray:obj];
         }
     }
+
 //    NSLog(@"errorProxy %ld errorNum %ld total %ld",[proxyErr count],errorNum,[total count]);
     [self refreshTitleWithTitleTxt:[NSString stringWithFormat:@"代理刷新 %ld(%ld)",[total count],[total count] -[proxyErr count]]];
     

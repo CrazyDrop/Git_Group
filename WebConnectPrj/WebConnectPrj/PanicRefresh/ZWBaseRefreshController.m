@@ -86,6 +86,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.titleV.adjustsFontSizeToFitWidth = YES;
+    
     CGRect rect = [[UIScreen mainScreen] bounds];
     
     CGFloat aHeight = CGRectGetMaxY(self.titleBar.frame);

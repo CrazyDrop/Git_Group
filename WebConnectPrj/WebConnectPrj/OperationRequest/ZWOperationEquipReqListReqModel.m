@@ -130,7 +130,7 @@
     //        &skill_qiang_shen=22
     NSInteger randQianneng = arc4random() % 30 + 1;
     NSInteger randBad = arc4random() % 10 + 1;
-    NSInteger randMinExp = arc4random() % 111 + 1;
+    NSInteger randMinExp = arc4random() % 70 + 1;
     NSInteger skill_qiang_shen = arc4random() % 30 + 1;
     NSInteger randChengjiu = arc4random() % 500 + 1;
     appendStr = [appendStr stringByAppendingFormat:@"&sum_exp_min=%ld&skill_qiang_shen=%ld",randMinExp,skill_qiang_shen];

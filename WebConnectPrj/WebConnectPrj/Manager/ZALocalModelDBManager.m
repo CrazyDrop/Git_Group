@@ -10,6 +10,15 @@
 
 @implementation ZALocalModelDBManager
 
+-(id)initWithDBExtendString:(NSString *)extend
+{
+    self = [super initWithDBExtendString:extend];
+    if(self)
+    {
+        self.panicSpecial = YES;
+    }
+    return self;
+}
 
 
 

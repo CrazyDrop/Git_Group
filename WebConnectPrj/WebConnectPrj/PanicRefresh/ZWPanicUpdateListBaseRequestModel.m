@@ -595,13 +595,14 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
 }
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  cacheArray:(NSArray *)arr1
 {
-    if(self.requestDelegate && [self.requestDelegate respondsToSelector:@selector(panicListRequestFinishWithUpdateModel:listArray:cacheArray:)])
+    if(self.requestDelegate && [self.requestDelegate respondsToSelector:@selector(panicListRequestFinishWithUpdateModel:listArray:cacheArray:totalReqNum:andErrorNum:)])
     {
         [self.requestDelegate panicListRequestFinishWithUpdateModel:self
                                                           listArray:array
-                                                         cacheArray:arr1];
-    }
-}
+                                                         cacheArray:arr1
+                                                        totalReqNum:0
+                                                        andErrorNum:0];
+    }}
 
 
 

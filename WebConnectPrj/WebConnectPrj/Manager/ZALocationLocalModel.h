@@ -35,6 +35,7 @@
 +(NSString *)localSaveReadDBPath;
 +(NSString *)localSaveTotalDBPath;
 
+@property (nonatomic, assign) BOOL panicSpecial;
 -(id)initWithDBExtendString:(NSString *)extend;
 
 
@@ -70,9 +71,12 @@
 -(NSArray *)localSaveMakeOrderHistoryListForRoleId:(NSString *)roleId;
 
 //存储  刷新卖家变动数据  CHANGE表
+//新增使用，针对改价监听的列表使用，新功能的accept作为是否列表数据的标识
+//规划，数据检查，库表存储，使用
 -(void)localSaveUserChangeArrayListWithDetailCBGModelArray:(NSArray *)arr;
 -(NSArray *)localSaveUserChangeHistoryListForOrderSN:(NSString *)ordersn;
 -(NSArray *)localSaveUserChangeHistoryListForRoleId:(NSString *)roleId;
+-(NSArray *)localSavePanicListHistoryArray;
 
 //存储数据  主表，更新状态，更新估价，新增记录，均可以
 -(void)localSaveEquipHistoryArrayListWithDetailCBGModelArray:(NSArray *)array;

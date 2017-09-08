@@ -15,6 +15,7 @@
 #import "CBGDaysDetailSortHistoryVC.h"
 #import "CBGTotalHistroySortVC.h"
 #import "CBGLatestPlanBuyVC.h"
+#import "CBGBargainListVC.h"
 @interface CBGHistoryMianListVC ()
 
 @end
@@ -37,7 +38,8 @@
                              [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_PartHistory],
                              [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_LatestPlan],
 
-                             
+                             [NSNumber numberWithInt:CBGHistoryMianFunctionStyle_BargainList],
+
                              nil];
     
     UIView * bgView = self.view;
@@ -97,6 +99,10 @@
             break;
         case CBGHistoryMianFunctionStyle_LatestPlan:{
             name = @"近期估价";
+        }
+            break;
+        case CBGHistoryMianFunctionStyle_BargainList:{
+            name = @"还价列表";
         }
             break;
             
@@ -203,6 +209,14 @@
             CBGLatestPlanBuyVC * combine = [[CBGLatestPlanBuyVC alloc] init];
             [[self rootNavigationController] pushViewController:combine animated:YES];
             
+        }
+            break;
+        case CBGHistoryMianFunctionStyle_BargainList:
+        {
+            CBGBargainListVC * latest = [[CBGBargainListVC alloc] init];
+            //            ZWPanicMaxCombinedVC * latest = [[ZWPanicMaxCombinedVC alloc] init];
+            [[self rootNavigationController] pushViewController:latest animated:YES];
+
         }
             break;
 

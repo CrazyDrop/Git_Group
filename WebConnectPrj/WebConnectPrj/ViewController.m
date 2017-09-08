@@ -58,6 +58,7 @@
 #import "ZWDetailCheckManager.h"
 #import "ZWServerDetailListRefreshVC.h"
 #import "ServerCheckMainVC.h"
+#import "ZWPanicCombineLatestVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -676,7 +677,8 @@
             break;
         case CBGDetailTestFunctionStyle_MaxPanic:
         {
-            ZWPanicMaxCombineUpdateVC * latest = [[ZWPanicMaxCombineUpdateVC alloc] init];
+//            ZWPanicMaxCombineUpdateVC * latest = [[ZWPanicMaxCombineUpdateVC alloc] init];
+            ZWPanicCombineLatestVC * latest = [[ZWPanicCombineLatestVC alloc] init];
             [[self rootNavigationController] pushViewController:latest animated:YES];
         }
             break;

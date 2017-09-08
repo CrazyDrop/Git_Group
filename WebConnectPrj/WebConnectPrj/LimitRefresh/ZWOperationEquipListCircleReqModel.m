@@ -200,19 +200,21 @@
 -(NSArray *)backObjectArrayFromBackDataDic:(NSDictionary *)aDic
 {
     RoleDataModel * listData = [[RoleDataModel alloc] initWithDictionary:aDic];
-    NSArray * array = listData.equip_list;
-    if(!array || ![array isKindOfClass:[NSArray class]])
-    {
-        //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
-        return nil;
-    }
+    return @[listData];
+    
+//    NSArray * array = listData.equip_list;
+//    if(!array || ![array isKindOfClass:[NSArray class]])
+//    {
+//        //        NSLog(@"error %@ %@",NSStringFromClass([self class]),[aDic allKeys]);
+//        return nil;
+//    }
     //    if([listData.num_per_page integerValue] == 1)
     //    {
     //        Equip_listModel * eve = [array firstObject];
     //        NSLog(@"role %@ %@",eve.game_ordersn,eve.sell_expire_time_desc);
     //    }
     
-    return array;
+//    return array;
 }
 
 
