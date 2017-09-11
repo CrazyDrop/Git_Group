@@ -20,14 +20,19 @@
 #import "VPNProxyModel.h"
 #import "SessionReqModel.h"
 #import "ZWPanicUpdateLatestModel.h"
+#import "ZWProxyRefreshModel.h"
 //详情数据更新结束，但是列表数据仍未更新，增加延迟2分钟内仅刷新一次
-@interface ZWPanicCombineLatestVC ()<PanicListRequestTagUpdateListDelegate>
+@interface ZWPanicCombineLatestVC ()<PanicListRequestTagUpdateListDelegate,
+ZWProxyCheckRefreshModelDelegate>
 {
     NSMutableDictionary * detailModelDic;
     NSMutableArray * combineArr;
     NSCache * refreshCache;
     NSMutableArray * orderCacheArr;//替代refreshCache，屏蔽重复
     NSInteger partDetailNum;
+    
+    ZWProxyRefreshModel * proxyCheckModel;
+    NSMutableArray * refreshPxyCache;
 }
 @property (nonatomic, strong) NSArray * baseArr;
 @property (nonatomic,strong) NSArray * panicTagArr;
@@ -50,6 +55,11 @@
 //@property (nonatomic,strong) NSDictionary * combineDic;  // 有30个tag，model，30组请求，每次单摘一组展示，最后监听到的数据
 @property (nonatomic,strong) NSString * webNum;
 @property (nonatomic,strong) UILabel * numLbl;
+
+@property (nonatomic,strong) NSMutableArray * successPxyArr;
+@property (nonatomic,strong) NSMutableArray * failPxyArr;
+
+@property (nonatomic,assign) BOOL autoProxy;
 @end
 
 @implementation ZWPanicCombineLatestVC
@@ -60,6 +70,10 @@
     if(self)
     {
         orderCacheArr = [NSMutableArray array];
+        refreshPxyCache = [NSMutableArray array];
+        self.successPxyArr = [NSMutableArray array];
+        self.failPxyArr = [NSMutableArray array];
+        
         //        refreshCache = [[NSCache alloc] init];
         //        refreshCache.totalCostLimit = 1000;
         //        refreshCache.countLimit = 1000;
@@ -70,12 +84,16 @@
         self.detailProxy = YES;
         self.refreshState = YES;
         self.waitDetail = NO;
+        self.autoProxy = YES;
+        
+        proxyCheckModel = [[ZWProxyRefreshModel alloc] init];
+        proxyCheckModel.resultDelegate = self;
 //        [[NSNotificationCenter defaultCenter] addObserver:self
 //                                                 selector:@selector(panicCombineUpdateAddMoreDetailRefreshNoti:)
 //                                                     name:NOTIFICATION_ADD_REFRESH_WEBDETAIL_STATE
 //                                                   object:nil];
         
-        self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 2];
+        self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
         
     }
     return self;
@@ -163,7 +181,8 @@
     {
         Equip_listModel * listObj =  (Equip_listModel *)[listArr objectAtIndex:index];
         NSString * keyObj = [listObj listCombineIdfa];
-    
+        NSString * keyPre = [NSString stringWithFormat:@"%@|%@",listObj.game_ordersn,listObj.serverid];
+
         //    [self.dataLock lock];
         if([orderCacheArr containsObject:keyObj])
         {
@@ -181,6 +200,7 @@
         
         if(![detailModelDic objectForKey:keyObj])
         {
+            [detailModelDic removeObjectForKey:keyPre];
             [detailModelDic setObject:listObj forKey:keyObj];
         }
         
@@ -196,14 +216,34 @@
     self.proxyRefreshDate = [NSDate dateWithTimeIntervalSinceNow:MINUTE * 1];
     self.proxyNum ++;
     
+    //处理代理刷新结束，进行代理填充使用
+    ZWProxyRefreshManager * proxyManager =[ZWProxyRefreshManager sharedInstance];
+    if(proxyCheckModel.isFinished && [self.successPxyArr count] > 0)
+    {
+        NSMutableArray * success = [NSMutableArray array];
+        [success addObjectsFromArray:self.successPxyArr];
+        {
+            NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
+            [editProxy addObjectsFromArray:success];
+            
+            [self.successPxyArr removeAllObjects];
+            proxyManager.proxyArrCache = editProxy;
+            [proxyManager refreshLatestSessionArrayWithReplaceArray:success];
+            [proxyManager localRefreshListFileWithLatestProxyList];
+            
+            [self refreshLocalPanicRefreshState:YES];
+        }
+    }
+    
     if(self.proxyNum % 5 ==0)
     {
-        ZWProxyRefreshManager * proxyManager =[ZWProxyRefreshManager sharedInstance];
+        //进行代理更换，不仅仅是移除
         NSMutableArray * editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
+        NSMutableArray * refreshCheck = [NSMutableArray array];
         
         BOOL refresh = NO;
         
-        NSInteger lineNum = [editProxy count] > 200?30:60;
+        NSInteger lineNum = [editProxy count] > 200?20:40;
         for (NSInteger index = 0; index < [editProxy count]; index++)
         {
             VPNProxyModel * eve = [editProxy objectAtIndex:index];
@@ -211,13 +251,8 @@
             {
                 refresh = YES;
                 [editProxy removeObject:eve];
+                [refreshCheck addObject:eve];
             }
-        }
-        
-        if([editProxy count] < 100)
-        {
-            refresh = NO;
-            editProxy = [NSMutableArray arrayWithArray:proxyManager.proxyArrCache];
         }
         
         for (NSInteger index = 0; index < [editProxy count]; index++)
@@ -227,26 +262,48 @@
             {
                 refresh = YES;
                 [editProxy removeObject:eve];
+                [refreshCheck addObject:eve];
             }
         }
-        if([editProxy count] < 50){
-            [self refreshLocalPanicRefreshState:NO];
+        
+        //存储近期失败的,前期统计
+        [refreshPxyCache addObjectsFromArray:refreshCheck];
+        
+        
+        //无论检查是否启动，正常进行变更保存
+        proxyManager.proxyArrCache = editProxy;
+        [proxyManager localRefreshListFileWithLatestProxyList];
+        
+        //两种选择，1实时的检查，实时添加 2统一达标线后进行检查，一次添加
+        //使用第二种，尽管会中断刷新，但是可以简化代码
+        if(!proxyCheckModel.isFinished)
+        {
+            return;
         }
         
-        if(refresh)
-        {
-            proxyManager.proxyArrCache = editProxy;
-            [proxyManager localRefreshListFileWithLatestProxyList];
-            //            NSArray * dicArr = [VPNProxyModel proxyDicArrayFromDetailProxyArray:editProxy];
-            //
-            //            ZALocalStateTotalModel * localTotal = [ZALocalStateTotalModel currentLocalStateModel];
-            //            localTotal.proxyDicArr = dicArr;
-            //            [localTotal localSave];
+        //仅控制启动
+        if([editProxy count] < 100  && self.autoProxy)
+        {//启动检查、清空相关数据，标准线之下时，一直启动检查刷新
+            //启动代理检查，停止刷新
+            NSMutableArray * totalFail = [NSMutableArray array];
+            [totalFail addObjectsFromArray:refreshPxyCache];
+            [totalFail addObjectsFromArray:self.failPxyArr];
+            
+            [self.failPxyArr removeAllObjects];
+            [refreshPxyCache removeAllObjects];
+            
+            if([totalFail count] > 0)
+            {//条件太少
+                [self refreshLocalPanicRefreshState:NO];
+                proxyCheckModel.checkArr = totalFail;
+                [proxyCheckModel startProxyRefreshCheck];
+            }
         }
+
     }else{
+        
         //每2分钟，刷新一次vpn列表
-        ZWProxyRefreshManager * manager =[ZWProxyRefreshManager sharedInstance];
-        [manager clearProxySubCache];
+        [proxyManager clearProxySubCache];
     }
     
 }
@@ -447,7 +504,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
                         SessionReqModel * aReq = [sessionArr objectAtIndex:index];
                         [self refreshDetailErroredProxyWithRequestSession:aReq];
                     }
-                    NSLog(@"list %@ detail %@ %@",eveList.detailWebUrl,equip.game_ordersn,equip.serverid);
+                    NSLog(@"detailRefreshError list %@ detail %@ %@",eveList.detailWebUrl,equip.game_ordersn,equip.serverid);
                     continue;
                 }
                 if(!eveList.equipModel)
@@ -465,6 +522,15 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
                     [removeArr addObject:eveList.listCombineIdfa];
                     [refreshArr addObject:eveList];
                 }
+                
+                
+                NSDate * sellDate = [NSDate fromString:equip.selling_time];
+                NSTimeInterval count = fabs([sellDate timeIntervalSinceNow]);
+                if(count > 60 && [list.sell_sold_time length] == 0 && [list.sell_back_time length] == 0 && [eveList.selling_time isEqualToString:equip.selling_time])
+                {
+                    NSLog(@"detailFinish %@ %@ %@ time(%@)%@",equip.equipExtra.iSchool,equip.game_ordersn,equip.serverid,eveList.selling_time,equip.selling_time);
+                }
+                
             }
         }
     }
@@ -481,7 +547,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     {
         
         [self finishDetailRefreshPostNotificationWithBaseDetailModel:refreshArr];
-        
         
         [self checkListInputForNoticeWithArray:refreshArr];
         [self refreshCombineNumberAndProxyCacheNumberForTitle];
@@ -636,12 +701,13 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     manager.functionInterval = time;
     manager.funcBlock = ^()
     {
-        if(!self.refreshState) return ;
         
         if([self.proxyRefreshDate timeIntervalSinceNow] < 0)
         {
             [self refreshProxyCacheArrayAndCacheSubArray];
         }
+        
+        if(!self.refreshState) return;
         
         [weakSelf performSelectorOnMainThread:@selector(startPanicDetailArrayRequestRightNow)
                                    withObject:nil
@@ -720,7 +786,6 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         
     }
     
-    //    [self.dataLock unlock];
 }
 + (NSString *)convertToJsonData:(NSArray *)dict
 {
@@ -832,9 +897,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
               }];
     [alertController addAction:action];
     
-        action = [MSAlertAction actionWithTitle:@"开启详情代理" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+        action = [MSAlertAction actionWithTitle:@"关闭代理更新" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
                   {
-                      weakSelf.detailProxy = YES;
+                      weakSelf.autoProxy = NO;
                   }];
         [alertController addAction:action];
     
@@ -941,6 +1006,10 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 }
 -(void)panicListRequestFinishWithUpdateModel:(ZWPanicUpdateListBaseRequestModel *)model listArray:(NSArray *)array  cacheArray:(NSArray *)cacheArr totalReqNum:(NSInteger)total andErrorNum:(NSInteger)errorNum
 {
+    //当前，不存在array数据
+    self.countNum += total;
+    self.countError += errorNum;
+    
     if([cacheArr count] > 0)
     {//增加缓存，处理详情刷新
         [self localRefreshCombineCacheArrayWithListObjectArray:cacheArr];
@@ -948,9 +1017,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     
     if([array count] > 0)
     {//增加本地刷新
-        self.countNum += total;
-        self.countError += errorNum;
-        self.webNum = [NSString stringWithFormat:@"%ld/%ld (%@)",self.countError,self.countNum,model.tagString];
+//        self.countNum += total;
+//        self.countError += errorNum;
+//        self.webNum = [NSString stringWithFormat:@"%ld/%ld (%@)",self.countError,self.countNum,model.tagString];
         
         for (NSInteger index = 0;index < [array count] ;index ++ )
         {
@@ -962,12 +1031,21 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         }
     }
     
+    //刷新失败率
+    if(self.countNum > 100)
+    {
+        self.webNum = [NSString stringWithFormat:@"%ld/%ld (%@)",self.countError,self.countNum,model.tagString];
+        self.countNum = 0;
+        self.countError = 0;
+        
+        [self refreshTipsErrorWithErrorNumberString];
+    }
+
     
     //进行数据缓存，达到5条时，进行刷新
     if(![self checkListInputForNoticeWithArray:array] && [combineArr count] < 5)
     {//不进行刷新，此时如果有缓存，依然要刷新
         
-        [self refreshTipsErrorWithErrorNumberString];
         [self refreshCombineNumberAndProxyCacheNumberForTitle];
         
         if([cacheArr count] > 0)
@@ -976,14 +1054,12 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
         }
         return;
     }else{
-        self.countNum = 0;
-        self.countError = 0;
+        
         //列表刷新，数据清空
         //        [self.dataLock lock];
         NSArray * showArr = [NSArray arrayWithArray:combineArr];
         [combineArr removeAllObjects];
         
-        [self refreshTipsErrorWithErrorNumberString];
         [self refreshCombineNumberAndProxyCacheNumberForTitle];
         
         if([showArr count] > 0)
@@ -1001,13 +1077,23 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     
     ZWProxyRefreshManager * proxyManager = [ZWProxyRefreshManager sharedInstance];
     NSString * title = [NSString stringWithFormat:@"改价更新 %ld - %ld",[proxyManager.proxyArrCache count],[combineArr count]];
-    if(self.waitDetail)
+//    if(self.waitDetail)
     {
         title = [NSString stringWithFormat:@"改价更新 %ld + %ld",[proxyManager.proxyArrCache count],[detailModelDic count]];
     }
 
     [self refreshTitleViewTitleWithLatestTitleName:title];
 }
+
+#pragma mark - ProxyCheckRefreshDelegate
+-(void)proxyCheckRefreshModel:(ZWProxyRefreshModel *)model finishedCheckWithSuccess:(NSArray *)success andFail:(NSArray *)fail
+{
+    //发起请求后，清空数据
+    [self.successPxyArr addObjectsFromArray:success];
+    [self.failPxyArr addObjectsFromArray:fail];
+}
+
+
 /*
 #pragma mark - Navigation
 

@@ -74,7 +74,7 @@
         }];
         
         NSArray * sub = nil;
-        NSInteger edintNum = 80;
+        NSInteger edintNum = 100;//3s内，100个代理分派请求
         if([edit count] > edintNum){
             sub = [edit subarrayWithRange:NSMakeRange(0, edintNum)];
         }else{
@@ -110,27 +110,55 @@
     self.sessionArrCache = [editDic allValues];
 }
 
+-(void)refreshLatestSessionArrayWithReplaceArray:(NSArray *)array
+{
+    
+    [self clearProxySubCache];
+
+    if(!array || [array count] == 0) return;
+    
+    NSMutableDictionary * editDic = [NSMutableDictionary dictionary];
+    NSArray * current = self.sessionArrCache;
+    for (NSInteger index = 0;index < [current count] ;index ++ )
+    {
+        SessionReqModel * req = [current objectAtIndex:index];
+        [editDic setObject:req forKey:req.proxyModel.idNum];
+    }
+    
+    NSArray * proArr = array;
+    for (NSInteger index = 0;index < [proArr count] ;index ++ )
+    {
+        VPNProxyModel * model = [proArr objectAtIndex:index];
+        model.errored = NO;
+        model.errorNum = 0;
+        SessionReqModel * reqModel = [[SessionReqModel alloc] initWithProxyModel:model];
+        [editDic setObject:reqModel forKey:model.idNum];
+    }
+    
+    self.sessionArrCache = [editDic allValues];
+}
+
 -(void)clearProxySubCache
 {
     self.proxySubCache = nil;
     self.sessionSubCache = nil;
 }
--(NSArray *)proxySessionModelArray
-{
-    NSMutableArray * models = [NSMutableArray array];
-    NSArray * dicArr = self.proxyArrCache;
-    if(dicArr)
-    {
-        for (NSInteger index =0; index < [dicArr count]; index ++)
-        {
-            NSDictionary * eve = [dicArr objectAtIndex:index];
-            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
-            SessionReqModel * req = [[SessionReqModel alloc] initWithProxyModel:model];
-            [models addObject:req];
-        }
-    }
-    return models;
-}
+//-(NSArray *)proxySessionModelArray
+//{
+//    NSMutableArray * models = [NSMutableArray array];
+//    NSArray * dicArr = self.proxyArrCache;
+//    if(dicArr)
+//    {
+//        for (NSInteger index =0; index < [dicArr count]; index ++)
+//        {
+//            NSDictionary * eve = [dicArr objectAtIndex:index];
+//            VPNProxyModel * model = [[VPNProxyModel alloc] initWithDetailDic:eve];
+//            SessionReqModel * req = [[SessionReqModel alloc] initWithProxyModel:model];
+//            [models addObject:req];
+//        }
+//    }
+//    return models;
+//}
 
 
 -(NSString *)proxyFilePath

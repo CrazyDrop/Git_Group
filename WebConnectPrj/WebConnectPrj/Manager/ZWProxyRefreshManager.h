@@ -19,10 +19,12 @@
 @property (nonatomic, strong, readonly) NSArray * sessionSubCache;
 
 -(void)refreshLatestSessionArrayWithCurrentProxyArr;
+-(void)refreshLatestSessionArrayWithReplaceArray:(NSArray *)array;
+
 -(void)clearProxySubCache;
 
+//-(NSArray *)proxySessionModelArray;
 -(NSArray *)readLocalFileProxyList;
--(NSArray *)proxySessionModelArray;
 -(void)localRefreshListFileWithLatestProxyList;
 
 

@@ -1753,6 +1753,8 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
 -(NSArray *)localSavePanicListHistoryArray
 {
     NSMutableArray *totalArray=[NSMutableArray array];
+    
+    BOOL panicSpecial = self.panicSpecial;
     [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
      {
          if (!fmdatabase.open) {
@@ -1770,6 +1772,11 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
          while ([resultSet next])
          {
              CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             if(panicSpecial)
+             {
+                 location.equip_status = [location.owner_roleid integerValue];
+                 location.listRefresh = location.equip_accept;
+             }
              //             location.equip_status = 2;
              [totalArray addObject:location];
          }

@@ -123,11 +123,14 @@
 
 -(NSArray *)webRequestDataList
 {
+    self.schoolIndex = arc4random()%12 + 1;
+    self.reqName = [CBGListModel schoolNameFromSchoolNumber:self.schoolIndex];
+
     NSMutableArray * arr = [NSMutableArray array];
     for (NSInteger index = 0;index < self.pageNum ; index ++)
     {
         NSString * url = [ZWGroupVPNTestReqModel randomTestFirstWebRequestWithIndex:index];
-        url = [url stringByAppendingFormat:@"&school=%ld",self.schoolIndex];
+        url = [url stringByAppendingFormat:@"&school=%ld",(long)self.schoolIndex];
         [arr addObject:url];
     }
     return arr;
@@ -161,7 +164,8 @@
     }
     
     Equip_listModel * listModel = nil;
-    if([array count] > 0){
+    if([array count] > 0)
+    {
         listModel = [array lastObject];
     }
     

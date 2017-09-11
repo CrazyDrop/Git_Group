@@ -36,6 +36,8 @@
 		181B08AB1F5E8165005606AA /* ZWPanicCombineLatestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */; };
 		181B08AE1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */; };
 		181B08AF1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */; };
+		181B08B21F627C28005606AA /* ZWProxyRefreshModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08B11F627C28005606AA /* ZWProxyRefreshModel.m */; };
+		181B08B31F627C29005606AA /* ZWProxyRefreshModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B08B11F627C28005606AA /* ZWProxyRefreshModel.m */; };
 		181B5ED91F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */; };
 		181B5EDA1F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */; };
 		182090AF1E9E2FA60015E393 /* CancelWarningRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1820909C1E9E2FA60015E393 /* CancelWarningRefreshManager.m */; };
@@ -1524,6 +1526,8 @@
 		181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicCombineLatestVC.m; sourceTree = "<group>"; };
 		181B08AC1F5E81B4005606AA /* ZWPanicUpdateLatestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPanicUpdateLatestModel.h; sourceTree = "<group>"; };
 		181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPanicUpdateLatestModel.m; sourceTree = "<group>"; };
+		181B08B01F627C28005606AA /* ZWProxyRefreshModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWProxyRefreshModel.h; sourceTree = "<group>"; };
+		181B08B11F627C28005606AA /* ZWProxyRefreshModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWProxyRefreshModel.m; sourceTree = "<group>"; };
 		181B5ED71F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBGMixedUpdateAndRefreshVC.h; sourceTree = "<group>"; };
 		181B5ED81F1DDE6D004EC937 /* CBGMixedUpdateAndRefreshVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBGMixedUpdateAndRefreshVC.m; sourceTree = "<group>"; };
 		1820909B1E9E2FA60015E393 /* CancelWarningRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelWarningRefreshManager.h; sourceTree = "<group>"; };
@@ -3376,6 +3380,8 @@
 				18AF91F91F0CEA26004D07FF /* ZWPanicMaxCombineUpdateVC.m */,
 				181B08AC1F5E81B4005606AA /* ZWPanicUpdateLatestModel.h */,
 				181B08AD1F5E81B4005606AA /* ZWPanicUpdateLatestModel.m */,
+				181B08B01F627C28005606AA /* ZWProxyRefreshModel.h */,
+				181B08B11F627C28005606AA /* ZWProxyRefreshModel.m */,
 				181B08A81F5E8165005606AA /* ZWPanicCombineLatestVC.h */,
 				181B08A91F5E8165005606AA /* ZWPanicCombineLatestVC.m */,
 			);
@@ -5995,6 +6001,7 @@
 				189F788D1EFD007C0048AC11 /* AFHTTPRequestOperation.m in Sources */,
 				182091211E9F555D0015E393 /* AATitle.m in Sources */,
 				18A9757A1E7FDDD400B48E3C /* HtmlElement_Hr.m in Sources */,
+				181B08B21F627C28005606AA /* ZWProxyRefreshModel.m in Sources */,
 				18A975141E7FDDD400B48E3C /* JSOperation.m in Sources */,
 				182091241E9F555D0015E393 /* AAYAxis.m in Sources */,
 				188EA81E1F456DE5008537DA /* EquipSNAutoModel.m in Sources */,
@@ -6722,6 +6729,7 @@
 				189F788E1EFD007C0048AC11 /* AFHTTPRequestOperation.m in Sources */,
 				183324B61ED6B10D00B1ECEA /* HtmlElement_Hr.m in Sources */,
 				183324B71ED6B10D00B1ECEA /* JSOperation.m in Sources */,
+				181B08B31F627C29005606AA /* ZWProxyRefreshModel.m in Sources */,
 				183324B81ED6B10D00B1ECEA /* AAYAxis.m in Sources */,
 				183324B91ED6B10D00B1ECEA /* Samurai_EventPinchGesture.m in Sources */,
 				188EA81F1F456DE5008537DA /* EquipSNAutoModel.m in Sources */,
@@ -7028,7 +7036,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7046,7 +7054,7 @@
 				INFOPLIST_FILE = "WebConnectPrj copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cbsi.onlylady.WebConnectPrj0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
