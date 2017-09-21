@@ -55,6 +55,25 @@
     
     return NO;
 }
+-(BOOL)isListAutoStopSelling
+{
+    if(!self.selling_time) return NO;
+    //    NSString * leftTime = detail.sell_expire_time_desc;
+    
+    NSDate * sellDate = [NSDate fromString:self.selling_time];
+    NSDate * finishDate = [NSDate dateWithTimeInterval:DAY * 14 sinceDate:sellDate];
+    NSDate * nowDate = [NSDate date];
+    
+    //使用商品锁定时间、用户下架也会造成，没有自动下架时间，只能默认14天使用
+    //    finishDate = [NSDate fromString:detail.equip_lock_time];
+    NSTimeInterval interval = [nowDate timeIntervalSinceDate:finishDate];
+    if(interval > 0)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
 
 -(void)refrehLocalBaseListModelWithDetail:(EquipModel *)detail
 {//补全list信息，以便能够进行listSaveModel生成
@@ -120,10 +139,10 @@
     //    http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=443&ordersn=525_1480680251_527287531&equip_refer=1
     
     NSString * idfa = nil;
-
-    if (self.selling_time && [self.selling_time length] > 0)
+    NSString * time = self.selling_time;
+    if (time && [time length] > 0)
     {
-        idfa = [NSString stringWithFormat:@"%@|%@|%@",self.game_ordersn,self.serverid,self.selling_time];
+        idfa = [NSString stringWithFormat:@"%@|%@|%@",self.game_ordersn,self.serverid,time];
     }else
     {
         idfa = [NSString stringWithFormat:@"%@|%@",self.game_ordersn,self.serverid];

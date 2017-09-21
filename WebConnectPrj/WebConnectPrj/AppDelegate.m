@@ -79,9 +79,9 @@
     
     
 //    NSDate * startDate = [NSDate date];
-//    startDate = [NSDate fromString:@"2017-08-04 23:24:07"];
+//    startDate = [NSDate fromString:@"2017-09-15 12:10:34"];
 //    NSInteger count = [startDate timeIntervalSince1970] - 1;
-//    
+//    NSLog(@"count %ld",count);
 //
 //    NSURL * url = [NSURL URLWithString:@"www.baidu.com"];
 //    NSURLSession * session = [NSURLSession sharedSession];
@@ -92,6 +92,9 @@
 //                                        }];
 //    [task resume];
     
+//
+//    [NSBundle mainBundle]
+
     
     [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR

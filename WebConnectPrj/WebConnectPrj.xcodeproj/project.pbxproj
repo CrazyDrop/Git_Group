@@ -17,7 +17,6 @@
 		180D58A019E622680045A720 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D589F19E622680045A720 /* AppDelegate.m */; };
 		180D58A319E622680045A720 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180D58A219E622680045A720 /* ViewController.m */; };
 		180D58A819E622680045A720 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A719E622680045A720 /* Images.xcassets */; };
-		180D58AB19E622680045A720 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A919E622680045A720 /* LaunchScreen.xib */; };
 		180D58C219E622910045A720 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 180D58C019E622910045A720 /* readme.txt */; };
 		180E84331F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84321F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m */; };
 		180E84341F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180E84321F46DD0E0003A8F9 /* ZWServerRefreshReSelectVC.m */; };
@@ -745,7 +744,6 @@
 		183325341ED6B10D00B1ECEA /* blogDetail.js in Resources */ = {isa = PBXBuildFile; fileRef = 180F7F431A1DCACC0039E222 /* blogDetail.js */; };
 		183325351ED6B10D00B1ECEA /* 刷新1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A975001E7FDDD400B48E3C /* 刷新1@2x.png */; };
 		183325361ED6B10D00B1ECEA /* MSAlertController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A971E61E7FC6B300B48E3C /* MSAlertController.xib */; };
-		183325371ED6B10D00B1ECEA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180D58A919E622680045A720 /* LaunchScreen.xib */; };
 		183325381ED6B10D00B1ECEA /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A9721F1E7FCA5C00B48E3C /* Info.plist */; };
 		183325391ED6B10D00B1ECEA /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 180D58C019E622910045A720 /* readme.txt */; };
 		1833253A1ED6B10D00B1ECEA /* 刷新2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A975011E7FDDD400B48E3C /* 刷新2@2x.png */; };
@@ -1502,7 +1500,6 @@
 		180D58A119E622680045A720 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		180D58A219E622680045A720 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		180D58A719E622680045A720 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		180D58AA19E622680045A720 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		180D58C019E622910045A720 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		180D58C919E6255D0045A720 /* AppConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstant.h; sourceTree = "<group>"; };
 		180D58CA19E6255D0045A720 /* BlockConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockConstant.h; sourceTree = "<group>"; };
@@ -2963,7 +2960,6 @@
 				18A972831E7FDDD300B48E3C /* BaseTool */,
 				180D58D819E65EF30045A720 /* OtherTools */,
 				180D58A719E622680045A720 /* Images.xcassets */,
-				180D58A919E622680045A720 /* LaunchScreen.xib */,
 				180D589A19E622680045A720 /* Supporting Files */,
 			);
 			path = WebConnectPrj;
@@ -5366,8 +5362,8 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
 			mainGroup = 180D588E19E622680045A720;
 			productRefGroup = 180D589819E622680045A720 /* Products */;
@@ -5389,7 +5385,6 @@
 				180F7F451A1DCACC0039E222 /* blogDetail.js in Resources */,
 				18A976331E7FDDD500B48E3C /* 刷新1@2x.png in Resources */,
 				18A971E91E7FC6B300B48E3C /* MSAlertController.xib in Resources */,
-				180D58AB19E622680045A720 /* LaunchScreen.xib in Resources */,
 				18A972371E7FCA5C00B48E3C /* Info.plist in Resources */,
 				180D58C219E622910045A720 /* readme.txt in Resources */,
 				18A976341E7FDDD500B48E3C /* 刷新2@2x.png in Resources */,
@@ -5443,7 +5438,6 @@
 				183325341ED6B10D00B1ECEA /* blogDetail.js in Resources */,
 				183325351ED6B10D00B1ECEA /* 刷新1@2x.png in Resources */,
 				183325361ED6B10D00B1ECEA /* MSAlertController.xib in Resources */,
-				183325371ED6B10D00B1ECEA /* LaunchScreen.xib in Resources */,
 				183325381ED6B10D00B1ECEA /* Info.plist in Resources */,
 				183325391ED6B10D00B1ECEA /* readme.txt in Resources */,
 				1833253A1ED6B10D00B1ECEA /* 刷新2@2x.png in Resources */,
@@ -6849,22 +6843,12 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		180D58A919E622680045A720 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				180D58AA19E622680045A720 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		180D58B819E622680045A720 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -6907,6 +6891,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

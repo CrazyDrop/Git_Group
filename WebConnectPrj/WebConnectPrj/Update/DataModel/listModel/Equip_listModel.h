@@ -62,6 +62,7 @@
 - (BOOL)preBuyEquipStatusWithCurrentExtraEquip;
 -(BOOL)isFirstInSelling;
 -(BOOL)isAutoStopSelling;
+-(BOOL)isListAutoStopSelling;
 -(NSString *)listLatestShowPrice;
 
 -(CBGEquipRoleState)equipState;

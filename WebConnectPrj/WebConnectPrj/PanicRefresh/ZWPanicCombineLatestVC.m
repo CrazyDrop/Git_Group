@@ -21,6 +21,7 @@
 #import "SessionReqModel.h"
 #import "ZWPanicUpdateLatestModel.h"
 #import "ZWProxyRefreshModel.h"
+#import "EquipDetailArrayRequestModel.h"
 //详情数据更新结束，但是列表数据仍未更新，增加延迟2分钟内仅刷新一次
 @interface ZWPanicCombineLatestVC ()<PanicListRequestTagUpdateListDelegate,
 ZWProxyCheckRefreshModelDelegate>
@@ -145,36 +146,6 @@ ZWProxyCheckRefreshModelDelegate>
     return _panicTagArr;
 }
 
--(void)panicCombineUpdateAddMoreDetailRefreshNoti:(NSNotification *)noti
-{
-    Equip_listModel * listObj = (Equip_listModel *)[noti object];
-    NSString * keyObj = [listObj listCombineIdfa];
-    
-    //    [self.dataLock lock];
-    if([orderCacheArr containsObject:keyObj])
-    {
-        return;
-    }
-    
-    if(![orderCacheArr containsObject:keyObj])
-    {
-        if([orderCacheArr count] > 80)
-        {
-            [orderCacheArr removeObjectAtIndex:0];
-        }
-        [orderCacheArr addObject:keyObj];
-    }
-    
-    if(![detailModelDic objectForKey:keyObj])
-    {
-        [detailModelDic setObject:listObj forKey:keyObj];
-    }
-    
-    [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
-    [self refreshCombineNumberAndProxyCacheNumberForTitle];
-    [self.listTable reloadData];
-    //    [self.dataLock unlock];
-}
 -(void)localRefreshCombineCacheArrayWithListObjectArray:(NSArray *)listArr
 {
     for (NSInteger index = 0;index < [listArr count] ;index ++ )
@@ -184,22 +155,22 @@ ZWProxyCheckRefreshModelDelegate>
         NSString * keyPre = [NSString stringWithFormat:@"%@|%@",listObj.game_ordersn,listObj.serverid];
 
         //    [self.dataLock lock];
-        if([orderCacheArr containsObject:keyObj])
-        {
-            return;
-        }
-        
-        if(![orderCacheArr containsObject:keyObj])
-        {
-            if([orderCacheArr count] > 80)
-            {
-                [orderCacheArr removeObjectAtIndex:0];
-            }
-            [orderCacheArr addObject:keyObj];
-        }
+//        if([orderCacheArr containsObject:keyObj])
+//        {//阻止往复请求
+//            return;
+//        }
+//        
+//        if(![orderCacheArr containsObject:keyObj])
+//        {
+//            if([orderCacheArr count] > 80)
+//            {
+//                [orderCacheArr removeObjectAtIndex:0];
+//            }
+//            [orderCacheArr addObject:keyObj];
+//        }
         
         if(![detailModelDic objectForKey:keyObj])
-        {
+        {//阻止重复请求
             [detailModelDic removeObjectForKey:keyPre];
             [detailModelDic setObject:listObj forKey:keyObj];
         }
@@ -400,29 +371,50 @@ ZWProxyCheckRefreshModelDelegate>
     self.baseArr = base;
     [self startEquipDetailAllRequestWithUrls:urls];
 }
-
+//详情处理的处理的数据处理队列统一
 -(void)startEquipDetailAllRequestWithUrls:(NSArray *)array
 {
     NSLog(@"%s %ld",__FUNCTION__,[array count]);
-    
-    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *)_detailListReqModel;
-    if(!model){
-        model = [[ZWOperationDetailListReqModel alloc] init];
-        [model addSignalResponder:self];
-        _detailListReqModel = model;
-    }
-    
-    ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
-    if(total.isProxy && self.detailProxy)
+    if(self.detailProxy)
     {
-        ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
-        model.sessionArr = manager.sessionSubCache;
-    }
-    model.timerState = !model.timerState;
-    [model refreshWebRequestWithArray:array];
-    [model sendRequest];
+        ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *)_detailListReqModel;
+        if([model isKindOfClass:[EquipDetailArrayRequestModel class]])
+        {
+            model = nil;
+        }
+        if(!model){
+            model = [[ZWOperationDetailListReqModel alloc] init];
+            [model addSignalResponder:self];
+            _detailListReqModel = model;
+        }
+        
+        ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+        if(total.isProxy )
+        {
+            ZWProxyRefreshManager * manager = [ZWProxyRefreshManager sharedInstance];
+            model.sessionArr = manager.sessionSubCache;
+        }
+        model.timerState = !model.timerState;
+        [model refreshWebRequestWithArray:array];
+        [model sendRequest];
 
-    
+    }else
+    {
+        EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
+        if([model isKindOfClass:[ZWOperationDetailListReqModel class]])
+        {
+            model = nil;
+        }
+        if(!model){
+            model = [[EquipDetailArrayRequestModel alloc] init];
+            [model addSignalResponder:self];
+            _detailListReqModel = model;
+        }
+        if(model.executing) return;
+        
+        [model refreshWebRequestWithArray:array];
+        [model sendRequest];
+    }
 }
 -(void)refreshTipStateWithError:(BOOL)error
 {
@@ -434,6 +426,127 @@ ZWProxyCheckRefreshModelDelegate>
         {
         }
     }
+}
+#pragma mark EquipDetailArrayRequestModel
+handleSignal( EquipDetailArrayRequestModel, requestError )
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+}
+handleSignal( EquipDetailArrayRequestModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+}
+
+handleSignal( EquipDetailArrayRequestModel, requestLoaded )
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    //进行存储操作、展示
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
+    NSArray * total  = model.listArray;
+    
+    NSMutableArray * detailModels = [NSMutableArray array];
+    NSInteger errorNum = 0;
+    for (NSInteger index = 0; index < [total count]; index ++)
+    {
+        NSInteger backIndex = [total count] - index - 1;
+        backIndex = index;
+        id obj = [total objectAtIndex:backIndex];
+        if([obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+        {
+            [detailModels addObject:[obj firstObject]];
+        }else{
+            errorNum ++;
+            [detailModels addObject:[NSNull null]];
+        }
+    }
+    NSArray * list = self.baseArr;
+
+    NSLog(@"EquipDetailArrayRequestModel %lu/%lu",(unsigned long)[detailModels count] - errorNum,(unsigned long)[detailModels count]);
+    
+    
+    //刷新展示列表
+    BOOL forceRefresh = NO;
+    NSMutableArray * removeArr = [NSMutableArray array];
+    NSMutableArray * refreshArr = [NSMutableArray array];
+    for (NSInteger index = 0;index < [list count] ;index ++ )
+    {
+        Equip_listModel * eveList = [list objectAtIndex:index];
+        if([detailModels count] > index)
+        {
+            EquipModel * equip = [detailModels objectAtIndex:index];
+            if([equip isKindOfClass:[EquipModel class]])
+            {//为商品不存在的情况equip
+                if(!equip.game_ordersn || [equip.game_ordersn length]==0)
+                {
+                    [removeArr addObject:eveList.listCombineIdfa];
+                    [refreshArr addObject:eveList];
+                    continue;
+                }
+                if(![eveList.game_ordersn isEqualToString:equip.game_ordersn])
+                {
+                    continue;
+                }
+                if(!eveList.equipModel)
+                {
+                    forceRefresh = YES;
+                }
+                
+                eveList.equipModel = equip;
+                CBGListModel * list = eveList.listSaveModel;
+                eveList.earnRate = list.plan_rate;
+                eveList.earnPrice = [NSString stringWithFormat:@"%.0ld",list.price_earn_plan];
+                
+                if(equip.equipState != CBGEquipRoleState_unSelling || [eveList isAutoStopSelling] || list.plan_total_price < 0)
+                {
+                    [removeArr addObject:eveList.listCombineIdfa];
+                    [refreshArr addObject:eveList];
+                }
+                
+                
+                NSDate * sellDate = [NSDate fromString:equip.selling_time];
+                NSTimeInterval count = fabs([sellDate timeIntervalSinceNow]);
+                if(count > 60 && [list.sell_sold_time length] == 0 && [list.sell_back_time length] == 0 && [eveList.selling_time isEqualToString:equip.selling_time])
+                {
+                    NSLog(@"detailFinish %@ %@ %@ time(%@)%@",equip.equipExtra.iSchool,equip.game_ordersn,equip.serverid,eveList.selling_time,equip.selling_time);
+                }
+                
+            }
+        }
+    }
+    
+    if([removeArr count] > 0)
+    {
+        for (NSString * removeKey in removeArr)
+        {
+            [detailModelDic removeObjectForKey:removeKey];
+        }
+    }
+    
+    if([refreshArr count] > 0)
+    {
+        
+        [self finishDetailRefreshPostNotificationWithBaseDetailModel:refreshArr];
+        
+        [self checkListInputForNoticeWithArray:refreshArr];
+        [self refreshCombineNumberAndProxyCacheNumberForTitle];
+        [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
+        [self refreshTableViewWithInputLatestListArray:refreshArr cacheArray:nil];
+        
+    }else if(forceRefresh)
+    {
+        [self refreshCombineNumberAndProxyCacheNumberForTitle];
+        [self refreshTableViewWithLatestCacheArray:[detailModelDic allValues]];
+        [self.listTable reloadData];
+    }
+
+    
 }
 
 #pragma mark ZWOperationDetailListReqModel
@@ -807,6 +920,11 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 }
 -(void)stopPanicListRequestModelArray
 {
+    ZWOperationDetailListReqModel * detailRefresh = (ZWOperationDetailListReqModel *)_detailListReqModel;
+    [detailRefresh cancel];
+    [detailRefresh removeSignalResponder:self];
+    
+    _detailListReqModel = nil;
     NSArray * vcArr = self.baseVCArr;
     for (ZWPanicUpdateListBaseRequestModel * eveRequest in vcArr)
     {
@@ -942,12 +1060,20 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
 - (void)viewDidLoad {
     self.rightTitle = @"更多";
     self.showRightBtn = YES;
-    self.viewTtle = @"监听更新";
+    
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
+    NSArray * ingoreArr = [total.ingoreCombineSchool componentsSeparatedByString:@"|"];
+
+    NSString * titleTxt = @"监听更新";
     if(total.isProxy)
     {
-        self.viewTtle = @"代理监听";
+        titleTxt = @"代理监听";
     }
+    if([ingoreArr count] > 0){
+        titleTxt = [titleTxt stringByAppendingFormat:@"-%ld",[ingoreArr count]];
+    }
+    
+    self.viewTtle = titleTxt;
     [super viewDidLoad];
     
     self.titleV.adjustsFontSizeToFitWidth = YES;

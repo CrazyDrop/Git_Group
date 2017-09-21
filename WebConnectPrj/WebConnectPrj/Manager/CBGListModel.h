@@ -124,7 +124,7 @@ typedef enum : NSUInteger
 
 -(BOOL)planMore_zhaohuan;
 -(BOOL)planMore_Equip;
-
+- (NSString * )listCombineIdfa;
 -(void)refreshCBGListDataModelWithDetaiEquipModel:(id)model;
 -(CBGEquipRoleState)latestEquipListStatus;
 -(NSString * )equip_school_name;

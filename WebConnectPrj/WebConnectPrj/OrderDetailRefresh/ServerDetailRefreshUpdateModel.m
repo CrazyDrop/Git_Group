@@ -20,6 +20,7 @@
 #import "SessionReqModel.h"
 #import "VPNProxyModel.h"
 #import "ZWServerMoneyReqModel.h"
+#import "EquipDetailArrayRequestModel.h"
 @interface ServerDetailRefreshUpdateModel ()
 {
     BaseRequestModel * _dpModel;                //基础server列表，查找当前最近的equipid
@@ -171,7 +172,8 @@
     }else
     {//时间递增
         self.timeEnable = YES;
-        [self startDetailArrayListRequest];
+//        [self startDetailArrayListRequest];
+        [self startDetailRequestWithLatestTestUrls];
     }
 }
 -(void)refreshLatestFinishModelWithFinishedDetail:(EquipModel *)endDetail
@@ -299,7 +301,7 @@ handleSignal( ZWServerMoneyReqModel, requestLoaded )
 
     //当最大商品时间差过大时，使用equipid递增查找
     NSDate * latestDate = [NSDate fromString:maxModel.selling_time];
-    latestDate = [latestDate dateByAddingTimeInterval:2 * MINUTE];
+    latestDate = [latestDate dateByAddingTimeInterval:1 * MINUTE];
     if([latestDate timeIntervalSinceNow] < 0 && [backArray count] > 0)
     {
         if(!self.listWait)
@@ -573,6 +575,9 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     //    NSArray * array = @[@"http://xyq-ios2.cbg.163.com/app2-cgi-bin/query.py?serverid=33&game_ordersn=120_1503038501_121589155&act=get_equip_detail&show_income_receive_mode=1&platform=ios&app_version=2.2.8&device_name=iPhone&os_name=iPhoneOS&os_version=9.1&device_id=DFAFDASF2DS-1BFF-4B8E-9970-9823HFSF823FSD8"];
     [model refreshWebRequestWithArray:array];
     [model sendRequest];
+    
+    
+    
 }
 -(NSArray * )latestDetailRequestTestUrls
 {
@@ -610,6 +615,61 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     self.tryNumbers += countNum;
     self.finishTimeNum = equiModel.timeNum;
     return editArr;
+}
+-(void)startDetailRequestWithLatestTestUrls
+{
+    ServerEquipIdRequestModel * equipRefresh = (ServerEquipIdRequestModel *)_equipReqModel;
+    if(equipRefresh.executing) return;
+    
+    ServerRefreshRequestModel * listRequest = (ServerRefreshRequestModel *)_dpModel;
+    if(listRequest.executing) return;
+    
+    
+    ZWOperationDetailListReqModel * detailRequest = (ZWOperationDetailListReqModel *)_detailListReqModel;
+    if(detailRequest.executing) return;
+    
+    ZWOperationAutoDetailListReqModel * autoRequest = (ZWOperationAutoDetailListReqModel *)_detailAutoReqModel;
+    if(autoRequest.executing) return;
+
+    
+    NSArray * array = [self latestDetailRequestTestUrls];
+
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    if([model isKindOfClass:[ZWOperationDetailListReqModel class]])
+    {
+        model = nil;
+    }
+    if(!model){
+        model = [[EquipDetailArrayRequestModel alloc] init];
+        [model addSignalResponder:self];
+        _detailAutoReqModel = model;
+    }
+    if(model.executing) return;
+    
+    [model refreshWebRequestWithArray:array];
+    [model sendRequest];
+}
+#pragma mark EquipDetailArrayRequestModel
+handleSignal( EquipDetailArrayRequestModel, requestError )
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+}
+handleSignal( EquipDetailArrayRequestModel, requestLoading )
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if(state != UIApplicationStateActive){
+        return;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+}
+
+handleSignal( EquipDetailArrayRequestModel, requestLoaded )
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
 }
 #pragma mark ZWOperationAutoDetailListReqModel
 handleSignal( ZWOperationAutoDetailListReqModel, requestError )

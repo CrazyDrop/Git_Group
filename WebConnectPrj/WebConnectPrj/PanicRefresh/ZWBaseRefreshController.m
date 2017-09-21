@@ -494,7 +494,7 @@
             priceChange = histroyPrice/100 - [detail.price integerValue]/100;
         }
         
-        if([contact preBuyEquipStatusWithCurrentExtraEquip])
+        if([listModel preBuyEquipStatusWithCurrentExtraEquip])
         {
             sellTxt = [NSString stringWithFormat:@"%.0ld %@",listModel.price_rate_latest_plan,sellTxt];
             equipName = [NSString stringWithFormat:@"%.0ld %@",listModel.price_earn_plan,equipName];
@@ -523,7 +523,7 @@
                 break;
         }
 
-        if(listModel.equip_accept > 0)
+        if([detail.allow_bargain integerValue] > 0 || listModel.equip_accept > 0)
         {
             leftPriceTxt = [NSString stringWithFormat:@"%@*",leftPriceTxt];
         }

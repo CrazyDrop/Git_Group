@@ -305,6 +305,24 @@
     return url;
 
 }
+- (NSString * )listCombineIdfa{
+    if(!self.server_id || !self.game_ordersn){
+        return nil;
+    }
+    //    http://xyq.cbg.163.com/cgi-bin/equipquery.py?act=overall_search_show_detail&serverid=443&ordersn=525_1480680251_527287531&equip_refer=1
+    
+    NSString * idfa = nil;
+    NSString * time = self.sell_start_time;
+    if (time && [time length] > 0)
+    {
+        idfa = [NSString stringWithFormat:@"%@|%ld|%@",self.game_ordersn,self.server_id,time];
+    }else
+    {
+        idfa = [NSString stringWithFormat:@"%@|%ld",self.game_ordersn,self.server_id];
+        
+    }
+    return idfa;
+}
 
 -(CGFloat)price_base_equip
 {

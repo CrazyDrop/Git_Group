@@ -17,7 +17,7 @@
 #import "YYCache.h"
 @interface ZWPanicUpdateLatestModel ()
 {
-    NSMutableArray * repeatCache;
+    
     NSInteger maxLength;
     YYCache * detailCache;
     NSOperationQueue * checkQueue;
@@ -37,8 +37,8 @@
 @property (nonatomic, strong) NSString * schoolName;
 
 @property (nonatomic, strong) NSMutableDictionary * finishDic;
-
-
+@property (nonatomic, assign) NSInteger cacheNum;
+@property (nonatomic, strong) NSMutableArray * timeCacheArray;
 @end
 
 @implementation ZWPanicUpdateLatestModel
@@ -90,11 +90,10 @@
         self.priceStatus = [[tagArr lastObject] integerValue];
         self.schoolName = [CBGListModel schoolNameFromSchoolNumber:self.schoolNum];
     }
-    
-    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
     detailCache = [[YYCache alloc] initWithName:[NSString stringWithFormat:@"cache_%@",_tagString]];
-    
     [detailCache removeAllObjects];
+
+    dbManager = [[ZALocalModelDBManager alloc] initWithDBExtendString:_tagString];
     
     //读取对应数据填充到缓存中
     if([self.cacheArr count] > 0){
@@ -128,9 +127,11 @@
 {
     self = [super init];
     if(self){
-        repeatCache = [NSMutableArray array];
+        
+        self.timeCacheArray = [NSMutableArray array];
         self.finishDic = [NSMutableDictionary dictionary];
         self.requestNum = 25;
+        self.cacheNum = 0;
         checkQueue = [[self class] zw_sharedGroupRequestOperationQueue];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(detailRefreshFinishedLocalUpdateAndRemoveWithBackNoti:)
@@ -141,6 +142,7 @@
 }
 -(void)detailRefreshFinishedLocalUpdateAndRemoveWithBackNoti:(NSNotification *)noti
 {
+    //希望仅一次进行请求，针对被购买、确实改价的进行移除操作
     NSArray * listArr = (NSArray *)[noti object];
     NSMutableArray * editArr = [NSMutableArray array];
     
@@ -153,12 +155,18 @@
 
     for (Equip_listModel * list in listArr)
     {
-        NSString *  keyStr = list.game_ordersn;
+        NSString * keyStr = list.listCombineIdfa;
+        keyStr = list.game_ordersn;
         NSString * result = (NSString *)[detailCache objectForKey:keyStr];
         if(result && [result integerValue] == 0)
         {
             [editArr addObject:list];
+            EquipModel * detail = list.equipModel;
+            
+            //一些情况下，不进行移除操作，
+            //全部进行移除操作的问题、连续请求
             [detailCache removeObjectForKey:keyStr];
+            self.cacheNum --;
         }
     }
     
@@ -344,7 +352,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         }
     }
     
-    NSLog(@"errorProxy %ld errorNum %ld total %ld %@",[proxyErr count],errorNum,[total count],self.tagString);
+    NSLog(@"errorProxy %ld errorNum %ld total %ld %@ cacheNum %ld",[proxyErr count],errorNum,[total count],self.tagString,self.cacheNum);
 //    self.errorTotal = errorNum;
     NSInteger totalNum = [total count];
     
@@ -360,11 +368,13 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         NSMutableDictionary * hisDic = [NSMutableDictionary dictionary];
         for (NSInteger index = 0; index < [hisArr count]; index ++) {
             CBGListModel * eve = [hisArr objectAtIndex:index];
-            [hisDic setObject:eve forKey:eve.game_ordersn];
+            NSString * keyStr = eve.listCombineIdfa;
+            keyStr = eve.game_ordersn;
+            [hisDic setObject:eve forKey:keyStr];
         }
         
         if([hisArr count] > 0){
-            NSLog(@"hisArrTotal %@ %ld %@-%@",weakSelf.tagString,[hisArr count],[[hisArr firstObject] sell_start_time],[[hisArr lastObject] sell_start_time]);
+            NSLog(@"hisArrTotal %@ %ld %@   %@",weakSelf.tagString,[hisArr count],[[hisArr firstObject] sell_start_time],[[hisArr lastObject] sell_start_time]);
         }
 
         NSArray * array = [dataObjDic allValues];
@@ -382,10 +392,13 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
             NSArray * roleArr = eveRole.equip_list;
             NSInteger preIndex = NSNotFound;
             BOOL timeError = NO;
+            NSString * preDate = nil;//发现差异后，进行比对，检查当前是否是时间错乱数据
             for (NSInteger subIndex = 0;subIndex < [roleArr count] ;subIndex ++ )
             {
                 Equip_listModel * eveList = [roleArr objectAtIndex:subIndex];
                 NSString * orderSN = eveList.game_ordersn;
+                orderSN = eveList.listCombineIdfa;
+                orderSN = eveList.game_ordersn;
                 CBGListModel * hisCBG = [hisDic objectForKey:orderSN];
                 NSInteger latestIndex = NSNotFound;
                 if(hisCBG)
@@ -397,9 +410,9 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                     else
                     {
                         //校验数据不存在，进行校验数据刷新
-                        NSDate * preDate = [NSDate fromString:hisCBG.sell_start_time];
+                        NSDate * preListDate = [NSDate fromString:hisCBG.sell_start_time];
                         NSDate * latestDate = [NSDate fromString:eveList.selling_time];
-                        if([latestDate timeIntervalSinceDate:preDate] > 0)
+                        if([latestDate timeIntervalSinceDate:preListDate] > 0)
                         {//时间不一致时，排序没意义，视为不存在序号、后续再次刷新重新读取后使用
 //                            latestIndex = [hisArr indexOfObject:hisCBG];
                             CBGListModel * eveCBG = [eveList listCompareModel];
@@ -459,6 +472,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                        [pre.sell_sold_time length] > 0)
                     {
                         preIndex = latestIndex;
+                        preDate = eveList.selling_time;
                         continue;
                     }
                     
@@ -467,6 +481,7 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                     //查看库表数据，历史数据不存在
                     [webRefreshDic setObject:eveList forKey:orderSN];
 
+                    preDate = eveList.selling_time;
                     preIndex = latestIndex;
                     continue;
                 }
@@ -496,45 +511,69 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                     NSInteger sepCount = latestIndex - preIndex;
                     if(sepCount > 1)//针对有连续两个发生变化的情况，之前是 2、3、4参数
                     {// && sepCount < 5  担心  两拨请求之间，出现偏差  理论不会太大
-                        CBGListModel * preCbg = [hisArr objectAtIndex:preIndex];
-                        NSLog(@"sepCount %ld %@ preCbg %@(%@) hisCBG %@(%@)",sepCount,weakSelf.tagString,preCbg.game_ordersn,preCbg.sell_start_time,hisCBG.game_ordersn,hisCBG.sell_start_time);
-                        if(sepCount <= 10)
-                        {
-                            for (NSInteger addIndex = 1;addIndex < sepCount;addIndex ++ )
+                        NSDate * preIndexDate = [NSDate fromString:preDate];
+                        NSDate * latestDate = [NSDate fromString:eveList.selling_time];
+                        if(([preIndexDate timeIntervalSinceDate:latestDate] >= 0) &&
+                           ((sepCount <= 5 && preIndex > 0) || (sepCount <= 2)))
+                        {//数量相近，时间有效，
+                            CBGListModel * preCbg = [hisArr objectAtIndex:preIndex];
+                            NSLog(@"sepCount %ld %@ preCbg %@(%@) hisCBG %@(%@) %ld %ld",sepCount,weakSelf.tagString,preCbg.game_ordersn,preCbg.sell_start_time,hisCBG.game_ordersn,hisCBG.sell_start_time,preIndex,latestIndex);
+                            //进行时间检查，检查上一个数据的时间
+
+                            NSString * cacheDate = [NSString stringWithFormat:@"%@_%@",preDate,eveList.selling_time];
+                            NSMutableArray * editCache = weakSelf.timeCacheArray;
+                            BOOL timeEnable = NO;
+                            if(![editCache containsObject:cacheDate])
                             {
-                                CBGListModel * addCBG = [hisArr objectAtIndex:preIndex + addIndex];
-                                if(addCBG.listRefresh)
+                                timeEnable = YES;
+                                [editCache addObject:cacheDate];
+                                if([editCache count] > 10)
                                 {
-                                    Equip_listModel * addList = [[Equip_listModel alloc] init];
-                                    addList.game_ordersn = addCBG.game_ordersn;
-                                    addList.serverid = [NSNumber numberWithInteger:addCBG.server_id];
-                                    addList.selling_time = addCBG.sell_start_time;
-                                    
-                                    NSArray * addArr = [dbManager localSaveEquipHistoryModelListForOrderSN:addCBG.game_ordersn];
-                                    if([addArr count] > 0)
+                                    [editCache removeObjectAtIndex:0];
+                                }
+                            }
+                            //进一步判定时间有效，排除近期检索过的时间序列
+                            if(timeEnable)
+                            {
+                                for (NSInteger addIndex = 1;addIndex < sepCount;addIndex ++ )
+                                {
+                                    CBGListModel * addCBG = [hisArr objectAtIndex:preIndex + addIndex];
+                                    if(addCBG.listRefresh)
                                     {
-                                        CBGListModel * pre = [addArr firstObject];
-                                        addList.appendHistory = pre;
+                                        Equip_listModel * addList = [[Equip_listModel alloc] init];
+                                        addList.game_ordersn = addCBG.game_ordersn;
+                                        addList.serverid = [NSNumber numberWithInteger:addCBG.server_id];
+                                        addList.selling_time = addCBG.sell_start_time;
+                                        NSString * addOrderSn = addList.listCombineIdfa;
+                                        addOrderSn = addList.game_ordersn;
                                         
-                                        pre.historyPrice = pre.equip_price;
-                                        addList.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
-                                        addList.earnRate = pre.plan_rate;
-                                        addList.price = [NSNumber numberWithInteger:pre.equip_price];
-                                        
-                                        if([pre.sell_back_time length] == 0 &&
-                                           [pre.sell_sold_time length] == 0)
+                                        NSArray * addArr = [dbManager localSaveEquipHistoryModelListForOrderSN:addCBG.game_ordersn];
+                                        if([addArr count] > 0)
                                         {
-                                            [webRefreshDic setObject:addList forKey:addList.game_ordersn];
-                                            NSLog(@"addList detail %@ %@ %@ %ld",weakSelf.tagString,addCBG.sell_start_time,addList.game_ordersn,addIndex);
+                                            CBGListModel * pre = [addArr firstObject];
+                                            addList.appendHistory = pre;
+                                            
+                                            pre.historyPrice = pre.equip_price;
+                                            addList.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
+                                            addList.earnRate = pre.plan_rate;
+                                            addList.price = [NSNumber numberWithInteger:pre.equip_price];
+                                            
+                                            if([pre.sell_back_time length] == 0 &&
+                                               [pre.sell_sold_time length] == 0)
+                                            {
+                                                [webRefreshDic setObject:addList forKey:addOrderSn];
+                                                NSLog(@"addList detail %@ %@ %@ %ld",weakSelf.tagString,addCBG.sell_start_time,addList.game_ordersn,addIndex);
+                                            }else
+                                            {
+                                                addCBG.listRefresh = NO;
+                                                //                                            [localRefreshDic setObject:addCBG forKey:addCBG.game_ordersn];
+                                                [changeDic setObject:addCBG forKey:addOrderSn];
+                                            }
+                                            
                                         }else
-                                        {
-                                            addCBG.listRefresh = NO;
-                                            [localRefreshDic setObject:addCBG forKey:addCBG.game_ordersn];
+                                        {//间隔数据，历史不存在
+                                            [webRefreshDic setObject:addList forKey:addOrderSn];
                                         }
-                                        
-                                    }else
-                                    {//间隔数据，历史不存在
-                                        [webRefreshDic setObject:addList forKey:addList.game_ordersn];
                                     }
                                 }
                             }
@@ -543,17 +582,24 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                 }
                 
                 
-                if(eveList.equipState == CBGEquipRoleState_unSelling ||
-                   eveList.equipState == CBGEquipRoleState_PayFinish ||
+                if(eveList.equipState == CBGEquipRoleState_PayFinish ||
                    eveList.equipState == CBGEquipRoleState_BuyFinish ||
                    eveList.equipState == CBGEquipRoleState_Backing)
                 {//结束状态的，进行详情刷新
                     [webRefreshDic setObject:eveList forKey:orderSN];
-                    NSLog(@"eveList.equipState 监听 %@ %@ %@",eveList.game_ordersn,eveList.equip_status,weakSelf.tagString);
+//                    NSLog(@"eveList.equipState 监听 %@ %@ %@",eveList.game_ordersn,eveList.equip_status,weakSelf.tagString);
                 }
                 
-                
-                
+                if(eveList.equipState == CBGEquipRoleState_unSelling)
+                {
+                    if(![eveList isListAutoStopSelling])
+                    {
+                        [webRefreshDic setObject:eveList forKey:orderSN];
+                        NSLog(@"eveList.equipState 监听 %@ %@ %@",eveList.game_ordersn,eveList.equip_status,weakSelf.tagString);
+                    }
+                }
+
+                preDate = eveList.selling_time;
                 preIndex = latestIndex;
             }
         }
@@ -563,11 +609,12 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         {
             NSString * keySN = [allKeys objectAtIndex:index];
             if([detailCache containsObjectForKey:keySN])
-            {
+            {//存在可能，
 //                NSLog(@"ingore sn %@",keySN);
                 [webRefreshDic removeObjectForKey:keySN];
             }else
             {
+                self.cacheNum ++;
                 [detailCache setObject:@"0" forKey:keySN];
             }
         }
@@ -578,10 +625,10 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
         NSArray * webRefresh = [webRefreshDic allValues];
         
         NSLog(@"local:%ld web:%ld %@",[localRefresh count],[webRefresh count],weakSelf.tagString);
-        if([statusDic count] > 0)
-        {//库表变更
-            [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:[statusDic allValues]];
-        }
+//        if([statusDic count] > 0)
+//        {//库表变更
+//            [dbManager localSaveEquipHistoryArrayListWithDetailCBGModelArray:[statusDic allValues]];
+//        }
         
         if([changeDic allValues] > 0)
         {
