@@ -83,7 +83,7 @@
 //    NSInteger count = [startDate timeIntervalSince1970] - 1;
 //    NSLog(@"count %ld",count);
 //
-//    NSURL * url = [NSURL URLWithString:@"www.baidu.com"];
+//    NSURL * url = [NSURL URLWithString:@"http://api.zdaye.com/?api=201709291814275802&rtype=1&ct=1000"];
 //    NSURLSession * session = [NSURLSession sharedSession];
 //    NSURLRequest * request = [NSURLRequest requestWithURL:url];
 //    NSURLSessionTask *task = [session dataTaskWithRequest:request
@@ -91,12 +91,11 @@
 //                                            [self finishTask];
 //                                        }];
 //    [task resume];
-    
 //
 //    [NSBundle mainBundle]
 
     
-    [self writeLogToFile];
+//    [self writeLogToFile];
 #if TARGET_IPHONE_SIMULATOR
 //    [self writeLogToFile];
 #endif

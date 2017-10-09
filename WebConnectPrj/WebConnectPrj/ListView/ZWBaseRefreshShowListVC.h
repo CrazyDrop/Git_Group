@@ -16,6 +16,9 @@
 @property (nonatomic,strong) UIView * tipsView;
 @property (nonatomic,strong) NSArray * showArray;
 @property (nonatomic,strong) NSArray * detailsArr;
+
+
+-(void)startRefreshDataModelRequest;
 -(void)checkDetailErrorForTipsError;
 -(void)startRefreshDataModelRequest;
 -(void)refreshTableViewWithInputLatestListArray:(NSArray *)array  replace:(BOOL)replace;

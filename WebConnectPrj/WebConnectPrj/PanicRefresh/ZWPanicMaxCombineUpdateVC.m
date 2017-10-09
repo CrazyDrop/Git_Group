@@ -222,7 +222,7 @@
         return;
     }
     
-    EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailArrModel;
     if(listRequest.executing) return;
 
     //以当前的detailArr  创建对应的model
@@ -272,7 +272,7 @@
         return;
     }
     
-    EquipDetailArrayRequestModel * detailReq = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipDetailArrayRequestModel * detailReq = (EquipDetailArrayRequestModel *)_detailArrModel;
     if(detailReq.executing) return;
 
     
@@ -284,11 +284,11 @@
 {
     NSLog(@"%s %ld",__FUNCTION__,[array count]);
     
-    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *)_detailListReqModel;
+    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *)_detailArrModel;
     if(!model){
         model = [[ZWOperationDetailListReqModel alloc] init];
         [model addSignalResponder:self];
-        _detailListReqModel = model;
+        _detailArrModel = model;
     }
     
     ZALocalStateTotalModel * total = [ZALocalStateTotalModel currentLocalStateModel];
@@ -334,7 +334,7 @@ handleSignal( ZWOperationDetailListReqModel, requestLoaded )
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     //进行存储操作、展示
     //列表数据，部分成功部分还失败，对于成功的数据，刷新展示，对于失败的数据，继续请求
-    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *) _detailListReqModel;
+    ZWOperationDetailListReqModel * model = (ZWOperationDetailListReqModel *) _detailArrModel;
     NSArray * total  = [NSArray arrayWithArray:model.listArray];
     NSArray * list = [NSArray arrayWithArray:self.baseArr];
     NSArray * sessionArr = model.baseReqModels;

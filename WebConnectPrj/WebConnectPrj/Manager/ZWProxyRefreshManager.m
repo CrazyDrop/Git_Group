@@ -112,7 +112,6 @@
 
 -(void)refreshLatestSessionArrayWithReplaceArray:(NSArray *)array
 {
-    
     [self clearProxySubCache];
 
     if(!array || [array count] == 0) return;

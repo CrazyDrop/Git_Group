@@ -242,7 +242,7 @@
 {
     [super viewWillAppear:animated];
 
-    _detailListReqModel = nil;
+    _detailArrModel = nil;
     _dpModel = nil;
     
 }
@@ -251,7 +251,7 @@
     NSLog(@"%s disappear",__FUNCTION__);
     [super viewWillDisappear:animated];
     
-    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipDetailArrayRequestModel * detailRefresh = (EquipDetailArrayRequestModel *)_detailArrModel;
     [detailRefresh cancel];
     [detailRefresh removeSignalResponder:self];
     
@@ -296,7 +296,7 @@
         return;
     }
     
-    EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipDetailArrayRequestModel * listRequest = (EquipDetailArrayRequestModel *)_detailArrModel;
     if(listRequest.executing) return;
     
     //    NSLog(@"%s",__FUNCTION__);
@@ -477,11 +477,11 @@ handleSignal( EquipListRequestModel, requestLoaded )
 {
     NSLog(@"%s",__FUNCTION__);
     
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailListReqModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *)_detailArrModel;
     if(!model){
         model = [[EquipDetailArrayRequestModel alloc] init];
         [model addSignalResponder:self];
-        _detailListReqModel = model;
+        _detailArrModel = model;
     }
     
     [model refreshWebRequestWithArray:array];
@@ -511,7 +511,7 @@ handleSignal( EquipDetailArrayRequestModel, requestLoaded )
     NSLog(@"%s",__FUNCTION__);
     
     //进行存储操作、展示
-    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailListReqModel;
+    EquipDetailArrayRequestModel * model = (EquipDetailArrayRequestModel *) _detailArrModel;
     NSArray * total  = model.listArray;
     
     NSMutableArray * detailModels = [NSMutableArray array];

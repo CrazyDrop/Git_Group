@@ -509,18 +509,19 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                 {//相邻两个均在历史库表存在  之前是0   现在是2，则进行中间数据的读取
                     //查找中间数据，发起详情请求
                     NSInteger sepCount = latestIndex - preIndex;
-                    if(sepCount > 1)//针对有连续两个发生变化的情况，之前是 2、3、4参数
+                    if(sepCount > 1 && sepCount < 15)//针对有连续两个发生变化的情况，之前是 2、3、4参数
                     {// && sepCount < 5  担心  两拨请求之间，出现偏差  理论不会太大
                         NSDate * preIndexDate = [NSDate fromString:preDate];
                         NSDate * latestDate = [NSDate fromString:eveList.selling_time];
-                        if(([preIndexDate timeIntervalSinceDate:latestDate] >= 0) &&
-                           ((sepCount <= 5 && preIndex > 0) || (sepCount <= 2)))
-                        {//数量相近，时间有效，
+
+                        if(preDate && [preIndexDate timeIntervalSinceDate:latestDate] >= 0 &&
+                           (preIndex >= 2 || sepCount <=3 ))
+                        {
                             CBGListModel * preCbg = [hisArr objectAtIndex:preIndex];
                             NSLog(@"sepCount %ld %@ preCbg %@(%@) hisCBG %@(%@) %ld %ld",sepCount,weakSelf.tagString,preCbg.game_ordersn,preCbg.sell_start_time,hisCBG.game_ordersn,hisCBG.sell_start_time,preIndex,latestIndex);
                             //进行时间检查，检查上一个数据的时间
-
-                            NSString * cacheDate = [NSString stringWithFormat:@"%@_%@",preDate,eveList.selling_time];
+                            
+                            NSString * cacheDate = [NSString stringWithFormat:@"%@_%@_%ld",preDate,eveList.selling_time,sepCount];
                             NSMutableArray * editCache = weakSelf.timeCacheArray;
                             BOOL timeEnable = NO;
                             if(![editCache containsObject:cacheDate])
@@ -532,47 +533,54 @@ handleSignal( ZWOperationEquipReqListReqModel, requestLoaded )
                                     [editCache removeObjectAtIndex:0];
                                 }
                             }
+
                             //进一步判定时间有效，排除近期检索过的时间序列
                             if(timeEnable)
-                            {
-                                for (NSInteger addIndex = 1;addIndex < sepCount;addIndex ++ )
+                            {//数量相近，时间有效，
+                                //存在刷新中断的情况，即  正常数据也可能出现连续中断的情况，需要区分系统随机中断、系统稳定中断
                                 {
-                                    CBGListModel * addCBG = [hisArr objectAtIndex:preIndex + addIndex];
-                                    if(addCBG.listRefresh)
+                                    for (NSInteger addIndex = 1;addIndex < sepCount;addIndex ++ )
                                     {
-                                        Equip_listModel * addList = [[Equip_listModel alloc] init];
-                                        addList.game_ordersn = addCBG.game_ordersn;
-                                        addList.serverid = [NSNumber numberWithInteger:addCBG.server_id];
-                                        addList.selling_time = addCBG.sell_start_time;
-                                        NSString * addOrderSn = addList.listCombineIdfa;
-                                        addOrderSn = addList.game_ordersn;
-                                        
-                                        NSArray * addArr = [dbManager localSaveEquipHistoryModelListForOrderSN:addCBG.game_ordersn];
-                                        if([addArr count] > 0)
+                                        CBGListModel * addCBG = [hisArr objectAtIndex:preIndex + addIndex];
+                                        if(addCBG.listRefresh)
                                         {
-                                            CBGListModel * pre = [addArr firstObject];
-                                            addList.appendHistory = pre;
+                                            Equip_listModel * addList = [[Equip_listModel alloc] init];
+                                            addList.game_ordersn = addCBG.game_ordersn;
+                                            addList.serverid = [NSNumber numberWithInteger:addCBG.server_id];
+                                            addList.selling_time = addCBG.sell_start_time;
+                                            NSString * addOrderSn = addList.listCombineIdfa;
+                                            addOrderSn = addList.game_ordersn;
                                             
-                                            pre.historyPrice = pre.equip_price;
-                                            addList.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
-                                            addList.earnRate = pre.plan_rate;
-                                            addList.price = [NSNumber numberWithInteger:pre.equip_price];
-                                            
-                                            if([pre.sell_back_time length] == 0 &&
-                                               [pre.sell_sold_time length] == 0)
+                                            NSArray * addArr = [dbManager localSaveEquipHistoryModelListForOrderSN:addCBG.game_ordersn];
+                                            if([addArr count] > 0)
                                             {
-                                                [webRefreshDic setObject:addList forKey:addOrderSn];
-                                                NSLog(@"addList detail %@ %@ %@ %ld",weakSelf.tagString,addCBG.sell_start_time,addList.game_ordersn,addIndex);
+                                                CBGListModel * pre = [addArr firstObject];
+                                                addList.appendHistory = pre;
+                                                
+                                                pre.historyPrice = pre.equip_price;
+                                                addList.earnPrice = [NSString stringWithFormat:@"%.0ld",pre.price_earn_plan];
+                                                addList.earnRate = pre.plan_rate;
+                                                addList.price = [NSNumber numberWithInteger:pre.equip_price];
+                                                
+                                                if([pre.sell_back_time length] == 0 &&
+                                                   [pre.sell_sold_time length] == 0)
+                                                {
+                                                    addCBG.listRefresh = NO;
+                                                    [changeDic setObject:addCBG forKey:addOrderSn];
+                                                    
+                                                    [webRefreshDic setObject:addList forKey:addOrderSn];
+                                                    NSLog(@"addList detail %@ %@ %@ %ld",weakSelf.tagString,addCBG.sell_start_time,addList.game_ordersn,addIndex);
+                                                }else
+                                                {
+                                                    addCBG.listRefresh = NO;
+                                                    //                                            [localRefreshDic setObject:addCBG forKey:addCBG.game_ordersn];
+                                                    [changeDic setObject:addCBG forKey:addOrderSn];
+                                                }
+                                                
                                             }else
-                                            {
-                                                addCBG.listRefresh = NO;
-                                                //                                            [localRefreshDic setObject:addCBG forKey:addCBG.game_ordersn];
-                                                [changeDic setObject:addCBG forKey:addOrderSn];
+                                            {//间隔数据，历史不存在
+                                                [webRefreshDic setObject:addList forKey:addOrderSn];
                                             }
-                                            
-                                        }else
-                                        {//间隔数据，历史不存在
-                                            [webRefreshDic setObject:addList forKey:addOrderSn];
                                         }
                                     }
                                 }

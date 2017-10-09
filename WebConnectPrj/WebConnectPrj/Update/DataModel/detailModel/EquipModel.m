@@ -171,6 +171,11 @@
     
     EquipModel * detail = self;
     //    NSString * leftTime = detail.sell_expire_time_desc;
+    if([detail.sell_expire_time_desc isEqualToString:@"5分钟"])
+    {
+        return YES;
+    }
+
     
     NSDate * sellDate = [NSDate fromString:detail.selling_time];
     NSDate * finishDate = [NSDate dateWithTimeInterval:DAY * 14 sinceDate:sellDate];

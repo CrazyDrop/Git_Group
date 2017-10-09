@@ -59,6 +59,7 @@
 #import "ZWServerDetailListRefreshVC.h"
 #import "ServerCheckMainVC.h"
 #import "ZWPanicCombineLatestVC.h"
+#import "ZWProxyListRefreshVC.h"
 #define BlueDebugAddNum 100
 
 @interface ViewController ()
@@ -277,6 +278,10 @@
             name = @"估价测试";
         }
             break;
+        case CBGDetailTestFunctionStyle_ProxyRefresh:{
+            name = @"抓取代理";
+        }
+            break;
             
         default:
             break;
@@ -314,7 +319,7 @@
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MainHistory],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_MaxPanic],
                              
-                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_AutoSetting],
+                             [NSNumber numberWithInt:CBGDetailTestFunctionStyle_ProxyRefresh],
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_RepeatList],
                              
                              [NSNumber numberWithInt:CBGDetailTestFunctionStyle_SpecialList],
@@ -758,6 +763,11 @@
             break;
         case CBGDetailTestFunctionStyle_ServerCheck:{
             ServerCheckMainVC * list = [[ServerCheckMainVC alloc] init];
+            [[self rootNavigationController] pushViewController:list animated:YES];
+        }
+            break;
+        case CBGDetailTestFunctionStyle_ProxyRefresh:{
+            ZWProxyListRefreshVC * list = [[ZWProxyListRefreshVC alloc] init];
             [[self rootNavigationController] pushViewController:list animated:YES];
         }
             break;

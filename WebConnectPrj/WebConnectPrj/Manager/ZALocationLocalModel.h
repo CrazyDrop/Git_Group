@@ -107,6 +107,10 @@
 -(NSArray *)localSaveEquipServerMaxEquipIdAndServerIdList;
 
 
+-(void)localSaveProxyListWithDetailListArray:(NSArray *)array;
+-(NSArray *)localSaveTotalEquipProxyListArray;
+
+
 //服务器名称存储操作
 -(NSArray *)localServerNameAndIDTotalDictionaryArray;
 -(void)localSaveServerNameAndIDDictionaryArray:(NSArray *)array;

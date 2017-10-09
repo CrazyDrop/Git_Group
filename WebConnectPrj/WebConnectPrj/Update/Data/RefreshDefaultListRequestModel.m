@@ -340,6 +340,11 @@
             {
                 dic = @{@"html":resultStr};
             }
+            if([resultStr containsString:@"\r\n"])
+            {
+                dic = @{@"proxy":resultStr};
+            }
+
 
         }
         [weakSelf doneWithRequestBackDic:dic andUrl:urlStr andError:error];

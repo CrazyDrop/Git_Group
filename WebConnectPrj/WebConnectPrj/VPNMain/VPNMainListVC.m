@@ -159,6 +159,19 @@
                   [weakSelf startLoadTotalSaveVPNListWithTxtStart];
               }];
     [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"读取库表VPN" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf startLoadTotalSaveVPNListWithDBListStart];
+              }];
+    [alertController addAction:action];
+    
+    action = [MSAlertAction actionWithTitle:@"代理库表保存" style:MSAlertActionStyleDefault handler:^(MSAlertAction *action)
+              {
+                  [weakSelf refreshLocalDBHistoryProxyList];
+              }];
+    [alertController addAction:action];
+
 
     NSString * rightTxt = @"取消";
     MSAlertAction *action2 = [MSAlertAction actionWithTitle:rightTxt style:MSAlertActionStyleCancel handler:^(MSAlertAction *action) {
@@ -249,8 +262,76 @@
     self.vpnArr = proxyArr;
     [self.listTable reloadData];
 }
+-(void)startLoadTotalSaveVPNListWithDBListStart
+{
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    NSArray * strArr = [dbManager localSaveTotalEquipProxyListArray];
+    NSMutableDictionary * editDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0; index < [strArr count]; index ++)
+    {
+        CBGListModel * eveCBG = [strArr objectAtIndex:index];
+        NSString * part = eveCBG.game_ordersn;
+        NSArray * partArr = [part componentsSeparatedByString:@":"];
+        
+        VPNProxyModel * model = [[VPNProxyModel alloc] init];
+        if([partArr count] >= 2)
+        {
+            model.idNum = [partArr firstObject];
+            model.portNum = [partArr objectAtIndex:1];
+            
+            [editDic setObject:model forKey:model.idNum];
+        }
+    }
+    
+    
+    NSArray * preArr = self.vpnArr;
+    for (NSInteger index = 0; index < [preArr count]; index ++)
+    {
+        VPNProxyModel * model = [preArr objectAtIndex:index];
+        [editDic setObject:model forKey:model.idNum];
+    }
+    
+    NSArray * remove = [VPNProxyModel localRemoveProxyIpNumberArray];
+    for (NSInteger index = 0;index < [remove count] ; index ++)
+    {
+        NSString * ipNum = [remove objectAtIndex:index];
+        [editDic removeObjectForKey:ipNum];
+    }
+    
+    NSArray * proxyArr = [editDic allValues];
+    //    NSArray * subProxy = [proxyArr subarrayWithRange:NSMakeRange(0, 177)];
+    //    proxyArr = subProxy;
+    
+    NSString * txt = [NSString stringWithFormat:@"vpn:%ld",[proxyArr count]];
+    [self refreshVCTitleWithDetailText:txt];
+    self.vpnArr = proxyArr;
+    [self.listTable reloadData];
+}
+-(CBGListModel *)proxyModelWithIpString:(NSString *)ipStr
+{
+    CBGListModel * list = [[CBGListModel alloc] init];
+    list.game_ordersn = ipStr;
+    list.sell_start_time = [NSDate unixDate];
+    return list;
+}
 
-
+//数据库表填充
+-(void)refreshLocalDBHistoryProxyList
+{//读取列表数据进入库表
+    NSArray * dataArr = self.vpnArr;
+    NSMutableDictionary *editDic = [NSMutableDictionary dictionary];
+    for (NSInteger index = 0; index < [dataArr count]; index ++)
+    {
+        VPNProxyModel * eveModel = [dataArr objectAtIndex:index];
+        NSString * tagStr = [NSString stringWithFormat:@"%@:%@",eveModel.idNum,eveModel.portNum];
+        CBGListModel * listCBG = [self proxyModelWithIpString:tagStr];
+        [editDic setObject:listCBG forKey:tagStr];
+    }
+    
+    NSArray * list = [editDic allValues];
+    ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
+    [dbManager localSaveProxyListWithDetailListArray:list];
+}
 
 -(void)startWebDataRefreshWithSelectedProxyIdForDetailRefresh:(BOOL)detail
 {

@@ -13,7 +13,7 @@
 @interface ZWBaseRefreshController : DPWhiteTopController
 {
     NSLock * requestLock;
-    BaseRequestModel * _detailListReqModel;
+    BaseRequestModel * _detailArrModel;
     NSString * _tagString;
 }
 

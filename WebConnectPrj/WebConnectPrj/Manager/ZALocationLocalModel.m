@@ -40,6 +40,7 @@
 #define ZADATABASE_TABLE_EQUIP_ORDER @"ZADATABASE_TABLE_EQUIP_ORDER"    //下单表
 #define ZADATABASE_TABLE_EQUIP_CHANGE @"ZADATABASE_TABLE_EQUIP_CHANGE"  //变动表
 #define ZADATABASE_TABLE_EQUIP_SERVER @"ZADATABASE_TABLE_EQUIP_SERVER"  //服务名称表
+#define ZADATABASE_TABLE_PROXY_LIST   @"ZADATABASE_TABLE_PROXY_LIST"  //代理ip列表
 
 #define ZADATABASE_TABLE_SERVER_KEY_TIME    @"SERVER_TIME"  //服务器时间
 #define ZADATABASE_TABLE_SERVER_KEY_NAME    @"SERVER_NAME"  //服务名称
@@ -552,6 +553,27 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
              }
              
          }
+         
+         //代理ip列表 2个
+         if(![fmdatabase tableExists:ZADATABASE_TABLE_PROXY_LIST])
+         {
+             NSString *createSql=[NSString stringWithFormat:@"create table %@(%@ text primary key,%@ text);",ZADATABASE_TABLE_PROXY_LIST,
+                                  ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,//change表用selltime
+                                  ZADATABASE_TABLE_EQUIP_KEY_SELL_START
+                                  ];
+             [fmdatabase executeUpdate:createSql];
+             //建完文章表，顺便处理下文件不备份到icloud
+             NSString *databasePath=[fmdatabase databasePath];
+             NSFileManager *defaultFileManager=[NSFileManager defaultManager];
+             BOOL isExit=[defaultFileManager fileExistsAtPath:databasePath];
+             
+             if (!isExit)
+             {
+                 [defaultFileManager createFileAtPath:databasePath contents:nil attributes:nil];
+             }
+             
+         }
+
 
      }];
     });
@@ -3290,6 +3312,94 @@ inline __attribute__((always_inline)) void fcm_onMainThread(void (^block)())
     
     return totalArray;
 }
+-(BOOL)privateLocalSaveProxyIPWithServerName:(NSString *)name AndTagTime:(NSString *)timeStr withFmDataBase:(FMDatabase *)fmdatabase
+{
+    BOOL success = NO;
+    BOOL isAlreadyIn = NO;
+    NSString *sqlGetArticle=[NSString stringWithFormat:@"select * from %@ where %@ = '%@';",ZADATABASE_TABLE_PROXY_LIST,ZADATABASE_TABLE_EQUIP_KEY_ORDER_SN,name];
+    FMResultSet *resultSet=[fmdatabase executeQuery:sqlGetArticle];
+    if(([resultSet next]))
+    {
+        isAlreadyIn = YES;
+    }
+    
+    NSString * sqlString = nil;
+    if(!isAlreadyIn)
+    {
+        sqlString=[NSString stringWithFormat:@"insert into %@ values(?,?);",ZADATABASE_TABLE_PROXY_LIST];
+        
+        NSArray *sqlarray=[NSArray arrayWithObjects:
+                           name,
+                           timeStr,
+                           nil];
+        success=[fmdatabase executeUpdate:sqlString withArgumentsInArray:sqlarray];
+    }else
+    {
+        success = YES;
+    }
+    
+    return success;
+}
+
+-(void)localSaveProxyListWithDetailListArray:(NSArray *)objArray
+{
+    [databaseQueue inTransaction:^(FMDatabase *db, BOOL *rollback)
+     {
+         if (!db.open)
+         {
+             [db open];
+         }
+         //NSLog(@"%s %ld",__FUNCTION__,[objArray count]);
+         BOOL result = YES;
+         for (int i = 0; i < [objArray count]; i++)
+         {
+             CBGListModel * eveList = [objArray objectAtIndex:i];
+             
+             result = [self privateLocalSaveProxyIPWithServerName:eveList.game_ordersn
+                                                       AndTagTime:eveList.sell_start_time
+                                                   withFmDataBase:db];
+             if (!result)
+             {
+                 NSLog(@"%s break",__FUNCTION__);
+                 *rollback = YES;
+                 break;
+             }
+         }
+         
+         [db close];
+     }];
+
+}
+-(NSArray *)localSaveTotalEquipProxyListArray
+{
+    NSMutableArray *totalArray=[NSMutableArray array];
+    [databaseQueue inDatabase:^(FMDatabase *fmdatabase)
+     {
+         if (!fmdatabase.open) {
+             [fmdatabase open];
+         }
+         NSMutableString *sqlMutableString=[NSMutableString string];
+         //是某分类的
+         //        [sqlMutableString appendFormat:@"select * from %@ ORDER BY '%@' limit 50;",ZADATABASE_TABLE_LOCATIONS_KEY_TIME,ZADATABASE_TABLE_LOCATIONS];
+         [sqlMutableString appendFormat:@"select * from %@ ORDER BY %@ ;",ZADATABASE_TABLE_PROXY_LIST,ZADATABASE_TABLE_EQUIP_KEY_SELL_START];;
+         
+         FMResultSet *resultSet=[fmdatabase executeQuery:sqlMutableString];
+         while ([resultSet next])
+         {
+             CBGListModel *location = [self listModelFromDatabaseResult:resultSet];
+             [totalArray addObject:location];
+         }
+         
+         [resultSet close];
+         [fmdatabase close];
+         
+     }];
+    return totalArray;
+
+
+}
+
+
 
 -(CBGListModel *)listModelFromDatabaseResult:(FMResultSet *)resultSet
 {

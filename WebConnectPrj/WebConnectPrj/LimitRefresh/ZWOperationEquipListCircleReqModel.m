@@ -199,6 +199,9 @@
 
 -(NSArray *)backObjectArrayFromBackDataDic:(NSDictionary *)aDic
 {
+    if([aDic count] == 1){
+        NSLog(@"list request %@",aDic);
+    }
     RoleDataModel * listData = [[RoleDataModel alloc] initWithDictionary:aDic];
     return @[listData];
     

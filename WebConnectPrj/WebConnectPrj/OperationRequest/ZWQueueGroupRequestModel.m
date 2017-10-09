@@ -196,9 +196,9 @@
         }
         
         NSDictionary * dic = nil;
+        NSString * resultStr = nil;
         if(!error)
         {
-            NSString * resultStr = nil;
             if(responseObject && [responseObject length]>0)
             {
                 resultStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -233,10 +233,23 @@
         {
             dic = @{@"webError":error};
         }
-        
+
+ 
         if(!dic)
         {
             dic = @{@"noneError":@"none"};
+            if([resultStr isEqualToString:@"EOF"] ||
+               [resultStr containsString:@"Maximum number of open"] ||
+               [resultStr containsString:@"no such host"] ||
+               [resultStr containsString:@"<title>lid_25793</title>"] ||
+               [resultStr containsString:@"Error: The requested URL could not be checked"]||
+               [resultStr containsString:@"500 Internal Server Error"] ||
+               [resultStr containsString:@"错误: 不能获取请求的 URL"])
+            {
+                dic = @{@"cbgError":resultStr};
+            }else{
+                NSLog(@"resultStr %@",resultStr);
+            }
         }
         
         
@@ -350,7 +363,11 @@
                 {
                     [self.errorProxyDic setObject:proxy forKey:proxy.idNum];
                 }
-            }else{
+            }else if([backDic objectForKey:@"cbgError"])
+            {
+                proxy.errored = YES;
+            }
+            else{
                 proxy.errorNum = 0;
                 if([self.errorProxyDic objectForKey:proxy.idNum])
                 {

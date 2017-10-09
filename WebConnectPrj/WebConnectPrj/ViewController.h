@@ -52,6 +52,7 @@ typedef enum : NSUInteger
     CBGDetailTestFunctionStyle_DetailProxy,
     CBGDetailTestFunctionStyle_ServerDetail,
     CBGDetailTestFunctionStyle_ServerCheck,
+    CBGDetailTestFunctionStyle_ProxyRefresh,
 } CBGDetailTestFunctionStyle;
 
 
