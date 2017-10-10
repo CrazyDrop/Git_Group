@@ -235,7 +235,7 @@
     if(iOS8_constant_or_later)
     {
         
-        if ([UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone)
+//        if ([UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone)
         {
             [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound) categories:nil]];
             [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -251,7 +251,7 @@
         }
     }
 }
-
+#pragma mark - LocalNotificationDelegate
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler {
     
     NSDictionary * info = response.notification.request.content.userInfo;
@@ -285,7 +285,30 @@
     NSDictionary * info = notification.userInfo;
     [self receiveLocalNotificationWithInfo:info andDoneBlock:nil];
 }
+#pragma mark - 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSString *tokenString=[NSString stringWithFormat:@"%@",deviceToken];
+    tokenString=[tokenString stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    tokenString=[tokenString stringByReplacingOccurrencesOfString:@">" withString:@""];
+    tokenString=[tokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    //    NSString *token =
+    //    [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"
+    //                                                           withString:@""]
+    //      stringByReplacingOccurrencesOfString:@">"
+    //      withString:@""]
+    //     stringByReplacingOccurrencesOfString:@" "
+    //     withString:@""];
+    NSLog(@"tokenString %@",tokenString);
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    
+    NSLog(@"register push error:%@",error);
+    
+}
 
+#pragma mark -
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

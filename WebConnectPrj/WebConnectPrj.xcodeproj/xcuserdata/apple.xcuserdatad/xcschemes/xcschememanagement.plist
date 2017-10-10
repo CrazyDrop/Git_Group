@@ -7,12 +7,17 @@
 		<key>WebConnectPrj copy.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>WebConnectPrj.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>ZhonganInsurance.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -43,6 +48,11 @@
 			<true/>
 		</dict>
 		<key>183323021ED6B10D00B1ECEA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1857D79D1F8B83C4002621EB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

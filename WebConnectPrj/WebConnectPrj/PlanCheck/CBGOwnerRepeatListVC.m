@@ -76,6 +76,7 @@
                              @"32928486",
                              @"13767124",
                              @"15144322",
+                             @"47000510",
                              @""];
     
     ZALocationLocalModelManager * dbManager = [ZALocationLocalModelManager sharedInstance];
